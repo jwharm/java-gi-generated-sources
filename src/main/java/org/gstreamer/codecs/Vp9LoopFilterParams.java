@@ -23,24 +23,22 @@ public class Vp9LoopFilterParams extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVp9LoopFilterParams";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("loop_filter_level"),
-        Interop.valueLayout.C_BYTE.withName("loop_filter_sharpness"),
-        Interop.valueLayout.C_BYTE.withName("loop_filter_delta_enabled"),
-        Interop.valueLayout.C_BYTE.withName("loop_filter_delta_update"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("update_ref_delta"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("loop_filter_ref_deltas"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_BYTE).withName("update_mode_delta"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_BYTE).withName("loop_filter_mode_deltas")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("loop_filter_level"),
+            Interop.valueLayout.C_BYTE.withName("loop_filter_sharpness"),
+            Interop.valueLayout.C_BYTE.withName("loop_filter_delta_enabled"),
+            Interop.valueLayout.C_BYTE.withName("loop_filter_delta_update"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("update_ref_delta"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("loop_filter_ref_deltas"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_BYTE).withName("update_mode_delta"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_BYTE).withName("loop_filter_mode_deltas")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -60,7 +58,7 @@ public class Vp9LoopFilterParams extends Struct {
      * Get the value of the field {@code loop_filter_level}
      * @return The value of the field {@code loop_filter_level}
      */
-    public byte loopFilterLevel$get() {
+    public byte getLoopFilterLevel() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_level"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -71,7 +69,7 @@ public class Vp9LoopFilterParams extends Struct {
      * Change the value of the field {@code loop_filter_level}
      * @param loopFilterLevel The new value of the field {@code loop_filter_level}
      */
-    public void loopFilterLevel$set(byte loopFilterLevel) {
+    public void setLoopFilterLevel(byte loopFilterLevel) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_level"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), loopFilterLevel);
@@ -81,7 +79,7 @@ public class Vp9LoopFilterParams extends Struct {
      * Get the value of the field {@code loop_filter_sharpness}
      * @return The value of the field {@code loop_filter_sharpness}
      */
-    public byte loopFilterSharpness$get() {
+    public byte getLoopFilterSharpness() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_sharpness"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -92,7 +90,7 @@ public class Vp9LoopFilterParams extends Struct {
      * Change the value of the field {@code loop_filter_sharpness}
      * @param loopFilterSharpness The new value of the field {@code loop_filter_sharpness}
      */
-    public void loopFilterSharpness$set(byte loopFilterSharpness) {
+    public void setLoopFilterSharpness(byte loopFilterSharpness) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_sharpness"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), loopFilterSharpness);
@@ -102,7 +100,7 @@ public class Vp9LoopFilterParams extends Struct {
      * Get the value of the field {@code loop_filter_delta_enabled}
      * @return The value of the field {@code loop_filter_delta_enabled}
      */
-    public byte loopFilterDeltaEnabled$get() {
+    public byte getLoopFilterDeltaEnabled() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_delta_enabled"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -113,7 +111,7 @@ public class Vp9LoopFilterParams extends Struct {
      * Change the value of the field {@code loop_filter_delta_enabled}
      * @param loopFilterDeltaEnabled The new value of the field {@code loop_filter_delta_enabled}
      */
-    public void loopFilterDeltaEnabled$set(byte loopFilterDeltaEnabled) {
+    public void setLoopFilterDeltaEnabled(byte loopFilterDeltaEnabled) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_delta_enabled"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), loopFilterDeltaEnabled);
@@ -123,7 +121,7 @@ public class Vp9LoopFilterParams extends Struct {
      * Get the value of the field {@code loop_filter_delta_update}
      * @return The value of the field {@code loop_filter_delta_update}
      */
-    public byte loopFilterDeltaUpdate$get() {
+    public byte getLoopFilterDeltaUpdate() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_delta_update"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -134,10 +132,94 @@ public class Vp9LoopFilterParams extends Struct {
      * Change the value of the field {@code loop_filter_delta_update}
      * @param loopFilterDeltaUpdate The new value of the field {@code loop_filter_delta_update}
      */
-    public void loopFilterDeltaUpdate$set(byte loopFilterDeltaUpdate) {
+    public void setLoopFilterDeltaUpdate(byte loopFilterDeltaUpdate) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_delta_update"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), loopFilterDeltaUpdate);
+    }
+    
+    /**
+     * Get the value of the field {@code update_ref_delta}
+     * @return The value of the field {@code update_ref_delta}
+     */
+    public byte[] getUpdateRefDelta() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("update_ref_delta"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code update_ref_delta}
+     * @param updateRefDelta The new value of the field {@code update_ref_delta}
+     */
+    public void setUpdateRefDelta(byte[] updateRefDelta) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("update_ref_delta"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateRefDelta == null ? MemoryAddress.NULL : Interop.allocateNativeArray(updateRefDelta, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code loop_filter_ref_deltas}
+     * @return The value of the field {@code loop_filter_ref_deltas}
+     */
+    public byte[] getLoopFilterRefDeltas() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_ref_deltas"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code loop_filter_ref_deltas}
+     * @param loopFilterRefDeltas The new value of the field {@code loop_filter_ref_deltas}
+     */
+    public void setLoopFilterRefDeltas(byte[] loopFilterRefDeltas) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_ref_deltas"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loopFilterRefDeltas == null ? MemoryAddress.NULL : Interop.allocateNativeArray(loopFilterRefDeltas, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code update_mode_delta}
+     * @return The value of the field {@code update_mode_delta}
+     */
+    public byte[] getUpdateModeDelta() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("update_mode_delta"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 2, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code update_mode_delta}
+     * @param updateModeDelta The new value of the field {@code update_mode_delta}
+     */
+    public void setUpdateModeDelta(byte[] updateModeDelta) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("update_mode_delta"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateModeDelta == null ? MemoryAddress.NULL : Interop.allocateNativeArray(updateModeDelta, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code loop_filter_mode_deltas}
+     * @return The value of the field {@code loop_filter_mode_deltas}
+     */
+    public byte[] getLoopFilterModeDeltas() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_mode_deltas"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 2, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code loop_filter_mode_deltas}
+     * @param loopFilterModeDeltas The new value of the field {@code loop_filter_mode_deltas}
+     */
+    public void setLoopFilterModeDeltas(byte[] loopFilterModeDeltas) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_mode_deltas"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loopFilterModeDeltas == null ? MemoryAddress.NULL : Interop.allocateNativeArray(loopFilterModeDeltas, false)));
     }
     
     /**
@@ -145,35 +227,41 @@ public class Vp9LoopFilterParams extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Vp9LoopFilterParams(Addressable address, Ownership ownership) {
+    protected Vp9LoopFilterParams(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Vp9LoopFilterParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp9LoopFilterParams(input, ownership);
+    
+    /**
+     * A {@link Vp9LoopFilterParams.Builder} object constructs a {@link Vp9LoopFilterParams} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Vp9LoopFilterParams.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Vp9LoopFilterParams struct;
+        private final Vp9LoopFilterParams struct;
         
-         /**
-         * A {@link Vp9LoopFilterParams.Build} object constructs a {@link Vp9LoopFilterParams} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Vp9LoopFilterParams.allocate();
         }
         
          /**
          * Finish building the {@link Vp9LoopFilterParams} struct.
          * @return A new instance of {@code Vp9LoopFilterParams} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Vp9LoopFilterParams construct() {
+        public Vp9LoopFilterParams build() {
             return struct;
         }
         
@@ -182,7 +270,7 @@ public class Vp9LoopFilterParams extends Struct {
          * @param loopFilterLevel The value for the {@code loopFilterLevel} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoopFilterLevel(byte loopFilterLevel) {
+        public Builder setLoopFilterLevel(byte loopFilterLevel) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_level"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), loopFilterLevel);
@@ -194,7 +282,7 @@ public class Vp9LoopFilterParams extends Struct {
          * @param loopFilterSharpness The value for the {@code loopFilterSharpness} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoopFilterSharpness(byte loopFilterSharpness) {
+        public Builder setLoopFilterSharpness(byte loopFilterSharpness) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_sharpness"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), loopFilterSharpness);
@@ -207,7 +295,7 @@ public class Vp9LoopFilterParams extends Struct {
          * @param loopFilterDeltaEnabled The value for the {@code loopFilterDeltaEnabled} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoopFilterDeltaEnabled(byte loopFilterDeltaEnabled) {
+        public Builder setLoopFilterDeltaEnabled(byte loopFilterDeltaEnabled) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_delta_enabled"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), loopFilterDeltaEnabled);
@@ -221,7 +309,7 @@ public class Vp9LoopFilterParams extends Struct {
          * @param loopFilterDeltaUpdate The value for the {@code loopFilterDeltaUpdate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoopFilterDeltaUpdate(byte loopFilterDeltaUpdate) {
+        public Builder setLoopFilterDeltaUpdate(byte loopFilterDeltaUpdate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_delta_update"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), loopFilterDeltaUpdate);
@@ -234,7 +322,7 @@ public class Vp9LoopFilterParams extends Struct {
          * @param updateRefDelta The value for the {@code updateRefDelta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUpdateRefDelta(byte[] updateRefDelta) {
+        public Builder setUpdateRefDelta(byte[] updateRefDelta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("update_ref_delta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateRefDelta == null ? MemoryAddress.NULL : Interop.allocateNativeArray(updateRefDelta, false)));
@@ -247,7 +335,7 @@ public class Vp9LoopFilterParams extends Struct {
          * @param loopFilterRefDeltas The value for the {@code loopFilterRefDeltas} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoopFilterRefDeltas(byte[] loopFilterRefDeltas) {
+        public Builder setLoopFilterRefDeltas(byte[] loopFilterRefDeltas) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_ref_deltas"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loopFilterRefDeltas == null ? MemoryAddress.NULL : Interop.allocateNativeArray(loopFilterRefDeltas, false)));
@@ -260,7 +348,7 @@ public class Vp9LoopFilterParams extends Struct {
          * @param updateModeDelta The value for the {@code updateModeDelta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUpdateModeDelta(byte[] updateModeDelta) {
+        public Builder setUpdateModeDelta(byte[] updateModeDelta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("update_mode_delta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (updateModeDelta == null ? MemoryAddress.NULL : Interop.allocateNativeArray(updateModeDelta, false)));
@@ -273,7 +361,7 @@ public class Vp9LoopFilterParams extends Struct {
          * @param loopFilterModeDeltas The value for the {@code loopFilterModeDeltas} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoopFilterModeDeltas(byte[] loopFilterModeDeltas) {
+        public Builder setLoopFilterModeDeltas(byte[] loopFilterModeDeltas) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("loop_filter_mode_deltas"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (loopFilterModeDeltas == null ? MemoryAddress.NULL : Interop.allocateNativeArray(loopFilterModeDeltas, false)));

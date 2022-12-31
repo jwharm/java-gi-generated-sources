@@ -15,25 +15,8 @@ import org.jetbrains.annotations.*;
  */
 public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to TagXmpWriter if its GType is a (or inherits from) "GstTagXmpWriter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TagXmpWriter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstTagXmpWriter", a ClassCastException will be thrown.
-     */
-    public static TagXmpWriter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TagXmpWriter.getType())) {
-            return new TagXmpWriterImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstTagXmpWriter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TagXmpWriterImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagXmpWriterImpl(input, ownership);
     
     /**
      * Adds all available XMP schemas to the configuration. Meaning that
@@ -52,12 +35,11 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
      * Adds {@code schema} to the list schemas
      * @param schema the schema to be added
      */
-    default void addSchema(@NotNull java.lang.String schema) {
-        java.util.Objects.requireNonNull(schema, "Parameter 'schema' must not be null");
+    default void addSchema(java.lang.String schema) {
         try {
             DowncallHandles.gst_tag_xmp_writer_add_schema.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(schema));
+                    Marshal.stringToAddress.marshal(schema, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -68,17 +50,16 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
      * @param schema the schema to test
      * @return {@code true} if it is going to be used
      */
-    default boolean hasSchema(@NotNull java.lang.String schema) {
-        java.util.Objects.requireNonNull(schema, "Parameter 'schema' must not be null");
+    default boolean hasSchema(java.lang.String schema) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_xmp_writer_has_schema.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(schema));
+                    Marshal.stringToAddress.marshal(schema, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -99,36 +80,34 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
      * the schema wasn't in the list
      * @param schema the schema to remove
      */
-    default void removeSchema(@NotNull java.lang.String schema) {
-        java.util.Objects.requireNonNull(schema, "Parameter 'schema' must not be null");
+    default void removeSchema(java.lang.String schema) {
         try {
             DowncallHandles.gst_tag_xmp_writer_remove_schema.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(schema));
+                    Marshal.stringToAddress.marshal(schema, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    default @NotNull org.gstreamer.gst.Buffer tagListToXmpBuffer(@NotNull org.gstreamer.gst.TagList taglist, boolean readOnly) {
-        java.util.Objects.requireNonNull(taglist, "Parameter 'taglist' must not be null");
+    default org.gstreamer.gst.Buffer tagListToXmpBuffer(org.gstreamer.gst.TagList taglist, boolean readOnly) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_xmp_writer_tag_list_to_xmp_buffer.invokeExact(
                     handle(),
                     taglist.handle(),
-                    readOnly ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(readOnly, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_tag_xmp_writer_get_type.invokeExact();
@@ -191,7 +170,7 @@ public interface TagXmpWriter extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class TagXmpWriterImpl extends org.gtk.gobject.Object implements TagXmpWriter {
+    class TagXmpWriterImpl extends org.gtk.gobject.GObject implements TagXmpWriter {
         
         static {
             GstTag.javagi$ensureInitialized();

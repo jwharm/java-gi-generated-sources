@@ -17,17 +17,15 @@ public class DebugControllerInterface extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GDebugControllerInterface";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,35 +46,41 @@ public class DebugControllerInterface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DebugControllerInterface(Addressable address, Ownership ownership) {
+    protected DebugControllerInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DebugControllerInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugControllerInterface(input, ownership);
+    
+    /**
+     * A {@link DebugControllerInterface.Builder} object constructs a {@link DebugControllerInterface} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DebugControllerInterface.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DebugControllerInterface struct;
+        private final DebugControllerInterface struct;
         
-         /**
-         * A {@link DebugControllerInterface.Build} object constructs a {@link DebugControllerInterface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DebugControllerInterface.allocate();
         }
         
          /**
          * Finish building the {@link DebugControllerInterface} struct.
          * @return A new instance of {@code DebugControllerInterface} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DebugControllerInterface construct() {
+        public DebugControllerInterface build() {
             return struct;
         }
         
@@ -85,7 +89,7 @@ public class DebugControllerInterface extends Struct {
          * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
+        public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));

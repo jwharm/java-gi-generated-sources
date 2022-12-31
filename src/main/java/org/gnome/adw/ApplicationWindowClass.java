@@ -13,18 +13,16 @@ public class ApplicationWindowClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "AdwApplicationWindowClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.ApplicationWindowClass.getMemoryLayout().withName("parent_class"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.ApplicationWindowClass.getMemoryLayout().withName("parent_class"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,9 +42,19 @@ public class ApplicationWindowClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.ApplicationWindowClass parentClass$get() {
+    public org.gtk.gtk.ApplicationWindowClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.ApplicationWindowClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.ApplicationWindowClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gtk.gtk.ApplicationWindowClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
     }
     
     /**
@@ -54,46 +62,52 @@ public class ApplicationWindowClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ApplicationWindowClass(Addressable address, Ownership ownership) {
+    protected ApplicationWindowClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ApplicationWindowClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationWindowClass(input, ownership);
+    
+    /**
+     * A {@link ApplicationWindowClass.Builder} object constructs a {@link ApplicationWindowClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ApplicationWindowClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ApplicationWindowClass struct;
+        private final ApplicationWindowClass struct;
         
-         /**
-         * A {@link ApplicationWindowClass.Build} object constructs a {@link ApplicationWindowClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ApplicationWindowClass.allocate();
         }
         
          /**
          * Finish building the {@link ApplicationWindowClass} struct.
          * @return A new instance of {@code ApplicationWindowClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ApplicationWindowClass construct() {
+        public ApplicationWindowClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gtk.ApplicationWindowClass parentClass) {
+        public Builder setParentClass(org.gtk.gtk.ApplicationWindowClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));

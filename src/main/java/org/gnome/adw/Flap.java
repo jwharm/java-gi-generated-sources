@@ -85,40 +85,26 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * <p>
      * Because Flap is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Flap(Addressable address, Ownership ownership) {
+    protected Flap(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Flap if its GType is a (or inherits from) "AdwFlap".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Flap} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwFlap", a ClassCastException will be thrown.
-     */
-    public static Flap castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Flap.getType())) {
-            return new Flap(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwFlap");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Flap> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Flap(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_flap_new.invokeExact();
         } catch (Throwable ERR) {
@@ -146,7 +132,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -161,14 +147,14 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the flap position for {@code self}.
      * @return the flap position for {@code self}
      */
-    public @NotNull org.gtk.gtk.PackType getFlapPosition() {
+    public org.gtk.gtk.PackType getFlapPosition() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_flap_get_flap_position.invokeExact(
@@ -198,7 +184,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * Gets the fold policy for {@code self}.
      * @return the fold policy for {@code self}
      */
-    public @NotNull org.gnome.adw.FlapFoldPolicy getFoldPolicy() {
+    public org.gnome.adw.FlapFoldPolicy getFoldPolicy() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_flap_get_fold_policy.invokeExact(
@@ -212,7 +198,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
     /**
      * Gets the fold threshold policy for {@code self}.
      */
-    public @NotNull org.gnome.adw.FoldThresholdPolicy getFoldThresholdPolicy() {
+    public org.gnome.adw.FoldThresholdPolicy getFoldThresholdPolicy() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_flap_get_fold_threshold_policy.invokeExact(
@@ -237,7 +223,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -252,7 +238,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -267,7 +253,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -282,14 +268,14 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the reveal animation spring parameters for {@code self}.
      * @return the reveal animation parameters
      */
-    public @NotNull org.gnome.adw.SpringParams getRevealParams() {
+    public org.gnome.adw.SpringParams getRevealParams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_flap_get_reveal_params.invokeExact(
@@ -297,7 +283,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SpringParams(RESULT, Ownership.FULL);
+        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -331,7 +317,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -346,7 +332,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -361,14 +347,14 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the type of animation used for reveal and fold transitions in {@code self}.
      * @return the current transition type of {@code self}
      */
-    public @NotNull org.gnome.adw.FlapTransitionType getTransitionType() {
+    public org.gnome.adw.FlapTransitionType getTransitionType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_flap_get_transition_type.invokeExact(
@@ -418,8 +404,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * if {@code GTK_PACK_END}, it's displayed after the content.
      * @param position the new value
      */
-    public void setFlapPosition(@NotNull org.gtk.gtk.PackType position) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public void setFlapPosition(org.gtk.gtk.PackType position) {
         try {
             DowncallHandles.adw_flap_set_flap_position.invokeExact(
                     handle(),
@@ -447,8 +432,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * Sets the fold policy for {@code self}.
      * @param policy the fold policy
      */
-    public void setFoldPolicy(@NotNull org.gnome.adw.FlapFoldPolicy policy) {
-        java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
+    public void setFoldPolicy(org.gnome.adw.FlapFoldPolicy policy) {
         try {
             DowncallHandles.adw_flap_set_fold_policy.invokeExact(
                     handle(),
@@ -469,8 +453,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * ellipsize instead of immediately folding.
      * @param policy the policy to use
      */
-    public void setFoldThresholdPolicy(@NotNull org.gnome.adw.FoldThresholdPolicy policy) {
-        java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
+    public void setFoldThresholdPolicy(org.gnome.adw.FoldThresholdPolicy policy) {
         try {
             DowncallHandles.adw_flap_set_fold_threshold_policy.invokeExact(
                     handle(),
@@ -492,7 +475,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         try {
             DowncallHandles.adw_flap_set_locked.invokeExact(
                     handle(),
-                    locked ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(locked, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -510,7 +493,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         try {
             DowncallHandles.adw_flap_set_modal.invokeExact(
                     handle(),
-                    modal ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(modal, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -524,7 +507,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         try {
             DowncallHandles.adw_flap_set_reveal_flap.invokeExact(
                     handle(),
-                    revealFlap ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(revealFlap, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -539,8 +522,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * }</pre>
      * @param params the new parameters
      */
-    public void setRevealParams(@NotNull org.gnome.adw.SpringParams params) {
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
+    public void setRevealParams(org.gnome.adw.SpringParams params) {
         try {
             DowncallHandles.adw_flap_set_reveal_params.invokeExact(
                     handle(),
@@ -579,7 +561,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         try {
             DowncallHandles.adw_flap_set_swipe_to_close.invokeExact(
                     handle(),
-                    swipeToClose ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(swipeToClose, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -596,7 +578,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         try {
             DowncallHandles.adw_flap_set_swipe_to_open.invokeExact(
                     handle(),
-                    swipeToOpen ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(swipeToOpen, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -611,8 +593,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * unwanted.
      * @param transitionType the new transition type
      */
-    public void setTransitionType(@NotNull org.gnome.adw.FlapTransitionType transitionType) {
-        java.util.Objects.requireNonNull(transitionType, "Parameter 'transitionType' must not be null");
+    public void setTransitionType(org.gnome.adw.FlapTransitionType transitionType) {
         try {
             DowncallHandles.adw_flap_set_transition_type.invokeExact(
                     handle(),
@@ -626,7 +607,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_flap_get_type.invokeExact();
@@ -635,38 +616,40 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Flap.Builder} object constructs a {@link Flap} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Flap.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Flap.Build} object constructs a {@link Flap} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Flap} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Flap} using {@link Flap#castFrom}.
+         * {@link Flap}.
          * @return A new instance of {@code Flap} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Flap construct() {
-            return Flap.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Flap.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Flap build() {
+            return (Flap) org.gtk.gobject.GObject.newWithProperties(
+                Flap.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -677,7 +660,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param content The value for the {@code content} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContent(org.gtk.gtk.Widget content) {
+        public Builder setContent(org.gtk.gtk.Widget content) {
             names.add("content");
             values.add(org.gtk.gobject.Value.create(content));
             return this;
@@ -690,7 +673,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param flap The value for the {@code flap} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlap(org.gtk.gtk.Widget flap) {
+        public Builder setFlap(org.gtk.gtk.Widget flap) {
             names.add("flap");
             values.add(org.gtk.gobject.Value.create(flap));
             return this;
@@ -704,7 +687,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param flapPosition The value for the {@code flap-position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlapPosition(org.gtk.gtk.PackType flapPosition) {
+        public Builder setFlapPosition(org.gtk.gtk.PackType flapPosition) {
             names.add("flap-position");
             values.add(org.gtk.gobject.Value.create(flapPosition));
             return this;
@@ -715,7 +698,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param foldDuration The value for the {@code fold-duration} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFoldDuration(int foldDuration) {
+        public Builder setFoldDuration(int foldDuration) {
             names.add("fold-duration");
             values.add(org.gtk.gobject.Value.create(foldDuration));
             return this;
@@ -726,7 +709,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param foldPolicy The value for the {@code fold-policy} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFoldPolicy(org.gnome.adw.FlapFoldPolicy foldPolicy) {
+        public Builder setFoldPolicy(org.gnome.adw.FlapFoldPolicy foldPolicy) {
             names.add("fold-policy");
             values.add(org.gtk.gobject.Value.create(foldPolicy));
             return this;
@@ -744,7 +727,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param foldThresholdPolicy The value for the {@code fold-threshold-policy} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFoldThresholdPolicy(org.gnome.adw.FoldThresholdPolicy foldThresholdPolicy) {
+        public Builder setFoldThresholdPolicy(org.gnome.adw.FoldThresholdPolicy foldThresholdPolicy) {
             names.add("fold-threshold-policy");
             values.add(org.gtk.gobject.Value.create(foldThresholdPolicy));
             return this;
@@ -757,7 +740,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param folded The value for the {@code folded} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFolded(boolean folded) {
+        public Builder setFolded(boolean folded) {
             names.add("folded");
             values.add(org.gtk.gobject.Value.create(folded));
             return this;
@@ -772,7 +755,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param locked The value for the {@code locked} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLocked(boolean locked) {
+        public Builder setLocked(boolean locked) {
             names.add("locked");
             values.add(org.gtk.gobject.Value.create(locked));
             return this;
@@ -787,7 +770,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param modal The value for the {@code modal} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModal(boolean modal) {
+        public Builder setModal(boolean modal) {
             names.add("modal");
             values.add(org.gtk.gobject.Value.create(modal));
             return this;
@@ -798,7 +781,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param revealFlap The value for the {@code reveal-flap} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRevealFlap(boolean revealFlap) {
+        public Builder setRevealFlap(boolean revealFlap) {
             names.add("reveal-flap");
             values.add(org.gtk.gobject.Value.create(revealFlap));
             return this;
@@ -814,7 +797,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param revealParams The value for the {@code reveal-params} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRevealParams(org.gnome.adw.SpringParams revealParams) {
+        public Builder setRevealParams(org.gnome.adw.SpringParams revealParams) {
             names.add("reveal-params");
             values.add(org.gtk.gobject.Value.create(revealParams));
             return this;
@@ -829,7 +812,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param revealProgress The value for the {@code reveal-progress} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRevealProgress(double revealProgress) {
+        public Builder setRevealProgress(double revealProgress) {
             names.add("reveal-progress");
             values.add(org.gtk.gobject.Value.create(revealProgress));
             return this;
@@ -844,7 +827,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param separator The value for the {@code separator} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSeparator(org.gtk.gtk.Widget separator) {
+        public Builder setSeparator(org.gtk.gtk.Widget separator) {
             names.add("separator");
             values.add(org.gtk.gobject.Value.create(separator));
             return this;
@@ -858,7 +841,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param swipeToClose The value for the {@code swipe-to-close} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSwipeToClose(boolean swipeToClose) {
+        public Builder setSwipeToClose(boolean swipeToClose) {
             names.add("swipe-to-close");
             values.add(org.gtk.gobject.Value.create(swipeToClose));
             return this;
@@ -872,7 +855,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param swipeToOpen The value for the {@code swipe-to-open} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSwipeToOpen(boolean swipeToOpen) {
+        public Builder setSwipeToOpen(boolean swipeToOpen) {
             names.add("swipe-to-open");
             values.add(org.gtk.gobject.Value.create(swipeToOpen));
             return this;
@@ -888,7 +871,7 @@ public class Flap extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeable,
          * @param transitionType The value for the {@code transition-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTransitionType(org.gnome.adw.FlapTransitionType transitionType) {
+        public Builder setTransitionType(org.gnome.adw.FlapTransitionType transitionType) {
             names.add("transition-type");
             values.add(org.gtk.gobject.Value.create(transitionType));
             return this;

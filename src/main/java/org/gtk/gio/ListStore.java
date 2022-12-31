@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * It provides insertions, deletions, and lookups in logarithmic time
  * with a fast path for the common case of iterating the list linearly.
  */
-public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class ListStore extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -34,34 +34,15 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ListStore(Addressable address, Ownership ownership) {
+    protected ListStore(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ListStore if its GType is a (or inherits from) "GListStore".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ListStore} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GListStore", a ClassCastException will be thrown.
-     */
-    public static ListStore castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ListStore.getType())) {
-            return new ListStore(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GListStore");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ListStore> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListStore(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.glib.Type itemType) {
-        java.util.Objects.requireNonNull(itemType, "Parameter 'itemType' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.glib.Type itemType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_store_new.invokeExact(
                     itemType.getValue().longValue());
@@ -73,10 +54,10 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
     
     /**
      * Creates a new {@link ListStore} with items of type {@code item_type}. {@code item_type}
-     * must be a subclass of {@link org.gtk.gobject.Object}.
-     * @param itemType the {@link org.gtk.gobject.Type} of items in the list
+     * must be a subclass of {@link org.gtk.gobject.GObject}.
+     * @param itemType the {@link org.gtk.glib.Type} of items in the list
      */
-    public ListStore(@NotNull org.gtk.glib.Type itemType) {
+    public ListStore(org.gtk.glib.Type itemType) {
         super(constructNew(itemType), Ownership.FULL);
     }
     
@@ -89,8 +70,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * efficiently.
      * @param item the new item
      */
-    public void append(@NotNull org.gtk.gobject.Object item) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
+    public void append(org.gtk.gobject.GObject item) {
         try {
             DowncallHandles.g_list_store_append.invokeExact(
                     handle(),
@@ -112,21 +92,19 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @return Whether {@code store} contains {@code item}. If it was found, {@code position} will be
      * set to the position where {@code item} occurred for the first time.
      */
-    public boolean find(@NotNull org.gtk.gobject.Object item, Out<Integer> position) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public boolean find(org.gtk.gobject.GObject item, Out<Integer> position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_list_store_find.invokeExact(
                     handle(),
                     item.handle(),
-                    (Addressable) positionPOINTER.address());
+                    (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(positionPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (position != null) position.set(positionPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -140,8 +118,20 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @return Whether {@code store} contains {@code item}. If it was found, {@code position} will be
      * set to the position where {@code item} occurred for the first time.
      */
-    public boolean findWithEqualFunc(@NotNull org.gtk.gobject.Object item, @NotNull org.gtk.glib.EqualFunc equalFunc, Out<Integer> position) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean findWithEqualFunc(org.gtk.gobject.GObject item, org.gtk.glib.EqualFunc equalFunc, Out<Integer> position) {
+        MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_list_store_find_with_equal_func.invokeExact(
+                    handle(),
+                    item.handle(),
+                    (Addressable) equalFunc.toCallback(),
+                    (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (position != null) position.set(positionPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -153,28 +143,21 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @return Whether {@code store} contains {@code item}. If it was found, {@code position} will be
      * set to the position where {@code item} occurred for the first time.
      */
-    public boolean findWithEqualFuncFull(@NotNull org.gtk.gobject.Object item, @NotNull org.gtk.glib.EqualFuncFull equalFunc, Out<Integer> position) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
-        java.util.Objects.requireNonNull(equalFunc, "Parameter 'equalFunc' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public boolean findWithEqualFuncFull(org.gtk.gobject.GObject item, org.gtk.glib.EqualFuncFull equalFunc, Out<Integer> position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_list_store_find_with_equal_func_full.invokeExact(
                     handle(),
                     item.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbEqualFuncFull",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(equalFunc)),
-                    (Addressable) positionPOINTER.address());
+                    (Addressable) equalFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(positionPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (position != null) position.set(positionPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -189,8 +172,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @param position the position at which to insert the new item
      * @param item the new item
      */
-    public void insert(int position, @NotNull org.gtk.gobject.Object item) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
+    public void insert(int position, org.gtk.gobject.GObject item) {
         try {
             DowncallHandles.g_list_store_insert.invokeExact(
                     handle(),
@@ -214,20 +196,14 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @param compareFunc pairwise comparison function for sorting
      * @return the position at which {@code item} was inserted
      */
-    public int insertSorted(@NotNull org.gtk.gobject.Object item, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public int insertSorted(org.gtk.gobject.GObject item, org.gtk.glib.CompareDataFunc compareFunc) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_list_store_insert_sorted.invokeExact(
                     handle(),
                     item.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(compareFunc)));
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,17 +244,12 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * Sort the items in {@code store} according to {@code compare_func}.
      * @param compareFunc pairwise comparison function for sorting
      */
-    public void sort(@NotNull org.gtk.glib.CompareDataFunc compareFunc) {
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public void sort(org.gtk.glib.CompareDataFunc compareFunc) {
         try {
             DowncallHandles.g_list_store_sort.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(compareFunc)));
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,8 +274,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * @param additions the items to add
      * @param nAdditions the number of items to add
      */
-    public void splice(int position, int nRemovals, @NotNull org.gtk.gobject.Object[] additions, int nAdditions) {
-        java.util.Objects.requireNonNull(additions, "Parameter 'additions' must not be null");
+    public void splice(int position, int nRemovals, org.gtk.gobject.GObject[] additions, int nAdditions) {
         try {
             DowncallHandles.g_list_store_splice.invokeExact(
                     handle(),
@@ -321,7 +291,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_list_store_get_type.invokeExact();
@@ -330,48 +300,50 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ListStore.Builder} object constructs a {@link ListStore} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ListStore.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ListStore.Build} object constructs a {@link ListStore} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ListStore} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ListStore} using {@link ListStore#castFrom}.
+         * {@link ListStore}.
          * @return A new instance of {@code ListStore} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ListStore construct() {
-            return ListStore.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ListStore.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ListStore build() {
+            return (ListStore) org.gtk.gobject.GObject.newWithProperties(
+                ListStore.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
         /**
          * The type of items contained in this list store. Items must be
-         * subclasses of {@link org.gtk.gobject.Object}.
+         * subclasses of {@link org.gtk.gobject.GObject}.
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -382,7 +354,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gio.Lis
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;

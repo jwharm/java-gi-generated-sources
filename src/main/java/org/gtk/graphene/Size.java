@@ -17,18 +17,16 @@ public class Size extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_size_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_FLOAT.withName("width"),
-        Interop.valueLayout.C_FLOAT.withName("height")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_FLOAT.withName("width"),
+            Interop.valueLayout.C_FLOAT.withName("height")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class Size extends Struct {
      * Get the value of the field {@code width}
      * @return The value of the field {@code width}
      */
-    public float width$get() {
+    public float getWidth() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,7 +57,7 @@ public class Size extends Struct {
      * Change the value of the field {@code width}
      * @param width The new value of the field {@code width}
      */
-    public void width$set(float width) {
+    public void setWidth(float width) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -69,7 +67,7 @@ public class Size extends Struct {
      * Get the value of the field {@code height}
      * @return The value of the field {@code height}
      */
-    public float height$get() {
+    public float getHeight() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class Size extends Struct {
      * Change the value of the field {@code height}
      * @param height The new value of the field {@code height}
      */
-    public void height$set(float height) {
+    public void setHeight(float height) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
@@ -91,13 +89,15 @@ public class Size extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Size(Addressable address, Ownership ownership) {
+    protected Size(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Size> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Size(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_size_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -113,7 +113,8 @@ public class Size extends Struct {
      * @return the newly allocated {@link Size}
      */
     public static Size alloc() {
-        return new Size(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -121,8 +122,7 @@ public class Size extends Struct {
      * @param b a {@link Size}
      * @return {@code true} if the sizes are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Size b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Size b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_size_equal.invokeExact(
@@ -152,7 +152,7 @@ public class Size extends Struct {
      * @param height the height
      * @return the initialized {@link Size}
      */
-    public @NotNull org.gtk.graphene.Size init(float width, float height) {
+    public org.gtk.graphene.Size init(float width, float height) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_size_init.invokeExact(
@@ -162,7 +162,7 @@ public class Size extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Size(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -171,8 +171,7 @@ public class Size extends Struct {
      * @param src a {@link Size}
      * @return the initialized {@link Size}
      */
-    public @NotNull org.gtk.graphene.Size initFromSize(@NotNull org.gtk.graphene.Size src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Size initFromSize(org.gtk.graphene.Size src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_size_init_from_size.invokeExact(
@@ -181,7 +180,7 @@ public class Size extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Size(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -191,9 +190,7 @@ public class Size extends Struct {
      * @param factor the linear interpolation factor
      * @param res return location for the interpolated size
      */
-    public void interpolate(@NotNull org.gtk.graphene.Size b, double factor, @NotNull org.gtk.graphene.Size res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void interpolate(org.gtk.graphene.Size b, double factor, org.gtk.graphene.Size res) {
         try {
             DowncallHandles.graphene_size_interpolate.invokeExact(
                     handle(),
@@ -210,8 +207,7 @@ public class Size extends Struct {
      * @param factor the scaling factor
      * @param res return location for the scaled size
      */
-    public void scale(float factor, @NotNull org.gtk.graphene.Size res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void scale(float factor, org.gtk.graphene.Size res) {
         try {
             DowncallHandles.graphene_size_scale.invokeExact(
                     handle(),
@@ -227,14 +223,14 @@ public class Size extends Struct {
      * equality checks and interpolations.
      * @return a constant size
      */
-    public static @NotNull org.gtk.graphene.Size zero() {
+    public static org.gtk.graphene.Size zero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_size_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Size(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -287,31 +283,35 @@ public class Size extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Size.Builder} object constructs a {@link Size} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Size.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Size struct;
+        private final Size struct;
         
-         /**
-         * A {@link Size.Build} object constructs a {@link Size} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Size.allocate();
         }
         
          /**
          * Finish building the {@link Size} struct.
          * @return A new instance of {@code Size} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Size construct() {
+        public Size build() {
             return struct;
         }
         
@@ -320,7 +320,7 @@ public class Size extends Struct {
          * @param width The value for the {@code width} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidth(float width) {
+        public Builder setWidth(float width) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("width"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -332,7 +332,7 @@ public class Size extends Struct {
          * @param height The value for the {@code height} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeight(float height) {
+        public Builder setHeight(float height) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("height"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);

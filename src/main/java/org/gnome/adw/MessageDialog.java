@@ -100,17 +100,15 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
     
     private static final java.lang.String C_TYPE_NAME = "AdwMessageDialog";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Window.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Window.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -118,45 +116,31 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * <p>
      * Because MessageDialog is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MessageDialog(Addressable address, Ownership ownership) {
+    protected MessageDialog(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to MessageDialog if its GType is a (or inherits from) "AdwMessageDialog".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MessageDialog} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwMessageDialog", a ClassCastException will be thrown.
-     */
-    public static MessageDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MessageDialog.getType())) {
-            return new MessageDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwMessageDialog");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MessageDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MessageDialog(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.Window parent, @Nullable java.lang.String heading, @Nullable java.lang.String body) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Window parent, @Nullable java.lang.String heading, @Nullable java.lang.String body) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_message_dialog_new.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    (Addressable) (heading == null ? MemoryAddress.NULL : Interop.allocateNativeString(heading)),
-                    (Addressable) (body == null ? MemoryAddress.NULL : Interop.allocateNativeString(body)));
+                    (Addressable) (heading == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(heading, null)),
+                    (Addressable) (body == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(body, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,14 +189,12 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param id the response ID
      * @param label the response label
      */
-    public void addResponse(@NotNull java.lang.String id, @NotNull java.lang.String label) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
-        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+    public void addResponse(java.lang.String id, java.lang.String label) {
         try {
             DowncallHandles.adw_message_dialog_add_response.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(id),
-                    Interop.allocateNativeString(label));
+                    Marshal.stringToAddress.marshal(id, null),
+                    Marshal.stringToAddress.marshal(label, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,12 +218,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param firstId response id
      * @param varargs label for first response, then more id-label pairs
      */
-    public void addResponses(@NotNull java.lang.String firstId, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstId, "Parameter 'firstId' must not be null");
+    public void addResponses(java.lang.String firstId, java.lang.Object... varargs) {
         try {
             DowncallHandles.adw_message_dialog_add_responses.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(firstId),
+                    Marshal.stringToAddress.marshal(firstId, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -255,12 +236,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param format the formatted string for the body text
      * @param varargs the parameters to insert into {@code format}
      */
-    public void formatBody(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void formatBody(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.adw_message_dialog_format_body.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -280,12 +260,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param format the formatted string for the body text with Pango markup
      * @param varargs the parameters to insert into {@code format}
      */
-    public void formatBodyMarkup(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void formatBodyMarkup(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.adw_message_dialog_format_body_markup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -299,12 +278,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param format the formatted string for the heading
      * @param varargs the parameters to insert into {@code format}
      */
-    public void formatHeading(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void formatHeading(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.adw_message_dialog_format_heading.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -324,12 +302,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param format the formatted string for the heading with Pango markup
      * @param varargs the parameters to insert into {@code format}
      */
-    public void formatHeadingMarkup(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void formatHeadingMarkup(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.adw_message_dialog_format_heading_markup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -340,7 +317,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * Gets the body text of {@code self}.
      * @return the body of {@code self}.
      */
-    public @NotNull java.lang.String getBody() {
+    public java.lang.String getBody() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_message_dialog_get_body.invokeExact(
@@ -348,7 +325,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -363,14 +340,14 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the ID of the close response of {@code self}.
      * @return the close response ID
      */
-    public @NotNull java.lang.String getCloseResponse() {
+    public java.lang.String getCloseResponse() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_message_dialog_get_close_response.invokeExact(
@@ -378,7 +355,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -393,7 +370,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -408,7 +385,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -423,7 +400,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -438,7 +415,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -448,13 +425,12 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param response a response ID
      * @return the appearance of {@code response}
      */
-    public @NotNull org.gnome.adw.ResponseAppearance getResponseAppearance(@NotNull java.lang.String response) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
+    public org.gnome.adw.ResponseAppearance getResponseAppearance(java.lang.String response) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_message_dialog_get_response_appearance.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(response));
+                    Marshal.stringToAddress.marshal(response, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -468,17 +444,16 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param response a response ID
      * @return whether {@code response} is enabled
      */
-    public boolean getResponseEnabled(@NotNull java.lang.String response) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
+    public boolean getResponseEnabled(java.lang.String response) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_message_dialog_get_response_enabled.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(response));
+                    Marshal.stringToAddress.marshal(response, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -488,17 +463,16 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param response a response ID
      * @return the label of {@code response}
      */
-    public @NotNull java.lang.String getResponseLabel(@NotNull java.lang.String response) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
+    public java.lang.String getResponseLabel(java.lang.String response) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_message_dialog_get_response_label.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(response));
+                    Marshal.stringToAddress.marshal(response, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -506,17 +480,16 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param response response ID
      * @return whether {@code self} has a response with the ID {@code response}.
      */
-    public boolean hasResponse(@NotNull java.lang.String response) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
+    public boolean hasResponse(java.lang.String response) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_message_dialog_has_response.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(response));
+                    Marshal.stringToAddress.marshal(response, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -525,12 +498,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * Used to indicate that the user has responded to the dialog in some way.
      * @param response response ID
      */
-    public void response(@NotNull java.lang.String response) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
+    public void response(java.lang.String response) {
         try {
             DowncallHandles.adw_message_dialog_response.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(response));
+                    Marshal.stringToAddress.marshal(response, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -540,12 +512,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * Sets the body text of {@code self}.
      * @param body the body of {@code self}
      */
-    public void setBody(@NotNull java.lang.String body) {
-        java.util.Objects.requireNonNull(body, "Parameter 'body' must not be null");
+    public void setBody(java.lang.String body) {
         try {
             DowncallHandles.adw_message_dialog_set_body.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(body));
+                    Marshal.stringToAddress.marshal(body, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -561,7 +532,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         try {
             DowncallHandles.adw_message_dialog_set_body_use_markup.invokeExact(
                     handle(),
-                    useMarkup ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useMarkup, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -578,12 +549,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * The default close response is {@code close}.
      * @param response the close response ID
      */
-    public void setCloseResponse(@NotNull java.lang.String response) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
+    public void setCloseResponse(java.lang.String response) {
         try {
             DowncallHandles.adw_message_dialog_set_close_response.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(response));
+                    Marshal.stringToAddress.marshal(response, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -602,7 +572,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         try {
             DowncallHandles.adw_message_dialog_set_default_response.invokeExact(
                     handle(),
-                    (Addressable) (response == null ? MemoryAddress.NULL : Interop.allocateNativeString(response)));
+                    (Addressable) (response == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(response, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -632,7 +602,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         try {
             DowncallHandles.adw_message_dialog_set_heading.invokeExact(
                     handle(),
-                    (Addressable) (heading == null ? MemoryAddress.NULL : Interop.allocateNativeString(heading)));
+                    (Addressable) (heading == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(heading, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -648,7 +618,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
         try {
             DowncallHandles.adw_message_dialog_set_heading_use_markup.invokeExact(
                     handle(),
-                    useMarkup ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useMarkup, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -675,13 +645,11 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param response a response ID
      * @param appearance appearance for {@code response}
      */
-    public void setResponseAppearance(@NotNull java.lang.String response, @NotNull org.gnome.adw.ResponseAppearance appearance) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
-        java.util.Objects.requireNonNull(appearance, "Parameter 'appearance' must not be null");
+    public void setResponseAppearance(java.lang.String response, org.gnome.adw.ResponseAppearance appearance) {
         try {
             DowncallHandles.adw_message_dialog_set_response_appearance.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(response),
+                    Marshal.stringToAddress.marshal(response, null),
                     appearance.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -702,13 +670,12 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param response a response ID
      * @param enabled whether to enable {@code response}
      */
-    public void setResponseEnabled(@NotNull java.lang.String response, boolean enabled) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
+    public void setResponseEnabled(java.lang.String response, boolean enabled) {
         try {
             DowncallHandles.adw_message_dialog_set_response_enabled.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(response),
-                    enabled ? 1 : 0);
+                    Marshal.stringToAddress.marshal(response, null),
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -722,14 +689,12 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * @param response a response ID
      * @param label the label of {@code response}
      */
-    public void setResponseLabel(@NotNull java.lang.String response, @NotNull java.lang.String label) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
-        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+    public void setResponseLabel(java.lang.String response, java.lang.String label) {
         try {
             DowncallHandles.adw_message_dialog_set_response_label.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(response),
-                    Interop.allocateNativeString(label));
+                    Marshal.stringToAddress.marshal(response, null),
+                    Marshal.stringToAddress.marshal(label, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -739,7 +704,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_message_dialog_get_type.invokeExact();
@@ -751,7 +716,18 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
     
     @FunctionalInterface
     public interface Response {
-        void signalReceived(MessageDialog sourceMessageDialog, @NotNull java.lang.String response);
+        void run(java.lang.String response);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceMessageDialog, MemoryAddress response) {
+            run(Marshal.addressToString.marshal(response, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Response.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -770,52 +746,46 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
     public Signal<MessageDialog.Response> onResponse(@Nullable String detail, MessageDialog.Response handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("response" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MessageDialog.Callbacks.class, "signalMessageDialogResponse",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<MessageDialog.Response>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("response" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link MessageDialog.Builder} object constructs a {@link MessageDialog} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MessageDialog.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Window.Build {
+    public static class Builder extends org.gtk.gtk.Window.Builder {
         
-         /**
-         * A {@link MessageDialog.Build} object constructs a {@link MessageDialog} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MessageDialog} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MessageDialog} using {@link MessageDialog#castFrom}.
+         * {@link MessageDialog}.
          * @return A new instance of {@code MessageDialog} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MessageDialog construct() {
-            return MessageDialog.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MessageDialog.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MessageDialog build() {
+            return (MessageDialog) org.gtk.gobject.GObject.newWithProperties(
+                MessageDialog.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -824,7 +794,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
          * @param body The value for the {@code body} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBody(java.lang.String body) {
+        public Builder setBody(java.lang.String body) {
             names.add("body");
             values.add(org.gtk.gobject.Value.create(body));
             return this;
@@ -837,7 +807,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
          * @param bodyUseMarkup The value for the {@code body-use-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBodyUseMarkup(boolean bodyUseMarkup) {
+        public Builder setBodyUseMarkup(boolean bodyUseMarkup) {
             names.add("body-use-markup");
             values.add(org.gtk.gobject.Value.create(bodyUseMarkup));
             return this;
@@ -855,7 +825,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
          * @param closeResponse The value for the {@code close-response} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCloseResponse(java.lang.String closeResponse) {
+        public Builder setCloseResponse(java.lang.String closeResponse) {
             names.add("close-response");
             values.add(org.gtk.gobject.Value.create(closeResponse));
             return this;
@@ -871,7 +841,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
          * @param defaultResponse The value for the {@code default-response} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefaultResponse(java.lang.String defaultResponse) {
+        public Builder setDefaultResponse(java.lang.String defaultResponse) {
             names.add("default-response");
             values.add(org.gtk.gobject.Value.create(defaultResponse));
             return this;
@@ -884,7 +854,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
          * @param extraChild The value for the {@code extra-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExtraChild(org.gtk.gtk.Widget extraChild) {
+        public Builder setExtraChild(org.gtk.gtk.Widget extraChild) {
             names.add("extra-child");
             values.add(org.gtk.gobject.Value.create(extraChild));
             return this;
@@ -895,7 +865,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
          * @param heading The value for the {@code heading} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeading(java.lang.String heading) {
+        public Builder setHeading(java.lang.String heading) {
             names.add("heading");
             values.add(org.gtk.gobject.Value.create(heading));
             return this;
@@ -908,7 +878,7 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
          * @param headingUseMarkup The value for the {@code heading-use-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeadingUseMarkup(boolean headingUseMarkup) {
+        public Builder setHeadingUseMarkup(boolean headingUseMarkup) {
             names.add("heading-use-markup");
             values.add(org.gtk.gobject.Value.create(headingUseMarkup));
             return this;
@@ -1096,14 +1066,5 @@ public class MessageDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acc
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalMessageDialogResponse(MemoryAddress sourceMessageDialog, MemoryAddress response, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MessageDialog.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MessageDialog(sourceMessageDialog, Ownership.NONE), Interop.getStringFrom(response));
-        }
     }
 }

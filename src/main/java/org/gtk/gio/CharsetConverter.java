@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@link CharsetConverter} is an implementation of {@link Converter} based on
  * GIConv.
  */
-public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.gio.Converter, org.gtk.gio.Initable {
+public class CharsetConverter extends org.gtk.gobject.GObject implements org.gtk.gio.Converter, org.gtk.gio.Initable {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -31,40 +31,20 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CharsetConverter(Addressable address, Ownership ownership) {
+    protected CharsetConverter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to CharsetConverter if its GType is a (or inherits from) "GCharsetConverter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CharsetConverter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GCharsetConverter", a ClassCastException will be thrown.
-     */
-    public static CharsetConverter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CharsetConverter.getType())) {
-            return new CharsetConverter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GCharsetConverter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CharsetConverter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CharsetConverter(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String toCharset, @NotNull java.lang.String fromCharset) throws GErrorException {
-        java.util.Objects.requireNonNull(toCharset, "Parameter 'toCharset' must not be null");
-        java.util.Objects.requireNonNull(fromCharset, "Parameter 'fromCharset' must not be null");
+    private static MemoryAddress constructNew(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_charset_converter_new.invokeExact(
-                    Interop.allocateNativeString(toCharset),
-                    Interop.allocateNativeString(fromCharset),
+                    Marshal.stringToAddress.marshal(toCharset, null),
+                    Marshal.stringToAddress.marshal(fromCharset, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -81,7 +61,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
      * @param fromCharset source charset
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public CharsetConverter(@NotNull java.lang.String toCharset, @NotNull java.lang.String fromCharset) throws GErrorException {
+    public CharsetConverter(java.lang.String toCharset, java.lang.String fromCharset) throws GErrorException {
         super(constructNew(toCharset, fromCharset), Ownership.FULL);
     }
     
@@ -112,7 +92,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -123,7 +103,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
         try {
             DowncallHandles.g_charset_converter_set_use_fallback.invokeExact(
                     handle(),
-                    useFallback ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useFallback, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,7 +113,7 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_charset_converter_get_type.invokeExact();
@@ -142,54 +122,56 @@ public class CharsetConverter extends org.gtk.gobject.Object implements org.gtk.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link CharsetConverter.Builder} object constructs a {@link CharsetConverter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CharsetConverter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link CharsetConverter.Build} object constructs a {@link CharsetConverter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CharsetConverter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CharsetConverter} using {@link CharsetConverter#castFrom}.
+         * {@link CharsetConverter}.
          * @return A new instance of {@code CharsetConverter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CharsetConverter construct() {
-            return CharsetConverter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CharsetConverter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CharsetConverter build() {
+            return (CharsetConverter) org.gtk.gobject.GObject.newWithProperties(
+                CharsetConverter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setFromCharset(java.lang.String fromCharset) {
+        public Builder setFromCharset(java.lang.String fromCharset) {
             names.add("from-charset");
             values.add(org.gtk.gobject.Value.create(fromCharset));
             return this;
         }
         
-        public Build setToCharset(java.lang.String toCharset) {
+        public Builder setToCharset(java.lang.String toCharset) {
             names.add("to-charset");
             values.add(org.gtk.gobject.Value.create(toCharset));
             return this;
         }
         
-        public Build setUseFallback(boolean useFallback) {
+        public Builder setUseFallback(boolean useFallback) {
             names.add("use-fallback");
             values.add(org.gtk.gobject.Value.create(useFallback));
             return this;

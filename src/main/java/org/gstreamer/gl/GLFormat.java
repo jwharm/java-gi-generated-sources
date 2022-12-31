@@ -125,9 +125,7 @@ public enum GLFormat implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static @NotNull org.gstreamer.gl.GLFormat fromVideoInfo(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.video.VideoInfo vinfo, int plane) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(vinfo, "Parameter 'vinfo' must not be null");
+    public static org.gstreamer.gl.GLFormat fromVideoInfo(org.gstreamer.gl.GLContext context, org.gstreamer.video.VideoInfo vinfo, int plane) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_format_from_video_info.invokeExact(
@@ -140,9 +138,7 @@ public enum GLFormat implements io.github.jwharm.javagi.Enumeration {
         return org.gstreamer.gl.GLFormat.of(RESULT);
     }
     
-    public static boolean isSupported(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gl.GLFormat format) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static boolean isSupported(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLFormat format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_format_is_supported.invokeExact(
@@ -151,7 +147,7 @@ public enum GLFormat implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -161,11 +157,8 @@ public enum GLFormat implements io.github.jwharm.javagi.Enumeration {
      * @param unsizedFormat location for the resulting unsized {@link GLFormat}
      * @param glType location for the resulting GL type
      */
-    public static void typeFromSizedGlFormat(@NotNull org.gstreamer.gl.GLFormat format, @NotNull Out<org.gstreamer.gl.GLFormat> unsizedFormat, Out<Integer> glType) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(unsizedFormat, "Parameter 'unsizedFormat' must not be null");
+    public static void typeFromSizedGlFormat(org.gstreamer.gl.GLFormat format, Out<org.gstreamer.gl.GLFormat> unsizedFormat, Out<Integer> glType) {
         MemorySegment unsizedFormatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(glType, "Parameter 'glType' must not be null");
         MemorySegment glTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_gl_format_type_from_sized_gl_format.invokeExact(

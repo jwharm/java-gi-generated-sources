@@ -98,17 +98,15 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     private static final java.lang.String C_TYPE_NAME = "GtkDrawingArea";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("widget")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("widget")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -116,40 +114,26 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Because DrawingArea is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DrawingArea(Addressable address, Ownership ownership) {
+    protected DrawingArea(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to DrawingArea if its GType is a (or inherits from) "GtkDrawingArea".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DrawingArea} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkDrawingArea", a ClassCastException will be thrown.
-     */
-    public static DrawingArea castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DrawingArea.getType())) {
-            return new DrawingArea(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDrawingArea");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DrawingArea> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DrawingArea(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_drawing_area_new.invokeExact();
         } catch (Throwable ERR) {
@@ -254,18 +238,15 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * on the drawing area. This will cause a redraw and will call {@code draw_func} again.
      * @param drawFunc callback that lets you draw
      *   the drawing area's contents
+     * @param destroy destroy notifier for {@code user_data}
      */
-    public void setDrawFunc(@Nullable org.gtk.gtk.DrawingAreaDrawFunc drawFunc) {
+    public void setDrawFunc(@Nullable org.gtk.gtk.DrawingAreaDrawFunc drawFunc, org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.gtk_drawing_area_set_draw_func.invokeExact(
                     handle(),
-                    (Addressable) (drawFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbDrawingAreaDrawFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (drawFunc == null ? MemoryAddress.NULL : Interop.registerCallback(drawFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (drawFunc == null ? MemoryAddress.NULL : (Addressable) drawFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroy.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,7 +256,7 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_drawing_area_get_type.invokeExact();
@@ -287,7 +268,18 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Resize {
-        void signalReceived(DrawingArea sourceDrawingArea, int width, int height);
+        void run(int width, int height);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDrawingArea, int width, int height) {
+            run(width, height);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Resize.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -302,52 +294,46 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<DrawingArea.Resize> onResize(DrawingArea.Resize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("resize"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DrawingArea.Callbacks.class, "signalDrawingAreaResize",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DrawingArea.Resize>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("resize"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DrawingArea.Builder} object constructs a {@link DrawingArea} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DrawingArea.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link DrawingArea.Build} object constructs a {@link DrawingArea} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DrawingArea} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DrawingArea} using {@link DrawingArea#castFrom}.
+         * {@link DrawingArea}.
          * @return A new instance of {@code DrawingArea} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DrawingArea construct() {
-            return DrawingArea.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DrawingArea.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DrawingArea build() {
+            return (DrawingArea) org.gtk.gobject.GObject.newWithProperties(
+                DrawingArea.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -356,7 +342,7 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param contentHeight The value for the {@code content-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContentHeight(int contentHeight) {
+        public Builder setContentHeight(int contentHeight) {
             names.add("content-height");
             values.add(org.gtk.gobject.Value.create(contentHeight));
             return this;
@@ -367,7 +353,7 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param contentWidth The value for the {@code content-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContentWidth(int contentWidth) {
+        public Builder setContentWidth(int contentWidth) {
             names.add("content-width");
             values.add(org.gtk.gobject.Value.create(contentWidth));
             return this;
@@ -417,14 +403,5 @@ public class DrawingArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalDrawingAreaResize(MemoryAddress sourceDrawingArea, int width, int height, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DrawingArea.Resize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DrawingArea(sourceDrawingArea, Ownership.NONE), width, height);
-        }
     }
 }

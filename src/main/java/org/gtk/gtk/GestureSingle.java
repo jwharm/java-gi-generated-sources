@@ -43,30 +43,12 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GestureSingle(Addressable address, Ownership ownership) {
+    protected GestureSingle(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to GestureSingle if its GType is a (or inherits from) "GtkGestureSingle".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GestureSingle} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkGestureSingle", a ClassCastException will be thrown.
-     */
-    public static GestureSingle castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GestureSingle.getType())) {
-            return new GestureSingle(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGestureSingle");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GestureSingle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureSingle(input, ownership);
     
     /**
      * Returns the button number {@code gesture} listens for.
@@ -116,7 +98,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.EventSequence(RESULT, Ownership.FULL);
+        return org.gtk.gdk.EventSequence.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -133,7 +115,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -148,7 +130,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -181,7 +163,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         try {
             DowncallHandles.gtk_gesture_single_set_exclusive.invokeExact(
                     handle(),
-                    exclusive ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(exclusive, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -199,7 +181,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         try {
             DowncallHandles.gtk_gesture_single_set_touch_only.invokeExact(
                     handle(),
-                    touchOnly ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(touchOnly, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +191,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_gesture_single_get_type.invokeExact();
@@ -218,38 +200,40 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GestureSingle.Builder} object constructs a {@link GestureSingle} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GestureSingle.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Gesture.Build {
+    public static class Builder extends org.gtk.gtk.Gesture.Builder {
         
-         /**
-         * A {@link GestureSingle.Build} object constructs a {@link GestureSingle} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GestureSingle} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GestureSingle} using {@link GestureSingle#castFrom}.
+         * {@link GestureSingle}.
          * @return A new instance of {@code GestureSingle} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GestureSingle construct() {
-            return GestureSingle.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GestureSingle.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GestureSingle build() {
+            return (GestureSingle) org.gtk.gobject.GObject.newWithProperties(
+                GestureSingle.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -258,7 +242,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
          * @param button The value for the {@code button} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setButton(int button) {
+        public Builder setButton(int button) {
             names.add("button");
             values.add(org.gtk.gobject.Value.create(button));
             return this;
@@ -271,7 +255,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
          * @param exclusive The value for the {@code exclusive} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExclusive(boolean exclusive) {
+        public Builder setExclusive(boolean exclusive) {
             names.add("exclusive");
             values.add(org.gtk.gobject.Value.create(exclusive));
             return this;
@@ -282,7 +266,7 @@ public class GestureSingle extends org.gtk.gtk.Gesture {
          * @param touchOnly The value for the {@code touch-only} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTouchOnly(boolean touchOnly) {
+        public Builder setTouchOnly(boolean touchOnly) {
             names.add("touch-only");
             values.add(org.gtk.gobject.Value.create(touchOnly));
             return this;

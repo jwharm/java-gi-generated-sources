@@ -11,5 +11,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface GLAllocationParamsFreeFunc {
-        void onGLAllocationParamsFreeFunc(@Nullable java.lang.foreign.MemoryAddress params);
+    void run(@Nullable java.lang.foreign.MemoryAddress params);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress params) {
+        run(params);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GLAllocationParamsFreeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

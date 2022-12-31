@@ -18,5 +18,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PadStickyEventsForeachFunction {
-        boolean onPadStickyEventsForeachFunction(@NotNull org.gstreamer.gst.Pad pad, @Nullable PointerProxy<org.gstreamer.gst.Event> event);
+    boolean run(org.gstreamer.gst.Pad pad, @Nullable PointerProxy<org.gstreamer.gst.Event> event);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress pad, MemoryAddress event, MemoryAddress userData) {
+        var RESULT = run((org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE), new PointerProxy<org.gstreamer.gst.Event>(event, org.gstreamer.gst.Event.fromAddress));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadStickyEventsForeachFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The opaque base class object for all encoding profiles. This contains generic
  * information like name, description, format and preset.
  */
-public class EncodingProfile extends org.gtk.gobject.Object {
+public class EncodingProfile extends org.gtk.gobject.GObject {
     
     static {
         GstPbutils.javagi$ensureInitialized();
@@ -31,36 +31,18 @@ public class EncodingProfile extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EncodingProfile(Addressable address, Ownership ownership) {
+    protected EncodingProfile(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EncodingProfile if its GType is a (or inherits from) "GstEncodingProfile".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EncodingProfile} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstEncodingProfile", a ClassCastException will be thrown.
-     */
-    public static EncodingProfile castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EncodingProfile.getType())) {
-            return new EncodingProfile(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstEncodingProfile");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EncodingProfile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EncodingProfile(input, ownership);
     
     /**
      * Makes a deep copy of {@code self}
      * @return The copy of {@code self}
      */
-    public @NotNull org.gstreamer.pbutils.EncodingProfile copy() {
+    public org.gstreamer.pbutils.EncodingProfile copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_copy.invokeExact(
@@ -68,7 +50,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.pbutils.EncodingProfile(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.EncodingProfile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -83,10 +65,10 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull java.lang.String getDescription() {
+    public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_description.invokeExact(
@@ -94,7 +76,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     public @Nullable org.gstreamer.gst.Structure getElementProperties() {
@@ -105,10 +87,10 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull java.lang.String getFileExtension() {
+    public java.lang.String getFileExtension() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_file_extension.invokeExact(
@@ -116,10 +98,10 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull org.gstreamer.gst.Caps getFormat() {
+    public org.gstreamer.gst.Caps getFormat() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_format.invokeExact(
@@ -127,7 +109,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -135,7 +117,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
      * @return The full caps the given {@code profile} can consume. Call
      * gst_caps_unref() when you are done with the caps.
      */
-    public @NotNull org.gstreamer.gst.Caps getInputCaps() {
+    public org.gstreamer.gst.Caps getInputCaps() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_input_caps.invokeExact(
@@ -143,10 +125,10 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_name.invokeExact(
@@ -154,7 +136,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     public int getPresence() {
@@ -168,7 +150,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         return RESULT;
     }
     
-    public @NotNull java.lang.String getPreset() {
+    public java.lang.String getPreset() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_preset.invokeExact(
@@ -176,10 +158,10 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull java.lang.String getPresetName() {
+    public java.lang.String getPresetName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_preset_name.invokeExact(
@@ -187,10 +169,10 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull org.gstreamer.gst.Caps getRestriction() {
+    public org.gstreamer.gst.Caps getRestriction() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_restriction.invokeExact(
@@ -198,7 +180,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public boolean getSingleSegment() {
@@ -209,10 +191,10 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull java.lang.String getTypeNick() {
+    public java.lang.String getTypeNick() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_get_type_nick.invokeExact(
@@ -220,7 +202,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     public boolean isEnabled() {
@@ -231,7 +213,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -239,8 +221,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
      * @param b a {@link EncodingProfile}
      * @return {@code true} if {@code a} and {@code b} are equal, else {@code false}.
      */
-    public boolean isEqual(@NotNull org.gstreamer.pbutils.EncodingProfile b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean isEqual(org.gstreamer.pbutils.EncodingProfile b) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_encoding_profile_is_equal.invokeExact(
@@ -249,7 +230,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -262,7 +243,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gst_encoding_profile_set_allow_dynamic_output.invokeExact(
                     handle(),
-                    allowDynamicOutput ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(allowDynamicOutput, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,7 +258,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gst_encoding_profile_set_description.invokeExact(
                     handle(),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,8 +282,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
      * @param elementProperties A {@link org.gstreamer.gst.Structure} defining the properties
      * to be set to the element the profile represents.
      */
-    public void setElementProperties(@NotNull org.gstreamer.gst.Structure elementProperties) {
-        java.util.Objects.requireNonNull(elementProperties, "Parameter 'elementProperties' must not be null");
+    public void setElementProperties(org.gstreamer.gst.Structure elementProperties) {
         try {
             DowncallHandles.gst_encoding_profile_set_element_properties.invokeExact(
                     handle(),
@@ -321,7 +301,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gst_encoding_profile_set_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,8 +311,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
      * Sets the media format used in the profile.
      * @param format the media format to use in the profile.
      */
-    public void setFormat(@NotNull org.gstreamer.gst.Caps format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void setFormat(org.gstreamer.gst.Caps format) {
         try {
             DowncallHandles.gst_encoding_profile_set_format.invokeExact(
                     handle(),
@@ -351,7 +330,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gst_encoding_profile_set_name.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -382,7 +361,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gst_encoding_profile_set_preset.invokeExact(
                     handle(),
-                    (Addressable) (preset == null ? MemoryAddress.NULL : Interop.allocateNativeString(preset)));
+                    (Addressable) (preset == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(preset, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -396,7 +375,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gst_encoding_profile_set_preset_name.invokeExact(
                     handle(),
-                    (Addressable) (presetName == null ? MemoryAddress.NULL : Interop.allocateNativeString(presetName)));
+                    (Addressable) (presetName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(presetName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -434,7 +413,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gst_encoding_profile_set_single_segment.invokeExact(
                     handle(),
-                    singleSegment ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(singleSegment, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -444,7 +423,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_encoding_profile_get_type.invokeExact();
@@ -462,18 +441,17 @@ public class EncodingProfile extends org.gtk.gobject.Object {
      * @param category The target category. Can be {@code null}
      * @return The matching {@link EncodingProfile} or {@code null}.
      */
-    public static @NotNull org.gstreamer.pbutils.EncodingProfile find(@NotNull java.lang.String targetname, @Nullable java.lang.String profilename, @Nullable java.lang.String category) {
-        java.util.Objects.requireNonNull(targetname, "Parameter 'targetname' must not be null");
+    public static org.gstreamer.pbutils.EncodingProfile find(java.lang.String targetname, @Nullable java.lang.String profilename, @Nullable java.lang.String category) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_find.invokeExact(
-                    Interop.allocateNativeString(targetname),
-                    (Addressable) (profilename == null ? MemoryAddress.NULL : Interop.allocateNativeString(profilename)),
-                    (Addressable) (category == null ? MemoryAddress.NULL : Interop.allocateNativeString(category)));
+                    Marshal.stringToAddress.marshal(targetname, null),
+                    (Addressable) (profilename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(profilename, null)),
+                    (Addressable) (category == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(category, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.pbutils.EncodingProfile(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.EncodingProfile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -483,8 +461,7 @@ public class EncodingProfile extends org.gtk.gobject.Object {
      * @param info The {@link DiscovererInfo} to read from
      * @return The new {@link EncodingProfile} or {@code null}.
      */
-    public static @NotNull org.gstreamer.pbutils.EncodingProfile fromDiscoverer(@NotNull org.gstreamer.pbutils.DiscovererInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public static org.gstreamer.pbutils.EncodingProfile fromDiscoverer(org.gstreamer.pbutils.DiscovererInfo info) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_profile_from_discoverer.invokeExact(
@@ -492,40 +469,42 @@ public class EncodingProfile extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.pbutils.EncodingProfile(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.EncodingProfile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link EncodingProfile.Builder} object constructs a {@link EncodingProfile} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EncodingProfile.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link EncodingProfile.Build} object constructs a {@link EncodingProfile} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EncodingProfile} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EncodingProfile} using {@link EncodingProfile#castFrom}.
+         * {@link EncodingProfile}.
          * @return A new instance of {@code EncodingProfile} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EncodingProfile construct() {
-            return EncodingProfile.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EncodingProfile.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EncodingProfile build() {
+            return (EncodingProfile) org.gtk.gobject.GObject.newWithProperties(
+                EncodingProfile.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -540,13 +519,13 @@ public class EncodingProfile extends org.gtk.gobject.Object {
          * @param elementProperties The value for the {@code element-properties} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setElementProperties(org.gstreamer.gst.Structure elementProperties) {
+        public Builder setElementProperties(org.gstreamer.gst.Structure elementProperties) {
             names.add("element-properties");
             values.add(org.gtk.gobject.Value.create(elementProperties));
             return this;
         }
         
-        public Build setRestrictionCaps(org.gstreamer.gst.Caps restrictionCaps) {
+        public Builder setRestrictionCaps(org.gstreamer.gst.Caps restrictionCaps) {
             names.add("restriction-caps");
             values.add(org.gtk.gobject.Value.create(restrictionCaps));
             return this;

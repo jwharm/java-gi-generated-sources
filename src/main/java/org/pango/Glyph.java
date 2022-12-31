@@ -13,4 +13,14 @@ public class Glyph extends io.github.jwharm.javagi.Alias<Integer> {
     public Glyph(int value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static Glyph[] fromNativeArray(MemoryAddress address, long length) {
+        Glyph[] array = new Glyph[(int) length];
+        long bytesSize = Interop.valueLayout.C_INT.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new Glyph(address.get(Interop.valueLayout.C_INT, i * bytesSize));
+        }
+        return array;
+    }
 }

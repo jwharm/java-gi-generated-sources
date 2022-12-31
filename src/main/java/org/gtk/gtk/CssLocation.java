@@ -27,21 +27,19 @@ public class CssLocation extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkCssLocation";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("bytes"),
-        Interop.valueLayout.C_LONG.withName("chars"),
-        Interop.valueLayout.C_LONG.withName("lines"),
-        Interop.valueLayout.C_LONG.withName("line_bytes"),
-        Interop.valueLayout.C_LONG.withName("line_chars")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("bytes"),
+            Interop.valueLayout.C_LONG.withName("chars"),
+            Interop.valueLayout.C_LONG.withName("lines"),
+            Interop.valueLayout.C_LONG.withName("line_bytes"),
+            Interop.valueLayout.C_LONG.withName("line_chars")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -61,7 +59,7 @@ public class CssLocation extends Struct {
      * Get the value of the field {@code bytes}
      * @return The value of the field {@code bytes}
      */
-    public long bytes$get() {
+    public long getBytes() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -72,7 +70,7 @@ public class CssLocation extends Struct {
      * Change the value of the field {@code bytes}
      * @param bytes The new value of the field {@code bytes}
      */
-    public void bytes$set(long bytes) {
+    public void setBytes(long bytes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes);
@@ -82,7 +80,7 @@ public class CssLocation extends Struct {
      * Get the value of the field {@code chars}
      * @return The value of the field {@code chars}
      */
-    public long chars$get() {
+    public long getChars() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("chars"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -93,7 +91,7 @@ public class CssLocation extends Struct {
      * Change the value of the field {@code chars}
      * @param chars The new value of the field {@code chars}
      */
-    public void chars$set(long chars) {
+    public void setChars(long chars) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("chars"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), chars);
@@ -103,7 +101,7 @@ public class CssLocation extends Struct {
      * Get the value of the field {@code lines}
      * @return The value of the field {@code lines}
      */
-    public long lines$get() {
+    public long getLines() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lines"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -114,7 +112,7 @@ public class CssLocation extends Struct {
      * Change the value of the field {@code lines}
      * @param lines The new value of the field {@code lines}
      */
-    public void lines$set(long lines) {
+    public void setLines(long lines) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lines"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lines);
@@ -124,7 +122,7 @@ public class CssLocation extends Struct {
      * Get the value of the field {@code line_bytes}
      * @return The value of the field {@code line_bytes}
      */
-    public long lineBytes$get() {
+    public long getLineBytes() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_bytes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -135,7 +133,7 @@ public class CssLocation extends Struct {
      * Change the value of the field {@code line_bytes}
      * @param lineBytes The new value of the field {@code line_bytes}
      */
-    public void lineBytes$set(long lineBytes) {
+    public void setLineBytes(long lineBytes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_bytes"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineBytes);
@@ -145,7 +143,7 @@ public class CssLocation extends Struct {
      * Get the value of the field {@code line_chars}
      * @return The value of the field {@code line_chars}
      */
-    public long lineChars$get() {
+    public long getLineChars() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_chars"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -156,7 +154,7 @@ public class CssLocation extends Struct {
      * Change the value of the field {@code line_chars}
      * @param lineChars The new value of the field {@code line_chars}
      */
-    public void lineChars$set(long lineChars) {
+    public void setLineChars(long lineChars) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line_chars"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineChars);
@@ -167,35 +165,41 @@ public class CssLocation extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CssLocation(Addressable address, Ownership ownership) {
+    protected CssLocation(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CssLocation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CssLocation(input, ownership);
+    
+    /**
+     * A {@link CssLocation.Builder} object constructs a {@link CssLocation} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link CssLocation.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private CssLocation struct;
+        private final CssLocation struct;
         
-         /**
-         * A {@link CssLocation.Build} object constructs a {@link CssLocation} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = CssLocation.allocate();
         }
         
          /**
          * Finish building the {@link CssLocation} struct.
          * @return A new instance of {@code CssLocation} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CssLocation construct() {
+        public CssLocation build() {
             return struct;
         }
         
@@ -204,7 +208,7 @@ public class CssLocation extends Struct {
          * @param bytes The value for the {@code bytes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBytes(long bytes) {
+        public Builder setBytes(long bytes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes);
@@ -216,7 +220,7 @@ public class CssLocation extends Struct {
          * @param chars The value for the {@code chars} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChars(long chars) {
+        public Builder setChars(long chars) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("chars"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), chars);
@@ -229,7 +233,7 @@ public class CssLocation extends Struct {
          * @param lines The value for the {@code lines} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLines(long lines) {
+        public Builder setLines(long lines) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lines"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lines);
@@ -241,7 +245,7 @@ public class CssLocation extends Struct {
          * @param lineBytes The value for the {@code lineBytes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLineBytes(long lineBytes) {
+        public Builder setLineBytes(long lineBytes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line_bytes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineBytes);
@@ -253,7 +257,7 @@ public class CssLocation extends Struct {
          * @param lineChars The value for the {@code lineChars} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLineChars(long lineChars) {
+        public Builder setLineChars(long lineChars) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line_chars"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineChars);

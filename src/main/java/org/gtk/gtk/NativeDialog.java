@@ -24,7 +24,7 @@ import org.jetbrains.annotations.*;
  * responsibility to keep a reference until you are done with the
  * object.
  */
-public class NativeDialog extends org.gtk.gobject.Object {
+public class NativeDialog extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -32,17 +32,15 @@ public class NativeDialog extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkNativeDialog";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -50,30 +48,12 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NativeDialog(Addressable address, Ownership ownership) {
+    protected NativeDialog(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to NativeDialog if its GType is a (or inherits from) "GtkNativeDialog".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code NativeDialog} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkNativeDialog", a ClassCastException will be thrown.
-     */
-    public static NativeDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), NativeDialog.getType())) {
-            return new NativeDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkNativeDialog");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NativeDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NativeDialog(input, ownership);
     
     /**
      * Destroys a dialog.
@@ -109,7 +89,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -126,7 +106,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -142,7 +122,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Window(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Window.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -157,7 +137,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -192,7 +172,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_native_dialog_set_modal.invokeExact(
                     handle(),
-                    modal ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(modal, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,12 +182,11 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * Sets the title of the {@code GtkNativeDialog.}
      * @param title title of the dialog
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.gtk_native_dialog_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,7 +234,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_native_dialog_get_type.invokeExact();
@@ -267,7 +246,18 @@ public class NativeDialog extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Response {
-        void signalReceived(NativeDialog sourceNativeDialog, int responseId);
+        void run(int responseId);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceNativeDialog, int responseId) {
+            run(responseId);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Response.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -283,52 +273,46 @@ public class NativeDialog extends org.gtk.gobject.Object {
     public Signal<NativeDialog.Response> onResponse(NativeDialog.Response handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("response"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(NativeDialog.Callbacks.class, "signalNativeDialogResponse",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<NativeDialog.Response>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("response"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link NativeDialog.Builder} object constructs a {@link NativeDialog} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link NativeDialog.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link NativeDialog.Build} object constructs a {@link NativeDialog} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link NativeDialog} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link NativeDialog} using {@link NativeDialog#castFrom}.
+         * {@link NativeDialog}.
          * @return A new instance of {@code NativeDialog} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NativeDialog construct() {
-            return NativeDialog.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    NativeDialog.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public NativeDialog build() {
+            return (NativeDialog) org.gtk.gobject.GObject.newWithProperties(
+                NativeDialog.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -337,7 +321,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
          * @param modal The value for the {@code modal} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModal(boolean modal) {
+        public Builder setModal(boolean modal) {
             names.add("modal");
             values.add(org.gtk.gobject.Value.create(modal));
             return this;
@@ -348,7 +332,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -359,7 +343,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
          * @param transientFor The value for the {@code transient-for} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTransientFor(org.gtk.gtk.Window transientFor) {
+        public Builder setTransientFor(org.gtk.gtk.Window transientFor) {
             names.add("transient-for");
             values.add(org.gtk.gobject.Value.create(transientFor));
             return this;
@@ -370,7 +354,7 @@ public class NativeDialog extends org.gtk.gobject.Object {
          * @param visible The value for the {@code visible} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisible(boolean visible) {
+        public Builder setVisible(boolean visible) {
             names.add("visible");
             values.add(org.gtk.gobject.Value.create(visible));
             return this;
@@ -444,14 +428,5 @@ public class NativeDialog extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalNativeDialogResponse(MemoryAddress sourceNativeDialog, int responseId, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (NativeDialog.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new NativeDialog(sourceNativeDialog, Ownership.NONE), responseId);
-        }
     }
 }

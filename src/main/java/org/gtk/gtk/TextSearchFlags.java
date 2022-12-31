@@ -40,11 +40,15 @@ public class TextSearchFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TextSearchFlags or(TextSearchFlags mask) {
-        return new TextSearchFlags(this.getValue() | mask.getValue());
+    public TextSearchFlags or(TextSearchFlags... masks) {
+        int value = this.getValue();
+        for (TextSearchFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new TextSearchFlags(value);
     }
     
     /**
@@ -54,7 +58,8 @@ public class TextSearchFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TextSearchFlags combined(TextSearchFlags mask, TextSearchFlags... masks) {
-        int value = mask.getValue();        for (TextSearchFlags arg : masks) {
+        int value = mask.getValue();
+        for (TextSearchFlags arg : masks) {
             value |= arg.getValue();
         }
         return new TextSearchFlags(value);

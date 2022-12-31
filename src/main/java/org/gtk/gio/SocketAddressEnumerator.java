@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  * enumeration with that {@link SocketAddressEnumerator} is not possible, and it can
  * be unreffed.
  */
-public class SocketAddressEnumerator extends org.gtk.gobject.Object {
+public class SocketAddressEnumerator extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -29,17 +29,15 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GSocketAddressEnumerator";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -47,30 +45,12 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SocketAddressEnumerator(Addressable address, Ownership ownership) {
+    protected SocketAddressEnumerator(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SocketAddressEnumerator if its GType is a (or inherits from) "GSocketAddressEnumerator".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SocketAddressEnumerator} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSocketAddressEnumerator", a ClassCastException will be thrown.
-     */
-    public static SocketAddressEnumerator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SocketAddressEnumerator.getType())) {
-            return new SocketAddressEnumerator(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSocketAddressEnumerator");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SocketAddressEnumerator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketAddressEnumerator(input, ownership);
     
     /**
      * Retrieves the next {@link SocketAddress} from {@code enumerator}. Note that this
@@ -106,7 +86,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.SocketAddress(RESULT, Ownership.FULL);
+        return (org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -124,12 +104,8 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
             DowncallHandles.g_socket_address_enumerator_next_async.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,8 +122,7 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
      *     more addresses.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @Nullable org.gtk.gio.SocketAddress nextFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public @Nullable org.gtk.gio.SocketAddress nextFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -161,14 +136,14 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.SocketAddress(RESULT, Ownership.FULL);
+        return (org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_address_enumerator_get_type.invokeExact();
@@ -177,38 +152,40 @@ public class SocketAddressEnumerator extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SocketAddressEnumerator.Builder} object constructs a {@link SocketAddressEnumerator} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SocketAddressEnumerator.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SocketAddressEnumerator.Build} object constructs a {@link SocketAddressEnumerator} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SocketAddressEnumerator} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SocketAddressEnumerator} using {@link SocketAddressEnumerator#castFrom}.
+         * {@link SocketAddressEnumerator}.
          * @return A new instance of {@code SocketAddressEnumerator} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SocketAddressEnumerator construct() {
-            return SocketAddressEnumerator.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SocketAddressEnumerator.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SocketAddressEnumerator build() {
+            return (SocketAddressEnumerator) org.gtk.gobject.GObject.newWithProperties(
+                SocketAddressEnumerator.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

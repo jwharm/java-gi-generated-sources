@@ -45,10 +45,12 @@ public class QueueArray extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public QueueArray(Addressable address, Ownership ownership) {
+    protected QueueArray(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, QueueArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new QueueArray(input, ownership);
     
     /**
      * Clears queue {@code array} and frees all memory associated to it.
@@ -97,7 +99,7 @@ public class QueueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -112,12 +114,8 @@ public class QueueArray extends Struct {
         try {
             RESULT = (int) DowncallHandles.gst_queue_array_find.invokeExact(
                     handle(),
-                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +161,7 @@ public class QueueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -328,13 +326,12 @@ public class QueueArray extends Struct {
     
     /**
      * Pushes {@code data} to the tail of the queue {@code array}.
-     * @param data object to push
      */
-    public void pushTail(@Nullable java.lang.foreign.MemoryAddress data) {
+    public void pushTail() {
         try {
             DowncallHandles.gst_queue_array_push_tail.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -363,8 +360,14 @@ public class QueueArray extends Struct {
      * the array element it is given, but not free the element itself.
      * @param clearFunc a function to clear an element of {@code array}
      */
-    public void setClearFunc(@NotNull org.gtk.glib.DestroyNotify clearFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setClearFunc(org.gtk.glib.DestroyNotify clearFunc) {
+        try {
+            DowncallHandles.gst_queue_array_set_clear_func.invokeExact(
+                    handle(),
+                    (Addressable) clearFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -373,7 +376,7 @@ public class QueueArray extends Struct {
      * @param initialSize Initial size of the new queue
      * @return a new {@link QueueArray} object
      */
-    public static @NotNull org.gstreamer.base.QueueArray new_(int initialSize) {
+    public static org.gstreamer.base.QueueArray new_(int initialSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_new.invokeExact(
@@ -381,7 +384,7 @@ public class QueueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.QueueArray(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.base.QueueArray.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -391,7 +394,7 @@ public class QueueArray extends Struct {
      * @param initialSize Initial size of the new queue
      * @return a new {@link QueueArray} object
      */
-    public static @NotNull org.gstreamer.base.QueueArray newForStruct(long structSize, int initialSize) {
+    public static org.gstreamer.base.QueueArray newForStruct(long structSize, int initialSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_new_for_struct.invokeExact(
@@ -400,7 +403,7 @@ public class QueueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.QueueArray(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.base.QueueArray.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

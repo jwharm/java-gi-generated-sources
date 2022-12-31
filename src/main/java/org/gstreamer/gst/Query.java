@@ -38,18 +38,16 @@ public class Query extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstQuery";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
-        Interop.valueLayout.C_INT.withName("type")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
+            Interop.valueLayout.C_INT.withName("type")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -69,16 +67,26 @@ public class Query extends Struct {
      * Get the value of the field {@code mini_object}
      * @return The value of the field {@code mini_object}
      */
-    public org.gstreamer.gst.MiniObject miniObject$get() {
+    public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return new org.gstreamer.gst.MiniObject(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mini_object}
+     * @param miniObject The new value of the field {@code mini_object}
+     */
+    public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
     }
     
     /**
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.gst.QueryType type$get() {
+    public org.gstreamer.gst.QueryType getType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -89,10 +97,10 @@ public class Query extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.gst.QueryType type) {
+    public void setType(org.gstreamer.gst.QueryType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
@@ -100,14 +108,15 @@ public class Query extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Query(Addressable address, Ownership ownership) {
+    protected Query(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewAcceptCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Query> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Query(input, ownership);
+    
+    private static MemoryAddress constructNewAcceptCaps(org.gstreamer.gst.Caps caps) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_accept_caps.invokeExact(
                     caps.handle());
@@ -124,17 +133,17 @@ public class Query extends Struct {
      * @param caps a fixed {@link Caps}
      * @return a new {@link Query}
      */
-    public static Query newAcceptCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        return new Query(constructNewAcceptCaps(caps), Ownership.FULL);
+    public static Query newAcceptCaps(org.gstreamer.gst.Caps caps) {
+        var RESULT = constructNewAcceptCaps(caps);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewAllocation(@NotNull org.gstreamer.gst.Caps caps, boolean needPool) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewAllocation(org.gstreamer.gst.Caps caps, boolean needPool) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_allocation.invokeExact(
                     caps.handle(),
-                    needPool ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(needPool, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,12 +158,13 @@ public class Query extends Struct {
      * @param needPool return a pool
      * @return a new {@link Query}
      */
-    public static Query newAllocation(@NotNull org.gstreamer.gst.Caps caps, boolean needPool) {
-        return new Query(constructNewAllocation(caps, needPool), Ownership.FULL);
+    public static Query newAllocation(org.gstreamer.gst.Caps caps, boolean needPool) {
+        var RESULT = constructNewAllocation(caps, needPool);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewBitrate() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewBitrate() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_bitrate.invokeExact();
         } catch (Throwable ERR) {
@@ -170,12 +180,12 @@ public class Query extends Struct {
      * @return a new {@link Query}
      */
     public static Query newBitrate() {
-        return new Query(constructNewBitrate(), Ownership.FULL);
+        var RESULT = constructNewBitrate();
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewBuffering(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewBuffering(org.gstreamer.gst.Format format) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_buffering.invokeExact(
                     format.getValue());
@@ -193,13 +203,13 @@ public class Query extends Struct {
      * @param format the default {@link Format} for the new query
      * @return a new {@link Query}
      */
-    public static Query newBuffering(@NotNull org.gstreamer.gst.Format format) {
-        return new Query(constructNewBuffering(format), Ownership.FULL);
+    public static Query newBuffering(org.gstreamer.gst.Format format) {
+        var RESULT = constructNewBuffering(format);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewCaps(@NotNull org.gstreamer.gst.Caps filter) {
-        java.util.Objects.requireNonNull(filter, "Parameter 'filter' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewCaps(org.gstreamer.gst.Caps filter) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_caps.invokeExact(
                     filter.handle());
@@ -233,16 +243,16 @@ public class Query extends Struct {
      * @param filter a filter
      * @return a new {@link Query}
      */
-    public static Query newCaps(@NotNull org.gstreamer.gst.Caps filter) {
-        return new Query(constructNewCaps(filter), Ownership.FULL);
+    public static Query newCaps(org.gstreamer.gst.Caps filter) {
+        var RESULT = constructNewCaps(filter);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewContext(@NotNull java.lang.String contextType) {
-        java.util.Objects.requireNonNull(contextType, "Parameter 'contextType' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewContext(java.lang.String contextType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_context.invokeExact(
-                    Interop.allocateNativeString(contextType));
+                    Marshal.stringToAddress.marshal(contextType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,14 +266,13 @@ public class Query extends Struct {
      * @param contextType Context type to query
      * @return a new {@link Query}
      */
-    public static Query newContext(@NotNull java.lang.String contextType) {
-        return new Query(constructNewContext(contextType), Ownership.FULL);
+    public static Query newContext(java.lang.String contextType) {
+        var RESULT = constructNewContext(contextType);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewConvert(@NotNull org.gstreamer.gst.Format srcFormat, long value, @NotNull org.gstreamer.gst.Format destFormat) {
-        java.util.Objects.requireNonNull(srcFormat, "Parameter 'srcFormat' must not be null");
-        java.util.Objects.requireNonNull(destFormat, "Parameter 'destFormat' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewConvert(org.gstreamer.gst.Format srcFormat, long value, org.gstreamer.gst.Format destFormat) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_convert.invokeExact(
                     srcFormat.getValue(),
@@ -286,13 +295,13 @@ public class Query extends Struct {
      * @param destFormat the target {@link Format}
      * @return a {@link Query}
      */
-    public static Query newConvert(@NotNull org.gstreamer.gst.Format srcFormat, long value, @NotNull org.gstreamer.gst.Format destFormat) {
-        return new Query(constructNewConvert(srcFormat, value, destFormat), Ownership.FULL);
+    public static Query newConvert(org.gstreamer.gst.Format srcFormat, long value, org.gstreamer.gst.Format destFormat) {
+        var RESULT = constructNewConvert(srcFormat, value, destFormat);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewCustom(@NotNull org.gstreamer.gst.QueryType type, @Nullable org.gstreamer.gst.Structure structure) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewCustom(org.gstreamer.gst.QueryType type, @Nullable org.gstreamer.gst.Structure structure) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_custom.invokeExact(
                     type.getValue(),
@@ -313,12 +322,13 @@ public class Query extends Struct {
      * @param structure a structure for the query
      * @return a new {@link Query}
      */
-    public static Query newCustom(@NotNull org.gstreamer.gst.QueryType type, @Nullable org.gstreamer.gst.Structure structure) {
-        return new Query(constructNewCustom(type, structure), Ownership.FULL);
+    public static Query newCustom(org.gstreamer.gst.QueryType type, @Nullable org.gstreamer.gst.Structure structure) {
+        var RESULT = constructNewCustom(type, structure);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewDrain() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewDrain() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_drain.invokeExact();
         } catch (Throwable ERR) {
@@ -334,12 +344,12 @@ public class Query extends Struct {
      * @return a new {@link Query}
      */
     public static Query newDrain() {
-        return new Query(constructNewDrain(), Ownership.FULL);
+        var RESULT = constructNewDrain();
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewDuration(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewDuration(org.gstreamer.gst.Format format) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_duration.invokeExact(
                     format.getValue());
@@ -358,12 +368,13 @@ public class Query extends Struct {
      * @param format the {@link Format} for this duration query
      * @return a new {@link Query}
      */
-    public static Query newDuration(@NotNull org.gstreamer.gst.Format format) {
-        return new Query(constructNewDuration(format), Ownership.FULL);
+    public static Query newDuration(org.gstreamer.gst.Format format) {
+        var RESULT = constructNewDuration(format);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFormats() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFormats() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_formats.invokeExact();
         } catch (Throwable ERR) {
@@ -380,11 +391,12 @@ public class Query extends Struct {
      * @return a new {@link Query}
      */
     public static Query newFormats() {
-        return new Query(constructNewFormats(), Ownership.FULL);
+        var RESULT = constructNewFormats();
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewLatency() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewLatency() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_latency.invokeExact();
         } catch (Throwable ERR) {
@@ -403,12 +415,12 @@ public class Query extends Struct {
      * @return a {@link Query}
      */
     public static Query newLatency() {
-        return new Query(constructNewLatency(), Ownership.FULL);
+        var RESULT = constructNewLatency();
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewPosition(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewPosition(org.gstreamer.gst.Format format) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_position.invokeExact(
                     format.getValue());
@@ -427,12 +439,13 @@ public class Query extends Struct {
      * @param format the default {@link Format} for the new query
      * @return a new {@link Query}
      */
-    public static Query newPosition(@NotNull org.gstreamer.gst.Format format) {
-        return new Query(constructNewPosition(format), Ownership.FULL);
+    public static Query newPosition(org.gstreamer.gst.Format format) {
+        var RESULT = constructNewPosition(format);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewScheduling() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewScheduling() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_scheduling.invokeExact();
         } catch (Throwable ERR) {
@@ -448,12 +461,12 @@ public class Query extends Struct {
      * @return a new {@link Query}
      */
     public static Query newScheduling() {
-        return new Query(constructNewScheduling(), Ownership.FULL);
+        var RESULT = constructNewScheduling();
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSeeking(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSeeking(org.gstreamer.gst.Format format) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_seeking.invokeExact(
                     format.getValue());
@@ -471,13 +484,13 @@ public class Query extends Struct {
      * @param format the default {@link Format} for the new query
      * @return a new {@link Query}
      */
-    public static Query newSeeking(@NotNull org.gstreamer.gst.Format format) {
-        return new Query(constructNewSeeking(format), Ownership.FULL);
+    public static Query newSeeking(org.gstreamer.gst.Format format) {
+        var RESULT = constructNewSeeking(format);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSegment(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSegment(org.gstreamer.gst.Format format) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_segment.invokeExact(
                     format.getValue());
@@ -496,12 +509,13 @@ public class Query extends Struct {
      * @param format the {@link Format} for the new query
      * @return a new {@link Query}
      */
-    public static Query newSegment(@NotNull org.gstreamer.gst.Format format) {
-        return new Query(constructNewSegment(format), Ownership.FULL);
+    public static Query newSegment(org.gstreamer.gst.Format format) {
+        var RESULT = constructNewSegment(format);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewUri() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewUri() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_new_uri.invokeExact();
         } catch (Throwable ERR) {
@@ -519,7 +533,8 @@ public class Query extends Struct {
      * @return a new {@link Query}
      */
     public static Query newUri() {
-        return new Query(constructNewUri(), Ownership.FULL);
+        var RESULT = constructNewUri();
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -527,8 +542,7 @@ public class Query extends Struct {
      * @param api the metadata API
      * @param params API specific parameters
      */
-    public void addAllocationMeta(@NotNull org.gtk.glib.Type api, @Nullable org.gstreamer.gst.Structure params) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
+    public void addAllocationMeta(org.gtk.glib.Type api, @Nullable org.gstreamer.gst.Structure params) {
         try {
             DowncallHandles.gst_query_add_allocation_meta.invokeExact(
                     handle(),
@@ -592,15 +606,14 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Add {@code mode} as one of the supported scheduling modes to {@code query}.
      * @param mode a {@link PadMode}
      */
-    public void addSchedulingMode(@NotNull org.gstreamer.gst.PadMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void addSchedulingMode(org.gstreamer.gst.PadMode mode) {
         try {
             DowncallHandles.gst_query_add_scheduling_mode.invokeExact(
                     handle(),
@@ -618,21 +631,19 @@ public class Query extends Struct {
      * @param index the index
      * @return {@code true} when {@code api} is in the list of metadata.
      */
-    public boolean findAllocationMeta(@NotNull org.gtk.glib.Type api, Out<Integer> index) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
-        java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
+    public boolean findAllocationMeta(org.gtk.glib.Type api, Out<Integer> index) {
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_find_allocation_meta.invokeExact(
                     handle(),
                     api.getValue().longValue(),
-                    (Addressable) indexPOINTER.address());
+                    (Addressable) (index == null ? MemoryAddress.NULL : (Addressable) indexPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (index != null) index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -734,7 +745,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -750,8 +761,7 @@ public class Query extends Struct {
      * @param mode the scheduling mode
      * @return {@code true} when {@code mode} is in the list of scheduling modes.
      */
-    public boolean hasSchedulingMode(@NotNull org.gstreamer.gst.PadMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public boolean hasSchedulingMode(org.gstreamer.gst.PadMode mode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_has_scheduling_mode.invokeExact(
@@ -760,7 +770,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -771,9 +781,7 @@ public class Query extends Struct {
      * @return {@code true} when {@code mode} is in the list of scheduling modes
      *    and {@code flags} are compatible with query flags.
      */
-    public boolean hasSchedulingModeWithFlags(@NotNull org.gstreamer.gst.PadMode mode, @NotNull org.gstreamer.gst.SchedulingFlags flags) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean hasSchedulingModeWithFlags(org.gstreamer.gst.PadMode mode, org.gstreamer.gst.SchedulingFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_has_scheduling_mode_with_flags.invokeExact(
@@ -783,7 +791,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -791,8 +799,7 @@ public class Query extends Struct {
      * valid.
      * @param caps A pointer to the caps
      */
-    public void parseAcceptCaps(@NotNull Out<org.gstreamer.gst.Caps> caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void parseAcceptCaps(Out<org.gstreamer.gst.Caps> caps) {
         MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_query_parse_accept_caps.invokeExact(
@@ -801,7 +808,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        caps.set(new org.gstreamer.gst.Caps(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -809,16 +816,15 @@ public class Query extends Struct {
      * @param result location for the result
      */
     public void parseAcceptCapsResult(Out<Boolean> result) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment resultPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_query_parse_accept_caps_result.invokeExact(
                     handle(),
-                    (Addressable) resultPOINTER.address());
+                    (Addressable) (result == null ? MemoryAddress.NULL : (Addressable) resultPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        result.set(resultPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (result != null) result.set(resultPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -831,21 +837,19 @@ public class Query extends Struct {
      * @param caps The {@link Caps}
      * @param needPool Whether a {@link BufferPool} is needed
      */
-    public void parseAllocation(@NotNull Out<org.gstreamer.gst.Caps> caps, Out<Boolean> needPool) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void parseAllocation(@Nullable Out<org.gstreamer.gst.Caps> caps, Out<Boolean> needPool) {
         MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(needPool, "Parameter 'needPool' must not be null");
         MemorySegment needPoolPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_query_parse_allocation.invokeExact(
                     handle(),
-                    (Addressable) capsPOINTER.address(),
-                    (Addressable) needPoolPOINTER.address());
+                    (Addressable) (caps == null ? MemoryAddress.NULL : (Addressable) capsPOINTER.address()),
+                    (Addressable) (needPool == null ? MemoryAddress.NULL : (Addressable) needPoolPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        caps.set(new org.gstreamer.gst.Caps(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        needPool.set(needPoolPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (caps != null) caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (needPool != null) needPool.set(needPoolPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -853,16 +857,15 @@ public class Query extends Struct {
      * @param nominalBitrate The resulting bitrate in bits per second
      */
     public void parseBitrate(Out<Integer> nominalBitrate) {
-        java.util.Objects.requireNonNull(nominalBitrate, "Parameter 'nominalBitrate' must not be null");
         MemorySegment nominalBitratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_query_parse_bitrate.invokeExact(
                     handle(),
-                    (Addressable) nominalBitratePOINTER.address());
+                    (Addressable) (nominalBitrate == null ? MemoryAddress.NULL : (Addressable) nominalBitratePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nominalBitrate.set(nominalBitratePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (nominalBitrate != null) nominalBitrate.set(nominalBitratePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -872,20 +875,18 @@ public class Query extends Struct {
      * @param percent a buffering percent, or {@code null}
      */
     public void parseBufferingPercent(Out<Boolean> busy, Out<Integer> percent) {
-        java.util.Objects.requireNonNull(busy, "Parameter 'busy' must not be null");
         MemorySegment busyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(percent, "Parameter 'percent' must not be null");
         MemorySegment percentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_query_parse_buffering_percent.invokeExact(
                     handle(),
-                    (Addressable) busyPOINTER.address(),
-                    (Addressable) percentPOINTER.address());
+                    (Addressable) (busy == null ? MemoryAddress.NULL : (Addressable) busyPOINTER.address()),
+                    (Addressable) (percent == null ? MemoryAddress.NULL : (Addressable) percentPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        busy.set(busyPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        percent.set(percentPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (busy != null) busy.set(busyPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (percent != null) percent.set(percentPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -899,29 +900,25 @@ public class Query extends Struct {
      * @param estimatedTotal estimated total amount of download
      *     time remaining in milliseconds, or {@code null}
      */
-    public void parseBufferingRange(@NotNull Out<org.gstreamer.gst.Format> format, Out<Long> start, Out<Long> stop, Out<Long> estimatedTotal) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void parseBufferingRange(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> start, Out<Long> stop, Out<Long> estimatedTotal) {
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(stop, "Parameter 'stop' must not be null");
         MemorySegment stopPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(estimatedTotal, "Parameter 'estimatedTotal' must not be null");
         MemorySegment estimatedTotalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_query_parse_buffering_range.invokeExact(
                     handle(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) startPOINTER.address(),
-                    (Addressable) stopPOINTER.address(),
-                    (Addressable) estimatedTotalPOINTER.address());
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
+                    (Addressable) (stop == null ? MemoryAddress.NULL : (Addressable) stopPOINTER.address()),
+                    (Addressable) (estimatedTotal == null ? MemoryAddress.NULL : (Addressable) estimatedTotalPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        estimatedTotal.set(estimatedTotalPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (start != null) start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (stop != null) stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (estimatedTotal != null) estimatedTotal.set(estimatedTotalPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -932,29 +929,25 @@ public class Query extends Struct {
      * @param bufferingLeft amount of buffering time left in
      *     milliseconds, or {@code null}
      */
-    public void parseBufferingStats(@NotNull Out<org.gstreamer.gst.BufferingMode> mode, Out<Integer> avgIn, Out<Integer> avgOut, Out<Long> bufferingLeft) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void parseBufferingStats(@Nullable Out<org.gstreamer.gst.BufferingMode> mode, Out<Integer> avgIn, Out<Integer> avgOut, Out<Long> bufferingLeft) {
         MemorySegment modePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(avgIn, "Parameter 'avgIn' must not be null");
         MemorySegment avgInPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(avgOut, "Parameter 'avgOut' must not be null");
         MemorySegment avgOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(bufferingLeft, "Parameter 'bufferingLeft' must not be null");
         MemorySegment bufferingLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_query_parse_buffering_stats.invokeExact(
                     handle(),
-                    (Addressable) modePOINTER.address(),
-                    (Addressable) avgInPOINTER.address(),
-                    (Addressable) avgOutPOINTER.address(),
-                    (Addressable) bufferingLeftPOINTER.address());
+                    (Addressable) (mode == null ? MemoryAddress.NULL : (Addressable) modePOINTER.address()),
+                    (Addressable) (avgIn == null ? MemoryAddress.NULL : (Addressable) avgInPOINTER.address()),
+                    (Addressable) (avgOut == null ? MemoryAddress.NULL : (Addressable) avgOutPOINTER.address()),
+                    (Addressable) (bufferingLeft == null ? MemoryAddress.NULL : (Addressable) bufferingLeftPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        mode.set(org.gstreamer.gst.BufferingMode.of(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        avgIn.set(avgInPOINTER.get(Interop.valueLayout.C_INT, 0));
-        avgOut.set(avgOutPOINTER.get(Interop.valueLayout.C_INT, 0));
-        bufferingLeft.set(bufferingLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (mode != null) mode.set(org.gstreamer.gst.BufferingMode.of(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (avgIn != null) avgIn.set(avgInPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (avgOut != null) avgOut.set(avgOutPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (bufferingLeft != null) bufferingLeft.set(bufferingLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -962,8 +955,7 @@ public class Query extends Struct {
      * {@code query} remains valid.
      * @param filter A pointer to the caps filter
      */
-    public void parseCaps(@NotNull Out<org.gstreamer.gst.Caps> filter) {
-        java.util.Objects.requireNonNull(filter, "Parameter 'filter' must not be null");
+    public void parseCaps(Out<org.gstreamer.gst.Caps> filter) {
         MemorySegment filterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_query_parse_caps.invokeExact(
@@ -972,7 +964,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        filter.set(new org.gstreamer.gst.Caps(filterPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        filter.set(org.gstreamer.gst.Caps.fromAddress.marshal(filterPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -980,8 +972,7 @@ public class Query extends Struct {
      * {@code query} remains valid.
      * @param caps A pointer to the caps
      */
-    public void parseCapsResult(@NotNull Out<org.gstreamer.gst.Caps> caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void parseCapsResult(Out<org.gstreamer.gst.Caps> caps) {
         MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_query_parse_caps_result.invokeExact(
@@ -990,7 +981,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        caps.set(new org.gstreamer.gst.Caps(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -998,8 +989,7 @@ public class Query extends Struct {
      * {@code query} remains valid.
      * @param context A pointer to store the {@link Context}
      */
-    public void parseContext(@NotNull Out<org.gstreamer.gst.Context> context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void parseContext(Out<org.gstreamer.gst.Context> context) {
         MemorySegment contextPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_query_parse_context.invokeExact(
@@ -1008,7 +998,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        context.set(new org.gstreamer.gst.Context(contextPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        context.set(org.gstreamer.gst.Context.fromAddress.marshal(contextPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1016,19 +1006,18 @@ public class Query extends Struct {
      * @param contextType the context type, or {@code null}
      * @return a {@code gboolean} indicating if the parsing succeeded.
      */
-    public boolean parseContextType(@NotNull Out<java.lang.String> contextType) {
-        java.util.Objects.requireNonNull(contextType, "Parameter 'contextType' must not be null");
+    public boolean parseContextType(@Nullable Out<java.lang.String> contextType) {
         MemorySegment contextTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_parse_context_type.invokeExact(
                     handle(),
-                    (Addressable) contextTypePOINTER.address());
+                    (Addressable) (contextType == null ? MemoryAddress.NULL : (Addressable) contextTypePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        contextType.set(Interop.getStringFrom(contextTypePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (contextType != null) contextType.set(Marshal.addressToString.marshal(contextTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1042,29 +1031,25 @@ public class Query extends Struct {
      * @param destValue the storage for the destination value,
      *     or {@code null}
      */
-    public void parseConvert(@NotNull Out<org.gstreamer.gst.Format> srcFormat, Out<Long> srcValue, @NotNull Out<org.gstreamer.gst.Format> destFormat, Out<Long> destValue) {
-        java.util.Objects.requireNonNull(srcFormat, "Parameter 'srcFormat' must not be null");
+    public void parseConvert(@Nullable Out<org.gstreamer.gst.Format> srcFormat, Out<Long> srcValue, @Nullable Out<org.gstreamer.gst.Format> destFormat, Out<Long> destValue) {
         MemorySegment srcFormatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(srcValue, "Parameter 'srcValue' must not be null");
         MemorySegment srcValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(destFormat, "Parameter 'destFormat' must not be null");
         MemorySegment destFormatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(destValue, "Parameter 'destValue' must not be null");
         MemorySegment destValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_query_parse_convert.invokeExact(
                     handle(),
-                    (Addressable) srcFormatPOINTER.address(),
-                    (Addressable) srcValuePOINTER.address(),
-                    (Addressable) destFormatPOINTER.address(),
-                    (Addressable) destValuePOINTER.address());
+                    (Addressable) (srcFormat == null ? MemoryAddress.NULL : (Addressable) srcFormatPOINTER.address()),
+                    (Addressable) (srcValue == null ? MemoryAddress.NULL : (Addressable) srcValuePOINTER.address()),
+                    (Addressable) (destFormat == null ? MemoryAddress.NULL : (Addressable) destFormatPOINTER.address()),
+                    (Addressable) (destValue == null ? MemoryAddress.NULL : (Addressable) destValuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        srcFormat.set(org.gstreamer.gst.Format.of(srcFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        srcValue.set(srcValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        destFormat.set(org.gstreamer.gst.Format.of(destFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        destValue.set(destValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (srcFormat != null) srcFormat.set(org.gstreamer.gst.Format.of(srcFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (srcValue != null) srcValue.set(srcValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (destFormat != null) destFormat.set(org.gstreamer.gst.Format.of(destFormatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (destValue != null) destValue.set(destValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1074,21 +1059,19 @@ public class Query extends Struct {
      *     value, or {@code null}.
      * @param duration the storage for the total duration, or {@code null}.
      */
-    public void parseDuration(@NotNull Out<org.gstreamer.gst.Format> format, Out<Long> duration) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void parseDuration(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> duration) {
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
         MemorySegment durationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_query_parse_duration.invokeExact(
                     handle(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) durationPOINTER.address());
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (duration != null) duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1097,25 +1080,22 @@ public class Query extends Struct {
      * @param minLatency the storage for the min latency or {@code null}
      * @param maxLatency the storage for the max latency or {@code null}
      */
-    public void parseLatency(Out<Boolean> live, @NotNull Out<org.gstreamer.gst.ClockTime> minLatency, @NotNull Out<org.gstreamer.gst.ClockTime> maxLatency) {
-        java.util.Objects.requireNonNull(live, "Parameter 'live' must not be null");
+    public void parseLatency(Out<Boolean> live, @Nullable org.gstreamer.gst.ClockTime minLatency, @Nullable org.gstreamer.gst.ClockTime maxLatency) {
         MemorySegment livePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minLatency, "Parameter 'minLatency' must not be null");
         MemorySegment minLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(maxLatency, "Parameter 'maxLatency' must not be null");
         MemorySegment maxLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_query_parse_latency.invokeExact(
                     handle(),
-                    (Addressable) livePOINTER.address(),
-                    (Addressable) minLatencyPOINTER.address(),
-                    (Addressable) maxLatencyPOINTER.address());
+                    (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
+                    (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
+                    (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        minLatency.set(new org.gstreamer.gst.ClockTime(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        maxLatency.set(new org.gstreamer.gst.ClockTime(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1123,16 +1103,15 @@ public class Query extends Struct {
      * @param nFormats the number of formats in this query.
      */
     public void parseNFormats(Out<Integer> nFormats) {
-        java.util.Objects.requireNonNull(nFormats, "Parameter 'nFormats' must not be null");
         MemorySegment nFormatsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_query_parse_n_formats.invokeExact(
                     handle(),
-                    (Addressable) nFormatsPOINTER.address());
+                    (Addressable) (nFormats == null ? MemoryAddress.NULL : (Addressable) nFormatsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nFormats.set(nFormatsPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (nFormats != null) nFormats.set(nFormatsPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1140,21 +1119,20 @@ public class Query extends Struct {
      * at {@code index} of the metadata API array.
      * @param index position in the metadata API array to read
      * @param params API specific parameters
-     * @return a {@link org.gtk.gobject.Type} of the metadata API at {@code index}.
+     * @return a {@link org.gtk.glib.Type} of the metadata API at {@code index}.
      */
-    public @NotNull org.gtk.glib.Type parseNthAllocationMeta(int index, @NotNull Out<org.gstreamer.gst.Structure> params) {
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
+    public org.gtk.glib.Type parseNthAllocationMeta(int index, @Nullable Out<org.gstreamer.gst.Structure> params) {
         MemorySegment paramsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_query_parse_nth_allocation_meta.invokeExact(
                     handle(),
                     index,
-                    (Addressable) paramsPOINTER.address());
+                    (Addressable) (params == null ? MemoryAddress.NULL : (Addressable) paramsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        params.set(new org.gstreamer.gst.Structure(paramsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (params != null) params.set(org.gstreamer.gst.Structure.fromAddress.marshal(paramsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         return new org.gtk.glib.Type(RESULT);
     }
     
@@ -1165,20 +1143,18 @@ public class Query extends Struct {
      * @param allocator variable to hold the result
      * @param params parameters for the allocator
      */
-    public void parseNthAllocationParam(int index, @NotNull Out<org.gstreamer.gst.Allocator> allocator, @NotNull org.gstreamer.gst.AllocationParams params) {
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
+    public void parseNthAllocationParam(int index, @Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
         MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         try {
             DowncallHandles.gst_query_parse_nth_allocation_param.invokeExact(
                     handle(),
                     index,
-                    (Addressable) allocatorPOINTER.address(),
-                    params.handle());
+                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        allocator.set(new org.gstreamer.gst.Allocator(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1191,30 +1167,26 @@ public class Query extends Struct {
      * @param minBuffers the min buffers
      * @param maxBuffers the max buffers
      */
-    public void parseNthAllocationPool(int index, @NotNull Out<org.gstreamer.gst.BufferPool> pool, Out<Integer> size, Out<Integer> minBuffers, Out<Integer> maxBuffers) {
-        java.util.Objects.requireNonNull(pool, "Parameter 'pool' must not be null");
+    public void parseNthAllocationPool(int index, @Nullable Out<org.gstreamer.gst.BufferPool> pool, Out<Integer> size, Out<Integer> minBuffers, Out<Integer> maxBuffers) {
         MemorySegment poolPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minBuffers, "Parameter 'minBuffers' must not be null");
         MemorySegment minBuffersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(maxBuffers, "Parameter 'maxBuffers' must not be null");
         MemorySegment maxBuffersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_query_parse_nth_allocation_pool.invokeExact(
                     handle(),
                     index,
-                    (Addressable) poolPOINTER.address(),
-                    (Addressable) sizePOINTER.address(),
-                    (Addressable) minBuffersPOINTER.address(),
-                    (Addressable) maxBuffersPOINTER.address());
+                    (Addressable) (pool == null ? MemoryAddress.NULL : (Addressable) poolPOINTER.address()),
+                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()),
+                    (Addressable) (minBuffers == null ? MemoryAddress.NULL : (Addressable) minBuffersPOINTER.address()),
+                    (Addressable) (maxBuffers == null ? MemoryAddress.NULL : (Addressable) maxBuffersPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        pool.set(new org.gstreamer.gst.BufferPool(poolPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        minBuffers.set(minBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
-        maxBuffers.set(maxBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (pool != null) pool.set((org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(poolPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.BufferPool.fromAddress).marshal(poolPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minBuffers != null) minBuffers.set(minBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (maxBuffers != null) maxBuffers.set(maxBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1226,23 +1198,21 @@ public class Query extends Struct {
      * @return a {@code gboolean} indicating if the parsing succeeded.
      */
     public boolean parseNthBufferingRange(int index, Out<Long> start, Out<Long> stop) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(stop, "Parameter 'stop' must not be null");
         MemorySegment stopPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_parse_nth_buffering_range.invokeExact(
                     handle(),
                     index,
-                    (Addressable) startPOINTER.address(),
-                    (Addressable) stopPOINTER.address());
+                    (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
+                    (Addressable) (stop == null ? MemoryAddress.NULL : (Addressable) stopPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (start != null) start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (stop != null) stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1252,18 +1222,17 @@ public class Query extends Struct {
      * @param nth the nth format to retrieve.
      * @param format a pointer to store the nth format
      */
-    public void parseNthFormat(int nth, @NotNull Out<org.gstreamer.gst.Format> format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void parseNthFormat(int nth, @Nullable Out<org.gstreamer.gst.Format> format) {
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_query_parse_nth_format.invokeExact(
                     handle(),
                     nth,
-                    (Addressable) formatPOINTER.address());
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -1272,7 +1241,7 @@ public class Query extends Struct {
      * @param index position in the scheduling modes array to read
      * @return a {@link PadMode} of the scheduling mode at {@code index}.
      */
-    public @NotNull org.gstreamer.gst.PadMode parseNthSchedulingMode(int index) {
+    public org.gstreamer.gst.PadMode parseNthSchedulingMode(int index) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_parse_nth_scheduling_mode.invokeExact(
@@ -1291,21 +1260,19 @@ public class Query extends Struct {
      *     position values (may be {@code null})
      * @param cur the storage for the current position (may be {@code null})
      */
-    public void parsePosition(@NotNull Out<org.gstreamer.gst.Format> format, Out<Long> cur) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void parsePosition(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> cur) {
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(cur, "Parameter 'cur' must not be null");
         MemorySegment curPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_query_parse_position.invokeExact(
                     handle(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) curPOINTER.address());
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (cur == null ? MemoryAddress.NULL : (Addressable) curPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        cur.set(curPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (cur != null) cur.set(curPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1315,29 +1282,25 @@ public class Query extends Struct {
      * @param maxsize the suggested maximum size of pull requests:
      * @param align the suggested alignment of pull requests
      */
-    public void parseScheduling(@NotNull Out<org.gstreamer.gst.SchedulingFlags> flags, Out<Integer> minsize, Out<Integer> maxsize, Out<Integer> align) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void parseScheduling(@Nullable Out<org.gstreamer.gst.SchedulingFlags> flags, Out<Integer> minsize, Out<Integer> maxsize, Out<Integer> align) {
         MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minsize, "Parameter 'minsize' must not be null");
         MemorySegment minsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(maxsize, "Parameter 'maxsize' must not be null");
         MemorySegment maxsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(align, "Parameter 'align' must not be null");
         MemorySegment alignPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_query_parse_scheduling.invokeExact(
                     handle(),
-                    (Addressable) flagsPOINTER.address(),
-                    (Addressable) minsizePOINTER.address(),
-                    (Addressable) maxsizePOINTER.address(),
-                    (Addressable) alignPOINTER.address());
+                    (Addressable) (flags == null ? MemoryAddress.NULL : (Addressable) flagsPOINTER.address()),
+                    (Addressable) (minsize == null ? MemoryAddress.NULL : (Addressable) minsizePOINTER.address()),
+                    (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()),
+                    (Addressable) (align == null ? MemoryAddress.NULL : (Addressable) alignPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        flags.set(new org.gstreamer.gst.SchedulingFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        minsize.set(minsizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        align.set(alignPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (flags != null) flags.set(new org.gstreamer.gst.SchedulingFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (minsize != null) minsize.set(minsizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (align != null) align.set(alignPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1350,29 +1313,25 @@ public class Query extends Struct {
      * @param segmentStart the segment_start to set, or {@code null}
      * @param segmentEnd the segment_end to set, or {@code null}
      */
-    public void parseSeeking(@NotNull Out<org.gstreamer.gst.Format> format, Out<Boolean> seekable, Out<Long> segmentStart, Out<Long> segmentEnd) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void parseSeeking(@Nullable Out<org.gstreamer.gst.Format> format, Out<Boolean> seekable, Out<Long> segmentStart, Out<Long> segmentEnd) {
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(seekable, "Parameter 'seekable' must not be null");
         MemorySegment seekablePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(segmentStart, "Parameter 'segmentStart' must not be null");
         MemorySegment segmentStartPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(segmentEnd, "Parameter 'segmentEnd' must not be null");
         MemorySegment segmentEndPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_query_parse_seeking.invokeExact(
                     handle(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) seekablePOINTER.address(),
-                    (Addressable) segmentStartPOINTER.address(),
-                    (Addressable) segmentEndPOINTER.address());
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (seekable == null ? MemoryAddress.NULL : (Addressable) seekablePOINTER.address()),
+                    (Addressable) (segmentStart == null ? MemoryAddress.NULL : (Addressable) segmentStartPOINTER.address()),
+                    (Addressable) (segmentEnd == null ? MemoryAddress.NULL : (Addressable) segmentEndPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        seekable.set(seekablePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        segmentStart.set(segmentStartPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        segmentEnd.set(segmentEndPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (seekable != null) seekable.set(seekablePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (segmentStart != null) segmentStart.set(segmentStartPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (segmentEnd != null) segmentEnd.set(segmentEndPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1386,29 +1345,25 @@ public class Query extends Struct {
      * @param startValue the storage for the start value, or {@code null}
      * @param stopValue the storage for the stop value, or {@code null}
      */
-    public void parseSegment(Out<Double> rate, @NotNull Out<org.gstreamer.gst.Format> format, Out<Long> startValue, Out<Long> stopValue) {
-        java.util.Objects.requireNonNull(rate, "Parameter 'rate' must not be null");
+    public void parseSegment(Out<Double> rate, @Nullable Out<org.gstreamer.gst.Format> format, Out<Long> startValue, Out<Long> stopValue) {
         MemorySegment ratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(startValue, "Parameter 'startValue' must not be null");
         MemorySegment startValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(stopValue, "Parameter 'stopValue' must not be null");
         MemorySegment stopValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_query_parse_segment.invokeExact(
                     handle(),
-                    (Addressable) ratePOINTER.address(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) startValuePOINTER.address(),
-                    (Addressable) stopValuePOINTER.address());
+                    (Addressable) (rate == null ? MemoryAddress.NULL : (Addressable) ratePOINTER.address()),
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (startValue == null ? MemoryAddress.NULL : (Addressable) startValuePOINTER.address()),
+                    (Addressable) (stopValue == null ? MemoryAddress.NULL : (Addressable) stopValuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        startValue.set(startValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        stopValue.set(stopValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (rate != null) rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (startValue != null) startValue.set(startValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (stopValue != null) stopValue.set(stopValuePOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1418,17 +1373,16 @@ public class Query extends Struct {
      * @param uri the storage for the current URI
      *     (may be {@code null})
      */
-    public void parseUri(@NotNull Out<java.lang.String> uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void parseUri(@Nullable Out<java.lang.String> uri) {
         MemorySegment uriPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_query_parse_uri.invokeExact(
                     handle(),
-                    (Addressable) uriPOINTER.address());
+                    (Addressable) (uri == null ? MemoryAddress.NULL : (Addressable) uriPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        uri.set(Interop.getStringFrom(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (uri != null) uri.set(Marshal.addressToString.marshal(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -1438,17 +1392,16 @@ public class Query extends Struct {
      * @param uri the storage for the redirect URI
      *     (may be {@code null})
      */
-    public void parseUriRedirection(@NotNull Out<java.lang.String> uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void parseUriRedirection(@Nullable Out<java.lang.String> uri) {
         MemorySegment uriPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_query_parse_uri_redirection.invokeExact(
                     handle(),
-                    (Addressable) uriPOINTER.address());
+                    (Addressable) (uri == null ? MemoryAddress.NULL : (Addressable) uriPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        uri.set(Interop.getStringFrom(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (uri != null) uri.set(Marshal.addressToString.marshal(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -1460,16 +1413,15 @@ public class Query extends Struct {
      *     (may be {@code null})
      */
     public void parseUriRedirectionPermanent(Out<Boolean> permanent) {
-        java.util.Objects.requireNonNull(permanent, "Parameter 'permanent' must not be null");
         MemorySegment permanentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_query_parse_uri_redirection_permanent.invokeExact(
                     handle(),
-                    (Addressable) permanentPOINTER.address());
+                    (Addressable) (permanent == null ? MemoryAddress.NULL : (Addressable) permanentPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        permanent.set(permanentPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (permanent != null) permanent.set(permanentPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -1522,7 +1474,7 @@ public class Query extends Struct {
         try {
             DowncallHandles.gst_query_set_accept_caps_result.invokeExact(
                     handle(),
-                    result ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(result, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1554,7 +1506,7 @@ public class Query extends Struct {
         try {
             DowncallHandles.gst_query_set_buffering_percent.invokeExact(
                     handle(),
-                    busy ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(busy, null).intValue(),
                     percent);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1569,8 +1521,7 @@ public class Query extends Struct {
      * @param estimatedTotal estimated total amount of download time remaining in
      *     milliseconds
      */
-    public void setBufferingRange(@NotNull org.gstreamer.gst.Format format, long start, long stop, long estimatedTotal) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void setBufferingRange(org.gstreamer.gst.Format format, long start, long stop, long estimatedTotal) {
         try {
             DowncallHandles.gst_query_set_buffering_range.invokeExact(
                     handle(),
@@ -1590,8 +1541,7 @@ public class Query extends Struct {
      * @param avgOut the average output rate
      * @param bufferingLeft amount of buffering time left in milliseconds
      */
-    public void setBufferingStats(@NotNull org.gstreamer.gst.BufferingMode mode, int avgIn, int avgOut, long bufferingLeft) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setBufferingStats(org.gstreamer.gst.BufferingMode mode, int avgIn, int avgOut, long bufferingLeft) {
         try {
             DowncallHandles.gst_query_set_buffering_stats.invokeExact(
                     handle(),
@@ -1608,8 +1558,7 @@ public class Query extends Struct {
      * Set the {@code caps} result in {@code query}.
      * @param caps A pointer to the caps
      */
-    public void setCapsResult(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void setCapsResult(org.gstreamer.gst.Caps caps) {
         try {
             DowncallHandles.gst_query_set_caps_result.invokeExact(
                     handle(),
@@ -1623,8 +1572,7 @@ public class Query extends Struct {
      * Answer a context query by setting the requested context.
      * @param context the requested {@link Context}
      */
-    public void setContext(@NotNull org.gstreamer.gst.Context context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void setContext(org.gstreamer.gst.Context context) {
         try {
             DowncallHandles.gst_query_set_context.invokeExact(
                     handle(),
@@ -1641,9 +1589,7 @@ public class Query extends Struct {
      * @param destFormat the destination {@link Format}
      * @param destValue the destination value
      */
-    public void setConvert(@NotNull org.gstreamer.gst.Format srcFormat, long srcValue, @NotNull org.gstreamer.gst.Format destFormat, long destValue) {
-        java.util.Objects.requireNonNull(srcFormat, "Parameter 'srcFormat' must not be null");
-        java.util.Objects.requireNonNull(destFormat, "Parameter 'destFormat' must not be null");
+    public void setConvert(org.gstreamer.gst.Format srcFormat, long srcValue, org.gstreamer.gst.Format destFormat, long destValue) {
         try {
             DowncallHandles.gst_query_set_convert.invokeExact(
                     handle(),
@@ -1661,8 +1607,7 @@ public class Query extends Struct {
      * @param format the {@link Format} for the duration
      * @param duration the duration of the stream
      */
-    public void setDuration(@NotNull org.gstreamer.gst.Format format, long duration) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void setDuration(org.gstreamer.gst.Format format, long duration) {
         try {
             DowncallHandles.gst_query_set_duration.invokeExact(
                     handle(),
@@ -1697,8 +1642,7 @@ public class Query extends Struct {
      * @param formats an array containing {@code n_formats}
      *     {@code GstFormat} values.
      */
-    public void setFormatsv(int nFormats, @NotNull org.gstreamer.gst.Format[] formats) {
-        java.util.Objects.requireNonNull(formats, "Parameter 'formats' must not be null");
+    public void setFormatsv(int nFormats, org.gstreamer.gst.Format[] formats) {
         try {
             DowncallHandles.gst_query_set_formatsv.invokeExact(
                     handle(),
@@ -1715,13 +1659,11 @@ public class Query extends Struct {
      * @param minLatency the minimal latency of the upstream elements
      * @param maxLatency the maximal latency of the upstream elements
      */
-    public void setLatency(boolean live, @NotNull org.gstreamer.gst.ClockTime minLatency, @NotNull org.gstreamer.gst.ClockTime maxLatency) {
-        java.util.Objects.requireNonNull(minLatency, "Parameter 'minLatency' must not be null");
-        java.util.Objects.requireNonNull(maxLatency, "Parameter 'maxLatency' must not be null");
+    public void setLatency(boolean live, org.gstreamer.gst.ClockTime minLatency, org.gstreamer.gst.ClockTime maxLatency) {
         try {
             DowncallHandles.gst_query_set_latency.invokeExact(
                     handle(),
-                    live ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(live, null).intValue(),
                     minLatency.getValue().longValue(),
                     maxLatency.getValue().longValue());
         } catch (Throwable ERR) {
@@ -1775,8 +1717,7 @@ public class Query extends Struct {
      * @param format the requested {@link Format}
      * @param cur the position to set
      */
-    public void setPosition(@NotNull org.gstreamer.gst.Format format, long cur) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void setPosition(org.gstreamer.gst.Format format, long cur) {
         try {
             DowncallHandles.gst_query_set_position.invokeExact(
                     handle(),
@@ -1794,8 +1735,7 @@ public class Query extends Struct {
      * @param maxsize the suggested maximum size of pull requests
      * @param align the suggested alignment of pull requests
      */
-    public void setScheduling(@NotNull org.gstreamer.gst.SchedulingFlags flags, int minsize, int maxsize, int align) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void setScheduling(org.gstreamer.gst.SchedulingFlags flags, int minsize, int maxsize, int align) {
         try {
             DowncallHandles.gst_query_set_scheduling.invokeExact(
                     handle(),
@@ -1815,13 +1755,12 @@ public class Query extends Struct {
      * @param segmentStart the segment_start to set
      * @param segmentEnd the segment_end to set
      */
-    public void setSeeking(@NotNull org.gstreamer.gst.Format format, boolean seekable, long segmentStart, long segmentEnd) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void setSeeking(org.gstreamer.gst.Format format, boolean seekable, long segmentStart, long segmentEnd) {
         try {
             DowncallHandles.gst_query_set_seeking.invokeExact(
                     handle(),
                     format.getValue(),
-                    seekable ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(seekable, null).intValue(),
                     segmentStart,
                     segmentEnd);
         } catch (Throwable ERR) {
@@ -1846,8 +1785,7 @@ public class Query extends Struct {
      * @param startValue the start value
      * @param stopValue the stop value
      */
-    public void setSegment(double rate, @NotNull org.gstreamer.gst.Format format, long startValue, long stopValue) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void setSegment(double rate, org.gstreamer.gst.Format format, long startValue, long stopValue) {
         try {
             DowncallHandles.gst_query_set_segment.invokeExact(
                     handle(),
@@ -1864,12 +1802,11 @@ public class Query extends Struct {
      * Answer a URI query by setting the requested URI.
      * @param uri the URI to set
      */
-    public void setUri(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void setUri(java.lang.String uri) {
         try {
             DowncallHandles.gst_query_set_uri.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1879,12 +1816,11 @@ public class Query extends Struct {
      * Answer a URI query by setting the requested URI redirection.
      * @param uri the URI to set
      */
-    public void setUriRedirection(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void setUriRedirection(java.lang.String uri) {
         try {
             DowncallHandles.gst_query_set_uri_redirection.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1899,7 +1835,7 @@ public class Query extends Struct {
         try {
             DowncallHandles.gst_query_set_uri_redirection_permanent.invokeExact(
                     handle(),
-                    permanent ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(permanent, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1912,7 +1848,7 @@ public class Query extends Struct {
      *     still owned by the query and will therefore be freed when the query
      *     is unreffed.
      */
-    public @NotNull org.gstreamer.gst.Structure writableStructure() {
+    public org.gstreamer.gst.Structure writableStructure() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_writable_structure.invokeExact(
@@ -1920,7 +1856,7 @@ public class Query extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -2429,31 +2365,35 @@ public class Query extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Query.Builder} object constructs a {@link Query} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Query.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Query struct;
+        private final Query struct;
         
-         /**
-         * A {@link Query.Build} object constructs a {@link Query} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Query.allocate();
         }
         
          /**
          * Finish building the {@link Query} struct.
          * @return A new instance of {@code Query} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Query construct() {
+        public Query build() {
             return struct;
         }
         
@@ -2462,7 +2402,7 @@ public class Query extends Struct {
          * @param miniObject The value for the {@code miniObject} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
@@ -2474,7 +2414,7 @@ public class Query extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.gst.QueryType type) {
+        public Builder setType(org.gstreamer.gst.QueryType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));

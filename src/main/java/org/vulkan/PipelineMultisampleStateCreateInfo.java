@@ -40,8 +40,10 @@ public class PipelineMultisampleStateCreateInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PipelineMultisampleStateCreateInfo(Addressable address, Ownership ownership) {
+    protected PipelineMultisampleStateCreateInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PipelineMultisampleStateCreateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineMultisampleStateCreateInfo(input, ownership);
 }

@@ -13,5 +13,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface VulkanHandleDestroyNotify {
-        void onVulkanHandleDestroyNotify(@NotNull org.gstreamer.vulkan.VulkanHandle handle);
+    void run(org.gstreamer.vulkan.VulkanHandle handle);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress handle, MemoryAddress userData) {
+        run(org.gstreamer.vulkan.VulkanHandle.fromAddress.marshal(handle, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VulkanHandleDestroyNotify.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

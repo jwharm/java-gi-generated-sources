@@ -13,18 +13,16 @@ public class ExtendedEventItem extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsExtendedEventItem";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("item_description"),
-        Interop.valueLayout.ADDRESS.withName("item")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("item_description"),
+            Interop.valueLayout.ADDRESS.withName("item")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,42 +42,42 @@ public class ExtendedEventItem extends Struct {
      * Get the value of the field {@code item_description}
      * @return The value of the field {@code item_description}
      */
-    public java.lang.String itemDescription$get() {
+    public java.lang.String getItemDescription() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("item_description"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code item_description}
      * @param itemDescription The new value of the field {@code item_description}
      */
-    public void itemDescription$set(java.lang.String itemDescription) {
+    public void setItemDescription(java.lang.String itemDescription) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("item_description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(itemDescription));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (itemDescription == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(itemDescription, null)));
     }
     
     /**
      * Get the value of the field {@code item}
      * @return The value of the field {@code item}
      */
-    public java.lang.String item$get() {
+    public java.lang.String getItem() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("item"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code item}
      * @param item The new value of the field {@code item}
      */
-    public void item$set(java.lang.String item) {
+    public void setItem(java.lang.String item) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("item"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(item));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(item, null)));
     }
     
     /**
@@ -87,49 +85,55 @@ public class ExtendedEventItem extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ExtendedEventItem(Addressable address, Ownership ownership) {
+    protected ExtendedEventItem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ExtendedEventItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExtendedEventItem(input, ownership);
+    
+    /**
+     * A {@link ExtendedEventItem.Builder} object constructs a {@link ExtendedEventItem} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ExtendedEventItem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ExtendedEventItem struct;
+        private final ExtendedEventItem struct;
         
-         /**
-         * A {@link ExtendedEventItem.Build} object constructs a {@link ExtendedEventItem} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ExtendedEventItem.allocate();
         }
         
          /**
          * Finish building the {@link ExtendedEventItem} struct.
          * @return A new instance of {@code ExtendedEventItem} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ExtendedEventItem construct() {
+        public ExtendedEventItem build() {
             return struct;
         }
         
-        public Build setItemDescription(java.lang.String itemDescription) {
+        public Builder setItemDescription(java.lang.String itemDescription) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("item_description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (itemDescription == null ? MemoryAddress.NULL : Interop.allocateNativeString(itemDescription)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (itemDescription == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(itemDescription, null)));
             return this;
         }
         
-        public Build setItem(java.lang.String item) {
+        public Builder setItem(java.lang.String item) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : Interop.allocateNativeString(item)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(item, null)));
             return this;
         }
     }

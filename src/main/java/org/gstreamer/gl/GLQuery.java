@@ -18,23 +18,21 @@ public class GLQuery extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLQuery";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("context"),
-        Interop.valueLayout.C_INT.withName("query_type"),
-        Interop.valueLayout.C_INT.withName("query_id"),
-        Interop.valueLayout.C_INT.withName("supported"),
-        Interop.valueLayout.C_INT.withName("start_called"),
-        org.gstreamer.gl.GLAsyncDebug.getMemoryLayout().withName("debug"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("context"),
+            Interop.valueLayout.C_INT.withName("query_type"),
+            Interop.valueLayout.C_INT.withName("query_id"),
+            Interop.valueLayout.C_INT.withName("supported"),
+            Interop.valueLayout.C_INT.withName("start_called"),
+            org.gstreamer.gl.GLAsyncDebug.getMemoryLayout().withName("debug"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,10 +53,12 @@ public class GLQuery extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLQuery(Addressable address, Ownership ownership) {
+    protected GLQuery(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLQuery> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLQuery(input, ownership);
     
     /**
      * Record the result of a counter
@@ -96,9 +96,7 @@ public class GLQuery extends Struct {
         }
     }
     
-    public void init(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gl.GLQueryType queryType) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(queryType, "Parameter 'queryType' must not be null");
+    public void init(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLQueryType queryType) {
         try {
             DowncallHandles.gst_gl_query_init.invokeExact(
                     handle(),
@@ -154,10 +152,7 @@ public class GLQuery extends Struct {
      *                      {@link GLContext}
      * @return whether {@code context_ptr} contains a {@link GLContext}
      */
-    public static boolean localGlContext(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.PadDirection direction, @NotNull Out<org.gstreamer.gl.GLContext> contextPtr) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(contextPtr, "Parameter 'contextPtr' must not be null");
+    public static boolean localGlContext(org.gstreamer.gst.Element element, org.gstreamer.gst.PadDirection direction, Out<org.gstreamer.gl.GLContext> contextPtr) {
         MemorySegment contextPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -168,8 +163,8 @@ public class GLQuery extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        contextPtr.set(new org.gstreamer.gl.GLContext(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        contextPtr.set((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gl.GLContext.fromAddress).marshal(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -178,9 +173,7 @@ public class GLQuery extends Struct {
      * @param queryType the {@link GLQueryType} to create
      * @return a new {@link GLQuery}
      */
-    public static @NotNull org.gstreamer.gl.GLQuery new_(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gl.GLQueryType queryType) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(queryType, "Parameter 'queryType' must not be null");
+    public static org.gstreamer.gl.GLQuery new_(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLQueryType queryType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_query_new.invokeExact(
@@ -189,7 +182,7 @@ public class GLQuery extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLQuery(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLQuery.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -248,77 +241,81 @@ public class GLQuery extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLQuery.Builder} object constructs a {@link GLQuery} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLQuery.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLQuery struct;
+        private final GLQuery struct;
         
-         /**
-         * A {@link GLQuery.Build} object constructs a {@link GLQuery} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLQuery.allocate();
         }
         
          /**
          * Finish building the {@link GLQuery} struct.
          * @return A new instance of {@code GLQuery} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLQuery construct() {
+        public GLQuery build() {
             return struct;
         }
         
-        public Build setContext(org.gstreamer.gl.GLContext context) {
+        public Builder setContext(org.gstreamer.gl.GLContext context) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("context"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
             return this;
         }
         
-        public Build setQueryType(int queryType) {
+        public Builder setQueryType(int queryType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("query_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), queryType);
             return this;
         }
         
-        public Build setQueryId(int queryId) {
+        public Builder setQueryId(int queryId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("query_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), queryId);
             return this;
         }
         
-        public Build setSupported(boolean supported) {
+        public Builder setSupported(boolean supported) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("supported"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), supported ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(supported, null).intValue());
             return this;
         }
         
-        public Build setStartCalled(boolean startCalled) {
+        public Builder setStartCalled(boolean startCalled) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_called"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startCalled ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(startCalled, null).intValue());
             return this;
         }
         
-        public Build setDebug(org.gstreamer.gl.GLAsyncDebug debug) {
+        public Builder setDebug(org.gstreamer.gl.GLAsyncDebug debug) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("debug"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (debug == null ? MemoryAddress.NULL : debug.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

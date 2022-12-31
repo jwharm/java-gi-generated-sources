@@ -167,7 +167,7 @@ import org.jetbrains.annotations.*;
  * The complete example can be found here:
  * <a href="https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-cmdline3.c">gapplication-example-cmdline3.c</a>
  */
-public class ApplicationCommandLine extends org.gtk.gobject.Object {
+public class ApplicationCommandLine extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -175,18 +175,16 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GApplicationCommandLine";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -194,30 +192,12 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ApplicationCommandLine(Addressable address, Ownership ownership) {
+    protected ApplicationCommandLine(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ApplicationCommandLine if its GType is a (or inherits from) "GApplicationCommandLine".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ApplicationCommandLine} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GApplicationCommandLine", a ClassCastException will be thrown.
-     */
-    public static ApplicationCommandLine castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ApplicationCommandLine.getType())) {
-            return new ApplicationCommandLine(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GApplicationCommandLine");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ApplicationCommandLine> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ApplicationCommandLine(input, ownership);
     
     /**
      * Creates a {@link File} corresponding to a filename that was given as part
@@ -229,17 +209,16 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * @param arg an argument from {@code cmdline}
      * @return a new {@link File}
      */
-    public @NotNull org.gtk.gio.File createFileForArg(@NotNull java.lang.String arg) {
-        java.util.Objects.requireNonNull(arg, "Parameter 'arg' must not be null");
+    public org.gtk.gio.File createFileForArg(java.lang.String arg) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_create_file_for_arg.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(arg));
+                    Marshal.stringToAddress.marshal(arg, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -257,22 +236,21 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * @param argc the length of the arguments array, or {@code null}
      * @return the string array containing the arguments (the argv)
      */
-    public @NotNull java.lang.String[] getArguments(Out<Integer> argc) {
-        java.util.Objects.requireNonNull(argc, "Parameter 'argc' must not be null");
+    public java.lang.String[] getArguments(Out<Integer> argc) {
         MemorySegment argcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_arguments.invokeExact(
                     handle(),
-                    (Addressable) argcPOINTER.address());
+                    (Addressable) (argc == null ? MemoryAddress.NULL : (Addressable) argcPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (argc != null) argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
         java.lang.String[] resultARRAY = new java.lang.String[argc.get().intValue()];
         for (int I = 0; I < argc.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -296,7 +274,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -317,7 +295,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * in the value of a single environment variable.
      * @return the environment strings, or {@code null} if they were not sent
      */
-    public @NotNull PointerString getEnviron() {
+    public PointerString getEnviron() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_environ.invokeExact(
@@ -356,7 +334,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -371,7 +349,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * you don't need to check for {@code null}.
      * @return a {@link org.gtk.glib.VariantDict} with the options
      */
-    public @NotNull org.gtk.glib.VariantDict getOptionsDict() {
+    public org.gtk.glib.VariantDict getOptionsDict() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_get_options_dict.invokeExact(
@@ -379,7 +357,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantDict(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantDict.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -401,7 +379,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -425,7 +403,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -443,17 +421,16 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * @param name the environment variable to get
      * @return the value of the variable, or {@code null} if unset or unsent
      */
-    public @Nullable java.lang.String getenv(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable java.lang.String getenv(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_application_command_line_getenv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -466,12 +443,11 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * @param format a printf-style format string
      * @param varargs arguments, as per {@code format}
      */
-    public void print(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void print(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_application_command_line_print.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -488,12 +464,11 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * @param format a printf-style format string
      * @param varargs arguments, as per {@code format}
      */
-    public void printerr(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void printerr(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_application_command_line_printerr.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -538,7 +513,7 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_application_command_line_get_type.invokeExact();
@@ -547,60 +522,62 @@ public class ApplicationCommandLine extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ApplicationCommandLine.Builder} object constructs a {@link ApplicationCommandLine} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ApplicationCommandLine.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ApplicationCommandLine.Build} object constructs a {@link ApplicationCommandLine} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ApplicationCommandLine} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ApplicationCommandLine} using {@link ApplicationCommandLine#castFrom}.
+         * {@link ApplicationCommandLine}.
          * @return A new instance of {@code ApplicationCommandLine} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ApplicationCommandLine construct() {
-            return ApplicationCommandLine.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ApplicationCommandLine.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ApplicationCommandLine build() {
+            return (ApplicationCommandLine) org.gtk.gobject.GObject.newWithProperties(
+                ApplicationCommandLine.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setArguments(org.gtk.glib.Variant arguments) {
+        public Builder setArguments(org.gtk.glib.Variant arguments) {
             names.add("arguments");
             values.add(org.gtk.gobject.Value.create(arguments));
             return this;
         }
         
-        public Build setIsRemote(boolean isRemote) {
+        public Builder setIsRemote(boolean isRemote) {
             names.add("is-remote");
             values.add(org.gtk.gobject.Value.create(isRemote));
             return this;
         }
         
-        public Build setOptions(org.gtk.glib.Variant options) {
+        public Builder setOptions(org.gtk.glib.Variant options) {
             names.add("options");
             values.add(org.gtk.gobject.Value.create(options));
             return this;
         }
         
-        public Build setPlatformData(org.gtk.glib.Variant platformData) {
+        public Builder setPlatformData(org.gtk.glib.Variant platformData) {
             names.add("platform-data");
             values.add(org.gtk.gobject.Value.create(platformData));
             return this;

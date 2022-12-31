@@ -14,5 +14,13 @@ public final class GstApp {
         System.loadLibrary("gstapp-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
 }

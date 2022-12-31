@@ -22,25 +22,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Actionable extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Actionable if its GType is a (or inherits from) "GtkActionable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Actionable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkActionable", a ClassCastException will be thrown.
-     */
-    public static Actionable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Actionable.getType())) {
-            return new ActionableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkActionable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ActionableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ActionableImpl(input, ownership);
     
     /**
      * Gets the action name for {@code actionable}.
@@ -54,7 +37,7 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -69,7 +52,7 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -92,7 +75,7 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.gtk_actionable_set_action_name.invokeExact(
                     handle(),
-                    (Addressable) (actionName == null ? MemoryAddress.NULL : Interop.allocateNativeString(actionName)));
+                    (Addressable) (actionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(actionName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,12 +94,11 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
      * @param formatString a {@code GLib.Variant} format string
      * @param varargs arguments appropriate for {@code format_string}
      */
-    default void setActionTarget(@NotNull java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+    default void setActionTarget(java.lang.String formatString, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_actionable_set_action_target.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(formatString),
+                    Marshal.stringToAddress.marshal(formatString, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -162,12 +144,11 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
      * {@link org.gtk.gio.Action#parseDetailedName}.
      * @param detailedActionName the detailed action name
      */
-    default void setDetailedActionName(@NotNull java.lang.String detailedActionName) {
-        java.util.Objects.requireNonNull(detailedActionName, "Parameter 'detailedActionName' must not be null");
+    default void setDetailedActionName(java.lang.String detailedActionName) {
         try {
             DowncallHandles.gtk_actionable_set_detailed_action_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(detailedActionName));
+                    Marshal.stringToAddress.marshal(detailedActionName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +158,7 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_actionable_get_type.invokeExact();
@@ -240,7 +221,7 @@ public interface Actionable extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class ActionableImpl extends org.gtk.gobject.Object implements Actionable {
+    class ActionableImpl extends org.gtk.gobject.GObject implements Actionable {
         
         static {
             Gtk.javagi$ensureInitialized();

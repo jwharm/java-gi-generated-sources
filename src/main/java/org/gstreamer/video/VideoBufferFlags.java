@@ -94,11 +94,15 @@ public class VideoBufferFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public VideoBufferFlags or(VideoBufferFlags mask) {
-        return new VideoBufferFlags(this.getValue() | mask.getValue());
+    public VideoBufferFlags or(VideoBufferFlags... masks) {
+        int value = this.getValue();
+        for (VideoBufferFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new VideoBufferFlags(value);
     }
     
     /**
@@ -108,7 +112,8 @@ public class VideoBufferFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static VideoBufferFlags combined(VideoBufferFlags mask, VideoBufferFlags... masks) {
-        int value = mask.getValue();        for (VideoBufferFlags arg : masks) {
+        int value = mask.getValue();
+        for (VideoBufferFlags arg : masks) {
             value |= arg.getValue();
         }
         return new VideoBufferFlags(value);

@@ -35,30 +35,12 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Event(Addressable address, Ownership ownership) {
+    protected Event(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Event if its GType is a (or inherits from) "GdkEvent".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Event} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkEvent", a ClassCastException will be thrown.
-     */
-    public static Event castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Event.getType())) {
-            return new Event(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkEvent");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Event> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Event(input, ownership);
     
     /**
      * Returns the relative angle from {@code event1} to {@code event2}.
@@ -73,9 +55,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * @param angle return location for the relative angle between both events
      * @return {@code true} if the angle could be calculated.
      */
-    public boolean GetAngle(@NotNull org.gtk.gdk.Event event2, Out<Double> angle) {
-        java.util.Objects.requireNonNull(event2, "Parameter 'event2' must not be null");
-        java.util.Objects.requireNonNull(angle, "Parameter 'angle' must not be null");
+    public boolean GetAngle(org.gtk.gdk.Event event2, Out<Double> angle) {
         MemorySegment anglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -87,7 +67,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         angle.set(anglePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -100,11 +80,8 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * @param y return location for the Y coordinate of the center
      * @return {@code true} if the center could be calculated.
      */
-    public boolean GetCenter(@NotNull org.gtk.gdk.Event event2, Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(event2, "Parameter 'event2' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public boolean GetCenter(org.gtk.gdk.Event event2, Out<Double> x, Out<Double> y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -118,7 +95,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         }
         x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -130,9 +107,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * @param distance return location for the distance
      * @return {@code true} if the distance could be calculated.
      */
-    public boolean GetDistance(@NotNull org.gtk.gdk.Event event2, Out<Double> distance) {
-        java.util.Objects.requireNonNull(event2, "Parameter 'event2' must not be null");
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
+    public boolean GetDistance(org.gtk.gdk.Event event2, Out<Double> distance) {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -144,7 +119,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         distance.set(distancePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -156,10 +131,8 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * @param nAxes the length of array
      * @return {@code true} on success, otherwise {@code false}
      */
-    public boolean getAxes(@NotNull Out<double[]> axes, Out<Integer> nAxes) {
-        java.util.Objects.requireNonNull(axes, "Parameter 'axes' must not be null");
+    public boolean getAxes(Out<double[]> axes, Out<Integer> nAxes) {
         MemorySegment axesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(nAxes, "Parameter 'nAxes' must not be null");
         MemorySegment nAxesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -172,7 +145,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         }
         nAxes.set(nAxesPOINTER.get(Interop.valueLayout.C_INT, 0));
         axes.set(MemorySegment.ofAddress(axesPOINTER.get(Interop.valueLayout.ADDRESS, 0), nAxes.get().intValue() * Interop.valueLayout.C_DOUBLE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_DOUBLE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -185,9 +158,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * @param value location to store the value found
      * @return {@code true} if the specified axis was found, otherwise {@code false}
      */
-    public boolean getAxis(@NotNull org.gtk.gdk.AxisUse axisUse, Out<Double> value) {
-        java.util.Objects.requireNonNull(axisUse, "Parameter 'axisUse' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getAxis(org.gtk.gdk.AxisUse axisUse, Out<Double> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -199,7 +170,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -214,7 +185,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Device(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Device.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -238,7 +209,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.DeviceTool(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.DeviceTool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.DeviceTool.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -253,7 +224,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -263,7 +234,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * events typically don't have event sequence information.
      * @return the event sequence that the event belongs to
      */
-    public @NotNull org.gtk.gdk.EventSequence getEventSequence() {
+    public org.gtk.gdk.EventSequence getEventSequence() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_event_get_event_sequence.invokeExact(
@@ -271,14 +242,14 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.EventSequence(RESULT, Ownership.NONE);
+        return org.gtk.gdk.EventSequence.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves the type of the event.
      * @return a {@code GdkEvent}Type
      */
-    public @NotNull org.gtk.gdk.EventType getEventType() {
+    public org.gtk.gdk.EventType getEventType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_event_get_event_type.invokeExact(
@@ -304,7 +275,6 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      *   array of time and coordinates
      */
     public @Nullable org.gtk.gdk.TimeCoord[] getHistory(Out<Integer> outNCoords) {
-        java.util.Objects.requireNonNull(outNCoords, "Parameter 'outNCoords' must not be null");
         MemorySegment outNCoordsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -319,7 +289,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         org.gtk.gdk.TimeCoord[] resultARRAY = new org.gtk.gdk.TimeCoord[outNCoords.get().intValue()];
         for (int I = 0; I < outNCoords.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.gtk.gdk.TimeCoord(OBJ, Ownership.CONTAINER);
+            resultARRAY[I] = org.gtk.gdk.TimeCoord.fromAddress.marshal(OBJ, Ownership.CONTAINER);
         }
         return resultARRAY;
     }
@@ -328,7 +298,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * Returns the modifier state field of an event.
      * @return the modifier state of {@code event}
      */
-    public @NotNull org.gtk.gdk.ModifierType getModifierState() {
+    public org.gtk.gdk.ModifierType getModifierState() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_event_get_modifier_state.invokeExact(
@@ -353,7 +323,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -362,9 +332,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * @param y location to put event surface y coordinate
      */
     public boolean getPosition(Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -377,7 +345,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         }
         x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -392,7 +360,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Seat(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Seat) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Seat.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -407,7 +375,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -432,7 +400,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * Increase the ref count of {@code event}.
      * @return {@code event}
      */
-    public @NotNull org.gtk.gdk.Event ref() {
+    public org.gtk.gdk.Event ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_event_ref.invokeExact(
@@ -440,7 +408,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Event(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.Event) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Event.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -461,7 +429,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -483,7 +451,7 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_event_get_type.invokeExact();
@@ -491,41 +459,6 @@ public class Event extends io.github.jwharm.javagi.ObjectBase {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Type(RESULT);
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends io.github.jwharm.javagi.Build {
-        
-         /**
-         * A {@link Event.Build} object constructs a {@link Event} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link Event} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link Event} using {@link Event#castFrom}.
-         * @return A new instance of {@code Event} with the properties 
-         *         that were set in the Build object.
-         */
-        public Event construct() {
-            return Event.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Event.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
     }
     
     private static class DowncallHandles {

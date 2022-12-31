@@ -33,8 +33,7 @@ public class GLConfigSurfaceType extends io.github.jwharm.javagi.Bitfield {
         super(value);
     }
     
-    public static @Nullable java.lang.String toString(@NotNull org.gstreamer.gl.GLConfigSurfaceType surfaceType) {
-        java.util.Objects.requireNonNull(surfaceType, "Parameter 'surfaceType' must not be null");
+    public static @Nullable java.lang.String toString(org.gstreamer.gl.GLConfigSurfaceType surfaceType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_config_surface_type_to_string.invokeExact(
@@ -42,16 +41,20 @@ public class GLConfigSurfaceType extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public GLConfigSurfaceType or(GLConfigSurfaceType mask) {
-        return new GLConfigSurfaceType(this.getValue() | mask.getValue());
+    public GLConfigSurfaceType or(GLConfigSurfaceType... masks) {
+        int value = this.getValue();
+        for (GLConfigSurfaceType arg : masks) {
+            value |= arg.getValue();
+        }
+        return new GLConfigSurfaceType(value);
     }
     
     /**
@@ -61,7 +64,8 @@ public class GLConfigSurfaceType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static GLConfigSurfaceType combined(GLConfigSurfaceType mask, GLConfigSurfaceType... masks) {
-        int value = mask.getValue();        for (GLConfigSurfaceType arg : masks) {
+        int value = mask.getValue();
+        for (GLConfigSurfaceType arg : masks) {
             value |= arg.getValue();
         }
         return new GLConfigSurfaceType(value);

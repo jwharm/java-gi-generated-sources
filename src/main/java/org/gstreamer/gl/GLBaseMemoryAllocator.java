@@ -17,19 +17,17 @@ public class GLBaseMemoryAllocator extends org.gstreamer.gst.Allocator {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLBaseMemoryAllocator";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Allocator.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("fallback_mem_copy"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Allocator.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("fallback_mem_copy"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,43 +35,29 @@ public class GLBaseMemoryAllocator extends org.gstreamer.gst.Allocator {
      * <p>
      * Because GLBaseMemoryAllocator is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLBaseMemoryAllocator(Addressable address, Ownership ownership) {
+    protected GLBaseMemoryAllocator(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLBaseMemoryAllocator if its GType is a (or inherits from) "GstGLBaseMemoryAllocator".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLBaseMemoryAllocator} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLBaseMemoryAllocator", a ClassCastException will be thrown.
-     */
-    public static GLBaseMemoryAllocator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLBaseMemoryAllocator.getType())) {
-            return new GLBaseMemoryAllocator(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLBaseMemoryAllocator");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLBaseMemoryAllocator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLBaseMemoryAllocator(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_base_memory_allocator_get_type.invokeExact();
@@ -82,38 +66,40 @@ public class GLBaseMemoryAllocator extends org.gstreamer.gst.Allocator {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GLBaseMemoryAllocator.Builder} object constructs a {@link GLBaseMemoryAllocator} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLBaseMemoryAllocator.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Allocator.Build {
+    public static class Builder extends org.gstreamer.gst.Allocator.Builder {
         
-         /**
-         * A {@link GLBaseMemoryAllocator.Build} object constructs a {@link GLBaseMemoryAllocator} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLBaseMemoryAllocator} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLBaseMemoryAllocator} using {@link GLBaseMemoryAllocator#castFrom}.
+         * {@link GLBaseMemoryAllocator}.
          * @return A new instance of {@code GLBaseMemoryAllocator} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLBaseMemoryAllocator construct() {
-            return GLBaseMemoryAllocator.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLBaseMemoryAllocator.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLBaseMemoryAllocator build() {
+            return (GLBaseMemoryAllocator) org.gtk.gobject.GObject.newWithProperties(
+                GLBaseMemoryAllocator.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

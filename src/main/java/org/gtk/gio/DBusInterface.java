@@ -13,32 +13,15 @@ import org.jetbrains.annotations.*;
  */
 public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to DBusInterface if its GType is a (or inherits from) "GDBusInterface".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DBusInterface} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDBusInterface", a ClassCastException will be thrown.
-     */
-    public static DBusInterface castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusInterface.getType())) {
-            return new DBusInterfaceImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusInterface");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusInterfaceImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceImpl(input, ownership);
     
     /**
      * Gets the {@link DBusObject} that {@code interface_} belongs to, if any.
      * @return A {@link DBusObject} or {@code null}. The returned
      * reference should be freed with g_object_unref().
      */
-    default @Nullable org.gtk.gio.DBusObject dupObject() {
+    default @Nullable org.gtk.gio.DBusObject getObject() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_dup_object.invokeExact(
@@ -46,7 +29,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusObject.DBusObjectImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.DBusObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -54,7 +37,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
      * implemented by {@code interface_}.
      * @return A {@link DBusInterfaceInfo}. Do not free.
      */
-    default @NotNull org.gtk.gio.DBusInterfaceInfo getInfo() {
+    default org.gtk.gio.DBusInterfaceInfo getInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_get_info.invokeExact(
@@ -62,27 +45,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusInterfaceInfo(RESULT, Ownership.NONE);
-    }
-    
-    /**
-     * Gets the {@link DBusObject} that {@code interface_} belongs to, if any.
-     * <p>
-     * It is not safe to use the returned object if {@code interface_} or
-     * the returned object is being used from other threads. See
-     * g_dbus_interface_dup_object() for a thread-safe alternative.
-     * @return A {@link DBusObject} or {@code null}. The returned
-     *     reference belongs to {@code interface_} and should not be freed.
-     */
-    default @Nullable org.gtk.gio.DBusObject getObject() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_dbus_interface_get_object.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new org.gtk.gio.DBusObject.DBusObjectImpl(RESULT, Ownership.NONE);
+        return org.gtk.gio.DBusInterfaceInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -105,7 +68,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dbus_interface_get_type.invokeExact();
@@ -133,13 +96,6 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
         );
         
         @ApiStatus.Internal
-        static final MethodHandle g_dbus_interface_get_object = Interop.downcallHandle(
-            "g_dbus_interface_get_object",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
-        );
-        
-        @ApiStatus.Internal
         static final MethodHandle g_dbus_interface_set_object = Interop.downcallHandle(
             "g_dbus_interface_set_object",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
@@ -154,7 +110,7 @@ public interface DBusInterface extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class DBusInterfaceImpl extends org.gtk.gobject.Object implements DBusInterface {
+    class DBusInterfaceImpl extends org.gtk.gobject.GObject implements DBusInterface {
         
         static {
             Gio.javagi$ensureInitialized();

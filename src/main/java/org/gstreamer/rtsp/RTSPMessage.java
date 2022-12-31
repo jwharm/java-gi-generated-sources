@@ -16,24 +16,22 @@ public class RTSPMessage extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTSPMessage";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("type"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("hdr_fields"),
-        Interop.valueLayout.ADDRESS.withName("body"),
-        Interop.valueLayout.C_INT.withName("body_size"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("body_buffer"),
-        MemoryLayout.sequenceLayout(3, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("type"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("hdr_fields"),
+            Interop.valueLayout.ADDRESS.withName("body"),
+            Interop.valueLayout.C_INT.withName("body_size"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("body_buffer"),
+            MemoryLayout.sequenceLayout(3, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,7 +51,7 @@ public class RTSPMessage extends Struct {
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.rtsp.RTSPMsgType type$get() {
+    public org.gstreamer.rtsp.RTSPMsgType getType_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -64,10 +62,10 @@ public class RTSPMessage extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.rtsp.RTSPMsgType type) {
+    public void setType(org.gstreamer.rtsp.RTSPMsgType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
@@ -75,10 +73,12 @@ public class RTSPMessage extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTSPMessage(Addressable address, Ownership ownership) {
+    protected RTSPMessage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTSPMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPMessage(input, ownership);
     
     /**
      * Add a header with key {@code field} and {@code value} to {@code msg}. This function takes a copy
@@ -87,15 +87,13 @@ public class RTSPMessage extends Struct {
      * @param value the value of the header
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult addHeader(@NotNull org.gstreamer.rtsp.RTSPHeaderField field, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public org.gstreamer.rtsp.RTSPResult addHeader(org.gstreamer.rtsp.RTSPHeaderField field, java.lang.String value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_add_header.invokeExact(
                     handle(),
                     field.getValue(),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,15 +107,13 @@ public class RTSPMessage extends Struct {
      * @param value the value of the header
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult addHeaderByName(@NotNull java.lang.String header, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(header, "Parameter 'header' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public org.gstreamer.rtsp.RTSPResult addHeaderByName(java.lang.String header, java.lang.String value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_add_header_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(header),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(header, null),
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,13 +121,12 @@ public class RTSPMessage extends Struct {
     }
     
     /**
-     * Append the currently configured headers in {@code msg} to the {@link org.gtk.glib.String} {@code str} suitable
+     * Append the currently configured headers in {@code msg} to the {@link org.gtk.glib.GString} {@code str} suitable
      * for transmission.
      * @param str a string
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult appendHeaders(@NotNull org.gtk.glib.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public org.gstreamer.rtsp.RTSPResult appendHeaders(org.gtk.glib.GString str) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_append_headers.invokeExact(
@@ -149,8 +144,7 @@ public class RTSPMessage extends Struct {
      * @param copy pointer to new {@link RTSPMessage}
      * @return a {@link RTSPResult}
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult copy(@NotNull Out<org.gstreamer.rtsp.RTSPMessage> copy) {
-        java.util.Objects.requireNonNull(copy, "Parameter 'copy' must not be null");
+    public org.gstreamer.rtsp.RTSPResult copy(Out<org.gstreamer.rtsp.RTSPMessage> copy) {
         MemorySegment copyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -160,7 +154,7 @@ public class RTSPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        copy.set(new org.gstreamer.rtsp.RTSPMessage(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        copy.set(org.gstreamer.rtsp.RTSPMessage.fromAddress.marshal(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -168,7 +162,7 @@ public class RTSPMessage extends Struct {
      * Dump the contents of {@code msg} to stdout.
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult dump() {
+    public org.gstreamer.rtsp.RTSPResult dump() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_dump.invokeExact(
@@ -183,7 +177,7 @@ public class RTSPMessage extends Struct {
      * Free the memory used by {@code msg}.
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult free() {
+    public org.gstreamer.rtsp.RTSPResult free() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_free.invokeExact(
@@ -205,10 +199,8 @@ public class RTSPMessage extends Struct {
      * @param size location for the size of {@code data}
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult getBody(@NotNull Out<byte[]> data, Out<Integer> size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public org.gstreamer.rtsp.RTSPResult getBody(Out<byte[]> data, Out<Integer> size) {
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -234,8 +226,7 @@ public class RTSPMessage extends Struct {
      * @param buffer location for the buffer
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult getBodyBuffer(@NotNull Out<org.gstreamer.gst.Buffer> buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.rtsp.RTSPResult getBodyBuffer(Out<org.gstreamer.gst.Buffer> buffer) {
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -245,7 +236,7 @@ public class RTSPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        buffer.set(new org.gstreamer.gst.Buffer(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -258,9 +249,7 @@ public class RTSPMessage extends Struct {
      * @return {@code GST_RTSP_OK} when {@code field} was found, {@code GST_RTSP_ENOTIMPL} if the key
      * was not found.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult getHeader(@NotNull org.gstreamer.rtsp.RTSPHeaderField field, @NotNull Out<java.lang.String> value, int indx) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public org.gstreamer.rtsp.RTSPResult getHeader(org.gstreamer.rtsp.RTSPHeaderField field, Out<java.lang.String> value, int indx) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -272,7 +261,7 @@ public class RTSPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(Interop.getStringFrom(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -285,21 +274,19 @@ public class RTSPMessage extends Struct {
      * @return {@code GST_RTSP_OK} when {@code field} was found, {@code GST_RTSP_ENOTIMPL} if the key
      * was not found.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult getHeaderByName(@NotNull java.lang.String header, @NotNull Out<java.lang.String> value, int index) {
-        java.util.Objects.requireNonNull(header, "Parameter 'header' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public org.gstreamer.rtsp.RTSPResult getHeaderByName(java.lang.String header, Out<java.lang.String> value, int index) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_get_header_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(header),
+                    Marshal.stringToAddress.marshal(header, null),
                     (Addressable) valuePOINTER.address(),
                     index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(Interop.getStringFrom(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -307,7 +294,7 @@ public class RTSPMessage extends Struct {
      * Get the message type of {@code msg}.
      * @return the message type.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPMsgType getType() {
+    public org.gstreamer.rtsp.RTSPMsgType getType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_get_type.invokeExact(
@@ -331,7 +318,7 @@ public class RTSPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -339,7 +326,7 @@ public class RTSPMessage extends Struct {
      * stack. The reverse operation of this is gst_rtsp_message_unset().
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult init() {
+    public org.gstreamer.rtsp.RTSPResult init() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_init.invokeExact(
@@ -355,7 +342,7 @@ public class RTSPMessage extends Struct {
      * @param channel a channel
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult initData(byte channel) {
+    public org.gstreamer.rtsp.RTSPResult initData(byte channel) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_init_data.invokeExact(
@@ -374,15 +361,13 @@ public class RTSPMessage extends Struct {
      * @param uri the uri of the request
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult initRequest(@NotNull org.gstreamer.rtsp.RTSPMethod method, @NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public org.gstreamer.rtsp.RTSPResult initRequest(org.gstreamer.rtsp.RTSPMethod method, java.lang.String uri) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_init_request.invokeExact(
                     handle(),
                     method.getValue(),
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -401,14 +386,13 @@ public class RTSPMessage extends Struct {
      * @param request the request that triggered the response or {@code null}
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult initResponse(@NotNull org.gstreamer.rtsp.RTSPStatusCode code, @Nullable java.lang.String reason, @Nullable org.gstreamer.rtsp.RTSPMessage request) {
-        java.util.Objects.requireNonNull(code, "Parameter 'code' must not be null");
+    public org.gstreamer.rtsp.RTSPResult initResponse(org.gstreamer.rtsp.RTSPStatusCode code, @Nullable java.lang.String reason, @Nullable org.gstreamer.rtsp.RTSPMessage request) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_init_response.invokeExact(
                     handle(),
                     code.getValue(),
-                    (Addressable) (reason == null ? MemoryAddress.NULL : Interop.allocateNativeString(reason)),
+                    (Addressable) (reason == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(reason, null)),
                     (Addressable) (request == null ? MemoryAddress.NULL : request.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -421,8 +405,7 @@ public class RTSPMessage extends Struct {
      * @param field a {@link RTSPHeaderField}
      * @return {@code null}-terminated array of GstRTSPAuthCredential or {@code null}.
      */
-    public @NotNull PointerProxy<org.gstreamer.rtsp.RTSPAuthCredential> parseAuthCredentials(@NotNull org.gstreamer.rtsp.RTSPHeaderField field) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
+    public PointerProxy<org.gstreamer.rtsp.RTSPAuthCredential> parseAuthCredentials(org.gstreamer.rtsp.RTSPHeaderField field) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_message_parse_auth_credentials.invokeExact(
@@ -431,7 +414,7 @@ public class RTSPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<org.gstreamer.rtsp.RTSPAuthCredential>(RESULT, org.gstreamer.rtsp.RTSPAuthCredential.class);
+        return new PointerProxy<org.gstreamer.rtsp.RTSPAuthCredential>(RESULT, org.gstreamer.rtsp.RTSPAuthCredential.fromAddress);
     }
     
     /**
@@ -439,8 +422,7 @@ public class RTSPMessage extends Struct {
      * @param channel location to hold the channel
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult parseData(Out<Byte> channel) {
-        java.util.Objects.requireNonNull(channel, "Parameter 'channel' must not be null");
+    public org.gstreamer.rtsp.RTSPResult parseData(Out<Byte> channel) {
         MemorySegment channelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -465,26 +447,23 @@ public class RTSPMessage extends Struct {
      * @param version location to hold the version
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult parseRequest(@NotNull Out<org.gstreamer.rtsp.RTSPMethod> method, @NotNull Out<java.lang.String> uri, @NotNull Out<org.gstreamer.rtsp.RTSPVersion> version) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
+    public org.gstreamer.rtsp.RTSPResult parseRequest(@Nullable Out<org.gstreamer.rtsp.RTSPMethod> method, @Nullable Out<java.lang.String> uri, @Nullable Out<org.gstreamer.rtsp.RTSPVersion> version) {
         MemorySegment methodPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         MemorySegment uriPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
         MemorySegment versionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_parse_request.invokeExact(
                     handle(),
-                    (Addressable) methodPOINTER.address(),
-                    (Addressable) uriPOINTER.address(),
-                    (Addressable) versionPOINTER.address());
+                    (Addressable) (method == null ? MemoryAddress.NULL : (Addressable) methodPOINTER.address()),
+                    (Addressable) (uri == null ? MemoryAddress.NULL : (Addressable) uriPOINTER.address()),
+                    (Addressable) (version == null ? MemoryAddress.NULL : (Addressable) versionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        method.set(new org.gstreamer.rtsp.RTSPMethod(methodPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        uri.set(Interop.getStringFrom(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        version.set(org.gstreamer.rtsp.RTSPVersion.of(versionPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (method != null) method.set(new org.gstreamer.rtsp.RTSPMethod(methodPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (uri != null) uri.set(Marshal.addressToString.marshal(uriPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (version != null) version.set(org.gstreamer.rtsp.RTSPVersion.of(versionPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -499,26 +478,23 @@ public class RTSPMessage extends Struct {
      * @param version location to hold the version
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult parseResponse(@NotNull Out<org.gstreamer.rtsp.RTSPStatusCode> code, @NotNull Out<java.lang.String> reason, @NotNull Out<org.gstreamer.rtsp.RTSPVersion> version) {
-        java.util.Objects.requireNonNull(code, "Parameter 'code' must not be null");
+    public org.gstreamer.rtsp.RTSPResult parseResponse(@Nullable Out<org.gstreamer.rtsp.RTSPStatusCode> code, @Nullable Out<java.lang.String> reason, @Nullable Out<org.gstreamer.rtsp.RTSPVersion> version) {
         MemorySegment codePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(reason, "Parameter 'reason' must not be null");
         MemorySegment reasonPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
         MemorySegment versionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_parse_response.invokeExact(
                     handle(),
-                    (Addressable) codePOINTER.address(),
-                    (Addressable) reasonPOINTER.address(),
-                    (Addressable) versionPOINTER.address());
+                    (Addressable) (code == null ? MemoryAddress.NULL : (Addressable) codePOINTER.address()),
+                    (Addressable) (reason == null ? MemoryAddress.NULL : (Addressable) reasonPOINTER.address()),
+                    (Addressable) (version == null ? MemoryAddress.NULL : (Addressable) versionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        code.set(org.gstreamer.rtsp.RTSPStatusCode.of(codePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        reason.set(Interop.getStringFrom(reasonPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        version.set(org.gstreamer.rtsp.RTSPVersion.of(versionPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (code != null) code.set(org.gstreamer.rtsp.RTSPStatusCode.of(codePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (reason != null) reason.set(Marshal.addressToString.marshal(reasonPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (version != null) version.set(org.gstreamer.rtsp.RTSPVersion.of(versionPOINTER.get(Interop.valueLayout.C_INT, 0)));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -529,8 +505,7 @@ public class RTSPMessage extends Struct {
      * @param indx the index of the header
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult removeHeader(@NotNull org.gstreamer.rtsp.RTSPHeaderField field, int indx) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
+    public org.gstreamer.rtsp.RTSPResult removeHeader(org.gstreamer.rtsp.RTSPHeaderField field, int indx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_remove_header.invokeExact(
@@ -550,13 +525,12 @@ public class RTSPMessage extends Struct {
      * @param index the index of the header
      * @return a {@link RTSPResult}
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult removeHeaderByName(@NotNull java.lang.String header, int index) {
-        java.util.Objects.requireNonNull(header, "Parameter 'header' must not be null");
+    public org.gstreamer.rtsp.RTSPResult removeHeaderByName(java.lang.String header, int index) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_remove_header_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(header),
+                    Marshal.stringToAddress.marshal(header, null),
                     index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -571,8 +545,7 @@ public class RTSPMessage extends Struct {
      * @param size the size of {@code data}
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult setBody(@NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public org.gstreamer.rtsp.RTSPResult setBody(byte[] data, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_set_body.invokeExact(
@@ -591,8 +564,7 @@ public class RTSPMessage extends Struct {
      * @param buffer a {@link org.gstreamer.gst.Buffer}
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult setBodyBuffer(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.rtsp.RTSPResult setBodyBuffer(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_set_body_buffer.invokeExact(
@@ -611,10 +583,8 @@ public class RTSPMessage extends Struct {
      * @param size location for the size of {@code data}
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult stealBody(@NotNull Out<byte[]> data, Out<Integer> size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public org.gstreamer.rtsp.RTSPResult stealBody(Out<byte[]> data, Out<Integer> size) {
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -640,8 +610,7 @@ public class RTSPMessage extends Struct {
      * @param buffer location for the buffer
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult stealBodyBuffer(@NotNull Out<org.gstreamer.gst.Buffer> buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.rtsp.RTSPResult stealBodyBuffer(Out<org.gstreamer.gst.Buffer> buffer) {
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -651,7 +620,7 @@ public class RTSPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        buffer.set(new org.gstreamer.gst.Buffer(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -662,8 +631,7 @@ public class RTSPMessage extends Struct {
      * @param size the size of {@code data}
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult takeBody(@NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public org.gstreamer.rtsp.RTSPResult takeBody(byte[] data, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_take_body.invokeExact(
@@ -682,8 +650,7 @@ public class RTSPMessage extends Struct {
      * @param buffer a {@link org.gstreamer.gst.Buffer}
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult takeBodyBuffer(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.rtsp.RTSPResult takeBodyBuffer(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_take_body_buffer.invokeExact(
@@ -703,15 +670,13 @@ public class RTSPMessage extends Struct {
      * @param value the value of the header
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult takeHeader(@NotNull org.gstreamer.rtsp.RTSPHeaderField field, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public org.gstreamer.rtsp.RTSPResult takeHeader(org.gstreamer.rtsp.RTSPHeaderField field, java.lang.String value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_take_header.invokeExact(
                     handle(),
                     field.getValue(),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -725,15 +690,13 @@ public class RTSPMessage extends Struct {
      * @param value the value of the header
      * @return a {@link RTSPResult}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult takeHeaderByName(@NotNull java.lang.String header, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(header, "Parameter 'header' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public org.gstreamer.rtsp.RTSPResult takeHeaderByName(java.lang.String header, java.lang.String value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_take_header_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(header),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(header, null),
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -747,7 +710,7 @@ public class RTSPMessage extends Struct {
      * gst_rtsp_message_init_data() on stack allocated {@link RTSPMessage} structures.
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult unset() {
+    public org.gstreamer.rtsp.RTSPResult unset() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_unset.invokeExact(
@@ -946,31 +909,35 @@ public class RTSPMessage extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RTSPMessage.Builder} object constructs a {@link RTSPMessage} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RTSPMessage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RTSPMessage struct;
+        private final RTSPMessage struct;
         
-         /**
-         * A {@link RTSPMessage.Build} object constructs a {@link RTSPMessage} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RTSPMessage.allocate();
         }
         
          /**
          * Finish building the {@link RTSPMessage} struct.
          * @return A new instance of {@code RTSPMessage} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTSPMessage construct() {
+        public RTSPMessage build() {
             return struct;
         }
         
@@ -979,42 +946,42 @@ public class RTSPMessage extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.rtsp.RTSPMsgType type) {
+        public Builder setType(org.gstreamer.rtsp.RTSPMsgType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
             return this;
         }
         
-        public Build setHdrFields(java.lang.foreign.MemoryAddress[] hdrFields) {
+        public Builder setHdrFields(java.lang.foreign.MemoryAddress[] hdrFields) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hdr_fields"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hdrFields == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hdrFields, false)));
             return this;
         }
         
-        public Build setBody(PointerByte body) {
+        public Builder setBody(PointerByte body) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("body"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (body == null ? MemoryAddress.NULL : body.handle()));
             return this;
         }
         
-        public Build setBodySize(int bodySize) {
+        public Builder setBodySize(int bodySize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("body_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bodySize);
             return this;
         }
         
-        public Build setBodyBuffer(org.gstreamer.gst.Buffer bodyBuffer) {
+        public Builder setBodyBuffer(org.gstreamer.gst.Buffer bodyBuffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("body_buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bodyBuffer == null ? MemoryAddress.NULL : bodyBuffer.handle()));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

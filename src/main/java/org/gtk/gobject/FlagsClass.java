@@ -12,17 +12,10 @@ import org.jetbrains.annotations.*;
 public class FlagsClass extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GFlagsClass";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_type_class"),
-        Interop.valueLayout.C_INT.withName("mask"),
-        Interop.valueLayout.C_INT.withName("n_values"),
-        Interop.valueLayout.ADDRESS.withName("values")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -30,7 +23,12 @@ public class FlagsClass extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_type_class"),
+            Interop.valueLayout.C_INT.withName("mask"),
+            Interop.valueLayout.C_INT.withName("n_values"),
+            Interop.valueLayout.ADDRESS.withName("values")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,16 +48,26 @@ public class FlagsClass extends Struct {
      * Get the value of the field {@code g_type_class}
      * @return The value of the field {@code g_type_class}
      */
-    public org.gtk.gobject.TypeClass gTypeClass$get() {
+    public org.gtk.gobject.TypeClass getGTypeClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
-        return new org.gtk.gobject.TypeClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code g_type_class}
+     * @param gTypeClass The new value of the field {@code g_type_class}
+     */
+    public void setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
     }
     
     /**
      * Get the value of the field {@code mask}
      * @return The value of the field {@code mask}
      */
-    public int mask$get() {
+    public int getMask() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mask"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -70,7 +78,7 @@ public class FlagsClass extends Struct {
      * Change the value of the field {@code mask}
      * @param mask The new value of the field {@code mask}
      */
-    public void mask$set(int mask) {
+    public void setMask(int mask) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mask"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), mask);
@@ -80,7 +88,7 @@ public class FlagsClass extends Struct {
      * Get the value of the field {@code n_values}
      * @return The value of the field {@code n_values}
      */
-    public int nValues$get() {
+    public int getNValues() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -91,7 +99,7 @@ public class FlagsClass extends Struct {
      * Change the value of the field {@code n_values}
      * @param nValues The new value of the field {@code n_values}
      */
-    public void nValues$set(int nValues) {
+    public void setNValues(int nValues) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
@@ -101,21 +109,21 @@ public class FlagsClass extends Struct {
      * Get the value of the field {@code values}
      * @return The value of the field {@code values}
      */
-    public org.gtk.gobject.FlagsValue values$get() {
+    public org.gtk.gobject.FlagsValue getValues() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("values"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.FlagsValue(RESULT, Ownership.UNKNOWN);
+        return org.gtk.gobject.FlagsValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code values}
      * @param values The new value of the field {@code values}
      */
-    public void values$set(org.gtk.gobject.FlagsValue values) {
+    public void setValues(org.gtk.gobject.FlagsValue values) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), values.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
     }
     
     /**
@@ -123,35 +131,41 @@ public class FlagsClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FlagsClass(Addressable address, Ownership ownership) {
+    protected FlagsClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FlagsClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FlagsClass(input, ownership);
+    
+    /**
+     * A {@link FlagsClass.Builder} object constructs a {@link FlagsClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link FlagsClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private FlagsClass struct;
+        private final FlagsClass struct;
         
-         /**
-         * A {@link FlagsClass.Build} object constructs a {@link FlagsClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = FlagsClass.allocate();
         }
         
          /**
          * Finish building the {@link FlagsClass} struct.
          * @return A new instance of {@code FlagsClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FlagsClass construct() {
+        public FlagsClass build() {
             return struct;
         }
         
@@ -160,7 +174,7 @@ public class FlagsClass extends Struct {
          * @param gTypeClass The value for the {@code gTypeClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
+        public Builder setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
@@ -172,7 +186,7 @@ public class FlagsClass extends Struct {
          * @param mask The value for the {@code mask} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMask(int mask) {
+        public Builder setMask(int mask) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mask"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), mask);
@@ -184,7 +198,7 @@ public class FlagsClass extends Struct {
          * @param nValues The value for the {@code nValues} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNValues(int nValues) {
+        public Builder setNValues(int nValues) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
@@ -197,7 +211,7 @@ public class FlagsClass extends Struct {
          * @param values The value for the {@code values} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValues(org.gtk.gobject.FlagsValue values) {
+        public Builder setValues(org.gtk.gobject.FlagsValue values) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("values"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));

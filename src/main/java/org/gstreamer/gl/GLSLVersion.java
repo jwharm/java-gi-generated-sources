@@ -114,12 +114,11 @@ public enum GLSLVersion implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static @NotNull org.gstreamer.gl.GLSLVersion fromString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static org.gstreamer.gl.GLSLVersion fromString(java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_glsl_version_from_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,16 +133,13 @@ public enum GLSLVersion implements io.github.jwharm.javagi.Enumeration {
      * @param profileRet resulting {@link GLSLVersion}
      * @return TRUE if a valid {@code #version} string was found, FALSE otherwise
      */
-    public static boolean profileFromString(@NotNull java.lang.String string, @NotNull Out<org.gstreamer.gl.GLSLVersion> versionRet, @NotNull Out<org.gstreamer.gl.GLSLProfile> profileRet) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(versionRet, "Parameter 'versionRet' must not be null");
+    public static boolean profileFromString(java.lang.String string, Out<org.gstreamer.gl.GLSLVersion> versionRet, Out<org.gstreamer.gl.GLSLProfile> profileRet) {
         MemorySegment versionRetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(profileRet, "Parameter 'profileRet' must not be null");
         MemorySegment profileRetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_glsl_version_profile_from_string.invokeExact(
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     (Addressable) versionRetPOINTER.address(),
                     (Addressable) profileRetPOINTER.address());
         } catch (Throwable ERR) {
@@ -151,12 +147,10 @@ public enum GLSLVersion implements io.github.jwharm.javagi.Enumeration {
         }
         versionRet.set(org.gstreamer.gl.GLSLVersion.of(versionRetPOINTER.get(Interop.valueLayout.C_INT, 0)));
         profileRet.set(new org.gstreamer.gl.GLSLProfile(profileRetPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull java.lang.String profileToString(@NotNull org.gstreamer.gl.GLSLVersion version, @NotNull org.gstreamer.gl.GLSLProfile profile) {
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public static java.lang.String profileToString(org.gstreamer.gl.GLSLVersion version, org.gstreamer.gl.GLSLProfile profile) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_glsl_version_profile_to_string.invokeExact(
@@ -165,11 +159,10 @@ public enum GLSLVersion implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @Nullable java.lang.String toString(@NotNull org.gstreamer.gl.GLSLVersion version) {
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
+    public static @Nullable java.lang.String toString(org.gstreamer.gl.GLSLVersion version) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_glsl_version_to_string.invokeExact(
@@ -177,7 +170,7 @@ public enum GLSLVersion implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

@@ -24,31 +24,14 @@ import org.jetbrains.annotations.*;
  */
 public interface Native extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Native if its GType is a (or inherits from) "GtkNative".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Native} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkNative", a ClassCastException will be thrown.
-     */
-    public static Native castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Native.getType())) {
-            return new NativeImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkNative");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NativeImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NativeImpl(input, ownership);
     
     /**
      * Returns the renderer that is used for this {@code GtkNative}.
      * @return the renderer for {@code self}
      */
-    default @NotNull org.gtk.gsk.Renderer getRenderer() {
+    default org.gtk.gsk.Renderer getRenderer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_renderer.invokeExact(
@@ -56,14 +39,14 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Renderer(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.Renderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.Renderer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Returns the surface of this {@code GtkNative}.
      * @return the surface of {@code self}
      */
-    default @NotNull org.gtk.gdk.Surface getSurface() {
+    default org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_surface.invokeExact(
@@ -71,7 +54,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -83,9 +66,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      * @param y return location for the y coordinate
      */
     default void getSurfaceTransform(Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gtk_native_get_surface_transform.invokeExact(
@@ -131,7 +112,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_native_get_type.invokeExact();
@@ -146,8 +127,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
      * @param surface a {@code GdkSurface}
      * @return the {@code GtkNative} that is associated with {@code surface}
      */
-    public static @Nullable org.gtk.gtk.Native getForSurface(@NotNull org.gtk.gdk.Surface surface) {
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
+    public static @Nullable org.gtk.gtk.Native getForSurface(org.gtk.gdk.Surface surface) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_for_surface.invokeExact(
@@ -155,7 +135,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Native.NativeImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Native) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Native.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     @ApiStatus.Internal
@@ -211,7 +191,7 @@ public interface Native extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class NativeImpl extends org.gtk.gobject.Object implements Native {
+    class NativeImpl extends org.gtk.gobject.GObject implements Native {
         
         static {
             Gtk.javagi$ensureInitialized();

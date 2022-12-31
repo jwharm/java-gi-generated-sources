@@ -41,33 +41,15 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Snapshot(Addressable address, Ownership ownership) {
+    protected Snapshot(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Snapshot if its GType is a (or inherits from) "Snapshot".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Snapshot} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "Snapshot", a ClassCastException will be thrown.
-     */
-    public static Snapshot castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Snapshot.getType())) {
-            return new Snapshot(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of Snapshot");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Snapshot> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Snapshot(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_new.invokeExact();
         } catch (Throwable ERR) {
@@ -93,10 +75,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param borderColor the color used on the top, right,
      *   bottom and left side.
      */
-    public void appendBorder(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull float[] borderWidth, @NotNull org.gtk.gdk.RGBA[] borderColor) {
-        java.util.Objects.requireNonNull(outline, "Parameter 'outline' must not be null");
-        java.util.Objects.requireNonNull(borderWidth, "Parameter 'borderWidth' must not be null");
-        java.util.Objects.requireNonNull(borderColor, "Parameter 'borderColor' must not be null");
+    public void appendBorder(org.gtk.gsk.RoundedRect outline, float[] borderWidth, org.gtk.gdk.RGBA[] borderColor) {
         try {
             DowncallHandles.gtk_snapshot_append_border.invokeExact(
                     handle(),
@@ -115,8 +94,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @return a {@code cairo_t} suitable for drawing the contents of
      *   the newly created render node
      */
-    public @NotNull org.cairographics.Context appendCairo(@NotNull org.gtk.graphene.Rect bounds) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+    public org.cairographics.Context appendCairo(org.gtk.graphene.Rect bounds) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_snapshot_append_cairo.invokeExact(
@@ -125,7 +103,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Context(RESULT, Ownership.FULL);
+        return org.cairographics.Context.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -138,9 +116,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param color the color to draw
      * @param bounds the bounds for the new node
      */
-    public void appendColor(@NotNull org.gtk.gdk.RGBA color, @NotNull org.gtk.graphene.Rect bounds) {
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+    public void appendColor(org.gtk.gdk.RGBA color, org.gtk.graphene.Rect bounds) {
         try {
             DowncallHandles.gtk_snapshot_append_color.invokeExact(
                     handle(),
@@ -160,10 +136,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param stops the color stops defining the gradient
      * @param nStops the number of elements in {@code stops}
      */
-    public void appendConicGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, float rotation, @NotNull org.gtk.gsk.ColorStop[] stops, long nStops) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
-        java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
+    public void appendConicGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float rotation, org.gtk.gsk.ColorStop[] stops, long nStops) {
         try {
             DowncallHandles.gtk_snapshot_append_conic_gradient.invokeExact(
                     handle(),
@@ -186,9 +159,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param spread how far the shadow spreads towards the inside
      * @param blurRadius how much blur to apply to the shadow
      */
-    public void appendInsetShadow(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
-        java.util.Objects.requireNonNull(outline, "Parameter 'outline' must not be null");
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    public void appendInsetShadow(org.gtk.gsk.RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
         try {
             DowncallHandles.gtk_snapshot_append_inset_shadow.invokeExact(
                     handle(),
@@ -203,9 +174,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         }
     }
     
-    public void appendLayout(@NotNull org.pango.Layout layout, @NotNull org.gtk.gdk.RGBA color) {
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    public void appendLayout(org.pango.Layout layout, org.gtk.gdk.RGBA color) {
         try {
             DowncallHandles.gtk_snapshot_append_layout.invokeExact(
                     handle(),
@@ -224,11 +193,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param stops the color stops defining the gradient
      * @param nStops the number of elements in {@code stops}
      */
-    public void appendLinearGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point startPoint, @NotNull org.gtk.graphene.Point endPoint, @NotNull org.gtk.gsk.ColorStop[] stops, long nStops) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNull(startPoint, "Parameter 'startPoint' must not be null");
-        java.util.Objects.requireNonNull(endPoint, "Parameter 'endPoint' must not be null");
-        java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
+    public void appendLinearGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point startPoint, org.gtk.graphene.Point endPoint, org.gtk.gsk.ColorStop[] stops, long nStops) {
         try {
             DowncallHandles.gtk_snapshot_append_linear_gradient.invokeExact(
                     handle(),
@@ -250,8 +215,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * will become the initial node.
      * @param node a {@code GskRenderNode}
      */
-    public void appendNode(@NotNull org.gtk.gsk.RenderNode node) {
-        java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
+    public void appendNode(org.gtk.gsk.RenderNode node) {
         try {
             DowncallHandles.gtk_snapshot_append_node.invokeExact(
                     handle(),
@@ -270,9 +234,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param spread how far the shadow spreads towards the outside
      * @param blurRadius how much blur to apply to the shadow
      */
-    public void appendOutsetShadow(@NotNull org.gtk.gsk.RoundedRect outline, @NotNull org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
-        java.util.Objects.requireNonNull(outline, "Parameter 'outline' must not be null");
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    public void appendOutsetShadow(org.gtk.gsk.RoundedRect outline, org.gtk.gdk.RGBA color, float dx, float dy, float spread, float blurRadius) {
         try {
             DowncallHandles.gtk_snapshot_append_outset_shadow.invokeExact(
                     handle(),
@@ -298,10 +260,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param stops the color stops defining the gradient
      * @param nStops the number of elements in {@code stops}
      */
-    public void appendRadialGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, @NotNull org.gtk.gsk.ColorStop[] stops, long nStops) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
-        java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
+    public void appendRadialGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, org.gtk.gsk.ColorStop[] stops, long nStops) {
         try {
             DowncallHandles.gtk_snapshot_append_radial_gradient.invokeExact(
                     handle(),
@@ -326,11 +285,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param stops the color stops defining the gradient
      * @param nStops the number of elements in {@code stops}
      */
-    public void appendRepeatingLinearGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point startPoint, @NotNull org.gtk.graphene.Point endPoint, @NotNull org.gtk.gsk.ColorStop[] stops, long nStops) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNull(startPoint, "Parameter 'startPoint' must not be null");
-        java.util.Objects.requireNonNull(endPoint, "Parameter 'endPoint' must not be null");
-        java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
+    public void appendRepeatingLinearGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point startPoint, org.gtk.graphene.Point endPoint, org.gtk.gsk.ColorStop[] stops, long nStops) {
         try {
             DowncallHandles.gtk_snapshot_append_repeating_linear_gradient.invokeExact(
                     handle(),
@@ -355,10 +310,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param stops the color stops defining the gradient
      * @param nStops the number of elements in {@code stops}
      */
-    public void appendRepeatingRadialGradient(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, @NotNull org.gtk.gsk.ColorStop[] stops, long nStops) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
-        java.util.Objects.requireNonNull(stops, "Parameter 'stops' must not be null");
+    public void appendRepeatingRadialGradient(org.gtk.graphene.Rect bounds, org.gtk.graphene.Point center, float hradius, float vradius, float start, float end, org.gtk.gsk.ColorStop[] stops, long nStops) {
         try {
             DowncallHandles.gtk_snapshot_append_repeating_radial_gradient.invokeExact(
                     handle(),
@@ -382,9 +334,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param texture the texture to render
      * @param bounds the bounds for the new node
      */
-    public void appendTexture(@NotNull org.gtk.gdk.Texture texture, @NotNull org.gtk.graphene.Rect bounds) {
-        java.util.Objects.requireNonNull(texture, "Parameter 'texture' must not be null");
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+    public void appendTexture(org.gtk.gdk.Texture texture, org.gtk.graphene.Rect bounds) {
         try {
             DowncallHandles.gtk_snapshot_append_texture.invokeExact(
                     handle(),
@@ -409,7 +359,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.RenderNode(RESULT, Ownership.FULL);
+        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -429,7 +379,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -490,8 +440,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * to {@link Snapshot#pop}.
      * @param blendMode blend mode to use
      */
-    public void pushBlend(@NotNull org.gtk.gsk.BlendMode blendMode) {
-        java.util.Objects.requireNonNull(blendMode, "Parameter 'blendMode' must not be null");
+    public void pushBlend(org.gtk.gsk.BlendMode blendMode) {
         try {
             DowncallHandles.gtk_snapshot_push_blend.invokeExact(
                     handle(),
@@ -523,8 +472,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * The image is recorded until the next call to {@link Snapshot#pop}.
      * @param bounds the rectangle to clip to
      */
-    public void pushClip(@NotNull org.gtk.graphene.Rect bounds) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+    public void pushClip(org.gtk.graphene.Rect bounds) {
         try {
             DowncallHandles.gtk_snapshot_push_clip.invokeExact(
                     handle(),
@@ -542,9 +490,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param colorMatrix the color matrix to use
      * @param colorOffset the color offset to use
      */
-    public void pushColorMatrix(@NotNull org.gtk.graphene.Matrix colorMatrix, @NotNull org.gtk.graphene.Vec4 colorOffset) {
-        java.util.Objects.requireNonNull(colorMatrix, "Parameter 'colorMatrix' must not be null");
-        java.util.Objects.requireNonNull(colorOffset, "Parameter 'colorOffset' must not be null");
+    public void pushColorMatrix(org.gtk.graphene.Matrix colorMatrix, org.gtk.graphene.Vec4 colorOffset) {
         try {
             DowncallHandles.gtk_snapshot_push_color_matrix.invokeExact(
                     handle(),
@@ -586,12 +532,11 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param message a printf-style format string
      * @param varargs arguments for {@code message}
      */
-    public void pushDebug(@NotNull java.lang.String message, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public void pushDebug(java.lang.String message, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_snapshot_push_debug.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(message),
+                    Marshal.stringToAddress.marshal(message, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -637,10 +582,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param bounds the rectangle to render into
      * @param takeArgs Data block with arguments for the shader.
      */
-    public void pushGlShader(@NotNull org.gtk.gsk.GLShader shader, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.glib.Bytes takeArgs) {
-        java.util.Objects.requireNonNull(shader, "Parameter 'shader' must not be null");
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNull(takeArgs, "Parameter 'takeArgs' must not be null");
+    public void pushGlShader(org.gtk.gsk.GLShader shader, org.gtk.graphene.Rect bounds, org.gtk.glib.Bytes takeArgs) {
         try {
             DowncallHandles.gtk_snapshot_push_gl_shader.invokeExact(
                     handle(),
@@ -677,8 +619,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param childBounds the bounds of the child or {@code null}
      *   to use the full size of the collected child node
      */
-    public void pushRepeat(@NotNull org.gtk.graphene.Rect bounds, @Nullable org.gtk.graphene.Rect childBounds) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+    public void pushRepeat(org.gtk.graphene.Rect bounds, @Nullable org.gtk.graphene.Rect childBounds) {
         try {
             DowncallHandles.gtk_snapshot_push_repeat.invokeExact(
                     handle(),
@@ -695,8 +636,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * The image is recorded until the next call to {@link Snapshot#pop}.
      * @param bounds the rounded rectangle to clip to
      */
-    public void pushRoundedClip(@NotNull org.gtk.gsk.RoundedRect bounds) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+    public void pushRoundedClip(org.gtk.gsk.RoundedRect bounds) {
         try {
             DowncallHandles.gtk_snapshot_push_rounded_clip.invokeExact(
                     handle(),
@@ -713,8 +653,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param shadow the first shadow specification
      * @param nShadows number of shadow specifications
      */
-    public void pushShadow(@NotNull org.gtk.gsk.Shadow[] shadow, long nShadows) {
-        java.util.Objects.requireNonNull(shadow, "Parameter 'shadow' must not be null");
+    public void pushShadow(org.gtk.gsk.Shadow[] shadow, long nShadows) {
         try {
             DowncallHandles.gtk_snapshot_push_shadow.invokeExact(
                     handle(),
@@ -735,8 +674,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public void renderBackground(@NotNull org.gtk.gtk.StyleContext context, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void renderBackground(org.gtk.gtk.StyleContext context, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_snapshot_render_background.invokeExact(
                     handle(),
@@ -760,8 +698,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public void renderFocus(@NotNull org.gtk.gtk.StyleContext context, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void renderFocus(org.gtk.gtk.StyleContext context, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_snapshot_render_focus.invokeExact(
                     handle(),
@@ -785,8 +722,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public void renderFrame(@NotNull org.gtk.gtk.StyleContext context, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void renderFrame(org.gtk.gtk.StyleContext context, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_snapshot_render_frame.invokeExact(
                     handle(),
@@ -809,10 +745,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param index the index in the {@code PangoLayout}
      * @param direction the {@code PangoDirection} of the text
      */
-    public void renderInsertionCursor(@NotNull org.gtk.gtk.StyleContext context, double x, double y, @NotNull org.pango.Layout layout, int index, @NotNull org.pango.Direction direction) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public void renderInsertionCursor(org.gtk.gtk.StyleContext context, double x, double y, org.pango.Layout layout, int index, org.pango.Direction direction) {
         try {
             DowncallHandles.gtk_snapshot_render_insertion_cursor.invokeExact(
                     handle(),
@@ -836,9 +769,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param y Y origin of the rectangle
      * @param layout the {@code PangoLayout} to render
      */
-    public void renderLayout(@NotNull org.gtk.gtk.StyleContext context, double x, double y, @NotNull org.pango.Layout layout) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    public void renderLayout(org.gtk.gtk.StyleContext context, double x, double y, org.pango.Layout layout) {
         try {
             DowncallHandles.gtk_snapshot_render_layout.invokeExact(
                     handle(),
@@ -889,8 +820,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * @param angle the rotation angle, in degrees (clockwise)
      * @param axis The rotation axis
      */
-    public void rotate3d(float angle, @NotNull org.gtk.graphene.Vec3 axis) {
-        java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
+    public void rotate3d(float angle, org.gtk.graphene.Vec3 axis) {
         try {
             DowncallHandles.gtk_snapshot_rotate_3d.invokeExact(
                     handle(),
@@ -966,7 +896,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * After calling this function, it is no longer possible to
      * add more nodes to {@code snapshot}. The only function that should
-     * be called after this is {@link org.gtk.gobject.Object#unref}.
+     * be called after this is {@link org.gtk.gobject.GObject#unref}.
      * @return the constructed {@code GskRenderNode}
      */
     public @Nullable org.gtk.gsk.RenderNode toNode() {
@@ -977,7 +907,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(RESULT, Ownership.FULL);
+        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -986,7 +916,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * <p>
      * After calling this function, it is no longer possible to
      * add more nodes to {@code snapshot}. The only function that should
-     * be called after this is {@link org.gtk.gobject.Object#unref}.
+     * be called after this is {@link org.gtk.gobject.GObject#unref}.
      * @param size The size of the resulting paintable
      *   or {@code null} to use the bounds of the snapshot
      * @return a new {@code GdkPaintable}
@@ -1000,7 +930,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1021,8 +951,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Transforms {@code snapshot}'s coordinate system with the given {@code matrix}.
      * @param matrix the matrix to multiply the transform with
      */
-    public void transformMatrix(@NotNull org.gtk.graphene.Matrix matrix) {
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
+    public void transformMatrix(org.gtk.graphene.Matrix matrix) {
         try {
             DowncallHandles.gtk_snapshot_transform_matrix.invokeExact(
                     handle(),
@@ -1036,8 +965,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Translates {@code snapshot}'s coordinate system by {@code point} in 2-dimensional space.
      * @param point the point to translate the snapshot by
      */
-    public void translate(@NotNull org.gtk.graphene.Point point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public void translate(org.gtk.graphene.Point point) {
         try {
             DowncallHandles.gtk_snapshot_translate.invokeExact(
                     handle(),
@@ -1051,8 +979,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Translates {@code snapshot}'s coordinate system by {@code point}.
      * @param point the point to translate the snapshot by
      */
-    public void translate3d(@NotNull org.gtk.graphene.Point3D point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public void translate3d(org.gtk.graphene.Point3D point) {
         try {
             DowncallHandles.gtk_snapshot_translate_3d.invokeExact(
                     handle(),
@@ -1066,7 +993,7 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_snapshot_get_type.invokeExact();
@@ -1074,41 +1001,6 @@ public class Snapshot extends org.gtk.gdk.Snapshot {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Type(RESULT);
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends org.gtk.gdk.Snapshot.Build {
-        
-         /**
-         * A {@link Snapshot.Build} object constructs a {@link Snapshot} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link Snapshot} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link Snapshot} using {@link Snapshot#castFrom}.
-         * @return A new instance of {@code Snapshot} with the properties 
-         *         that were set in the Build object.
-         */
-        public Snapshot construct() {
-            return Snapshot.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Snapshot.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
     }
     
     private static class DowncallHandles {

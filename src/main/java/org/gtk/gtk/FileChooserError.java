@@ -55,7 +55,7 @@ public enum FileChooserError implements io.github.jwharm.javagi.Enumeration {
      * Registers an error quark for {@code GtkFileChooser} errors.
      * @return The error quark used for {@code GtkFileChooser} errors.
      */
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_file_chooser_error_quark.invokeExact();

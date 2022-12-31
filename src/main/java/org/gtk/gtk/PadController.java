@@ -75,34 +75,15 @@ public class PadController extends org.gtk.gtk.EventController {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PadController(Addressable address, Ownership ownership) {
+    protected PadController(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PadController if its GType is a (or inherits from) "GtkPadController".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PadController} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPadController", a ClassCastException will be thrown.
-     */
-    public static PadController castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PadController.getType())) {
-            return new PadController(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPadController");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PadController> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PadController(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
-        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_pad_controller_new.invokeExact(
                     group.handle(),
@@ -131,7 +112,7 @@ public class PadController extends org.gtk.gtk.EventController {
      * @param group {@code GActionGroup} to trigger actions from
      * @param pad A {@link org.gtk.gdk.InputSource#TABLET_PAD} device, or {@code null} to handle all pads
      */
-    public PadController(@NotNull org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
+    public PadController(org.gtk.gio.ActionGroup group, @Nullable org.gtk.gdk.Device pad) {
         super(constructNew(group, pad), Ownership.FULL);
     }
     
@@ -152,18 +133,15 @@ public class PadController extends org.gtk.gtk.EventController {
      *   be deemed user-visible.
      * @param actionName action name that will be activated in the {@code GActionGroup}
      */
-    public void setAction(@NotNull org.gtk.gtk.PadActionType type, int index, int mode, @NotNull java.lang.String label, @NotNull java.lang.String actionName) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+    public void setAction(org.gtk.gtk.PadActionType type, int index, int mode, java.lang.String label, java.lang.String actionName) {
         try {
             DowncallHandles.gtk_pad_controller_set_action.invokeExact(
                     handle(),
                     type.getValue(),
                     index,
                     mode,
-                    Interop.allocateNativeString(label),
-                    Interop.allocateNativeString(actionName));
+                    Marshal.stringToAddress.marshal(label, null),
+                    Marshal.stringToAddress.marshal(actionName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,8 +155,7 @@ public class PadController extends org.gtk.gtk.EventController {
      * @param entries the action entries to set on {@code controller}
      * @param nEntries the number of elements in {@code entries}
      */
-    public void setActionEntries(@NotNull org.gtk.gtk.PadActionEntry[] entries, int nEntries) {
-        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
+    public void setActionEntries(org.gtk.gtk.PadActionEntry[] entries, int nEntries) {
         try {
             DowncallHandles.gtk_pad_controller_set_action_entries.invokeExact(
                     handle(),
@@ -193,7 +170,7 @@ public class PadController extends org.gtk.gtk.EventController {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_pad_controller_get_type.invokeExact();
@@ -202,48 +179,50 @@ public class PadController extends org.gtk.gtk.EventController {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PadController.Builder} object constructs a {@link PadController} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PadController.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.EventController.Build {
+    public static class Builder extends org.gtk.gtk.EventController.Builder {
         
-         /**
-         * A {@link PadController.Build} object constructs a {@link PadController} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PadController} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PadController} using {@link PadController#castFrom}.
+         * {@link PadController}.
          * @return A new instance of {@code PadController} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PadController construct() {
-            return PadController.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PadController.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PadController build() {
+            return (PadController) org.gtk.gobject.GObject.newWithProperties(
+                PadController.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setActionGroup(org.gtk.gio.ActionGroup actionGroup) {
+        public Builder setActionGroup(org.gtk.gio.ActionGroup actionGroup) {
             names.add("action-group");
             values.add(org.gtk.gobject.Value.create(actionGroup));
             return this;
         }
         
-        public Build setPad(org.gtk.gdk.Device pad) {
+        public Builder setPad(org.gtk.gdk.Device pad) {
             names.add("pad");
             values.add(org.gtk.gobject.Value.create(pad));
             return this;

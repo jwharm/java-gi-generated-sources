@@ -24,11 +24,15 @@ public class CapsFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public CapsFlags or(CapsFlags mask) {
-        return new CapsFlags(this.getValue() | mask.getValue());
+    public CapsFlags or(CapsFlags... masks) {
+        int value = this.getValue();
+        for (CapsFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new CapsFlags(value);
     }
     
     /**
@@ -38,7 +42,8 @@ public class CapsFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static CapsFlags combined(CapsFlags mask, CapsFlags... masks) {
-        int value = mask.getValue();        for (CapsFlags arg : masks) {
+        int value = mask.getValue();
+        for (CapsFlags arg : masks) {
             value |= arg.getValue();
         }
         return new CapsFlags(value);

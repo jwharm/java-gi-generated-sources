@@ -17,5 +17,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ErrorInitFunc {
-        void onErrorInitFunc(@NotNull org.gtk.glib.Error error);
+    void run(org.gtk.glib.Error error);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress error) {
+        run(org.gtk.glib.Error.fromAddress.marshal(error, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ErrorInitFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

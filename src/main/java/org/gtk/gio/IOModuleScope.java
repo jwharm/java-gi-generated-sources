@@ -48,10 +48,12 @@ public class IOModuleScope extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IOModuleScope(Addressable address, Ownership ownership) {
+    protected IOModuleScope(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IOModuleScope> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOModuleScope(input, ownership);
     
     /**
      * Block modules with the given {@code basename} from being loaded when
@@ -59,12 +61,11 @@ public class IOModuleScope extends Struct {
      * or g_io_modules_load_all_in_directory_with_scope().
      * @param basename the basename to block
      */
-    public void block(@NotNull java.lang.String basename) {
-        java.util.Objects.requireNonNull(basename, "Parameter 'basename' must not be null");
+    public void block(java.lang.String basename) {
         try {
             DowncallHandles.g_io_module_scope_block.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(basename));
+                    Marshal.stringToAddress.marshal(basename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,8 +93,7 @@ public class IOModuleScope extends Struct {
      * @param flags flags for the new scope
      * @return the new module scope
      */
-    public static @NotNull org.gtk.gio.IOModuleScope new_(@NotNull org.gtk.gio.IOModuleScopeFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.gio.IOModuleScope new_(org.gtk.gio.IOModuleScopeFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_module_scope_new.invokeExact(
@@ -101,7 +101,7 @@ public class IOModuleScope extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOModuleScope(RESULT, Ownership.FULL);
+        return org.gtk.gio.IOModuleScope.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

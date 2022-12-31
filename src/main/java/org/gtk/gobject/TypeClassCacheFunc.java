@@ -19,5 +19,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TypeClassCacheFunc {
-        boolean onTypeClassCacheFunc(@NotNull org.gtk.gobject.TypeClass gClass);
+    boolean run(org.gtk.gobject.TypeClass gClass);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress cacheData, MemoryAddress gClass) {
+        var RESULT = run(org.gtk.gobject.TypeClass.fromAddress.marshal(gClass, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TypeClassCacheFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

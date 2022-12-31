@@ -64,7 +64,7 @@ import org.jetbrains.annotations.*;
  * process are marked with the {@link PluginFlags#CACHED} bit. These plugins are
  * removed at the end of initialization.
  */
-public class Registry extends org.gstreamer.gst.Object {
+public class Registry extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -72,18 +72,16 @@ public class Registry extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstRegistry";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -91,37 +89,23 @@ public class Registry extends org.gstreamer.gst.Object {
      * <p>
      * Because Registry is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Registry(Addressable address, Ownership ownership) {
+    protected Registry(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Registry if its GType is a (or inherits from) "GstRegistry".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Registry} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstRegistry", a ClassCastException will be thrown.
-     */
-    public static Registry castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Registry.getType())) {
-            return new Registry(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstRegistry");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Registry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Registry(input, ownership);
     
     /**
      * Add the feature to the registry. The feature-added signal will be emitted.
@@ -133,8 +117,7 @@ public class Registry extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public boolean addFeature(@NotNull org.gstreamer.gst.PluginFeature feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    public boolean addFeature(org.gstreamer.gst.PluginFeature feature) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_registry_add_feature.invokeExact(
@@ -143,7 +126,7 @@ public class Registry extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -156,8 +139,7 @@ public class Registry extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public boolean addPlugin(@NotNull org.gstreamer.gst.Plugin plugin) {
-        java.util.Objects.requireNonNull(plugin, "Parameter 'plugin' must not be null");
+    public boolean addPlugin(org.gstreamer.gst.Plugin plugin) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_registry_add_plugin.invokeExact(
@@ -166,7 +148,7 @@ public class Registry extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -180,20 +162,19 @@ public class Registry extends org.gstreamer.gst.Object {
      * @return {@code true} if the feature could be found and the version is
      * the same as the required version or newer, and {@code false} otherwise.
      */
-    public boolean checkFeatureVersion(@NotNull java.lang.String featureName, int minMajor, int minMinor, int minMicro) {
-        java.util.Objects.requireNonNull(featureName, "Parameter 'featureName' must not be null");
+    public boolean checkFeatureVersion(java.lang.String featureName, int minMajor, int minMinor, int minMicro) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_registry_check_feature_version.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(featureName),
+                    Marshal.stringToAddress.marshal(featureName, null),
                     minMajor,
                     minMinor,
                     minMicro);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -208,23 +189,18 @@ public class Registry extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gtk.glib.List featureFilter(@NotNull org.gstreamer.gst.PluginFeatureFilter filter, boolean first) {
-        java.util.Objects.requireNonNull(filter, "Parameter 'filter' must not be null");
+    public org.gtk.glib.List featureFilter(org.gstreamer.gst.PluginFeatureFilter filter, boolean first) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_feature_filter.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbPluginFeatureFilter",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    first ? 1 : 0,
-                    (Addressable) (Interop.registerCallback(filter)));
+                    (Addressable) filter.toCallback(),
+                    Marshal.booleanToInteger.marshal(first, null).intValue(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -237,19 +213,17 @@ public class Registry extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public @Nullable org.gstreamer.gst.PluginFeature findFeature(@NotNull java.lang.String name, @NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public @Nullable org.gstreamer.gst.PluginFeature findFeature(java.lang.String name, org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_find_feature.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.PluginFeature(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.PluginFeature) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PluginFeature.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -262,29 +236,27 @@ public class Registry extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public @Nullable org.gstreamer.gst.Plugin findPlugin(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gstreamer.gst.Plugin findPlugin(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_find_plugin.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Plugin(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Retrieves a {@link org.gtk.glib.List} of {@link PluginFeature} of {@code type}.
-     * @param type a {@link org.gtk.gobject.Type}.
+     * @param type a {@link org.gtk.glib.Type}.
      * @return a {@link org.gtk.glib.List} of
      *     {@link PluginFeature} of {@code type}. Use gst_plugin_feature_list_free() after use
      * <p>
      * MT safe.
      */
-    public @NotNull org.gtk.glib.List getFeatureList(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public org.gtk.glib.List getFeatureList(org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_get_feature_list.invokeExact(
@@ -293,7 +265,7 @@ public class Registry extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -302,17 +274,16 @@ public class Registry extends org.gstreamer.gst.Object {
      * @return a {@link org.gtk.glib.List} of
      *     {@link PluginFeature}. Use gst_plugin_feature_list_free() after usage.
      */
-    public @NotNull org.gtk.glib.List getFeatureListByPlugin(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public org.gtk.glib.List getFeatureListByPlugin(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_get_feature_list_by_plugin.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -339,7 +310,7 @@ public class Registry extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gtk.glib.List getPluginList() {
+    public org.gtk.glib.List getPluginList() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_get_plugin_list.invokeExact(
@@ -347,7 +318,7 @@ public class Registry extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -357,17 +328,16 @@ public class Registry extends org.gstreamer.gst.Object {
      * @return the {@link Plugin} if found, or
      *     {@code null} if not.  gst_object_unref() after usage.
      */
-    public @Nullable org.gstreamer.gst.Plugin lookup(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public @Nullable org.gstreamer.gst.Plugin lookup(java.lang.String filename) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_lookup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Plugin(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -378,17 +348,16 @@ public class Registry extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public @Nullable org.gstreamer.gst.PluginFeature lookupFeature(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gstreamer.gst.PluginFeature lookupFeature(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_lookup_feature.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.PluginFeature(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.PluginFeature) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PluginFeature.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -404,23 +373,18 @@ public class Registry extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gtk.glib.List pluginFilter(@NotNull org.gstreamer.gst.PluginFilter filter, boolean first) {
-        java.util.Objects.requireNonNull(filter, "Parameter 'filter' must not be null");
+    public org.gtk.glib.List pluginFilter(org.gstreamer.gst.PluginFilter filter, boolean first) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_plugin_filter.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbPluginFilter",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    first ? 1 : 0,
-                    (Addressable) (Interop.registerCallback(filter)));
+                    (Addressable) filter.toCallback(),
+                    Marshal.booleanToInteger.marshal(first, null).intValue(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -429,8 +393,7 @@ public class Registry extends org.gstreamer.gst.Object {
      * MT safe.
      * @param feature the feature to remove
      */
-    public void removeFeature(@NotNull org.gstreamer.gst.PluginFeature feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    public void removeFeature(org.gstreamer.gst.PluginFeature feature) {
         try {
             DowncallHandles.gst_registry_remove_feature.invokeExact(
                     handle(),
@@ -446,8 +409,7 @@ public class Registry extends org.gstreamer.gst.Object {
      * MT safe.
      * @param plugin the plugin to remove
      */
-    public void removePlugin(@NotNull org.gstreamer.gst.Plugin plugin) {
-        java.util.Objects.requireNonNull(plugin, "Parameter 'plugin' must not be null");
+    public void removePlugin(org.gstreamer.gst.Plugin plugin) {
         try {
             DowncallHandles.gst_registry_remove_plugin.invokeExact(
                     handle(),
@@ -463,24 +425,23 @@ public class Registry extends org.gstreamer.gst.Object {
      * @param path the path to scan
      * @return {@code true} if registry changed
      */
-    public boolean scanPath(@NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public boolean scanPath(java.lang.String path) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_registry_scan_path.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_registry_get_type.invokeExact();
@@ -507,7 +468,7 @@ public class Registry extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -519,7 +480,7 @@ public class Registry extends org.gstreamer.gst.Object {
     public static void forkSetEnabled(boolean enabled) {
         try {
             DowncallHandles.gst_registry_fork_set_enabled.invokeExact(
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -531,19 +492,30 @@ public class Registry extends org.gstreamer.gst.Object {
      * initialized.
      * @return the {@link Registry}.
      */
-    public static @NotNull org.gstreamer.gst.Registry get() {
+    public static org.gstreamer.gst.Registry get() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_registry_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Registry(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Registry) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Registry.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     @FunctionalInterface
     public interface FeatureAdded {
-        void signalReceived(Registry sourceRegistry, @NotNull org.gstreamer.gst.PluginFeature feature);
+        void run(org.gstreamer.gst.PluginFeature feature);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceRegistry, MemoryAddress feature) {
+            run((org.gstreamer.gst.PluginFeature) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(feature)), org.gstreamer.gst.PluginFeature.fromAddress).marshal(feature, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FeatureAdded.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -555,16 +527,8 @@ public class Registry extends org.gstreamer.gst.Object {
     public Signal<Registry.FeatureAdded> onFeatureAdded(Registry.FeatureAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("feature-added"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Registry.Callbacks.class, "signalRegistryFeatureAdded",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Registry.FeatureAdded>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("feature-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -572,7 +536,18 @@ public class Registry extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface PluginAdded {
-        void signalReceived(Registry sourceRegistry, @NotNull org.gstreamer.gst.Plugin plugin);
+        void run(org.gstreamer.gst.Plugin plugin);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceRegistry, MemoryAddress plugin) {
+            run((org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(plugin)), org.gstreamer.gst.Plugin.fromAddress).marshal(plugin, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PluginAdded.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -584,52 +559,46 @@ public class Registry extends org.gstreamer.gst.Object {
     public Signal<Registry.PluginAdded> onPluginAdded(Registry.PluginAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("plugin-added"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Registry.Callbacks.class, "signalRegistryPluginAdded",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Registry.PluginAdded>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("plugin-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Registry.Builder} object constructs a {@link Registry} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Registry.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link Registry.Build} object constructs a {@link Registry} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Registry} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Registry} using {@link Registry#castFrom}.
+         * {@link Registry}.
          * @return A new instance of {@code Registry} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Registry construct() {
-            return Registry.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Registry.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Registry build() {
+            return (Registry) org.gtk.gobject.GObject.newWithProperties(
+                Registry.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -755,20 +724,5 @@ public class Registry extends org.gstreamer.gst.Object {
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalRegistryFeatureAdded(MemoryAddress sourceRegistry, MemoryAddress feature, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Registry.FeatureAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Registry(sourceRegistry, Ownership.NONE), new org.gstreamer.gst.PluginFeature(feature, Ownership.NONE));
-        }
-        
-        public static void signalRegistryPluginAdded(MemoryAddress sourceRegistry, MemoryAddress plugin, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Registry.PluginAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Registry(sourceRegistry, Ownership.NONE), new org.gstreamer.gst.Plugin(plugin, Ownership.NONE));
-        }
     }
 }

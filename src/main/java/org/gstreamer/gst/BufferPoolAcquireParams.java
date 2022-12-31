@@ -21,23 +21,21 @@ public class BufferPoolAcquireParams extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstBufferPoolAcquireParams";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("format"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("start"),
-        Interop.valueLayout.C_LONG.withName("stop"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("format"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("start"),
+            Interop.valueLayout.C_LONG.withName("stop"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -57,7 +55,7 @@ public class BufferPoolAcquireParams extends Struct {
      * Get the value of the field {@code format}
      * @return The value of the field {@code format}
      */
-    public org.gstreamer.gst.Format format$get() {
+    public org.gstreamer.gst.Format getFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -68,17 +66,17 @@ public class BufferPoolAcquireParams extends Struct {
      * Change the value of the field {@code format}
      * @param format The new value of the field {@code format}
      */
-    public void format$set(org.gstreamer.gst.Format format) {
+    public void setFormat(org.gstreamer.gst.Format format) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), format.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
     }
     
     /**
      * Get the value of the field {@code start}
      * @return The value of the field {@code start}
      */
-    public long start$get() {
+    public long getStart() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -89,7 +87,7 @@ public class BufferPoolAcquireParams extends Struct {
      * Change the value of the field {@code start}
      * @param start The new value of the field {@code start}
      */
-    public void start$set(long start) {
+    public void setStart(long start) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -99,7 +97,7 @@ public class BufferPoolAcquireParams extends Struct {
      * Get the value of the field {@code stop}
      * @return The value of the field {@code stop}
      */
-    public long stop$get() {
+    public long getStop() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stop"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -110,7 +108,7 @@ public class BufferPoolAcquireParams extends Struct {
      * Change the value of the field {@code stop}
      * @param stop The new value of the field {@code stop}
      */
-    public void stop$set(long stop) {
+    public void setStop(long stop) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stop"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), stop);
@@ -120,7 +118,7 @@ public class BufferPoolAcquireParams extends Struct {
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public org.gstreamer.gst.BufferPoolAcquireFlags flags$get() {
+    public org.gstreamer.gst.BufferPoolAcquireFlags getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -131,10 +129,10 @@ public class BufferPoolAcquireParams extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(org.gstreamer.gst.BufferPoolAcquireFlags flags) {
+    public void setFlags(org.gstreamer.gst.BufferPoolAcquireFlags flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
     }
     
     /**
@@ -142,35 +140,41 @@ public class BufferPoolAcquireParams extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BufferPoolAcquireParams(Addressable address, Ownership ownership) {
+    protected BufferPoolAcquireParams(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BufferPoolAcquireParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferPoolAcquireParams(input, ownership);
+    
+    /**
+     * A {@link BufferPoolAcquireParams.Builder} object constructs a {@link BufferPoolAcquireParams} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link BufferPoolAcquireParams.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private BufferPoolAcquireParams struct;
+        private final BufferPoolAcquireParams struct;
         
-         /**
-         * A {@link BufferPoolAcquireParams.Build} object constructs a {@link BufferPoolAcquireParams} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = BufferPoolAcquireParams.allocate();
         }
         
          /**
          * Finish building the {@link BufferPoolAcquireParams} struct.
          * @return A new instance of {@code BufferPoolAcquireParams} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BufferPoolAcquireParams construct() {
+        public BufferPoolAcquireParams build() {
             return struct;
         }
         
@@ -179,7 +183,7 @@ public class BufferPoolAcquireParams extends Struct {
          * @param format The value for the {@code format} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormat(org.gstreamer.gst.Format format) {
+        public Builder setFormat(org.gstreamer.gst.Format format) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
@@ -191,7 +195,7 @@ public class BufferPoolAcquireParams extends Struct {
          * @param start The value for the {@code start} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStart(long start) {
+        public Builder setStart(long start) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -203,7 +207,7 @@ public class BufferPoolAcquireParams extends Struct {
          * @param stop The value for the {@code stop} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStop(long stop) {
+        public Builder setStop(long stop) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("stop"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), stop);
@@ -215,14 +219,14 @@ public class BufferPoolAcquireParams extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gstreamer.gst.BufferPoolAcquireFlags flags) {
+        public Builder setFlags(org.gstreamer.gst.BufferPoolAcquireFlags flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

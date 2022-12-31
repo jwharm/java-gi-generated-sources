@@ -130,25 +130,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Editable extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Editable if its GType is a (or inherits from) "GtkEditable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Editable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkEditable", a ClassCastException will be thrown.
-     */
-    public static Editable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Editable.getType())) {
-            return new EditableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEditable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EditableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EditableImpl(input, ownership);
     
     /**
      * Deletes the currently selected text of the editable.
@@ -232,7 +215,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      *   string. This string is allocated by the {@code GtkEditable} implementation
      *   and should be freed by the caller.
      */
-    default @NotNull java.lang.String getChars(int startPos, int endPos) {
+    default java.lang.String getChars(int startPos, int endPos) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_editable_get_chars.invokeExact(
@@ -242,7 +225,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -260,7 +243,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Editable.EditableImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Editable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Editable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -275,7 +258,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,7 +273,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -339,22 +322,20 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if there is a non-empty selection, {@code false} otherwise
      */
     default boolean getSelectionBounds(Out<Integer> startPos, Out<Integer> endPos) {
-        java.util.Objects.requireNonNull(startPos, "Parameter 'startPos' must not be null");
         MemorySegment startPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(endPos, "Parameter 'endPos' must not be null");
         MemorySegment endPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_editable_get_selection_bounds.invokeExact(
                     handle(),
-                    (Addressable) startPosPOINTER.address(),
-                    (Addressable) endPosPOINTER.address());
+                    (Addressable) (startPos == null ? MemoryAddress.NULL : (Addressable) startPosPOINTER.address()),
+                    (Addressable) (endPos == null ? MemoryAddress.NULL : (Addressable) endPosPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (startPos != null) startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (endPos != null) endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -363,7 +344,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * The returned string is owned by GTK and must not be modified or freed.
      * @return a pointer to the contents of the editable
      */
-    default @NotNull java.lang.String getText() {
+    default java.lang.String getText() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_editable_get_text.invokeExact(
@@ -371,7 +352,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -419,14 +400,12 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * @param length the length of the text in bytes, or -1
      * @param position location of the position text will be inserted at
      */
-    default void insertText(@NotNull java.lang.String text, int length, Out<Integer> position) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    default void insertText(java.lang.String text, int length, Out<Integer> position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_editable_insert_text.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     length,
                     (Addressable) positionPOINTER.address());
         } catch (Throwable ERR) {
@@ -485,7 +464,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.gtk_editable_set_editable.invokeExact(
                     handle(),
-                    isEditable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(isEditable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -504,7 +483,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.gtk_editable_set_enable_undo.invokeExact(
                     handle(),
-                    enableUndo ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enableUndo, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -550,12 +529,11 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * This is replacing the current contents.
      * @param text the text to set
      */
-    default void setText(@NotNull java.lang.String text) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    default void setText(java.lang.String text) {
         try {
             DowncallHandles.gtk_editable_set_text.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text));
+                    Marshal.stringToAddress.marshal(text, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -584,7 +562,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_editable_get_type.invokeExact();
@@ -606,10 +584,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * @param pspec the {@code GParamSpec} for the property
      * @return {@code true} if the property was found
      */
-    public static boolean delegateGetProperty(@NotNull org.gtk.gobject.Object object, int propId, @NotNull org.gtk.gobject.Value value, @NotNull org.gtk.gobject.ParamSpec pspec) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
+    public static boolean delegateGetProperty(org.gtk.gobject.GObject object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_editable_delegate_get_property.invokeExact(
@@ -620,7 +595,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -635,10 +610,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * @param pspec the {@code GParamSpec} for the property
      * @return {@code true} if the property was found
      */
-    public static boolean delegateSetProperty(@NotNull org.gtk.gobject.Object object, int propId, @NotNull org.gtk.gobject.Value value, @NotNull org.gtk.gobject.ParamSpec pspec) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
+    public static boolean delegateSetProperty(org.gtk.gobject.GObject object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_editable_delegate_set_property.invokeExact(
@@ -649,7 +621,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -672,8 +644,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * @param firstProp property ID to use for the first property
      * @return the number of properties that were installed
      */
-    public static int installProperties(@NotNull org.gtk.gobject.ObjectClass objectClass, int firstProp) {
-        java.util.Objects.requireNonNull(objectClass, "Parameter 'objectClass' must not be null");
+    public static int installProperties(org.gtk.gobject.ObjectClass objectClass, int firstProp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_editable_install_properties.invokeExact(
@@ -687,7 +658,18 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Editable sourceEditable);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEditable) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -705,16 +687,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     public default Signal<Editable.Changed> onChanged(Editable.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Editable.Callbacks.class, "signalEditableChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Editable.Changed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -722,7 +696,18 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface DeleteText {
-        void signalReceived(Editable sourceEditable, int startPos, int endPos);
+        void run(int startPos, int endPos);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEditable, int startPos, int endPos) {
+            run(startPos, endPos);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeleteText.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -741,16 +726,8 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     public default Signal<Editable.DeleteText> onDeleteText(Editable.DeleteText handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("delete-text"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Editable.Callbacks.class, "signalEditableDeleteText",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Editable.DeleteText>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("delete-text"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -758,7 +735,20 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface InsertText {
-        void signalReceived(Editable sourceEditable, @NotNull java.lang.String text, int length, Out<Integer> position);
+        void run(java.lang.String text, int length, Out<Integer> position);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEditable, MemoryAddress text, int length, MemoryAddress position) {
+            Out<Integer> positionOUT = new Out<>(position.get(Interop.valueLayout.C_INT, 0));
+            run(Marshal.addressToString.marshal(text, null), length, positionOUT);
+            position.set(Interop.valueLayout.C_INT, 0, positionOUT.get());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertText.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -772,7 +762,13 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public default Signal<Editable.InsertText> onInsertText(Editable.InsertText handler) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
+                handle(), Interop.allocateNativeString("insert-text"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @ApiStatus.Internal
@@ -968,27 +964,7 @@ public interface Editable extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalEditableChanged(MemoryAddress sourceEditable, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Editable.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Editable.EditableImpl(sourceEditable, Ownership.NONE));
-        }
-        
-        public static void signalEditableDeleteText(MemoryAddress sourceEditable, int startPos, int endPos, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Editable.DeleteText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Editable.EditableImpl(sourceEditable, Ownership.NONE), startPos, endPos);
-        }
-        
-        public static void signalEditableInsertText(MemoryAddress sourceEditable, MemoryAddress text, int length, int position, MemoryAddress DATA) {
-        // Operation not supported yet
-    }
-    }
-    
-    class EditableImpl extends org.gtk.gobject.Object implements Editable {
+    class EditableImpl extends org.gtk.gobject.GObject implements Editable {
         
         static {
             Gtk.javagi$ensureInitialized();

@@ -16,20 +16,18 @@ public class MIKEYMapSRTP extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMIKEYMapSRTP";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("policy"),
-        MemoryLayout.paddingLayout(24),
-        Interop.valueLayout.C_INT.withName("ssrc"),
-        Interop.valueLayout.C_INT.withName("roc")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("policy"),
+            MemoryLayout.paddingLayout(24),
+            Interop.valueLayout.C_INT.withName("ssrc"),
+            Interop.valueLayout.C_INT.withName("roc")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class MIKEYMapSRTP extends Struct {
      * Get the value of the field {@code policy}
      * @return The value of the field {@code policy}
      */
-    public byte policy$get() {
+    public byte getPolicy() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("policy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,7 +58,7 @@ public class MIKEYMapSRTP extends Struct {
      * Change the value of the field {@code policy}
      * @param policy The new value of the field {@code policy}
      */
-    public void policy$set(byte policy) {
+    public void setPolicy(byte policy) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("policy"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), policy);
@@ -70,7 +68,7 @@ public class MIKEYMapSRTP extends Struct {
      * Get the value of the field {@code ssrc}
      * @return The value of the field {@code ssrc}
      */
-    public int ssrc$get() {
+    public int getSsrc() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,7 +79,7 @@ public class MIKEYMapSRTP extends Struct {
      * Change the value of the field {@code ssrc}
      * @param ssrc The new value of the field {@code ssrc}
      */
-    public void ssrc$set(int ssrc) {
+    public void setSsrc(int ssrc) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ssrc);
@@ -91,7 +89,7 @@ public class MIKEYMapSRTP extends Struct {
      * Get the value of the field {@code roc}
      * @return The value of the field {@code roc}
      */
-    public int roc$get() {
+    public int getRoc() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("roc"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -102,7 +100,7 @@ public class MIKEYMapSRTP extends Struct {
      * Change the value of the field {@code roc}
      * @param roc The new value of the field {@code roc}
      */
-    public void roc$set(int roc) {
+    public void setRoc(int roc) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("roc"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), roc);
@@ -113,35 +111,41 @@ public class MIKEYMapSRTP extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MIKEYMapSRTP(Addressable address, Ownership ownership) {
+    protected MIKEYMapSRTP(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MIKEYMapSRTP> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYMapSRTP(input, ownership);
+    
+    /**
+     * A {@link MIKEYMapSRTP.Builder} object constructs a {@link MIKEYMapSRTP} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link MIKEYMapSRTP.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private MIKEYMapSRTP struct;
+        private final MIKEYMapSRTP struct;
         
-         /**
-         * A {@link MIKEYMapSRTP.Build} object constructs a {@link MIKEYMapSRTP} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = MIKEYMapSRTP.allocate();
         }
         
          /**
          * Finish building the {@link MIKEYMapSRTP} struct.
          * @return A new instance of {@code MIKEYMapSRTP} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MIKEYMapSRTP construct() {
+        public MIKEYMapSRTP build() {
             return struct;
         }
         
@@ -150,7 +154,7 @@ public class MIKEYMapSRTP extends Struct {
          * @param policy The value for the {@code policy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPolicy(byte policy) {
+        public Builder setPolicy(byte policy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("policy"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), policy);
@@ -162,7 +166,7 @@ public class MIKEYMapSRTP extends Struct {
          * @param ssrc The value for the {@code ssrc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSsrc(int ssrc) {
+        public Builder setSsrc(int ssrc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ssrc);
@@ -174,7 +178,7 @@ public class MIKEYMapSRTP extends Struct {
          * @param roc The value for the {@code roc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRoc(int roc) {
+        public Builder setRoc(int roc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("roc"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), roc);

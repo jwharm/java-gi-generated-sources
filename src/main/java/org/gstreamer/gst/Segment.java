@@ -61,30 +61,28 @@ public class Segment extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstSegment";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_DOUBLE.withName("rate"),
-        Interop.valueLayout.C_DOUBLE.withName("applied_rate"),
-        Interop.valueLayout.C_INT.withName("format"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("base"),
-        Interop.valueLayout.C_LONG.withName("offset"),
-        Interop.valueLayout.C_LONG.withName("start"),
-        Interop.valueLayout.C_LONG.withName("stop"),
-        Interop.valueLayout.C_LONG.withName("time"),
-        Interop.valueLayout.C_LONG.withName("position"),
-        Interop.valueLayout.C_LONG.withName("duration"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_DOUBLE.withName("rate"),
+            Interop.valueLayout.C_DOUBLE.withName("applied_rate"),
+            Interop.valueLayout.C_INT.withName("format"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("base"),
+            Interop.valueLayout.C_LONG.withName("offset"),
+            Interop.valueLayout.C_LONG.withName("start"),
+            Interop.valueLayout.C_LONG.withName("stop"),
+            Interop.valueLayout.C_LONG.withName("time"),
+            Interop.valueLayout.C_LONG.withName("position"),
+            Interop.valueLayout.C_LONG.withName("duration"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -104,7 +102,7 @@ public class Segment extends Struct {
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public org.gstreamer.gst.SegmentFlags flags$get() {
+    public org.gstreamer.gst.SegmentFlags getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -115,17 +113,17 @@ public class Segment extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(org.gstreamer.gst.SegmentFlags flags) {
+    public void setFlags(org.gstreamer.gst.SegmentFlags flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
     }
     
     /**
      * Get the value of the field {@code rate}
      * @return The value of the field {@code rate}
      */
-    public double rate$get() {
+    public double getRate() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("rate"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -136,7 +134,7 @@ public class Segment extends Struct {
      * Change the value of the field {@code rate}
      * @param rate The new value of the field {@code rate}
      */
-    public void rate$set(double rate) {
+    public void setRate(double rate) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("rate"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), rate);
@@ -146,7 +144,7 @@ public class Segment extends Struct {
      * Get the value of the field {@code applied_rate}
      * @return The value of the field {@code applied_rate}
      */
-    public double appliedRate$get() {
+    public double getAppliedRate() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("applied_rate"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -157,7 +155,7 @@ public class Segment extends Struct {
      * Change the value of the field {@code applied_rate}
      * @param appliedRate The new value of the field {@code applied_rate}
      */
-    public void appliedRate$set(double appliedRate) {
+    public void setAppliedRate(double appliedRate) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("applied_rate"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), appliedRate);
@@ -167,7 +165,7 @@ public class Segment extends Struct {
      * Get the value of the field {@code format}
      * @return The value of the field {@code format}
      */
-    public org.gstreamer.gst.Format format$get() {
+    public org.gstreamer.gst.Format getFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -178,17 +176,17 @@ public class Segment extends Struct {
      * Change the value of the field {@code format}
      * @param format The new value of the field {@code format}
      */
-    public void format$set(org.gstreamer.gst.Format format) {
+    public void setFormat(org.gstreamer.gst.Format format) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), format.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
     }
     
     /**
      * Get the value of the field {@code base}
      * @return The value of the field {@code base}
      */
-    public long base$get() {
+    public long getBase() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("base"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -199,7 +197,7 @@ public class Segment extends Struct {
      * Change the value of the field {@code base}
      * @param base The new value of the field {@code base}
      */
-    public void base$set(long base) {
+    public void setBase(long base) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("base"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), base);
@@ -209,7 +207,7 @@ public class Segment extends Struct {
      * Get the value of the field {@code offset}
      * @return The value of the field {@code offset}
      */
-    public long offset$get() {
+    public long getOffset() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -220,7 +218,7 @@ public class Segment extends Struct {
      * Change the value of the field {@code offset}
      * @param offset The new value of the field {@code offset}
      */
-    public void offset$set(long offset) {
+    public void setOffset(long offset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -230,7 +228,7 @@ public class Segment extends Struct {
      * Get the value of the field {@code start}
      * @return The value of the field {@code start}
      */
-    public long start$get() {
+    public long getStart() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -241,7 +239,7 @@ public class Segment extends Struct {
      * Change the value of the field {@code start}
      * @param start The new value of the field {@code start}
      */
-    public void start$set(long start) {
+    public void setStart(long start) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -251,7 +249,7 @@ public class Segment extends Struct {
      * Get the value of the field {@code stop}
      * @return The value of the field {@code stop}
      */
-    public long stop$get() {
+    public long getStop() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stop"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -262,7 +260,7 @@ public class Segment extends Struct {
      * Change the value of the field {@code stop}
      * @param stop The new value of the field {@code stop}
      */
-    public void stop$set(long stop) {
+    public void setStop(long stop) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stop"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), stop);
@@ -272,7 +270,7 @@ public class Segment extends Struct {
      * Get the value of the field {@code time}
      * @return The value of the field {@code time}
      */
-    public long time$get() {
+    public long getTime() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("time"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -283,7 +281,7 @@ public class Segment extends Struct {
      * Change the value of the field {@code time}
      * @param time The new value of the field {@code time}
      */
-    public void time$set(long time) {
+    public void setTime(long time) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("time"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
@@ -293,7 +291,7 @@ public class Segment extends Struct {
      * Get the value of the field {@code position}
      * @return The value of the field {@code position}
      */
-    public long position$get() {
+    public long getPosition() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("position"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -304,7 +302,7 @@ public class Segment extends Struct {
      * Change the value of the field {@code position}
      * @param position The new value of the field {@code position}
      */
-    public void position$set(long position) {
+    public void setPosition(long position) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("position"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), position);
@@ -314,7 +312,7 @@ public class Segment extends Struct {
      * Get the value of the field {@code duration}
      * @return The value of the field {@code duration}
      */
-    public long duration$get() {
+    public long getDuration() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -325,7 +323,7 @@ public class Segment extends Struct {
      * Change the value of the field {@code duration}
      * @param duration The new value of the field {@code duration}
      */
-    public void duration$set(long duration) {
+    public void setDuration(long duration) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration);
@@ -336,13 +334,15 @@ public class Segment extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Segment(Addressable address, Ownership ownership) {
+    protected Segment(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Segment> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Segment(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_segment_new.invokeExact();
         } catch (Throwable ERR) {
@@ -384,11 +384,8 @@ public class Segment extends Struct {
      *     completely in {@code segment}, {@code false} if the values are completely outside
      *     of the segment.
      */
-    public boolean clip(@NotNull org.gstreamer.gst.Format format, long start, long stop, Out<Long> clipStart, Out<Long> clipStop) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(clipStart, "Parameter 'clipStart' must not be null");
+    public boolean clip(org.gstreamer.gst.Format format, long start, long stop, Out<Long> clipStart, Out<Long> clipStop) {
         MemorySegment clipStartPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(clipStop, "Parameter 'clipStop' must not be null");
         MemorySegment clipStopPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -397,14 +394,14 @@ public class Segment extends Struct {
                     format.getValue(),
                     start,
                     stop,
-                    (Addressable) clipStartPOINTER.address(),
-                    (Addressable) clipStopPOINTER.address());
+                    (Addressable) (clipStart == null ? MemoryAddress.NULL : (Addressable) clipStartPOINTER.address()),
+                    (Addressable) (clipStop == null ? MemoryAddress.NULL : (Addressable) clipStopPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        clipStart.set(clipStartPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        clipStop.set(clipStopPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (clipStart != null) clipStart.set(clipStartPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (clipStop != null) clipStop.set(clipStopPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -413,7 +410,7 @@ public class Segment extends Struct {
      * Free-function: gst_segment_free
      * @return a new {@link Segment}, free with gst_segment_free().
      */
-    public @NotNull org.gstreamer.gst.Segment copy() {
+    public org.gstreamer.gst.Segment copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_segment_copy.invokeExact(
@@ -421,15 +418,14 @@ public class Segment extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Segment(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Segment.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Copy the contents of {@code src} into {@code dest}.
      * @param dest a {@link Segment}
      */
-    public void copyInto(@NotNull org.gstreamer.gst.Segment dest) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public void copyInto(org.gstreamer.gst.Segment dest) {
         try {
             DowncallHandles.gst_segment_copy_into.invokeExact(
                     handle(),
@@ -477,12 +473,7 @@ public class Segment extends Struct {
      * @param update boolean holding whether position was updated.
      * @return {@code true} if the seek could be performed.
      */
-    public boolean doSeek(double rate, @NotNull org.gstreamer.gst.Format format, @NotNull org.gstreamer.gst.SeekFlags flags, @NotNull org.gstreamer.gst.SeekType startType, long start, @NotNull org.gstreamer.gst.SeekType stopType, long stop, Out<Boolean> update) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(startType, "Parameter 'startType' must not be null");
-        java.util.Objects.requireNonNull(stopType, "Parameter 'stopType' must not be null");
-        java.util.Objects.requireNonNull(update, "Parameter 'update' must not be null");
+    public boolean doSeek(double rate, org.gstreamer.gst.Format format, org.gstreamer.gst.SeekFlags flags, org.gstreamer.gst.SeekType startType, long start, org.gstreamer.gst.SeekType stopType, long stop, Out<Boolean> update) {
         MemorySegment updatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -495,12 +486,12 @@ public class Segment extends Struct {
                     start,
                     stopType.getValue(),
                     stop,
-                    (Addressable) updatePOINTER.address());
+                    (Addressable) (update == null ? MemoryAddress.NULL : (Addressable) updatePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        update.set(updatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        if (update != null) update.set(updatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -524,8 +515,7 @@ public class Segment extends Struct {
      * Initialize {@code segment} to its default values.
      * @param format the format of the segment.
      */
-    public void init(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void init(org.gstreamer.gst.Format format) {
         try {
             DowncallHandles.gst_segment_init.invokeExact(
                     handle(),
@@ -541,8 +531,7 @@ public class Segment extends Struct {
      * @param s1 a {@link Segment} structure.
      * @return {@code true} if the segments are equal, {@code false} otherwise.
      */
-    public boolean isEqual(@NotNull org.gstreamer.gst.Segment s1) {
-        java.util.Objects.requireNonNull(s1, "Parameter 's1' must not be null");
+    public boolean isEqual(org.gstreamer.gst.Segment s1) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_segment_is_equal.invokeExact(
@@ -551,7 +540,7 @@ public class Segment extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -562,8 +551,7 @@ public class Segment extends Struct {
      * @return {@code true} if the segment could be updated successfully. If {@code false} is
      * returned, {@code offset} is not in {@code segment}.
      */
-    public boolean offsetRunningTime(@NotNull org.gstreamer.gst.Format format, long offset) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public boolean offsetRunningTime(org.gstreamer.gst.Format format, long offset) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_segment_offset_running_time.invokeExact(
@@ -573,7 +561,7 @@ public class Segment extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -584,8 +572,7 @@ public class Segment extends Struct {
      * @return the position in the segment for {@code running_time}. This function returns
      * -1 when {@code running_time} is -1 or when it is not inside {@code segment}.
      */
-    public long positionFromRunningTime(@NotNull org.gstreamer.gst.Format format, long runningTime) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public long positionFromRunningTime(org.gstreamer.gst.Format format, long runningTime) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_segment_position_from_running_time.invokeExact(
@@ -620,9 +607,7 @@ public class Segment extends Struct {
      * @param position the resulting position in the segment
      * @return a 1 or -1 on success, 0 on failure.
      */
-    public int positionFromRunningTimeFull(@NotNull org.gstreamer.gst.Format format, long runningTime, Out<Long> position) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public int positionFromRunningTimeFull(org.gstreamer.gst.Format format, long runningTime, Out<Long> position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -646,8 +631,7 @@ public class Segment extends Struct {
      * @return the position in the segment for {@code stream_time}. This function returns
      * -1 when {@code stream_time} is -1 or when it is not inside {@code segment}.
      */
-    public long positionFromStreamTime(@NotNull org.gstreamer.gst.Format format, long streamTime) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public long positionFromStreamTime(org.gstreamer.gst.Format format, long streamTime) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_segment_position_from_stream_time.invokeExact(
@@ -681,9 +665,7 @@ public class Segment extends Struct {
      * @param position the resulting position in the segment
      * @return a 1 or -1 on success, 0 on failure.
      */
-    public int positionFromStreamTimeFull(@NotNull org.gstreamer.gst.Format format, long streamTime, Out<Long> position) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public int positionFromStreamTimeFull(org.gstreamer.gst.Format format, long streamTime, Out<Long> position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -707,8 +689,7 @@ public class Segment extends Struct {
      * @return {@code true} if the segment could be updated successfully. If {@code false} is
      * returned, {@code running_time} is -1 or not in {@code segment}.
      */
-    public boolean setRunningTime(@NotNull org.gstreamer.gst.Format format, long runningTime) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public boolean setRunningTime(org.gstreamer.gst.Format format, long runningTime) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_segment_set_running_time.invokeExact(
@@ -718,7 +699,7 @@ public class Segment extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -731,8 +712,7 @@ public class Segment extends Struct {
      * @deprecated Use gst_segment_position_from_running_time() instead.
      */
     @Deprecated
-    public long toPosition(@NotNull org.gstreamer.gst.Format format, long runningTime) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public long toPosition(org.gstreamer.gst.Format format, long runningTime) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_segment_to_position.invokeExact(
@@ -760,8 +740,7 @@ public class Segment extends Struct {
      * @return the position as the total running time or -1 when an invalid position
      * was given.
      */
-    public long toRunningTime(@NotNull org.gstreamer.gst.Format format, long position) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public long toRunningTime(org.gstreamer.gst.Format format, long position) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_segment_to_running_time.invokeExact(
@@ -795,9 +774,7 @@ public class Segment extends Struct {
      * @param runningTime result running-time
      * @return a 1 or -1 on success, 0 on failure.
      */
-    public int toRunningTimeFull(@NotNull org.gstreamer.gst.Format format, long position, Out<Long> runningTime) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
+    public int toRunningTimeFull(org.gstreamer.gst.Format format, long position, Out<Long> runningTime) {
         MemorySegment runningTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -805,11 +782,11 @@ public class Segment extends Struct {
                     handle(),
                     format.getValue(),
                     position,
-                    (Addressable) runningTimePOINTER.address());
+                    (Addressable) (runningTime == null ? MemoryAddress.NULL : (Addressable) runningTimePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        runningTime.set(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (runningTime != null) runningTime.set(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -829,8 +806,7 @@ public class Segment extends Struct {
      * @return the position in stream_time or -1 when an invalid position
      * was given.
      */
-    public long toStreamTime(@NotNull org.gstreamer.gst.Format format, long position) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public long toStreamTime(org.gstreamer.gst.Format format, long position) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_segment_to_stream_time.invokeExact(
@@ -864,9 +840,7 @@ public class Segment extends Struct {
      * @param streamTime result stream-time
      * @return a 1 or -1 on success, 0 on failure.
      */
-    public int toStreamTimeFull(@NotNull org.gstreamer.gst.Format format, long position, Out<Long> streamTime) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(streamTime, "Parameter 'streamTime' must not be null");
+    public int toStreamTimeFull(org.gstreamer.gst.Format format, long position, Out<Long> streamTime) {
         MemorySegment streamTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -998,31 +972,35 @@ public class Segment extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Segment.Builder} object constructs a {@link Segment} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Segment.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Segment struct;
+        private final Segment struct;
         
-         /**
-         * A {@link Segment.Build} object constructs a {@link Segment} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Segment.allocate();
         }
         
          /**
          * Finish building the {@link Segment} struct.
          * @return A new instance of {@code Segment} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Segment construct() {
+        public Segment build() {
             return struct;
         }
         
@@ -1031,7 +1009,7 @@ public class Segment extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gstreamer.gst.SegmentFlags flags) {
+        public Builder setFlags(org.gstreamer.gst.SegmentFlags flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
@@ -1053,7 +1031,7 @@ public class Segment extends Struct {
          * @param rate The value for the {@code rate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRate(double rate) {
+        public Builder setRate(double rate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("rate"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), rate);
@@ -1076,7 +1054,7 @@ public class Segment extends Struct {
          * @param appliedRate The value for the {@code appliedRate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAppliedRate(double appliedRate) {
+        public Builder setAppliedRate(double appliedRate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("applied_rate"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), appliedRate);
@@ -1088,7 +1066,7 @@ public class Segment extends Struct {
          * @param format The value for the {@code format} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormat(org.gstreamer.gst.Format format) {
+        public Builder setFormat(org.gstreamer.gst.Format format) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
@@ -1102,7 +1080,7 @@ public class Segment extends Struct {
          * @param base The value for the {@code base} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBase(long base) {
+        public Builder setBase(long base) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("base"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), base);
@@ -1117,7 +1095,7 @@ public class Segment extends Struct {
          * @param offset The value for the {@code offset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(long offset) {
+        public Builder setOffset(long offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -1134,7 +1112,7 @@ public class Segment extends Struct {
          * @param start The value for the {@code start} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStart(long start) {
+        public Builder setStart(long start) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -1150,7 +1128,7 @@ public class Segment extends Struct {
          * @param stop The value for the {@code stop} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStop(long stop) {
+        public Builder setStop(long stop) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("stop"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), stop);
@@ -1163,7 +1141,7 @@ public class Segment extends Struct {
          * @param time The value for the {@code time} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTime(long time) {
+        public Builder setTime(long time) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("time"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
@@ -1181,7 +1159,7 @@ public class Segment extends Struct {
          * @param position The value for the {@code position} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPosition(long position) {
+        public Builder setPosition(long position) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("position"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), position);
@@ -1198,14 +1176,14 @@ public class Segment extends Struct {
          * @param duration The value for the {@code duration} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDuration(long duration) {
+        public Builder setDuration(long duration) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("duration"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

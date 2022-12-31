@@ -13,53 +13,51 @@ public class H264Picture extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstH264Picture";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("type"),
-        Interop.valueLayout.C_INT.withName("system_frame_number"),
-        Interop.valueLayout.C_BYTE.withName("pic_order_cnt_type"),
-        MemoryLayout.paddingLayout(24),
-        Interop.valueLayout.C_INT.withName("top_field_order_cnt"),
-        Interop.valueLayout.C_INT.withName("bottom_field_order_cnt"),
-        Interop.valueLayout.C_INT.withName("pic_order_cnt"),
-        Interop.valueLayout.C_INT.withName("pic_order_cnt_msb"),
-        Interop.valueLayout.C_INT.withName("pic_order_cnt_lsb"),
-        Interop.valueLayout.C_INT.withName("delta_pic_order_cnt_bottom"),
-        Interop.valueLayout.C_INT.withName("delta_pic_order_cnt0"),
-        Interop.valueLayout.C_INT.withName("delta_pic_order_cnt1"),
-        Interop.valueLayout.C_INT.withName("pic_num"),
-        Interop.valueLayout.C_INT.withName("long_term_pic_num"),
-        Interop.valueLayout.C_INT.withName("frame_num"),
-        Interop.valueLayout.C_INT.withName("frame_num_offset"),
-        Interop.valueLayout.C_INT.withName("frame_num_wrap"),
-        Interop.valueLayout.C_INT.withName("long_term_frame_idx"),
-        Interop.valueLayout.C_INT.withName("nal_ref_idc"),
-        Interop.valueLayout.C_INT.withName("idr"),
-        Interop.valueLayout.C_INT.withName("idr_pic_id"),
-        Interop.valueLayout.C_INT.withName("ref"),
-        Interop.valueLayout.C_INT.withName("ref_pic"),
-        Interop.valueLayout.C_INT.withName("needed_for_output"),
-        Interop.valueLayout.C_INT.withName("mem_mgmt_5"),
-        Interop.valueLayout.C_INT.withName("nonexisting"),
-        Interop.valueLayout.C_INT.withName("field"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("dec_ref_pic_marking"),
-        Interop.valueLayout.C_INT.withName("second_field"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("other_field"),
-        Interop.valueLayout.C_INT.withName("buffer_flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.ADDRESS.withName("notify")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("type"),
+            Interop.valueLayout.C_INT.withName("system_frame_number"),
+            Interop.valueLayout.C_BYTE.withName("pic_order_cnt_type"),
+            MemoryLayout.paddingLayout(24),
+            Interop.valueLayout.C_INT.withName("top_field_order_cnt"),
+            Interop.valueLayout.C_INT.withName("bottom_field_order_cnt"),
+            Interop.valueLayout.C_INT.withName("pic_order_cnt"),
+            Interop.valueLayout.C_INT.withName("pic_order_cnt_msb"),
+            Interop.valueLayout.C_INT.withName("pic_order_cnt_lsb"),
+            Interop.valueLayout.C_INT.withName("delta_pic_order_cnt_bottom"),
+            Interop.valueLayout.C_INT.withName("delta_pic_order_cnt0"),
+            Interop.valueLayout.C_INT.withName("delta_pic_order_cnt1"),
+            Interop.valueLayout.C_INT.withName("pic_num"),
+            Interop.valueLayout.C_INT.withName("long_term_pic_num"),
+            Interop.valueLayout.C_INT.withName("frame_num"),
+            Interop.valueLayout.C_INT.withName("frame_num_offset"),
+            Interop.valueLayout.C_INT.withName("frame_num_wrap"),
+            Interop.valueLayout.C_INT.withName("long_term_frame_idx"),
+            Interop.valueLayout.C_INT.withName("nal_ref_idc"),
+            Interop.valueLayout.C_INT.withName("idr"),
+            Interop.valueLayout.C_INT.withName("idr_pic_id"),
+            Interop.valueLayout.C_INT.withName("ref"),
+            Interop.valueLayout.C_INT.withName("ref_pic"),
+            Interop.valueLayout.C_INT.withName("needed_for_output"),
+            Interop.valueLayout.C_INT.withName("mem_mgmt_5"),
+            Interop.valueLayout.C_INT.withName("nonexisting"),
+            Interop.valueLayout.C_INT.withName("field"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("dec_ref_pic_marking"),
+            Interop.valueLayout.C_INT.withName("second_field"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("other_field"),
+            Interop.valueLayout.C_INT.withName("buffer_flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.ADDRESS.withName("notify")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -80,13 +78,15 @@ public class H264Picture extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public H264Picture(Addressable address, Ownership ownership) {
+    protected H264Picture(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, H264Picture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H264Picture(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_h264_picture_new.invokeExact();
         } catch (Throwable ERR) {
@@ -124,13 +124,12 @@ public class H264Picture extends Struct {
      * @param otherField {@code true} if {@code reference} needs to be applied to the
      * other field if any
      */
-    public void setReference(@NotNull org.gstreamer.codecs.H264PictureReference reference, boolean otherField) {
-        java.util.Objects.requireNonNull(reference, "Parameter 'reference' must not be null");
+    public void setReference(org.gstreamer.codecs.H264PictureReference reference, boolean otherField) {
         try {
             DowncallHandles.gst_h264_picture_set_reference.invokeExact(
                     handle(),
                     reference.getValue(),
-                    otherField ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(otherField, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,15 +141,14 @@ public class H264Picture extends Struct {
      * <p>
      * If a {@code user_data} was previously set, then the previous set {@code notify} will be called
      * before the {@code user_data} is replaced.
-     * @param userData private data
      * @param notify a {@link org.gtk.glib.DestroyNotify}
      */
-    public void setUserData(@Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify notify) {
+    public void setUserData(org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_h264_picture_set_user_data.invokeExact(
                     handle(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,262 +180,266 @@ public class H264Picture extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link H264Picture.Builder} object constructs a {@link H264Picture} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link H264Picture.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private H264Picture struct;
+        private final H264Picture struct;
         
-         /**
-         * A {@link H264Picture.Build} object constructs a {@link H264Picture} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = H264Picture.allocate();
         }
         
          /**
          * Finish building the {@link H264Picture} struct.
          * @return A new instance of {@code H264Picture} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public H264Picture construct() {
+        public H264Picture build() {
             return struct;
         }
         
-        public Build setParent(org.gstreamer.gst.MiniObject parent) {
+        public Builder setParent(org.gstreamer.gst.MiniObject parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
             return this;
         }
         
-        public Build setType(java.lang.foreign.MemoryAddress type) {
+        public Builder setType(java.lang.foreign.MemoryAddress type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) type));
             return this;
         }
         
-        public Build setSystemFrameNumber(int systemFrameNumber) {
+        public Builder setSystemFrameNumber(int systemFrameNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
             return this;
         }
         
-        public Build setPicOrderCntType(byte picOrderCntType) {
+        public Builder setPicOrderCntType(byte picOrderCntType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picOrderCntType);
             return this;
         }
         
-        public Build setTopFieldOrderCnt(int topFieldOrderCnt) {
+        public Builder setTopFieldOrderCnt(int topFieldOrderCnt) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("top_field_order_cnt"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), topFieldOrderCnt);
             return this;
         }
         
-        public Build setBottomFieldOrderCnt(int bottomFieldOrderCnt) {
+        public Builder setBottomFieldOrderCnt(int bottomFieldOrderCnt) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bottom_field_order_cnt"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bottomFieldOrderCnt);
             return this;
         }
         
-        public Build setPicOrderCnt(int picOrderCnt) {
+        public Builder setPicOrderCnt(int picOrderCnt) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picOrderCnt);
             return this;
         }
         
-        public Build setPicOrderCntMsb(int picOrderCntMsb) {
+        public Builder setPicOrderCntMsb(int picOrderCntMsb) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt_msb"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picOrderCntMsb);
             return this;
         }
         
-        public Build setPicOrderCntLsb(int picOrderCntLsb) {
+        public Builder setPicOrderCntLsb(int picOrderCntLsb) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pic_order_cnt_lsb"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picOrderCntLsb);
             return this;
         }
         
-        public Build setDeltaPicOrderCntBottom(int deltaPicOrderCntBottom) {
+        public Builder setDeltaPicOrderCntBottom(int deltaPicOrderCntBottom) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("delta_pic_order_cnt_bottom"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaPicOrderCntBottom);
             return this;
         }
         
-        public Build setDeltaPicOrderCnt0(int deltaPicOrderCnt0) {
+        public Builder setDeltaPicOrderCnt0(int deltaPicOrderCnt0) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("delta_pic_order_cnt0"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaPicOrderCnt0);
             return this;
         }
         
-        public Build setDeltaPicOrderCnt1(int deltaPicOrderCnt1) {
+        public Builder setDeltaPicOrderCnt1(int deltaPicOrderCnt1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("delta_pic_order_cnt1"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), deltaPicOrderCnt1);
             return this;
         }
         
-        public Build setPicNum(int picNum) {
+        public Builder setPicNum(int picNum) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pic_num"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), picNum);
             return this;
         }
         
-        public Build setLongTermPicNum(int longTermPicNum) {
+        public Builder setLongTermPicNum(int longTermPicNum) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("long_term_pic_num"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), longTermPicNum);
             return this;
         }
         
-        public Build setFrameNum(int frameNum) {
+        public Builder setFrameNum(int frameNum) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("frame_num"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameNum);
             return this;
         }
         
-        public Build setFrameNumOffset(int frameNumOffset) {
+        public Builder setFrameNumOffset(int frameNumOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("frame_num_offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameNumOffset);
             return this;
         }
         
-        public Build setFrameNumWrap(int frameNumWrap) {
+        public Builder setFrameNumWrap(int frameNumWrap) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("frame_num_wrap"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frameNumWrap);
             return this;
         }
         
-        public Build setLongTermFrameIdx(int longTermFrameIdx) {
+        public Builder setLongTermFrameIdx(int longTermFrameIdx) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("long_term_frame_idx"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), longTermFrameIdx);
             return this;
         }
         
-        public Build setNalRefIdc(int nalRefIdc) {
+        public Builder setNalRefIdc(int nalRefIdc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("nal_ref_idc"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nalRefIdc);
             return this;
         }
         
-        public Build setIdr(boolean idr) {
+        public Builder setIdr(boolean idr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("idr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), idr ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(idr, null).intValue());
             return this;
         }
         
-        public Build setIdrPicId(int idrPicId) {
+        public Builder setIdrPicId(int idrPicId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("idr_pic_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), idrPicId);
             return this;
         }
         
-        public Build setRef(org.gstreamer.codecs.H264PictureReference ref) {
+        public Builder setRef(org.gstreamer.codecs.H264PictureReference ref) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ref == null ? MemoryAddress.NULL : ref.getValue()));
             return this;
         }
         
-        public Build setRefPic(boolean refPic) {
+        public Builder setRefPic(boolean refPic) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_pic"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refPic ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(refPic, null).intValue());
             return this;
         }
         
-        public Build setNeededForOutput(boolean neededForOutput) {
+        public Builder setNeededForOutput(boolean neededForOutput) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("needed_for_output"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), neededForOutput ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(neededForOutput, null).intValue());
             return this;
         }
         
-        public Build setMemMgmt5(boolean memMgmt5) {
+        public Builder setMemMgmt5(boolean memMgmt5) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mem_mgmt_5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), memMgmt5 ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(memMgmt5, null).intValue());
             return this;
         }
         
-        public Build setNonexisting(boolean nonexisting) {
+        public Builder setNonexisting(boolean nonexisting) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("nonexisting"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nonexisting ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(nonexisting, null).intValue());
             return this;
         }
         
-        public Build setField(org.gstreamer.codecs.H264PictureField field) {
+        public Builder setField(org.gstreamer.codecs.H264PictureField field) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("field"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (field == null ? MemoryAddress.NULL : field.getValue()));
             return this;
         }
         
-        public Build setDecRefPicMarking(java.lang.foreign.MemoryAddress decRefPicMarking) {
+        public Builder setDecRefPicMarking(java.lang.foreign.MemoryAddress decRefPicMarking) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dec_ref_pic_marking"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (decRefPicMarking == null ? MemoryAddress.NULL : (Addressable) decRefPicMarking));
             return this;
         }
         
-        public Build setSecondField(boolean secondField) {
+        public Builder setSecondField(boolean secondField) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("second_field"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), secondField ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(secondField, null).intValue());
             return this;
         }
         
-        public Build setOtherField(org.gstreamer.codecs.H264Picture otherField) {
+        public Builder setOtherField(org.gstreamer.codecs.H264Picture otherField) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("other_field"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (otherField == null ? MemoryAddress.NULL : otherField.handle()));
             return this;
         }
         
-        public Build setBufferFlags(org.gstreamer.video.VideoBufferFlags bufferFlags) {
+        public Builder setBufferFlags(org.gstreamer.video.VideoBufferFlags bufferFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer_flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bufferFlags == null ? MemoryAddress.NULL : bufferFlags.getValue()));
             return this;
         }
         
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
             return this;
         }
         
-        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+        public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
             return this;
         }
     }

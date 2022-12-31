@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * A {@code GtkLayoutChild} instance is only ever valid while a widget is part
  * of a layout.
  */
-public class LayoutChild extends org.gtk.gobject.Object {
+public class LayoutChild extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,17 +24,15 @@ public class LayoutChild extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkLayoutChild";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -42,36 +40,18 @@ public class LayoutChild extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LayoutChild(Addressable address, Ownership ownership) {
+    protected LayoutChild(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to LayoutChild if its GType is a (or inherits from) "GtkLayoutChild".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code LayoutChild} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkLayoutChild", a ClassCastException will be thrown.
-     */
-    public static LayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), LayoutChild.getType())) {
-            return new LayoutChild(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkLayoutChild");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LayoutChild> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutChild(input, ownership);
     
     /**
      * Retrieves the {@code GtkWidget} associated to the given {@code layout_child}.
      * @return a {@code GtkWidget}
      */
-    public @NotNull org.gtk.gtk.Widget getChildWidget() {
+    public org.gtk.gtk.Widget getChildWidget() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_layout_child_get_child_widget.invokeExact(
@@ -79,7 +59,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -87,7 +67,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
      * given {@code layout_child}.
      * @return a {@code GtkLayoutManager}
      */
-    public @NotNull org.gtk.gtk.LayoutManager getLayoutManager() {
+    public org.gtk.gtk.LayoutManager getLayoutManager() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_layout_child_get_layout_manager.invokeExact(
@@ -95,14 +75,14 @@ public class LayoutChild extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.LayoutManager(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.LayoutManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.LayoutManager.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_layout_child_get_type.invokeExact();
@@ -111,38 +91,40 @@ public class LayoutChild extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link LayoutChild.Builder} object constructs a {@link LayoutChild} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link LayoutChild.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link LayoutChild.Build} object constructs a {@link LayoutChild} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link LayoutChild} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link LayoutChild} using {@link LayoutChild#castFrom}.
+         * {@link LayoutChild}.
          * @return A new instance of {@code LayoutChild} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public LayoutChild construct() {
-            return LayoutChild.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    LayoutChild.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public LayoutChild build() {
+            return (LayoutChild) org.gtk.gobject.GObject.newWithProperties(
+                LayoutChild.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -151,7 +133,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
          * @param childWidget The value for the {@code child-widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChildWidget(org.gtk.gtk.Widget childWidget) {
+        public Builder setChildWidget(org.gtk.gtk.Widget childWidget) {
             names.add("child-widget");
             values.add(org.gtk.gobject.Value.create(childWidget));
             return this;
@@ -162,7 +144,7 @@ public class LayoutChild extends org.gtk.gobject.Object {
          * @param layoutManager The value for the {@code layout-manager} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLayoutManager(org.gtk.gtk.LayoutManager layoutManager) {
+        public Builder setLayoutManager(org.gtk.gtk.LayoutManager layoutManager) {
             names.add("layout-manager");
             values.add(org.gtk.gobject.Value.create(layoutManager));
             return this;

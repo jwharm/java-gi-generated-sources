@@ -18,43 +18,41 @@ public class ScannerConfig extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GScannerConfig";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("cset_skip_characters"),
-        Interop.valueLayout.ADDRESS.withName("cset_identifier_first"),
-        Interop.valueLayout.ADDRESS.withName("cset_identifier_nth"),
-        Interop.valueLayout.ADDRESS.withName("cpair_comment_single"),
-        Interop.valueLayout.C_INT.withName("case_sensitive"),
-        Interop.valueLayout.C_INT.withName("skip_comment_multi"),
-        Interop.valueLayout.C_INT.withName("skip_comment_single"),
-        Interop.valueLayout.C_INT.withName("scan_comment_multi"),
-        Interop.valueLayout.C_INT.withName("scan_identifier"),
-        Interop.valueLayout.C_INT.withName("scan_identifier_1char"),
-        Interop.valueLayout.C_INT.withName("scan_identifier_NULL"),
-        Interop.valueLayout.C_INT.withName("scan_symbols"),
-        Interop.valueLayout.C_INT.withName("scan_binary"),
-        Interop.valueLayout.C_INT.withName("scan_octal"),
-        Interop.valueLayout.C_INT.withName("scan_float"),
-        Interop.valueLayout.C_INT.withName("scan_hex"),
-        Interop.valueLayout.C_INT.withName("scan_hex_dollar"),
-        Interop.valueLayout.C_INT.withName("scan_string_sq"),
-        Interop.valueLayout.C_INT.withName("scan_string_dq"),
-        Interop.valueLayout.C_INT.withName("numbers_2_int"),
-        Interop.valueLayout.C_INT.withName("int_2_float"),
-        Interop.valueLayout.C_INT.withName("identifier_2_string"),
-        Interop.valueLayout.C_INT.withName("char_2_token"),
-        Interop.valueLayout.C_INT.withName("symbol_2_token"),
-        Interop.valueLayout.C_INT.withName("scope_0_fallback"),
-        Interop.valueLayout.C_INT.withName("store_int64"),
-        Interop.valueLayout.C_INT.withName("padding_dummy")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("cset_skip_characters"),
+            Interop.valueLayout.ADDRESS.withName("cset_identifier_first"),
+            Interop.valueLayout.ADDRESS.withName("cset_identifier_nth"),
+            Interop.valueLayout.ADDRESS.withName("cpair_comment_single"),
+            Interop.valueLayout.C_INT.withName("case_sensitive"),
+            Interop.valueLayout.C_INT.withName("skip_comment_multi"),
+            Interop.valueLayout.C_INT.withName("skip_comment_single"),
+            Interop.valueLayout.C_INT.withName("scan_comment_multi"),
+            Interop.valueLayout.C_INT.withName("scan_identifier"),
+            Interop.valueLayout.C_INT.withName("scan_identifier_1char"),
+            Interop.valueLayout.C_INT.withName("scan_identifier_NULL"),
+            Interop.valueLayout.C_INT.withName("scan_symbols"),
+            Interop.valueLayout.C_INT.withName("scan_binary"),
+            Interop.valueLayout.C_INT.withName("scan_octal"),
+            Interop.valueLayout.C_INT.withName("scan_float"),
+            Interop.valueLayout.C_INT.withName("scan_hex"),
+            Interop.valueLayout.C_INT.withName("scan_hex_dollar"),
+            Interop.valueLayout.C_INT.withName("scan_string_sq"),
+            Interop.valueLayout.C_INT.withName("scan_string_dq"),
+            Interop.valueLayout.C_INT.withName("numbers_2_int"),
+            Interop.valueLayout.C_INT.withName("int_2_float"),
+            Interop.valueLayout.C_INT.withName("identifier_2_string"),
+            Interop.valueLayout.C_INT.withName("char_2_token"),
+            Interop.valueLayout.C_INT.withName("symbol_2_token"),
+            Interop.valueLayout.C_INT.withName("scope_0_fallback"),
+            Interop.valueLayout.C_INT.withName("store_int64"),
+            Interop.valueLayout.C_INT.withName("padding_dummy")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -74,91 +72,91 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code cset_skip_characters}
      * @return The value of the field {@code cset_skip_characters}
      */
-    public java.lang.String csetSkipCharacters$get() {
+    public java.lang.String getCsetSkipCharacters() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cset_skip_characters"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code cset_skip_characters}
      * @param csetSkipCharacters The new value of the field {@code cset_skip_characters}
      */
-    public void csetSkipCharacters$set(java.lang.String csetSkipCharacters) {
+    public void setCsetSkipCharacters(java.lang.String csetSkipCharacters) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cset_skip_characters"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(csetSkipCharacters));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetSkipCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetSkipCharacters, null)));
     }
     
     /**
      * Get the value of the field {@code cset_identifier_first}
      * @return The value of the field {@code cset_identifier_first}
      */
-    public java.lang.String csetIdentifierFirst$get() {
+    public java.lang.String getCsetIdentifierFirst() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_first"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code cset_identifier_first}
      * @param csetIdentifierFirst The new value of the field {@code cset_identifier_first}
      */
-    public void csetIdentifierFirst$set(java.lang.String csetIdentifierFirst) {
+    public void setCsetIdentifierFirst(java.lang.String csetIdentifierFirst) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_first"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(csetIdentifierFirst));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierFirst == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierFirst, null)));
     }
     
     /**
      * Get the value of the field {@code cset_identifier_nth}
      * @return The value of the field {@code cset_identifier_nth}
      */
-    public java.lang.String csetIdentifierNth$get() {
+    public java.lang.String getCsetIdentifierNth() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_nth"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code cset_identifier_nth}
      * @param csetIdentifierNth The new value of the field {@code cset_identifier_nth}
      */
-    public void csetIdentifierNth$set(java.lang.String csetIdentifierNth) {
+    public void setCsetIdentifierNth(java.lang.String csetIdentifierNth) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_nth"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(csetIdentifierNth));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierNth == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierNth, null)));
     }
     
     /**
      * Get the value of the field {@code cpair_comment_single}
      * @return The value of the field {@code cpair_comment_single}
      */
-    public java.lang.String cpairCommentSingle$get() {
+    public java.lang.String getCpairCommentSingle() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cpair_comment_single"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code cpair_comment_single}
      * @param cpairCommentSingle The new value of the field {@code cpair_comment_single}
      */
-    public void cpairCommentSingle$set(java.lang.String cpairCommentSingle) {
+    public void setCpairCommentSingle(java.lang.String cpairCommentSingle) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cpair_comment_single"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(cpairCommentSingle));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cpairCommentSingle == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cpairCommentSingle, null)));
     }
     
     /**
      * Get the value of the field {@code case_sensitive}
      * @return The value of the field {@code case_sensitive}
      */
-    public int caseSensitive$get() {
+    public int getCaseSensitive() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("case_sensitive"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -169,7 +167,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code case_sensitive}
      * @param caseSensitive The new value of the field {@code case_sensitive}
      */
-    public void caseSensitive$set(int caseSensitive) {
+    public void setCaseSensitive(int caseSensitive) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("case_sensitive"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), caseSensitive);
@@ -179,7 +177,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code skip_comment_multi}
      * @return The value of the field {@code skip_comment_multi}
      */
-    public int skipCommentMulti$get() {
+    public int getSkipCommentMulti() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_multi"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -190,7 +188,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code skip_comment_multi}
      * @param skipCommentMulti The new value of the field {@code skip_comment_multi}
      */
-    public void skipCommentMulti$set(int skipCommentMulti) {
+    public void setSkipCommentMulti(int skipCommentMulti) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_multi"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), skipCommentMulti);
@@ -200,7 +198,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code skip_comment_single}
      * @return The value of the field {@code skip_comment_single}
      */
-    public int skipCommentSingle$get() {
+    public int getSkipCommentSingle() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_single"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -211,7 +209,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code skip_comment_single}
      * @param skipCommentSingle The new value of the field {@code skip_comment_single}
      */
-    public void skipCommentSingle$set(int skipCommentSingle) {
+    public void setSkipCommentSingle(int skipCommentSingle) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_single"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), skipCommentSingle);
@@ -221,7 +219,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_comment_multi}
      * @return The value of the field {@code scan_comment_multi}
      */
-    public int scanCommentMulti$get() {
+    public int getScanCommentMulti() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_comment_multi"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -232,7 +230,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_comment_multi}
      * @param scanCommentMulti The new value of the field {@code scan_comment_multi}
      */
-    public void scanCommentMulti$set(int scanCommentMulti) {
+    public void setScanCommentMulti(int scanCommentMulti) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_comment_multi"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanCommentMulti);
@@ -242,7 +240,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_identifier}
      * @return The value of the field {@code scan_identifier}
      */
-    public int scanIdentifier$get() {
+    public int getScanIdentifier() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -253,7 +251,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_identifier}
      * @param scanIdentifier The new value of the field {@code scan_identifier}
      */
-    public void scanIdentifier$set(int scanIdentifier) {
+    public void setScanIdentifier(int scanIdentifier) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifier);
@@ -263,7 +261,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_identifier_1char}
      * @return The value of the field {@code scan_identifier_1char}
      */
-    public int scanIdentifier1char$get() {
+    public int getScanIdentifier1char() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_1char"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -274,7 +272,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_identifier_1char}
      * @param scanIdentifier1char The new value of the field {@code scan_identifier_1char}
      */
-    public void scanIdentifier1char$set(int scanIdentifier1char) {
+    public void setScanIdentifier1char(int scanIdentifier1char) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_1char"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifier1char);
@@ -284,7 +282,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_identifier_NULL}
      * @return The value of the field {@code scan_identifier_NULL}
      */
-    public int scanIdentifierNULL$get() {
+    public int getScanIdentifierNULL() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_NULL"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -295,7 +293,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_identifier_NULL}
      * @param scanIdentifierNULL The new value of the field {@code scan_identifier_NULL}
      */
-    public void scanIdentifierNULL$set(int scanIdentifierNULL) {
+    public void setScanIdentifierNULL(int scanIdentifierNULL) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_NULL"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifierNULL);
@@ -305,7 +303,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_symbols}
      * @return The value of the field {@code scan_symbols}
      */
-    public int scanSymbols$get() {
+    public int getScanSymbols() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_symbols"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -316,7 +314,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_symbols}
      * @param scanSymbols The new value of the field {@code scan_symbols}
      */
-    public void scanSymbols$set(int scanSymbols) {
+    public void setScanSymbols(int scanSymbols) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_symbols"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanSymbols);
@@ -326,7 +324,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_binary}
      * @return The value of the field {@code scan_binary}
      */
-    public int scanBinary$get() {
+    public int getScanBinary() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_binary"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -337,7 +335,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_binary}
      * @param scanBinary The new value of the field {@code scan_binary}
      */
-    public void scanBinary$set(int scanBinary) {
+    public void setScanBinary(int scanBinary) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_binary"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanBinary);
@@ -347,7 +345,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_octal}
      * @return The value of the field {@code scan_octal}
      */
-    public int scanOctal$get() {
+    public int getScanOctal() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_octal"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -358,7 +356,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_octal}
      * @param scanOctal The new value of the field {@code scan_octal}
      */
-    public void scanOctal$set(int scanOctal) {
+    public void setScanOctal(int scanOctal) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_octal"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanOctal);
@@ -368,7 +366,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_float}
      * @return The value of the field {@code scan_float}
      */
-    public int scanFloat$get() {
+    public int getScanFloat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_float"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -379,7 +377,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_float}
      * @param scanFloat The new value of the field {@code scan_float}
      */
-    public void scanFloat$set(int scanFloat) {
+    public void setScanFloat(int scanFloat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_float"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanFloat);
@@ -389,7 +387,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_hex}
      * @return The value of the field {@code scan_hex}
      */
-    public int scanHex$get() {
+    public int getScanHex() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_hex"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -400,7 +398,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_hex}
      * @param scanHex The new value of the field {@code scan_hex}
      */
-    public void scanHex$set(int scanHex) {
+    public void setScanHex(int scanHex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_hex"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanHex);
@@ -410,7 +408,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_hex_dollar}
      * @return The value of the field {@code scan_hex_dollar}
      */
-    public int scanHexDollar$get() {
+    public int getScanHexDollar() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_hex_dollar"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -421,7 +419,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_hex_dollar}
      * @param scanHexDollar The new value of the field {@code scan_hex_dollar}
      */
-    public void scanHexDollar$set(int scanHexDollar) {
+    public void setScanHexDollar(int scanHexDollar) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_hex_dollar"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanHexDollar);
@@ -431,7 +429,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_string_sq}
      * @return The value of the field {@code scan_string_sq}
      */
-    public int scanStringSq$get() {
+    public int getScanStringSq() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_string_sq"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -442,7 +440,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_string_sq}
      * @param scanStringSq The new value of the field {@code scan_string_sq}
      */
-    public void scanStringSq$set(int scanStringSq) {
+    public void setScanStringSq(int scanStringSq) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_string_sq"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanStringSq);
@@ -452,7 +450,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scan_string_dq}
      * @return The value of the field {@code scan_string_dq}
      */
-    public int scanStringDq$get() {
+    public int getScanStringDq() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_string_dq"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -463,7 +461,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scan_string_dq}
      * @param scanStringDq The new value of the field {@code scan_string_dq}
      */
-    public void scanStringDq$set(int scanStringDq) {
+    public void setScanStringDq(int scanStringDq) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scan_string_dq"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanStringDq);
@@ -473,7 +471,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code numbers_2_int}
      * @return The value of the field {@code numbers_2_int}
      */
-    public int numbers2Int$get() {
+    public int getNumbers2Int() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("numbers_2_int"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -484,7 +482,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code numbers_2_int}
      * @param numbers2Int The new value of the field {@code numbers_2_int}
      */
-    public void numbers2Int$set(int numbers2Int) {
+    public void setNumbers2Int(int numbers2Int) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("numbers_2_int"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numbers2Int);
@@ -494,7 +492,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code int_2_float}
      * @return The value of the field {@code int_2_float}
      */
-    public int int2Float$get() {
+    public int getInt2Float() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("int_2_float"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -505,7 +503,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code int_2_float}
      * @param int2Float The new value of the field {@code int_2_float}
      */
-    public void int2Float$set(int int2Float) {
+    public void setInt2Float(int int2Float) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("int_2_float"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), int2Float);
@@ -515,7 +513,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code identifier_2_string}
      * @return The value of the field {@code identifier_2_string}
      */
-    public int identifier2String$get() {
+    public int getIdentifier2String() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("identifier_2_string"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -526,7 +524,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code identifier_2_string}
      * @param identifier2String The new value of the field {@code identifier_2_string}
      */
-    public void identifier2String$set(int identifier2String) {
+    public void setIdentifier2String(int identifier2String) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("identifier_2_string"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), identifier2String);
@@ -536,7 +534,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code char_2_token}
      * @return The value of the field {@code char_2_token}
      */
-    public int char2Token$get() {
+    public int getChar2Token() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("char_2_token"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -547,7 +545,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code char_2_token}
      * @param char2Token The new value of the field {@code char_2_token}
      */
-    public void char2Token$set(int char2Token) {
+    public void setChar2Token(int char2Token) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("char_2_token"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), char2Token);
@@ -557,7 +555,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code symbol_2_token}
      * @return The value of the field {@code symbol_2_token}
      */
-    public int symbol2Token$get() {
+    public int getSymbol2Token() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("symbol_2_token"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -568,7 +566,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code symbol_2_token}
      * @param symbol2Token The new value of the field {@code symbol_2_token}
      */
-    public void symbol2Token$set(int symbol2Token) {
+    public void setSymbol2Token(int symbol2Token) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("symbol_2_token"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), symbol2Token);
@@ -578,7 +576,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code scope_0_fallback}
      * @return The value of the field {@code scope_0_fallback}
      */
-    public int scope0Fallback$get() {
+    public int getScope0Fallback() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scope_0_fallback"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -589,7 +587,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code scope_0_fallback}
      * @param scope0Fallback The new value of the field {@code scope_0_fallback}
      */
-    public void scope0Fallback$set(int scope0Fallback) {
+    public void setScope0Fallback(int scope0Fallback) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scope_0_fallback"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scope0Fallback);
@@ -599,7 +597,7 @@ public class ScannerConfig extends Struct {
      * Get the value of the field {@code store_int64}
      * @return The value of the field {@code store_int64}
      */
-    public int storeInt64$get() {
+    public int getStoreInt64() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("store_int64"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -610,7 +608,7 @@ public class ScannerConfig extends Struct {
      * Change the value of the field {@code store_int64}
      * @param storeInt64 The new value of the field {@code store_int64}
      */
-    public void storeInt64$set(int storeInt64) {
+    public void setStoreInt64(int storeInt64) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("store_int64"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), storeInt64);
@@ -621,35 +619,41 @@ public class ScannerConfig extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ScannerConfig(Addressable address, Ownership ownership) {
+    protected ScannerConfig(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ScannerConfig> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScannerConfig(input, ownership);
+    
+    /**
+     * A {@link ScannerConfig.Builder} object constructs a {@link ScannerConfig} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ScannerConfig.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ScannerConfig struct;
+        private final ScannerConfig struct;
         
-         /**
-         * A {@link ScannerConfig.Build} object constructs a {@link ScannerConfig} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ScannerConfig.allocate();
         }
         
          /**
          * Finish building the {@link ScannerConfig} struct.
          * @return A new instance of {@code ScannerConfig} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ScannerConfig construct() {
+        public ScannerConfig build() {
             return struct;
         }
         
@@ -660,10 +664,10 @@ public class ScannerConfig extends Struct {
          * @param csetSkipCharacters The value for the {@code csetSkipCharacters} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCsetSkipCharacters(java.lang.String csetSkipCharacters) {
+        public Builder setCsetSkipCharacters(java.lang.String csetSkipCharacters) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cset_skip_characters"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetSkipCharacters == null ? MemoryAddress.NULL : Interop.allocateNativeString(csetSkipCharacters)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetSkipCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetSkipCharacters, null)));
             return this;
         }
         
@@ -673,10 +677,10 @@ public class ScannerConfig extends Struct {
          * @param csetIdentifierFirst The value for the {@code csetIdentifierFirst} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCsetIdentifierFirst(java.lang.String csetIdentifierFirst) {
+        public Builder setCsetIdentifierFirst(java.lang.String csetIdentifierFirst) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_first"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierFirst == null ? MemoryAddress.NULL : Interop.allocateNativeString(csetIdentifierFirst)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierFirst == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierFirst, null)));
             return this;
         }
         
@@ -688,10 +692,10 @@ public class ScannerConfig extends Struct {
          * @param csetIdentifierNth The value for the {@code csetIdentifierNth} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCsetIdentifierNth(java.lang.String csetIdentifierNth) {
+        public Builder setCsetIdentifierNth(java.lang.String csetIdentifierNth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cset_identifier_nth"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierNth == null ? MemoryAddress.NULL : Interop.allocateNativeString(csetIdentifierNth)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (csetIdentifierNth == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(csetIdentifierNth, null)));
             return this;
         }
         
@@ -703,10 +707,10 @@ public class ScannerConfig extends Struct {
          * @param cpairCommentSingle The value for the {@code cpairCommentSingle} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCpairCommentSingle(java.lang.String cpairCommentSingle) {
+        public Builder setCpairCommentSingle(java.lang.String cpairCommentSingle) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cpair_comment_single"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cpairCommentSingle == null ? MemoryAddress.NULL : Interop.allocateNativeString(cpairCommentSingle)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cpairCommentSingle == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(cpairCommentSingle, null)));
             return this;
         }
         
@@ -716,7 +720,7 @@ public class ScannerConfig extends Struct {
          * @param caseSensitive The value for the {@code caseSensitive} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCaseSensitive(int caseSensitive) {
+        public Builder setCaseSensitive(int caseSensitive) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("case_sensitive"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), caseSensitive);
@@ -729,7 +733,7 @@ public class ScannerConfig extends Struct {
          * @param skipCommentMulti The value for the {@code skipCommentMulti} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSkipCommentMulti(int skipCommentMulti) {
+        public Builder setSkipCommentMulti(int skipCommentMulti) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_multi"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), skipCommentMulti);
@@ -742,7 +746,7 @@ public class ScannerConfig extends Struct {
          * @param skipCommentSingle The value for the {@code skipCommentSingle} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSkipCommentSingle(int skipCommentSingle) {
+        public Builder setSkipCommentSingle(int skipCommentSingle) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("skip_comment_single"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), skipCommentSingle);
@@ -755,7 +759,7 @@ public class ScannerConfig extends Struct {
          * @param scanCommentMulti The value for the {@code scanCommentMulti} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanCommentMulti(int scanCommentMulti) {
+        public Builder setScanCommentMulti(int scanCommentMulti) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_comment_multi"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanCommentMulti);
@@ -768,7 +772,7 @@ public class ScannerConfig extends Struct {
          * @param scanIdentifier The value for the {@code scanIdentifier} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanIdentifier(int scanIdentifier) {
+        public Builder setScanIdentifier(int scanIdentifier) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifier);
@@ -781,7 +785,7 @@ public class ScannerConfig extends Struct {
          * @param scanIdentifier1char The value for the {@code scanIdentifier1char} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanIdentifier1char(int scanIdentifier1char) {
+        public Builder setScanIdentifier1char(int scanIdentifier1char) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_1char"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifier1char);
@@ -794,7 +798,7 @@ public class ScannerConfig extends Struct {
          * @param scanIdentifierNULL The value for the {@code scanIdentifierNULL} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanIdentifierNULL(int scanIdentifierNULL) {
+        public Builder setScanIdentifierNULL(int scanIdentifierNULL) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_identifier_NULL"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanIdentifierNULL);
@@ -807,7 +811,7 @@ public class ScannerConfig extends Struct {
          * @param scanSymbols The value for the {@code scanSymbols} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanSymbols(int scanSymbols) {
+        public Builder setScanSymbols(int scanSymbols) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_symbols"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanSymbols);
@@ -820,7 +824,7 @@ public class ScannerConfig extends Struct {
          * @param scanBinary The value for the {@code scanBinary} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanBinary(int scanBinary) {
+        public Builder setScanBinary(int scanBinary) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_binary"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanBinary);
@@ -833,7 +837,7 @@ public class ScannerConfig extends Struct {
          * @param scanOctal The value for the {@code scanOctal} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanOctal(int scanOctal) {
+        public Builder setScanOctal(int scanOctal) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_octal"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanOctal);
@@ -846,7 +850,7 @@ public class ScannerConfig extends Struct {
          * @param scanFloat The value for the {@code scanFloat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanFloat(int scanFloat) {
+        public Builder setScanFloat(int scanFloat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_float"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanFloat);
@@ -859,7 +863,7 @@ public class ScannerConfig extends Struct {
          * @param scanHex The value for the {@code scanHex} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanHex(int scanHex) {
+        public Builder setScanHex(int scanHex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_hex"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanHex);
@@ -872,7 +876,7 @@ public class ScannerConfig extends Struct {
          * @param scanHexDollar The value for the {@code scanHexDollar} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanHexDollar(int scanHexDollar) {
+        public Builder setScanHexDollar(int scanHexDollar) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_hex_dollar"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanHexDollar);
@@ -885,7 +889,7 @@ public class ScannerConfig extends Struct {
          * @param scanStringSq The value for the {@code scanStringSq} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanStringSq(int scanStringSq) {
+        public Builder setScanStringSq(int scanStringSq) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_string_sq"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanStringSq);
@@ -898,7 +902,7 @@ public class ScannerConfig extends Struct {
          * @param scanStringDq The value for the {@code scanStringDq} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScanStringDq(int scanStringDq) {
+        public Builder setScanStringDq(int scanStringDq) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scan_string_dq"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scanStringDq);
@@ -911,7 +915,7 @@ public class ScannerConfig extends Struct {
          * @param numbers2Int The value for the {@code numbers2Int} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumbers2Int(int numbers2Int) {
+        public Builder setNumbers2Int(int numbers2Int) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("numbers_2_int"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numbers2Int);
@@ -924,7 +928,7 @@ public class ScannerConfig extends Struct {
          * @param int2Float The value for the {@code int2Float} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInt2Float(int int2Float) {
+        public Builder setInt2Float(int int2Float) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("int_2_float"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), int2Float);
@@ -937,7 +941,7 @@ public class ScannerConfig extends Struct {
          * @param identifier2String The value for the {@code identifier2String} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIdentifier2String(int identifier2String) {
+        public Builder setIdentifier2String(int identifier2String) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("identifier_2_string"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), identifier2String);
@@ -950,7 +954,7 @@ public class ScannerConfig extends Struct {
          * @param char2Token The value for the {@code char2Token} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChar2Token(int char2Token) {
+        public Builder setChar2Token(int char2Token) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("char_2_token"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), char2Token);
@@ -963,7 +967,7 @@ public class ScannerConfig extends Struct {
          * @param symbol2Token The value for the {@code symbol2Token} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSymbol2Token(int symbol2Token) {
+        public Builder setSymbol2Token(int symbol2Token) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("symbol_2_token"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), symbol2Token);
@@ -976,7 +980,7 @@ public class ScannerConfig extends Struct {
          * @param scope0Fallback The value for the {@code scope0Fallback} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScope0Fallback(int scope0Fallback) {
+        public Builder setScope0Fallback(int scope0Fallback) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scope_0_fallback"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scope0Fallback);
@@ -988,14 +992,14 @@ public class ScannerConfig extends Struct {
          * @param storeInt64 The value for the {@code storeInt64} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStoreInt64(int storeInt64) {
+        public Builder setStoreInt64(int storeInt64) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("store_int64"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), storeInt64);
             return this;
         }
         
-        public Build setPaddingDummy(int paddingDummy) {
+        public Builder setPaddingDummy(int paddingDummy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding_dummy"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingDummy);

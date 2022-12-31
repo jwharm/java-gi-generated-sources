@@ -60,11 +60,15 @@ public class MemoryFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public MemoryFlags or(MemoryFlags mask) {
-        return new MemoryFlags(this.getValue() | mask.getValue());
+    public MemoryFlags or(MemoryFlags... masks) {
+        int value = this.getValue();
+        for (MemoryFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new MemoryFlags(value);
     }
     
     /**
@@ -74,7 +78,8 @@ public class MemoryFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static MemoryFlags combined(MemoryFlags mask, MemoryFlags... masks) {
-        int value = mask.getValue();        for (MemoryFlags arg : masks) {
+        int value = mask.getValue();
+        for (MemoryFlags arg : masks) {
             value |= arg.getValue();
         }
         return new MemoryFlags(value);

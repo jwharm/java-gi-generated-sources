@@ -28,18 +28,16 @@ public class RecMutex extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GRecMutex";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("p"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("p"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -60,10 +58,12 @@ public class RecMutex extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RecMutex(Addressable address, Ownership ownership) {
+    protected RecMutex(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RecMutex> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RecMutex(input, ownership);
     
     /**
      * Frees the resources allocated to a recursive mutex with
@@ -151,7 +151,7 @@ public class RecMutex extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -203,42 +203,46 @@ public class RecMutex extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RecMutex.Builder} object constructs a {@link RecMutex} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RecMutex.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RecMutex struct;
+        private final RecMutex struct;
         
-         /**
-         * A {@link RecMutex.Build} object constructs a {@link RecMutex} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RecMutex.allocate();
         }
         
          /**
          * Finish building the {@link RecMutex} struct.
          * @return A new instance of {@code RecMutex} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RecMutex construct() {
+        public RecMutex build() {
             return struct;
         }
         
-        public Build setP(java.lang.foreign.MemoryAddress p) {
+        public Builder setP(java.lang.foreign.MemoryAddress p) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("p"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
             return this;
         }
         
-        public Build setI(int[] i) {
+        public Builder setI(int[] i) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("i"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false)));

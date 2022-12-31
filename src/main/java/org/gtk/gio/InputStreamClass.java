@@ -13,31 +13,29 @@ public class InputStreamClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GInputStreamClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
-        Interop.valueLayout.ADDRESS.withName("read_fn"),
-        Interop.valueLayout.ADDRESS.withName("skip"),
-        Interop.valueLayout.ADDRESS.withName("close_fn"),
-        Interop.valueLayout.ADDRESS.withName("read_async"),
-        Interop.valueLayout.ADDRESS.withName("read_finish"),
-        Interop.valueLayout.ADDRESS.withName("skip_async"),
-        Interop.valueLayout.ADDRESS.withName("skip_finish"),
-        Interop.valueLayout.ADDRESS.withName("close_async"),
-        Interop.valueLayout.ADDRESS.withName("close_finish"),
-        Interop.valueLayout.ADDRESS.withName("_g_reserved1"),
-        Interop.valueLayout.ADDRESS.withName("_g_reserved2"),
-        Interop.valueLayout.ADDRESS.withName("_g_reserved3"),
-        Interop.valueLayout.ADDRESS.withName("_g_reserved4"),
-        Interop.valueLayout.ADDRESS.withName("_g_reserved5")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
+            Interop.valueLayout.ADDRESS.withName("read_fn"),
+            Interop.valueLayout.ADDRESS.withName("skip"),
+            Interop.valueLayout.ADDRESS.withName("close_fn"),
+            Interop.valueLayout.ADDRESS.withName("read_async"),
+            Interop.valueLayout.ADDRESS.withName("read_finish"),
+            Interop.valueLayout.ADDRESS.withName("skip_async"),
+            Interop.valueLayout.ADDRESS.withName("skip_finish"),
+            Interop.valueLayout.ADDRESS.withName("close_async"),
+            Interop.valueLayout.ADDRESS.withName("close_finish"),
+            Interop.valueLayout.ADDRESS.withName("_g_reserved1"),
+            Interop.valueLayout.ADDRESS.withName("_g_reserved2"),
+            Interop.valueLayout.ADDRESS.withName("_g_reserved3"),
+            Interop.valueLayout.ADDRESS.withName("_g_reserved4"),
+            Interop.valueLayout.ADDRESS.withName("_g_reserved5")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -57,9 +55,390 @@ public class InputStreamClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parentClass$get() {
+    public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface ReadFnCallback {
+        long run(org.gtk.gio.InputStream stream, @Nullable java.lang.foreign.MemoryAddress buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable);
+
+        @ApiStatus.Internal default long upcall(MemoryAddress stream, MemoryAddress buffer, long count, MemoryAddress cancellable) {
+            var RESULT = run((org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.InputStream.fromAddress).marshal(stream, Ownership.NONE), buffer, count, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReadFnCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code read_fn}
+     * @param readFn The new value of the field {@code read_fn}
+     */
+    public void setReadFn(ReadFnCallback readFn) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("read_fn"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readFn == null ? MemoryAddress.NULL : readFn.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface SkipCallback {
+        long run(org.gtk.gio.InputStream stream, long count, @Nullable org.gtk.gio.Cancellable cancellable);
+
+        @ApiStatus.Internal default long upcall(MemoryAddress stream, long count, MemoryAddress cancellable) {
+            var RESULT = run((org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.InputStream.fromAddress).marshal(stream, Ownership.NONE), count, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SkipCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code skip}
+     * @param skip The new value of the field {@code skip}
+     */
+    public void setSkip(SkipCallback skip) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("skip"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skip == null ? MemoryAddress.NULL : skip.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface CloseFnCallback {
+        boolean run(org.gtk.gio.InputStream stream, @Nullable org.gtk.gio.Cancellable cancellable);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress stream, MemoryAddress cancellable) {
+            var RESULT = run((org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.InputStream.fromAddress).marshal(stream, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CloseFnCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code close_fn}
+     * @param closeFn The new value of the field {@code close_fn}
+     */
+    public void setCloseFn(CloseFnCallback closeFn) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("close_fn"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeFn == null ? MemoryAddress.NULL : closeFn.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface ReadAsyncCallback {
+        void run(org.gtk.gio.InputStream stream, Out<byte[]> buffer, long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress stream, MemoryAddress buffer, long count, int ioPriority, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
+            Out<byte[]> bufferOUT = new Out<>(MemorySegment.ofAddress(buffer, count, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
+            run((org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.InputStream.fromAddress).marshal(stream, Ownership.NONE), bufferOUT, count, ioPriority, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReadAsyncCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code read_async}
+     * @param readAsync The new value of the field {@code read_async}
+     */
+    public void setReadAsync(ReadAsyncCallback readAsync) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("read_async"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readAsync == null ? MemoryAddress.NULL : readAsync.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface ReadFinishCallback {
+        long run(org.gtk.gio.InputStream stream, org.gtk.gio.AsyncResult result);
+
+        @ApiStatus.Internal default long upcall(MemoryAddress stream, MemoryAddress result) {
+            var RESULT = run((org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.InputStream.fromAddress).marshal(stream, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReadFinishCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code read_finish}
+     * @param readFinish The new value of the field {@code read_finish}
+     */
+    public void setReadFinish(ReadFinishCallback readFinish) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("read_finish"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readFinish == null ? MemoryAddress.NULL : readFinish.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface SkipAsyncCallback {
+        void run(org.gtk.gio.InputStream stream, long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress stream, long count, int ioPriority, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
+            run((org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.InputStream.fromAddress).marshal(stream, Ownership.NONE), count, ioPriority, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SkipAsyncCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code skip_async}
+     * @param skipAsync The new value of the field {@code skip_async}
+     */
+    public void setSkipAsync(SkipAsyncCallback skipAsync) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("skip_async"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skipAsync == null ? MemoryAddress.NULL : skipAsync.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface SkipFinishCallback {
+        long run(org.gtk.gio.InputStream stream, org.gtk.gio.AsyncResult result);
+
+        @ApiStatus.Internal default long upcall(MemoryAddress stream, MemoryAddress result) {
+            var RESULT = run((org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.InputStream.fromAddress).marshal(stream, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SkipFinishCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code skip_finish}
+     * @param skipFinish The new value of the field {@code skip_finish}
+     */
+    public void setSkipFinish(SkipFinishCallback skipFinish) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("skip_finish"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skipFinish == null ? MemoryAddress.NULL : skipFinish.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface CloseAsyncCallback {
+        void run(org.gtk.gio.InputStream stream, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress stream, int ioPriority, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
+            run((org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.InputStream.fromAddress).marshal(stream, Ownership.NONE), ioPriority, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CloseAsyncCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code close_async}
+     * @param closeAsync The new value of the field {@code close_async}
+     */
+    public void setCloseAsync(CloseAsyncCallback closeAsync) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("close_async"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeAsync == null ? MemoryAddress.NULL : closeAsync.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface CloseFinishCallback {
+        boolean run(org.gtk.gio.InputStream stream, org.gtk.gio.AsyncResult result);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress stream, MemoryAddress result) {
+            var RESULT = run((org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(stream)), org.gtk.gio.InputStream.fromAddress).marshal(stream, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(result)), org.gtk.gio.AsyncResult.fromAddress).marshal(result, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CloseFinishCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code close_finish}
+     * @param closeFinish The new value of the field {@code close_finish}
+     */
+    public void setCloseFinish(CloseFinishCallback closeFinish) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("close_finish"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeFinish == null ? MemoryAddress.NULL : closeFinish.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GReserved1Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved1Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _g_reserved1}
+     * @param GReserved1 The new value of the field {@code _g_reserved1}
+     */
+    public void setGReserved1(GReserved1Callback GReserved1) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved1 == null ? MemoryAddress.NULL : GReserved1.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GReserved2Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved2Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _g_reserved2}
+     * @param GReserved2 The new value of the field {@code _g_reserved2}
+     */
+    public void setGReserved2(GReserved2Callback GReserved2) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved2 == null ? MemoryAddress.NULL : GReserved2.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GReserved3Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved3Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _g_reserved3}
+     * @param GReserved3 The new value of the field {@code _g_reserved3}
+     */
+    public void setGReserved3(GReserved3Callback GReserved3) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved3 == null ? MemoryAddress.NULL : GReserved3.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GReserved4Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved4Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _g_reserved4}
+     * @param GReserved4 The new value of the field {@code _g_reserved4}
+     */
+    public void setGReserved4(GReserved4Callback GReserved4) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved4 == null ? MemoryAddress.NULL : GReserved4.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GReserved5Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GReserved5Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _g_reserved5}
+     * @param GReserved5 The new value of the field {@code _g_reserved5}
+     */
+    public void setGReserved5(GReserved5Callback GReserved5) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved5 == null ? MemoryAddress.NULL : GReserved5.toCallback()));
     }
     
     /**
@@ -67,140 +446,146 @@ public class InputStreamClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InputStreamClass(Addressable address, Ownership ownership) {
+    protected InputStreamClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InputStreamClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InputStreamClass(input, ownership);
+    
+    /**
+     * A {@link InputStreamClass.Builder} object constructs a {@link InputStreamClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link InputStreamClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private InputStreamClass struct;
+        private final InputStreamClass struct;
         
-         /**
-         * A {@link InputStreamClass.Build} object constructs a {@link InputStreamClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = InputStreamClass.allocate();
         }
         
          /**
          * Finish building the {@link InputStreamClass} struct.
          * @return A new instance of {@code InputStreamClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public InputStreamClass construct() {
+        public InputStreamClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
+        public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setReadFn(java.lang.foreign.MemoryAddress readFn) {
+        public Builder setReadFn(ReadFnCallback readFn) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("read_fn"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readFn == null ? MemoryAddress.NULL : readFn));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readFn == null ? MemoryAddress.NULL : readFn.toCallback()));
             return this;
         }
         
-        public Build setSkip(java.lang.foreign.MemoryAddress skip) {
+        public Builder setSkip(SkipCallback skip) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("skip"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skip == null ? MemoryAddress.NULL : skip));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skip == null ? MemoryAddress.NULL : skip.toCallback()));
             return this;
         }
         
-        public Build setCloseFn(java.lang.foreign.MemoryAddress closeFn) {
+        public Builder setCloseFn(CloseFnCallback closeFn) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("close_fn"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeFn == null ? MemoryAddress.NULL : closeFn));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeFn == null ? MemoryAddress.NULL : closeFn.toCallback()));
             return this;
         }
         
-        public Build setReadAsync(java.lang.foreign.MemoryAddress readAsync) {
+        public Builder setReadAsync(ReadAsyncCallback readAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("read_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readAsync == null ? MemoryAddress.NULL : readAsync));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readAsync == null ? MemoryAddress.NULL : readAsync.toCallback()));
             return this;
         }
         
-        public Build setReadFinish(java.lang.foreign.MemoryAddress readFinish) {
+        public Builder setReadFinish(ReadFinishCallback readFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("read_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readFinish == null ? MemoryAddress.NULL : readFinish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readFinish == null ? MemoryAddress.NULL : readFinish.toCallback()));
             return this;
         }
         
-        public Build setSkipAsync(java.lang.foreign.MemoryAddress skipAsync) {
+        public Builder setSkipAsync(SkipAsyncCallback skipAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("skip_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skipAsync == null ? MemoryAddress.NULL : skipAsync));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skipAsync == null ? MemoryAddress.NULL : skipAsync.toCallback()));
             return this;
         }
         
-        public Build setSkipFinish(java.lang.foreign.MemoryAddress skipFinish) {
+        public Builder setSkipFinish(SkipFinishCallback skipFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("skip_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skipFinish == null ? MemoryAddress.NULL : skipFinish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (skipFinish == null ? MemoryAddress.NULL : skipFinish.toCallback()));
             return this;
         }
         
-        public Build setCloseAsync(java.lang.foreign.MemoryAddress closeAsync) {
+        public Builder setCloseAsync(CloseAsyncCallback closeAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("close_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeAsync == null ? MemoryAddress.NULL : closeAsync));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeAsync == null ? MemoryAddress.NULL : closeAsync.toCallback()));
             return this;
         }
         
-        public Build setCloseFinish(java.lang.foreign.MemoryAddress closeFinish) {
+        public Builder setCloseFinish(CloseFinishCallback closeFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("close_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeFinish == null ? MemoryAddress.NULL : closeFinish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closeFinish == null ? MemoryAddress.NULL : closeFinish.toCallback()));
             return this;
         }
         
-        public Build setGReserved1(java.lang.foreign.MemoryAddress GReserved1) {
+        public Builder setGReserved1(GReserved1Callback GReserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved1 == null ? MemoryAddress.NULL : GReserved1));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved1 == null ? MemoryAddress.NULL : GReserved1.toCallback()));
             return this;
         }
         
-        public Build setGReserved2(java.lang.foreign.MemoryAddress GReserved2) {
+        public Builder setGReserved2(GReserved2Callback GReserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved2 == null ? MemoryAddress.NULL : GReserved2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved2 == null ? MemoryAddress.NULL : GReserved2.toCallback()));
             return this;
         }
         
-        public Build setGReserved3(java.lang.foreign.MemoryAddress GReserved3) {
+        public Builder setGReserved3(GReserved3Callback GReserved3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved3 == null ? MemoryAddress.NULL : GReserved3));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved3 == null ? MemoryAddress.NULL : GReserved3.toCallback()));
             return this;
         }
         
-        public Build setGReserved4(java.lang.foreign.MemoryAddress GReserved4) {
+        public Builder setGReserved4(GReserved4Callback GReserved4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved4 == null ? MemoryAddress.NULL : GReserved4));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved4 == null ? MemoryAddress.NULL : GReserved4.toCallback()));
             return this;
         }
         
-        public Build setGReserved5(java.lang.foreign.MemoryAddress GReserved5) {
+        public Builder setGReserved5(GReserved5Callback GReserved5) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_g_reserved5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved5 == null ? MemoryAddress.NULL : GReserved5));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GReserved5 == null ? MemoryAddress.NULL : GReserved5.toCallback()));
             return this;
         }
     }

@@ -146,9 +146,7 @@ public enum AccessibleRelation implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static void initValue(@NotNull org.gtk.gtk.AccessibleRelation relation, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void initValue(org.gtk.gtk.AccessibleRelation relation, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gtk_accessible_relation_init_value.invokeExact(
                     relation.getValue(),

@@ -43,10 +43,12 @@ public class BookmarkFile extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BookmarkFile(Addressable address, Ownership ownership) {
+    protected BookmarkFile(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BookmarkFile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BookmarkFile(input, ownership);
     
     /**
      * Adds the application with {@code name} and {@code exec} to the list of
@@ -76,14 +78,13 @@ public class BookmarkFile extends Struct {
      *   or {@code null}
      * @param exec command line to be used to launch the bookmark or {@code null}
      */
-    public void addApplication(@NotNull java.lang.String uri, @Nullable java.lang.String name, @Nullable java.lang.String exec) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void addApplication(java.lang.String uri, @Nullable java.lang.String name, @Nullable java.lang.String exec) {
         try {
             DowncallHandles.g_bookmark_file_add_application.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
-                    (Addressable) (exec == null ? MemoryAddress.NULL : Interop.allocateNativeString(exec)));
+                    Marshal.stringToAddress.marshal(uri, null),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
+                    (Addressable) (exec == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(exec, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,14 +98,12 @@ public class BookmarkFile extends Struct {
      * @param uri a valid URI
      * @param group the group name to be added
      */
-    public void addGroup(@NotNull java.lang.String uri, @NotNull java.lang.String group) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+    public void addGroup(java.lang.String uri, java.lang.String group) {
         try {
             DowncallHandles.g_bookmark_file_add_group.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(group));
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(group, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,14 +133,13 @@ public class BookmarkFile extends Struct {
      *    {@code time_t} is deprecated due to the year 2038 problem.
      */
     @Deprecated
-    public long getAdded(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public long getAdded(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_bookmark_file_get_added.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -161,14 +159,13 @@ public class BookmarkFile extends Struct {
      * @return a {@link DateTime}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.DateTime getAddedDateTime(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public org.gtk.glib.DateTime getAddedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_added_date_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -176,7 +173,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.NONE);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -204,25 +201,20 @@ public class BookmarkFile extends Struct {
      *    {@code time_t} is deprecated due to the year 2038 problem.
      */
     @Deprecated
-    public boolean getAppInfo(@NotNull java.lang.String uri, @NotNull java.lang.String name, @NotNull Out<java.lang.String> exec, Out<Integer> count, Out<Long> stamp) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(exec, "Parameter 'exec' must not be null");
+    public boolean getAppInfo(java.lang.String uri, java.lang.String name, @Nullable Out<java.lang.String> exec, Out<Integer> count, Out<Long> stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment execPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
         MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(stamp, "Parameter 'stamp' must not be null");
         MemorySegment stampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_get_app_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(name),
-                    (Addressable) execPOINTER.address(),
-                    (Addressable) countPOINTER.address(),
-                    (Addressable) stampPOINTER.address(),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(name, null),
+                    (Addressable) (exec == null ? MemoryAddress.NULL : (Addressable) execPOINTER.address()),
+                    (Addressable) (count == null ? MemoryAddress.NULL : (Addressable) countPOINTER.address()),
+                    (Addressable) (stamp == null ? MemoryAddress.NULL : (Addressable) stampPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -230,10 +222,10 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        exec.set(Interop.getStringFrom(execPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
-        stamp.set(stampPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (exec != null) exec.set(Marshal.addressToString.marshal(execPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (count != null) count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (stamp != null) stamp.set(stampPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -258,25 +250,20 @@ public class BookmarkFile extends Struct {
      * @return {@code true} on success.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getApplicationInfo(@NotNull java.lang.String uri, @NotNull java.lang.String name, @NotNull Out<java.lang.String> exec, Out<Integer> count, @NotNull Out<org.gtk.glib.DateTime> stamp) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(exec, "Parameter 'exec' must not be null");
+    public boolean getApplicationInfo(java.lang.String uri, java.lang.String name, @Nullable Out<java.lang.String> exec, Out<Integer> count, @Nullable Out<org.gtk.glib.DateTime> stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment execPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
         MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(stamp, "Parameter 'stamp' must not be null");
         MemorySegment stampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_get_application_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(name),
-                    (Addressable) execPOINTER.address(),
-                    (Addressable) countPOINTER.address(),
-                    (Addressable) stampPOINTER.address(),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(name, null),
+                    (Addressable) (exec == null ? MemoryAddress.NULL : (Addressable) execPOINTER.address()),
+                    (Addressable) (count == null ? MemoryAddress.NULL : (Addressable) countPOINTER.address()),
+                    (Addressable) (stamp == null ? MemoryAddress.NULL : (Addressable) stampPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -284,10 +271,10 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        exec.set(Interop.getStringFrom(execPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
-        stamp.set(new org.gtk.glib.DateTime(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return RESULT != 0;
+        if (exec != null) exec.set(Marshal.addressToString.marshal(execPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (count != null) count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (stamp != null) stamp.set(org.gtk.glib.DateTime.fromAddress.marshal(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -302,17 +289,15 @@ public class BookmarkFile extends Struct {
      *   Use g_strfreev() to free it.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String[] getApplications(@NotNull java.lang.String uri, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String[] getApplications(java.lang.String uri, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_applications.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    (Addressable) lengthPOINTER.address(),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -320,11 +305,11 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -339,14 +324,13 @@ public class BookmarkFile extends Struct {
      *   URI cannot be found.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String getDescription(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public java.lang.String getDescription(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_description.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -354,7 +338,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -371,17 +355,15 @@ public class BookmarkFile extends Struct {
      *   Use g_strfreev() to free it.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String[] getGroups(@NotNull java.lang.String uri, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String[] getGroups(java.lang.String uri, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_groups.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    (Addressable) lengthPOINTER.address(),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -389,11 +371,11 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -410,20 +392,17 @@ public class BookmarkFile extends Struct {
      *   You should free the returned strings.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getIcon(@NotNull java.lang.String uri, @NotNull Out<java.lang.String> href, @NotNull Out<java.lang.String> mimeType) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(href, "Parameter 'href' must not be null");
+    public boolean getIcon(java.lang.String uri, @Nullable Out<java.lang.String> href, @Nullable Out<java.lang.String> mimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment hrefPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
         MemorySegment mimeTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_get_icon.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    (Addressable) hrefPOINTER.address(),
-                    (Addressable) mimeTypePOINTER.address(),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    (Addressable) (href == null ? MemoryAddress.NULL : (Addressable) hrefPOINTER.address()),
+                    (Addressable) (mimeType == null ? MemoryAddress.NULL : (Addressable) mimeTypePOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -431,9 +410,9 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        href.set(Interop.getStringFrom(hrefPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        mimeType.set(Interop.getStringFrom(mimeTypePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (href != null) href.set(Marshal.addressToString.marshal(hrefPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (mimeType != null) mimeType.set(Marshal.addressToString.marshal(mimeTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -447,14 +426,13 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if the private flag is set, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getIsPrivate(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public boolean getIsPrivate(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_get_is_private.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -462,7 +440,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -477,14 +455,13 @@ public class BookmarkFile extends Struct {
      *   URI cannot be found.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String getMimeType(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public java.lang.String getMimeType(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_mime_type.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -492,7 +469,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -507,14 +484,13 @@ public class BookmarkFile extends Struct {
      *    {@code time_t} is deprecated due to the year 2038 problem.
      */
     @Deprecated
-    public long getModified(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public long getModified(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_bookmark_file_get_modified.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -534,14 +510,13 @@ public class BookmarkFile extends Struct {
      * @return a {@link DateTime}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.DateTime getModifiedDateTime(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public org.gtk.glib.DateTime getModifiedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_modified_date_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -549,7 +524,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.NONE);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -579,13 +554,13 @@ public class BookmarkFile extends Struct {
      *   URI cannot be found.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String getTitle(@Nullable java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.String getTitle(@Nullable java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_title.invokeExact(
                     handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Interop.allocateNativeString(uri)),
+                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -593,7 +568,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -604,22 +579,21 @@ public class BookmarkFile extends Struct {
      * @return a newly allocated {@code null}-terminated array of strings.
      *   Use g_strfreev() to free it.
      */
-    public @NotNull java.lang.String[] getUris(Out<Long> length) {
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String[] getUris(Out<Long> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_uris.invokeExact(
                     handle(),
-                    (Addressable) lengthPOINTER.address());
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -636,14 +610,13 @@ public class BookmarkFile extends Struct {
      *    {@code time_t} is deprecated due to the year 2038 problem.
      */
     @Deprecated
-    public long getVisited(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public long getVisited(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_bookmark_file_get_visited.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -663,14 +636,13 @@ public class BookmarkFile extends Struct {
      * @return a {@link DateTime}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.DateTime getVisitedDateTime(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public org.gtk.glib.DateTime getVisitedDateTime(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_get_visited_date_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -678,7 +650,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.NONE);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -692,16 +664,14 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if the application {@code name} was found
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean hasApplication(@NotNull java.lang.String uri, @NotNull java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean hasApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_has_application.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(name, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -709,7 +679,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -723,16 +693,14 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if {@code group} was found.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean hasGroup(@NotNull java.lang.String uri, @NotNull java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+    public boolean hasGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_has_group.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(group),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(group, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -740,7 +708,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -748,17 +716,16 @@ public class BookmarkFile extends Struct {
      * @param uri a valid URI
      * @return {@code true} if {@code uri} is inside {@code bookmark}, {@code false} otherwise
      */
-    public boolean hasItem(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public boolean hasItem(java.lang.String uri) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_has_item.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -771,8 +738,7 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if a desktop bookmark could be loaded.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean loadFromData(@NotNull byte[] data, long length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean loadFromData(byte[] data, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -787,7 +753,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -802,17 +768,15 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if a key file could be loaded, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean loadFromDataDirs(@NotNull java.lang.String file, @NotNull Out<java.lang.String> fullPath) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(fullPath, "Parameter 'fullPath' must not be null");
+    public boolean loadFromDataDirs(java.lang.String file, @Nullable Out<java.lang.String> fullPath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_load_from_data_dirs.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(file),
-                    (Addressable) fullPathPOINTER.address(),
+                    Marshal.stringToAddress.marshal(file, null),
+                    (Addressable) (fullPath == null ? MemoryAddress.NULL : (Addressable) fullPathPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -820,8 +784,8 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (fullPath != null) fullPath.set(Marshal.addressToString.marshal(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -833,14 +797,13 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if a desktop bookmark file could be loaded
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean loadFromFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public boolean loadFromFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_load_from_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -848,7 +811,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -863,15 +826,14 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if the URI was successfully changed
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean moveItem(@NotNull java.lang.String oldUri, @Nullable java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(oldUri, "Parameter 'oldUri' must not be null");
+    public boolean moveItem(java.lang.String oldUri, @Nullable java.lang.String newUri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_move_item.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(oldUri),
-                    (Addressable) (newUri == null ? MemoryAddress.NULL : Interop.allocateNativeString(newUri)),
+                    Marshal.stringToAddress.marshal(oldUri, null),
+                    (Addressable) (newUri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(newUri, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -879,7 +841,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -896,16 +858,14 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if the application was successfully removed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean removeApplication(@NotNull java.lang.String uri, @NotNull java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean removeApplication(java.lang.String uri, java.lang.String name) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_remove_application.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(name, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -913,7 +873,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -929,16 +889,14 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if {@code group} was successfully removed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean removeGroup(@NotNull java.lang.String uri, @NotNull java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+    public boolean removeGroup(java.lang.String uri, java.lang.String group) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_remove_group.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(group),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(group, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -946,7 +904,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -955,14 +913,13 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if the bookmark was removed successfully.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean removeItem(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public boolean removeItem(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_remove_item.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -970,7 +927,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -983,12 +940,11 @@ public class BookmarkFile extends Struct {
      *    {@code time_t} is deprecated due to the year 2038 problem.
      */
     @Deprecated
-    public void setAdded(@NotNull java.lang.String uri, long added) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void setAdded(java.lang.String uri, long added) {
         try {
             DowncallHandles.g_bookmark_file_set_added.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     added);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1002,13 +958,11 @@ public class BookmarkFile extends Struct {
      * @param uri a valid URI
      * @param added a {@link DateTime}
      */
-    public void setAddedDateTime(@NotNull java.lang.String uri, @NotNull org.gtk.glib.DateTime added) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(added, "Parameter 'added' must not be null");
+    public void setAddedDateTime(java.lang.String uri, org.gtk.glib.DateTime added) {
         try {
             DowncallHandles.g_bookmark_file_set_added_date_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     added.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1056,18 +1010,15 @@ public class BookmarkFile extends Struct {
      *    {@code time_t} is deprecated due to the year 2038 problem.
      */
     @Deprecated
-    public boolean setAppInfo(@NotNull java.lang.String uri, @NotNull java.lang.String name, @NotNull java.lang.String exec, int count, long stamp) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(exec, "Parameter 'exec' must not be null");
+    public boolean setAppInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, long stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_set_app_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(exec),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(exec, null),
                     count,
                     stamp,
                     (Addressable) GERROR);
@@ -1077,7 +1028,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1118,18 +1069,15 @@ public class BookmarkFile extends Struct {
      *   changed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean setApplicationInfo(@NotNull java.lang.String uri, @NotNull java.lang.String name, @NotNull java.lang.String exec, int count, @Nullable org.gtk.glib.DateTime stamp) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(exec, "Parameter 'exec' must not be null");
+    public boolean setApplicationInfo(java.lang.String uri, java.lang.String name, java.lang.String exec, int count, @Nullable org.gtk.glib.DateTime stamp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_set_application_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(exec),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(exec, null),
                     count,
                     (Addressable) (stamp == null ? MemoryAddress.NULL : stamp.handle()),
                     (Addressable) GERROR);
@@ -1139,7 +1087,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1151,13 +1099,12 @@ public class BookmarkFile extends Struct {
      * @param uri a valid URI or {@code null}
      * @param description a string
      */
-    public void setDescription(@Nullable java.lang.String uri, @NotNull java.lang.String description) {
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
+    public void setDescription(@Nullable java.lang.String uri, java.lang.String description) {
         try {
             DowncallHandles.g_bookmark_file_set_description.invokeExact(
                     handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Interop.allocateNativeString(uri)),
-                    Interop.allocateNativeString(description));
+                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)),
+                    Marshal.stringToAddress.marshal(description, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1173,12 +1120,11 @@ public class BookmarkFile extends Struct {
      *    group names, or {@code null} to remove all groups
      * @param length number of group name values in {@code groups}
      */
-    public void setGroups(@NotNull java.lang.String uri, @Nullable java.lang.String[] groups, long length) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void setGroups(java.lang.String uri, @Nullable java.lang.String[] groups, long length) {
         try {
             DowncallHandles.g_bookmark_file_set_groups.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) (groups == null ? MemoryAddress.NULL : Interop.allocateNativeArray(groups, false)),
                     length);
         } catch (Throwable ERR) {
@@ -1196,15 +1142,13 @@ public class BookmarkFile extends Struct {
      * @param href the URI of the icon for the bookmark, or {@code null}
      * @param mimeType the MIME type of the icon for the bookmark
      */
-    public void setIcon(@NotNull java.lang.String uri, @Nullable java.lang.String href, @NotNull java.lang.String mimeType) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
+    public void setIcon(java.lang.String uri, @Nullable java.lang.String href, java.lang.String mimeType) {
         try {
             DowncallHandles.g_bookmark_file_set_icon.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    (Addressable) (href == null ? MemoryAddress.NULL : Interop.allocateNativeString(href)),
-                    Interop.allocateNativeString(mimeType));
+                    Marshal.stringToAddress.marshal(uri, null),
+                    (Addressable) (href == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(href, null)),
+                    Marshal.stringToAddress.marshal(mimeType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1217,13 +1161,12 @@ public class BookmarkFile extends Struct {
      * @param uri a valid URI
      * @param isPrivate {@code true} if the bookmark should be marked as private
      */
-    public void setIsPrivate(@NotNull java.lang.String uri, boolean isPrivate) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void setIsPrivate(java.lang.String uri, boolean isPrivate) {
         try {
             DowncallHandles.g_bookmark_file_set_is_private.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    isPrivate ? 1 : 0);
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.booleanToInteger.marshal(isPrivate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1236,14 +1179,12 @@ public class BookmarkFile extends Struct {
      * @param uri a valid URI
      * @param mimeType a MIME type
      */
-    public void setMimeType(@NotNull java.lang.String uri, @NotNull java.lang.String mimeType) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
+    public void setMimeType(java.lang.String uri, java.lang.String mimeType) {
         try {
             DowncallHandles.g_bookmark_file_set_mime_type.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(mimeType));
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(mimeType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1264,12 +1205,11 @@ public class BookmarkFile extends Struct {
      *    {@code time_t} is deprecated due to the year 2038 problem.
      */
     @Deprecated
-    public void setModified(@NotNull java.lang.String uri, long modified) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void setModified(java.lang.String uri, long modified) {
         try {
             DowncallHandles.g_bookmark_file_set_modified.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     modified);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1288,13 +1228,11 @@ public class BookmarkFile extends Struct {
      * @param uri a valid URI
      * @param modified a {@link DateTime}
      */
-    public void setModifiedDateTime(@NotNull java.lang.String uri, @NotNull org.gtk.glib.DateTime modified) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(modified, "Parameter 'modified' must not be null");
+    public void setModifiedDateTime(java.lang.String uri, org.gtk.glib.DateTime modified) {
         try {
             DowncallHandles.g_bookmark_file_set_modified_date_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     modified.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1311,13 +1249,12 @@ public class BookmarkFile extends Struct {
      * @param uri a valid URI or {@code null}
      * @param title a UTF-8 encoded string
      */
-    public void setTitle(@Nullable java.lang.String uri, @NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(@Nullable java.lang.String uri, java.lang.String title) {
         try {
             DowncallHandles.g_bookmark_file_set_title.invokeExact(
                     handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Interop.allocateNativeString(uri)),
-                    Interop.allocateNativeString(title));
+                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)),
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1339,12 +1276,11 @@ public class BookmarkFile extends Struct {
      *    {@code time_t} is deprecated due to the year 2038 problem.
      */
     @Deprecated
-    public void setVisited(@NotNull java.lang.String uri, long visited) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public void setVisited(java.lang.String uri, long visited) {
         try {
             DowncallHandles.g_bookmark_file_set_visited.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     visited);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1364,13 +1300,11 @@ public class BookmarkFile extends Struct {
      * @param uri a valid URI
      * @param visited a {@link DateTime}
      */
-    public void setVisitedDateTime(@NotNull java.lang.String uri, @NotNull org.gtk.glib.DateTime visited) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(visited, "Parameter 'visited' must not be null");
+    public void setVisitedDateTime(java.lang.String uri, org.gtk.glib.DateTime visited) {
         try {
             DowncallHandles.g_bookmark_file_set_visited_date_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     visited.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1383,15 +1317,14 @@ public class BookmarkFile extends Struct {
      * @return a newly allocated string holding the contents of the {@link BookmarkFile}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull byte[] toData(Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public byte[] toData(Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_to_data.invokeExact(
                     handle(),
-                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1399,7 +1332,7 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
@@ -1410,14 +1343,13 @@ public class BookmarkFile extends Struct {
      * @return {@code true} if the file was successfully written.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean toFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public boolean toFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_to_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1425,10 +1357,10 @@ public class BookmarkFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark errorQuark() {
+    public static org.gtk.glib.Quark errorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_error_quark.invokeExact();
@@ -1446,14 +1378,14 @@ public class BookmarkFile extends Struct {
      * file.
      * @return an empty {@link BookmarkFile}
      */
-    public static @NotNull org.gtk.glib.BookmarkFile new_() {
+    public static org.gtk.glib.BookmarkFile new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bookmark_file_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.BookmarkFile(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.BookmarkFile.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

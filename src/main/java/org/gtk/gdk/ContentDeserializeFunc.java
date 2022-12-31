@@ -14,5 +14,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ContentDeserializeFunc {
-        void onContentDeserializeFunc(@NotNull org.gtk.gdk.ContentDeserializer deserializer);
+    void run(org.gtk.gdk.ContentDeserializer deserializer);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress deserializer) {
+        run((org.gtk.gdk.ContentDeserializer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(deserializer)), org.gtk.gdk.ContentDeserializer.fromAddress).marshal(deserializer, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ContentDeserializeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

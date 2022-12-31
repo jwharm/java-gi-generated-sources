@@ -28,11 +28,15 @@ public class PipelineFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PipelineFlags or(PipelineFlags mask) {
-        return new PipelineFlags(this.getValue() | mask.getValue());
+    public PipelineFlags or(PipelineFlags... masks) {
+        int value = this.getValue();
+        for (PipelineFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new PipelineFlags(value);
     }
     
     /**
@@ -42,7 +46,8 @@ public class PipelineFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PipelineFlags combined(PipelineFlags mask, PipelineFlags... masks) {
-        int value = mask.getValue();        for (PipelineFlags arg : masks) {
+        int value = mask.getValue();
+        for (PipelineFlags arg : masks) {
             value |= arg.getValue();
         }
         return new PipelineFlags(value);

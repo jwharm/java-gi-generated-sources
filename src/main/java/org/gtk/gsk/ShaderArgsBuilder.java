@@ -43,14 +43,15 @@ public class ShaderArgsBuilder extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ShaderArgsBuilder(Addressable address, Ownership ownership) {
+    protected ShaderArgsBuilder(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
-        java.util.Objects.requireNonNull(shader, "Parameter 'shader' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ShaderArgsBuilder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShaderArgsBuilder(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_new.invokeExact(
                     shader.handle(),
@@ -67,7 +68,7 @@ public class ShaderArgsBuilder extends Struct {
      * @param shader a {@code GskGLShader}
      * @param initialValues optional {@code GBytes} with initial values
      */
-    public ShaderArgsBuilder(@NotNull org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
+    public ShaderArgsBuilder(org.gtk.gsk.GLShader shader, @Nullable org.gtk.glib.Bytes initialValues) {
         super(constructNew(shader, initialValues), Ownership.FULL);
     }
     
@@ -80,7 +81,7 @@ public class ShaderArgsBuilder extends Struct {
      * @return the newly allocated buffer with
      *   all the args added to {@code builder}
      */
-    public @NotNull org.gtk.glib.Bytes freeToArgs() {
+    public org.gtk.glib.Bytes freeToArgs() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_free_to_args.invokeExact(
@@ -88,14 +89,14 @@ public class ShaderArgsBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Increases the reference count of a {@code GskShaderArgsBuilder} by one.
      * @return the passed in {@code GskShaderArgsBuilder}
      */
-    public @NotNull org.gtk.gsk.ShaderArgsBuilder ref() {
+    public org.gtk.gsk.ShaderArgsBuilder ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_ref.invokeExact(
@@ -103,7 +104,7 @@ public class ShaderArgsBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.ShaderArgsBuilder(RESULT, Ownership.FULL);
+        return org.gtk.gsk.ShaderArgsBuilder.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -118,7 +119,7 @@ public class ShaderArgsBuilder extends Struct {
             DowncallHandles.gsk_shader_args_builder_set_bool.invokeExact(
                     handle(),
                     idx,
-                    value ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(value, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,8 +186,7 @@ public class ShaderArgsBuilder extends Struct {
      * @param idx index of the uniform
      * @param value value to set the uniform too
      */
-    public void setVec2(int idx, @NotNull org.gtk.graphene.Vec2 value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setVec2(int idx, org.gtk.graphene.Vec2 value) {
         try {
             DowncallHandles.gsk_shader_args_builder_set_vec2.invokeExact(
                     handle(),
@@ -204,8 +204,7 @@ public class ShaderArgsBuilder extends Struct {
      * @param idx index of the uniform
      * @param value value to set the uniform too
      */
-    public void setVec3(int idx, @NotNull org.gtk.graphene.Vec3 value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setVec3(int idx, org.gtk.graphene.Vec3 value) {
         try {
             DowncallHandles.gsk_shader_args_builder_set_vec3.invokeExact(
                     handle(),
@@ -223,8 +222,7 @@ public class ShaderArgsBuilder extends Struct {
      * @param idx index of the uniform
      * @param value value to set the uniform too
      */
-    public void setVec4(int idx, @NotNull org.gtk.graphene.Vec4 value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setVec4(int idx, org.gtk.graphene.Vec4 value) {
         try {
             DowncallHandles.gsk_shader_args_builder_set_vec4.invokeExact(
                     handle(),
@@ -250,7 +248,7 @@ public class ShaderArgsBuilder extends Struct {
      * @return the newly allocated buffer with
      *   all the args added to {@code builder}
      */
-    public @NotNull org.gtk.glib.Bytes toArgs() {
+    public org.gtk.glib.Bytes toArgs() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_shader_args_builder_to_args.invokeExact(
@@ -258,7 +256,7 @@ public class ShaderArgsBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

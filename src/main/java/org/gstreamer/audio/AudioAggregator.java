@@ -64,20 +64,18 @@ public class AudioAggregator extends org.gstreamer.base.Aggregator {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioAggregator";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.base.Aggregator.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("current_caps"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.base.Aggregator.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("current_caps"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -85,41 +83,25 @@ public class AudioAggregator extends org.gstreamer.base.Aggregator {
      * <p>
      * Because AudioAggregator is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioAggregator(Addressable address, Ownership ownership) {
+    protected AudioAggregator(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AudioAggregator if its GType is a (or inherits from) "GstAudioAggregator".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AudioAggregator} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAudioAggregator", a ClassCastException will be thrown.
-     */
-    public static AudioAggregator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AudioAggregator.getType())) {
-            return new AudioAggregator(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAudioAggregator");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioAggregator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioAggregator(input, ownership);
     
-    public void setSinkCaps(@NotNull org.gstreamer.audio.AudioAggregatorPad pad, @NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void setSinkCaps(org.gstreamer.audio.AudioAggregatorPad pad, org.gstreamer.gst.Caps caps) {
         try {
             DowncallHandles.gst_audio_aggregator_set_sink_caps.invokeExact(
                     handle(),
@@ -134,7 +116,7 @@ public class AudioAggregator extends org.gstreamer.base.Aggregator {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_aggregator_get_type.invokeExact();
@@ -143,48 +125,50 @@ public class AudioAggregator extends org.gstreamer.base.Aggregator {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link AudioAggregator.Builder} object constructs a {@link AudioAggregator} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AudioAggregator.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.base.Aggregator.Build {
+    public static class Builder extends org.gstreamer.base.Aggregator.Builder {
         
-         /**
-         * A {@link AudioAggregator.Build} object constructs a {@link AudioAggregator} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AudioAggregator} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AudioAggregator} using {@link AudioAggregator#castFrom}.
+         * {@link AudioAggregator}.
          * @return A new instance of {@code AudioAggregator} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioAggregator construct() {
-            return AudioAggregator.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AudioAggregator.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AudioAggregator build() {
+            return (AudioAggregator) org.gtk.gobject.GObject.newWithProperties(
+                AudioAggregator.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setAlignmentThreshold(long alignmentThreshold) {
+        public Builder setAlignmentThreshold(long alignmentThreshold) {
             names.add("alignment-threshold");
             values.add(org.gtk.gobject.Value.create(alignmentThreshold));
             return this;
         }
         
-        public Build setDiscontWait(long discontWait) {
+        public Builder setDiscontWait(long discontWait) {
             names.add("discont-wait");
             values.add(org.gtk.gobject.Value.create(discontWait));
             return this;
@@ -202,13 +186,13 @@ public class AudioAggregator extends org.gstreamer.base.Aggregator {
          * @param ignoreInactivePads The value for the {@code ignore-inactive-pads} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIgnoreInactivePads(boolean ignoreInactivePads) {
+        public Builder setIgnoreInactivePads(boolean ignoreInactivePads) {
             names.add("ignore-inactive-pads");
             values.add(org.gtk.gobject.Value.create(ignoreInactivePads));
             return this;
         }
         
-        public Build setOutputBufferDuration(long outputBufferDuration) {
+        public Builder setOutputBufferDuration(long outputBufferDuration) {
             names.add("output-buffer-duration");
             values.add(org.gtk.gobject.Value.create(outputBufferDuration));
             return this;
@@ -219,7 +203,7 @@ public class AudioAggregator extends org.gstreamer.base.Aggregator {
          * @param outputBufferDurationFraction The value for the {@code output-buffer-duration-fraction} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOutputBufferDurationFraction(org.gstreamer.gst.Fraction outputBufferDurationFraction) {
+        public Builder setOutputBufferDurationFraction(org.gstreamer.gst.Fraction outputBufferDurationFraction) {
             names.add("output-buffer-duration-fraction");
             values.add(org.gtk.gobject.Value.create(outputBufferDurationFraction));
             return this;

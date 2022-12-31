@@ -14,5 +14,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ModuleCheckInit {
-        java.lang.String onModuleCheckInit(@NotNull org.gtk.gmodule.Module module);
+    java.lang.String run(org.gtk.gmodule.Module module);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress module) {
+        var RESULT = run(org.gtk.gmodule.Module.fromAddress.marshal(module, Ownership.NONE));
+        return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ModuleCheckInit.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

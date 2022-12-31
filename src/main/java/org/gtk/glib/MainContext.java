@@ -44,13 +44,15 @@ public class MainContext extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MainContext(Addressable address, Ownership ownership) {
+    protected MainContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MainContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MainContext(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_new.invokeExact();
         } catch (Throwable ERR) {
@@ -66,9 +68,8 @@ public class MainContext extends Struct {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithFlags(@NotNull org.gtk.glib.MainContextFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithFlags(org.gtk.glib.MainContextFlags flags) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_new_with_flags.invokeExact(
                     flags.getValue());
@@ -84,8 +85,9 @@ public class MainContext extends Struct {
      *         set at creation time.
      * @return the new {@link MainContext}
      */
-    public static MainContext newWithFlags(@NotNull org.gtk.glib.MainContextFlags flags) {
-        return new MainContext(constructNewWithFlags(flags), Ownership.FULL);
+    public static MainContext newWithFlags(org.gtk.glib.MainContextFlags flags) {
+        var RESULT = constructNewWithFlags(flags);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -110,7 +112,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -123,8 +125,7 @@ public class MainContext extends Struct {
      *      the same as the priority used for g_source_attach() to ensure that the
      *      file descriptor is polled whenever the results may be needed.
      */
-    public void addPoll(@NotNull org.gtk.glib.PollFD fd, int priority) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public void addPoll(org.gtk.glib.PollFD fd, int priority) {
         try {
             DowncallHandles.g_main_context_add_poll.invokeExact(
                     handle(),
@@ -149,8 +150,7 @@ public class MainContext extends Struct {
      * @param nFds return value of g_main_context_query()
      * @return {@code true} if some sources are ready to be dispatched.
      */
-    public boolean check(int maxPriority, @NotNull org.gtk.glib.PollFD[] fds, int nFds) {
-        java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
+    public boolean check(int maxPriority, org.gtk.glib.PollFD[] fds, int nFds) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_main_context_check.invokeExact(
@@ -161,7 +161,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -184,21 +184,19 @@ public class MainContext extends Struct {
      * multiple sources exist with the same source function and user data,
      * the first one found will be returned.
      * @param funcs the {@code source_funcs} passed to g_source_new().
-     * @param userData the user data from the callback.
      * @return the source, if one was found, otherwise {@code null}
      */
-    public @NotNull org.gtk.glib.Source findSourceByFuncsUserData(@NotNull org.gtk.glib.SourceFuncs funcs, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
+    public org.gtk.glib.Source findSourceByFuncsUserData(org.gtk.glib.SourceFuncs funcs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_funcs_user_data.invokeExact(
                     handle(),
                     funcs.handle(),
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.NONE);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -217,7 +215,7 @@ public class MainContext extends Struct {
      * @param sourceId the source ID, as returned by g_source_get_id().
      * @return the {@link Source}
      */
-    public @NotNull org.gtk.glib.Source findSourceById(int sourceId) {
+    public org.gtk.glib.Source findSourceById(int sourceId) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_id.invokeExact(
@@ -226,34 +224,40 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.NONE);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Finds a source with the given user data for the callback.  If
      * multiple sources exist with the same user data, the first
      * one found will be returned.
-     * @param userData the user_data for the callback.
      * @return the source, if one was found, otherwise {@code null}
      */
-    public @NotNull org.gtk.glib.Source findSourceByUserData(@Nullable java.lang.foreign.MemoryAddress userData) {
+    public org.gtk.glib.Source findSourceByUserData() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_find_source_by_user_data.invokeExact(
                     handle(),
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.NONE);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the poll function set by g_main_context_set_poll_func().
      * @return the poll function
      */
-    public @NotNull org.gtk.glib.PollFunc getPollFunc() {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public org.gtk.glib.PollFunc getPollFunc() {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_main_context_get_poll_func.invokeExact(
+                    handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return null /* Unsupported parameter type */;
     }
     
     /**
@@ -280,17 +284,12 @@ public class MainContext extends Struct {
      * loop (and may prevent this call from returning).
      * @param function function to call
      */
-    public void invoke(@NotNull org.gtk.glib.SourceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public void invoke(org.gtk.glib.SourceFunc function) {
         try {
             DowncallHandles.g_main_context_invoke.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)));
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,20 +307,16 @@ public class MainContext extends Struct {
      * thread or with any particular context acquired.
      * @param priority the priority at which to run {@code function}
      * @param function function to call
+     * @param notify a function to call when {@code data} is no longer in use, or {@code null}.
      */
-    public void invokeFull(int priority, @NotNull org.gtk.glib.SourceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public void invokeFull(int priority, org.gtk.glib.SourceFunc function, @Nullable org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.g_main_context_invoke_full.invokeExact(
                     handle(),
                     priority,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +337,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -366,11 +361,11 @@ public class MainContext extends Struct {
         try {
             RESULT = (int) DowncallHandles.g_main_context_iteration.invokeExact(
                     handle(),
-                    mayBlock ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(mayBlock, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -385,7 +380,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -413,18 +408,17 @@ public class MainContext extends Struct {
      *               prior to polling.
      */
     public boolean prepare(Out<Integer> priority) {
-        java.util.Objects.requireNonNull(priority, "Parameter 'priority' must not be null");
         MemorySegment priorityPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_main_context_prepare.invokeExact(
                     handle(),
-                    (Addressable) priorityPOINTER.address());
+                    (Addressable) (priority == null ? MemoryAddress.NULL : (Addressable) priorityPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        priority.set(priorityPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (priority != null) priority.set(priorityPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -493,10 +487,8 @@ public class MainContext extends Struct {
      *   or, if more than {@code n_fds} records need to be stored, the number
      *   of records that need to be stored.
      */
-    public int query(int maxPriority, Out<Integer> timeout, @NotNull Out<org.gtk.glib.PollFD[]> fds, int nFds) {
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public int query(int maxPriority, Out<Integer> timeout, Out<org.gtk.glib.PollFD[]> fds, int nFds) {
         MemorySegment timeoutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
         MemorySegment fdsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -513,7 +505,7 @@ public class MainContext extends Struct {
         org.gtk.glib.PollFD[] fdsARRAY = new org.gtk.glib.PollFD[nFds];
         for (int I = 0; I < nFds; I++) {
             var OBJ = fdsPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            fdsARRAY[I] = new org.gtk.glib.PollFD(OBJ, Ownership.NONE);
+            fdsARRAY[I] = org.gtk.glib.PollFD.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         fds.set(fdsARRAY);
         return RESULT;
@@ -523,7 +515,7 @@ public class MainContext extends Struct {
      * Increases the reference count on a {@link MainContext} object by one.
      * @return the {@code context} that was passed in (since 2.6)
      */
-    public @NotNull org.gtk.glib.MainContext ref() {
+    public org.gtk.glib.MainContext ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_ref.invokeExact(
@@ -531,7 +523,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.FULL);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -554,8 +546,7 @@ public class MainContext extends Struct {
      * polled for a particular context.
      * @param fd a {@link PollFD} descriptor previously added with g_main_context_add_poll()
      */
-    public void removePoll(@NotNull org.gtk.glib.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public void removePoll(org.gtk.glib.PollFD fd) {
         try {
             DowncallHandles.g_main_context_remove_poll.invokeExact(
                     handle(),
@@ -575,8 +566,14 @@ public class MainContext extends Struct {
      * loop with an external event loop.
      * @param func the function to call to poll all file descriptors
      */
-    public void setPollFunc(@NotNull org.gtk.glib.PollFunc func) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setPollFunc(org.gtk.glib.PollFunc func) {
+        try {
+            DowncallHandles.g_main_context_set_poll_func.invokeExact(
+                    handle(),
+                    (Addressable) func.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -605,9 +602,7 @@ public class MainContext extends Struct {
      * @deprecated Use g_main_context_is_owner() and separate locking instead.
      */
     @Deprecated
-    public boolean wait_(@NotNull org.gtk.glib.Cond cond, @NotNull org.gtk.glib.Mutex mutex) {
-        java.util.Objects.requireNonNull(cond, "Parameter 'cond' must not be null");
-        java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
+    public boolean wait_(org.gtk.glib.Cond cond, org.gtk.glib.Mutex mutex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_main_context_wait.invokeExact(
@@ -617,7 +612,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -665,14 +660,14 @@ public class MainContext extends Struct {
      * g_main_context_get_thread_default().
      * @return the global default main context.
      */
-    public static @NotNull org.gtk.glib.MainContext default_() {
+    public static org.gtk.glib.MainContext default_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -697,7 +692,7 @@ public class MainContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -710,14 +705,14 @@ public class MainContext extends Struct {
      * @return the thread-default {@link MainContext}. Unref
      *     with g_main_context_unref() when you are done with it.
      */
-    public static @NotNull org.gtk.glib.MainContext refThreadDefault() {
+    public static org.gtk.glib.MainContext refThreadDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_ref_thread_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.FULL);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

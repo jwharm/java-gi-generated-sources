@@ -49,8 +49,7 @@ public class DragAction extends io.github.jwharm.javagi.Bitfield {
      * @param action a {@code GdkDragAction}
      * @return {@code true} if exactly one action was given
      */
-    public static boolean isUnique(@NotNull org.gtk.gdk.DragAction action) {
-        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+    public static boolean isUnique(org.gtk.gdk.DragAction action) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_drag_action_is_unique.invokeExact(
@@ -58,16 +57,20 @@ public class DragAction extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DragAction or(DragAction mask) {
-        return new DragAction(this.getValue() | mask.getValue());
+    public DragAction or(DragAction... masks) {
+        int value = this.getValue();
+        for (DragAction arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DragAction(value);
     }
     
     /**
@@ -77,7 +80,8 @@ public class DragAction extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DragAction combined(DragAction mask, DragAction... masks) {
-        int value = mask.getValue();        for (DragAction arg : masks) {
+        int value = mask.getValue();
+        for (DragAction arg : masks) {
             value |= arg.getValue();
         }
         return new DragAction(value);

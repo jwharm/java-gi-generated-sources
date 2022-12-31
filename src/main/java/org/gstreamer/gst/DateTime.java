@@ -50,13 +50,15 @@ public class DateTime extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DateTime(Addressable address, Ownership ownership) {
+    protected DateTime(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(float tzoffset, int year, int month, int day, int hour, int minute, double seconds) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DateTime> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DateTime(input, ownership);
+    
+    private static MemoryAddress constructNew(float tzoffset, int year, int month, int day, int hour, int minute, double seconds) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new.invokeExact(
                     tzoffset,
@@ -99,8 +101,8 @@ public class DateTime extends Struct {
         super(constructNew(tzoffset, year, month, day, hour, minute, seconds), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromGDateTime(@Nullable org.gtk.glib.DateTime dt) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromGDateTime(@Nullable org.gtk.glib.DateTime dt) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_from_g_date_time.invokeExact(
                     (Addressable) (dt == null ? MemoryAddress.NULL : dt.handle()));
@@ -118,15 +120,15 @@ public class DateTime extends Struct {
      * or {@code null} if {@code dt} is {@code null}.
      */
     public static DateTime newFromGDateTime(@Nullable org.gtk.glib.DateTime dt) {
-        return new DateTime(constructNewFromGDateTime(dt), Ownership.FULL);
+        var RESULT = constructNewFromGDateTime(dt);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromIso8601String(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromIso8601String(java.lang.String string) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_from_iso8601_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -146,12 +148,13 @@ public class DateTime extends Struct {
      * @return a newly created {@link DateTime},
      * or {@code null} on error
      */
-    public static DateTime newFromIso8601String(@NotNull java.lang.String string) {
-        return new DateTime(constructNewFromIso8601String(string), Ownership.FULL);
+    public static DateTime newFromIso8601String(java.lang.String string) {
+        var RESULT = constructNewFromIso8601String(string);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromUnixEpochLocalTime(long secs) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromUnixEpochLocalTime(long secs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_from_unix_epoch_local_time.invokeExact(
                     secs);
@@ -169,11 +172,12 @@ public class DateTime extends Struct {
      * or {@code null} on error.
      */
     public static DateTime newFromUnixEpochLocalTime(long secs) {
-        return new DateTime(constructNewFromUnixEpochLocalTime(secs), Ownership.FULL);
+        var RESULT = constructNewFromUnixEpochLocalTime(secs);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromUnixEpochLocalTimeUsecs(long usecs) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromUnixEpochLocalTimeUsecs(long usecs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_from_unix_epoch_local_time_usecs.invokeExact(
                     usecs);
@@ -191,11 +195,12 @@ public class DateTime extends Struct {
      * on error.
      */
     public static DateTime newFromUnixEpochLocalTimeUsecs(long usecs) {
-        return new DateTime(constructNewFromUnixEpochLocalTimeUsecs(usecs), Ownership.FULL);
+        var RESULT = constructNewFromUnixEpochLocalTimeUsecs(usecs);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromUnixEpochUtc(long secs) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromUnixEpochUtc(long secs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_from_unix_epoch_utc.invokeExact(
                     secs);
@@ -213,11 +218,12 @@ public class DateTime extends Struct {
      * or {@code null} on error.
      */
     public static DateTime newFromUnixEpochUtc(long secs) {
-        return new DateTime(constructNewFromUnixEpochUtc(secs), Ownership.FULL);
+        var RESULT = constructNewFromUnixEpochUtc(secs);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromUnixEpochUtcUsecs(long usecs) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromUnixEpochUtcUsecs(long usecs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_from_unix_epoch_utc_usecs.invokeExact(
                     usecs);
@@ -235,11 +241,12 @@ public class DateTime extends Struct {
      * on error.
      */
     public static DateTime newFromUnixEpochUtcUsecs(long usecs) {
-        return new DateTime(constructNewFromUnixEpochUtcUsecs(usecs), Ownership.FULL);
+        var RESULT = constructNewFromUnixEpochUtcUsecs(usecs);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewLocalTime(int year, int month, int day, int hour, int minute, double seconds) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewLocalTime(int year, int month, int day, int hour, int minute, double seconds) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_local_time.invokeExact(
                     year,
@@ -280,11 +287,12 @@ public class DateTime extends Struct {
      * or {@code null} on error.
      */
     public static DateTime newLocalTime(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(constructNewLocalTime(year, month, day, hour, minute, seconds), Ownership.FULL);
+        var RESULT = constructNewLocalTime(year, month, day, hour, minute, seconds);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewNowLocalTime() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewNowLocalTime() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_now_local_time.invokeExact();
         } catch (Throwable ERR) {
@@ -299,11 +307,12 @@ public class DateTime extends Struct {
      *     be freed with gst_date_time_unref(), or {@code null} on error.
      */
     public static DateTime newNowLocalTime() {
-        return new DateTime(constructNewNowLocalTime(), Ownership.FULL);
+        var RESULT = constructNewNowLocalTime();
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewNowUtc() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewNowUtc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_now_utc.invokeExact();
         } catch (Throwable ERR) {
@@ -319,11 +328,12 @@ public class DateTime extends Struct {
      *   be freed with gst_date_time_unref(), or {@code null} on error.
      */
     public static DateTime newNowUtc() {
-        return new DateTime(constructNewNowUtc(), Ownership.FULL);
+        var RESULT = constructNewNowUtc();
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewY(int year) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewY(int year) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_y.invokeExact(
                     year);
@@ -343,11 +353,12 @@ public class DateTime extends Struct {
      * or {@code null} on error.
      */
     public static DateTime newY(int year) {
-        return new DateTime(constructNewY(year), Ownership.FULL);
+        var RESULT = constructNewY(year);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewYm(int year, int month) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewYm(int year, int month) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_ym.invokeExact(
                     year,
@@ -372,11 +383,12 @@ public class DateTime extends Struct {
      * or {@code null} on error.
      */
     public static DateTime newYm(int year, int month) {
-        return new DateTime(constructNewYm(year, month), Ownership.FULL);
+        var RESULT = constructNewYm(year, month);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewYmd(int year, int month, int day) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewYmd(int year, int month, int day) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_new_ymd.invokeExact(
                     year,
@@ -406,7 +418,8 @@ public class DateTime extends Struct {
      * or {@code null} on error.
      */
     public static DateTime newYmd(int year, int month, int day) {
-        return new DateTime(constructNewYmd(year, month, day), Ownership.FULL);
+        var RESULT = constructNewYmd(year, month, day);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -545,7 +558,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean hasMonth() {
@@ -556,7 +569,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean hasSecond() {
@@ -567,7 +580,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean hasTime() {
@@ -578,7 +591,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean hasYear() {
@@ -589,14 +602,14 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Atomically increments the reference count of {@code datetime} by one.
      * @return the reference {@code datetime}
      */
-    public @NotNull org.gstreamer.gst.DateTime ref() {
+    public org.gstreamer.gst.DateTime ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_date_time_ref.invokeExact(
@@ -604,7 +617,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.DateTime(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -621,7 +634,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -640,7 +653,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**

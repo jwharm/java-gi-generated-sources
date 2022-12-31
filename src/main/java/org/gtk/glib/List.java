@@ -16,19 +16,17 @@ public class List extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GList";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.ADDRESS.withName("next"),
-        Interop.valueLayout.ADDRESS.withName("prev")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.ADDRESS.withName("next"),
+            Interop.valueLayout.ADDRESS.withName("prev")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class List extends Struct {
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public java.lang.foreign.MemoryAddress data$get() {
+    public java.lang.foreign.MemoryAddress getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,52 +57,52 @@ public class List extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(java.lang.foreign.MemoryAddress data) {
+    public void setData(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
     }
     
     /**
      * Get the value of the field {@code next}
      * @return The value of the field {@code next}
      */
-    public org.gtk.glib.List next$get() {
+    public org.gtk.glib.List getNext() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code next}
      * @param next The new value of the field {@code next}
      */
-    public void next$set(org.gtk.glib.List next) {
+    public void setNext(org.gtk.glib.List next) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
     }
     
     /**
      * Get the value of the field {@code prev}
      * @return The value of the field {@code prev}
      */
-    public org.gtk.glib.List prev$get() {
+    public org.gtk.glib.List getPrev() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prev"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code prev}
      * @param prev The new value of the field {@code prev}
      */
-    public void prev$set(org.gtk.glib.List prev) {
+    public void setPrev(org.gtk.glib.List prev) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prev"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), prev.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
     }
     
     /**
@@ -112,10 +110,12 @@ public class List extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public List(Addressable address, Ownership ownership) {
+    protected List(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, List> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new List(input, ownership);
     
     /**
      * Allocates space for one {@link List} element. It is called by
@@ -123,14 +123,14 @@ public class List extends Struct {
      * g_list_insert_sorted() and so is rarely used on its own.
      * @return a pointer to the newly-allocated {@link List} element
      */
-    public static @NotNull org.gtk.glib.List alloc() {
+    public static org.gtk.glib.List alloc() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_alloc.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -156,20 +156,18 @@ public class List extends Struct {
      * number_list = g_list_append (number_list, GINT_TO_POINTER (14));
      * }</pre>
      * @param list a pointer to a {@link List}
-     * @param data the data for the new element
      * @return either {@code list} or the new start of the {@link List} if {@code list} was {@code null}
      */
-    public static @NotNull org.gtk.glib.List append(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List append(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_append.invokeExact(
                     list.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -188,9 +186,7 @@ public class List extends Struct {
      *     this must point  to the top of the list
      * @return the start of the new {@link List}, which equals {@code list1} if not {@code null}
      */
-    public static @NotNull org.gtk.glib.List concat(@NotNull org.gtk.glib.List list1, @NotNull org.gtk.glib.List list2) {
-        java.util.Objects.requireNonNull(list1, "Parameter 'list1' must not be null");
-        java.util.Objects.requireNonNull(list2, "Parameter 'list2' must not be null");
+    public static org.gtk.glib.List concat(org.gtk.glib.List list1, org.gtk.glib.List list2) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_concat.invokeExact(
@@ -199,7 +195,7 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -212,8 +208,7 @@ public class List extends Struct {
      * @param list a {@link List}, this must point to the top of the list
      * @return the start of the new list that holds the same data as {@code list}
      */
-    public static @NotNull org.gtk.glib.List copy(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List copy(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_copy.invokeExact(
@@ -221,7 +216,7 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -251,23 +246,17 @@ public class List extends Struct {
      * @return the start of the new list that holds a full copy of {@code list},
      *     use g_list_free_full() to free it
      */
-    public static @NotNull org.gtk.glib.List copyDeep(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.CopyFunc func) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gtk.glib.List copyDeep(org.gtk.glib.List list, org.gtk.glib.CopyFunc func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_copy_deep.invokeExact(
                     list.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -278,9 +267,7 @@ public class List extends Struct {
      * @param link node to delete from {@code list}
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List deleteLink(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public static org.gtk.glib.List deleteLink(org.gtk.glib.List list, org.gtk.glib.List link) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_delete_link.invokeExact(
@@ -289,26 +276,24 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Finds the element in a {@link List} which contains the given data.
      * @param list a {@link List}, this must point to the top of the list
-     * @param data the element data to find
      * @return the found {@link List} element, or {@code null} if it is not found
      */
-    public static @NotNull org.gtk.glib.List find(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List find(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_find.invokeExact(
                     list.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -323,23 +308,17 @@ public class List extends Struct {
      *     It should return 0 when the desired element is found
      * @return the found {@link List} element, or {@code null} if it is not found
      */
-    public static @NotNull org.gtk.glib.List findCustom(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.CompareFunc func) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gtk.glib.List findCustom(org.gtk.glib.List list, org.gtk.glib.CompareFunc func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_find_custom.invokeExact(
                     list.handle(),
-                    (Addressable) (Interop.registerCallback(func)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) func.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -348,8 +327,7 @@ public class List extends Struct {
      * @return the first element in the {@link List},
      *     or {@code null} if the {@link List} has no elements
      */
-    public static @NotNull org.gtk.glib.List first(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List first(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_first.invokeExact(
@@ -357,7 +335,7 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -368,18 +346,12 @@ public class List extends Struct {
      * @param list a {@link List}, this must point to the top of the list
      * @param func the function to call with each element's data
      */
-    public static void foreach(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.Func func) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void foreach(org.gtk.glib.List list, org.gtk.glib.Func func) {
         try {
             DowncallHandles.g_list_foreach.invokeExact(
                     list.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,8 +372,7 @@ public class List extends Struct {
      * }</pre>
      * @param list the first link of a {@link List}
      */
-    public static void free(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static void free(org.gtk.glib.List list) {
         try {
             DowncallHandles.g_list_free.invokeExact(
                     list.handle());
@@ -418,8 +389,7 @@ public class List extends Struct {
      * It is usually used after g_list_remove_link().
      * @param list a {@link List} element
      */
-    public static void free1(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static void free1(org.gtk.glib.List list) {
         try {
             DowncallHandles.g_list_free_1.invokeExact(
                     list.handle());
@@ -446,25 +416,29 @@ public class List extends Struct {
      * @param list the first link of a {@link List}
      * @param freeFunc the function to be called to free each element's data
      */
-    public static void freeFull(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.DestroyNotify freeFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void freeFull(org.gtk.glib.List list, org.gtk.glib.DestroyNotify freeFunc) {
+        try {
+            DowncallHandles.g_list_free_full.invokeExact(
+                    list.handle(),
+                    (Addressable) freeFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
      * Gets the position of the element containing
      * the given data (starting from 0).
      * @param list a {@link List}, this must point to the top of the list
-     * @param data the data to find
      * @return the index of the element containing the data,
      *     or -1 if the data is not found
      */
-    public static int index(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static int index(org.gtk.glib.List list) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_list_index.invokeExact(
                     list.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -474,24 +448,22 @@ public class List extends Struct {
     /**
      * Inserts a new element into the list at the given position.
      * @param list a pointer to a {@link List}, this must point to the top of the list
-     * @param data the data for the new element
      * @param position the position to insert the element. If this is
      *     negative, or is larger than the number of elements in the
      *     list, the new element is added on to the end of the list.
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List insert(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data, int position) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List insert(org.gtk.glib.List list, int position) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_insert.invokeExact(
                     list.handle(),
-                    (Addressable) data,
+                    (Addressable) MemoryAddress.NULL,
                     position);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -499,22 +471,19 @@ public class List extends Struct {
      * @param list a pointer to a {@link List}, this must point to the top of the list
      * @param sibling the list element before which the new element
      *     is inserted or {@code null} to insert at the end of the list
-     * @param data the data for the new element
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List insertBefore(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.List sibling, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
+    public static org.gtk.glib.List insertBefore(org.gtk.glib.List list, org.gtk.glib.List sibling) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_insert_before.invokeExact(
                     list.handle(),
                     sibling.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -526,9 +495,7 @@ public class List extends Struct {
      *     any other list
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List insertBeforeLink(@NotNull org.gtk.glib.List list, @Nullable org.gtk.glib.List sibling, @NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public static org.gtk.glib.List insertBeforeLink(org.gtk.glib.List list, @Nullable org.gtk.glib.List sibling, org.gtk.glib.List link) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_insert_before_link.invokeExact(
@@ -538,7 +505,7 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -556,23 +523,17 @@ public class List extends Struct {
      *     second parameter in the sort order.
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List insertSorted(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.CompareFunc func) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gtk.glib.List insertSorted(org.gtk.glib.List list, org.gtk.glib.CompareFunc func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_insert_sorted.invokeExact(
                     list.handle(),
-                    (Addressable) (Interop.registerCallback(func)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) func.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -590,24 +551,18 @@ public class List extends Struct {
      *     second parameter in the sort order.
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List insertSortedWithData(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.CompareDataFunc func) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gtk.glib.List insertSortedWithData(org.gtk.glib.List list, org.gtk.glib.CompareDataFunc func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_insert_sorted_with_data.invokeExact(
                     list.handle(),
-                    (Addressable) (Interop.registerCallback(func)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -616,8 +571,7 @@ public class List extends Struct {
      * @return the last element in the {@link List},
      *     or {@code null} if the {@link List} has no elements
      */
-    public static @NotNull org.gtk.glib.List last(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List last(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_last.invokeExact(
@@ -625,7 +579,7 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -638,8 +592,7 @@ public class List extends Struct {
      * @param list a {@link List}, this must point to the top of the list
      * @return the number of elements in the {@link List}
      */
-    public static int length(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static int length(org.gtk.glib.List list) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_list_length.invokeExact(
@@ -661,8 +614,7 @@ public class List extends Struct {
      * @return the element, or {@code null} if the position is off
      *     the end of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List nth(@NotNull org.gtk.glib.List list, int n) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List nth(org.gtk.glib.List list, int n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_nth.invokeExact(
@@ -671,7 +623,7 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -685,8 +637,7 @@ public class List extends Struct {
      * @return the element's data, or {@code null} if the position
      *     is off the end of the {@link List}
      */
-    public static @Nullable java.lang.foreign.MemoryAddress nthData(@NotNull org.gtk.glib.List list, int n) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress nthData(org.gtk.glib.List list, int n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_nth_data.invokeExact(
@@ -705,8 +656,7 @@ public class List extends Struct {
      * @return the element, or {@code null} if the position is
      *     off the end of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List nthPrev(@NotNull org.gtk.glib.List list, int n) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List nthPrev(org.gtk.glib.List list, int n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_nth_prev.invokeExact(
@@ -715,7 +665,7 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -726,9 +676,7 @@ public class List extends Struct {
      * @return the position of the element in the {@link List},
      *     or -1 if the element is not found
      */
-    public static int position(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.List llink) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(llink, "Parameter 'llink' must not be null");
+    public static int position(org.gtk.glib.List list, org.gtk.glib.List llink) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_list_position.invokeExact(
@@ -756,21 +704,19 @@ public class List extends Struct {
      * Do not use this function to prepend a new element to a different
      * element than the start of the list. Use g_list_insert_before() instead.
      * @param list a pointer to a {@link List}, this must point to the top of the list
-     * @param data the data for the new element
      * @return a pointer to the newly prepended element, which is the new
      *     start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List prepend(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List prepend(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_prepend.invokeExact(
                     list.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -778,20 +724,18 @@ public class List extends Struct {
      * If two elements contain the same data, only the first is removed.
      * If none of the elements contain the data, the {@link List} is unchanged.
      * @param list a {@link List}, this must point to the top of the list
-     * @param data the data of the element to remove
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List remove(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List remove(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_remove.invokeExact(
                     list.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -800,20 +744,18 @@ public class List extends Struct {
      * g_list_remove() which removes only the first node
      * matching the given data.
      * @param list a {@link List}, this must point to the top of the list
-     * @param data data to remove
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List removeAll(@NotNull org.gtk.glib.List list, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List removeAll(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_remove_all.invokeExact(
                     list.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -833,9 +775,7 @@ public class List extends Struct {
      * @param llink an element in the {@link List}
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List removeLink(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.List llink) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(llink, "Parameter 'llink' must not be null");
+    public static org.gtk.glib.List removeLink(org.gtk.glib.List list, org.gtk.glib.List llink) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_remove_link.invokeExact(
@@ -844,7 +784,7 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -853,8 +793,7 @@ public class List extends Struct {
      * @param list a {@link List}, this must point to the top of the list
      * @return the start of the reversed {@link List}
      */
-    public static @NotNull org.gtk.glib.List reverse(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List reverse(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_reverse.invokeExact(
@@ -862,7 +801,7 @@ public class List extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -876,8 +815,16 @@ public class List extends Struct {
      *     the first element comes after the second.
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List sort(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.CompareFunc compareFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gtk.glib.List sort(org.gtk.glib.List list, org.gtk.glib.CompareFunc compareFunc) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_list_sort.invokeExact(
+                    list.handle(),
+                    (Addressable) compareFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -887,23 +834,17 @@ public class List extends Struct {
      * @param compareFunc comparison function
      * @return the (possibly changed) start of the {@link List}
      */
-    public static @NotNull org.gtk.glib.List sortWithData(@NotNull org.gtk.glib.List list, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public static org.gtk.glib.List sortWithData(org.gtk.glib.List list, org.gtk.glib.CompareDataFunc compareFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_sort_with_data.invokeExact(
                     list.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(compareFunc)));
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -1100,31 +1041,35 @@ public class List extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link List.Builder} object constructs a {@link List} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link List.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private List struct;
+        private final List struct;
         
-         /**
-         * A {@link List.Build} object constructs a {@link List} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = List.allocate();
         }
         
          /**
          * Finish building the {@link List} struct.
          * @return A new instance of {@code List} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public List construct() {
+        public List build() {
             return struct;
         }
         
@@ -1135,7 +1080,7 @@ public class List extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(java.lang.foreign.MemoryAddress data) {
+        public Builder setData(java.lang.foreign.MemoryAddress data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
@@ -1147,7 +1092,7 @@ public class List extends Struct {
          * @param next The value for the {@code next} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNext(org.gtk.glib.List next) {
+        public Builder setNext(org.gtk.glib.List next) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
@@ -1159,7 +1104,7 @@ public class List extends Struct {
          * @param prev The value for the {@code prev} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrev(org.gtk.glib.List prev) {
+        public Builder setPrev(org.gtk.glib.List prev) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("prev"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));

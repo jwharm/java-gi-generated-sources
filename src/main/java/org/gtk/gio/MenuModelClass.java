@@ -13,25 +13,23 @@ public class MenuModelClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GMenuModelClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
-        Interop.valueLayout.ADDRESS.withName("is_mutable"),
-        Interop.valueLayout.ADDRESS.withName("get_n_items"),
-        Interop.valueLayout.ADDRESS.withName("get_item_attributes"),
-        Interop.valueLayout.ADDRESS.withName("iterate_item_attributes"),
-        Interop.valueLayout.ADDRESS.withName("get_item_attribute_value"),
-        Interop.valueLayout.ADDRESS.withName("get_item_links"),
-        Interop.valueLayout.ADDRESS.withName("iterate_item_links"),
-        Interop.valueLayout.ADDRESS.withName("get_item_link")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
+            Interop.valueLayout.ADDRESS.withName("is_mutable"),
+            Interop.valueLayout.ADDRESS.withName("get_n_items"),
+            Interop.valueLayout.ADDRESS.withName("get_item_attributes"),
+            Interop.valueLayout.ADDRESS.withName("iterate_item_attributes"),
+            Interop.valueLayout.ADDRESS.withName("get_item_attribute_value"),
+            Interop.valueLayout.ADDRESS.withName("get_item_links"),
+            Interop.valueLayout.ADDRESS.withName("iterate_item_links"),
+            Interop.valueLayout.ADDRESS.withName("get_item_link")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,9 +49,237 @@ public class MenuModelClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.ObjectClass parentClass$get() {
+    public org.gtk.gobject.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gobject.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gtk.gobject.ObjectClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface IsMutableCallback {
+        boolean run(org.gtk.gio.MenuModel model);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress model) {
+            var RESULT = run((org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gio.MenuModel.fromAddress).marshal(model, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IsMutableCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code is_mutable}
+     * @param isMutable The new value of the field {@code is_mutable}
+     */
+    public void setIsMutable(IsMutableCallback isMutable) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("is_mutable"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isMutable == null ? MemoryAddress.NULL : isMutable.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GetNItemsCallback {
+        int run(org.gtk.gio.MenuModel model);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress model) {
+            var RESULT = run((org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gio.MenuModel.fromAddress).marshal(model, Ownership.NONE));
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetNItemsCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_n_items}
+     * @param getNItems The new value of the field {@code get_n_items}
+     */
+    public void setGetNItems(GetNItemsCallback getNItems) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_n_items"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNItems == null ? MemoryAddress.NULL : getNItems.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GetItemAttributesCallback {
+        void run(org.gtk.gio.MenuModel model, int itemIndex, Out<org.gtk.glib.HashTable> attributes);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress model, int itemIndex, MemoryAddress attributes) {
+            Out<org.gtk.glib.HashTable> attributesOUT = new Out<>(org.gtk.glib.HashTable.fromAddress.marshal(attributes, Ownership.FULL));
+            run((org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gio.MenuModel.fromAddress).marshal(model, Ownership.NONE), itemIndex, attributesOUT);
+            attributes.set(Interop.valueLayout.ADDRESS, 0, attributesOUT.get().handle());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetItemAttributesCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_item_attributes}
+     * @param getItemAttributes The new value of the field {@code get_item_attributes}
+     */
+    public void setGetItemAttributes(GetItemAttributesCallback getItemAttributes) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_item_attributes"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemAttributes == null ? MemoryAddress.NULL : getItemAttributes.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface IterateItemAttributesCallback {
+        org.gtk.gio.MenuAttributeIter run(org.gtk.gio.MenuModel model, int itemIndex);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress model, int itemIndex) {
+            var RESULT = run((org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gio.MenuModel.fromAddress).marshal(model, Ownership.NONE), itemIndex);
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IterateItemAttributesCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code iterate_item_attributes}
+     * @param iterateItemAttributes The new value of the field {@code iterate_item_attributes}
+     */
+    public void setIterateItemAttributes(IterateItemAttributesCallback iterateItemAttributes) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("iterate_item_attributes"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterateItemAttributes == null ? MemoryAddress.NULL : iterateItemAttributes.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GetItemAttributeValueCallback {
+        @Nullable org.gtk.glib.Variant run(org.gtk.gio.MenuModel model, int itemIndex, java.lang.String attribute, @Nullable org.gtk.glib.VariantType expectedType);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress model, int itemIndex, MemoryAddress attribute, MemoryAddress expectedType) {
+            var RESULT = run((org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gio.MenuModel.fromAddress).marshal(model, Ownership.NONE), itemIndex, Marshal.addressToString.marshal(attribute, null), org.gtk.glib.VariantType.fromAddress.marshal(expectedType, Ownership.NONE));
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetItemAttributeValueCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_item_attribute_value}
+     * @param getItemAttributeValue The new value of the field {@code get_item_attribute_value}
+     */
+    public void setGetItemAttributeValue(GetItemAttributeValueCallback getItemAttributeValue) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_item_attribute_value"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemAttributeValue == null ? MemoryAddress.NULL : getItemAttributeValue.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GetItemLinksCallback {
+        void run(org.gtk.gio.MenuModel model, int itemIndex, Out<org.gtk.glib.HashTable> links);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress model, int itemIndex, MemoryAddress links) {
+            Out<org.gtk.glib.HashTable> linksOUT = new Out<>(org.gtk.glib.HashTable.fromAddress.marshal(links, Ownership.FULL));
+            run((org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gio.MenuModel.fromAddress).marshal(model, Ownership.NONE), itemIndex, linksOUT);
+            links.set(Interop.valueLayout.ADDRESS, 0, linksOUT.get().handle());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetItemLinksCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_item_links}
+     * @param getItemLinks The new value of the field {@code get_item_links}
+     */
+    public void setGetItemLinks(GetItemLinksCallback getItemLinks) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_item_links"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemLinks == null ? MemoryAddress.NULL : getItemLinks.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface IterateItemLinksCallback {
+        org.gtk.gio.MenuLinkIter run(org.gtk.gio.MenuModel model, int itemIndex);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress model, int itemIndex) {
+            var RESULT = run((org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gio.MenuModel.fromAddress).marshal(model, Ownership.NONE), itemIndex);
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IterateItemLinksCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code iterate_item_links}
+     * @param iterateItemLinks The new value of the field {@code iterate_item_links}
+     */
+    public void setIterateItemLinks(IterateItemLinksCallback iterateItemLinks) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("iterate_item_links"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterateItemLinks == null ? MemoryAddress.NULL : iterateItemLinks.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GetItemLinkCallback {
+        @Nullable org.gtk.gio.MenuModel run(org.gtk.gio.MenuModel model, int itemIndex, java.lang.String link);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress model, int itemIndex, MemoryAddress link) {
+            var RESULT = run((org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gio.MenuModel.fromAddress).marshal(model, Ownership.NONE), itemIndex, Marshal.addressToString.marshal(link, null));
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetItemLinkCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_item_link}
+     * @param getItemLink The new value of the field {@code get_item_link}
+     */
+    public void setGetItemLink(GetItemLinkCallback getItemLink) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_item_link"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemLink == null ? MemoryAddress.NULL : getItemLink.toCallback()));
     }
     
     /**
@@ -61,98 +287,104 @@ public class MenuModelClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MenuModelClass(Addressable address, Ownership ownership) {
+    protected MenuModelClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MenuModelClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MenuModelClass(input, ownership);
+    
+    /**
+     * A {@link MenuModelClass.Builder} object constructs a {@link MenuModelClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link MenuModelClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private MenuModelClass struct;
+        private final MenuModelClass struct;
         
-         /**
-         * A {@link MenuModelClass.Build} object constructs a {@link MenuModelClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = MenuModelClass.allocate();
         }
         
          /**
          * Finish building the {@link MenuModelClass} struct.
          * @return A new instance of {@code MenuModelClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MenuModelClass construct() {
+        public MenuModelClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
+        public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setIsMutable(java.lang.foreign.MemoryAddress isMutable) {
+        public Builder setIsMutable(IsMutableCallback isMutable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_mutable"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isMutable == null ? MemoryAddress.NULL : isMutable));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isMutable == null ? MemoryAddress.NULL : isMutable.toCallback()));
             return this;
         }
         
-        public Build setGetNItems(java.lang.foreign.MemoryAddress getNItems) {
+        public Builder setGetNItems(GetNItemsCallback getNItems) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_n_items"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNItems == null ? MemoryAddress.NULL : getNItems));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNItems == null ? MemoryAddress.NULL : getNItems.toCallback()));
             return this;
         }
         
-        public Build setGetItemAttributes(java.lang.foreign.MemoryAddress getItemAttributes) {
+        public Builder setGetItemAttributes(GetItemAttributesCallback getItemAttributes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_attributes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemAttributes == null ? MemoryAddress.NULL : getItemAttributes));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemAttributes == null ? MemoryAddress.NULL : getItemAttributes.toCallback()));
             return this;
         }
         
-        public Build setIterateItemAttributes(java.lang.foreign.MemoryAddress iterateItemAttributes) {
+        public Builder setIterateItemAttributes(IterateItemAttributesCallback iterateItemAttributes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iterate_item_attributes"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterateItemAttributes == null ? MemoryAddress.NULL : iterateItemAttributes));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterateItemAttributes == null ? MemoryAddress.NULL : iterateItemAttributes.toCallback()));
             return this;
         }
         
-        public Build setGetItemAttributeValue(java.lang.foreign.MemoryAddress getItemAttributeValue) {
+        public Builder setGetItemAttributeValue(GetItemAttributeValueCallback getItemAttributeValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_attribute_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemAttributeValue == null ? MemoryAddress.NULL : getItemAttributeValue));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemAttributeValue == null ? MemoryAddress.NULL : getItemAttributeValue.toCallback()));
             return this;
         }
         
-        public Build setGetItemLinks(java.lang.foreign.MemoryAddress getItemLinks) {
+        public Builder setGetItemLinks(GetItemLinksCallback getItemLinks) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_links"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemLinks == null ? MemoryAddress.NULL : getItemLinks));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemLinks == null ? MemoryAddress.NULL : getItemLinks.toCallback()));
             return this;
         }
         
-        public Build setIterateItemLinks(java.lang.foreign.MemoryAddress iterateItemLinks) {
+        public Builder setIterateItemLinks(IterateItemLinksCallback iterateItemLinks) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("iterate_item_links"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterateItemLinks == null ? MemoryAddress.NULL : iterateItemLinks));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (iterateItemLinks == null ? MemoryAddress.NULL : iterateItemLinks.toCallback()));
             return this;
         }
         
-        public Build setGetItemLink(java.lang.foreign.MemoryAddress getItemLink) {
+        public Builder setGetItemLink(GetItemLinkCallback getItemLink) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_link"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemLink == null ? MemoryAddress.NULL : getItemLink));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemLink == null ? MemoryAddress.NULL : getItemLink.toCallback()));
             return this;
         }
     }

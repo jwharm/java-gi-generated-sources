@@ -65,31 +65,14 @@ import org.jetbrains.annotations.*;
  */
 public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to SocketConnectable if its GType is a (or inherits from) "GSocketConnectable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SocketConnectable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSocketConnectable", a ClassCastException will be thrown.
-     */
-    public static SocketConnectable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SocketConnectable.getType())) {
-            return new SocketConnectableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSocketConnectable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SocketConnectableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketConnectableImpl(input, ownership);
     
     /**
      * Creates a {@link SocketAddressEnumerator} for {@code connectable}.
      * @return a new {@link SocketAddressEnumerator}.
      */
-    default @NotNull org.gtk.gio.SocketAddressEnumerator enumerate() {
+    default org.gtk.gio.SocketAddressEnumerator enumerate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_enumerate.invokeExact(
@@ -97,7 +80,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketAddressEnumerator(RESULT, Ownership.FULL);
+        return (org.gtk.gio.SocketAddressEnumerator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddressEnumerator.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -110,7 +93,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
      * calling g_socket_connectable_enumerate().
      * @return a new {@link SocketAddressEnumerator}.
      */
-    default @NotNull org.gtk.gio.SocketAddressEnumerator proxyEnumerate() {
+    default org.gtk.gio.SocketAddressEnumerator proxyEnumerate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_proxy_enumerate.invokeExact(
@@ -118,7 +101,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketAddressEnumerator(RESULT, Ownership.FULL);
+        return (org.gtk.gio.SocketAddressEnumerator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddressEnumerator.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -131,7 +114,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
      * the implementation’s type name will be returned as a fallback.
      * @return the formatted string
      */
-    default @NotNull java.lang.String toString_() {
+    default java.lang.String toString_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_connectable_to_string.invokeExact(
@@ -139,14 +122,14 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_connectable_get_type.invokeExact();
@@ -188,7 +171,7 @@ public interface SocketConnectable extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class SocketConnectableImpl extends org.gtk.gobject.Object implements SocketConnectable {
+    class SocketConnectableImpl extends org.gtk.gobject.GObject implements SocketConnectable {
         
         static {
             Gio.javagi$ensureInitialized();

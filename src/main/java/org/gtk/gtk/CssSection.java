@@ -46,15 +46,15 @@ public class CssSection extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CssSection(Addressable address, Ownership ownership) {
+    protected CssSection(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable org.gtk.gio.File file, @NotNull org.gtk.gtk.CssLocation start, @NotNull org.gtk.gtk.CssLocation end) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CssSection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CssSection(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable org.gtk.gio.File file, org.gtk.gtk.CssLocation start, org.gtk.gtk.CssLocation end) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_new.invokeExact(
                     (Addressable) (file == null ? MemoryAddress.NULL : file.handle()),
@@ -74,7 +74,7 @@ public class CssSection extends Struct {
      * @param start The start location
      * @param end The end location
      */
-    public CssSection(@Nullable org.gtk.gio.File file, @NotNull org.gtk.gtk.CssLocation start, @NotNull org.gtk.gtk.CssLocation end) {
+    public CssSection(@Nullable org.gtk.gio.File file, org.gtk.gtk.CssLocation start, org.gtk.gtk.CssLocation end) {
         super(constructNew(file, start, end), Ownership.FULL);
     }
     
@@ -83,7 +83,7 @@ public class CssSection extends Struct {
      * @return The end location of
      *   this section
      */
-    public @NotNull org.gtk.gtk.CssLocation getEndLocation() {
+    public org.gtk.gtk.CssLocation getEndLocation() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_end_location.invokeExact(
@@ -91,7 +91,7 @@ public class CssSection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CssLocation(RESULT, Ownership.NONE);
+        return org.gtk.gtk.CssLocation.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -110,7 +110,7 @@ public class CssSection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -132,7 +132,7 @@ public class CssSection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CssSection(RESULT, Ownership.NONE);
+        return org.gtk.gtk.CssSection.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -140,7 +140,7 @@ public class CssSection extends Struct {
      * @return The start location of
      *   this section
      */
-    public @NotNull org.gtk.gtk.CssLocation getStartLocation() {
+    public org.gtk.gtk.CssLocation getStartLocation() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_get_start_location.invokeExact(
@@ -148,7 +148,7 @@ public class CssSection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CssLocation(RESULT, Ownership.NONE);
+        return org.gtk.gtk.CssLocation.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -158,8 +158,7 @@ public class CssSection extends Struct {
      * 1 to 23 in the file {@code gtk.css}.
      * @param string a {@code GString} to print to
      */
-    public void print(@NotNull org.gtk.glib.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public void print(org.gtk.glib.GString string) {
         try {
             DowncallHandles.gtk_css_section_print.invokeExact(
                     handle(),
@@ -173,7 +172,7 @@ public class CssSection extends Struct {
      * Increments the reference count on {@code section}.
      * @return the CSS section itself.
      */
-    public @NotNull org.gtk.gtk.CssSection ref() {
+    public org.gtk.gtk.CssSection ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_ref.invokeExact(
@@ -181,7 +180,7 @@ public class CssSection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CssSection(RESULT, Ownership.FULL);
+        return org.gtk.gtk.CssSection.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -189,7 +188,7 @@ public class CssSection extends Struct {
      * {@link CssSection#print}.
      * @return A new string.
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_css_section_to_string.invokeExact(
@@ -197,7 +196,7 @@ public class CssSection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**

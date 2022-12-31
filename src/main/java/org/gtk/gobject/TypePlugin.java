@@ -57,39 +57,19 @@ import org.jetbrains.annotations.*;
  */
 public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to TypePlugin if its GType is a (or inherits from) "GTypePlugin".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TypePlugin} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GTypePlugin", a ClassCastException will be thrown.
-     */
-    public static TypePlugin castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TypePlugin.getType())) {
-            return new TypePluginImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTypePlugin");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TypePluginImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypePluginImpl(input, ownership);
     
     /**
      * Calls the {@code complete_interface_info} function from the
      * {@link TypePluginClass} of {@code plugin}. There should be no need to use this
      * function outside of the GObject type system itself.
-     * @param instanceType the {@link Type} of an instantiatable type to which the interface
+     * @param instanceType the {@link org.gtk.glib.Type} of an instantiatable type to which the interface
      *  is added
-     * @param interfaceType the {@link Type} of the interface whose info is completed
+     * @param interfaceType the {@link org.gtk.glib.Type} of the interface whose info is completed
      * @param info the {@link InterfaceInfo} to fill in
      */
-    default void completeInterfaceInfo(@NotNull org.gtk.glib.Type instanceType, @NotNull org.gtk.glib.Type interfaceType, @NotNull org.gtk.gobject.InterfaceInfo info) {
-        java.util.Objects.requireNonNull(instanceType, "Parameter 'instanceType' must not be null");
-        java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    default void completeInterfaceInfo(org.gtk.glib.Type instanceType, org.gtk.glib.Type interfaceType, org.gtk.gobject.InterfaceInfo info) {
         try {
             DowncallHandles.g_type_plugin_complete_interface_info.invokeExact(
                     handle(),
@@ -105,14 +85,11 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      * Calls the {@code complete_type_info} function from the {@link TypePluginClass} of {@code plugin}.
      * There should be no need to use this function outside of the GObject
      * type system itself.
-     * @param gType the {@link Type} whose info is completed
+     * @param gType the {@link org.gtk.glib.Type} whose info is completed
      * @param info the {@link TypeInfo} struct to fill in
      * @param valueTable the {@link TypeValueTable} to fill in
      */
-    default void completeTypeInfo(@NotNull org.gtk.glib.Type gType, @NotNull org.gtk.gobject.TypeInfo info, @NotNull org.gtk.gobject.TypeValueTable valueTable) {
-        java.util.Objects.requireNonNull(gType, "Parameter 'gType' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(valueTable, "Parameter 'valueTable' must not be null");
+    default void completeTypeInfo(org.gtk.glib.Type gType, org.gtk.gobject.TypeInfo info, org.gtk.gobject.TypeValueTable valueTable) {
         try {
             DowncallHandles.g_type_plugin_complete_type_info.invokeExact(
                     handle(),
@@ -156,7 +133,7 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_type_plugin_get_type.invokeExact();
@@ -205,10 +182,10 @@ public interface TypePlugin extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class TypePluginImpl extends org.gtk.gobject.Object implements TypePlugin {
+    class TypePluginImpl extends org.gtk.gobject.GObject implements TypePlugin {
         
         static {
-            GObject.javagi$ensureInitialized();
+            GObjects.javagi$ensureInitialized();
         }
         
         public TypePluginImpl(Addressable address, Ownership ownership) {

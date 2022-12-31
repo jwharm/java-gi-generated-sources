@@ -17,18 +17,16 @@ public class VideoMetaTransform extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoMetaTransform";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("in_info"),
-        Interop.valueLayout.ADDRESS.withName("out_info")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("in_info"),
+            Interop.valueLayout.ADDRESS.withName("out_info")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,42 +46,42 @@ public class VideoMetaTransform extends Struct {
      * Get the value of the field {@code in_info}
      * @return The value of the field {@code in_info}
      */
-    public org.gstreamer.video.VideoInfo inInfo$get() {
+    public org.gstreamer.video.VideoInfo getInInfo() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("in_info"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.video.VideoInfo(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoInfo.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code in_info}
      * @param inInfo The new value of the field {@code in_info}
      */
-    public void inInfo$set(org.gstreamer.video.VideoInfo inInfo) {
+    public void setInInfo(org.gstreamer.video.VideoInfo inInfo) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("in_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), inInfo.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inInfo == null ? MemoryAddress.NULL : inInfo.handle()));
     }
     
     /**
      * Get the value of the field {@code out_info}
      * @return The value of the field {@code out_info}
      */
-    public org.gstreamer.video.VideoInfo outInfo$get() {
+    public org.gstreamer.video.VideoInfo getOutInfo() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("out_info"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.video.VideoInfo(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoInfo.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code out_info}
      * @param outInfo The new value of the field {@code out_info}
      */
-    public void outInfo$set(org.gstreamer.video.VideoInfo outInfo) {
+    public void setOutInfo(org.gstreamer.video.VideoInfo outInfo) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("out_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), outInfo.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outInfo == null ? MemoryAddress.NULL : outInfo.handle()));
     }
     
     /**
@@ -91,16 +89,18 @@ public class VideoMetaTransform extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoMetaTransform(Addressable address, Ownership ownership) {
+    protected VideoMetaTransform(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoMetaTransform> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoMetaTransform(input, ownership);
     
     /**
      * Get the {@link org.gtk.glib.Quark} for the "gst-video-scale" metadata transform operation.
      * @return a {@link org.gtk.glib.Quark}
      */
-    public static @NotNull org.gtk.glib.Quark scaleGetQuark() {
+    public static org.gtk.glib.Quark scaleGetQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_meta_transform_scale_get_quark.invokeExact();
@@ -118,31 +118,35 @@ public class VideoMetaTransform extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoMetaTransform.Builder} object constructs a {@link VideoMetaTransform} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoMetaTransform.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoMetaTransform struct;
+        private final VideoMetaTransform struct;
         
-         /**
-         * A {@link VideoMetaTransform.Build} object constructs a {@link VideoMetaTransform} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoMetaTransform.allocate();
         }
         
          /**
          * Finish building the {@link VideoMetaTransform} struct.
          * @return A new instance of {@code VideoMetaTransform} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoMetaTransform construct() {
+        public VideoMetaTransform build() {
             return struct;
         }
         
@@ -151,7 +155,7 @@ public class VideoMetaTransform extends Struct {
          * @param inInfo The value for the {@code inInfo} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInInfo(org.gstreamer.video.VideoInfo inInfo) {
+        public Builder setInInfo(org.gstreamer.video.VideoInfo inInfo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("in_info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inInfo == null ? MemoryAddress.NULL : inInfo.handle()));
@@ -163,7 +167,7 @@ public class VideoMetaTransform extends Struct {
          * @param outInfo The value for the {@code outInfo} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOutInfo(org.gstreamer.video.VideoInfo outInfo) {
+        public Builder setOutInfo(org.gstreamer.video.VideoInfo outInfo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("out_info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outInfo == null ? MemoryAddress.NULL : outInfo.handle()));

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * contextual data, which they must not modify.
  * @version 1.8
  */
-public class Tracer extends org.gstreamer.gst.Object {
+public class Tracer extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -20,19 +20,17 @@ public class Tracer extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstTracer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -40,43 +38,29 @@ public class Tracer extends org.gstreamer.gst.Object {
      * <p>
      * Because Tracer is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Tracer(Addressable address, Ownership ownership) {
+    protected Tracer(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Tracer if its GType is a (or inherits from) "GstTracer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Tracer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstTracer", a ClassCastException will be thrown.
-     */
-    public static Tracer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Tracer.getType())) {
-            return new Tracer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstTracer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Tracer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Tracer(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_tracer_get_type.invokeExact();
@@ -94,56 +78,56 @@ public class Tracer extends org.gstreamer.gst.Object {
      * @param type GType of tracer to register
      * @return {@code true}, if the registering succeeded, {@code false} on error
      */
-    public static boolean register(@Nullable org.gstreamer.gst.Plugin plugin, @NotNull java.lang.String name, @NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static boolean register(@Nullable org.gstreamer.gst.Plugin plugin, java.lang.String name, org.gtk.glib.Type type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tracer_register.invokeExact(
                     (Addressable) (plugin == null ? MemoryAddress.NULL : plugin.handle()),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link Tracer.Builder} object constructs a {@link Tracer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Tracer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link Tracer.Build} object constructs a {@link Tracer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Tracer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Tracer} using {@link Tracer#castFrom}.
+         * {@link Tracer}.
          * @return A new instance of {@code Tracer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Tracer construct() {
-            return Tracer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Tracer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Tracer build() {
+            return (Tracer) org.gtk.gobject.GObject.newWithProperties(
+                Tracer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setParams(java.lang.String params) {
+        public Builder setParams(java.lang.String params) {
             names.add("params");
             values.add(org.gtk.gobject.Value.create(params));
             return this;

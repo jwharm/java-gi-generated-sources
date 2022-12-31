@@ -7,7 +7,7 @@ import org.jetbrains.annotations.*;
 
 /**
  * {@link ParamSpec} is an object structure that encapsulates the metadata
- * required to specify parameters, such as e.g. {@link Object} properties.
+ * required to specify parameters, such as e.g. {@link GObject} properties.
  * <p>
  * <strong>Parameter names # {#canonical-parameter-names}</strong><br/>
  * A property name consists of one or more segments consisting of ASCII letters
@@ -22,24 +22,10 @@ import org.jetbrains.annotations.*;
 public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GParamSpec";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeInstance.getMemoryLayout().withName("g_type_instance"),
-        Interop.valueLayout.ADDRESS.withName("name"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("value_type"),
-        Interop.valueLayout.C_LONG.withName("owner_type"),
-        Interop.valueLayout.ADDRESS.withName("_nick"),
-        Interop.valueLayout.ADDRESS.withName("_blurb"),
-        Interop.valueLayout.ADDRESS.withName("qdata"),
-        Interop.valueLayout.C_INT.withName("ref_count"),
-        Interop.valueLayout.C_INT.withName("param_id")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -47,7 +33,19 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeInstance.getMemoryLayout().withName("g_type_instance"),
+            Interop.valueLayout.ADDRESS.withName("name"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("value_type"),
+            Interop.valueLayout.C_LONG.withName("owner_type"),
+            Interop.valueLayout.ADDRESS.withName("_nick"),
+            Interop.valueLayout.ADDRESS.withName("_blurb"),
+            Interop.valueLayout.ADDRESS.withName("qdata"),
+            Interop.valueLayout.C_INT.withName("ref_count"),
+            Interop.valueLayout.C_INT.withName("param_id")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -55,30 +53,12 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ParamSpec(Addressable address, Ownership ownership) {
+    protected ParamSpec(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ParamSpec if its GType is a (or inherits from) "GParamSpec".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ParamSpec} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GParamSpec", a ClassCastException will be thrown.
-     */
-    public static ParamSpec castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ParamSpec.getType())) {
-            return new ParamSpec(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GParamSpec");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ParamSpec> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpec(input, ownership);
     
     /**
      * Get the short description of a {@link ParamSpec}.
@@ -92,7 +72,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -101,7 +81,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * The {@link Value} will remain valid for the life of {@code pspec}.
      * @return a pointer to a {@link Value} which must not be modified
      */
-    public @NotNull org.gtk.gobject.Value getDefaultValue() {
+    public org.gtk.gobject.Value getDefaultValue() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_default_value.invokeExact(
@@ -109,7 +89,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -119,7 +99,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * This allows for pointer-value comparisons.
      * @return the name of {@code pspec}.
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_name.invokeExact(
@@ -127,14 +107,14 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the GQuark for the name.
      * @return the GQuark for {@code pspec}-&gt;name.
      */
-    public @NotNull org.gtk.glib.Quark getNameQuark() {
+    public org.gtk.glib.Quark getNameQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_param_spec_get_name_quark.invokeExact(
@@ -149,7 +129,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * Get the nickname of a {@link ParamSpec}.
      * @return the nickname of {@code pspec}.
      */
-    public @NotNull java.lang.String getNick() {
+    public java.lang.String getNick() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_nick.invokeExact(
@@ -157,7 +137,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -165,8 +145,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * @param quark a {@link org.gtk.glib.Quark}, naming the user data pointer
      * @return the user data pointer set, or {@code null}
      */
-    public @Nullable java.lang.foreign.MemoryAddress getQdata(@NotNull org.gtk.glib.Quark quark) {
-        java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_get_qdata.invokeExact(
@@ -197,14 +176,14 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Increments the reference count of {@code pspec}.
      * @return the {@link ParamSpec} that was passed into this function
      */
-    public @NotNull org.gtk.gobject.ParamSpec ref() {
+    public org.gtk.gobject.ParamSpec ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_ref.invokeExact(
@@ -212,14 +191,14 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Convenience function to ref and sink a {@link ParamSpec}.
      * @return the {@link ParamSpec} that was passed into this function
      */
-    public @NotNull org.gtk.gobject.ParamSpec refSink() {
+    public org.gtk.gobject.ParamSpec refSink() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_ref_sink.invokeExact(
@@ -227,7 +206,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -238,15 +217,13 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * previously set user data pointer, overrides (frees) the old pointer
      * set, using {@code null} as pointer essentially removes the data stored.
      * @param quark a {@link org.gtk.glib.Quark}, naming the user data pointer
-     * @param data an opaque user data pointer
      */
-    public void setQdata(@NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
+    public void setQdata(org.gtk.glib.Quark quark) {
         try {
             DowncallHandles.g_param_spec_set_qdata.invokeExact(
                     handle(),
                     quark.getValue().intValue(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,18 +236,16 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * finalized, or the data is being overwritten by a call to
      * g_param_spec_set_qdata() with the same {@code quark}.
      * @param quark a {@link org.gtk.glib.Quark}, naming the user data pointer
-     * @param data an opaque user data pointer
      * @param destroy function to invoke with {@code data} as argument, when {@code data} needs to
      *  be freed
      */
-    public void setQdataFull(@NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
+    public void setQdataFull(org.gtk.glib.Quark quark, @Nullable org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.g_param_spec_set_qdata_full.invokeExact(
                     handle(),
                     quark.getValue().intValue(),
-                    (Addressable) data,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,8 +277,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * @param quark a {@link org.gtk.glib.Quark}, naming the user data pointer
      * @return the user data pointer set, or {@code null}
      */
-    public @Nullable java.lang.foreign.MemoryAddress stealQdata(@NotNull org.gtk.glib.Quark quark) {
-        java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_steal_qdata.invokeExact(
@@ -328,20 +302,6 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
     }
     
     /**
-     * Get the gtype
-     * @return The gtype
-     */
-    public static @NotNull org.gtk.glib.Type getType() {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.intern.invokeExact();
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new org.gtk.glib.Type(RESULT);
-    }
-    
-    /**
      * Creates a new {@link ParamSpec} instance.
      * <p>
      * See [canonical parameter names][canonical-parameter-names] for details of
@@ -354,7 +314,7 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * omitted, while for other libraries such as GStreamer and its plugins they
      * are essential. When in doubt, follow the conventions used in the
      * surrounding code and supporting libraries.
-     * @param paramType the {@link Type} for the property; must be derived from {@code G_TYPE_PARAM}
+     * @param paramType the {@link org.gtk.glib.Type} for the property; must be derived from {@code G_TYPE_PARAM}
      * @param name the canonical name of the property
      * @param nick the nickname of the property
      * @param blurb a short description of the property
@@ -362,22 +322,19 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * @return (transfer floating): a newly allocated
      *     {@link ParamSpec} instance, which is initially floating
      */
-    public static @NotNull org.gtk.gobject.ParamSpec internal(@NotNull org.gtk.glib.Type paramType, @NotNull java.lang.String name, @Nullable java.lang.String nick, @Nullable java.lang.String blurb, @NotNull org.gtk.gobject.ParamFlags flags) {
-        java.util.Objects.requireNonNull(paramType, "Parameter 'paramType' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.gobject.ParamSpec internal(org.gtk.glib.Type paramType, java.lang.String name, @Nullable java.lang.String nick, @Nullable java.lang.String blurb, org.gtk.gobject.ParamFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_param_spec_internal.invokeExact(
                     paramType.getValue().longValue(),
-                    Interop.allocateNativeString(name),
-                    (Addressable) (nick == null ? MemoryAddress.NULL : Interop.allocateNativeString(nick)),
-                    (Addressable) (blurb == null ? MemoryAddress.NULL : Interop.allocateNativeString(blurb)),
+                    Marshal.stringToAddress.marshal(name, null),
+                    (Addressable) (nick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nick, null)),
+                    (Addressable) (blurb == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(blurb, null)),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -390,51 +347,15 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
      * @param name the canonical name of the property
      * @return {@code true} if {@code name} is a valid property name, {@code false} otherwise.
      */
-    public static boolean isValidName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static boolean isValidName(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_param_spec_is_valid_name.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends io.github.jwharm.javagi.Build {
-        
-         /**
-         * A {@link ParamSpec.Build} object constructs a {@link ParamSpec} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link ParamSpec} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link ParamSpec} using {@link ParamSpec#castFrom}.
-         * @return A new instance of {@code ParamSpec} with the properties 
-         *         that were set in the Build object.
-         */
-        public ParamSpec construct() {
-            return ParamSpec.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ParamSpec.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -523,12 +444,6 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
             false
         );
         
-        private static final MethodHandle intern = Interop.downcallHandle(
-            "intern",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
-        );
-        
         private static final MethodHandle g_param_spec_internal = Interop.downcallHandle(
             "g_param_spec_internal",
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
@@ -540,5 +455,9 @@ public class ParamSpec extends io.github.jwharm.javagi.ObjectBase {
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
+    }
+
+    public static org.gtk.glib.Type getType() {
+        return org.gtk.glib.Type.G_TYPE_PARAM;
     }
 }

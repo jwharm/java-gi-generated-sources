@@ -16,19 +16,17 @@ public class KeymapKey extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GdkKeymapKey";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("keycode"),
-        Interop.valueLayout.C_INT.withName("group"),
-        Interop.valueLayout.C_INT.withName("level")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("keycode"),
+            Interop.valueLayout.C_INT.withName("group"),
+            Interop.valueLayout.C_INT.withName("level")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class KeymapKey extends Struct {
      * Get the value of the field {@code keycode}
      * @return The value of the field {@code keycode}
      */
-    public int keycode$get() {
+    public int getKeycode() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,7 +57,7 @@ public class KeymapKey extends Struct {
      * Change the value of the field {@code keycode}
      * @param keycode The new value of the field {@code keycode}
      */
-    public void keycode$set(int keycode) {
+    public void setKeycode(int keycode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), keycode);
@@ -69,7 +67,7 @@ public class KeymapKey extends Struct {
      * Get the value of the field {@code group}
      * @return The value of the field {@code group}
      */
-    public int group$get() {
+    public int getGroup() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("group"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class KeymapKey extends Struct {
      * Change the value of the field {@code group}
      * @param group The new value of the field {@code group}
      */
-    public void group$set(int group) {
+    public void setGroup(int group) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("group"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), group);
@@ -90,7 +88,7 @@ public class KeymapKey extends Struct {
      * Get the value of the field {@code level}
      * @return The value of the field {@code level}
      */
-    public int level$get() {
+    public int getLevel() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("level"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -101,7 +99,7 @@ public class KeymapKey extends Struct {
      * Change the value of the field {@code level}
      * @param level The new value of the field {@code level}
      */
-    public void level$set(int level) {
+    public void setLevel(int level) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("level"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), level);
@@ -112,35 +110,41 @@ public class KeymapKey extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public KeymapKey(Addressable address, Ownership ownership) {
+    protected KeymapKey(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, KeymapKey> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new KeymapKey(input, ownership);
+    
+    /**
+     * A {@link KeymapKey.Builder} object constructs a {@link KeymapKey} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link KeymapKey.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private KeymapKey struct;
+        private final KeymapKey struct;
         
-         /**
-         * A {@link KeymapKey.Build} object constructs a {@link KeymapKey} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = KeymapKey.allocate();
         }
         
          /**
          * Finish building the {@link KeymapKey} struct.
          * @return A new instance of {@code KeymapKey} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public KeymapKey construct() {
+        public KeymapKey build() {
             return struct;
         }
         
@@ -150,7 +154,7 @@ public class KeymapKey extends Struct {
          * @param keycode The value for the {@code keycode} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKeycode(int keycode) {
+        public Builder setKeycode(int keycode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("keycode"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), keycode);
@@ -165,7 +169,7 @@ public class KeymapKey extends Struct {
          * @param group The value for the {@code group} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGroup(int group) {
+        public Builder setGroup(int group) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("group"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), group);
@@ -182,7 +186,7 @@ public class KeymapKey extends Struct {
          * @param level The value for the {@code level} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLevel(int level) {
+        public Builder setLevel(int level) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("level"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), level);

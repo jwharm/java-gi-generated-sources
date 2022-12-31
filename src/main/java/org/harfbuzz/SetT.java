@@ -46,8 +46,10 @@ public class SetT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SetT(Addressable address, Ownership ownership) {
+    protected SetT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SetT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SetT(input, ownership);
 }

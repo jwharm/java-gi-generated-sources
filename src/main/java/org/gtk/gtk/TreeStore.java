@@ -33,7 +33,7 @@ import org.jetbrains.annotations.*;
  * </object>
  * }</pre>
  */
-public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Buildable, org.gtk.gtk.TreeDragDest, org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel, org.gtk.gtk.TreeSortable {
+public class TreeStore extends org.gtk.gobject.GObject implements org.gtk.gtk.Buildable, org.gtk.gtk.TreeDragDest, org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel, org.gtk.gtk.TreeSortable {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -41,18 +41,16 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     
     private static final java.lang.String C_TYPE_NAME = "GtkTreeStore";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -60,33 +58,15 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeStore(Addressable address, Ownership ownership) {
+    protected TreeStore(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TreeStore if its GType is a (or inherits from) "GtkTreeStore".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TreeStore} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTreeStore", a ClassCastException will be thrown.
-     */
-    public static TreeStore castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeStore.getType())) {
-            return new TreeStore(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeStore");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeStore> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeStore(input, ownership);
     
-    private static Addressable constructNew(int nColumns, java.lang.Object... varargs) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(int nColumns, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_store_new.invokeExact(
                     nColumns,
@@ -116,9 +96,8 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         super(constructNew(nColumns, varargs), Ownership.FULL);
     }
     
-    private static Addressable constructNewv(int nColumns, @NotNull org.gtk.glib.Type[] types) {
-        java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewv(int nColumns, org.gtk.glib.Type[] types) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_store_newv.invokeExact(
                     nColumns,
@@ -135,8 +114,9 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param types an array of {@code GType} types for the columns, from first to last
      * @return a new {@code GtkTreeStore}
      */
-    public static TreeStore newv(int nColumns, @NotNull org.gtk.glib.Type[] types) {
-        return new TreeStore(constructNewv(nColumns, types), Ownership.FULL);
+    public static TreeStore newv(int nColumns, org.gtk.glib.Type[] types) {
+        var RESULT = constructNewv(nColumns, types);
+        return (org.gtk.gtk.TreeStore) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeStore.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -148,8 +128,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the appended row
      * @param parent A valid {@code GtkTreeIter}
      */
-    public void append(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void append(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent) {
         try {
             DowncallHandles.gtk_tree_store_append.invokeExact(
                     handle(),
@@ -184,8 +163,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param parent A valid {@code GtkTreeIter}
      * @param position position to insert the new row, or -1 for last
      */
-    public void insert(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void insert(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position) {
         try {
             DowncallHandles.gtk_tree_store_insert.invokeExact(
                     handle(),
@@ -211,8 +189,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param parent A valid {@code GtkTreeIter}
      * @param sibling A valid {@code GtkTreeIter}
      */
-    public void insertAfter(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, @Nullable org.gtk.gtk.TreeIter sibling) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void insertAfter(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, @Nullable org.gtk.gtk.TreeIter sibling) {
         try {
             DowncallHandles.gtk_tree_store_insert_after.invokeExact(
                     handle(),
@@ -238,52 +215,13 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param parent A valid {@code GtkTreeIter}
      * @param sibling A valid {@code GtkTreeIter}
      */
-    public void insertBefore(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, @Nullable org.gtk.gtk.TreeIter sibling) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void insertBefore(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, @Nullable org.gtk.gtk.TreeIter sibling) {
         try {
             DowncallHandles.gtk_tree_store_insert_before.invokeExact(
                     handle(),
                     iter.handle(),
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Creates a new row at {@code position}. {@code iter} will be changed to point to this
-     * new row. If {@code position} is -1, or larger than the number of rows on the list, then
-     * the new row will be appended to the list. The row will be filled with
-     * the values given to this function.
-     * <p>
-     * Calling
-     * {@code gtk_tree_store_insert_with_values (tree_store, iter, position, ...)}
-     * has the same effect as calling
-     * <pre>{@code <!-- language="C" -->
-     * gtk_tree_store_insert (tree_store, iter, position);
-     * gtk_tree_store_set (tree_store, iter, ...);
-     * }</pre>
-     * with the different that the former will only emit a row_inserted signal,
-     * while the latter will emit row_inserted, row_changed and if the tree store
-     * is sorted, rows_reordered.  Since emitting the rows_reordered signal
-     * repeatedly can affect the performance of the program,
-     * gtk_tree_store_insert_with_values() should generally be preferred when
-     * inserting rows in a sorted tree store.
-     * @param iter An unset {@code GtkTreeIter} to set the new row
-     * @param parent A valid {@code GtkTreeIter}
-     * @param position position to insert the new row, or -1 to append after existing rows
-     * @param varargs pairs of column number and value, terminated with -1
-     */
-    public void insertWithValues(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        try {
-            DowncallHandles.gtk_tree_store_insert_with_values.invokeExact(
-                    handle(),
-                    iter.handle(),
-                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    position,
-                    varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,14 +238,11 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void insertWithValuesv(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, int nValues) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
-        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
+    public void insertWithValues(@Nullable org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
         try {
             DowncallHandles.gtk_tree_store_insert_with_valuesv.invokeExact(
                     handle(),
-                    iter.handle(),
+                    (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()),
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     position,
                     Interop.allocateNativeArray(columns, false),
@@ -325,9 +260,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param descendant A valid {@code GtkTreeIter}
      * @return {@code true}, if {@code iter} is an ancestor of {@code descendant}
      */
-    public boolean isAncestor(@NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gtk.TreeIter descendant) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(descendant, "Parameter 'descendant' must not be null");
+    public boolean isAncestor(org.gtk.gtk.TreeIter iter, org.gtk.gtk.TreeIter descendant) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_store_is_ancestor.invokeExact(
@@ -337,7 +270,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -346,8 +279,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter A valid {@code GtkTreeIter}
      * @return The depth of {@code iter}
      */
-    public int iterDepth(@NotNull org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public int iterDepth(org.gtk.gtk.TreeIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_store_iter_depth.invokeExact(
@@ -367,8 +299,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter the iterator to check
      * @return {@code true} if the iter is valid, {@code false} if the iter is invalid.
      */
-    public boolean iterIsValid(@NotNull org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean iterIsValid(org.gtk.gtk.TreeIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_store_iter_is_valid.invokeExact(
@@ -377,7 +308,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -388,8 +319,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter A {@code GtkTreeIter}.
      * @param position A {@code GtkTreeIter}.
      */
-    public void moveAfter(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void moveAfter(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
         try {
             DowncallHandles.gtk_tree_store_move_after.invokeExact(
                     handle(),
@@ -408,8 +338,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter A {@code GtkTreeIter}
      * @param position A {@code GtkTreeIter}
      */
-    public void moveBefore(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void moveBefore(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
         try {
             DowncallHandles.gtk_tree_store_move_before.invokeExact(
                     handle(),
@@ -429,8 +358,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the prepended row
      * @param parent A valid {@code GtkTreeIter}
      */
-    public void prepend(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void prepend(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter parent) {
         try {
             DowncallHandles.gtk_tree_store_prepend.invokeExact(
                     handle(),
@@ -448,8 +376,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter A valid {@code GtkTreeIter}
      * @return {@code true} if {@code iter} is still valid, {@code false} if not.
      */
-    public boolean remove(@NotNull org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean remove(org.gtk.gtk.TreeIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_store_remove.invokeExact(
@@ -458,7 +385,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -470,38 +397,12 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      *   to its old position before the re-ordering,
      *   i.e. {@code new_order}{@code [newpos] = oldpos}.
      */
-    public void reorder(@Nullable org.gtk.gtk.TreeIter parent, @NotNull int[] newOrder) {
-        java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
+    public void reorder(@Nullable org.gtk.gtk.TreeIter parent, int[] newOrder) {
         try {
             DowncallHandles.gtk_tree_store_reorder.invokeExact(
                     handle(),
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     Interop.allocateNativeArray(newOrder, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Sets the value of one or more cells in the row referenced by {@code iter}.
-     * The variable argument list should contain integer column numbers,
-     * each column number followed by the value to be set.
-     * The list is terminated by a -1. For example, to set column 0 with type
-     * {@code G_TYPE_STRING} to “Foo”, you would write
-     * {@code gtk_tree_store_set (store, iter, 0, "Foo", -1)}.
-     * <p>
-     * The value will be referenced by the store if it is a {@code G_TYPE_OBJECT}, and it
-     * will be copied if it is a {@code G_TYPE_STRING} or {@code G_TYPE_BOXED}.
-     * @param iter A valid {@code GtkTreeIter} for the row being modified
-     * @param varargs pairs of column number and value, terminated with -1
-     */
-    public void set(@NotNull org.gtk.gtk.TreeIter iter, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        try {
-            DowncallHandles.gtk_tree_store_set.invokeExact(
-                    handle(),
-                    iter.handle(),
-                    varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -515,8 +416,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param nColumns Number of columns for the tree store
      * @param types An array of {@code GType} types, one for each column
      */
-    public void setColumnTypes(int nColumns, @NotNull org.gtk.glib.Type[] types) {
-        java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
+    public void setColumnTypes(int nColumns, org.gtk.glib.Type[] types) {
         try {
             DowncallHandles.gtk_tree_store_set_column_types.invokeExact(
                     handle(),
@@ -533,9 +433,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter A valid {@code GtkTreeIter} for the row being modified
      * @param varArgs va_list of column/value pairs
      */
-    public void setValist(@NotNull org.gtk.gtk.TreeIter iter, @NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+    public void setValist(org.gtk.gtk.TreeIter iter, VaList varArgs) {
         try {
             DowncallHandles.gtk_tree_store_set_valist.invokeExact(
                     handle(),
@@ -554,9 +452,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param column column number to modify
      * @param value new value for the cell
      */
-    public void setValue(@NotNull org.gtk.gtk.TreeIter iter, int column, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setValue(org.gtk.gtk.TreeIter iter, int column, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gtk_tree_store_set_value.invokeExact(
                     handle(),
@@ -578,10 +474,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void setValuesv(@NotNull org.gtk.gtk.TreeIter iter, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, int nValues) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
-        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
+    public void set(org.gtk.gtk.TreeIter iter, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
         try {
             DowncallHandles.gtk_tree_store_set_valuesv.invokeExact(
                     handle(),
@@ -600,9 +493,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param a A {@code GtkTreeIter}.
      * @param b Another {@code GtkTreeIter}.
      */
-    public void swap(@NotNull org.gtk.gtk.TreeIter a, @NotNull org.gtk.gtk.TreeIter b) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public void swap(org.gtk.gtk.TreeIter a, org.gtk.gtk.TreeIter b) {
         try {
             DowncallHandles.gtk_tree_store_swap.invokeExact(
                     handle(),
@@ -617,7 +508,7 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_tree_store_get_type.invokeExact();
@@ -626,38 +517,40 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TreeStore.Builder} object constructs a {@link TreeStore} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TreeStore.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TreeStore.Build} object constructs a {@link TreeStore} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TreeStore} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TreeStore} using {@link TreeStore#castFrom}.
+         * {@link TreeStore}.
          * @return A new instance of {@code TreeStore} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TreeStore construct() {
-            return TreeStore.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TreeStore.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TreeStore build() {
+            return (TreeStore) org.gtk.gobject.GObject.newWithProperties(
+                TreeStore.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -704,12 +597,6 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
             "gtk_tree_store_insert_before",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
-        );
-        
-        private static final MethodHandle gtk_tree_store_insert_with_values = Interop.downcallHandle(
-            "gtk_tree_store_insert_with_values",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
         );
         
         private static final MethodHandle gtk_tree_store_insert_with_valuesv = Interop.downcallHandle(
@@ -764,12 +651,6 @@ public class TreeStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
             "gtk_tree_store_reorder",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
-        );
-        
-        private static final MethodHandle gtk_tree_store_set = Interop.downcallHandle(
-            "gtk_tree_store_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
         );
         
         private static final MethodHandle gtk_tree_store_set_column_types = Interop.downcallHandle(

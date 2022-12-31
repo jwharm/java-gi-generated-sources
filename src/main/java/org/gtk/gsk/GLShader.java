@@ -116,7 +116,7 @@ import org.jetbrains.annotations.*;
  * }
  * }</pre>
  */
-public class GLShader extends org.gtk.gobject.Object {
+public class GLShader extends org.gtk.gobject.GObject {
     
     static {
         Gsk.javagi$ensureInitialized();
@@ -138,34 +138,15 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLShader(Addressable address, Ownership ownership) {
+    protected GLShader(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to GLShader if its GType is a (or inherits from) "GskGLShader".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLShader} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GskGLShader", a ClassCastException will be thrown.
-     */
-    public static GLShader castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLShader.getType())) {
-            return new GLShader(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskGLShader");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLShader> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLShader(input, ownership);
     
-    private static Addressable constructNewFromBytes(@NotNull org.gtk.glib.Bytes sourcecode) {
-        java.util.Objects.requireNonNull(sourcecode, "Parameter 'sourcecode' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromBytes(org.gtk.glib.Bytes sourcecode) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_bytes.invokeExact(
                     sourcecode.handle());
@@ -180,16 +161,16 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param sourcecode GLSL sourcecode for the shader, as a {@code GBytes}
      * @return A new {@code GskGLShader}
      */
-    public static GLShader newFromBytes(@NotNull org.gtk.glib.Bytes sourcecode) {
-        return new GLShader(constructNewFromBytes(sourcecode), Ownership.FULL);
+    public static GLShader newFromBytes(org.gtk.glib.Bytes sourcecode) {
+        var RESULT = constructNewFromBytes(sourcecode);
+        return (org.gtk.gsk.GLShader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.GLShader.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromResource(@NotNull java.lang.String resourcePath) {
-        java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromResource(java.lang.String resourcePath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_new_from_resource.invokeExact(
-                    Interop.allocateNativeString(resourcePath));
+                    Marshal.stringToAddress.marshal(resourcePath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,8 +183,9 @@ public class GLShader extends org.gtk.gobject.Object {
      *     the shader
      * @return A new {@code GskGLShader}
      */
-    public static GLShader newFromResource(@NotNull java.lang.String resourcePath) {
-        return new GLShader(constructNewFromResource(resourcePath), Ownership.FULL);
+    public static GLShader newFromResource(java.lang.String resourcePath) {
+        var RESULT = constructNewFromResource(resourcePath);
+        return (org.gtk.gsk.GLShader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.GLShader.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -223,8 +205,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean compile(@NotNull org.gtk.gsk.Renderer renderer) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(renderer, "Parameter 'renderer' must not be null");
+    public boolean compile(org.gtk.gsk.Renderer renderer) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -238,7 +219,7 @@ public class GLShader extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -247,13 +228,12 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param name uniform name
      * @return The index of the uniform, or -1
      */
-    public int findUniformByName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public int findUniformByName(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_gl_shader_find_uniform_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,7 +255,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @return A newly allocated block of data which can be
      *     passed to {@link GLShaderNode#GLShaderNode}.
      */
-    public @NotNull org.gtk.glib.Bytes formatArgs(java.lang.Object... varargs) {
+    public org.gtk.glib.Bytes formatArgs(java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_format_args.invokeExact(
@@ -284,7 +264,7 @@ public class GLShader extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -304,8 +284,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @return A newly allocated block of data which can be
      *     passed to {@link GLShaderNode#GLShaderNode}.
      */
-    public @NotNull org.gtk.glib.Bytes formatArgsVa(@NotNull VaList uniforms) {
-        java.util.Objects.requireNonNull(uniforms, "Parameter 'uniforms' must not be null");
+    public org.gtk.glib.Bytes formatArgsVa(VaList uniforms) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_format_args_va.invokeExact(
@@ -314,7 +293,7 @@ public class GLShader extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -325,8 +304,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param idx index of the uniform
      * @return The value
      */
-    public boolean getArgBool(@NotNull org.gtk.glib.Bytes args, int idx) {
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public boolean getArgBool(org.gtk.glib.Bytes args, int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_gl_shader_get_arg_bool.invokeExact(
@@ -336,7 +314,7 @@ public class GLShader extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -347,8 +325,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param idx index of the uniform
      * @return The value
      */
-    public float getArgFloat(@NotNull org.gtk.glib.Bytes args, int idx) {
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public float getArgFloat(org.gtk.glib.Bytes args, int idx) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.gsk_gl_shader_get_arg_float.invokeExact(
@@ -369,8 +346,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param idx index of the uniform
      * @return The value
      */
-    public int getArgInt(@NotNull org.gtk.glib.Bytes args, int idx) {
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public int getArgInt(org.gtk.glib.Bytes args, int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_gl_shader_get_arg_int.invokeExact(
@@ -391,8 +367,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param idx index of the uniform
      * @return The value
      */
-    public int getArgUint(@NotNull org.gtk.glib.Bytes args, int idx) {
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public int getArgUint(org.gtk.glib.Bytes args, int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_gl_shader_get_arg_uint.invokeExact(
@@ -413,9 +388,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param idx index of the uniform
      * @param outValue location to store the uniform value in
      */
-    public void getArgVec2(@NotNull org.gtk.glib.Bytes args, int idx, @NotNull org.gtk.graphene.Vec2 outValue) {
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(outValue, "Parameter 'outValue' must not be null");
+    public void getArgVec2(org.gtk.glib.Bytes args, int idx, org.gtk.graphene.Vec2 outValue) {
         try {
             DowncallHandles.gsk_gl_shader_get_arg_vec2.invokeExact(
                     handle(),
@@ -435,9 +408,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param idx index of the uniform
      * @param outValue location to store the uniform value in
      */
-    public void getArgVec3(@NotNull org.gtk.glib.Bytes args, int idx, @NotNull org.gtk.graphene.Vec3 outValue) {
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(outValue, "Parameter 'outValue' must not be null");
+    public void getArgVec3(org.gtk.glib.Bytes args, int idx, org.gtk.graphene.Vec3 outValue) {
         try {
             DowncallHandles.gsk_gl_shader_get_arg_vec3.invokeExact(
                     handle(),
@@ -457,9 +428,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param idx index of the uniform
      * @param outValue location to store set the uniform value in
      */
-    public void getArgVec4(@NotNull org.gtk.glib.Bytes args, int idx, @NotNull org.gtk.graphene.Vec4 outValue) {
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(outValue, "Parameter 'outValue' must not be null");
+    public void getArgVec4(org.gtk.glib.Bytes args, int idx, org.gtk.graphene.Vec4 outValue) {
         try {
             DowncallHandles.gsk_gl_shader_get_arg_vec4.invokeExact(
                     handle(),
@@ -533,14 +502,14 @@ public class GLShader extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the GLSL sourcecode being used to render this shader.
      * @return The source code for the shader
      */
-    public @NotNull org.gtk.glib.Bytes getSource() {
+    public org.gtk.glib.Bytes getSource() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_source.invokeExact(
@@ -548,7 +517,7 @@ public class GLShader extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.NONE);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -556,7 +525,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param idx index of the uniform
      * @return The name of the declared uniform
      */
-    public @NotNull java.lang.String getUniformName(int idx) {
+    public java.lang.String getUniformName(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_gl_shader_get_uniform_name.invokeExact(
@@ -565,7 +534,7 @@ public class GLShader extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -590,7 +559,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * @param idx index of the uniform
      * @return The type of the declared uniform
      */
-    public @NotNull org.gtk.gsk.GLUniformType getUniformType(int idx) {
+    public org.gtk.gsk.GLUniformType getUniformType(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_gl_shader_get_uniform_type.invokeExact(
@@ -606,7 +575,7 @@ public class GLShader extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gsk_gl_shader_get_type.invokeExact();
@@ -615,38 +584,40 @@ public class GLShader extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GLShader.Builder} object constructs a {@link GLShader} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLShader.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link GLShader.Build} object constructs a {@link GLShader} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLShader} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLShader} using {@link GLShader#castFrom}.
+         * {@link GLShader}.
          * @return A new instance of {@code GLShader} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLShader construct() {
-            return GLShader.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLShader.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLShader build() {
+            return (GLShader) org.gtk.gobject.GObject.newWithProperties(
+                GLShader.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -658,13 +629,13 @@ public class GLShader extends org.gtk.gobject.Object {
          * @param resource The value for the {@code resource} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setResource(java.lang.String resource) {
+        public Builder setResource(java.lang.String resource) {
             names.add("resource");
             values.add(org.gtk.gobject.Value.create(resource));
             return this;
         }
         
-        public Build setSource(org.gtk.glib.Bytes source) {
+        public Builder setSource(org.gtk.glib.Bytes source) {
             names.add("source");
             values.add(org.gtk.gobject.Value.create(source));
             return this;

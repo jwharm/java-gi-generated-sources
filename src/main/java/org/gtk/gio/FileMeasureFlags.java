@@ -45,11 +45,15 @@ public class FileMeasureFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FileMeasureFlags or(FileMeasureFlags mask) {
-        return new FileMeasureFlags(this.getValue() | mask.getValue());
+    public FileMeasureFlags or(FileMeasureFlags... masks) {
+        int value = this.getValue();
+        for (FileMeasureFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FileMeasureFlags(value);
     }
     
     /**
@@ -59,7 +63,8 @@ public class FileMeasureFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FileMeasureFlags combined(FileMeasureFlags mask, FileMeasureFlags... masks) {
-        int value = mask.getValue();        for (FileMeasureFlags arg : masks) {
+        int value = mask.getValue();
+        for (FileMeasureFlags arg : masks) {
             value |= arg.getValue();
         }
         return new FileMeasureFlags(value);

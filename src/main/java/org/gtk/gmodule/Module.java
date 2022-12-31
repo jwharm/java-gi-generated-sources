@@ -45,10 +45,12 @@ public class Module extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Module(Addressable address, Ownership ownership) {
+    protected Module(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Module> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Module(input, ownership);
     
     /**
      * Closes a module.
@@ -62,7 +64,7 @@ public class Module extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -84,7 +86,7 @@ public class Module extends Struct {
      * If {@code module} refers to the application itself, "main" is returned.
      * @return the filename of the module
      */
-    public @NotNull java.lang.String name() {
+    public java.lang.String name() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_module_name.invokeExact(
@@ -92,7 +94,7 @@ public class Module extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -102,20 +104,19 @@ public class Module extends Struct {
      * @param symbol returns the pointer to the symbol value
      * @return {@code true} on success
      */
-    public boolean symbol(@NotNull java.lang.String symbolName, @Nullable Out<java.lang.foreign.MemoryAddress> symbol) {
-        java.util.Objects.requireNonNull(symbolName, "Parameter 'symbolName' must not be null");
+    public boolean symbol(java.lang.String symbolName, @Nullable Out<java.lang.foreign.MemoryAddress> symbol) {
         MemorySegment symbolPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_module_symbol.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(symbolName),
+                    Marshal.stringToAddress.marshal(symbolName, null),
                     (Addressable) (symbol == null ? MemoryAddress.NULL : (Addressable) symbolPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (symbol != null) symbol.set(symbolPOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -139,34 +140,33 @@ public class Module extends Struct {
      * @return the complete path of the module, including the standard library
      *     prefix and suffix. This should be freed when no longer needed
      */
-    public static @NotNull java.lang.String buildPath(@Nullable java.lang.String directory, @NotNull java.lang.String moduleName) {
-        java.util.Objects.requireNonNull(moduleName, "Parameter 'moduleName' must not be null");
+    public static java.lang.String buildPath(@Nullable java.lang.String directory, java.lang.String moduleName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_module_build_path.invokeExact(
-                    (Addressable) (directory == null ? MemoryAddress.NULL : Interop.allocateNativeString(directory)),
-                    Interop.allocateNativeString(moduleName));
+                    (Addressable) (directory == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(directory, null)),
+                    Marshal.stringToAddress.marshal(moduleName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets a string describing the last module error.
      * @return a string describing the last module error
      */
-    public static @NotNull java.lang.String error() {
+    public static java.lang.String error() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_module_error.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark errorQuark() {
+    public static org.gtk.glib.Quark errorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_module_error_quark.invokeExact();
@@ -184,17 +184,16 @@ public class Module extends Struct {
      *     logical OR of any of the {@link ModuleFlags}.
      * @return a {@link Module} on success, or {@code null} on failure
      */
-    public static @NotNull org.gtk.gmodule.Module open(@Nullable java.lang.String fileName, @NotNull org.gtk.gmodule.ModuleFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.gmodule.Module open(@Nullable java.lang.String fileName, org.gtk.gmodule.ModuleFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_module_open.invokeExact(
-                    (Addressable) (fileName == null ? MemoryAddress.NULL : Interop.allocateNativeString(fileName)),
+                    (Addressable) (fileName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fileName, null)),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gmodule.Module(RESULT, Ownership.UNKNOWN);
+        return org.gtk.gmodule.Module.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -217,13 +216,12 @@ public class Module extends Struct {
      * @return a {@link Module} on success, or {@code null} on failure
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gmodule.Module openFull(@Nullable java.lang.String fileName, @NotNull org.gtk.gmodule.ModuleFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.gmodule.Module openFull(@Nullable java.lang.String fileName, org.gtk.gmodule.ModuleFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_module_open_full.invokeExact(
-                    (Addressable) (fileName == null ? MemoryAddress.NULL : Interop.allocateNativeString(fileName)),
+                    (Addressable) (fileName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fileName, null)),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -232,7 +230,7 @@ public class Module extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gmodule.Module(RESULT, Ownership.UNKNOWN);
+        return org.gtk.gmodule.Module.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -246,7 +244,7 @@ public class Module extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

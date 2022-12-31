@@ -40,8 +40,10 @@ public class BufferCreateInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BufferCreateInfo(Addressable address, Ownership ownership) {
+    protected BufferCreateInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BufferCreateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferCreateInfo(input, ownership);
 }

@@ -13,17 +13,15 @@ public class GLShaderClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLShaderClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.ObjectClass.getMemoryLayout().withName("parent_class")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.ObjectClass.getMemoryLayout().withName("parent_class")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,39 +42,45 @@ public class GLShaderClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLShaderClass(Addressable address, Ownership ownership) {
+    protected GLShaderClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLShaderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLShaderClass(input, ownership);
+    
+    /**
+     * A {@link GLShaderClass.Builder} object constructs a {@link GLShaderClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLShaderClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLShaderClass struct;
+        private final GLShaderClass struct;
         
-         /**
-         * A {@link GLShaderClass.Build} object constructs a {@link GLShaderClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLShaderClass.allocate();
         }
         
          /**
          * Finish building the {@link GLShaderClass} struct.
          * @return A new instance of {@code GLShaderClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLShaderClass construct() {
+        public GLShaderClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
+        public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));

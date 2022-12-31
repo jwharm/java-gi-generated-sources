@@ -149,40 +149,38 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
     
     private static final java.lang.String C_TYPE_NAME = "GstNonstreamAudioDecoder";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
-        Interop.valueLayout.ADDRESS.withName("sinkpad"),
-        Interop.valueLayout.ADDRESS.withName("srcpad"),
-        Interop.valueLayout.C_LONG.withName("upstream_size"),
-        Interop.valueLayout.C_INT.withName("loaded_mode"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("input_data_adapter"),
-        Interop.valueLayout.C_INT.withName("current_subsong"),
-        Interop.valueLayout.C_INT.withName("subsong_mode"),
-        Interop.valueLayout.C_LONG.withName("subsong_duration"),
-        Interop.valueLayout.C_INT.withName("output_mode"),
-        Interop.valueLayout.C_INT.withName("num_loops"),
-        Interop.valueLayout.C_INT.withName("output_format_changed"),
-        MemoryLayout.paddingLayout(32),
-        org.gstreamer.audio.AudioInfo.getMemoryLayout().withName("output_audio_info"),
-        Interop.valueLayout.C_LONG.withName("cur_pos_in_samples"),
-        Interop.valueLayout.C_LONG.withName("num_decoded_samples"),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("cur_segment"),
-        Interop.valueLayout.C_INT.withName("discont"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("toc"),
-        Interop.valueLayout.ADDRESS.withName("allocator"),
-        org.gstreamer.gst.AllocationParams.getMemoryLayout().withName("allocation_params"),
-        org.gtk.glib.Mutex.getMemoryLayout().withName("mutex")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
+            Interop.valueLayout.ADDRESS.withName("sinkpad"),
+            Interop.valueLayout.ADDRESS.withName("srcpad"),
+            Interop.valueLayout.C_LONG.withName("upstream_size"),
+            Interop.valueLayout.C_INT.withName("loaded_mode"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("input_data_adapter"),
+            Interop.valueLayout.C_INT.withName("current_subsong"),
+            Interop.valueLayout.C_INT.withName("subsong_mode"),
+            Interop.valueLayout.C_LONG.withName("subsong_duration"),
+            Interop.valueLayout.C_INT.withName("output_mode"),
+            Interop.valueLayout.C_INT.withName("num_loops"),
+            Interop.valueLayout.C_INT.withName("output_format_changed"),
+            MemoryLayout.paddingLayout(32),
+            org.gstreamer.audio.AudioInfo.getMemoryLayout().withName("output_audio_info"),
+            Interop.valueLayout.C_LONG.withName("cur_pos_in_samples"),
+            Interop.valueLayout.C_LONG.withName("num_decoded_samples"),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("cur_segment"),
+            Interop.valueLayout.C_INT.withName("discont"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("toc"),
+            Interop.valueLayout.ADDRESS.withName("allocator"),
+            org.gstreamer.gst.AllocationParams.getMemoryLayout().withName("allocation_params"),
+            org.gtk.glib.Mutex.getMemoryLayout().withName("mutex")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -190,37 +188,23 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
      * <p>
      * Because NonstreamAudioDecoder is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NonstreamAudioDecoder(Addressable address, Ownership ownership) {
+    protected NonstreamAudioDecoder(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to NonstreamAudioDecoder if its GType is a (or inherits from) "GstNonstreamAudioDecoder".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code NonstreamAudioDecoder} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstNonstreamAudioDecoder", a ClassCastException will be thrown.
-     */
-    public static NonstreamAudioDecoder castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), NonstreamAudioDecoder.getType())) {
-            return new NonstreamAudioDecoder(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstNonstreamAudioDecoder");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NonstreamAudioDecoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NonstreamAudioDecoder(input, ownership);
     
     /**
      * Allocates an output buffer with the internally configured buffer pool.
@@ -230,7 +214,7 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
      * @param size Size of the output buffer, in bytes
      * @return Newly allocated output buffer, or NULL if allocation failed
      */
-    public @NotNull org.gstreamer.gst.Buffer allocateOutputBuffer(long size) {
+    public org.gstreamer.gst.Buffer allocateOutputBuffer(long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_nonstream_audio_decoder_allocate_output_buffer.invokeExact(
@@ -239,7 +223,7 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -272,14 +256,11 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
      * @param sampleRate Integer to fill with a sample rate
      * @param numChannels Integer to fill with a channel count
      */
-    public void getDownstreamInfo(@NotNull org.gstreamer.audio.AudioFormat format, PointerInteger sampleRate, PointerInteger numChannels) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(sampleRate, "Parameter 'sampleRate' must not be null");
-        java.util.Objects.requireNonNull(numChannels, "Parameter 'numChannels' must not be null");
+    public void getDownstreamInfo(PointerEnumeration<org.gstreamer.audio.AudioFormat> format, PointerInteger sampleRate, PointerInteger numChannels) {
         try {
             DowncallHandles.gst_nonstream_audio_decoder_get_downstream_info.invokeExact(
                     handle(),
-                    new PointerInteger(format.getValue()).handle(),
+                    format.handle(),
                     sampleRate.handle(),
                     numChannels.handle());
         } catch (Throwable ERR) {
@@ -310,8 +291,7 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
      * is typically called from within {@code decode} (which in turn are called with
      * the lock already held).
      */
-    public void handleLoop(@NotNull org.gstreamer.gst.ClockTime newPosition) {
-        java.util.Objects.requireNonNull(newPosition, "Parameter 'newPosition' must not be null");
+    public void handleLoop(org.gstreamer.gst.ClockTime newPosition) {
         try {
             DowncallHandles.gst_nonstream_audio_decoder_handle_loop.invokeExact(
                     handle(),
@@ -334,8 +314,7 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
      * @param audioInfo Valid audio info structure containing the output format
      * @return TRUE if setting the output format succeeded, FALSE otherwise
      */
-    public boolean setOutputFormat(@NotNull org.gstreamer.audio.AudioInfo audioInfo) {
-        java.util.Objects.requireNonNull(audioInfo, "Parameter 'audioInfo' must not be null");
+    public boolean setOutputFormat(org.gstreamer.audio.AudioInfo audioInfo) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_nonstream_audio_decoder_set_output_format.invokeExact(
@@ -344,7 +323,7 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -357,8 +336,7 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
      * @param numChannels Number of output channels to use
      * @return TRUE if setting the output format succeeded, FALSE otherwise
      */
-    public boolean setOutputFormatSimple(int sampleRate, @NotNull org.gstreamer.audio.AudioFormat sampleFormat, int numChannels) {
-        java.util.Objects.requireNonNull(sampleFormat, "Parameter 'sampleFormat' must not be null");
+    public boolean setOutputFormatSimple(int sampleRate, org.gstreamer.audio.AudioFormat sampleFormat, int numChannels) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_nonstream_audio_decoder_set_output_format_simple.invokeExact(
@@ -369,14 +347,14 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_nonstream_audio_decoder_get_type.invokeExact();
@@ -385,60 +363,62 @@ public class NonstreamAudioDecoder extends org.gstreamer.gst.Element {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link NonstreamAudioDecoder.Builder} object constructs a {@link NonstreamAudioDecoder} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link NonstreamAudioDecoder.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Element.Build {
+    public static class Builder extends org.gstreamer.gst.Element.Builder {
         
-         /**
-         * A {@link NonstreamAudioDecoder.Build} object constructs a {@link NonstreamAudioDecoder} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link NonstreamAudioDecoder} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link NonstreamAudioDecoder} using {@link NonstreamAudioDecoder#castFrom}.
+         * {@link NonstreamAudioDecoder}.
          * @return A new instance of {@code NonstreamAudioDecoder} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NonstreamAudioDecoder construct() {
-            return NonstreamAudioDecoder.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    NonstreamAudioDecoder.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public NonstreamAudioDecoder build() {
+            return (NonstreamAudioDecoder) org.gtk.gobject.GObject.newWithProperties(
+                NonstreamAudioDecoder.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setCurrentSubsong(int currentSubsong) {
+        public Builder setCurrentSubsong(int currentSubsong) {
             names.add("current-subsong");
             values.add(org.gtk.gobject.Value.create(currentSubsong));
             return this;
         }
         
-        public Build setNumLoops(int numLoops) {
+        public Builder setNumLoops(int numLoops) {
             names.add("num-loops");
             values.add(org.gtk.gobject.Value.create(numLoops));
             return this;
         }
         
-        public Build setOutputMode(java.lang.foreign.MemoryAddress outputMode) {
+        public Builder setOutputMode(java.lang.foreign.MemoryAddress outputMode) {
             names.add("output-mode");
             values.add(org.gtk.gobject.Value.create(outputMode));
             return this;
         }
         
-        public Build setSubsongMode(java.lang.foreign.MemoryAddress subsongMode) {
+        public Builder setSubsongMode(java.lang.foreign.MemoryAddress subsongMode) {
             names.add("subsong-mode");
             values.add(org.gtk.gobject.Value.create(subsongMode));
             return this;

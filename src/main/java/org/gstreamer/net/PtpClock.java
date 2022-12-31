@@ -37,19 +37,17 @@ public class PtpClock extends org.gstreamer.gst.SystemClock {
     
     private static final java.lang.String C_TYPE_NAME = "GstPtpClock";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.SystemClock.getMemoryLayout().withName("clock"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.SystemClock.getMemoryLayout().withName("clock"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -57,44 +55,29 @@ public class PtpClock extends org.gstreamer.gst.SystemClock {
      * <p>
      * Because PtpClock is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PtpClock(Addressable address, Ownership ownership) {
+    protected PtpClock(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PtpClock if its GType is a (or inherits from) "GstPtpClock".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PtpClock} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPtpClock", a ClassCastException will be thrown.
-     */
-    public static PtpClock castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PtpClock.getType())) {
-            return new PtpClock(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPtpClock");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PtpClock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PtpClock(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String name, int domain) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String name, int domain) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_ptp_clock_new.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     domain);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -117,7 +100,7 @@ public class PtpClock extends org.gstreamer.gst.SystemClock {
      * @param name Name of the clock
      * @param domain PTP domain
      */
-    public PtpClock(@NotNull java.lang.String name, int domain) {
+    public PtpClock(java.lang.String name, int domain) {
         super(constructNew(name, domain), Ownership.FULL);
     }
     
@@ -125,7 +108,7 @@ public class PtpClock extends org.gstreamer.gst.SystemClock {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_ptp_clock_get_type.invokeExact();
@@ -134,60 +117,62 @@ public class PtpClock extends org.gstreamer.gst.SystemClock {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PtpClock.Builder} object constructs a {@link PtpClock} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PtpClock.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.SystemClock.Build {
+    public static class Builder extends org.gstreamer.gst.SystemClock.Builder {
         
-         /**
-         * A {@link PtpClock.Build} object constructs a {@link PtpClock} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PtpClock} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PtpClock} using {@link PtpClock#castFrom}.
+         * {@link PtpClock}.
          * @return A new instance of {@code PtpClock} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PtpClock construct() {
-            return PtpClock.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PtpClock.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PtpClock build() {
+            return (PtpClock) org.gtk.gobject.GObject.newWithProperties(
+                PtpClock.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setDomain(int domain) {
+        public Builder setDomain(int domain) {
             names.add("domain");
             values.add(org.gtk.gobject.Value.create(domain));
             return this;
         }
         
-        public Build setGrandmasterClockId(long grandmasterClockId) {
+        public Builder setGrandmasterClockId(long grandmasterClockId) {
             names.add("grandmaster-clock-id");
             values.add(org.gtk.gobject.Value.create(grandmasterClockId));
             return this;
         }
         
-        public Build setInternalClock(org.gstreamer.gst.Clock internalClock) {
+        public Builder setInternalClock(org.gstreamer.gst.Clock internalClock) {
             names.add("internal-clock");
             values.add(org.gtk.gobject.Value.create(internalClock));
             return this;
         }
         
-        public Build setMasterClockId(long masterClockId) {
+        public Builder setMasterClockId(long masterClockId) {
             names.add("master-clock-id");
             values.add(org.gtk.gobject.Value.create(masterClockId));
             return this;

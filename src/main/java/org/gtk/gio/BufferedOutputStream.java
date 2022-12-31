@@ -29,18 +29,16 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
     
     private static final java.lang.String C_TYPE_NAME = "GBufferedOutputStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.FilterOutputStream.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.FilterOutputStream.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -48,34 +46,15 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BufferedOutputStream(Addressable address, Ownership ownership) {
+    protected BufferedOutputStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to BufferedOutputStream if its GType is a (or inherits from) "GBufferedOutputStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BufferedOutputStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GBufferedOutputStream", a ClassCastException will be thrown.
-     */
-    public static BufferedOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BufferedOutputStream.getType())) {
-            return new BufferedOutputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GBufferedOutputStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BufferedOutputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferedOutputStream(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.OutputStream baseStream) {
-        java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.OutputStream baseStream) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_buffered_output_stream_new.invokeExact(
                     baseStream.handle());
@@ -89,13 +68,12 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      * Creates a new buffered output stream for a base stream.
      * @param baseStream a {@link OutputStream}.
      */
-    public BufferedOutputStream(@NotNull org.gtk.gio.OutputStream baseStream) {
+    public BufferedOutputStream(org.gtk.gio.OutputStream baseStream) {
         super(constructNew(baseStream), Ownership.FULL);
     }
     
-    private static Addressable constructNewSized(@NotNull org.gtk.gio.OutputStream baseStream, long size) {
-        java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSized(org.gtk.gio.OutputStream baseStream, long size) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_buffered_output_stream_new_sized.invokeExact(
                     baseStream.handle(),
@@ -112,8 +90,9 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      * @param size a {@code gsize}.
      * @return a {@link OutputStream} with an internal buffer set to {@code size}.
      */
-    public static BufferedOutputStream newSized(@NotNull org.gtk.gio.OutputStream baseStream, long size) {
-        return new BufferedOutputStream(constructNewSized(baseStream, size), Ownership.FULL);
+    public static BufferedOutputStream newSized(org.gtk.gio.OutputStream baseStream, long size) {
+        var RESULT = constructNewSized(baseStream, size);
+        return (org.gtk.gio.BufferedOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.BufferedOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -129,7 +108,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -158,7 +137,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
         try {
             DowncallHandles.g_buffered_output_stream_set_auto_grow.invokeExact(
                     handle(),
-                    autoGrow ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(autoGrow, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,7 +161,7 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_buffered_output_stream_get_type.invokeExact();
@@ -191,48 +170,50 @@ public class BufferedOutputStream extends org.gtk.gio.FilterOutputStream impleme
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BufferedOutputStream.Builder} object constructs a {@link BufferedOutputStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BufferedOutputStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.FilterOutputStream.Build {
+    public static class Builder extends org.gtk.gio.FilterOutputStream.Builder {
         
-         /**
-         * A {@link BufferedOutputStream.Build} object constructs a {@link BufferedOutputStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BufferedOutputStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BufferedOutputStream} using {@link BufferedOutputStream#castFrom}.
+         * {@link BufferedOutputStream}.
          * @return A new instance of {@code BufferedOutputStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BufferedOutputStream construct() {
-            return BufferedOutputStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BufferedOutputStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BufferedOutputStream build() {
+            return (BufferedOutputStream) org.gtk.gobject.GObject.newWithProperties(
+                BufferedOutputStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setAutoGrow(boolean autoGrow) {
+        public Builder setAutoGrow(boolean autoGrow) {
             names.add("auto-grow");
             values.add(org.gtk.gobject.Value.create(autoGrow));
             return this;
         }
         
-        public Build setBufferSize(int bufferSize) {
+        public Builder setBufferSize(int bufferSize) {
             names.add("buffer-size");
             values.add(org.gtk.gobject.Value.create(bufferSize));
             return this;

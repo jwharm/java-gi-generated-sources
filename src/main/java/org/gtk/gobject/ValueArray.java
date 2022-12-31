@@ -11,17 +11,10 @@ import org.jetbrains.annotations.*;
 public class ValueArray extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GValueArray";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("n_values"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("values"),
-        Interop.valueLayout.C_INT.withName("n_prealloced")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -29,7 +22,12 @@ public class ValueArray extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("n_values"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("values"),
+            Interop.valueLayout.C_INT.withName("n_prealloced")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class ValueArray extends Struct {
      * Get the value of the field {@code n_values}
      * @return The value of the field {@code n_values}
      */
-    public int nValues$get() {
+    public int getNValues() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,7 +58,7 @@ public class ValueArray extends Struct {
      * Change the value of the field {@code n_values}
      * @param nValues The new value of the field {@code n_values}
      */
-    public void nValues$set(int nValues) {
+    public void setNValues(int nValues) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
@@ -70,21 +68,21 @@ public class ValueArray extends Struct {
      * Get the value of the field {@code values}
      * @return The value of the field {@code values}
      */
-    public org.gtk.gobject.Value values$get() {
+    public org.gtk.gobject.Value getValues() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("values"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.Value(RESULT, Ownership.UNKNOWN);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code values}
      * @param values The new value of the field {@code values}
      */
-    public void values$set(org.gtk.gobject.Value values) {
+    public void setValues(org.gtk.gobject.Value values) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), values.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
     }
     
     /**
@@ -92,9 +90,34 @@ public class ValueArray extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ValueArray(Addressable address, Ownership ownership) {
+    protected ValueArray(Addressable address, Ownership ownership) {
         super(address, ownership);
+    }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ValueArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ValueArray(input, ownership);
+    
+    private static MemoryAddress constructNew(int nPrealloced) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_value_array_new.invokeExact(
+                    nPrealloced);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
+    }
+    
+    /**
+     * Allocate and initialize a new {@link ValueArray}, optionally preserve space
+     * for {@code n_prealloced} elements. New arrays always contain 0 elements,
+     * regardless of the value of {@code n_prealloced}.
+     * @param nPrealloced number of values to preallocate space for
+     * @deprecated Use {@link org.gtk.glib.Array} and g_array_sized_new() instead.
+     */
+    @Deprecated
+    public ValueArray(int nPrealloced) {
+        super(constructNew(nPrealloced), Ownership.FULL);
     }
     
     /**
@@ -105,7 +128,7 @@ public class ValueArray extends Struct {
      * @deprecated Use {@link org.gtk.glib.Array} and g_array_append_val() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.gobject.ValueArray append(@Nullable org.gtk.gobject.Value value) {
+    public org.gtk.gobject.ValueArray append(@Nullable org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_array_append.invokeExact(
@@ -114,7 +137,7 @@ public class ValueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
+        return org.gtk.gobject.ValueArray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -124,7 +147,7 @@ public class ValueArray extends Struct {
      * @deprecated Use {@link org.gtk.glib.Array} and g_array_ref() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.gobject.ValueArray copy() {
+    public org.gtk.gobject.ValueArray copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_array_copy.invokeExact(
@@ -132,7 +155,7 @@ public class ValueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(RESULT, Ownership.FULL);
+        return org.gtk.gobject.ValueArray.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -156,7 +179,7 @@ public class ValueArray extends Struct {
      * @deprecated Use g_array_index() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.gobject.Value getNth(int index) {
+    public org.gtk.gobject.Value getNth(int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_array_get_nth.invokeExact(
@@ -165,7 +188,7 @@ public class ValueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -177,7 +200,7 @@ public class ValueArray extends Struct {
      * @deprecated Use {@link org.gtk.glib.Array} and g_array_insert_val() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.gobject.ValueArray insert(int index, @Nullable org.gtk.gobject.Value value) {
+    public org.gtk.gobject.ValueArray insert(int index, @Nullable org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_array_insert.invokeExact(
@@ -187,7 +210,7 @@ public class ValueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
+        return org.gtk.gobject.ValueArray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -198,7 +221,7 @@ public class ValueArray extends Struct {
      * @deprecated Use {@link org.gtk.glib.Array} and g_array_prepend_val() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.gobject.ValueArray prepend(@Nullable org.gtk.gobject.Value value) {
+    public org.gtk.gobject.ValueArray prepend(@Nullable org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_array_prepend.invokeExact(
@@ -207,7 +230,7 @@ public class ValueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
+        return org.gtk.gobject.ValueArray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -218,7 +241,7 @@ public class ValueArray extends Struct {
      * @deprecated Use {@link org.gtk.glib.Array} and g_array_remove_index() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.gobject.ValueArray remove(int index) {
+    public org.gtk.gobject.ValueArray remove(int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_array_remove.invokeExact(
@@ -227,22 +250,7 @@ public class ValueArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
-    }
-    
-    /**
-     * Sort {@code value_array} using {@code compare_func} to compare the elements according to
-     * the semantics of {@link org.gtk.glib.CompareFunc}.
-     * <p>
-     * The current implementation uses the same sorting algorithm as standard
-     * C qsort() function.
-     * @param compareFunc function to compare elements
-     * @return the {@link ValueArray} passed in as {@code value_array}
-     * @deprecated Use {@link org.gtk.glib.Array} and g_array_sort().
-     */
-    @Deprecated
-    public @NotNull org.gtk.gobject.ValueArray sort(@NotNull org.gtk.glib.CompareFunc compareFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        return org.gtk.gobject.ValueArray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -256,22 +264,17 @@ public class ValueArray extends Struct {
      * @deprecated Use {@link org.gtk.glib.Array} and g_array_sort_with_data().
      */
     @Deprecated
-    public @NotNull org.gtk.gobject.ValueArray sortWithData(@NotNull org.gtk.glib.CompareDataFunc compareFunc) {
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public org.gtk.gobject.ValueArray sort(org.gtk.glib.CompareDataFunc compareFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_array_sort_with_data.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(compareFunc)));
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ValueArray(RESULT, Ownership.NONE);
+        return org.gtk.gobject.ValueArray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -324,43 +327,41 @@ public class ValueArray extends Struct {
             false
         );
         
-        private static final MethodHandle g_value_array_sort = Interop.downcallHandle(
-            "g_value_array_sort",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
-        );
-        
         private static final MethodHandle g_value_array_sort_with_data = Interop.downcallHandle(
             "g_value_array_sort_with_data",
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
     }
-
+    
+    /**
+     * A {@link ValueArray.Builder} object constructs a {@link ValueArray} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ValueArray.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ValueArray struct;
+        private final ValueArray struct;
         
-         /**
-         * A {@link ValueArray.Build} object constructs a {@link ValueArray} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ValueArray.allocate();
         }
         
          /**
          * Finish building the {@link ValueArray} struct.
          * @return A new instance of {@code ValueArray} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ValueArray construct() {
+        public ValueArray build() {
             return struct;
         }
         
@@ -369,7 +370,7 @@ public class ValueArray extends Struct {
          * @param nValues The value for the {@code nValues} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNValues(int nValues) {
+        public Builder setNValues(int nValues) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
@@ -381,14 +382,14 @@ public class ValueArray extends Struct {
          * @param values The value for the {@code values} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValues(org.gtk.gobject.Value values) {
+        public Builder setValues(org.gtk.gobject.Value values) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("values"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
             return this;
         }
         
-        public Build setNPrealloced(int nPrealloced) {
+        public Builder setNPrealloced(int nPrealloced) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_prealloced"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPrealloced);

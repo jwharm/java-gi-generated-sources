@@ -16,22 +16,20 @@ public class GLRenderbufferAllocationParams extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLRenderbufferAllocationParams";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gl.GLAllocationParams.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.C_INT.withName("renderbuffer_format"),
-        Interop.valueLayout.C_INT.withName("width"),
-        Interop.valueLayout.C_INT.withName("height"),
-        MemoryLayout.paddingLayout(96),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gl.GLAllocationParams.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.C_INT.withName("renderbuffer_format"),
+            Interop.valueLayout.C_INT.withName("width"),
+            Interop.valueLayout.C_INT.withName("height"),
+            MemoryLayout.paddingLayout(96),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class GLRenderbufferAllocationParams extends Struct {
      * Get the value of the field {@code renderbuffer_format}
      * @return The value of the field {@code renderbuffer_format}
      */
-    public org.gstreamer.gl.GLFormat renderbufferFormat$get() {
+    public org.gstreamer.gl.GLFormat getRenderbufferFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,17 +60,17 @@ public class GLRenderbufferAllocationParams extends Struct {
      * Change the value of the field {@code renderbuffer_format}
      * @param renderbufferFormat The new value of the field {@code renderbuffer_format}
      */
-    public void renderbufferFormat$set(org.gstreamer.gl.GLFormat renderbufferFormat) {
+    public void setRenderbufferFormat(org.gstreamer.gl.GLFormat renderbufferFormat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderbufferFormat.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderbufferFormat == null ? MemoryAddress.NULL : renderbufferFormat.getValue()));
     }
     
     /**
      * Get the value of the field {@code width}
      * @return The value of the field {@code width}
      */
-    public int width$get() {
+    public int getWidth() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,7 +81,7 @@ public class GLRenderbufferAllocationParams extends Struct {
      * Change the value of the field {@code width}
      * @param width The new value of the field {@code width}
      */
-    public void width$set(int width) {
+    public void setWidth(int width) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -93,7 +91,7 @@ public class GLRenderbufferAllocationParams extends Struct {
      * Get the value of the field {@code height}
      * @return The value of the field {@code height}
      */
-    public int height$get() {
+    public int getHeight() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,7 +102,7 @@ public class GLRenderbufferAllocationParams extends Struct {
      * Change the value of the field {@code height}
      * @param height The new value of the field {@code height}
      */
-    public void height$set(int height) {
+    public void setHeight(int height) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
@@ -115,15 +113,15 @@ public class GLRenderbufferAllocationParams extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLRenderbufferAllocationParams(Addressable address, Ownership ownership) {
+    protected GLRenderbufferAllocationParams(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.gl.GLFormat renderbufferFormat, int width, int height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(renderbufferFormat, "Parameter 'renderbufferFormat' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLRenderbufferAllocationParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLRenderbufferAllocationParams(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.gl.GLFormat renderbufferFormat, int width, int height) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_renderbuffer_allocation_params_new.invokeExact(
                     context.handle(),
@@ -137,14 +135,12 @@ public class GLRenderbufferAllocationParams extends Struct {
         return RESULT;
     }
     
-    public GLRenderbufferAllocationParams(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.gl.GLFormat renderbufferFormat, int width, int height) {
+    public GLRenderbufferAllocationParams(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.gl.GLFormat renderbufferFormat, int width, int height) {
         super(constructNew(context, allocParams, renderbufferFormat, width, height), Ownership.FULL);
     }
     
-    private static Addressable constructNewWrapped(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.gl.GLFormat renderbufferFormat, int width, int height, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(renderbufferFormat, "Parameter 'renderbufferFormat' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWrapped(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.gl.GLFormat renderbufferFormat, int width, int height, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable org.gtk.glib.DestroyNotify notify) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_renderbuffer_allocation_params_new_wrapped.invokeExact(
                     context.handle(),
@@ -153,16 +149,17 @@ public class GLRenderbufferAllocationParams extends Struct {
                     width,
                     height,
                     (Addressable) (glHandle == null ? MemoryAddress.NULL : (Addressable) glHandle),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    public static GLRenderbufferAllocationParams newWrapped(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.gl.GLFormat renderbufferFormat, int width, int height, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        return new GLRenderbufferAllocationParams(constructNewWrapped(context, allocParams, renderbufferFormat, width, height, glHandle, userData, notify), Ownership.FULL);
+    public static GLRenderbufferAllocationParams newWrapped(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.gl.GLFormat renderbufferFormat, int width, int height, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable org.gtk.glib.DestroyNotify notify) {
+        var RESULT = constructNewWrapped(context, allocParams, renderbufferFormat, width, height, glHandle, notify);
+        return org.gstreamer.gl.GLRenderbufferAllocationParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -179,35 +176,39 @@ public class GLRenderbufferAllocationParams extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLRenderbufferAllocationParams.Builder} object constructs a {@link GLRenderbufferAllocationParams} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLRenderbufferAllocationParams.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLRenderbufferAllocationParams struct;
+        private final GLRenderbufferAllocationParams struct;
         
-         /**
-         * A {@link GLRenderbufferAllocationParams.Build} object constructs a {@link GLRenderbufferAllocationParams} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLRenderbufferAllocationParams.allocate();
         }
         
          /**
          * Finish building the {@link GLRenderbufferAllocationParams} struct.
          * @return A new instance of {@code GLRenderbufferAllocationParams} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLRenderbufferAllocationParams construct() {
+        public GLRenderbufferAllocationParams build() {
             return struct;
         }
         
-        public Build setParent(org.gstreamer.gl.GLAllocationParams parent) {
+        public Builder setParent(org.gstreamer.gl.GLAllocationParams parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -219,7 +220,7 @@ public class GLRenderbufferAllocationParams extends Struct {
          * @param renderbufferFormat The value for the {@code renderbufferFormat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRenderbufferFormat(org.gstreamer.gl.GLFormat renderbufferFormat) {
+        public Builder setRenderbufferFormat(org.gstreamer.gl.GLFormat renderbufferFormat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderbufferFormat == null ? MemoryAddress.NULL : renderbufferFormat.getValue()));
@@ -231,7 +232,7 @@ public class GLRenderbufferAllocationParams extends Struct {
          * @param width The value for the {@code width} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidth(int width) {
+        public Builder setWidth(int width) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("width"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -243,14 +244,14 @@ public class GLRenderbufferAllocationParams extends Struct {
          * @param height The value for the {@code height} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeight(int height) {
+        public Builder setHeight(int height) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("height"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

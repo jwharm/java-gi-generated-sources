@@ -31,25 +31,8 @@ import org.jetbrains.annotations.*;
  */
 public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to RemoteActionGroup if its GType is a (or inherits from) "GRemoteActionGroup".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code RemoteActionGroup} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GRemoteActionGroup", a ClassCastException will be thrown.
-     */
-    public static RemoteActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), RemoteActionGroup.getType())) {
-            return new RemoteActionGroupImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GRemoteActionGroup");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RemoteActionGroupImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RemoteActionGroupImpl(input, ownership);
     
     /**
      * Activates the remote action.
@@ -65,13 +48,11 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
      * @param parameter the optional parameter to the activation
      * @param platformData the platform data to send
      */
-    default void activateActionFull(@NotNull java.lang.String actionName, @Nullable org.gtk.glib.Variant parameter, @NotNull org.gtk.glib.Variant platformData) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        java.util.Objects.requireNonNull(platformData, "Parameter 'platformData' must not be null");
+    default void activateActionFull(java.lang.String actionName, @Nullable org.gtk.glib.Variant parameter, org.gtk.glib.Variant platformData) {
         try {
             DowncallHandles.g_remote_action_group_activate_action_full.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName),
+                    Marshal.stringToAddress.marshal(actionName, null),
                     (Addressable) (parameter == null ? MemoryAddress.NULL : parameter.handle()),
                     platformData.handle());
         } catch (Throwable ERR) {
@@ -93,14 +74,11 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
      * @param value the new requested value for the state
      * @param platformData the platform data to send
      */
-    default void changeActionStateFull(@NotNull java.lang.String actionName, @NotNull org.gtk.glib.Variant value, @NotNull org.gtk.glib.Variant platformData) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(platformData, "Parameter 'platformData' must not be null");
+    default void changeActionStateFull(java.lang.String actionName, org.gtk.glib.Variant value, org.gtk.glib.Variant platformData) {
         try {
             DowncallHandles.g_remote_action_group_change_action_state_full.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName),
+                    Marshal.stringToAddress.marshal(actionName, null),
                     value.handle(),
                     platformData.handle());
         } catch (Throwable ERR) {
@@ -112,7 +90,7 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_remote_action_group_get_type.invokeExact();
@@ -147,7 +125,7 @@ public interface RemoteActionGroup extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class RemoteActionGroupImpl extends org.gtk.gobject.Object implements RemoteActionGroup {
+    class RemoteActionGroupImpl extends org.gtk.gobject.GObject implements RemoteActionGroup {
         
         static {
             Gio.javagi$ensureInitialized();

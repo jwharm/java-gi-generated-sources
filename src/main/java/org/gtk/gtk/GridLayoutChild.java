@@ -30,30 +30,12 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GridLayoutChild(Addressable address, Ownership ownership) {
+    protected GridLayoutChild(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to GridLayoutChild if its GType is a (or inherits from) "GtkGridLayoutChild".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GridLayoutChild} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkGridLayoutChild", a ClassCastException will be thrown.
-     */
-    public static GridLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GridLayoutChild.getType())) {
-            return new GridLayoutChild(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGridLayoutChild");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GridLayoutChild> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GridLayoutChild(input, ownership);
     
     /**
      * Retrieves the column number to which {@code child} attaches its left side.
@@ -175,7 +157,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_grid_layout_child_get_type.invokeExact();
@@ -184,38 +166,40 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GridLayoutChild.Builder} object constructs a {@link GridLayoutChild} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GridLayoutChild.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.LayoutChild.Build {
+    public static class Builder extends org.gtk.gtk.LayoutChild.Builder {
         
-         /**
-         * A {@link GridLayoutChild.Build} object constructs a {@link GridLayoutChild} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GridLayoutChild} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GridLayoutChild} using {@link GridLayoutChild#castFrom}.
+         * {@link GridLayoutChild}.
          * @return A new instance of {@code GridLayoutChild} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GridLayoutChild construct() {
-            return GridLayoutChild.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GridLayoutChild.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GridLayoutChild build() {
+            return (GridLayoutChild) org.gtk.gobject.GObject.newWithProperties(
+                GridLayoutChild.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -224,7 +208,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
          * @param column The value for the {@code column} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColumn(int column) {
+        public Builder setColumn(int column) {
             names.add("column");
             values.add(org.gtk.gobject.Value.create(column));
             return this;
@@ -235,7 +219,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
          * @param columnSpan The value for the {@code column-span} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColumnSpan(int columnSpan) {
+        public Builder setColumnSpan(int columnSpan) {
             names.add("column-span");
             values.add(org.gtk.gobject.Value.create(columnSpan));
             return this;
@@ -246,7 +230,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
          * @param row The value for the {@code row} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRow(int row) {
+        public Builder setRow(int row) {
             names.add("row");
             values.add(org.gtk.gobject.Value.create(row));
             return this;
@@ -257,7 +241,7 @@ public class GridLayoutChild extends org.gtk.gtk.LayoutChild {
          * @param rowSpan The value for the {@code row-span} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRowSpan(int rowSpan) {
+        public Builder setRowSpan(int rowSpan) {
             names.add("row-span");
             values.add(org.gtk.gobject.Value.create(rowSpan));
             return this;

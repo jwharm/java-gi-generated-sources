@@ -48,17 +48,15 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     
     private static final java.lang.String C_TYPE_NAME = "AdwEntryRow";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gnome.adw.PreferencesRow.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gnome.adw.PreferencesRow.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -66,40 +64,26 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * <p>
      * Because EntryRow is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EntryRow(Addressable address, Ownership ownership) {
+    protected EntryRow(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to EntryRow if its GType is a (or inherits from) "AdwEntryRow".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EntryRow} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwEntryRow", a ClassCastException will be thrown.
-     */
-    public static EntryRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EntryRow.getType())) {
-            return new EntryRow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwEntryRow");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EntryRow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EntryRow(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_entry_row_new.invokeExact();
         } catch (Throwable ERR) {
@@ -119,8 +103,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * Adds a prefix widget to {@code self}.
      * @param widget a widget
      */
-    public void addPrefix(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void addPrefix(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.adw_entry_row_add_prefix.invokeExact(
                     handle(),
@@ -134,8 +117,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * Adds a suffix widget to {@code self}.
      * @param widget a widget
      */
-    public void addSuffix(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void addSuffix(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.adw_entry_row_add_suffix.invokeExact(
                     handle(),
@@ -157,7 +139,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,7 +154,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.FULL);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -187,14 +169,14 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the additional input hints of {@code self}.
      * @return The input hints
      */
-    public @NotNull org.gtk.gtk.InputHints getInputHints() {
+    public org.gtk.gtk.InputHints getInputHints() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_entry_row_get_input_hints.invokeExact(
@@ -209,7 +191,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * Gets the input purpose of {@code self}.
      * @return the input purpose
      */
-    public @NotNull org.gtk.gtk.InputPurpose getInputPurpose() {
+    public org.gtk.gtk.InputPurpose getInputPurpose() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_entry_row_get_input_purpose.invokeExact(
@@ -232,15 +214,14 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Removes a child from {@code self}.
      * @param widget the child to be removed
      */
-    public void remove(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void remove(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.adw_entry_row_remove.invokeExact(
                     handle(),
@@ -258,7 +239,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
         try {
             DowncallHandles.adw_entry_row_set_activates_default.invokeExact(
                     handle(),
-                    activates ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(activates, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,7 +272,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
         try {
             DowncallHandles.adw_entry_row_set_enable_emoji_completion.invokeExact(
                     handle(),
-                    enableEmojiCompletion ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enableEmojiCompletion, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,8 +286,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * See also: {@code AdwEntryRow:input-purpose}
      * @param hints the hints
      */
-    public void setInputHints(@NotNull org.gtk.gtk.InputHints hints) {
-        java.util.Objects.requireNonNull(hints, "Parameter 'hints' must not be null");
+    public void setInputHints(org.gtk.gtk.InputHints hints) {
         try {
             DowncallHandles.adw_entry_row_set_input_hints.invokeExact(
                     handle(),
@@ -322,8 +302,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * The input purpose can be used by input methods to adjust their behavior.
      * @param purpose the purpose
      */
-    public void setInputPurpose(@NotNull org.gtk.gtk.InputPurpose purpose) {
-        java.util.Objects.requireNonNull(purpose, "Parameter 'purpose' must not be null");
+    public void setInputPurpose(org.gtk.gtk.InputPurpose purpose) {
         try {
             DowncallHandles.adw_entry_row_set_input_purpose.invokeExact(
                     handle(),
@@ -349,7 +328,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
         try {
             DowncallHandles.adw_entry_row_set_show_apply_button.invokeExact(
                     handle(),
-                    showApplyButton ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showApplyButton, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,7 +338,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_entry_row_get_type.invokeExact();
@@ -371,7 +350,18 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     
     @FunctionalInterface
     public interface Apply {
-        void signalReceived(EntryRow sourceEntryRow);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEntryRow) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Apply.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -384,16 +374,8 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     public Signal<EntryRow.Apply> onApply(EntryRow.Apply handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("apply"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryRow.Callbacks.class, "signalEntryRowApply",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EntryRow.Apply>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("apply"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -401,7 +383,18 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     
     @FunctionalInterface
     public interface EntryActivated {
-        void signalReceived(EntryRow sourceEntryRow);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEntryRow) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EntryActivated.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -412,52 +405,46 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
     public Signal<EntryRow.EntryActivated> onEntryActivated(EntryRow.EntryActivated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("entry-activated"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryRow.Callbacks.class, "signalEntryRowEntryActivated",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EntryRow.EntryActivated>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("entry-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link EntryRow.Builder} object constructs a {@link EntryRow} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EntryRow.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gnome.adw.PreferencesRow.Build {
+    public static class Builder extends org.gnome.adw.PreferencesRow.Builder {
         
-         /**
-         * A {@link EntryRow.Build} object constructs a {@link EntryRow} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EntryRow} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EntryRow} using {@link EntryRow#castFrom}.
+         * {@link EntryRow}.
          * @return A new instance of {@code EntryRow} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EntryRow construct() {
-            return EntryRow.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EntryRow.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EntryRow build() {
+            return (EntryRow) org.gtk.gobject.GObject.newWithProperties(
+                EntryRow.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -466,7 +453,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
          * @param activatesDefault The value for the {@code activates-default} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActivatesDefault(boolean activatesDefault) {
+        public Builder setActivatesDefault(boolean activatesDefault) {
             names.add("activates-default");
             values.add(org.gtk.gobject.Value.create(activatesDefault));
             return this;
@@ -480,7 +467,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
          * @param attributes The value for the {@code attributes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttributes(org.pango.AttrList attributes) {
+        public Builder setAttributes(org.pango.AttrList attributes) {
             names.add("attributes");
             values.add(org.gtk.gobject.Value.create(attributes));
             return this;
@@ -493,7 +480,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
          * @param enableEmojiCompletion The value for the {@code enable-emoji-completion} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnableEmojiCompletion(boolean enableEmojiCompletion) {
+        public Builder setEnableEmojiCompletion(boolean enableEmojiCompletion) {
             names.add("enable-emoji-completion");
             values.add(org.gtk.gobject.Value.create(enableEmojiCompletion));
             return this;
@@ -508,7 +495,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
          * @param inputHints The value for the {@code input-hints} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputHints(org.gtk.gtk.InputHints inputHints) {
+        public Builder setInputHints(org.gtk.gtk.InputHints inputHints) {
             names.add("input-hints");
             values.add(org.gtk.gobject.Value.create(inputHints));
             return this;
@@ -521,7 +508,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
          * @param inputPurpose The value for the {@code input-purpose} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
+        public Builder setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
             names.add("input-purpose");
             values.add(org.gtk.gobject.Value.create(inputPurpose));
             return this;
@@ -540,7 +527,7 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
          * @param showApplyButton The value for the {@code show-apply-button} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowApplyButton(boolean showApplyButton) {
+        public Builder setShowApplyButton(boolean showApplyButton) {
             names.add("show-apply-button");
             values.add(org.gtk.gobject.Value.create(showApplyButton));
             return this;
@@ -650,20 +637,5 @@ public class EntryRow extends org.gnome.adw.PreferencesRow implements org.gtk.gt
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalEntryRowApply(MemoryAddress sourceEntryRow, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EntryRow.Apply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryRow(sourceEntryRow, Ownership.NONE));
-        }
-        
-        public static void signalEntryRowEntryActivated(MemoryAddress sourceEntryRow, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EntryRow.EntryActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryRow(sourceEntryRow, Ownership.NONE));
-        }
     }
 }

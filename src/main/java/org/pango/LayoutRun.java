@@ -18,8 +18,10 @@ public class LayoutRun extends org.pango.GlyphItem {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LayoutRun(Addressable address, Ownership ownership) {
+    protected LayoutRun(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LayoutRun> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutRun(input, ownership);
 }

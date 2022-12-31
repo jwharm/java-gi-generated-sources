@@ -16,17 +16,15 @@ public class UserDataKeyT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "hb_user_data_key_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("unused")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("unused")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,39 +45,45 @@ public class UserDataKeyT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public UserDataKeyT(Addressable address, Ownership ownership) {
+    protected UserDataKeyT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, UserDataKeyT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UserDataKeyT(input, ownership);
+    
+    /**
+     * A {@link UserDataKeyT.Builder} object constructs a {@link UserDataKeyT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link UserDataKeyT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private UserDataKeyT struct;
+        private final UserDataKeyT struct;
         
-         /**
-         * A {@link UserDataKeyT.Build} object constructs a {@link UserDataKeyT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = UserDataKeyT.allocate();
         }
         
          /**
          * Finish building the {@link UserDataKeyT} struct.
          * @return A new instance of {@code UserDataKeyT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public UserDataKeyT construct() {
+        public UserDataKeyT build() {
             return struct;
         }
         
-        public Build setUnused(byte unused) {
+        public Builder setUnused(byte unused) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unused"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), unused);

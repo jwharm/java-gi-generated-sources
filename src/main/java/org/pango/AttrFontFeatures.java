@@ -18,18 +18,16 @@ public class AttrFontFeatures extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrFontFeatures";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.pango.Attribute.getMemoryLayout().withName("attr"),
-        Interop.valueLayout.ADDRESS.withName("features")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.pango.Attribute.getMemoryLayout().withName("attr"),
+            Interop.valueLayout.ADDRESS.withName("features")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,30 +47,40 @@ public class AttrFontFeatures extends Struct {
      * Get the value of the field {@code attr}
      * @return The value of the field {@code attr}
      */
-    public org.pango.Attribute attr$get() {
+    public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return new org.pango.Attribute(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code attr}
+     * @param attr The new value of the field {@code attr}
+     */
+    public void setAttr(org.pango.Attribute attr) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
     }
     
     /**
      * Get the value of the field {@code features}
      * @return The value of the field {@code features}
      */
-    public java.lang.String features$get() {
+    public java.lang.String getFeatures() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("features"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code features}
      * @param features The new value of the field {@code features}
      */
-    public void features$set(java.lang.String features) {
+    public void setFeatures(java.lang.String features) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("features"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(features));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (features == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(features, null)));
     }
     
     /**
@@ -80,10 +88,12 @@ public class AttrFontFeatures extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AttrFontFeatures(Addressable address, Ownership ownership) {
+    protected AttrFontFeatures(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AttrFontFeatures> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrFontFeatures(input, ownership);
     
     /**
      * Create a new font features tag attribute.
@@ -96,16 +106,15 @@ public class AttrFontFeatures extends Struct {
      *   {@code PangoAttribute}, which should be freed with
      *   {@link Attribute#destroy}
      */
-    public static @NotNull org.pango.Attribute new_(@NotNull java.lang.String features) {
-        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
+    public static org.pango.Attribute new_(java.lang.String features) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_font_features_new.invokeExact(
-                    Interop.allocateNativeString(features));
+                    Marshal.stringToAddress.marshal(features, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(RESULT, Ownership.FULL);
+        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -116,31 +125,35 @@ public class AttrFontFeatures extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AttrFontFeatures.Builder} object constructs a {@link AttrFontFeatures} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AttrFontFeatures.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AttrFontFeatures struct;
+        private final AttrFontFeatures struct;
         
-         /**
-         * A {@link AttrFontFeatures.Build} object constructs a {@link AttrFontFeatures} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AttrFontFeatures.allocate();
         }
         
          /**
          * Finish building the {@link AttrFontFeatures} struct.
          * @return A new instance of {@code AttrFontFeatures} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AttrFontFeatures construct() {
+        public AttrFontFeatures build() {
             return struct;
         }
         
@@ -149,7 +162,7 @@ public class AttrFontFeatures extends Struct {
          * @param attr The value for the {@code attr} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttr(org.pango.Attribute attr) {
+        public Builder setAttr(org.pango.Attribute attr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("attr"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
@@ -161,10 +174,10 @@ public class AttrFontFeatures extends Struct {
          * @param features The value for the {@code features} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFeatures(java.lang.String features) {
+        public Builder setFeatures(java.lang.String features) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("features"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (features == null ? MemoryAddress.NULL : Interop.allocateNativeString(features)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (features == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(features, null)));
             return this;
         }
     }

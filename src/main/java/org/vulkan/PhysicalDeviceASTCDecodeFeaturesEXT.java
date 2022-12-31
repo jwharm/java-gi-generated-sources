@@ -40,8 +40,10 @@ public class PhysicalDeviceASTCDecodeFeaturesEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceASTCDecodeFeaturesEXT(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceASTCDecodeFeaturesEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceASTCDecodeFeaturesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceASTCDecodeFeaturesEXT(input, ownership);
 }

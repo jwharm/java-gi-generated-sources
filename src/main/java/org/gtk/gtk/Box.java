@@ -45,17 +45,15 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
     
     private static final java.lang.String C_TYPE_NAME = "GtkBox";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -63,41 +61,26 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * <p>
      * Because Box is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Box(Addressable address, Ownership ownership) {
+    protected Box(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Box if its GType is a (or inherits from) "GtkBox".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Box} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkBox", a ClassCastException will be thrown.
-     */
-    public static Box castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Box.getType())) {
-            return new Box(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBox");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Box> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Box(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation, int spacing) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gtk.Orientation orientation, int spacing) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_box_new.invokeExact(
                     orientation.getValue(),
@@ -113,7 +96,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * @param orientation the box’s orientation
      * @param spacing the number of pixels to place by default between children
      */
-    public Box(@NotNull org.gtk.gtk.Orientation orientation, int spacing) {
+    public Box(org.gtk.gtk.Orientation orientation, int spacing) {
         super(constructNew(orientation, spacing), Ownership.NONE);
     }
     
@@ -121,8 +104,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * Adds {@code child} as the last child to {@code box}.
      * @param child the {@code GtkWidget} to append
      */
-    public void append(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void append(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_box_append.invokeExact(
                     handle(),
@@ -136,7 +118,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * Gets the value set by gtk_box_set_baseline_position().
      * @return the baseline position
      */
-    public @NotNull org.gtk.gtk.BaselinePosition getBaselinePosition() {
+    public org.gtk.gtk.BaselinePosition getBaselinePosition() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_box_get_baseline_position.invokeExact(
@@ -160,7 +142,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -186,8 +168,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * @param child the {@code GtkWidget} to insert
      * @param sibling the sibling after which to insert {@code child}
      */
-    public void insertChildAfter(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void insertChildAfter(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
         try {
             DowncallHandles.gtk_box_insert_child_after.invokeExact(
                     handle(),
@@ -202,8 +183,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * Adds {@code child} as the first child to {@code box}.
      * @param child the {@code GtkWidget} to prepend
      */
-    public void prepend(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void prepend(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_box_prepend.invokeExact(
                     handle(),
@@ -221,8 +201,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * {@link Box#insertChildAfter}.
      * @param child the child to remove
      */
-    public void remove(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void remove(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_box_remove.invokeExact(
                     handle(),
@@ -240,8 +219,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * @param child the {@code GtkWidget} to move, must be a child of {@code box}
      * @param sibling the sibling to move {@code child} after
      */
-    public void reorderChildAfter(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void reorderChildAfter(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
         try {
             DowncallHandles.gtk_box_reorder_child_after.invokeExact(
                     handle(),
@@ -262,8 +240,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * extra space available.
      * @param position a {@code GtkBaselinePosition}
      */
-    public void setBaselinePosition(@NotNull org.gtk.gtk.BaselinePosition position) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public void setBaselinePosition(org.gtk.gtk.BaselinePosition position) {
         try {
             DowncallHandles.gtk_box_set_baseline_position.invokeExact(
                     handle(),
@@ -283,7 +260,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         try {
             DowncallHandles.gtk_box_set_homogeneous.invokeExact(
                     handle(),
-                    homogeneous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(homogeneous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +284,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_box_get_type.invokeExact();
@@ -316,38 +293,40 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Box.Builder} object constructs a {@link Box} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Box.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Box.Build} object constructs a {@link Box} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Box} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Box} using {@link Box#castFrom}.
+         * {@link Box}.
          * @return A new instance of {@code Box} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Box construct() {
-            return Box.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Box.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Box build() {
+            return (Box) org.gtk.gobject.GObject.newWithProperties(
+                Box.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -356,7 +335,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
          * @param baselinePosition The value for the {@code baseline-position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBaselinePosition(org.gtk.gtk.BaselinePosition baselinePosition) {
+        public Builder setBaselinePosition(org.gtk.gtk.BaselinePosition baselinePosition) {
             names.add("baseline-position");
             values.add(org.gtk.gobject.Value.create(baselinePosition));
             return this;
@@ -367,7 +346,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
          * @param homogeneous The value for the {@code homogeneous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHomogeneous(boolean homogeneous) {
+        public Builder setHomogeneous(boolean homogeneous) {
             names.add("homogeneous");
             values.add(org.gtk.gobject.Value.create(homogeneous));
             return this;
@@ -378,7 +357,7 @@ public class Box extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, o
          * @param spacing The value for the {@code spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSpacing(int spacing) {
+        public Builder setSpacing(int spacing) {
             names.add("spacing");
             values.add(org.gtk.gobject.Value.create(spacing));
             return this;

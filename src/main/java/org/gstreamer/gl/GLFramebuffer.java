@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * between multiple OpenGL contexts.
  * @version 1.10
  */
-public class GLFramebuffer extends org.gstreamer.gst.Object {
+public class GLFramebuffer extends org.gstreamer.gst.GstObject {
     
     static {
         GstGL.javagi$ensureInitialized();
@@ -26,23 +26,21 @@ public class GLFramebuffer extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLFramebuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("context"),
-        Interop.valueLayout.C_INT.withName("fbo_id"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("attachments"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("context"),
+            Interop.valueLayout.C_INT.withName("fbo_id"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("attachments"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -50,41 +48,26 @@ public class GLFramebuffer extends org.gstreamer.gst.Object {
      * <p>
      * Because GLFramebuffer is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLFramebuffer(Addressable address, Ownership ownership) {
+    protected GLFramebuffer(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLFramebuffer if its GType is a (or inherits from) "GstGLFramebuffer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLFramebuffer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLFramebuffer", a ClassCastException will be thrown.
-     */
-    public static GLFramebuffer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLFramebuffer.getType())) {
-            return new GLFramebuffer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLFramebuffer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLFramebuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLFramebuffer(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gl.GLContext context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_framebuffer_new.invokeExact(
                     context.handle());
@@ -99,13 +82,12 @@ public class GLFramebuffer extends org.gstreamer.gst.Object {
      * be called on {@code context}'s OpenGL thread.
      * @param context a {@link GLContext}
      */
-    public GLFramebuffer(@NotNull org.gstreamer.gl.GLContext context) {
+    public GLFramebuffer(org.gstreamer.gl.GLContext context) {
         super(constructNew(context), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithDefaultDepth(@NotNull org.gstreamer.gl.GLContext context, int width, int height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithDefaultDepth(org.gstreamer.gl.GLContext context, int width, int height) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_framebuffer_new_with_default_depth.invokeExact(
                     context.handle(),
@@ -125,8 +107,9 @@ public class GLFramebuffer extends org.gstreamer.gst.Object {
      * @param height for the depth buffer
      * @return a new {@link GLFramebuffer} with a depth buffer of {@code width} and {@code height}
      */
-    public static GLFramebuffer newWithDefaultDepth(@NotNull org.gstreamer.gl.GLContext context, int width, int height) {
-        return new GLFramebuffer(constructNewWithDefaultDepth(context, width, height), Ownership.NONE);
+    public static GLFramebuffer newWithDefaultDepth(org.gstreamer.gl.GLContext context, int width, int height) {
+        var RESULT = constructNewWithDefaultDepth(context, width, height);
+        return (org.gstreamer.gl.GLFramebuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLFramebuffer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -137,8 +120,7 @@ public class GLFramebuffer extends org.gstreamer.gst.Object {
      * @param attachmentPoint the OpenGL attachment point to bind {@code mem} to
      * @param mem the memory object to bind to {@code attachment_point}
      */
-    public void attach(int attachmentPoint, @NotNull org.gstreamer.gl.GLBaseMemory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public void attach(int attachmentPoint, org.gstreamer.gl.GLBaseMemory mem) {
         try {
             DowncallHandles.gst_gl_framebuffer_attach.invokeExact(
                     handle(),
@@ -178,24 +160,18 @@ public class GLFramebuffer extends org.gstreamer.gst.Object {
      * @param func the function to run
      * @return the result of executing {@code func}
      */
-    public boolean drawToTexture(@NotNull org.gstreamer.gl.GLMemory mem, @NotNull org.gstreamer.gl.GLFramebufferFunc func) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public boolean drawToTexture(org.gstreamer.gl.GLMemory mem, org.gstreamer.gl.GLFramebufferFunc func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_framebuffer_draw_to_texture.invokeExact(
                     handle(),
                     mem.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstGL.Callbacks.class, "cbGLFramebufferFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -205,20 +181,18 @@ public class GLFramebuffer extends org.gstreamer.gst.Object {
      * @param height output height
      */
     public void getEffectiveDimensions(Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_gl_framebuffer_get_effective_dimensions.invokeExact(
                     handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     public int getId() {
@@ -236,7 +210,7 @@ public class GLFramebuffer extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_framebuffer_get_type.invokeExact();
@@ -245,38 +219,40 @@ public class GLFramebuffer extends org.gstreamer.gst.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GLFramebuffer.Builder} object constructs a {@link GLFramebuffer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLFramebuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link GLFramebuffer.Build} object constructs a {@link GLFramebuffer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLFramebuffer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLFramebuffer} using {@link GLFramebuffer#castFrom}.
+         * {@link GLFramebuffer}.
          * @return A new instance of {@code GLFramebuffer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLFramebuffer construct() {
-            return GLFramebuffer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLFramebuffer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLFramebuffer build() {
+            return (GLFramebuffer) org.gtk.gobject.GObject.newWithProperties(
+                GLFramebuffer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

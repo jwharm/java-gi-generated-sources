@@ -22,23 +22,21 @@ public class AudioCdSrcTrack extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioCdSrcTrack";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("is_audio"),
-        Interop.valueLayout.C_INT.withName("num"),
-        Interop.valueLayout.C_INT.withName("start"),
-        Interop.valueLayout.C_INT.withName("end"),
-        Interop.valueLayout.ADDRESS.withName("tags"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("_gst_reserved1"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("_gst_reserved2")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("is_audio"),
+            Interop.valueLayout.C_INT.withName("num"),
+            Interop.valueLayout.C_INT.withName("start"),
+            Interop.valueLayout.C_INT.withName("end"),
+            Interop.valueLayout.ADDRESS.withName("tags"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("_gst_reserved1"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("_gst_reserved2")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -58,28 +56,28 @@ public class AudioCdSrcTrack extends Struct {
      * Get the value of the field {@code is_audio}
      * @return The value of the field {@code is_audio}
      */
-    public boolean isAudio$get() {
+    public boolean getIsAudio() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_audio"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code is_audio}
      * @param isAudio The new value of the field {@code is_audio}
      */
-    public void isAudio$set(boolean isAudio) {
+    public void setIsAudio(boolean isAudio) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_audio"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isAudio ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(isAudio, null).intValue());
     }
     
     /**
      * Get the value of the field {@code num}
      * @return The value of the field {@code num}
      */
-    public int num$get() {
+    public int getNum() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -90,7 +88,7 @@ public class AudioCdSrcTrack extends Struct {
      * Change the value of the field {@code num}
      * @param num The new value of the field {@code num}
      */
-    public void num$set(int num) {
+    public void setNum(int num) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), num);
@@ -100,7 +98,7 @@ public class AudioCdSrcTrack extends Struct {
      * Get the value of the field {@code start}
      * @return The value of the field {@code start}
      */
-    public int start$get() {
+    public int getStart() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -111,7 +109,7 @@ public class AudioCdSrcTrack extends Struct {
      * Change the value of the field {@code start}
      * @param start The new value of the field {@code start}
      */
-    public void start$set(int start) {
+    public void setStart(int start) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -121,7 +119,7 @@ public class AudioCdSrcTrack extends Struct {
      * Get the value of the field {@code end}
      * @return The value of the field {@code end}
      */
-    public int end$get() {
+    public int getEnd() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -132,7 +130,7 @@ public class AudioCdSrcTrack extends Struct {
      * Change the value of the field {@code end}
      * @param end The new value of the field {@code end}
      */
-    public void end$set(int end) {
+    public void setEnd(int end) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
@@ -142,21 +140,21 @@ public class AudioCdSrcTrack extends Struct {
      * Get the value of the field {@code tags}
      * @return The value of the field {@code tags}
      */
-    public org.gstreamer.gst.TagList tags$get() {
+    public org.gstreamer.gst.TagList getTags() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code tags}
      * @param tags The new value of the field {@code tags}
      */
-    public void tags$set(org.gstreamer.gst.TagList tags) {
+    public void setTags(org.gstreamer.gst.TagList tags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tags.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tags == null ? MemoryAddress.NULL : tags.handle()));
     }
     
     /**
@@ -164,35 +162,41 @@ public class AudioCdSrcTrack extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioCdSrcTrack(Addressable address, Ownership ownership) {
+    protected AudioCdSrcTrack(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioCdSrcTrack> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioCdSrcTrack(input, ownership);
+    
+    /**
+     * A {@link AudioCdSrcTrack.Builder} object constructs a {@link AudioCdSrcTrack} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AudioCdSrcTrack.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AudioCdSrcTrack struct;
+        private final AudioCdSrcTrack struct;
         
-         /**
-         * A {@link AudioCdSrcTrack.Build} object constructs a {@link AudioCdSrcTrack} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AudioCdSrcTrack.allocate();
         }
         
          /**
          * Finish building the {@link AudioCdSrcTrack} struct.
          * @return A new instance of {@code AudioCdSrcTrack} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioCdSrcTrack construct() {
+        public AudioCdSrcTrack build() {
             return struct;
         }
         
@@ -201,10 +205,10 @@ public class AudioCdSrcTrack extends Struct {
          * @param isAudio The value for the {@code isAudio} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsAudio(boolean isAudio) {
+        public Builder setIsAudio(boolean isAudio) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_audio"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isAudio ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(isAudio, null).intValue());
             return this;
         }
         
@@ -213,7 +217,7 @@ public class AudioCdSrcTrack extends Struct {
          * @param num The value for the {@code num} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNum(int num) {
+        public Builder setNum(int num) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), num);
@@ -225,7 +229,7 @@ public class AudioCdSrcTrack extends Struct {
          * @param start The value for the {@code start} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStart(int start) {
+        public Builder setStart(int start) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -237,7 +241,7 @@ public class AudioCdSrcTrack extends Struct {
          * @param end The value for the {@code end} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnd(int end) {
+        public Builder setEnd(int end) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
@@ -249,21 +253,21 @@ public class AudioCdSrcTrack extends Struct {
          * @param tags The value for the {@code tags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTags(org.gstreamer.gst.TagList tags) {
+        public Builder setTags(org.gstreamer.gst.TagList tags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tags == null ? MemoryAddress.NULL : tags.handle()));
             return this;
         }
         
-        public Build setGstReserved1(int[] GstReserved1) {
+        public Builder setGstReserved1(int[] GstReserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved1"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved1 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved1, false)));
             return this;
         }
         
-        public Build setGstReserved2(java.lang.foreign.MemoryAddress[] GstReserved2) {
+        public Builder setGstReserved2(java.lang.foreign.MemoryAddress[] GstReserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved2"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved2 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved2, false)));

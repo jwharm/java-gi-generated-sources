@@ -74,13 +74,15 @@ public class FlowCombiner extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FlowCombiner(Addressable address, Ownership ownership) {
+    protected FlowCombiner(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FlowCombiner> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FlowCombiner(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_flow_combiner_new.invokeExact();
         } catch (Throwable ERR) {
@@ -100,8 +102,7 @@ public class FlowCombiner extends Struct {
      * Adds a new {@link org.gstreamer.gst.Pad} to the {@link FlowCombiner}.
      * @param pad the {@link org.gstreamer.gst.Pad} that is being added
      */
-    public void addPad(@NotNull org.gstreamer.gst.Pad pad) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public void addPad(org.gstreamer.gst.Pad pad) {
         try {
             DowncallHandles.gst_flow_combiner_add_pad.invokeExact(
                     handle(),
@@ -139,7 +140,7 @@ public class FlowCombiner extends Struct {
      * Increments the reference count on the {@link FlowCombiner}.
      * @return the {@link FlowCombiner}.
      */
-    public @NotNull org.gstreamer.base.FlowCombiner ref() {
+    public org.gstreamer.base.FlowCombiner ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_flow_combiner_ref.invokeExact(
@@ -147,15 +148,14 @@ public class FlowCombiner extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.FlowCombiner(RESULT, Ownership.FULL);
+        return org.gstreamer.base.FlowCombiner.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Removes a {@link org.gstreamer.gst.Pad} from the {@link FlowCombiner}.
      * @param pad the {@link org.gstreamer.gst.Pad} to remove
      */
-    public void removePad(@NotNull org.gstreamer.gst.Pad pad) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public void removePad(org.gstreamer.gst.Pad pad) {
         try {
             DowncallHandles.gst_flow_combiner_remove_pad.invokeExact(
                     handle(),
@@ -199,8 +199,7 @@ public class FlowCombiner extends Struct {
      * @param fret the latest {@link org.gstreamer.gst.FlowReturn} received for a pad in this {@link FlowCombiner}
      * @return The combined {@link org.gstreamer.gst.FlowReturn}
      */
-    public @NotNull org.gstreamer.gst.FlowReturn updateFlow(@NotNull org.gstreamer.gst.FlowReturn fret) {
-        java.util.Objects.requireNonNull(fret, "Parameter 'fret' must not be null");
+    public org.gstreamer.gst.FlowReturn updateFlow(org.gstreamer.gst.FlowReturn fret) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_flow_combiner_update_flow.invokeExact(
@@ -224,9 +223,7 @@ public class FlowCombiner extends Struct {
      * @param fret the latest {@link org.gstreamer.gst.FlowReturn} received for a pad in this {@link FlowCombiner}
      * @return The combined {@link org.gstreamer.gst.FlowReturn}
      */
-    public @NotNull org.gstreamer.gst.FlowReturn updatePadFlow(@NotNull org.gstreamer.gst.Pad pad, @NotNull org.gstreamer.gst.FlowReturn fret) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
-        java.util.Objects.requireNonNull(fret, "Parameter 'fret' must not be null");
+    public org.gstreamer.gst.FlowReturn updatePadFlow(org.gstreamer.gst.Pad pad, org.gstreamer.gst.FlowReturn fret) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_flow_combiner_update_pad_flow.invokeExact(

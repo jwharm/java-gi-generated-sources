@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * Unlike a {@code GtkWidget}, a {@code GtkConstraintGuide} will not be drawn.
  */
-public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.gtk.ConstraintTarget {
+public class ConstraintGuide extends org.gtk.gobject.GObject implements org.gtk.gtk.ConstraintTarget {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -41,33 +41,15 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ConstraintGuide(Addressable address, Ownership ownership) {
+    protected ConstraintGuide(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ConstraintGuide if its GType is a (or inherits from) "GtkConstraintGuide".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ConstraintGuide} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkConstraintGuide", a ClassCastException will be thrown.
-     */
-    public static ConstraintGuide castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ConstraintGuide.getType())) {
-            return new ConstraintGuide(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkConstraintGuide");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ConstraintGuide> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConstraintGuide(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_guide_new.invokeExact();
         } catch (Throwable ERR) {
@@ -89,20 +71,18 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      * @param height return location for the maximum height
      */
     public void getMaxSize(Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_constraint_guide_get_max_size.invokeExact(
                     handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -111,20 +91,18 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      * @param height return location for the minimum height
      */
     public void getMinSize(Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_constraint_guide_get_min_size.invokeExact(
                     handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -139,7 +117,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -148,27 +126,25 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      * @param height return location for the natural height
      */
     public void getNatSize(Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_constraint_guide_get_nat_size.invokeExact(
                     handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
      * Retrieves the strength set using gtk_constraint_guide_set_strength().
      * @return the strength of the constraint on the natural size
      */
-    public @NotNull org.gtk.gtk.ConstraintStrength getStrength() {
+    public org.gtk.gtk.ConstraintStrength getStrength() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_constraint_guide_get_strength.invokeExact(
@@ -227,7 +203,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         try {
             DowncallHandles.gtk_constraint_guide_set_name.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,8 +233,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      * given {@code GtkConstraintGuide}.
      * @param strength the strength of the constraint
      */
-    public void setStrength(@NotNull org.gtk.gtk.ConstraintStrength strength) {
-        java.util.Objects.requireNonNull(strength, "Parameter 'strength' must not be null");
+    public void setStrength(org.gtk.gtk.ConstraintStrength strength) {
         try {
             DowncallHandles.gtk_constraint_guide_set_strength.invokeExact(
                     handle(),
@@ -272,7 +247,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_constraint_guide_get_type.invokeExact();
@@ -281,38 +256,40 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ConstraintGuide.Builder} object constructs a {@link ConstraintGuide} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ConstraintGuide.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ConstraintGuide.Build} object constructs a {@link ConstraintGuide} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ConstraintGuide} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ConstraintGuide} using {@link ConstraintGuide#castFrom}.
+         * {@link ConstraintGuide}.
          * @return A new instance of {@code ConstraintGuide} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ConstraintGuide construct() {
-            return ConstraintGuide.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ConstraintGuide.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ConstraintGuide build() {
+            return (ConstraintGuide) org.gtk.gobject.GObject.newWithProperties(
+                ConstraintGuide.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -321,7 +298,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
          * @param maxHeight The value for the {@code max-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxHeight(int maxHeight) {
+        public Builder setMaxHeight(int maxHeight) {
             names.add("max-height");
             values.add(org.gtk.gobject.Value.create(maxHeight));
             return this;
@@ -332,7 +309,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
          * @param maxWidth The value for the {@code max-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxWidth(int maxWidth) {
+        public Builder setMaxWidth(int maxWidth) {
             names.add("max-width");
             values.add(org.gtk.gobject.Value.create(maxWidth));
             return this;
@@ -343,7 +320,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
          * @param minHeight The value for the {@code min-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinHeight(int minHeight) {
+        public Builder setMinHeight(int minHeight) {
             names.add("min-height");
             values.add(org.gtk.gobject.Value.create(minHeight));
             return this;
@@ -354,7 +331,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
          * @param minWidth The value for the {@code min-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinWidth(int minWidth) {
+        public Builder setMinWidth(int minWidth) {
             names.add("min-width");
             values.add(org.gtk.gobject.Value.create(minWidth));
             return this;
@@ -365,7 +342,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
@@ -376,7 +353,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
          * @param natHeight The value for the {@code nat-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNatHeight(int natHeight) {
+        public Builder setNatHeight(int natHeight) {
             names.add("nat-height");
             values.add(org.gtk.gobject.Value.create(natHeight));
             return this;
@@ -387,7 +364,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
          * @param natWidth The value for the {@code nat-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNatWidth(int natWidth) {
+        public Builder setNatWidth(int natWidth) {
             names.add("nat-width");
             values.add(org.gtk.gobject.Value.create(natWidth));
             return this;
@@ -399,7 +376,7 @@ public class ConstraintGuide extends org.gtk.gobject.Object implements org.gtk.g
          * @param strength The value for the {@code strength} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStrength(org.gtk.gtk.ConstraintStrength strength) {
+        public Builder setStrength(org.gtk.gtk.ConstraintStrength strength) {
             names.add("strength");
             values.add(org.gtk.gobject.Value.create(strength));
             return this;

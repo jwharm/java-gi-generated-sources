@@ -48,11 +48,15 @@ public class RTSPLowerTrans extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public RTSPLowerTrans or(RTSPLowerTrans mask) {
-        return new RTSPLowerTrans(this.getValue() | mask.getValue());
+    public RTSPLowerTrans or(RTSPLowerTrans... masks) {
+        int value = this.getValue();
+        for (RTSPLowerTrans arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RTSPLowerTrans(value);
     }
     
     /**
@@ -62,7 +66,8 @@ public class RTSPLowerTrans extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static RTSPLowerTrans combined(RTSPLowerTrans mask, RTSPLowerTrans... masks) {
-        int value = mask.getValue();        for (RTSPLowerTrans arg : masks) {
+        int value = mask.getValue();
+        for (RTSPLowerTrans arg : masks) {
             value |= arg.getValue();
         }
         return new RTSPLowerTrans(value);

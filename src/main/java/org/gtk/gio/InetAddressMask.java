@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * often given in string form. Eg, "10.0.0.0/8", or "fe80::/10".
  * @version 2.32
  */
-public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.gio.Initable {
+public class InetAddressMask extends org.gtk.gobject.GObject implements org.gtk.gio.Initable {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -20,18 +20,16 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
     
     private static final java.lang.String C_TYPE_NAME = "GInetAddressMask";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -39,35 +37,16 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InetAddressMask(Addressable address, Ownership ownership) {
+    protected InetAddressMask(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to InetAddressMask if its GType is a (or inherits from) "GInetAddressMask".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code InetAddressMask} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GInetAddressMask", a ClassCastException will be thrown.
-     */
-    public static InetAddressMask castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), InetAddressMask.getType())) {
-            return new InetAddressMask(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GInetAddressMask");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InetAddressMask> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InetAddressMask(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.InetAddress addr, int length) throws GErrorException {
-        java.util.Objects.requireNonNull(addr, "Parameter 'addr' must not be null");
+    private static MemoryAddress constructNew(org.gtk.gio.InetAddress addr, int length) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_address_mask_new.invokeExact(
                     addr.handle(),
@@ -89,17 +68,16 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      * @param length number of bits of {@code addr} to use
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public InetAddressMask(@NotNull org.gtk.gio.InetAddress addr, int length) throws GErrorException {
+    public InetAddressMask(org.gtk.gio.InetAddress addr, int length) throws GErrorException {
         super(constructNew(addr, length), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromString(@NotNull java.lang.String maskString) throws GErrorException {
-        java.util.Objects.requireNonNull(maskString, "Parameter 'maskString' must not be null");
+    private static MemoryAddress constructNewFromString(java.lang.String maskString) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_address_mask_new_from_string.invokeExact(
-                    Interop.allocateNativeString(maskString),
+                    Marshal.stringToAddress.marshal(maskString, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -120,8 +98,9 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      * on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static InetAddressMask newFromString(@NotNull java.lang.String maskString) throws GErrorException {
-        return new InetAddressMask(constructNewFromString(maskString), Ownership.FULL);
+    public static InetAddressMask newFromString(java.lang.String maskString) throws GErrorException {
+        var RESULT = constructNewFromString(maskString);
+        return (org.gtk.gio.InetAddressMask) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetAddressMask.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -129,8 +108,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      * @param mask2 another {@link InetAddressMask}
      * @return whether {@code mask} and {@code mask2} are the same mask
      */
-    public boolean equal(@NotNull org.gtk.gio.InetAddressMask mask2) {
-        java.util.Objects.requireNonNull(mask2, "Parameter 'mask2' must not be null");
+    public boolean equal(org.gtk.gio.InetAddressMask mask2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_inet_address_mask_equal.invokeExact(
@@ -139,14 +117,14 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets {@code mask}'s base address
      * @return {@code mask}'s base address
      */
-    public @NotNull org.gtk.gio.InetAddress getAddress() {
+    public org.gtk.gio.InetAddress getAddress() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_address_mask_get_address.invokeExact(
@@ -154,14 +132,14 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InetAddress(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InetAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetAddress.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the {@link SocketFamily} of {@code mask}'s address
      * @return the {@link SocketFamily} of {@code mask}'s address
      */
-    public @NotNull org.gtk.gio.SocketFamily getFamily() {
+    public org.gtk.gio.SocketFamily getFamily() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_inet_address_mask_get_family.invokeExact(
@@ -193,8 +171,7 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
      * @return whether {@code address} falls within the range described by
      * {@code mask}.
      */
-    public boolean matches(@NotNull org.gtk.gio.InetAddress address) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+    public boolean matches(org.gtk.gio.InetAddress address) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_inet_address_mask_matches.invokeExact(
@@ -203,14 +180,14 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Converts {@code mask} back to its corresponding string form.
      * @return a string corresponding to {@code mask}.
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_address_mask_to_string.invokeExact(
@@ -218,14 +195,14 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_inet_address_mask_get_type.invokeExact();
@@ -234,54 +211,56 @@ public class InetAddressMask extends org.gtk.gobject.Object implements org.gtk.g
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link InetAddressMask.Builder} object constructs a {@link InetAddressMask} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link InetAddressMask.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link InetAddressMask.Build} object constructs a {@link InetAddressMask} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link InetAddressMask} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link InetAddressMask} using {@link InetAddressMask#castFrom}.
+         * {@link InetAddressMask}.
          * @return A new instance of {@code InetAddressMask} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public InetAddressMask construct() {
-            return InetAddressMask.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    InetAddressMask.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public InetAddressMask build() {
+            return (InetAddressMask) org.gtk.gobject.GObject.newWithProperties(
+                InetAddressMask.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setAddress(org.gtk.gio.InetAddress address) {
+        public Builder setAddress(org.gtk.gio.InetAddress address) {
             names.add("address");
             values.add(org.gtk.gobject.Value.create(address));
             return this;
         }
         
-        public Build setFamily(org.gtk.gio.SocketFamily family) {
+        public Builder setFamily(org.gtk.gio.SocketFamily family) {
             names.add("family");
             values.add(org.gtk.gobject.Value.create(family));
             return this;
         }
         
-        public Build setLength(int length) {
+        public Builder setLength(int length) {
             names.add("length");
             values.add(org.gtk.gobject.Value.create(length));
             return this;

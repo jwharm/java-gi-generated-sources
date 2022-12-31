@@ -114,7 +114,7 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * @version 2.72
  */
-public class DebugControllerDBus extends org.gtk.gobject.Object implements org.gtk.gio.DebugController, org.gtk.gio.Initable {
+public class DebugControllerDBus extends org.gtk.gobject.GObject implements org.gtk.gio.DebugController, org.gtk.gio.Initable {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -122,17 +122,15 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
     
     private static final java.lang.String C_TYPE_NAME = "GDebugControllerDBus";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -140,35 +138,16 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DebugControllerDBus(Addressable address, Ownership ownership) {
+    protected DebugControllerDBus(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DebugControllerDBus if its GType is a (or inherits from) "GDebugControllerDBus".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DebugControllerDBus} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDebugControllerDBus", a ClassCastException will be thrown.
-     */
-    public static DebugControllerDBus castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DebugControllerDBus.getType())) {
-            return new DebugControllerDBus(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDebugControllerDBus");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DebugControllerDBus> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugControllerDBus(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
+    private static MemoryAddress constructNew(org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_debug_controller_dbus_new.invokeExact(
                     connection.handle(),
@@ -195,7 +174,7 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
      * @param cancellable a {@link Cancellable}, or {@code null}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public DebugControllerDBus(@NotNull org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
+    public DebugControllerDBus(org.gtk.gio.DBusConnection connection, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         super(constructNew(connection, cancellable), Ownership.FULL);
     }
     
@@ -230,7 +209,7 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_debug_controller_dbus_get_type.invokeExact();
@@ -242,7 +221,19 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
     
     @FunctionalInterface
     public interface Authorize {
-        boolean signalReceived(DebugControllerDBus sourceDebugControllerDBus, @NotNull org.gtk.gio.DBusMethodInvocation invocation);
+        boolean run(org.gtk.gio.DBusMethodInvocation invocation);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceDebugControllerDBus, MemoryAddress invocation) {
+            var RESULT = run((org.gtk.gio.DBusMethodInvocation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(invocation)), org.gtk.gio.DBusMethodInvocation.fromAddress).marshal(invocation, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Authorize.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -269,52 +260,46 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
     public Signal<DebugControllerDBus.Authorize> onAuthorize(DebugControllerDBus.Authorize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("authorize"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DebugControllerDBus.Callbacks.class, "signalDebugControllerDBusAuthorize",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DebugControllerDBus.Authorize>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("authorize"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DebugControllerDBus.Builder} object constructs a {@link DebugControllerDBus} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DebugControllerDBus.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DebugControllerDBus.Build} object constructs a {@link DebugControllerDBus} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DebugControllerDBus} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DebugControllerDBus} using {@link DebugControllerDBus#castFrom}.
+         * {@link DebugControllerDBus}.
          * @return A new instance of {@code DebugControllerDBus} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DebugControllerDBus construct() {
-            return DebugControllerDBus.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DebugControllerDBus.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DebugControllerDBus build() {
+            return (DebugControllerDBus) org.gtk.gobject.GObject.newWithProperties(
+                DebugControllerDBus.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -327,7 +312,7 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
          * @param connection The value for the {@code connection} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setConnection(org.gtk.gio.DBusConnection connection) {
+        public Builder setConnection(org.gtk.gio.DBusConnection connection) {
             names.add("connection");
             values.add(org.gtk.gobject.Value.create(connection));
             return this;
@@ -353,14 +338,5 @@ public class DebugControllerDBus extends org.gtk.gobject.Object implements org.g
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalDebugControllerDBusAuthorize(MemoryAddress sourceDebugControllerDBus, MemoryAddress invocation, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DebugControllerDBus.Authorize) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DebugControllerDBus(sourceDebugControllerDBus, Ownership.NONE), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.NONE));
-        }
     }
 }

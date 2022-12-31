@@ -64,22 +64,20 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
     
     private static final java.lang.String C_TYPE_NAME = "GstPipeline";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Bin.getMemoryLayout().withName("bin"),
-        Interop.valueLayout.ADDRESS.withName("fixed_clock"),
-        Interop.valueLayout.C_LONG.withName("stream_time"),
-        Interop.valueLayout.C_LONG.withName("delay"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Bin.getMemoryLayout().withName("bin"),
+            Interop.valueLayout.ADDRESS.withName("fixed_clock"),
+            Interop.valueLayout.C_LONG.withName("stream_time"),
+            Interop.valueLayout.C_LONG.withName("delay"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -87,43 +85,29 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * <p>
      * Because Pipeline is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Pipeline(Addressable address, Ownership ownership) {
+    protected Pipeline(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Pipeline if its GType is a (or inherits from) "GstPipeline".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Pipeline} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPipeline", a ClassCastException will be thrown.
-     */
-    public static Pipeline castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Pipeline.getType())) {
-            return new Pipeline(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPipeline");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Pipeline> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Pipeline(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String name) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String name) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -173,7 +157,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -183,7 +167,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.Bus getBus() {
+    public org.gstreamer.gst.Bus getBus() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_get_bus.invokeExact(
@@ -191,7 +175,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Bus(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -203,7 +187,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * clock, even if the pipeline is not in the PLAYING state.
      * @return a {@link Clock}, unref after usage.
      */
-    public @NotNull org.gstreamer.gst.Clock getClock() {
+    public org.gstreamer.gst.Clock getClock() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_get_clock.invokeExact(
@@ -211,7 +195,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Clock(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -220,7 +204,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getDelay() {
+    public org.gstreamer.gst.ClockTime getDelay() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_pipeline_get_delay.invokeExact(
@@ -236,7 +220,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * gst_pipeline_set_latency().
      * @return Latency to configure on the pipeline or GST_CLOCK_TIME_NONE
      */
-    public @NotNull org.gstreamer.gst.ClockTime getLatency() {
+    public org.gstreamer.gst.ClockTime getLatency() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_pipeline_get_latency.invokeExact(
@@ -254,7 +238,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * clock, even if the pipeline is not in the PLAYING state.
      * @return a {@link Clock}, unref after usage.
      */
-    public @NotNull org.gstreamer.gst.Clock getPipelineClock() {
+    public org.gstreamer.gst.Clock getPipelineClock() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pipeline_get_pipeline_clock.invokeExact(
@@ -262,7 +246,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Clock(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -287,7 +271,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
         try {
             DowncallHandles.gst_pipeline_set_auto_flush_bus.invokeExact(
                     handle(),
-                    autoFlush ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(autoFlush, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -302,8 +286,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * <p>
      * MT safe.
      */
-    public boolean setClock(@NotNull org.gstreamer.gst.Clock clock) {
-        java.util.Objects.requireNonNull(clock, "Parameter 'clock' must not be null");
+    public boolean setClock(org.gstreamer.gst.Clock clock) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_pipeline_set_clock.invokeExact(
@@ -312,7 +295,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -328,8 +311,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * MT safe.
      * @param delay the delay
      */
-    public void setDelay(@NotNull org.gstreamer.gst.ClockTime delay) {
-        java.util.Objects.requireNonNull(delay, "Parameter 'delay' must not be null");
+    public void setDelay(org.gstreamer.gst.ClockTime delay) {
         try {
             DowncallHandles.gst_pipeline_set_delay.invokeExact(
                     handle(),
@@ -349,8 +331,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * the LATENCY query, will most likely cause the pipeline to fail.
      * @param latency latency to configure
      */
-    public void setLatency(@NotNull org.gstreamer.gst.ClockTime latency) {
-        java.util.Objects.requireNonNull(latency, "Parameter 'latency' must not be null");
+    public void setLatency(org.gstreamer.gst.ClockTime latency) {
         try {
             DowncallHandles.gst_pipeline_set_latency.invokeExact(
                     handle(),
@@ -385,7 +366,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_pipeline_get_type.invokeExact();
@@ -394,38 +375,40 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Pipeline.Builder} object constructs a {@link Pipeline} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Pipeline.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Bin.Build {
+    public static class Builder extends org.gstreamer.gst.Bin.Builder {
         
-         /**
-         * A {@link Pipeline.Build} object constructs a {@link Pipeline} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Pipeline} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Pipeline} using {@link Pipeline#castFrom}.
+         * {@link Pipeline}.
          * @return A new instance of {@code Pipeline} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Pipeline construct() {
-            return Pipeline.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Pipeline.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Pipeline build() {
+            return (Pipeline) org.gtk.gobject.GObject.newWithProperties(
+                Pipeline.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -436,7 +419,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
          * @param autoFlushBus The value for the {@code auto-flush-bus} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAutoFlushBus(boolean autoFlushBus) {
+        public Builder setAutoFlushBus(boolean autoFlushBus) {
             names.add("auto-flush-bus");
             values.add(org.gtk.gobject.Value.create(autoFlushBus));
             return this;
@@ -449,7 +432,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
          * @param delay The value for the {@code delay} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDelay(long delay) {
+        public Builder setDelay(long delay) {
             names.add("delay");
             values.add(org.gtk.gobject.Value.create(delay));
             return this;
@@ -460,7 +443,7 @@ public class Pipeline extends org.gstreamer.gst.Bin implements org.gstreamer.gst
          * @param latency The value for the {@code latency} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLatency(long latency) {
+        public Builder setLatency(long latency) {
             names.add("latency");
             values.add(org.gtk.gobject.Value.create(latency));
             return this;

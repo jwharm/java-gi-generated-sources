@@ -96,40 +96,26 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * <p>
      * Because HeaderBar is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public HeaderBar(Addressable address, Ownership ownership) {
+    protected HeaderBar(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to HeaderBar if its GType is a (or inherits from) "GtkHeaderBar".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code HeaderBar} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkHeaderBar", a ClassCastException will be thrown.
-     */
-    public static HeaderBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), HeaderBar.getType())) {
-            return new HeaderBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkHeaderBar");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, HeaderBar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new HeaderBar(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_header_bar_new.invokeExact();
         } catch (Throwable ERR) {
@@ -157,7 +143,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -173,7 +159,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -190,7 +176,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -198,8 +184,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * end of the {@code bar}.
      * @param child the {@code GtkWidget} to be added to {@code bar}
      */
-    public void packEnd(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void packEnd(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_header_bar_pack_end.invokeExact(
                     handle(),
@@ -214,8 +199,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * start of the {@code bar}.
      * @param child the {@code GtkWidget} to be added to {@code bar}
      */
-    public void packStart(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void packStart(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_header_bar_pack_start.invokeExact(
                     handle(),
@@ -234,8 +218,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * {@link HeaderBar#setTitleWidget}.
      * @param child the child to remove
      */
-    public void remove(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void remove(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_header_bar_remove.invokeExact(
                     handle(),
@@ -269,7 +252,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         try {
             DowncallHandles.gtk_header_bar_set_decoration_layout.invokeExact(
                     handle(),
-                    (Addressable) (layout == null ? MemoryAddress.NULL : Interop.allocateNativeString(layout)));
+                    (Addressable) (layout == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(layout, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +267,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         try {
             DowncallHandles.gtk_header_bar_set_show_title_buttons.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,7 +301,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_header_bar_get_type.invokeExact();
@@ -327,38 +310,40 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link HeaderBar.Builder} object constructs a {@link HeaderBar} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link HeaderBar.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link HeaderBar.Build} object constructs a {@link HeaderBar} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link HeaderBar} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link HeaderBar} using {@link HeaderBar#castFrom}.
+         * {@link HeaderBar}.
          * @return A new instance of {@code HeaderBar} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public HeaderBar construct() {
-            return HeaderBar.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    HeaderBar.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public HeaderBar build() {
+            return (HeaderBar) org.gtk.gobject.GObject.newWithProperties(
+                HeaderBar.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -370,7 +355,7 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param decorationLayout The value for the {@code decoration-layout} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDecorationLayout(java.lang.String decorationLayout) {
+        public Builder setDecorationLayout(java.lang.String decorationLayout) {
             names.add("decoration-layout");
             values.add(org.gtk.gobject.Value.create(decorationLayout));
             return this;
@@ -386,13 +371,13 @@ public class HeaderBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param showTitleButtons The value for the {@code show-title-buttons} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowTitleButtons(boolean showTitleButtons) {
+        public Builder setShowTitleButtons(boolean showTitleButtons) {
             names.add("show-title-buttons");
             values.add(org.gtk.gobject.Value.create(showTitleButtons));
             return this;
         }
         
-        public Build setTitleWidget(org.gtk.gtk.Widget titleWidget) {
+        public Builder setTitleWidget(org.gtk.gtk.Widget titleWidget) {
             names.add("title-widget");
             values.add(org.gtk.gobject.Value.create(titleWidget));
             return this;

@@ -13,22 +13,20 @@ public class ComponentDescriptor extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsComponentDescriptor";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("stream_content"),
-        Interop.valueLayout.C_BYTE.withName("component_type"),
-        Interop.valueLayout.C_BYTE.withName("component_tag"),
-        MemoryLayout.paddingLayout(40),
-        Interop.valueLayout.ADDRESS.withName("language_code"),
-        Interop.valueLayout.ADDRESS.withName("text")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("stream_content"),
+            Interop.valueLayout.C_BYTE.withName("component_type"),
+            Interop.valueLayout.C_BYTE.withName("component_tag"),
+            MemoryLayout.paddingLayout(40),
+            Interop.valueLayout.ADDRESS.withName("language_code"),
+            Interop.valueLayout.ADDRESS.withName("text")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class ComponentDescriptor extends Struct {
      * Get the value of the field {@code stream_content}
      * @return The value of the field {@code stream_content}
      */
-    public byte streamContent$get() {
+    public byte getStreamContent() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stream_content"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,7 +57,7 @@ public class ComponentDescriptor extends Struct {
      * Change the value of the field {@code stream_content}
      * @param streamContent The new value of the field {@code stream_content}
      */
-    public void streamContent$set(byte streamContent) {
+    public void setStreamContent(byte streamContent) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stream_content"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), streamContent);
@@ -69,7 +67,7 @@ public class ComponentDescriptor extends Struct {
      * Get the value of the field {@code component_type}
      * @return The value of the field {@code component_type}
      */
-    public byte componentType$get() {
+    public byte getComponentType() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("component_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class ComponentDescriptor extends Struct {
      * Change the value of the field {@code component_type}
      * @param componentType The new value of the field {@code component_type}
      */
-    public void componentType$set(byte componentType) {
+    public void setComponentType(byte componentType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("component_type"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), componentType);
@@ -90,7 +88,7 @@ public class ComponentDescriptor extends Struct {
      * Get the value of the field {@code component_tag}
      * @return The value of the field {@code component_tag}
      */
-    public byte componentTag$get() {
+    public byte getComponentTag() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("component_tag"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -101,7 +99,7 @@ public class ComponentDescriptor extends Struct {
      * Change the value of the field {@code component_tag}
      * @param componentTag The new value of the field {@code component_tag}
      */
-    public void componentTag$set(byte componentTag) {
+    public void setComponentTag(byte componentTag) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("component_tag"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), componentTag);
@@ -111,42 +109,42 @@ public class ComponentDescriptor extends Struct {
      * Get the value of the field {@code language_code}
      * @return The value of the field {@code language_code}
      */
-    public java.lang.String languageCode$get() {
+    public java.lang.String getLanguageCode() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code language_code}
      * @param languageCode The new value of the field {@code language_code}
      */
-    public void languageCode$set(java.lang.String languageCode) {
+    public void setLanguageCode(java.lang.String languageCode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(languageCode));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
     }
     
     /**
      * Get the value of the field {@code text}
      * @return The value of the field {@code text}
      */
-    public java.lang.String text$get() {
+    public java.lang.String getText() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("text"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code text}
      * @param text The new value of the field {@code text}
      */
-    public void text$set(java.lang.String text) {
+    public void setText(java.lang.String text) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("text"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(text));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
     }
     
     /**
@@ -154,70 +152,76 @@ public class ComponentDescriptor extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ComponentDescriptor(Addressable address, Ownership ownership) {
+    protected ComponentDescriptor(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ComponentDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ComponentDescriptor(input, ownership);
+    
+    /**
+     * A {@link ComponentDescriptor.Builder} object constructs a {@link ComponentDescriptor} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ComponentDescriptor.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ComponentDescriptor struct;
+        private final ComponentDescriptor struct;
         
-         /**
-         * A {@link ComponentDescriptor.Build} object constructs a {@link ComponentDescriptor} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ComponentDescriptor.allocate();
         }
         
          /**
          * Finish building the {@link ComponentDescriptor} struct.
          * @return A new instance of {@code ComponentDescriptor} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ComponentDescriptor construct() {
+        public ComponentDescriptor build() {
             return struct;
         }
         
-        public Build setStreamContent(byte streamContent) {
+        public Builder setStreamContent(byte streamContent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("stream_content"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), streamContent);
             return this;
         }
         
-        public Build setComponentType(byte componentType) {
+        public Builder setComponentType(byte componentType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("component_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), componentType);
             return this;
         }
         
-        public Build setComponentTag(byte componentTag) {
+        public Builder setComponentTag(byte componentTag) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("component_tag"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), componentTag);
             return this;
         }
         
-        public Build setLanguageCode(java.lang.String languageCode) {
+        public Builder setLanguageCode(java.lang.String languageCode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Interop.allocateNativeString(languageCode)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
             return this;
         }
         
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
             return this;
         }
     }

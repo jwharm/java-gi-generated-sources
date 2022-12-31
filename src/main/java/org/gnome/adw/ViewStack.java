@@ -76,40 +76,26 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * <p>
      * Because ViewStack is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ViewStack(Addressable address, Ownership ownership) {
+    protected ViewStack(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ViewStack if its GType is a (or inherits from) "AdwViewStack".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ViewStack} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwViewStack", a ClassCastException will be thrown.
-     */
-    public static ViewStack castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ViewStack.getType())) {
-            return new ViewStack(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwViewStack");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ViewStack> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ViewStack(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_new.invokeExact();
         } catch (Throwable ERR) {
@@ -130,8 +116,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param child the widget to add
      * @return the {@link ViewStackPage} for {@code child}
      */
-    public @NotNull org.gnome.adw.ViewStackPage add(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.ViewStackPage add(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add.invokeExact(
@@ -140,7 +125,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.ViewStackPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -151,18 +136,17 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param name the name for {@code child}
      * @return the {@code AdwViewStackPage} for {@code child}
      */
-    public @NotNull org.gnome.adw.ViewStackPage addNamed(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.ViewStackPage addNamed(org.gtk.gtk.Widget child, @Nullable java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_named.invokeExact(
                     handle(),
                     child.handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.ViewStackPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -175,20 +159,18 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param title a human-readable title for {@code child}
      * @return the {@code AdwViewStackPage} for {@code child}
      */
-    public @NotNull org.gnome.adw.ViewStackPage addTitled(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name, @NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public org.gnome.adw.ViewStackPage addTitled(org.gtk.gtk.Widget child, @Nullable java.lang.String name, java.lang.String title) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled.invokeExact(
                     handle(),
                     child.handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
-                    Interop.allocateNativeString(title));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.ViewStackPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -202,22 +184,19 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param iconName an icon name for {@code child}
      * @return the {@code AdwViewStackPage} for {@code child}
      */
-    public @NotNull org.gnome.adw.ViewStackPage addTitledWithIcon(@NotNull org.gtk.gtk.Widget child, @Nullable java.lang.String name, @NotNull java.lang.String title, @NotNull java.lang.String iconName) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
-        java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
+    public org.gnome.adw.ViewStackPage addTitledWithIcon(org.gtk.gtk.Widget child, @Nullable java.lang.String name, java.lang.String title, java.lang.String iconName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_add_titled_with_icon.invokeExact(
                     handle(),
                     child.handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
-                    Interop.allocateNativeString(title),
-                    Interop.allocateNativeString(iconName));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
+                    Marshal.stringToAddress.marshal(title, null),
+                    Marshal.stringToAddress.marshal(iconName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.ViewStackPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -225,17 +204,16 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param name the name of the child to find
      * @return the requested child
      */
-    public @Nullable org.gtk.gtk.Widget getChildByName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gtk.gtk.Widget getChildByName(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_child_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -250,7 +228,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -258,8 +236,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param child a child of {@code self}
      * @return the page object for {@code child}
      */
-    public @NotNull org.gnome.adw.ViewStackPage getPage(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.ViewStackPage getPage(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_page.invokeExact(
@@ -268,7 +245,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.ViewStackPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.ViewStackPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.ViewStackPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -279,7 +256,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * page.
      * @return a {@code GtkSelectionModel} for the stack's children
      */
-    public @NotNull org.gtk.gtk.SelectionModel getPages() {
+    public org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_view_stack_get_pages.invokeExact(
@@ -287,7 +264,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -302,7 +279,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -317,7 +294,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -332,15 +309,14 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Removes a child widget from {@code self}.
      * @param child the child to remove
      */
-    public void remove(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void remove(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.adw_view_stack_remove.invokeExact(
                     handle(),
@@ -364,7 +340,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         try {
             DowncallHandles.adw_view_stack_set_hhomogeneous.invokeExact(
                     handle(),
-                    hhomogeneous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hhomogeneous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -384,7 +360,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         try {
             DowncallHandles.adw_view_stack_set_vhomogeneous.invokeExact(
                     handle(),
-                    vhomogeneous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(vhomogeneous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,8 +370,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Makes {@code child} the visible child of {@code self}.
      * @param child a child of {@code self}
      */
-    public void setVisibleChild(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void setVisibleChild(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.adw_view_stack_set_visible_child.invokeExact(
                     handle(),
@@ -411,12 +386,11 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * See {@code ViewStack:visible-child}.
      * @param name the name of the child
      */
-    public void setVisibleChildName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setVisibleChildName(java.lang.String name) {
         try {
             DowncallHandles.adw_view_stack_set_visible_child_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -426,7 +400,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_view_stack_get_type.invokeExact();
@@ -435,38 +409,40 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ViewStack.Builder} object constructs a {@link ViewStack} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ViewStack.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link ViewStack.Build} object constructs a {@link ViewStack} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ViewStack} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ViewStack} using {@link ViewStack#castFrom}.
+         * {@link ViewStack}.
          * @return A new instance of {@code ViewStack} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ViewStack construct() {
-            return ViewStack.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ViewStack.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ViewStack build() {
+            return (ViewStack) org.gtk.gobject.GObject.newWithProperties(
+                ViewStack.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -481,7 +457,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param hhomogeneous The value for the {@code hhomogeneous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHhomogeneous(boolean hhomogeneous) {
+        public Builder setHhomogeneous(boolean hhomogeneous) {
             names.add("hhomogeneous");
             values.add(org.gtk.gobject.Value.create(hhomogeneous));
             return this;
@@ -496,7 +472,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param pages The value for the {@code pages} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPages(org.gtk.gtk.SelectionModel pages) {
+        public Builder setPages(org.gtk.gtk.SelectionModel pages) {
             names.add("pages");
             values.add(org.gtk.gobject.Value.create(pages));
             return this;
@@ -513,7 +489,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param vhomogeneous The value for the {@code vhomogeneous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVhomogeneous(boolean vhomogeneous) {
+        public Builder setVhomogeneous(boolean vhomogeneous) {
             names.add("vhomogeneous");
             values.add(org.gtk.gobject.Value.create(vhomogeneous));
             return this;
@@ -524,7 +500,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param visibleChild The value for the {@code visible-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisibleChild(org.gtk.gtk.Widget visibleChild) {
+        public Builder setVisibleChild(org.gtk.gtk.Widget visibleChild) {
             names.add("visible-child");
             values.add(org.gtk.gobject.Value.create(visibleChild));
             return this;
@@ -537,7 +513,7 @@ public class ViewStack extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param visibleChildName The value for the {@code visible-child-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisibleChildName(java.lang.String visibleChildName) {
+        public Builder setVisibleChildName(java.lang.String visibleChildName) {
             names.add("visible-child-name");
             values.add(org.gtk.gobject.Value.create(visibleChildName));
             return this;

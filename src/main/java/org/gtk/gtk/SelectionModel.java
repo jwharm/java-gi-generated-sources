@@ -46,25 +46,8 @@ import org.jetbrains.annotations.*;
  */
 public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to SelectionModel if its GType is a (or inherits from) "GtkSelectionModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SelectionModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSelectionModel", a ClassCastException will be thrown.
-     */
-    public static SelectionModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SelectionModel.getType())) {
-            return new SelectionModelImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSelectionModel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SelectionModelImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SelectionModelImpl(input, ownership);
     
     /**
      * Gets the set containing all currently selected items in the model.
@@ -76,7 +59,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      *   selected in {@code model}. If no items are selected, the bitset is empty.
      *   The bitset must not be modified.
      */
-    default @NotNull org.gtk.gtk.Bitset getSelection() {
+    default org.gtk.gtk.Bitset getSelection() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_selection_model_get_selection.invokeExact(
@@ -84,7 +67,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Bitset(RESULT, Ownership.FULL);
+        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -101,7 +84,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      *   for the given range with all other values being undefined.
      *   The bitset must not be modified.
      */
-    default @NotNull org.gtk.gtk.Bitset getSelectionInRange(int position, int nItems) {
+    default org.gtk.gtk.Bitset getSelectionInRange(int position, int nItems) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_selection_model_get_selection_in_range.invokeExact(
@@ -111,7 +94,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Bitset(RESULT, Ownership.FULL);
+        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -128,7 +111,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -144,7 +127,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -160,11 +143,11 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
             RESULT = (int) DowncallHandles.gtk_selection_model_select_item.invokeExact(
                     handle(),
                     position,
-                    unselectRest ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(unselectRest, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -182,11 +165,11 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     position,
                     nItems,
-                    unselectRest ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(unselectRest, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -247,9 +230,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
      *   tried. This does not mean that all items were updated according
      *   to the inputs.
      */
-    default boolean setSelection(@NotNull org.gtk.gtk.Bitset selected, @NotNull org.gtk.gtk.Bitset mask) {
-        java.util.Objects.requireNonNull(selected, "Parameter 'selected' must not be null");
-        java.util.Objects.requireNonNull(mask, "Parameter 'mask' must not be null");
+    default boolean setSelection(org.gtk.gtk.Bitset selected, org.gtk.gtk.Bitset mask) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_selection_model_set_selection.invokeExact(
@@ -259,7 +240,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -275,7 +256,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -293,7 +274,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -313,14 +294,14 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_selection_model_get_type.invokeExact();
@@ -332,7 +313,18 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface SelectionChanged {
-        void signalReceived(SelectionModel sourceSelectionModel, int position, int nItems);
+        void run(int position, int nItems);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSelectionModel, int position, int nItems) {
+            run(position, nItems);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectionChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -348,16 +340,8 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
     public default Signal<SelectionModel.SelectionChanged> onSelectionChanged(SelectionModel.SelectionChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("selection-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SelectionModel.Callbacks.class, "signalSelectionModelSelectionChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SelectionModel.SelectionChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("selection-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,17 +435,7 @@ public interface SelectionModel extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalSelectionModelSelectionChanged(MemoryAddress sourceSelectionModel, int position, int nItems, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SelectionModel.SelectionChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SelectionModel.SelectionModelImpl(sourceSelectionModel, Ownership.NONE), position, nItems);
-        }
-    }
-    
-    class SelectionModelImpl extends org.gtk.gobject.Object implements SelectionModel {
+    class SelectionModelImpl extends org.gtk.gobject.GObject implements SelectionModel {
         
         static {
             Gtk.javagi$ensureInitialized();

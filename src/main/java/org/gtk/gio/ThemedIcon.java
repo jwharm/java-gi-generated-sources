@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * resolve the list of names so that fallback icons work nicely with
  * themes that inherit other themes.
  */
-public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
+public class ThemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Icon {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -36,37 +36,18 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ThemedIcon(Addressable address, Ownership ownership) {
+    protected ThemedIcon(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ThemedIcon if its GType is a (or inherits from) "GThemedIcon".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ThemedIcon} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GThemedIcon", a ClassCastException will be thrown.
-     */
-    public static ThemedIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ThemedIcon.getType())) {
-            return new ThemedIcon(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GThemedIcon");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ThemedIcon> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ThemedIcon(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String iconname) {
-        java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String iconname) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new.invokeExact(
-                    Interop.allocateNativeString(iconname));
+                    Marshal.stringToAddress.marshal(iconname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,13 +58,12 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * Creates a new themed icon for {@code iconname}.
      * @param iconname a string containing an icon name.
      */
-    public ThemedIcon(@NotNull java.lang.String iconname) {
+    public ThemedIcon(java.lang.String iconname) {
         super(constructNew(iconname), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromNames(@NotNull java.lang.String[] iconnames, int len) {
-        java.util.Objects.requireNonNull(iconnames, "Parameter 'iconnames' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromNames(java.lang.String[] iconnames, int len) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new_from_names.invokeExact(
                     Interop.allocateNativeArray(iconnames, false),
@@ -101,16 +81,16 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      *     {@code null}-terminated
      * @return a new {@link ThemedIcon}
      */
-    public static ThemedIcon newFromNames(@NotNull java.lang.String[] iconnames, int len) {
-        return new ThemedIcon(constructNewFromNames(iconnames, len), Ownership.FULL);
+    public static ThemedIcon newFromNames(java.lang.String[] iconnames, int len) {
+        var RESULT = constructNewFromNames(iconnames, len);
+        return (org.gtk.gio.ThemedIcon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ThemedIcon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWithDefaultFallbacks(@NotNull java.lang.String iconname) {
-        java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithDefaultFallbacks(java.lang.String iconname) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_new_with_default_fallbacks.invokeExact(
-                    Interop.allocateNativeString(iconname));
+                    Marshal.stringToAddress.marshal(iconname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,8 +116,9 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * @param iconname a string containing an icon name
      * @return a new {@link ThemedIcon}.
      */
-    public static ThemedIcon newWithDefaultFallbacks(@NotNull java.lang.String iconname) {
-        return new ThemedIcon(constructNewWithDefaultFallbacks(iconname), Ownership.FULL);
+    public static ThemedIcon newWithDefaultFallbacks(java.lang.String iconname) {
+        var RESULT = constructNewWithDefaultFallbacks(iconname);
+        return (org.gtk.gio.ThemedIcon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ThemedIcon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -147,12 +128,11 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * to g_icon_hash().
      * @param iconname name of icon to append to list of icons from within {@code icon}.
      */
-    public void appendName(@NotNull java.lang.String iconname) {
-        java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
+    public void appendName(java.lang.String iconname) {
         try {
             DowncallHandles.g_themed_icon_append_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(iconname));
+                    Marshal.stringToAddress.marshal(iconname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,7 +142,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * Gets the names of icons from within {@code icon}.
      * @return a list of icon names.
      */
-    public @NotNull PointerString getNames() {
+    public PointerString getNames() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_themed_icon_get_names.invokeExact(
@@ -180,12 +160,11 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * to g_icon_hash().
      * @param iconname name of icon to prepend to list of icons from within {@code icon}.
      */
-    public void prependName(@NotNull java.lang.String iconname) {
-        java.util.Objects.requireNonNull(iconname, "Parameter 'iconname' must not be null");
+    public void prependName(java.lang.String iconname) {
         try {
             DowncallHandles.g_themed_icon_prepend_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(iconname));
+                    Marshal.stringToAddress.marshal(iconname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -195,7 +174,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_themed_icon_get_type.invokeExact();
@@ -204,38 +183,40 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ThemedIcon.Builder} object constructs a {@link ThemedIcon} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ThemedIcon.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ThemedIcon.Build} object constructs a {@link ThemedIcon} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ThemedIcon} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ThemedIcon} using {@link ThemedIcon#castFrom}.
+         * {@link ThemedIcon}.
          * @return A new instance of {@code ThemedIcon} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ThemedIcon construct() {
-            return ThemedIcon.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ThemedIcon.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ThemedIcon build() {
+            return (ThemedIcon) org.gtk.gobject.GObject.newWithProperties(
+                ThemedIcon.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -244,7 +225,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
@@ -269,7 +250,7 @@ public class ThemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ic
          * @param useDefaultFallbacks The value for the {@code use-default-fallbacks} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseDefaultFallbacks(boolean useDefaultFallbacks) {
+        public Builder setUseDefaultFallbacks(boolean useDefaultFallbacks) {
             names.add("use-default-fallbacks");
             values.add(org.gtk.gobject.Value.create(useDefaultFallbacks));
             return this;

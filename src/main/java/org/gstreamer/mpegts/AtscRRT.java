@@ -17,23 +17,21 @@ public class AtscRRT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsAtscRRT";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("protocol_version"),
-        MemoryLayout.paddingLayout(56),
-        Interop.valueLayout.ADDRESS.withName("names"),
-        Interop.valueLayout.C_BYTE.withName("dimensions_defined"),
-        MemoryLayout.paddingLayout(56),
-        Interop.valueLayout.ADDRESS.withName("dimensions"),
-        Interop.valueLayout.ADDRESS.withName("descriptors")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("protocol_version"),
+            MemoryLayout.paddingLayout(56),
+            Interop.valueLayout.ADDRESS.withName("names"),
+            Interop.valueLayout.C_BYTE.withName("dimensions_defined"),
+            MemoryLayout.paddingLayout(56),
+            Interop.valueLayout.ADDRESS.withName("dimensions"),
+            Interop.valueLayout.ADDRESS.withName("descriptors")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,7 +51,7 @@ public class AtscRRT extends Struct {
      * Get the value of the field {@code protocol_version}
      * @return The value of the field {@code protocol_version}
      */
-    public byte protocolVersion$get() {
+    public byte getProtocolVersion() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -64,17 +62,38 @@ public class AtscRRT extends Struct {
      * Change the value of the field {@code protocol_version}
      * @param protocolVersion The new value of the field {@code protocol_version}
      */
-    public void protocolVersion$set(byte protocolVersion) {
+    public void setProtocolVersion(byte protocolVersion) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
     }
     
     /**
+     * Get the value of the field {@code names}
+     * @return The value of the field {@code names}
+     */
+    public PointerProxy<org.gstreamer.mpegts.AtscMultString> getNames() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("names"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.AtscMultString>(RESULT, org.gstreamer.mpegts.AtscMultString.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code names}
+     * @param names The new value of the field {@code names}
+     */
+    public void setNames(org.gstreamer.mpegts.AtscMultString[] names) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("names"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false)));
+    }
+    
+    /**
      * Get the value of the field {@code dimensions_defined}
      * @return The value of the field {@code dimensions_defined}
      */
-    public byte dimensionsDefined$get() {
+    public byte getDimensionsDefined() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dimensions_defined"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -85,10 +104,52 @@ public class AtscRRT extends Struct {
      * Change the value of the field {@code dimensions_defined}
      * @param dimensionsDefined The new value of the field {@code dimensions_defined}
      */
-    public void dimensionsDefined$set(byte dimensionsDefined) {
+    public void setDimensionsDefined(byte dimensionsDefined) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dimensions_defined"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dimensionsDefined);
+    }
+    
+    /**
+     * Get the value of the field {@code dimensions}
+     * @return The value of the field {@code dimensions}
+     */
+    public PointerProxy<org.gstreamer.mpegts.AtscRRTDimension> getDimensions() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("dimensions"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.AtscRRTDimension>(RESULT, org.gstreamer.mpegts.AtscRRTDimension.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code dimensions}
+     * @param dimensions The new value of the field {@code dimensions}
+     */
+    public void setDimensions(org.gstreamer.mpegts.AtscRRTDimension[] dimensions) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("dimensions"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dimensions == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dimensions, org.gstreamer.mpegts.AtscRRTDimension.getMemoryLayout(), false)));
+    }
+    
+    /**
+     * Get the value of the field {@code descriptors}
+     * @return The value of the field {@code descriptors}
+     */
+    public PointerAddress getDescriptors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code descriptors}
+     * @param descriptors The new value of the field {@code descriptors}
+     */
+    public void setDescriptors(java.lang.foreign.MemoryAddress[] descriptors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, false)));
     }
     
     /**
@@ -96,13 +157,15 @@ public class AtscRRT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AtscRRT(Addressable address, Ownership ownership) {
+    protected AtscRRT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AtscRRT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscRRT(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_atsc_rrt_new.invokeExact();
         } catch (Throwable ERR) {
@@ -123,31 +186,35 @@ public class AtscRRT extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AtscRRT.Builder} object constructs a {@link AtscRRT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AtscRRT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AtscRRT struct;
+        private final AtscRRT struct;
         
-         /**
-         * A {@link AtscRRT.Build} object constructs a {@link AtscRRT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AtscRRT.allocate();
         }
         
          /**
          * Finish building the {@link AtscRRT} struct.
          * @return A new instance of {@code AtscRRT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AtscRRT construct() {
+        public AtscRRT build() {
             return struct;
         }
         
@@ -156,7 +223,7 @@ public class AtscRRT extends Struct {
          * @param protocolVersion The value for the {@code protocolVersion} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProtocolVersion(byte protocolVersion) {
+        public Builder setProtocolVersion(byte protocolVersion) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
@@ -168,7 +235,7 @@ public class AtscRRT extends Struct {
          * @param names The value for the {@code names} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNames(org.gstreamer.mpegts.AtscMultString[] names) {
+        public Builder setNames(org.gstreamer.mpegts.AtscMultString[] names) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("names"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, org.gstreamer.mpegts.AtscMultString.getMemoryLayout(), false)));
@@ -180,7 +247,7 @@ public class AtscRRT extends Struct {
          * @param dimensionsDefined The value for the {@code dimensionsDefined} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDimensionsDefined(byte dimensionsDefined) {
+        public Builder setDimensionsDefined(byte dimensionsDefined) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dimensions_defined"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dimensionsDefined);
@@ -192,7 +259,7 @@ public class AtscRRT extends Struct {
          * @param dimensions The value for the {@code dimensions} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDimensions(org.gstreamer.mpegts.AtscRRTDimension[] dimensions) {
+        public Builder setDimensions(org.gstreamer.mpegts.AtscRRTDimension[] dimensions) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dimensions"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dimensions == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dimensions, org.gstreamer.mpegts.AtscRRTDimension.getMemoryLayout(), false)));
@@ -204,7 +271,7 @@ public class AtscRRT extends Struct {
          * @param descriptors The value for the {@code descriptors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescriptors(java.lang.foreign.MemoryAddress[] descriptors) {
+        public Builder setDescriptors(java.lang.foreign.MemoryAddress[] descriptors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, false)));

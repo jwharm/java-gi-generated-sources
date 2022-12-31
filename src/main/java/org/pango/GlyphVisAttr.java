@@ -25,18 +25,16 @@ public class GlyphVisAttr extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoGlyphVisAttr";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("is_cluster_start"),
-        Interop.valueLayout.C_INT.withName("is_color")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("is_cluster_start"),
+            Interop.valueLayout.C_INT.withName("is_color")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,7 +54,7 @@ public class GlyphVisAttr extends Struct {
      * Get the value of the field {@code is_cluster_start}
      * @return The value of the field {@code is_cluster_start}
      */
-    public int isClusterStart$get() {
+    public int getIsClusterStart() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -67,7 +65,7 @@ public class GlyphVisAttr extends Struct {
      * Change the value of the field {@code is_cluster_start}
      * @param isClusterStart The new value of the field {@code is_cluster_start}
      */
-    public void isClusterStart$set(int isClusterStart) {
+    public void setIsClusterStart(int isClusterStart) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isClusterStart);
@@ -77,7 +75,7 @@ public class GlyphVisAttr extends Struct {
      * Get the value of the field {@code is_color}
      * @return The value of the field {@code is_color}
      */
-    public int isColor$get() {
+    public int getIsColor() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -88,7 +86,7 @@ public class GlyphVisAttr extends Struct {
      * Change the value of the field {@code is_color}
      * @param isColor The new value of the field {@code is_color}
      */
-    public void isColor$set(int isColor) {
+    public void setIsColor(int isColor) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isColor);
@@ -99,35 +97,41 @@ public class GlyphVisAttr extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GlyphVisAttr(Addressable address, Ownership ownership) {
+    protected GlyphVisAttr(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GlyphVisAttr> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphVisAttr(input, ownership);
+    
+    /**
+     * A {@link GlyphVisAttr.Builder} object constructs a {@link GlyphVisAttr} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GlyphVisAttr.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GlyphVisAttr struct;
+        private final GlyphVisAttr struct;
         
-         /**
-         * A {@link GlyphVisAttr.Build} object constructs a {@link GlyphVisAttr} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GlyphVisAttr.allocate();
         }
         
          /**
          * Finish building the {@link GlyphVisAttr} struct.
          * @return A new instance of {@code GlyphVisAttr} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GlyphVisAttr construct() {
+        public GlyphVisAttr build() {
             return struct;
         }
         
@@ -136,7 +140,7 @@ public class GlyphVisAttr extends Struct {
          * @param isClusterStart The value for the {@code isClusterStart} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsClusterStart(int isClusterStart) {
+        public Builder setIsClusterStart(int isClusterStart) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_cluster_start"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isClusterStart);
@@ -148,7 +152,7 @@ public class GlyphVisAttr extends Struct {
          * @param isColor The value for the {@code isColor} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsColor(int isColor) {
+        public Builder setIsColor(int isColor) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_color"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isColor);

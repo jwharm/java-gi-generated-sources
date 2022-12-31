@@ -55,24 +55,22 @@ public class GlyphItemIter extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoGlyphItemIter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("glyph_item"),
-        Interop.valueLayout.ADDRESS.withName("text"),
-        Interop.valueLayout.C_INT.withName("start_glyph"),
-        Interop.valueLayout.C_INT.withName("start_index"),
-        Interop.valueLayout.C_INT.withName("start_char"),
-        Interop.valueLayout.C_INT.withName("end_glyph"),
-        Interop.valueLayout.C_INT.withName("end_index"),
-        Interop.valueLayout.C_INT.withName("end_char")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("glyph_item"),
+            Interop.valueLayout.ADDRESS.withName("text"),
+            Interop.valueLayout.C_INT.withName("start_glyph"),
+            Interop.valueLayout.C_INT.withName("start_index"),
+            Interop.valueLayout.C_INT.withName("start_char"),
+            Interop.valueLayout.C_INT.withName("end_glyph"),
+            Interop.valueLayout.C_INT.withName("end_index"),
+            Interop.valueLayout.C_INT.withName("end_char")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -92,49 +90,49 @@ public class GlyphItemIter extends Struct {
      * Get the value of the field {@code glyph_item}
      * @return The value of the field {@code glyph_item}
      */
-    public org.pango.GlyphItem glyphItem$get() {
+    public org.pango.GlyphItem getGlyphItem() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("glyph_item"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.GlyphItem(RESULT, Ownership.UNKNOWN);
+        return org.pango.GlyphItem.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code glyph_item}
      * @param glyphItem The new value of the field {@code glyph_item}
      */
-    public void glyphItem$set(org.pango.GlyphItem glyphItem) {
+    public void setGlyphItem(org.pango.GlyphItem glyphItem) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("glyph_item"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), glyphItem.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyphItem == null ? MemoryAddress.NULL : glyphItem.handle()));
     }
     
     /**
      * Get the value of the field {@code text}
      * @return The value of the field {@code text}
      */
-    public java.lang.String text$get() {
+    public java.lang.String getText() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("text"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code text}
      * @param text The new value of the field {@code text}
      */
-    public void text$set(java.lang.String text) {
+    public void setText(java.lang.String text) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("text"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(text));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
     }
     
     /**
      * Get the value of the field {@code start_glyph}
      * @return The value of the field {@code start_glyph}
      */
-    public int startGlyph$get() {
+    public int getStartGlyph() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_glyph"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -145,7 +143,7 @@ public class GlyphItemIter extends Struct {
      * Change the value of the field {@code start_glyph}
      * @param startGlyph The new value of the field {@code start_glyph}
      */
-    public void startGlyph$set(int startGlyph) {
+    public void setStartGlyph(int startGlyph) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_glyph"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startGlyph);
@@ -155,7 +153,7 @@ public class GlyphItemIter extends Struct {
      * Get the value of the field {@code start_index}
      * @return The value of the field {@code start_index}
      */
-    public int startIndex$get() {
+    public int getStartIndex() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -166,7 +164,7 @@ public class GlyphItemIter extends Struct {
      * Change the value of the field {@code start_index}
      * @param startIndex The new value of the field {@code start_index}
      */
-    public void startIndex$set(int startIndex) {
+    public void setStartIndex(int startIndex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
@@ -176,7 +174,7 @@ public class GlyphItemIter extends Struct {
      * Get the value of the field {@code start_char}
      * @return The value of the field {@code start_char}
      */
-    public int startChar$get() {
+    public int getStartChar() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_char"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -187,7 +185,7 @@ public class GlyphItemIter extends Struct {
      * Change the value of the field {@code start_char}
      * @param startChar The new value of the field {@code start_char}
      */
-    public void startChar$set(int startChar) {
+    public void setStartChar(int startChar) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_char"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startChar);
@@ -197,7 +195,7 @@ public class GlyphItemIter extends Struct {
      * Get the value of the field {@code end_glyph}
      * @return The value of the field {@code end_glyph}
      */
-    public int endGlyph$get() {
+    public int getEndGlyph() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_glyph"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -208,7 +206,7 @@ public class GlyphItemIter extends Struct {
      * Change the value of the field {@code end_glyph}
      * @param endGlyph The new value of the field {@code end_glyph}
      */
-    public void endGlyph$set(int endGlyph) {
+    public void setEndGlyph(int endGlyph) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_glyph"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), endGlyph);
@@ -218,7 +216,7 @@ public class GlyphItemIter extends Struct {
      * Get the value of the field {@code end_index}
      * @return The value of the field {@code end_index}
      */
-    public int endIndex$get() {
+    public int getEndIndex() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -229,7 +227,7 @@ public class GlyphItemIter extends Struct {
      * Change the value of the field {@code end_index}
      * @param endIndex The new value of the field {@code end_index}
      */
-    public void endIndex$set(int endIndex) {
+    public void setEndIndex(int endIndex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), endIndex);
@@ -239,7 +237,7 @@ public class GlyphItemIter extends Struct {
      * Get the value of the field {@code end_char}
      * @return The value of the field {@code end_char}
      */
-    public int endChar$get() {
+    public int getEndChar() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_char"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -250,7 +248,7 @@ public class GlyphItemIter extends Struct {
      * Change the value of the field {@code end_char}
      * @param endChar The new value of the field {@code end_char}
      */
-    public void endChar$set(int endChar) {
+    public void setEndChar(int endChar) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end_char"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), endChar);
@@ -261,10 +259,12 @@ public class GlyphItemIter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GlyphItemIter(Addressable address, Ownership ownership) {
+    protected GlyphItemIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GlyphItemIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphItemIter(input, ownership);
     
     /**
      * Make a shallow copy of an existing {@code PangoGlyphItemIter} structure.
@@ -278,7 +278,7 @@ public class GlyphItemIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.GlyphItemIter(RESULT, Ownership.FULL);
+        return org.pango.GlyphItemIter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -302,19 +302,17 @@ public class GlyphItemIter extends Struct {
      * @param text text corresponding to the glyph item
      * @return {@code false} if there are no clusters in the glyph item
      */
-    public boolean initEnd(@NotNull org.pango.GlyphItem glyphItem, @NotNull java.lang.String text) {
-        java.util.Objects.requireNonNull(glyphItem, "Parameter 'glyphItem' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public boolean initEnd(org.pango.GlyphItem glyphItem, java.lang.String text) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_glyph_item_iter_init_end.invokeExact(
                     handle(),
                     glyphItem.handle(),
-                    Interop.allocateNativeString(text));
+                    Marshal.stringToAddress.marshal(text, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -326,19 +324,17 @@ public class GlyphItemIter extends Struct {
      * @param text text corresponding to the glyph item
      * @return {@code false} if there are no clusters in the glyph item
      */
-    public boolean initStart(@NotNull org.pango.GlyphItem glyphItem, @NotNull java.lang.String text) {
-        java.util.Objects.requireNonNull(glyphItem, "Parameter 'glyphItem' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public boolean initStart(org.pango.GlyphItem glyphItem, java.lang.String text) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_glyph_item_iter_init_start.invokeExact(
                     handle(),
                     glyphItem.handle(),
-                    Interop.allocateNativeString(text));
+                    Marshal.stringToAddress.marshal(text, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -356,7 +352,7 @@ public class GlyphItemIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -373,7 +369,7 @@ public class GlyphItemIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -414,84 +410,88 @@ public class GlyphItemIter extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GlyphItemIter.Builder} object constructs a {@link GlyphItemIter} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GlyphItemIter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GlyphItemIter struct;
+        private final GlyphItemIter struct;
         
-         /**
-         * A {@link GlyphItemIter.Build} object constructs a {@link GlyphItemIter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GlyphItemIter.allocate();
         }
         
          /**
          * Finish building the {@link GlyphItemIter} struct.
          * @return A new instance of {@code GlyphItemIter} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GlyphItemIter construct() {
+        public GlyphItemIter build() {
             return struct;
         }
         
-        public Build setGlyphItem(org.pango.GlyphItem glyphItem) {
+        public Builder setGlyphItem(org.pango.GlyphItem glyphItem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("glyph_item"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyphItem == null ? MemoryAddress.NULL : glyphItem.handle()));
             return this;
         }
         
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
             return this;
         }
         
-        public Build setStartGlyph(int startGlyph) {
+        public Builder setStartGlyph(int startGlyph) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_glyph"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startGlyph);
             return this;
         }
         
-        public Build setStartIndex(int startIndex) {
+        public Builder setStartIndex(int startIndex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
             return this;
         }
         
-        public Build setStartChar(int startChar) {
+        public Builder setStartChar(int startChar) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_char"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startChar);
             return this;
         }
         
-        public Build setEndGlyph(int endGlyph) {
+        public Builder setEndGlyph(int endGlyph) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_glyph"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), endGlyph);
             return this;
         }
         
-        public Build setEndIndex(int endIndex) {
+        public Builder setEndIndex(int endIndex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_index"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), endIndex);
             return this;
         }
         
-        public Build setEndChar(int endChar) {
+        public Builder setEndChar(int endChar) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_char"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), endChar);

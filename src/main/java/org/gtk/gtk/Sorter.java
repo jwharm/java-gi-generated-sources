@@ -27,7 +27,7 @@ import org.jetbrains.annotations.*;
  * Of course, in particular for large lists, it is also possible to subclass
  * {@code GtkSorter} and provide one's own sorter.
  */
-public class Sorter extends org.gtk.gobject.Object {
+public class Sorter extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -35,17 +35,15 @@ public class Sorter extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkSorter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -53,30 +51,12 @@ public class Sorter extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Sorter(Addressable address, Ownership ownership) {
+    protected Sorter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Sorter if its GType is a (or inherits from) "GtkSorter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Sorter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSorter", a ClassCastException will be thrown.
-     */
-    public static Sorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Sorter.getType())) {
-            return new Sorter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSorter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Sorter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Sorter(input, ownership);
     
     /**
      * Notifies all users of the sorter that it has changed.
@@ -93,8 +73,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * subclasses and should not be called from other functions.
      * @param change How the sorter changed
      */
-    public void changed(@NotNull org.gtk.gtk.SorterChange change) {
-        java.util.Objects.requireNonNull(change, "Parameter 'change' must not be null");
+    public void changed(org.gtk.gtk.SorterChange change) {
         try {
             DowncallHandles.gtk_sorter_changed.invokeExact(
                     handle(),
@@ -123,9 +102,7 @@ public class Sorter extends org.gtk.gobject.Object {
      *   {@link Ordering#SMALLER} if {@code item1} &lt; {@code item2},
      *   {@link Ordering#LARGER} if {@code item1} &gt; {@code item2}
      */
-    public @NotNull org.gtk.gtk.Ordering compare(@NotNull org.gtk.gobject.Object item1, @NotNull org.gtk.gobject.Object item2) {
-        java.util.Objects.requireNonNull(item1, "Parameter 'item1' must not be null");
-        java.util.Objects.requireNonNull(item2, "Parameter 'item2' must not be null");
+    public org.gtk.gtk.Ordering compare(org.gtk.gobject.GObject item1, org.gtk.gobject.GObject item2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_sorter_compare.invokeExact(
@@ -147,7 +124,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * This function is intended to allow optimizations.
      * @return The order
      */
-    public @NotNull org.gtk.gtk.SorterOrder getOrder() {
+    public org.gtk.gtk.SorterOrder getOrder() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_sorter_get_order.invokeExact(
@@ -162,7 +139,7 @@ public class Sorter extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_sorter_get_type.invokeExact();
@@ -174,7 +151,18 @@ public class Sorter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Sorter sourceSorter, @NotNull org.gtk.gtk.SorterChange change);
+        void run(org.gtk.gtk.SorterChange change);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSorter, int change) {
+            run(org.gtk.gtk.SorterChange.of(change));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -194,52 +182,46 @@ public class Sorter extends org.gtk.gobject.Object {
     public Signal<Sorter.Changed> onChanged(Sorter.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Sorter.Callbacks.class, "signalSorterChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Sorter.Changed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Sorter.Builder} object constructs a {@link Sorter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Sorter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Sorter.Build} object constructs a {@link Sorter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Sorter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Sorter} using {@link Sorter#castFrom}.
+         * {@link Sorter}.
          * @return A new instance of {@code Sorter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Sorter construct() {
-            return Sorter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Sorter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Sorter build() {
+            return (Sorter) org.gtk.gobject.GObject.newWithProperties(
+                Sorter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -269,14 +251,5 @@ public class Sorter extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalSorterChanged(MemoryAddress sourceSorter, int change, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Sorter.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Sorter(sourceSorter, Ownership.NONE), org.gtk.gtk.SorterChange.of(change));
-        }
     }
 }

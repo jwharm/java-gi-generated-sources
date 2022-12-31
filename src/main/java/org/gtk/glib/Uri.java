@@ -146,10 +146,12 @@ public class Uri extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Uri(Addressable address, Ownership ownership) {
+    protected Uri(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Uri> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Uri(input, ownership);
     
     /**
      * Gets {@code uri}'s authentication parameters, which may contain
@@ -169,14 +171,14 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets {@code uri}'s flags set upon construction.
      * @return {@code uri}'s flags.
      */
-    public @NotNull org.gtk.glib.UriFlags getFlags() {
+    public org.gtk.glib.UriFlags getFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_get_flags.invokeExact(
@@ -200,7 +202,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -223,7 +225,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -240,7 +242,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -248,7 +250,7 @@ public class Uri extends Struct {
      * flags with which {@code uri} was created.
      * @return {@code uri}'s path.
      */
-    public @NotNull java.lang.String getPath() {
+    public java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_get_path.invokeExact(
@@ -256,7 +258,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -290,7 +292,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -298,7 +300,7 @@ public class Uri extends Struct {
      * regardless of the string or strings that {@code uri} was created from.
      * @return {@code uri}'s scheme.
      */
-    public @NotNull java.lang.String getScheme() {
+    public java.lang.String getScheme() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_get_scheme.invokeExact(
@@ -306,7 +308,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -324,7 +326,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -340,7 +342,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -353,15 +355,13 @@ public class Uri extends Struct {
      * @return a new {@link Uri}, or NULL on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Uri parseRelative(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gtk.glib.Uri parseRelative(java.lang.String uriRef, org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_relative.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uriRef),
+                    Marshal.stringToAddress.marshal(uriRef, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -370,14 +370,14 @@ public class Uri extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
+        return org.gtk.glib.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Increments the reference count of {@code uri} by one.
      * @return {@code uri}
      */
-    public @NotNull org.gtk.glib.Uri ref() {
+    public org.gtk.glib.Uri ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_ref.invokeExact(
@@ -385,7 +385,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
+        return org.gtk.glib.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -404,7 +404,7 @@ public class Uri extends Struct {
      * @return a string representing {@code uri},
      *     which the caller must free.
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_to_string.invokeExact(
@@ -412,7 +412,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -422,8 +422,7 @@ public class Uri extends Struct {
      * @return a string representing
      *     {@code uri}, which the caller must free.
      */
-    public @NotNull java.lang.String toStringPartial(@NotNull org.gtk.glib.UriHideFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public java.lang.String toStringPartial(org.gtk.glib.UriHideFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_to_string_partial.invokeExact(
@@ -432,7 +431,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -465,25 +464,22 @@ public class Uri extends Struct {
      * @param fragment the fragment, or {@code null}
      * @return a new {@link Uri}
      */
-    public static @NotNull org.gtk.glib.Uri build(@NotNull org.gtk.glib.UriFlags flags, @NotNull java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static org.gtk.glib.Uri build(org.gtk.glib.UriFlags flags, java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_build.invokeExact(
                     flags.getValue(),
-                    Interop.allocateNativeString(scheme),
-                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Interop.allocateNativeString(userinfo)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    Marshal.stringToAddress.marshal(scheme, null),
+                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    Interop.allocateNativeString(path),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    Marshal.stringToAddress.marshal(path, null),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
+        return org.gtk.glib.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -507,30 +503,27 @@ public class Uri extends Struct {
      * @param fragment the fragment, or {@code null}
      * @return a new {@link Uri}
      */
-    public static @NotNull org.gtk.glib.Uri buildWithUser(@NotNull org.gtk.glib.UriFlags flags, @NotNull java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static org.gtk.glib.Uri buildWithUser(org.gtk.glib.UriFlags flags, java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_build_with_user.invokeExact(
                     flags.getValue(),
-                    Interop.allocateNativeString(scheme),
-                    (Addressable) (user == null ? MemoryAddress.NULL : Interop.allocateNativeString(user)),
-                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password)),
-                    (Addressable) (authParams == null ? MemoryAddress.NULL : Interop.allocateNativeString(authParams)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    Marshal.stringToAddress.marshal(scheme, null),
+                    (Addressable) (user == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(user, null)),
+                    (Addressable) (password == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(password, null)),
+                    (Addressable) (authParams == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(authParams, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    Interop.allocateNativeString(path),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    Marshal.stringToAddress.marshal(path, null),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
+        return org.gtk.glib.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gtk.glib.Quark errorQuark() {
+    public static org.gtk.glib.Quark errorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_error_quark.invokeExact();
@@ -559,18 +552,17 @@ public class Uri extends Struct {
      * @return an escaped version of {@code unescaped}.
      *     The returned string should be freed when no longer needed.
      */
-    public static @NotNull java.lang.String escapeBytes(@NotNull byte[] unescaped, long length, @Nullable java.lang.String reservedCharsAllowed) {
-        java.util.Objects.requireNonNull(unescaped, "Parameter 'unescaped' must not be null");
+    public static java.lang.String escapeBytes(byte[] unescaped, long length, @Nullable java.lang.String reservedCharsAllowed) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_escape_bytes.invokeExact(
                     Interop.allocateNativeArray(unescaped, false),
                     length,
-                    (Addressable) (reservedCharsAllowed == null ? MemoryAddress.NULL : Interop.allocateNativeString(reservedCharsAllowed)));
+                    (Addressable) (reservedCharsAllowed == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(reservedCharsAllowed, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -589,18 +581,17 @@ public class Uri extends Struct {
      * @return an escaped version of {@code unescaped}. The
      * returned string should be freed when no longer needed.
      */
-    public static @NotNull java.lang.String escapeString(@NotNull java.lang.String unescaped, @Nullable java.lang.String reservedCharsAllowed, boolean allowUtf8) {
-        java.util.Objects.requireNonNull(unescaped, "Parameter 'unescaped' must not be null");
+    public static java.lang.String escapeString(java.lang.String unescaped, @Nullable java.lang.String reservedCharsAllowed, boolean allowUtf8) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_escape_string.invokeExact(
-                    Interop.allocateNativeString(unescaped),
-                    (Addressable) (reservedCharsAllowed == null ? MemoryAddress.NULL : Interop.allocateNativeString(reservedCharsAllowed)),
-                    allowUtf8 ? 1 : 0);
+                    Marshal.stringToAddress.marshal(unescaped, null),
+                    (Addressable) (reservedCharsAllowed == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(reservedCharsAllowed, null)),
+                    Marshal.booleanToInteger.marshal(allowUtf8, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -617,14 +608,12 @@ public class Uri extends Struct {
      * @return {@code true} if {@code uri_string} is a valid absolute URI, {@code false} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean isValid(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean isValid(java.lang.String uriString, org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_is_valid.invokeExact(
-                    Interop.allocateNativeString(uriString),
+                    Marshal.stringToAddress.marshal(uriString, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -633,7 +622,7 @@ public class Uri extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -661,24 +650,22 @@ public class Uri extends Struct {
      * @param fragment the fragment, or {@code null}
      * @return an absolute URI string
      */
-    public static @NotNull java.lang.String join(@NotNull org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static java.lang.String join(org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_join.invokeExact(
                     flags.getValue(),
-                    (Addressable) (scheme == null ? MemoryAddress.NULL : Interop.allocateNativeString(scheme)),
-                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Interop.allocateNativeString(userinfo)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, null)),
+                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    Interop.allocateNativeString(path),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    Marshal.stringToAddress.marshal(path, null),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -705,26 +692,24 @@ public class Uri extends Struct {
      * @param fragment the fragment, or {@code null}
      * @return an absolute URI string
      */
-    public static @NotNull java.lang.String joinWithUser(@NotNull org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static java.lang.String joinWithUser(org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_join_with_user.invokeExact(
                     flags.getValue(),
-                    (Addressable) (scheme == null ? MemoryAddress.NULL : Interop.allocateNativeString(scheme)),
-                    (Addressable) (user == null ? MemoryAddress.NULL : Interop.allocateNativeString(user)),
-                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password)),
-                    (Addressable) (authParams == null ? MemoryAddress.NULL : Interop.allocateNativeString(authParams)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, null)),
+                    (Addressable) (user == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(user, null)),
+                    (Addressable) (password == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(password, null)),
+                    (Addressable) (authParams == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(authParams, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    Interop.allocateNativeString(path),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    Marshal.stringToAddress.marshal(path, null),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -736,12 +721,11 @@ public class Uri extends Struct {
      *   of strings holding the individual URIs. The array should be freed
      *   with g_strfreev().
      */
-    public static @NotNull PointerString listExtractUris(@NotNull java.lang.String uriList) {
-        java.util.Objects.requireNonNull(uriList, "Parameter 'uriList' must not be null");
+    public static PointerString listExtractUris(java.lang.String uriList) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_list_extract_uris.invokeExact(
-                    Interop.allocateNativeString(uriList));
+                    Marshal.stringToAddress.marshal(uriList, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -757,14 +741,12 @@ public class Uri extends Struct {
      * @return a new {@link Uri}, or NULL on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.Uri parse(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.glib.Uri parse(java.lang.String uriString, org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse.invokeExact(
-                    Interop.allocateNativeString(uriString),
+                    Marshal.stringToAddress.marshal(uriString, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -773,7 +755,7 @@ public class Uri extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
+        return org.gtk.glib.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -814,17 +796,14 @@ public class Uri extends Struct {
      *     fully-decoded; or {@code null} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.HashTable parseParams(@NotNull java.lang.String params, long length, @NotNull java.lang.String separators, @NotNull org.gtk.glib.UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
-        java.util.Objects.requireNonNull(separators, "Parameter 'separators' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.glib.HashTable parseParams(java.lang.String params, long length, java.lang.String separators, org.gtk.glib.UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_params.invokeExact(
-                    Interop.allocateNativeString(params),
+                    Marshal.stringToAddress.marshal(params, null),
                     length,
-                    Interop.allocateNativeString(separators),
+                    Marshal.stringToAddress.marshal(separators, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -833,7 +812,7 @@ public class Uri extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.HashTable(RESULT, Ownership.FULL);
+        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -848,16 +827,15 @@ public class Uri extends Struct {
      * @return The ‘scheme’ component of the URI, or
      *     {@code null} on error. The returned string should be freed when no longer needed.
      */
-    public static @Nullable java.lang.String parseScheme(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable java.lang.String parseScheme(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_scheme.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -876,16 +854,15 @@ public class Uri extends Struct {
      *     {@code null} on error. The returned string is normalized to all-lowercase, and
      *     interned via g_intern_string(), so it does not need to be freed.
      */
-    public static @Nullable java.lang.String peekScheme(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable java.lang.String peekScheme(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_peek_scheme.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -903,15 +880,13 @@ public class Uri extends Struct {
      * or NULL on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String resolveRelative(@Nullable java.lang.String baseUriString, @NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static java.lang.String resolveRelative(@Nullable java.lang.String baseUriString, java.lang.String uriRef, org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_resolve_relative.invokeExact(
-                    (Addressable) (baseUriString == null ? MemoryAddress.NULL : Interop.allocateNativeString(baseUriString)),
-                    Interop.allocateNativeString(uriRef),
+                    (Addressable) (baseUriString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(baseUriString, null)),
+                    Marshal.stringToAddress.marshal(uriRef, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -920,7 +895,7 @@ public class Uri extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -960,15 +935,11 @@ public class Uri extends Struct {
      *   on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean split(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> userinfo, @Nullable Out<java.lang.String> host, Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean split(java.lang.String uriRef, org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> userinfo, @Nullable Out<java.lang.String> host, Out<Integer> port, @Nullable Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment schemePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment userinfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment hostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
         MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment queryPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -976,13 +947,13 @@ public class Uri extends Struct {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_split.invokeExact(
-                    Interop.allocateNativeString(uriRef),
+                    Marshal.stringToAddress.marshal(uriRef, null),
                     flags.getValue(),
                     (Addressable) (scheme == null ? MemoryAddress.NULL : (Addressable) schemePOINTER.address()),
                     (Addressable) (userinfo == null ? MemoryAddress.NULL : (Addressable) userinfoPOINTER.address()),
                     (Addressable) (host == null ? MemoryAddress.NULL : (Addressable) hostPOINTER.address()),
-                    (Addressable) portPOINTER.address(),
-                    (Addressable) pathPOINTER.address(),
+                    (Addressable) (port == null ? MemoryAddress.NULL : (Addressable) portPOINTER.address()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
                     (Addressable) (query == null ? MemoryAddress.NULL : (Addressable) queryPOINTER.address()),
                     (Addressable) (fragment == null ? MemoryAddress.NULL : (Addressable) fragmentPOINTER.address()),
                     (Addressable) GERROR);
@@ -992,14 +963,14 @@ public class Uri extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (userinfo != null) userinfo.set(Interop.getStringFrom(userinfoPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
-        path.set(Interop.getStringFrom(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (query != null) query.set(Interop.getStringFrom(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (fragment != null) fragment.set(Interop.getStringFrom(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (scheme != null) scheme.set(Marshal.addressToString.marshal(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (userinfo != null) userinfo.set(Marshal.addressToString.marshal(userinfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (host != null) host.set(Marshal.addressToString.marshal(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (port != null) port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (path != null) path.set(Marshal.addressToString.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (query != null) query.set(Marshal.addressToString.marshal(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (fragment != null) fragment.set(Marshal.addressToString.marshal(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1021,22 +992,19 @@ public class Uri extends Struct {
      *   {@code false} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean splitNetwork(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> host, Out<Integer> port) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean splitNetwork(java.lang.String uriString, org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> host, Out<Integer> port) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment schemePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment hostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
         MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_split_network.invokeExact(
-                    Interop.allocateNativeString(uriString),
+                    Marshal.stringToAddress.marshal(uriString, null),
                     flags.getValue(),
                     (Addressable) (scheme == null ? MemoryAddress.NULL : (Addressable) schemePOINTER.address()),
                     (Addressable) (host == null ? MemoryAddress.NULL : (Addressable) hostPOINTER.address()),
-                    (Addressable) portPOINTER.address(),
+                    (Addressable) (port == null ? MemoryAddress.NULL : (Addressable) portPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1044,10 +1012,10 @@ public class Uri extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (scheme != null) scheme.set(Marshal.addressToString.marshal(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (host != null) host.set(Marshal.addressToString.marshal(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (port != null) port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1086,17 +1054,13 @@ public class Uri extends Struct {
      *   on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean splitWithUser(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> user, @Nullable Out<java.lang.String> password, @Nullable Out<java.lang.String> authParams, @Nullable Out<java.lang.String> host, Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean splitWithUser(java.lang.String uriRef, org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> user, @Nullable Out<java.lang.String> password, @Nullable Out<java.lang.String> authParams, @Nullable Out<java.lang.String> host, Out<Integer> port, @Nullable Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment schemePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment userPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment passwordPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment authParamsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment hostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
         MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment queryPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -1104,15 +1068,15 @@ public class Uri extends Struct {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_split_with_user.invokeExact(
-                    Interop.allocateNativeString(uriRef),
+                    Marshal.stringToAddress.marshal(uriRef, null),
                     flags.getValue(),
                     (Addressable) (scheme == null ? MemoryAddress.NULL : (Addressable) schemePOINTER.address()),
                     (Addressable) (user == null ? MemoryAddress.NULL : (Addressable) userPOINTER.address()),
                     (Addressable) (password == null ? MemoryAddress.NULL : (Addressable) passwordPOINTER.address()),
                     (Addressable) (authParams == null ? MemoryAddress.NULL : (Addressable) authParamsPOINTER.address()),
                     (Addressable) (host == null ? MemoryAddress.NULL : (Addressable) hostPOINTER.address()),
-                    (Addressable) portPOINTER.address(),
-                    (Addressable) pathPOINTER.address(),
+                    (Addressable) (port == null ? MemoryAddress.NULL : (Addressable) portPOINTER.address()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
                     (Addressable) (query == null ? MemoryAddress.NULL : (Addressable) queryPOINTER.address()),
                     (Addressable) (fragment == null ? MemoryAddress.NULL : (Addressable) fragmentPOINTER.address()),
                     (Addressable) GERROR);
@@ -1122,16 +1086,16 @@ public class Uri extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (user != null) user.set(Interop.getStringFrom(userPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (password != null) password.set(Interop.getStringFrom(passwordPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (authParams != null) authParams.set(Interop.getStringFrom(authParamsPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
-        path.set(Interop.getStringFrom(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (query != null) query.set(Interop.getStringFrom(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (fragment != null) fragment.set(Interop.getStringFrom(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (scheme != null) scheme.set(Marshal.addressToString.marshal(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (user != null) user.set(Marshal.addressToString.marshal(userPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (password != null) password.set(Marshal.addressToString.marshal(passwordPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (authParams != null) authParams.set(Marshal.addressToString.marshal(authParamsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (host != null) host.set(Marshal.addressToString.marshal(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (port != null) port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (path != null) path.set(Marshal.addressToString.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (query != null) query.set(Marshal.addressToString.marshal(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (fragment != null) fragment.set(Marshal.addressToString.marshal(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1155,15 +1119,14 @@ public class Uri extends Struct {
      *     code). The returned {@link Bytes} should be unreffed when no longer needed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.Bytes unescapeBytes(@NotNull java.lang.String escapedString, long length, @Nullable java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(escapedString, "Parameter 'escapedString' must not be null");
+    public static org.gtk.glib.Bytes unescapeBytes(java.lang.String escapedString, long length, @Nullable java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_bytes.invokeExact(
-                    Interop.allocateNativeString(escapedString),
+                    Marshal.stringToAddress.marshal(escapedString, null),
                     length,
-                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Interop.allocateNativeString(illegalCharacters)),
+                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(illegalCharacters, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1171,7 +1134,7 @@ public class Uri extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1199,13 +1162,13 @@ public class Uri extends Struct {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_segment.invokeExact(
-                    (Addressable) (escapedString == null ? MemoryAddress.NULL : Interop.allocateNativeString(escapedString)),
-                    (Addressable) (escapedStringEnd == null ? MemoryAddress.NULL : Interop.allocateNativeString(escapedStringEnd)),
-                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Interop.allocateNativeString(illegalCharacters)));
+                    (Addressable) (escapedString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(escapedString, null)),
+                    (Addressable) (escapedStringEnd == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(escapedStringEnd, null)),
+                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(illegalCharacters, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1222,17 +1185,16 @@ public class Uri extends Struct {
      * @return an unescaped version of {@code escaped_string}.
      * The returned string should be freed when no longer needed.
      */
-    public static @Nullable java.lang.String unescapeString(@NotNull java.lang.String escapedString, @Nullable java.lang.String illegalCharacters) {
-        java.util.Objects.requireNonNull(escapedString, "Parameter 'escapedString' must not be null");
+    public static @Nullable java.lang.String unescapeString(java.lang.String escapedString, @Nullable java.lang.String illegalCharacters) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_string.invokeExact(
-                    Interop.allocateNativeString(escapedString),
-                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Interop.allocateNativeString(illegalCharacters)));
+                    Marshal.stringToAddress.marshal(escapedString, null),
+                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(illegalCharacters, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

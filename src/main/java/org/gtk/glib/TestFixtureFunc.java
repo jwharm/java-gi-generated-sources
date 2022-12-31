@@ -20,5 +20,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TestFixtureFunc {
-        void onTestFixtureFunc(@NotNull java.lang.foreign.MemoryAddress fixture);
+    void run(java.lang.foreign.MemoryAddress fixture);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress fixture, MemoryAddress userData) {
+        run(fixture);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TestFixtureFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

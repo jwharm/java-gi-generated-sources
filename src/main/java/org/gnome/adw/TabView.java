@@ -64,40 +64,26 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * <p>
      * Because TabView is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TabView(Addressable address, Ownership ownership) {
+    protected TabView(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to TabView if its GType is a (or inherits from) "AdwTabView".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TabView} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwTabView", a ClassCastException will be thrown.
-     */
-    public static TabView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TabView.getType())) {
-            return new TabView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwTabView");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TabView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TabView(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_new.invokeExact();
         } catch (Throwable ERR) {
@@ -125,8 +111,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param parent a parent page for {@code child}
      * @return the page object representing {@code child}
      */
-    public @NotNull org.gnome.adw.TabPage addPage(@NotNull org.gtk.gtk.Widget child, @Nullable org.gnome.adw.TabPage parent) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.TabPage addPage(org.gtk.gtk.Widget child, @Nullable org.gnome.adw.TabPage parent) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_add_page.invokeExact(
@@ -136,7 +121,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -145,8 +130,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * See {@code TabView:shortcuts} for details.
      * @param shortcuts the shortcuts to add
      */
-    public void addShortcuts(@NotNull org.gnome.adw.TabViewShortcuts shortcuts) {
-        java.util.Objects.requireNonNull(shortcuts, "Parameter 'shortcuts' must not be null");
+    public void addShortcuts(org.gnome.adw.TabViewShortcuts shortcuts) {
         try {
             DowncallHandles.adw_tab_view_add_shortcuts.invokeExact(
                     handle(),
@@ -161,8 +145,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param child a widget to add
      * @return the page object representing {@code child}
      */
-    public @NotNull org.gnome.adw.TabPage append(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.TabPage append(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_append.invokeExact(
@@ -171,7 +154,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -179,8 +162,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param child a widget to add
      * @return the page object representing {@code child}
      */
-    public @NotNull org.gnome.adw.TabPage appendPinned(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.TabPage appendPinned(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_append_pinned.invokeExact(
@@ -189,15 +171,14 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Requests to close all pages other than {@code page}.
      * @param page a page of {@code self}
      */
-    public void closeOtherPages(@NotNull org.gnome.adw.TabPage page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public void closeOtherPages(org.gnome.adw.TabPage page) {
         try {
             DowncallHandles.adw_tab_view_close_other_pages.invokeExact(
                     handle(),
@@ -232,8 +213,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * are pinned, the parent will be selected instead.
      * @param page a page of {@code self}
      */
-    public void closePage(@NotNull org.gnome.adw.TabPage page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public void closePage(org.gnome.adw.TabPage page) {
         try {
             DowncallHandles.adw_tab_view_close_page.invokeExact(
                     handle(),
@@ -255,13 +235,12 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param page a page of {@code self}
      * @param confirm whether to confirm or deny closing {@code page}
      */
-    public void closePageFinish(@NotNull org.gnome.adw.TabPage page, boolean confirm) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public void closePageFinish(org.gnome.adw.TabPage page, boolean confirm) {
         try {
             DowncallHandles.adw_tab_view_close_page_finish.invokeExact(
                     handle(),
                     page.handle(),
-                    confirm ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(confirm, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -271,8 +250,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Requests to close all pages after {@code page}.
      * @param page a page of {@code self}
      */
-    public void closePagesAfter(@NotNull org.gnome.adw.TabPage page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public void closePagesAfter(org.gnome.adw.TabPage page) {
         try {
             DowncallHandles.adw_tab_view_close_pages_after.invokeExact(
                     handle(),
@@ -286,8 +264,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Requests to close all pages before {@code page}.
      * @param page a page of {@code self}
      */
-    public void closePagesBefore(@NotNull org.gnome.adw.TabPage page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public void closePagesBefore(org.gnome.adw.TabPage page) {
         try {
             DowncallHandles.adw_tab_view_close_pages_before.invokeExact(
                     handle(),
@@ -301,7 +278,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Gets the default icon of {@code self}.
      * @return the default icon of {@code self}.
      */
-    public @NotNull org.gtk.gio.Icon getDefaultIcon() {
+    public org.gtk.gio.Icon getDefaultIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_default_icon.invokeExact(
@@ -309,7 +286,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -330,7 +307,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -345,7 +322,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -385,7 +362,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param position the index of the page in {@code self}, starting from 0
      * @return the page object at {@code position}
      */
-    public @NotNull org.gnome.adw.TabPage getNthPage(int position) {
+    public org.gnome.adw.TabPage getNthPage(int position) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_nth_page.invokeExact(
@@ -394,7 +371,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -402,8 +379,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param child a child in {@code self}
      * @return the page object for {@code child}
      */
-    public @NotNull org.gnome.adw.TabPage getPage(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.TabPage getPage(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_page.invokeExact(
@@ -412,7 +388,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -420,8 +396,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param page a page of {@code self}
      * @return the position of {@code page} in {@code self}
      */
-    public int getPagePosition(@NotNull org.gnome.adw.TabPage page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public int getPagePosition(org.gnome.adw.TabPage page) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_tab_view_get_page_position.invokeExact(
@@ -441,7 +416,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * page.
      * @return a {@code GtkSelectionModel} for the pages of {@code self}
      */
-    public @NotNull org.gtk.gtk.SelectionModel getPages() {
+    public org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_get_pages.invokeExact(
@@ -449,7 +424,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -464,14 +439,14 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the enabled shortcuts for {@code self}.
      * @return the shortcut mask
      */
-    public @NotNull org.gnome.adw.TabViewShortcuts getShortcuts() {
+    public org.gnome.adw.TabViewShortcuts getShortcuts() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_tab_view_get_shortcuts.invokeExact(
@@ -491,8 +466,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param position the position to add {@code child} at, starting from 0
      * @return the page object representing {@code child}
      */
-    public @NotNull org.gnome.adw.TabPage insert(@NotNull org.gtk.gtk.Widget child, int position) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.TabPage insert(org.gtk.gtk.Widget child, int position) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_insert.invokeExact(
@@ -502,7 +476,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -514,8 +488,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param position the position to add {@code child} at, starting from 0
      * @return the page object representing {@code child}
      */
-    public @NotNull org.gnome.adw.TabPage insertPinned(@NotNull org.gtk.gtk.Widget child, int position) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.TabPage insertPinned(org.gtk.gtk.Widget child, int position) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_insert_pinned.invokeExact(
@@ -525,7 +498,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -533,8 +506,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param child a widget to add
      * @return the page object representing {@code child}
      */
-    public @NotNull org.gnome.adw.TabPage prepend(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.TabPage prepend(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_prepend.invokeExact(
@@ -543,7 +515,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -551,8 +523,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param child a widget to add
      * @return the page object representing {@code child}
      */
-    public @NotNull org.gnome.adw.TabPage prependPinned(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.TabPage prependPinned(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_view_prepend_pinned.invokeExact(
@@ -561,7 +532,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -570,8 +541,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * See {@code TabView:shortcuts} for details.
      * @param shortcuts the shortcuts to reomve
      */
-    public void removeShortcuts(@NotNull org.gnome.adw.TabViewShortcuts shortcuts) {
-        java.util.Objects.requireNonNull(shortcuts, "Parameter 'shortcuts' must not be null");
+    public void removeShortcuts(org.gnome.adw.TabViewShortcuts shortcuts) {
         try {
             DowncallHandles.adw_tab_view_remove_shortcuts.invokeExact(
                     handle(),
@@ -586,8 +556,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param page a page of {@code self}
      * @return whether {@code page} was moved
      */
-    public boolean reorderBackward(@NotNull org.gnome.adw.TabPage page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public boolean reorderBackward(org.gnome.adw.TabPage page) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_tab_view_reorder_backward.invokeExact(
@@ -596,7 +565,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -604,8 +573,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param page a page of {@code self}
      * @return whether {@code page} was moved
      */
-    public boolean reorderFirst(@NotNull org.gnome.adw.TabPage page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public boolean reorderFirst(org.gnome.adw.TabPage page) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_tab_view_reorder_first.invokeExact(
@@ -614,7 +582,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -622,8 +590,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param page a page of {@code self}
      * @return whether {@code page} was moved
      */
-    public boolean reorderForward(@NotNull org.gnome.adw.TabPage page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public boolean reorderForward(org.gnome.adw.TabPage page) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_tab_view_reorder_forward.invokeExact(
@@ -632,7 +599,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -640,8 +607,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param page a page of {@code self}
      * @return whether {@code page} was moved
      */
-    public boolean reorderLast(@NotNull org.gnome.adw.TabPage page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public boolean reorderLast(org.gnome.adw.TabPage page) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_tab_view_reorder_last.invokeExact(
@@ -650,7 +616,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -662,8 +628,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param position the position to insert the page at, starting at 0
      * @return whether {@code page} was moved
      */
-    public boolean reorderPage(@NotNull org.gnome.adw.TabPage page, int position) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public boolean reorderPage(org.gnome.adw.TabPage page, int position) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_tab_view_reorder_page.invokeExact(
@@ -673,7 +638,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -690,7 +655,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -707,7 +672,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -723,8 +688,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * By default, the {@code adw-tab-icon-missing-symbolic} icon is used.
      * @param defaultIcon the default icon
      */
-    public void setDefaultIcon(@NotNull org.gtk.gio.Icon defaultIcon) {
-        java.util.Objects.requireNonNull(defaultIcon, "Parameter 'defaultIcon' must not be null");
+    public void setDefaultIcon(org.gtk.gio.Icon defaultIcon) {
         try {
             DowncallHandles.adw_tab_view_set_default_icon.invokeExact(
                     handle(),
@@ -781,13 +745,12 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param page a page of {@code self}
      * @param pinned whether {@code page} should be pinned
      */
-    public void setPagePinned(@NotNull org.gnome.adw.TabPage page, boolean pinned) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public void setPagePinned(org.gnome.adw.TabPage page, boolean pinned) {
         try {
             DowncallHandles.adw_tab_view_set_page_pinned.invokeExact(
                     handle(),
                     page.handle(),
-                    pinned ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(pinned, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -797,8 +760,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Sets the currently selected page in {@code self}.
      * @param selectedPage a page in {@code self}
      */
-    public void setSelectedPage(@NotNull org.gnome.adw.TabPage selectedPage) {
-        java.util.Objects.requireNonNull(selectedPage, "Parameter 'selectedPage' must not be null");
+    public void setSelectedPage(org.gnome.adw.TabPage selectedPage) {
         try {
             DowncallHandles.adw_tab_view_set_selected_page.invokeExact(
                     handle(),
@@ -818,8 +780,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * a convenient way to manage individual shortcuts.
      * @param shortcuts the new shortcuts
      */
-    public void setShortcuts(@NotNull org.gnome.adw.TabViewShortcuts shortcuts) {
-        java.util.Objects.requireNonNull(shortcuts, "Parameter 'shortcuts' must not be null");
+    public void setShortcuts(org.gnome.adw.TabViewShortcuts shortcuts) {
         try {
             DowncallHandles.adw_tab_view_set_shortcuts.invokeExact(
                     handle(),
@@ -840,9 +801,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param otherView the tab view to transfer the page to
      * @param position the position to insert the page at, starting at 0
      */
-    public void transferPage(@NotNull org.gnome.adw.TabPage page, @NotNull org.gnome.adw.TabView otherView, int position) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
-        java.util.Objects.requireNonNull(otherView, "Parameter 'otherView' must not be null");
+    public void transferPage(org.gnome.adw.TabPage page, org.gnome.adw.TabView otherView, int position) {
         try {
             DowncallHandles.adw_tab_view_transfer_page.invokeExact(
                     handle(),
@@ -858,7 +817,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_tab_view_get_type.invokeExact();
@@ -870,7 +829,19 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ClosePage {
-        boolean signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page);
+        boolean run(org.gnome.adw.TabPage page);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceTabView, MemoryAddress page) {
+            var RESULT = run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClosePage.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -905,16 +876,8 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<TabView.ClosePage> onClosePage(TabView.ClosePage handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("close-page"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewClosePage",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TabView.ClosePage>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("close-page"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -922,7 +885,19 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface CreateWindow {
-        void signalReceived(TabView sourceTabView);
+        @Nullable org.gnome.adw.TabView run();
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceTabView) {
+            var RESULT = run();
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateWindow.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -938,16 +913,8 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<TabView.CreateWindow> onCreateWindow(TabView.CreateWindow handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("create-window"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewCreateWindow",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TabView.CreateWindow>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("create-window"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -955,7 +922,18 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface IndicatorActivated {
-        void signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page);
+        void run(org.gnome.adw.TabPage page);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page) {
+            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IndicatorActivated.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -969,16 +947,8 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<TabView.IndicatorActivated> onIndicatorActivated(TabView.IndicatorActivated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("indicator-activated"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewIndicatorActivated",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TabView.IndicatorActivated>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("indicator-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -986,7 +956,18 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface PageAttached {
-        void signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page, int position);
+        void run(org.gnome.adw.TabPage page, int position);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page, int position) {
+            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE), position);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageAttached.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1000,16 +981,8 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<TabView.PageAttached> onPageAttached(TabView.PageAttached handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("page-attached"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewPageAttached",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TabView.PageAttached>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("page-attached"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1017,7 +990,18 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface PageDetached {
-        void signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page, int position);
+        void run(org.gnome.adw.TabPage page, int position);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page, int position) {
+            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE), position);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageDetached.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1036,16 +1020,8 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<TabView.PageDetached> onPageDetached(TabView.PageDetached handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("page-detached"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewPageDetached",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TabView.PageDetached>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("page-detached"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1053,7 +1029,18 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface PageReordered {
-        void signalReceived(TabView sourceTabView, @NotNull org.gnome.adw.TabPage page, int position);
+        void run(org.gnome.adw.TabPage page, int position);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page, int position) {
+            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE), position);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageReordered.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1064,16 +1051,8 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<TabView.PageReordered> onPageReordered(TabView.PageReordered handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("page-reordered"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewPageReordered",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TabView.PageReordered>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("page-reordered"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1081,7 +1060,18 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface SetupMenu {
-        void signalReceived(TabView sourceTabView, @Nullable org.gnome.adw.TabPage page);
+        void run(@Nullable org.gnome.adw.TabPage page);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTabView, MemoryAddress page) {
+            run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetupMenu.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1097,52 +1087,46 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<TabView.SetupMenu> onSetupMenu(TabView.SetupMenu handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("setup-menu"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TabView.Callbacks.class, "signalTabViewSetupMenu",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TabView.SetupMenu>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("setup-menu"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link TabView.Builder} object constructs a {@link TabView} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TabView.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link TabView.Build} object constructs a {@link TabView} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TabView} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TabView} using {@link TabView#castFrom}.
+         * {@link TabView}.
          * @return A new instance of {@code TabView} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TabView construct() {
-            return TabView.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TabView.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TabView build() {
+            return (TabView) org.gtk.gobject.GObject.newWithProperties(
+                TabView.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1161,7 +1145,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param defaultIcon The value for the {@code default-icon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefaultIcon(org.gtk.gio.Icon defaultIcon) {
+        public Builder setDefaultIcon(org.gtk.gio.Icon defaultIcon) {
             names.add("default-icon");
             values.add(org.gtk.gobject.Value.create(defaultIcon));
             return this;
@@ -1178,7 +1162,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param isTransferringPage The value for the {@code is-transferring-page} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsTransferringPage(boolean isTransferringPage) {
+        public Builder setIsTransferringPage(boolean isTransferringPage) {
             names.add("is-transferring-page");
             values.add(org.gtk.gobject.Value.create(isTransferringPage));
             return this;
@@ -1193,7 +1177,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param menuModel The value for the {@code menu-model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMenuModel(org.gtk.gio.MenuModel menuModel) {
+        public Builder setMenuModel(org.gtk.gio.MenuModel menuModel) {
             names.add("menu-model");
             values.add(org.gtk.gobject.Value.create(menuModel));
             return this;
@@ -1204,7 +1188,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param nPages The value for the {@code n-pages} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPages(int nPages) {
+        public Builder setNPages(int nPages) {
             names.add("n-pages");
             values.add(org.gtk.gobject.Value.create(nPages));
             return this;
@@ -1217,7 +1201,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param nPinnedPages The value for the {@code n-pinned-pages} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPinnedPages(int nPinnedPages) {
+        public Builder setNPinnedPages(int nPinnedPages) {
             names.add("n-pinned-pages");
             values.add(org.gtk.gobject.Value.create(nPinnedPages));
             return this;
@@ -1232,7 +1216,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param pages The value for the {@code pages} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPages(org.gtk.gtk.SelectionModel pages) {
+        public Builder setPages(org.gtk.gtk.SelectionModel pages) {
             names.add("pages");
             values.add(org.gtk.gobject.Value.create(pages));
             return this;
@@ -1243,7 +1227,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param selectedPage The value for the {@code selected-page} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelectedPage(org.gnome.adw.TabPage selectedPage) {
+        public Builder setSelectedPage(org.gnome.adw.TabPage selectedPage) {
             names.add("selected-page");
             values.add(org.gtk.gobject.Value.create(selectedPage));
             return this;
@@ -1260,7 +1244,7 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param shortcuts The value for the {@code shortcuts} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShortcuts(org.gnome.adw.TabViewShortcuts shortcuts) {
+        public Builder setShortcuts(org.gnome.adw.TabViewShortcuts shortcuts) {
             names.add("shortcuts");
             values.add(org.gtk.gobject.Value.create(shortcuts));
             return this;
@@ -1508,50 +1492,5 @@ public class TabView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalTabViewClosePage(MemoryAddress sourceTabView, MemoryAddress page, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TabView.ClosePage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE));
-        }
-        
-        public static void signalTabViewCreateWindow(MemoryAddress sourceTabView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TabView.CreateWindow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE));
-        }
-        
-        public static void signalTabViewIndicatorActivated(MemoryAddress sourceTabView, MemoryAddress page, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TabView.IndicatorActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE));
-        }
-        
-        public static void signalTabViewPageAttached(MemoryAddress sourceTabView, MemoryAddress page, int position, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TabView.PageAttached) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), position);
-        }
-        
-        public static void signalTabViewPageDetached(MemoryAddress sourceTabView, MemoryAddress page, int position, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TabView.PageDetached) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), position);
-        }
-        
-        public static void signalTabViewPageReordered(MemoryAddress sourceTabView, MemoryAddress page, int position, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TabView.PageReordered) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), position);
-        }
-        
-        public static void signalTabViewSetupMenu(MemoryAddress sourceTabView, MemoryAddress page, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TabView.SetupMenu) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TabView(sourceTabView, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE));
-        }
     }
 }

@@ -11,5 +11,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface OptionArgFunc {
-        boolean onOptionArgFunc(@NotNull java.lang.String optionName, @NotNull java.lang.String value);
+    boolean run(java.lang.String optionName, java.lang.String value);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress optionName, MemoryAddress value, MemoryAddress userData) {
+        var RESULT = run(Marshal.addressToString.marshal(optionName, null), Marshal.addressToString.marshal(value, null));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OptionArgFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

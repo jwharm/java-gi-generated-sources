@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * {@code GtkSelectionFilterModel} is a list model that presents the selection from
  * a {@code GtkSelectionModel}.
  */
-public class SelectionFilterModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class SelectionFilterModel extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -31,33 +31,15 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SelectionFilterModel(Addressable address, Ownership ownership) {
+    protected SelectionFilterModel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SelectionFilterModel if its GType is a (or inherits from) "GtkSelectionFilterModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SelectionFilterModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSelectionFilterModel", a ClassCastException will be thrown.
-     */
-    public static SelectionFilterModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SelectionFilterModel.getType())) {
-            return new SelectionFilterModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSelectionFilterModel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SelectionFilterModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SelectionFilterModel(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.SelectionModel model) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.SelectionModel model) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_selection_filter_model_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
@@ -88,7 +70,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -114,7 +96,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_selection_filter_model_get_type.invokeExact();
@@ -123,38 +105,40 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SelectionFilterModel.Builder} object constructs a {@link SelectionFilterModel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SelectionFilterModel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SelectionFilterModel.Build} object constructs a {@link SelectionFilterModel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SelectionFilterModel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SelectionFilterModel} using {@link SelectionFilterModel#castFrom}.
+         * {@link SelectionFilterModel}.
          * @return A new instance of {@code SelectionFilterModel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SelectionFilterModel construct() {
-            return SelectionFilterModel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SelectionFilterModel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SelectionFilterModel build() {
+            return (SelectionFilterModel) org.gtk.gobject.GObject.newWithProperties(
+                SelectionFilterModel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -163,7 +147,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -174,7 +158,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gtk.SelectionModel model) {
+        public Builder setModel(org.gtk.gtk.SelectionModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -185,7 +169,7 @@ public class SelectionFilterModel extends org.gtk.gobject.Object implements org.
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;

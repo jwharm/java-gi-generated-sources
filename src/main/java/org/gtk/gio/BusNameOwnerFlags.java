@@ -41,11 +41,15 @@ public class BusNameOwnerFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BusNameOwnerFlags or(BusNameOwnerFlags mask) {
-        return new BusNameOwnerFlags(this.getValue() | mask.getValue());
+    public BusNameOwnerFlags or(BusNameOwnerFlags... masks) {
+        int value = this.getValue();
+        for (BusNameOwnerFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new BusNameOwnerFlags(value);
     }
     
     /**
@@ -55,7 +59,8 @@ public class BusNameOwnerFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BusNameOwnerFlags combined(BusNameOwnerFlags mask, BusNameOwnerFlags... masks) {
-        int value = mask.getValue();        for (BusNameOwnerFlags arg : masks) {
+        int value = mask.getValue();
+        for (BusNameOwnerFlags arg : masks) {
             value |= arg.getValue();
         }
         return new BusNameOwnerFlags(value);

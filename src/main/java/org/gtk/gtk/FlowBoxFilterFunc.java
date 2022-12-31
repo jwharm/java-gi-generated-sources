@@ -13,5 +13,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface FlowBoxFilterFunc {
-        boolean onFlowBoxFilterFunc(@NotNull org.gtk.gtk.FlowBoxChild child);
+    boolean run(org.gtk.gtk.FlowBoxChild child);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress child, MemoryAddress userData) {
+        var RESULT = run((org.gtk.gtk.FlowBoxChild) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(child)), org.gtk.gtk.FlowBoxChild.fromAddress).marshal(child, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FlowBoxFilterFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

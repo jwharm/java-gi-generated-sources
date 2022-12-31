@@ -17,25 +17,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Converter extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Converter if its GType is a (or inherits from) "GConverter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Converter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GConverter", a ClassCastException will be thrown.
-     */
-    public static Converter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Converter.getType())) {
-            return new ConverterImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GConverter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ConverterImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConverterImpl(input, ownership);
     
     /**
      * This is the main operation used when converting data. It is to be called
@@ -132,13 +115,8 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      * @return a {@link ConverterResult}, {@link ConverterResult#ERROR} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.ConverterResult convert(@NotNull byte[] inbuf, long inbufSize, @NotNull byte[] outbuf, long outbufSize, @NotNull org.gtk.gio.ConverterFlags flags, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(inbuf, "Parameter 'inbuf' must not be null");
-        java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+    default org.gtk.gio.ConverterResult convert(byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, org.gtk.gio.ConverterFlags flags, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -182,7 +160,7 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_converter_get_type.invokeExact();
@@ -217,7 +195,7 @@ public interface Converter extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class ConverterImpl extends org.gtk.gobject.Object implements Converter {
+    class ConverterImpl extends org.gtk.gobject.GObject implements Converter {
         
         static {
             Gio.javagi$ensureInitialized();

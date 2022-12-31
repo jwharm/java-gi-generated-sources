@@ -16,18 +16,16 @@ public class SDPAttribute extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstSDPAttribute";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("key"),
-        Interop.valueLayout.ADDRESS.withName("value")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("key"),
+            Interop.valueLayout.ADDRESS.withName("value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,42 +45,42 @@ public class SDPAttribute extends Struct {
      * Get the value of the field {@code key}
      * @return The value of the field {@code key}
      */
-    public java.lang.String key$get() {
+    public java.lang.String getKey() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("key"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code key}
      * @param key The new value of the field {@code key}
      */
-    public void key$set(java.lang.String key) {
+    public void setKey(java.lang.String key) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(key));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
     }
     
     /**
      * Get the value of the field {@code value}
      * @return The value of the field {@code value}
      */
-    public java.lang.String value$get() {
+    public java.lang.String getValue() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code value}
      * @param value The new value of the field {@code value}
      */
-    public void value$set(java.lang.String value) {
+    public void setValue(java.lang.String value) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(value));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
     }
     
     /**
@@ -90,16 +88,18 @@ public class SDPAttribute extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SDPAttribute(Addressable address, Ownership ownership) {
+    protected SDPAttribute(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SDPAttribute> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPAttribute(input, ownership);
     
     /**
      * Clear the attribute.
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult clear() {
+    public org.gstreamer.sdp.SDPResult clear() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_attribute_clear.invokeExact(
@@ -116,14 +116,13 @@ public class SDPAttribute extends Struct {
      * @param value the value
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult set(@NotNull java.lang.String key, @Nullable java.lang.String value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public org.gstreamer.sdp.SDPResult set(java.lang.String key, @Nullable java.lang.String value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_attribute_set.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
+                    Marshal.stringToAddress.marshal(key, null),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -144,31 +143,35 @@ public class SDPAttribute extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link SDPAttribute.Builder} object constructs a {@link SDPAttribute} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SDPAttribute.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SDPAttribute struct;
+        private final SDPAttribute struct;
         
-         /**
-         * A {@link SDPAttribute.Build} object constructs a {@link SDPAttribute} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SDPAttribute.allocate();
         }
         
          /**
          * Finish building the {@link SDPAttribute} struct.
          * @return A new instance of {@code SDPAttribute} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SDPAttribute construct() {
+        public SDPAttribute build() {
             return struct;
         }
         
@@ -177,10 +180,10 @@ public class SDPAttribute extends Struct {
          * @param key The value for the {@code key} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKey(java.lang.String key) {
+        public Builder setKey(java.lang.String key) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("key"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
             return this;
         }
         
@@ -189,10 +192,10 @@ public class SDPAttribute extends Struct {
          * @param value The value for the {@code value} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(java.lang.String value) {
+        public Builder setValue(java.lang.String value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
             return this;
         }
     }

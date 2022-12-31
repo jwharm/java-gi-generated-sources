@@ -17,18 +17,16 @@ public class AttrFloat extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrFloat";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.pango.Attribute.getMemoryLayout().withName("attr"),
-        Interop.valueLayout.C_DOUBLE.withName("value")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.pango.Attribute.getMemoryLayout().withName("attr"),
+            Interop.valueLayout.C_DOUBLE.withName("value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,16 +46,26 @@ public class AttrFloat extends Struct {
      * Get the value of the field {@code attr}
      * @return The value of the field {@code attr}
      */
-    public org.pango.Attribute attr$get() {
+    public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return new org.pango.Attribute(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code attr}
+     * @param attr The new value of the field {@code attr}
+     */
+    public void setAttr(org.pango.Attribute attr) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
     }
     
     /**
      * Get the value of the field {@code value}
      * @return The value of the field {@code value}
      */
-    public double value$get() {
+    public double getValue() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -68,7 +76,7 @@ public class AttrFloat extends Struct {
      * Change the value of the field {@code value}
      * @param value The new value of the field {@code value}
      */
-    public void value$set(double value) {
+    public void setValue(double value) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
@@ -79,35 +87,41 @@ public class AttrFloat extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AttrFloat(Addressable address, Ownership ownership) {
+    protected AttrFloat(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AttrFloat> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrFloat(input, ownership);
+    
+    /**
+     * A {@link AttrFloat.Builder} object constructs a {@link AttrFloat} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AttrFloat.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AttrFloat struct;
+        private final AttrFloat struct;
         
-         /**
-         * A {@link AttrFloat.Build} object constructs a {@link AttrFloat} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AttrFloat.allocate();
         }
         
          /**
          * Finish building the {@link AttrFloat} struct.
          * @return A new instance of {@code AttrFloat} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AttrFloat construct() {
+        public AttrFloat build() {
             return struct;
         }
         
@@ -116,7 +130,7 @@ public class AttrFloat extends Struct {
          * @param attr The value for the {@code attr} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttr(org.pango.Attribute attr) {
+        public Builder setAttr(org.pango.Attribute attr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("attr"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
@@ -128,7 +142,7 @@ public class AttrFloat extends Struct {
          * @param value The value for the {@code value} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(double value) {
+        public Builder setValue(double value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);

@@ -40,8 +40,10 @@ public class MemoryTextureClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MemoryTextureClass(Addressable address, Ownership ownership) {
+    protected MemoryTextureClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MemoryTextureClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryTextureClass(input, ownership);
 }

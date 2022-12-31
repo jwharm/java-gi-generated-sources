@@ -30,36 +30,18 @@ public class CrossingEvent extends org.gtk.gdk.Event {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CrossingEvent(Addressable address, Ownership ownership) {
+    protected CrossingEvent(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to CrossingEvent if its GType is a (or inherits from) "GdkCrossingEvent".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CrossingEvent} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkCrossingEvent", a ClassCastException will be thrown.
-     */
-    public static CrossingEvent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CrossingEvent.getType())) {
-            return new CrossingEvent(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkCrossingEvent");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CrossingEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CrossingEvent(input, ownership);
     
     /**
      * Extracts the notify detail from a crossing event.
      * @return the notify detail of {@code event}
      */
-    public @NotNull org.gtk.gdk.NotifyType getDetail() {
+    public org.gtk.gdk.NotifyType getDetail() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_crossing_event_get_detail.invokeExact(
@@ -82,14 +64,14 @@ public class CrossingEvent extends org.gtk.gdk.Event {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Extracts the crossing mode from a crossing event.
      * @return the mode of {@code event}
      */
-    public @NotNull org.gtk.gdk.CrossingMode getMode() {
+    public org.gtk.gdk.CrossingMode getMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_crossing_event_get_mode.invokeExact(
@@ -104,7 +86,7 @@ public class CrossingEvent extends org.gtk.gdk.Event {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_crossing_event_get_type.invokeExact();
@@ -112,41 +94,6 @@ public class CrossingEvent extends org.gtk.gdk.Event {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Type(RESULT);
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends org.gtk.gdk.Event.Build {
-        
-         /**
-         * A {@link CrossingEvent.Build} object constructs a {@link CrossingEvent} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link CrossingEvent} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link CrossingEvent} using {@link CrossingEvent#castFrom}.
-         * @return A new instance of {@code CrossingEvent} with the properties 
-         *         that were set in the Build object.
-         */
-        public CrossingEvent construct() {
-            return CrossingEvent.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CrossingEvent.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
     }
     
     private static class DowncallHandles {

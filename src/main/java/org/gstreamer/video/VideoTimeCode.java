@@ -24,22 +24,20 @@ public class VideoTimeCode extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoTimeCode";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.video.VideoTimeCodeConfig.getMemoryLayout().withName("config"),
-        Interop.valueLayout.C_INT.withName("hours"),
-        Interop.valueLayout.C_INT.withName("minutes"),
-        Interop.valueLayout.C_INT.withName("seconds"),
-        Interop.valueLayout.C_INT.withName("frames"),
-        Interop.valueLayout.C_INT.withName("field_count")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.video.VideoTimeCodeConfig.getMemoryLayout().withName("config"),
+            Interop.valueLayout.C_INT.withName("hours"),
+            Interop.valueLayout.C_INT.withName("minutes"),
+            Interop.valueLayout.C_INT.withName("seconds"),
+            Interop.valueLayout.C_INT.withName("frames"),
+            Interop.valueLayout.C_INT.withName("field_count")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -59,16 +57,26 @@ public class VideoTimeCode extends Struct {
      * Get the value of the field {@code config}
      * @return The value of the field {@code config}
      */
-    public org.gstreamer.video.VideoTimeCodeConfig config$get() {
+    public org.gstreamer.video.VideoTimeCodeConfig getConfig() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("config"));
-        return new org.gstreamer.video.VideoTimeCodeConfig(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoTimeCodeConfig.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code config}
+     * @param config The new value of the field {@code config}
+     */
+    public void setConfig(org.gstreamer.video.VideoTimeCodeConfig config) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("config"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (config == null ? MemoryAddress.NULL : config.handle()));
     }
     
     /**
      * Get the value of the field {@code hours}
      * @return The value of the field {@code hours}
      */
-    public int hours$get() {
+    public int getHours() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hours"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -79,7 +87,7 @@ public class VideoTimeCode extends Struct {
      * Change the value of the field {@code hours}
      * @param hours The new value of the field {@code hours}
      */
-    public void hours$set(int hours) {
+    public void setHours(int hours) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hours"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hours);
@@ -89,7 +97,7 @@ public class VideoTimeCode extends Struct {
      * Get the value of the field {@code minutes}
      * @return The value of the field {@code minutes}
      */
-    public int minutes$get() {
+    public int getMinutes() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -100,7 +108,7 @@ public class VideoTimeCode extends Struct {
      * Change the value of the field {@code minutes}
      * @param minutes The new value of the field {@code minutes}
      */
-    public void minutes$set(int minutes) {
+    public void setMinutes(int minutes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minutes);
@@ -110,7 +118,7 @@ public class VideoTimeCode extends Struct {
      * Get the value of the field {@code seconds}
      * @return The value of the field {@code seconds}
      */
-    public int seconds$get() {
+    public int getSeconds() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -121,7 +129,7 @@ public class VideoTimeCode extends Struct {
      * Change the value of the field {@code seconds}
      * @param seconds The new value of the field {@code seconds}
      */
-    public void seconds$set(int seconds) {
+    public void setSeconds(int seconds) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);
@@ -131,7 +139,7 @@ public class VideoTimeCode extends Struct {
      * Get the value of the field {@code frames}
      * @return The value of the field {@code frames}
      */
-    public int frames$get() {
+    public int getFrames() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("frames"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -142,7 +150,7 @@ public class VideoTimeCode extends Struct {
      * Change the value of the field {@code frames}
      * @param frames The new value of the field {@code frames}
      */
-    public void frames$set(int frames) {
+    public void setFrames(int frames) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("frames"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);
@@ -152,7 +160,7 @@ public class VideoTimeCode extends Struct {
      * Get the value of the field {@code field_count}
      * @return The value of the field {@code field_count}
      */
-    public int fieldCount$get() {
+    public int getFieldCount() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("field_count"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -163,7 +171,7 @@ public class VideoTimeCode extends Struct {
      * Change the value of the field {@code field_count}
      * @param fieldCount The new value of the field {@code field_count}
      */
-    public void fieldCount$set(int fieldCount) {
+    public void setFieldCount(int fieldCount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("field_count"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), fieldCount);
@@ -174,15 +182,15 @@ public class VideoTimeCode extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoTimeCode(Addressable address, Ownership ownership) {
+    protected VideoTimeCode(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(int fpsN, int fpsD, @NotNull org.gtk.glib.DateTime latestDailyJam, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int hours, int minutes, int seconds, int frames, int fieldCount) {
-        java.util.Objects.requireNonNull(latestDailyJam, "Parameter 'latestDailyJam' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoTimeCode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoTimeCode(input, ownership);
+    
+    private static MemoryAddress constructNew(int fpsN, int fpsD, org.gtk.glib.DateTime latestDailyJam, org.gstreamer.video.VideoTimeCodeFlags flags, int hours, int minutes, int seconds, int frames, int fieldCount) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_new.invokeExact(
                     fpsN,
@@ -213,12 +221,12 @@ public class VideoTimeCode extends Struct {
      * @param frames the frames field of {@link VideoTimeCode}
      * @param fieldCount Interlaced video field count
      */
-    public VideoTimeCode(int fpsN, int fpsD, @NotNull org.gtk.glib.DateTime latestDailyJam, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int hours, int minutes, int seconds, int frames, int fieldCount) {
+    public VideoTimeCode(int fpsN, int fpsD, org.gtk.glib.DateTime latestDailyJam, org.gstreamer.video.VideoTimeCodeFlags flags, int hours, int minutes, int seconds, int frames, int fieldCount) {
         super(constructNew(fpsN, fpsD, latestDailyJam, flags, hours, minutes, seconds, frames, fieldCount), Ownership.FULL);
     }
     
-    private static Addressable constructNewEmpty() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewEmpty() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_new_empty.invokeExact();
         } catch (Throwable ERR) {
@@ -228,13 +236,12 @@ public class VideoTimeCode extends Struct {
     }
     
     public static VideoTimeCode newEmpty() {
-        return new VideoTimeCode(constructNewEmpty(), Ownership.FULL);
+        var RESULT = constructNewEmpty();
+        return org.gstreamer.video.VideoTimeCode.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromDateTime(int fpsN, int fpsD, @NotNull org.gtk.glib.DateTime dt, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
-        java.util.Objects.requireNonNull(dt, "Parameter 'dt' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromDateTime(int fpsN, int fpsD, org.gtk.glib.DateTime dt, org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_new_from_date_time.invokeExact(
                     fpsN,
@@ -262,14 +269,13 @@ public class VideoTimeCode extends Struct {
      * @param fieldCount Interlaced video field count
      * @return the {@link VideoTimeCode} representation of {@code dt}.
      */
-    public static VideoTimeCode newFromDateTime(int fpsN, int fpsD, @NotNull org.gtk.glib.DateTime dt, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
-        return new VideoTimeCode(constructNewFromDateTime(fpsN, fpsD, dt, flags, fieldCount), Ownership.FULL);
+    public static VideoTimeCode newFromDateTime(int fpsN, int fpsD, org.gtk.glib.DateTime dt, org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
+        var RESULT = constructNewFromDateTime(fpsN, fpsD, dt, flags, fieldCount);
+        return org.gstreamer.video.VideoTimeCode.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromDateTimeFull(int fpsN, int fpsD, @NotNull org.gtk.glib.DateTime dt, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
-        java.util.Objects.requireNonNull(dt, "Parameter 'dt' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromDateTimeFull(int fpsN, int fpsD, org.gtk.glib.DateTime dt, org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_new_from_date_time_full.invokeExact(
                     fpsN,
@@ -294,24 +300,25 @@ public class VideoTimeCode extends Struct {
      * @return the {@link VideoTimeCode} representation of {@code dt}, or {@code null} if
      *   no valid timecode could be created.
      */
-    public static VideoTimeCode newFromDateTimeFull(int fpsN, int fpsD, @NotNull org.gtk.glib.DateTime dt, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
-        return new VideoTimeCode(constructNewFromDateTimeFull(fpsN, fpsD, dt, flags, fieldCount), Ownership.FULL);
+    public static VideoTimeCode newFromDateTimeFull(int fpsN, int fpsD, org.gtk.glib.DateTime dt, org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
+        var RESULT = constructNewFromDateTimeFull(fpsN, fpsD, dt, flags, fieldCount);
+        return org.gstreamer.video.VideoTimeCode.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromString(@NotNull java.lang.String tcStr) {
-        java.util.Objects.requireNonNull(tcStr, "Parameter 'tcStr' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromString(java.lang.String tcStr) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_new_from_string.invokeExact(
-                    Interop.allocateNativeString(tcStr));
+                    Marshal.stringToAddress.marshal(tcStr, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    public static VideoTimeCode newFromString(@NotNull java.lang.String tcStr) {
-        return new VideoTimeCode(constructNewFromString(tcStr), Ownership.FULL);
+    public static VideoTimeCode newFromString(java.lang.String tcStr) {
+        var RESULT = constructNewFromString(tcStr);
+        return org.gstreamer.video.VideoTimeCode.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -344,8 +351,7 @@ public class VideoTimeCode extends Struct {
      * @return A new {@link VideoTimeCode} with {@code tc_inter} added or {@code null}
      *   if the interval can't be added.
      */
-    public @Nullable org.gstreamer.video.VideoTimeCode addInterval(@NotNull org.gstreamer.video.VideoTimeCodeInterval tcInter) {
-        java.util.Objects.requireNonNull(tcInter, "Parameter 'tcInter' must not be null");
+    public @Nullable org.gstreamer.video.VideoTimeCode addInterval(org.gstreamer.video.VideoTimeCodeInterval tcInter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_add_interval.invokeExact(
@@ -354,7 +360,7 @@ public class VideoTimeCode extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoTimeCode(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoTimeCode.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -377,8 +383,7 @@ public class VideoTimeCode extends Struct {
      * @param tc2 another valid {@link VideoTimeCode}
      * @return 1 if {@code tc1} is after {@code tc2}, -1 if {@code tc1} is before {@code tc2}, 0 otherwise.
      */
-    public int compare(@NotNull org.gstreamer.video.VideoTimeCode tc2) {
-        java.util.Objects.requireNonNull(tc2, "Parameter 'tc2' must not be null");
+    public int compare(org.gstreamer.video.VideoTimeCode tc2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_time_code_compare.invokeExact(
@@ -390,7 +395,7 @@ public class VideoTimeCode extends Struct {
         return RESULT;
     }
     
-    public @NotNull org.gstreamer.video.VideoTimeCode copy() {
+    public org.gstreamer.video.VideoTimeCode copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_copy.invokeExact(
@@ -398,7 +403,7 @@ public class VideoTimeCode extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoTimeCode(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoTimeCode.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public long framesSinceDailyJam() {
@@ -453,8 +458,7 @@ public class VideoTimeCode extends Struct {
      * @param frames the frames field of {@link VideoTimeCode}
      * @param fieldCount Interlaced video field count
      */
-    public void init(int fpsN, int fpsD, @Nullable org.gtk.glib.DateTime latestDailyJam, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int hours, int minutes, int seconds, int frames, int fieldCount) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void init(int fpsN, int fpsD, @Nullable org.gtk.glib.DateTime latestDailyJam, org.gstreamer.video.VideoTimeCodeFlags flags, int hours, int minutes, int seconds, int frames, int fieldCount) {
         try {
             DowncallHandles.gst_video_time_code_init.invokeExact(
                     handle(),
@@ -484,9 +488,7 @@ public class VideoTimeCode extends Struct {
      * @param flags {@link VideoTimeCodeFlags}
      * @param fieldCount Interlaced video field count
      */
-    public void initFromDateTime(int fpsN, int fpsD, @NotNull org.gtk.glib.DateTime dt, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
-        java.util.Objects.requireNonNull(dt, "Parameter 'dt' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void initFromDateTime(int fpsN, int fpsD, org.gtk.glib.DateTime dt, org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
         try {
             DowncallHandles.gst_video_time_code_init_from_date_time.invokeExact(
                     handle(),
@@ -510,9 +512,7 @@ public class VideoTimeCode extends Struct {
      * @param fieldCount Interlaced video field count
      * @return {@code true} if {@code tc} could be correctly initialized to a valid timecode
      */
-    public boolean initFromDateTimeFull(int fpsN, int fpsD, @NotNull org.gtk.glib.DateTime dt, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
-        java.util.Objects.requireNonNull(dt, "Parameter 'dt' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean initFromDateTimeFull(int fpsN, int fpsD, org.gtk.glib.DateTime dt, org.gstreamer.video.VideoTimeCodeFlags flags, int fieldCount) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_time_code_init_from_date_time_full.invokeExact(
@@ -525,7 +525,7 @@ public class VideoTimeCode extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean isValid() {
@@ -536,7 +536,7 @@ public class VideoTimeCode extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public long nsecSinceDailyJam() {
@@ -563,10 +563,10 @@ public class VideoTimeCode extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_to_string.invokeExact(
@@ -574,7 +574,7 @@ public class VideoTimeCode extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
@@ -699,31 +699,35 @@ public class VideoTimeCode extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoTimeCode.Builder} object constructs a {@link VideoTimeCode} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoTimeCode.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoTimeCode struct;
+        private final VideoTimeCode struct;
         
-         /**
-         * A {@link VideoTimeCode.Build} object constructs a {@link VideoTimeCode} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoTimeCode.allocate();
         }
         
          /**
          * Finish building the {@link VideoTimeCode} struct.
          * @return A new instance of {@code VideoTimeCode} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoTimeCode construct() {
+        public VideoTimeCode build() {
             return struct;
         }
         
@@ -732,7 +736,7 @@ public class VideoTimeCode extends Struct {
          * @param config The value for the {@code config} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setConfig(org.gstreamer.video.VideoTimeCodeConfig config) {
+        public Builder setConfig(org.gstreamer.video.VideoTimeCodeConfig config) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("config"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (config == null ? MemoryAddress.NULL : config.handle()));
@@ -744,7 +748,7 @@ public class VideoTimeCode extends Struct {
          * @param hours The value for the {@code hours} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHours(int hours) {
+        public Builder setHours(int hours) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hours"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hours);
@@ -756,7 +760,7 @@ public class VideoTimeCode extends Struct {
          * @param minutes The value for the {@code minutes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinutes(int minutes) {
+        public Builder setMinutes(int minutes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minutes);
@@ -768,7 +772,7 @@ public class VideoTimeCode extends Struct {
          * @param seconds The value for the {@code seconds} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSeconds(int seconds) {
+        public Builder setSeconds(int seconds) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);
@@ -780,7 +784,7 @@ public class VideoTimeCode extends Struct {
          * @param frames The value for the {@code frames} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFrames(int frames) {
+        public Builder setFrames(int frames) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("frames"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);
@@ -792,7 +796,7 @@ public class VideoTimeCode extends Struct {
          * @param fieldCount The value for the {@code fieldCount} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFieldCount(int fieldCount) {
+        public Builder setFieldCount(int fieldCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("field_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), fieldCount);

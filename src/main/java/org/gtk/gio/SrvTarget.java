@@ -56,17 +56,18 @@ public class SrvTarget extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SrvTarget(Addressable address, Ownership ownership) {
+    protected SrvTarget(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String hostname, short port, short priority, short weight) {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SrvTarget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SrvTarget(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String hostname, short port, short priority, short weight) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_srv_target_new.invokeExact(
-                    Interop.allocateNativeString(hostname),
+                    Marshal.stringToAddress.marshal(hostname, null),
                     port,
                     priority,
                     weight);
@@ -86,7 +87,7 @@ public class SrvTarget extends Struct {
      * @param priority the target's priority
      * @param weight the target's weight
      */
-    public SrvTarget(@NotNull java.lang.String hostname, short port, short priority, short weight) {
+    public SrvTarget(java.lang.String hostname, short port, short priority, short weight) {
         super(constructNew(hostname, port, priority, weight), Ownership.FULL);
     }
     
@@ -94,7 +95,7 @@ public class SrvTarget extends Struct {
      * Copies {@code target}
      * @return a copy of {@code target}
      */
-    public @NotNull org.gtk.gio.SrvTarget copy() {
+    public org.gtk.gio.SrvTarget copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_srv_target_copy.invokeExact(
@@ -102,7 +103,7 @@ public class SrvTarget extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SrvTarget(RESULT, Ownership.FULL);
+        return org.gtk.gio.SrvTarget.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -124,7 +125,7 @@ public class SrvTarget extends Struct {
      * g_hostname_to_unicode() to convert it if it does.)
      * @return {@code target}'s hostname
      */
-    public @NotNull java.lang.String getHostname() {
+    public java.lang.String getHostname() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_srv_target_get_hostname.invokeExact(
@@ -132,7 +133,7 @@ public class SrvTarget extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -189,8 +190,7 @@ public class SrvTarget extends Struct {
      * @param targets a {@link org.gtk.glib.List} of {@link SrvTarget}
      * @return the head of the sorted list.
      */
-    public static @NotNull org.gtk.glib.List listSort(@NotNull org.gtk.glib.List targets) {
-        java.util.Objects.requireNonNull(targets, "Parameter 'targets' must not be null");
+    public static org.gtk.glib.List listSort(org.gtk.glib.List targets) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_srv_target_list_sort.invokeExact(
@@ -198,7 +198,7 @@ public class SrvTarget extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

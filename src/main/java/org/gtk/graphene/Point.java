@@ -17,18 +17,16 @@ public class Point extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_point_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_FLOAT.withName("x"),
-        Interop.valueLayout.C_FLOAT.withName("y")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_FLOAT.withName("x"),
+            Interop.valueLayout.C_FLOAT.withName("y")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class Point extends Struct {
      * Get the value of the field {@code x}
      * @return The value of the field {@code x}
      */
-    public float x$get() {
+    public float getX() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,7 +57,7 @@ public class Point extends Struct {
      * Change the value of the field {@code x}
      * @param x The new value of the field {@code x}
      */
-    public void x$set(float x) {
+    public void setX(float x) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -69,7 +67,7 @@ public class Point extends Struct {
      * Get the value of the field {@code y}
      * @return The value of the field {@code y}
      */
-    public float y$get() {
+    public float getY() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class Point extends Struct {
      * Change the value of the field {@code y}
      * @param y The new value of the field {@code y}
      */
-    public void y$set(float y) {
+    public void setY(float y) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -91,13 +89,15 @@ public class Point extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Point(Addressable address, Ownership ownership) {
+    protected Point(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Point> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Point(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -131,7 +131,8 @@ public class Point extends Struct {
      *   this function.
      */
     public static Point alloc() {
-        return new Point(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -141,24 +142,21 @@ public class Point extends Struct {
      * @param dY distance component on the Y axis
      * @return the distance between the two points
      */
-    public float distance(@NotNull org.gtk.graphene.Point b, Out<Float> dX, Out<Float> dY) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(dX, "Parameter 'dX' must not be null");
+    public float distance(org.gtk.graphene.Point b, Out<Float> dX, Out<Float> dY) {
         MemorySegment dXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(dY, "Parameter 'dY' must not be null");
         MemorySegment dYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_point_distance.invokeExact(
                     handle(),
                     b.handle(),
-                    (Addressable) dXPOINTER.address(),
-                    (Addressable) dYPOINTER.address());
+                    (Addressable) (dX == null ? MemoryAddress.NULL : (Addressable) dXPOINTER.address()),
+                    (Addressable) (dY == null ? MemoryAddress.NULL : (Addressable) dYPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        dX.set(dXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        dY.set(dYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        if (dX != null) dX.set(dXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        if (dY != null) dY.set(dYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
         return RESULT;
     }
     
@@ -172,8 +170,7 @@ public class Point extends Struct {
      * @param b a {@link Point}
      * @return {@code true} if the points have the same coordinates
      */
-    public boolean equal(@NotNull org.gtk.graphene.Point b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Point b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_point_equal.invokeExact(
@@ -205,7 +202,7 @@ public class Point extends Struct {
      * @param y the Y coordinate
      * @return the initialized point
      */
-    public @NotNull org.gtk.graphene.Point init(float x, float y) {
+    public org.gtk.graphene.Point init(float x, float y) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point_init.invokeExact(
@@ -215,7 +212,7 @@ public class Point extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -223,8 +220,7 @@ public class Point extends Struct {
      * @param src the {@link Point} to use
      * @return the initialized point
      */
-    public @NotNull org.gtk.graphene.Point initFromPoint(@NotNull org.gtk.graphene.Point src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Point initFromPoint(org.gtk.graphene.Point src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point_init_from_point.invokeExact(
@@ -233,7 +229,7 @@ public class Point extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -241,8 +237,7 @@ public class Point extends Struct {
      * @param src a {@link Vec2}
      * @return the initialized point
      */
-    public @NotNull org.gtk.graphene.Point initFromVec2(@NotNull org.gtk.graphene.Vec2 src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Point initFromVec2(org.gtk.graphene.Vec2 src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point_init_from_vec2.invokeExact(
@@ -251,7 +246,7 @@ public class Point extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -262,9 +257,7 @@ public class Point extends Struct {
      * @param res return location for the interpolated
      *   point
      */
-    public void interpolate(@NotNull org.gtk.graphene.Point b, double factor, @NotNull org.gtk.graphene.Point res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void interpolate(org.gtk.graphene.Point b, double factor, org.gtk.graphene.Point res) {
         try {
             DowncallHandles.graphene_point_interpolate.invokeExact(
                     handle(),
@@ -283,8 +276,7 @@ public class Point extends Struct {
      * @param epsilon threshold between the two points
      * @return {@code true} if the distance is within {@code epsilon}
      */
-    public boolean near(@NotNull org.gtk.graphene.Point b, float epsilon) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean near(org.gtk.graphene.Point b, float epsilon) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_point_near.invokeExact(
@@ -302,8 +294,7 @@ public class Point extends Struct {
      * {@link Vec2}.
      * @param v return location for the vertex
      */
-    public void toVec2(@NotNull org.gtk.graphene.Vec2 v) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+    public void toVec2(org.gtk.graphene.Vec2 v) {
         try {
             DowncallHandles.graphene_point_to_vec2.invokeExact(
                     handle(),
@@ -317,14 +308,14 @@ public class Point extends Struct {
      * Returns a point fixed at (0, 0).
      * @return a fixed point
      */
-    public static @NotNull org.gtk.graphene.Point zero() {
+    public static org.gtk.graphene.Point zero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -395,31 +386,35 @@ public class Point extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Point.Builder} object constructs a {@link Point} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Point.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Point struct;
+        private final Point struct;
         
-         /**
-         * A {@link Point.Build} object constructs a {@link Point} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Point.allocate();
         }
         
          /**
          * Finish building the {@link Point} struct.
          * @return A new instance of {@code Point} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Point construct() {
+        public Point build() {
             return struct;
         }
         
@@ -428,7 +423,7 @@ public class Point extends Struct {
          * @param x The value for the {@code x} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setX(float x) {
+        public Builder setX(float x) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -440,7 +435,7 @@ public class Point extends Struct {
          * @param y The value for the {@code y} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setY(float y) {
+        public Builder setY(float y) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);

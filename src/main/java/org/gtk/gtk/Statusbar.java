@@ -64,40 +64,26 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * <p>
      * Because Statusbar is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Statusbar(Addressable address, Ownership ownership) {
+    protected Statusbar(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Statusbar if its GType is a (or inherits from) "GtkStatusbar".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Statusbar} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkStatusbar", a ClassCastException will be thrown.
-     */
-    public static Statusbar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Statusbar.getType())) {
-            return new Statusbar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStatusbar");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Statusbar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Statusbar(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_statusbar_new.invokeExact();
         } catch (Throwable ERR) {
@@ -122,13 +108,12 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      *   the new message is being used in
      * @return an integer id
      */
-    public int getContextId(@NotNull java.lang.String contextDescription) {
-        java.util.Objects.requireNonNull(contextDescription, "Parameter 'contextDescription' must not be null");
+    public int getContextId(java.lang.String contextDescription) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_statusbar_get_context_id.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(contextDescription));
+                    Marshal.stringToAddress.marshal(contextDescription, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -162,14 +147,13 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @return a message id that can be used with
      *   {@link Statusbar#remove}.
      */
-    public int push(int contextId, @NotNull java.lang.String text) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public int push(int contextId, java.lang.String text) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_statusbar_push.invokeExact(
                     handle(),
                     contextId,
-                    Interop.allocateNativeString(text));
+                    Marshal.stringToAddress.marshal(text, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +196,7 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_statusbar_get_type.invokeExact();
@@ -224,7 +208,18 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface TextPopped {
-        void signalReceived(Statusbar sourceStatusbar, int contextId, @NotNull java.lang.String text);
+        void run(int contextId, java.lang.String text);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceStatusbar, int contextId, MemoryAddress text) {
+            run(contextId, Marshal.addressToString.marshal(text, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TextPopped.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -235,16 +230,8 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public Signal<Statusbar.TextPopped> onTextPopped(Statusbar.TextPopped handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("text-popped"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Statusbar.Callbacks.class, "signalStatusbarTextPopped",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Statusbar.TextPopped>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("text-popped"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -252,7 +239,18 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface TextPushed {
-        void signalReceived(Statusbar sourceStatusbar, int contextId, @NotNull java.lang.String text);
+        void run(int contextId, java.lang.String text);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceStatusbar, int contextId, MemoryAddress text) {
+            run(contextId, Marshal.addressToString.marshal(text, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TextPushed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -263,52 +261,46 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
     public Signal<Statusbar.TextPushed> onTextPushed(Statusbar.TextPushed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("text-pushed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Statusbar.Callbacks.class, "signalStatusbarTextPushed",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Statusbar.TextPushed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("text-pushed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Statusbar.Builder} object constructs a {@link Statusbar} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Statusbar.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Statusbar.Build} object constructs a {@link Statusbar} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Statusbar} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Statusbar} using {@link Statusbar#castFrom}.
+         * {@link Statusbar}.
          * @return A new instance of {@code Statusbar} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Statusbar construct() {
-            return Statusbar.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Statusbar.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Statusbar build() {
+            return (Statusbar) org.gtk.gobject.GObject.newWithProperties(
+                Statusbar.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -356,20 +348,5 @@ public class Statusbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalStatusbarTextPopped(MemoryAddress sourceStatusbar, int contextId, MemoryAddress text, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Statusbar.TextPopped) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Statusbar(sourceStatusbar, Ownership.NONE), contextId, Interop.getStringFrom(text));
-        }
-        
-        public static void signalStatusbarTextPushed(MemoryAddress sourceStatusbar, int contextId, MemoryAddress text, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Statusbar.TextPushed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Statusbar(sourceStatusbar, Ownership.NONE), contextId, Interop.getStringFrom(text));
-        }
     }
 }

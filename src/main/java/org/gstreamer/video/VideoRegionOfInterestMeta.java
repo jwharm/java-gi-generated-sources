@@ -16,26 +16,24 @@ public class VideoRegionOfInterestMeta extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoRegionOfInterestMeta";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
-        Interop.valueLayout.C_INT.withName("roi_type"),
-        Interop.valueLayout.C_INT.withName("id"),
-        Interop.valueLayout.C_INT.withName("parent_id"),
-        Interop.valueLayout.C_INT.withName("x"),
-        Interop.valueLayout.C_INT.withName("y"),
-        Interop.valueLayout.C_INT.withName("w"),
-        Interop.valueLayout.C_INT.withName("h"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("params")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
+            Interop.valueLayout.C_INT.withName("roi_type"),
+            Interop.valueLayout.C_INT.withName("id"),
+            Interop.valueLayout.C_INT.withName("parent_id"),
+            Interop.valueLayout.C_INT.withName("x"),
+            Interop.valueLayout.C_INT.withName("y"),
+            Interop.valueLayout.C_INT.withName("w"),
+            Interop.valueLayout.C_INT.withName("h"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("params")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,16 +53,26 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Get the value of the field {@code meta}
      * @return The value of the field {@code meta}
      */
-    public org.gstreamer.gst.Meta meta$get() {
+    public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return new org.gstreamer.gst.Meta(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code meta}
+     * @param meta The new value of the field {@code meta}
+     */
+    public void setMeta(org.gstreamer.gst.Meta meta) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
     }
     
     /**
      * Get the value of the field {@code roi_type}
      * @return The value of the field {@code roi_type}
      */
-    public org.gtk.glib.Quark roiType$get() {
+    public org.gtk.glib.Quark getRoiType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("roi_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -75,17 +83,17 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Change the value of the field {@code roi_type}
      * @param roiType The new value of the field {@code roi_type}
      */
-    public void roiType$set(org.gtk.glib.Quark roiType) {
+    public void setRoiType(org.gtk.glib.Quark roiType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("roi_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), roiType.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (roiType == null ? MemoryAddress.NULL : roiType.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code id}
      * @return The value of the field {@code id}
      */
-    public int id$get() {
+    public int getId() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -96,7 +104,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Change the value of the field {@code id}
      * @param id The new value of the field {@code id}
      */
-    public void id$set(int id) {
+    public void setId(int id) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), id);
@@ -106,7 +114,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Get the value of the field {@code parent_id}
      * @return The value of the field {@code parent_id}
      */
-    public int parentId$get() {
+    public int getParentId() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parent_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -117,7 +125,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Change the value of the field {@code parent_id}
      * @param parentId The new value of the field {@code parent_id}
      */
-    public void parentId$set(int parentId) {
+    public void setParentId(int parentId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parent_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), parentId);
@@ -127,7 +135,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Get the value of the field {@code x}
      * @return The value of the field {@code x}
      */
-    public int x$get() {
+    public int getX() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -138,7 +146,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Change the value of the field {@code x}
      * @param x The new value of the field {@code x}
      */
-    public void x$set(int x) {
+    public void setX(int x) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -148,7 +156,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Get the value of the field {@code y}
      * @return The value of the field {@code y}
      */
-    public int y$get() {
+    public int getY() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -159,7 +167,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Change the value of the field {@code y}
      * @param y The new value of the field {@code y}
      */
-    public void y$set(int y) {
+    public void setY(int y) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -169,7 +177,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Get the value of the field {@code w}
      * @return The value of the field {@code w}
      */
-    public int w$get() {
+    public int getW() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("w"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -180,7 +188,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Change the value of the field {@code w}
      * @param w The new value of the field {@code w}
      */
-    public void w$set(int w) {
+    public void setW(int w) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("w"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
@@ -190,7 +198,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Get the value of the field {@code h}
      * @return The value of the field {@code h}
      */
-    public int h$get() {
+    public int getH() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("h"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -201,7 +209,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Change the value of the field {@code h}
      * @param h The new value of the field {@code h}
      */
-    public void h$set(int h) {
+    public void setH(int h) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("h"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), h);
@@ -211,21 +219,21 @@ public class VideoRegionOfInterestMeta extends Struct {
      * Get the value of the field {@code params}
      * @return The value of the field {@code params}
      */
-    public org.gtk.glib.List params$get() {
+    public org.gtk.glib.List getParams() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("params"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code params}
      * @param params The new value of the field {@code params}
      */
-    public void params$set(org.gtk.glib.List params) {
+    public void setParams(org.gtk.glib.List params) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("params"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), params.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
     }
     
     /**
@@ -233,10 +241,12 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoRegionOfInterestMeta(Addressable address, Ownership ownership) {
+    protected VideoRegionOfInterestMeta(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoRegionOfInterestMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoRegionOfInterestMeta(input, ownership);
     
     /**
      * Attach element-specific parameters to {@code meta} meant to be used by downstream
@@ -250,8 +260,7 @@ public class VideoRegionOfInterestMeta extends Struct {
      * can be supported by cross platform applications).
      * @param s a {@link org.gstreamer.gst.Structure}
      */
-    public void addParam(@NotNull org.gstreamer.gst.Structure s) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
+    public void addParam(org.gstreamer.gst.Structure s) {
         try {
             DowncallHandles.gst_video_region_of_interest_meta_add_param.invokeExact(
                     handle(),
@@ -268,27 +277,26 @@ public class VideoRegionOfInterestMeta extends Struct {
      * @param name a name.
      * @return a {@link org.gstreamer.gst.Structure}
      */
-    public @Nullable org.gstreamer.gst.Structure getParam(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gstreamer.gst.Structure getParam(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_region_of_interest_meta_get_param.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo getInfo() {
+    public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_region_of_interest_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -311,31 +319,35 @@ public class VideoRegionOfInterestMeta extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoRegionOfInterestMeta.Builder} object constructs a {@link VideoRegionOfInterestMeta} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoRegionOfInterestMeta.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoRegionOfInterestMeta struct;
+        private final VideoRegionOfInterestMeta struct;
         
-         /**
-         * A {@link VideoRegionOfInterestMeta.Build} object constructs a {@link VideoRegionOfInterestMeta} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoRegionOfInterestMeta.allocate();
         }
         
          /**
          * Finish building the {@link VideoRegionOfInterestMeta} struct.
          * @return A new instance of {@code VideoRegionOfInterestMeta} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoRegionOfInterestMeta construct() {
+        public VideoRegionOfInterestMeta build() {
             return struct;
         }
         
@@ -344,7 +356,7 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @param meta The value for the {@code meta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMeta(org.gstreamer.gst.Meta meta) {
+        public Builder setMeta(org.gstreamer.gst.Meta meta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
@@ -356,7 +368,7 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @param roiType The value for the {@code roiType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRoiType(org.gtk.glib.Quark roiType) {
+        public Builder setRoiType(org.gtk.glib.Quark roiType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("roi_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (roiType == null ? MemoryAddress.NULL : roiType.getValue().intValue()));
@@ -368,7 +380,7 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @param id The value for the {@code id} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setId(int id) {
+        public Builder setId(int id) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), id);
@@ -380,7 +392,7 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @param parentId The value for the {@code parentId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentId(int parentId) {
+        public Builder setParentId(int parentId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), parentId);
@@ -392,7 +404,7 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @param x The value for the {@code x} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setX(int x) {
+        public Builder setX(int x) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -404,7 +416,7 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @param y The value for the {@code y} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setY(int y) {
+        public Builder setY(int y) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -416,7 +428,7 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @param w The value for the {@code w} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setW(int w) {
+        public Builder setW(int w) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("w"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
@@ -428,7 +440,7 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @param h The value for the {@code h} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setH(int h) {
+        public Builder setH(int h) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("h"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), h);
@@ -441,7 +453,7 @@ public class VideoRegionOfInterestMeta extends Struct {
          * @param params The value for the {@code params} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParams(org.gtk.glib.List params) {
+        public Builder setParams(org.gtk.glib.List params) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("params"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));

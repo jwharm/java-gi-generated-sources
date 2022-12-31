@@ -16,42 +16,40 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTPBasePayload";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
-        Interop.valueLayout.ADDRESS.withName("sinkpad"),
-        Interop.valueLayout.ADDRESS.withName("srcpad"),
-        Interop.valueLayout.C_INT.withName("ts_base"),
-        Interop.valueLayout.C_SHORT.withName("seqnum_base"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.ADDRESS.withName("media"),
-        Interop.valueLayout.ADDRESS.withName("encoding_name"),
-        Interop.valueLayout.C_INT.withName("dynamic"),
-        Interop.valueLayout.C_INT.withName("clock_rate"),
-        Interop.valueLayout.C_INT.withName("ts_offset"),
-        Interop.valueLayout.C_INT.withName("timestamp"),
-        Interop.valueLayout.C_SHORT.withName("seqnum_offset"),
-        Interop.valueLayout.C_SHORT.withName("seqnum"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("max_ptime"),
-        Interop.valueLayout.C_INT.withName("pt"),
-        Interop.valueLayout.C_INT.withName("ssrc"),
-        Interop.valueLayout.C_INT.withName("current_ssrc"),
-        Interop.valueLayout.C_INT.withName("mtu"),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
-        Interop.valueLayout.C_LONG.withName("min_ptime"),
-        Interop.valueLayout.C_LONG.withName("ptime"),
-        Interop.valueLayout.C_LONG.withName("ptime_multiple"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
+            Interop.valueLayout.ADDRESS.withName("sinkpad"),
+            Interop.valueLayout.ADDRESS.withName("srcpad"),
+            Interop.valueLayout.C_INT.withName("ts_base"),
+            Interop.valueLayout.C_SHORT.withName("seqnum_base"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.ADDRESS.withName("media"),
+            Interop.valueLayout.ADDRESS.withName("encoding_name"),
+            Interop.valueLayout.C_INT.withName("dynamic"),
+            Interop.valueLayout.C_INT.withName("clock_rate"),
+            Interop.valueLayout.C_INT.withName("ts_offset"),
+            Interop.valueLayout.C_INT.withName("timestamp"),
+            Interop.valueLayout.C_SHORT.withName("seqnum_offset"),
+            Interop.valueLayout.C_SHORT.withName("seqnum"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("max_ptime"),
+            Interop.valueLayout.C_INT.withName("pt"),
+            Interop.valueLayout.C_INT.withName("ssrc"),
+            Interop.valueLayout.C_INT.withName("current_ssrc"),
+            Interop.valueLayout.C_INT.withName("mtu"),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
+            Interop.valueLayout.C_LONG.withName("min_ptime"),
+            Interop.valueLayout.C_LONG.withName("ptime"),
+            Interop.valueLayout.C_LONG.withName("ptime_multiple"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -59,37 +57,23 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
      * <p>
      * Because RTPBasePayload is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTPBasePayload(Addressable address, Ownership ownership) {
+    protected RTPBasePayload(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to RTPBasePayload if its GType is a (or inherits from) "GstRTPBasePayload".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code RTPBasePayload} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstRTPBasePayload", a ClassCastException will be thrown.
-     */
-    public static RTPBasePayload castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), RTPBasePayload.getType())) {
-            return new RTPBasePayload(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstRTPBasePayload");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTPBasePayload> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPBasePayload(input, ownership);
     
     /**
      * Allocate a new {@link org.gstreamer.gst.Buffer} with enough data to hold an RTP packet with
@@ -102,7 +86,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
      * @return A newly allocated buffer that can hold an RTP packet with given
      * parameters.
      */
-    public @NotNull org.gstreamer.gst.Buffer allocateOutputBuffer(int payloadLen, byte padLen, byte csrcCount) {
+    public org.gstreamer.gst.Buffer allocateOutputBuffer(int payloadLen, byte padLen, byte csrcCount) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_base_payload_allocate_output_buffer.invokeExact(
@@ -113,7 +97,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -123,8 +107,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
      * @param buffer a {@link org.gstreamer.gst.Buffer}, typically the buffer to payload
      * @return The number of sources.
      */
-    public int getSourceCount(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public int getSourceCount(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_base_payload_get_source_count.invokeExact(
@@ -144,8 +127,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
      * @return {@code true} if the packet of {@code size} and {@code duration} would exceed the
      * configured MTU or max_ptime.
      */
-    public boolean isFilled(int size, @NotNull org.gstreamer.gst.ClockTime duration) {
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
+    public boolean isFilled(int size, org.gstreamer.gst.ClockTime duration) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_base_payload_is_filled.invokeExact(
@@ -155,7 +137,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -171,7 +153,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -182,8 +164,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
      * @param buffer a {@link org.gstreamer.gst.Buffer}
      * @return a {@link org.gstreamer.gst.FlowReturn}.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn push(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.gst.FlowReturn push(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_base_payload_push.invokeExact(
@@ -204,8 +185,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
      * @param list a {@link org.gstreamer.gst.BufferList}
      * @return a {@link org.gstreamer.gst.FlowReturn}.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn pushList(@NotNull org.gstreamer.gst.BufferList list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public org.gstreamer.gst.FlowReturn pushList(org.gstreamer.gst.BufferList list) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_base_payload_push_list.invokeExact(
@@ -227,15 +207,13 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
      * @param encodingName the encoding name
      * @param clockRate the clock rate of the media
      */
-    public void setOptions(@NotNull java.lang.String media, boolean dynamic, @NotNull java.lang.String encodingName, int clockRate) {
-        java.util.Objects.requireNonNull(media, "Parameter 'media' must not be null");
-        java.util.Objects.requireNonNull(encodingName, "Parameter 'encodingName' must not be null");
+    public void setOptions(java.lang.String media, boolean dynamic, java.lang.String encodingName, int clockRate) {
         try {
             DowncallHandles.gst_rtp_base_payload_set_options.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(media),
-                    dynamic ? 1 : 0,
-                    Interop.allocateNativeString(encodingName),
+                    Marshal.stringToAddress.marshal(media, null),
+                    Marshal.booleanToInteger.marshal(dynamic, null).intValue(),
+                    Marshal.stringToAddress.marshal(encodingName, null),
                     clockRate);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -251,18 +229,17 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
      * @param varargs field values
      * @return {@code true} if the caps could be set.
      */
-    public boolean setOutcaps(@NotNull java.lang.String fieldname, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
+    public boolean setOutcaps(java.lang.String fieldname, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_base_payload_set_outcaps.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -279,7 +256,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -291,7 +268,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_rtp_base_payload_set_source_info_enabled.invokeExact(
                     handle(),
-                    enable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,7 +278,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_rtp_base_payload_get_type.invokeExact();
@@ -313,7 +290,18 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
     
     @FunctionalInterface
     public interface AddExtension {
-        void signalReceived(RTPBasePayload sourceRTPBasePayload, @NotNull org.gstreamer.rtp.RTPHeaderExtension ext);
+        void run(org.gstreamer.rtp.RTPHeaderExtension ext);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceRTPBasePayload, MemoryAddress ext) {
+            run((org.gstreamer.rtp.RTPHeaderExtension) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(ext)), org.gstreamer.rtp.RTPHeaderExtension.fromAddress).marshal(ext, Ownership.FULL));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AddExtension.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -325,16 +313,8 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
     public Signal<RTPBasePayload.AddExtension> onAddExtension(RTPBasePayload.AddExtension handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("add-extension"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(RTPBasePayload.Callbacks.class, "signalRTPBasePayloadAddExtension",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<RTPBasePayload.AddExtension>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("add-extension"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +322,18 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
     
     @FunctionalInterface
     public interface ClearExtensions {
-        void signalReceived(RTPBasePayload sourceRTPBasePayload);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceRTPBasePayload) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClearExtensions.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -353,16 +344,8 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
     public Signal<RTPBasePayload.ClearExtensions> onClearExtensions(RTPBasePayload.ClearExtensions handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("clear-extensions"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(RTPBasePayload.Callbacks.class, "signalRTPBasePayloadClearExtensions",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<RTPBasePayload.ClearExtensions>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("clear-extensions"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -370,7 +353,19 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
     
     @FunctionalInterface
     public interface RequestExtension {
-        void signalReceived(RTPBasePayload sourceRTPBasePayload, int extId, @NotNull java.lang.String extUri);
+        org.gstreamer.rtp.RTPHeaderExtension run(int extId, java.lang.String extUri);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceRTPBasePayload, int extId, MemoryAddress extUri) {
+            var RESULT = run(extId, Marshal.addressToString.marshal(extUri, null));
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RequestExtension.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -382,52 +377,46 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
     public Signal<RTPBasePayload.RequestExtension> onRequestExtension(RTPBasePayload.RequestExtension handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("request-extension"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(RTPBasePayload.Callbacks.class, "signalRTPBasePayloadRequestExtension",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<RTPBasePayload.RequestExtension>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("request-extension"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link RTPBasePayload.Builder} object constructs a {@link RTPBasePayload} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link RTPBasePayload.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Element.Build {
+    public static class Builder extends org.gstreamer.gst.Element.Builder {
         
-         /**
-         * A {@link RTPBasePayload.Build} object constructs a {@link RTPBasePayload} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link RTPBasePayload} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link RTPBasePayload} using {@link RTPBasePayload#castFrom}.
+         * {@link RTPBasePayload}.
          * @return A new instance of {@code RTPBasePayload} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTPBasePayload construct() {
-            return RTPBasePayload.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    RTPBasePayload.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public RTPBasePayload build() {
+            return (RTPBasePayload) org.gtk.gobject.GObject.newWithProperties(
+                RTPBasePayload.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -439,13 +428,13 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
          * @param autoHeaderExtension The value for the {@code auto-header-extension} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAutoHeaderExtension(boolean autoHeaderExtension) {
+        public Builder setAutoHeaderExtension(boolean autoHeaderExtension) {
             names.add("auto-header-extension");
             values.add(org.gtk.gobject.Value.create(autoHeaderExtension));
             return this;
         }
         
-        public Build setMaxPtime(long maxPtime) {
+        public Builder setMaxPtime(long maxPtime) {
             names.add("max-ptime");
             values.add(org.gtk.gobject.Value.create(maxPtime));
             return this;
@@ -456,13 +445,13 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
          * @param minPtime The value for the {@code min-ptime} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinPtime(long minPtime) {
+        public Builder setMinPtime(long minPtime) {
             names.add("min-ptime");
             values.add(org.gtk.gobject.Value.create(minPtime));
             return this;
         }
         
-        public Build setMtu(int mtu) {
+        public Builder setMtu(int mtu) {
             names.add("mtu");
             values.add(org.gtk.gobject.Value.create(mtu));
             return this;
@@ -474,7 +463,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
          * @param onvifNoRateControl The value for the {@code onvif-no-rate-control} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOnvifNoRateControl(boolean onvifNoRateControl) {
+        public Builder setOnvifNoRateControl(boolean onvifNoRateControl) {
             names.add("onvif-no-rate-control");
             values.add(org.gtk.gobject.Value.create(onvifNoRateControl));
             return this;
@@ -499,13 +488,13 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
          * @param perfectRtptime The value for the {@code perfect-rtptime} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPerfectRtptime(boolean perfectRtptime) {
+        public Builder setPerfectRtptime(boolean perfectRtptime) {
             names.add("perfect-rtptime");
             values.add(org.gtk.gobject.Value.create(perfectRtptime));
             return this;
         }
         
-        public Build setPt(int pt) {
+        public Builder setPt(int pt) {
             names.add("pt");
             values.add(org.gtk.gobject.Value.create(pt));
             return this;
@@ -516,7 +505,7 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
          * @param ptimeMultiple The value for the {@code ptime-multiple} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPtimeMultiple(long ptimeMultiple) {
+        public Builder setPtimeMultiple(long ptimeMultiple) {
             names.add("ptime-multiple");
             values.add(org.gtk.gobject.Value.create(ptimeMultiple));
             return this;
@@ -534,19 +523,19 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
          * @param scaleRtptime The value for the {@code scale-rtptime} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScaleRtptime(boolean scaleRtptime) {
+        public Builder setScaleRtptime(boolean scaleRtptime) {
             names.add("scale-rtptime");
             values.add(org.gtk.gobject.Value.create(scaleRtptime));
             return this;
         }
         
-        public Build setSeqnum(int seqnum) {
+        public Builder setSeqnum(int seqnum) {
             names.add("seqnum");
             values.add(org.gtk.gobject.Value.create(seqnum));
             return this;
         }
         
-        public Build setSeqnumOffset(int seqnumOffset) {
+        public Builder setSeqnumOffset(int seqnumOffset) {
             names.add("seqnum-offset");
             values.add(org.gtk.gobject.Value.create(seqnumOffset));
             return this;
@@ -558,13 +547,13 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
          * @param sourceInfo The value for the {@code source-info} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSourceInfo(boolean sourceInfo) {
+        public Builder setSourceInfo(boolean sourceInfo) {
             names.add("source-info");
             values.add(org.gtk.gobject.Value.create(sourceInfo));
             return this;
         }
         
-        public Build setSsrc(int ssrc) {
+        public Builder setSsrc(int ssrc) {
             names.add("ssrc");
             values.add(org.gtk.gobject.Value.create(ssrc));
             return this;
@@ -588,19 +577,19 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
          * @param stats The value for the {@code stats} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStats(org.gstreamer.gst.Structure stats) {
+        public Builder setStats(org.gstreamer.gst.Structure stats) {
             names.add("stats");
             values.add(org.gtk.gobject.Value.create(stats));
             return this;
         }
         
-        public Build setTimestamp(int timestamp) {
+        public Builder setTimestamp(int timestamp) {
             names.add("timestamp");
             values.add(org.gtk.gobject.Value.create(timestamp));
             return this;
         }
         
-        public Build setTimestampOffset(int timestampOffset) {
+        public Builder setTimestampOffset(int timestampOffset) {
             names.add("timestamp-offset");
             values.add(org.gtk.gobject.Value.create(timestampOffset));
             return this;
@@ -674,26 +663,5 @@ public class RTPBasePayload extends org.gstreamer.gst.Element {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalRTPBasePayloadAddExtension(MemoryAddress sourceRTPBasePayload, MemoryAddress ext, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (RTPBasePayload.AddExtension) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new RTPBasePayload(sourceRTPBasePayload, Ownership.NONE), new org.gstreamer.rtp.RTPHeaderExtension(ext, Ownership.FULL));
-        }
-        
-        public static void signalRTPBasePayloadClearExtensions(MemoryAddress sourceRTPBasePayload, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (RTPBasePayload.ClearExtensions) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new RTPBasePayload(sourceRTPBasePayload, Ownership.NONE));
-        }
-        
-        public static void signalRTPBasePayloadRequestExtension(MemoryAddress sourceRTPBasePayload, int extId, MemoryAddress extUri, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (RTPBasePayload.RequestExtension) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new RTPBasePayload(sourceRTPBasePayload, Ownership.NONE), extId, Interop.getStringFrom(extUri));
-        }
     }
 }

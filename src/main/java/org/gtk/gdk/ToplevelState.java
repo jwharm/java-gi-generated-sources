@@ -104,11 +104,15 @@ public class ToplevelState extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ToplevelState or(ToplevelState mask) {
-        return new ToplevelState(this.getValue() | mask.getValue());
+    public ToplevelState or(ToplevelState... masks) {
+        int value = this.getValue();
+        for (ToplevelState arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ToplevelState(value);
     }
     
     /**
@@ -118,7 +122,8 @@ public class ToplevelState extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ToplevelState combined(ToplevelState mask, ToplevelState... masks) {
-        int value = mask.getValue();        for (ToplevelState arg : masks) {
+        int value = mask.getValue();
+        for (ToplevelState arg : masks) {
             value |= arg.getValue();
         }
         return new ToplevelState(value);

@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Structure containing the information of a URI analyzed by {@link Discoverer}.
  */
-public class DiscovererInfo extends org.gtk.gobject.Object {
+public class DiscovererInfo extends org.gtk.gobject.GObject {
     
     static {
         GstPbutils.javagi$ensureInitialized();
@@ -30,32 +30,14 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DiscovererInfo(Addressable address, Ownership ownership) {
+    protected DiscovererInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DiscovererInfo if its GType is a (or inherits from) "GstDiscovererInfo".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DiscovererInfo} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstDiscovererInfo", a ClassCastException will be thrown.
-     */
-    public static DiscovererInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DiscovererInfo.getType())) {
-            return new DiscovererInfo(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstDiscovererInfo");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DiscovererInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererInfo(input, ownership);
     
-    public @NotNull org.gstreamer.pbutils.DiscovererInfo copy() {
+    public org.gstreamer.pbutils.DiscovererInfo copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_copy.invokeExact(
@@ -63,7 +45,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.pbutils.DiscovererInfo(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.DiscovererInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.DiscovererInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -72,7 +54,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
      * matching {@link DiscovererStreamInfo}. The caller should free it with
      * gst_discoverer_stream_info_list_free().
      */
-    public @NotNull org.gtk.glib.List getAudioStreams() {
+    public org.gtk.glib.List getAudioStreams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_audio_streams.invokeExact(
@@ -80,7 +62,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -89,7 +71,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
      * matching {@link DiscovererStreamInfo}. The caller should free it with
      * gst_discoverer_stream_info_list_free().
      */
-    public @NotNull org.gtk.glib.List getContainerStreams() {
+    public org.gtk.glib.List getContainerStreams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_container_streams.invokeExact(
@@ -97,10 +79,10 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.gst.ClockTime getDuration() {
+    public org.gstreamer.gst.ClockTime getDuration() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_discoverer_info_get_duration.invokeExact(
@@ -119,11 +101,11 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     @Deprecated
-    public @NotNull org.gstreamer.gst.Structure getMisc() {
+    public org.gstreamer.gst.Structure getMisc() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_misc.invokeExact(
@@ -131,7 +113,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -141,7 +123,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
      * for {@code info} to be usable. If you wish to use the strings after the life-time
      * of {@code info}, you will need to copy them.
      */
-    public @NotNull PointerString getMissingElementsInstallerDetails() {
+    public PointerString getMissingElementsInstallerDetails() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_missing_elements_installer_details.invokeExact(
@@ -152,7 +134,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         return new PointerString(RESULT);
     }
     
-    public @NotNull org.gstreamer.pbutils.DiscovererResult getResult() {
+    public org.gstreamer.pbutils.DiscovererResult getResult() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_discoverer_info_get_result.invokeExact(
@@ -171,10 +153,10 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull org.gstreamer.pbutils.DiscovererStreamInfo getStreamInfo() {
+    public org.gstreamer.pbutils.DiscovererStreamInfo getStreamInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_stream_info.invokeExact(
@@ -182,10 +164,10 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.pbutils.DiscovererStreamInfo(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.DiscovererStreamInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.DiscovererStreamInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gtk.glib.List getStreamList() {
+    public org.gtk.glib.List getStreamList() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_stream_list.invokeExact(
@@ -193,19 +175,18 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Finds the {@link DiscovererStreamInfo} contained in {@code info} that match the
      * given {@code streamtype}.
-     * @param streamtype a {@link org.gtk.gobject.Type} derived from {@link DiscovererStreamInfo}
+     * @param streamtype a {@link org.gtk.glib.Type} derived from {@link DiscovererStreamInfo}
      * @return A {@link org.gtk.glib.List} of
      * matching {@link DiscovererStreamInfo}. The caller should free it with
      * gst_discoverer_stream_info_list_free().
      */
-    public @NotNull org.gtk.glib.List getStreams(@NotNull org.gtk.glib.Type streamtype) {
-        java.util.Objects.requireNonNull(streamtype, "Parameter 'streamtype' must not be null");
+    public org.gtk.glib.List getStreams(org.gtk.glib.Type streamtype) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_streams.invokeExact(
@@ -214,7 +195,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -223,7 +204,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
      * matching {@link DiscovererStreamInfo}. The caller should free it with
      * gst_discoverer_stream_info_list_free().
      */
-    public @NotNull org.gtk.glib.List getSubtitleStreams() {
+    public org.gtk.glib.List getSubtitleStreams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_subtitle_streams.invokeExact(
@@ -231,11 +212,11 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     @Deprecated
-    public @NotNull org.gstreamer.gst.TagList getTags() {
+    public org.gstreamer.gst.TagList getTags() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_tags.invokeExact(
@@ -243,10 +224,10 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public @NotNull org.gstreamer.gst.Toc getToc() {
+    public org.gstreamer.gst.Toc getToc() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_toc.invokeExact(
@@ -254,10 +235,10 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Toc(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Toc.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public @NotNull java.lang.String getUri() {
+    public java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_uri.invokeExact(
@@ -265,7 +246,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -274,7 +255,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
      * matching {@link DiscovererStreamInfo}. The caller should free it with
      * gst_discoverer_stream_info_list_free().
      */
-    public @NotNull org.gtk.glib.List getVideoStreams() {
+    public org.gtk.glib.List getVideoStreams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_get_video_streams.invokeExact(
@@ -282,7 +263,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -295,8 +276,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
      * what needs to be serialized.
      * @return A newly-allocated {@link org.gtk.glib.Variant} representing {@code info}.
      */
-    public @NotNull org.gtk.glib.Variant toVariant(@NotNull org.gstreamer.pbutils.DiscovererSerializeFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gtk.glib.Variant toVariant(org.gstreamer.pbutils.DiscovererSerializeFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_to_variant.invokeExact(
@@ -305,14 +285,14 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_discoverer_info_get_type.invokeExact();
@@ -328,8 +308,7 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
      * @param variant A {@link org.gtk.glib.Variant} to deserialize into a {@link DiscovererInfo}.
      * @return A newly-allocated {@link DiscovererInfo}.
      */
-    public static @NotNull org.gstreamer.pbutils.DiscovererInfo fromVariant(@NotNull org.gtk.glib.Variant variant) {
-        java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
+    public static org.gstreamer.pbutils.DiscovererInfo fromVariant(org.gtk.glib.Variant variant) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_info_from_variant.invokeExact(
@@ -337,40 +316,42 @@ public class DiscovererInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.pbutils.DiscovererInfo(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.DiscovererInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.DiscovererInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link DiscovererInfo.Builder} object constructs a {@link DiscovererInfo} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DiscovererInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DiscovererInfo.Build} object constructs a {@link DiscovererInfo} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DiscovererInfo} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DiscovererInfo} using {@link DiscovererInfo#castFrom}.
+         * {@link DiscovererInfo}.
          * @return A new instance of {@code DiscovererInfo} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DiscovererInfo construct() {
-            return DiscovererInfo.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DiscovererInfo.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DiscovererInfo build() {
+            return (DiscovererInfo) org.gtk.gobject.GObject.newWithProperties(
+                DiscovererInfo.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

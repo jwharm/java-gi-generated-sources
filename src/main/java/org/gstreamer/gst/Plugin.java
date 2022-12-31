@@ -26,7 +26,7 @@ import org.jetbrains.annotations.*;
  * repository in which case gst_plugin_load() can be needed to bring the plugin
  * into memory.
  */
-public class Plugin extends org.gstreamer.gst.Object {
+public class Plugin extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -48,37 +48,23 @@ public class Plugin extends org.gstreamer.gst.Object {
      * <p>
      * Because Plugin is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Plugin(Addressable address, Ownership ownership) {
+    protected Plugin(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Plugin if its GType is a (or inherits from) "GstPlugin".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Plugin} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPlugin", a ClassCastException will be thrown.
-     */
-    public static Plugin castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Plugin.getType())) {
-            return new Plugin(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPlugin");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Plugin> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Plugin(input, ownership);
     
     /**
      * Make GStreamer aware of external dependencies which affect the feature
@@ -104,8 +90,7 @@ public class Plugin extends org.gstreamer.gst.Object {
      *     {@code env_vars}, or {@code null}.
      * @param flags optional flags, or {@code GST_PLUGIN_DEPENDENCY_FLAG_NONE}
      */
-    public void addDependency(@Nullable java.lang.String[] envVars, @Nullable java.lang.String[] paths, @Nullable java.lang.String[] names, @NotNull org.gstreamer.gst.PluginDependencyFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void addDependency(@Nullable java.lang.String[] envVars, @Nullable java.lang.String[] paths, @Nullable java.lang.String[] names, org.gstreamer.gst.PluginDependencyFlags flags) {
         try {
             DowncallHandles.gst_plugin_add_dependency.invokeExact(
                     handle(),
@@ -142,14 +127,13 @@ public class Plugin extends org.gstreamer.gst.Object {
      *      or {@code null}
      * @param flags optional flags, or {@code GST_PLUGIN_DEPENDENCY_FLAG_NONE}
      */
-    public void addDependencySimple(@Nullable java.lang.String envVars, @Nullable java.lang.String paths, @Nullable java.lang.String names, @NotNull org.gstreamer.gst.PluginDependencyFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void addDependencySimple(@Nullable java.lang.String envVars, @Nullable java.lang.String paths, @Nullable java.lang.String names, org.gstreamer.gst.PluginDependencyFlags flags) {
         try {
             DowncallHandles.gst_plugin_add_dependency_simple.invokeExact(
                     handle(),
-                    (Addressable) (envVars == null ? MemoryAddress.NULL : Interop.allocateNativeString(envVars)),
-                    (Addressable) (paths == null ? MemoryAddress.NULL : Interop.allocateNativeString(paths)),
-                    (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeString(names)),
+                    (Addressable) (envVars == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(envVars, null)),
+                    (Addressable) (paths == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(paths, null)),
+                    (Addressable) (names == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(names, null)),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -170,14 +154,14 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the long descriptive name of the plugin
      * @return the long name of the plugin
      */
-    public @NotNull java.lang.String getDescription() {
+    public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_description.invokeExact(
@@ -185,7 +169,7 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -200,14 +184,14 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * get the license of the plugin
      * @return the license of the plugin
      */
-    public @NotNull java.lang.String getLicense() {
+    public java.lang.String getLicense() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_license.invokeExact(
@@ -215,14 +199,14 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the short name of the plugin
      * @return the name of the plugin
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_name.invokeExact(
@@ -230,14 +214,14 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * get the URL where the plugin comes from
      * @return the origin of the plugin
      */
-    public @NotNull java.lang.String getOrigin() {
+    public java.lang.String getOrigin() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_origin.invokeExact(
@@ -245,14 +229,14 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * get the package the plugin belongs to.
      * @return the package of the plugin
      */
-    public @NotNull java.lang.String getPackage() {
+    public java.lang.String getPackage() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_package.invokeExact(
@@ -260,7 +244,7 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -283,14 +267,14 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * get the source module the plugin belongs to.
      * @return the source of the plugin
      */
-    public @NotNull java.lang.String getSource() {
+    public java.lang.String getSource() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_source.invokeExact(
@@ -298,14 +282,14 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * get the version of the plugin
      * @return the version of the plugin
      */
-    public @NotNull java.lang.String getVersion() {
+    public java.lang.String getVersion() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_get_version.invokeExact(
@@ -313,7 +297,7 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -328,7 +312,7 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -352,7 +336,7 @@ public class Plugin extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Plugin(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -362,8 +346,7 @@ public class Plugin extends org.gstreamer.gst.Object {
      * The cache is flushed every time the registry is rebuilt.
      * @param cacheData a structure containing the data to cache
      */
-    public void setCacheData(@NotNull org.gstreamer.gst.Structure cacheData) {
-        java.util.Objects.requireNonNull(cacheData, "Parameter 'cacheData' must not be null");
+    public void setCacheData(org.gstreamer.gst.Structure cacheData) {
         try {
             DowncallHandles.gst_plugin_set_cache_data.invokeExact(
                     handle(),
@@ -378,7 +361,7 @@ public class Plugin extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_plugin_get_type.invokeExact();
@@ -392,8 +375,7 @@ public class Plugin extends org.gstreamer.gst.Object {
      * Unrefs each member of {@code list}, then frees the list.
      * @param list list of {@link Plugin}
      */
-    public static void listFree(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static void listFree(org.gtk.glib.List list) {
         try {
             DowncallHandles.gst_plugin_list_free.invokeExact(
                     list.handle());
@@ -409,16 +391,15 @@ public class Plugin extends org.gstreamer.gst.Object {
      * @return a reference to a loaded plugin, or
      * {@code null} on error.
      */
-    public static @Nullable org.gstreamer.gst.Plugin loadByName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static @Nullable org.gstreamer.gst.Plugin loadByName(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_load_by_name.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Plugin(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -428,13 +409,12 @@ public class Plugin extends org.gstreamer.gst.Object {
      * reference to the newly-loaded GstPlugin, or {@code null} if an error occurred.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.gst.Plugin loadFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static org.gstreamer.gst.Plugin loadFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_load_file.invokeExact(
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -442,7 +422,7 @@ public class Plugin extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.gst.Plugin(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -469,8 +449,24 @@ public class Plugin extends org.gstreamer.gst.Object {
      * @param origin URL to provider of plugin
      * @return {@code true} if the plugin was registered correctly, otherwise {@code false}.
      */
-    public static boolean registerStatic(int majorVersion, int minorVersion, @NotNull java.lang.String name, @NotNull java.lang.String description, @NotNull org.gstreamer.gst.PluginInitFunc initFunc, @NotNull java.lang.String version, @NotNull java.lang.String license, @NotNull java.lang.String source, @NotNull java.lang.String package_, @NotNull java.lang.String origin) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static boolean registerStatic(int majorVersion, int minorVersion, java.lang.String name, java.lang.String description, org.gstreamer.gst.PluginInitFunc initFunc, java.lang.String version, java.lang.String license, java.lang.String source, java.lang.String package_, java.lang.String origin) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_plugin_register_static.invokeExact(
+                    majorVersion,
+                    minorVersion,
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(description, null),
+                    (Addressable) initFunc.toCallback(),
+                    Marshal.stringToAddress.marshal(version, null),
+                    Marshal.stringToAddress.marshal(license, null),
+                    Marshal.stringToAddress.marshal(source, null),
+                    Marshal.stringToAddress.marshal(package_, null),
+                    Marshal.stringToAddress.marshal(origin, null));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -500,70 +496,60 @@ public class Plugin extends org.gstreamer.gst.Object {
      * @param origin URL to provider of plugin
      * @return {@code true} if the plugin was registered correctly, otherwise {@code false}.
      */
-    public static boolean registerStaticFull(int majorVersion, int minorVersion, @NotNull java.lang.String name, @NotNull java.lang.String description, @NotNull org.gstreamer.gst.PluginInitFullFunc initFullFunc, @NotNull java.lang.String version, @NotNull java.lang.String license, @NotNull java.lang.String source, @NotNull java.lang.String package_, @NotNull java.lang.String origin) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
-        java.util.Objects.requireNonNull(initFullFunc, "Parameter 'initFullFunc' must not be null");
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
-        java.util.Objects.requireNonNull(license, "Parameter 'license' must not be null");
-        java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
-        java.util.Objects.requireNonNull(package_, "Parameter 'package_' must not be null");
-        java.util.Objects.requireNonNull(origin, "Parameter 'origin' must not be null");
+    public static boolean registerStaticFull(int majorVersion, int minorVersion, java.lang.String name, java.lang.String description, org.gstreamer.gst.PluginInitFullFunc initFullFunc, java.lang.String version, java.lang.String license, java.lang.String source, java.lang.String package_, java.lang.String origin) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_plugin_register_static_full.invokeExact(
                     majorVersion,
                     minorVersion,
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(description),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbPluginInitFullFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    Interop.allocateNativeString(version),
-                    Interop.allocateNativeString(license),
-                    Interop.allocateNativeString(source),
-                    Interop.allocateNativeString(package_),
-                    Interop.allocateNativeString(origin),
-                    (Addressable) (Interop.registerCallback(initFullFunc)));
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(description, null),
+                    (Addressable) initFullFunc.toCallback(),
+                    Marshal.stringToAddress.marshal(version, null),
+                    Marshal.stringToAddress.marshal(license, null),
+                    Marshal.stringToAddress.marshal(source, null),
+                    Marshal.stringToAddress.marshal(package_, null),
+                    Marshal.stringToAddress.marshal(origin, null),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link Plugin.Builder} object constructs a {@link Plugin} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Plugin.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link Plugin.Build} object constructs a {@link Plugin} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Plugin} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Plugin} using {@link Plugin#castFrom}.
+         * {@link Plugin}.
          * @return A new instance of {@code Plugin} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Plugin construct() {
-            return Plugin.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Plugin.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Plugin build() {
+            return (Plugin) org.gtk.gobject.GObject.newWithProperties(
+                Plugin.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

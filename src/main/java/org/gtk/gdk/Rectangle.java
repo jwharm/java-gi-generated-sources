@@ -30,20 +30,18 @@ public class Rectangle extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GdkRectangle";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("x"),
-        Interop.valueLayout.C_INT.withName("y"),
-        Interop.valueLayout.C_INT.withName("width"),
-        Interop.valueLayout.C_INT.withName("height")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("x"),
+            Interop.valueLayout.C_INT.withName("y"),
+            Interop.valueLayout.C_INT.withName("width"),
+            Interop.valueLayout.C_INT.withName("height")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -63,7 +61,7 @@ public class Rectangle extends Struct {
      * Get the value of the field {@code x}
      * @return The value of the field {@code x}
      */
-    public int x$get() {
+    public int getX() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -74,7 +72,7 @@ public class Rectangle extends Struct {
      * Change the value of the field {@code x}
      * @param x The new value of the field {@code x}
      */
-    public void x$set(int x) {
+    public void setX(int x) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -84,7 +82,7 @@ public class Rectangle extends Struct {
      * Get the value of the field {@code y}
      * @return The value of the field {@code y}
      */
-    public int y$get() {
+    public int getY() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -95,7 +93,7 @@ public class Rectangle extends Struct {
      * Change the value of the field {@code y}
      * @param y The new value of the field {@code y}
      */
-    public void y$set(int y) {
+    public void setY(int y) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -105,7 +103,7 @@ public class Rectangle extends Struct {
      * Get the value of the field {@code width}
      * @return The value of the field {@code width}
      */
-    public int width$get() {
+    public int getWidth() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -116,7 +114,7 @@ public class Rectangle extends Struct {
      * Change the value of the field {@code width}
      * @param width The new value of the field {@code width}
      */
-    public void width$set(int width) {
+    public void setWidth(int width) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -126,7 +124,7 @@ public class Rectangle extends Struct {
      * Get the value of the field {@code height}
      * @return The value of the field {@code height}
      */
-    public int height$get() {
+    public int getHeight() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -137,7 +135,7 @@ public class Rectangle extends Struct {
      * Change the value of the field {@code height}
      * @param height The new value of the field {@code height}
      */
-    public void height$set(int height) {
+    public void setHeight(int height) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
@@ -148,10 +146,12 @@ public class Rectangle extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Rectangle(Addressable address, Ownership ownership) {
+    protected Rectangle(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Rectangle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Rectangle(input, ownership);
     
     /**
      * Returns {@code true} if {@code rect} contains the point described by {@code x} and {@code y}.
@@ -169,7 +169,7 @@ public class Rectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -177,8 +177,7 @@ public class Rectangle extends Struct {
      * @param rect2 a {@code GdkRectangle}
      * @return {@code true} if the rectangles are equal.
      */
-    public boolean equal(@NotNull org.gtk.gdk.Rectangle rect2) {
-        java.util.Objects.requireNonNull(rect2, "Parameter 'rect2' must not be null");
+    public boolean equal(org.gtk.gdk.Rectangle rect2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_rectangle_equal.invokeExact(
@@ -187,7 +186,7 @@ public class Rectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -203,19 +202,17 @@ public class Rectangle extends Struct {
      *   intersection of {@code src1} and {@code src2}
      * @return {@code true} if the rectangles intersect.
      */
-    public boolean intersect(@NotNull org.gtk.gdk.Rectangle src2, @NotNull org.gtk.gdk.Rectangle dest) {
-        java.util.Objects.requireNonNull(src2, "Parameter 'src2' must not be null");
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public boolean intersect(org.gtk.gdk.Rectangle src2, @Nullable org.gtk.gdk.Rectangle dest) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_rectangle_intersect.invokeExact(
                     handle(),
                     src2.handle(),
-                    dest.handle());
+                    (Addressable) (dest == null ? MemoryAddress.NULL : dest.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -230,9 +227,7 @@ public class Rectangle extends Struct {
      * @param src2 a {@code GdkRectangle}
      * @param dest return location for the union of {@code src1} and {@code src2}
      */
-    public void union(@NotNull org.gtk.gdk.Rectangle src2, @NotNull org.gtk.gdk.Rectangle dest) {
-        java.util.Objects.requireNonNull(src2, "Parameter 'src2' must not be null");
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public void union(org.gtk.gdk.Rectangle src2, org.gtk.gdk.Rectangle dest) {
         try {
             DowncallHandles.gdk_rectangle_union.invokeExact(
                     handle(),
@@ -269,31 +264,35 @@ public class Rectangle extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Rectangle.Builder} object constructs a {@link Rectangle} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Rectangle.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Rectangle struct;
+        private final Rectangle struct;
         
-         /**
-         * A {@link Rectangle.Build} object constructs a {@link Rectangle} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Rectangle.allocate();
         }
         
          /**
          * Finish building the {@link Rectangle} struct.
          * @return A new instance of {@code Rectangle} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Rectangle construct() {
+        public Rectangle build() {
             return struct;
         }
         
@@ -302,7 +301,7 @@ public class Rectangle extends Struct {
          * @param x The value for the {@code x} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setX(int x) {
+        public Builder setX(int x) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -314,7 +313,7 @@ public class Rectangle extends Struct {
          * @param y The value for the {@code y} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setY(int y) {
+        public Builder setY(int y) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -326,7 +325,7 @@ public class Rectangle extends Struct {
          * @param width The value for the {@code width} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidth(int width) {
+        public Builder setWidth(int width) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("width"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -338,7 +337,7 @@ public class Rectangle extends Struct {
          * @param height The value for the {@code height} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeight(int height) {
+        public Builder setHeight(int height) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("height"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);

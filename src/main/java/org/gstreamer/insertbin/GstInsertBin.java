@@ -14,15 +14,17 @@ public final class GstInsertBin {
         System.loadLibrary("gstinsertbin-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static void cbInsertBinCallback(MemoryAddress insertbin, MemoryAddress element, int success, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (InsertBinCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onInsertBinCallback(new org.gstreamer.insertbin.InsertBin(insertbin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE), success != 0);
-        }
     }
 }

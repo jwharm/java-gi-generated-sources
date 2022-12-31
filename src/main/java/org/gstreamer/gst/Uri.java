@@ -45,22 +45,24 @@ public class Uri extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Uri(Addressable address, Ownership ownership) {
+    protected Uri(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @Nullable java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Uri> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Uri(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @Nullable java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_new.invokeExact(
-                    (Addressable) (scheme == null ? MemoryAddress.NULL : Interop.allocateNativeString(scheme)),
-                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Interop.allocateNativeString(userinfo)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, null)),
+                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path)),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, null)),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,17 +94,16 @@ public class Uri extends Struct {
      * @param relativePath Relative path to append to the end of the current path.
      * @return {@code true} if the path was appended successfully.
      */
-    public boolean appendPath(@NotNull java.lang.String relativePath) {
-        java.util.Objects.requireNonNull(relativePath, "Parameter 'relativePath' must not be null");
+    public boolean appendPath(java.lang.String relativePath) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_append_path.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(relativePath));
+                    Marshal.stringToAddress.marshal(relativePath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -110,17 +111,16 @@ public class Uri extends Struct {
      * @param pathSegment The path segment string to append to the URI path.
      * @return {@code true} if the path was appended successfully.
      */
-    public boolean appendPathSegment(@NotNull java.lang.String pathSegment) {
-        java.util.Objects.requireNonNull(pathSegment, "Parameter 'pathSegment' must not be null");
+    public boolean appendPathSegment(java.lang.String pathSegment) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_append_path_segment.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(pathSegment));
+                    Marshal.stringToAddress.marshal(pathSegment, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -129,8 +129,7 @@ public class Uri extends Struct {
      * @param second Second {@link Uri} to compare.
      * @return {@code true} if the normalized versions of the two URI's would be equal.
      */
-    public boolean equal(@NotNull org.gstreamer.gst.Uri second) {
-        java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
+    public boolean equal(org.gstreamer.gst.Uri second) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_equal.invokeExact(
@@ -139,7 +138,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -147,17 +146,16 @@ public class Uri extends Struct {
      * @param uri The URI string to parse.
      * @return A new {@link Uri} object.
      */
-    public @NotNull org.gstreamer.gst.Uri fromStringWithBase(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public org.gstreamer.gst.Uri fromStringWithBase(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string_with_base.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Uri(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -173,7 +171,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -189,7 +187,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -215,7 +213,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.HashTable(RESULT, Ownership.FULL);
+        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -231,7 +229,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -240,7 +238,7 @@ public class Uri extends Struct {
      *          strings or {@code null} if no path segments are available. Free the list
      *          when no longer needed with g_list_free_full(list, g_free).
      */
-    public @NotNull org.gtk.glib.List getPathSegments() {
+    public org.gtk.glib.List getPathSegments() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_path_segments.invokeExact(
@@ -248,7 +246,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -264,7 +262,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -288,7 +286,7 @@ public class Uri extends Struct {
      * @return A list of keys from
      *          the URI query. Free the list with g_list_free().
      */
-    public @NotNull org.gtk.glib.List getQueryKeys() {
+    public org.gtk.glib.List getQueryKeys() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_keys.invokeExact(
@@ -296,7 +294,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -312,7 +310,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -333,7 +331,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.HashTable(RESULT, Ownership.FULL);
+        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -345,17 +343,16 @@ public class Uri extends Struct {
      * @param queryKey The key to lookup.
      * @return The value for the given key, or {@code null} if not found.
      */
-    public @Nullable java.lang.String getQueryValue(@NotNull java.lang.String queryKey) {
-        java.util.Objects.requireNonNull(queryKey, "Parameter 'queryKey' must not be null");
+    public @Nullable java.lang.String getQueryValue(java.lang.String queryKey) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_query_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(queryKey));
+                    Marshal.stringToAddress.marshal(queryKey, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -371,7 +368,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -387,7 +384,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -403,7 +400,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -424,7 +421,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -445,7 +442,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Uri(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -457,7 +454,7 @@ public class Uri extends Struct {
      * If {@code uri} is {@code null} then {@code null} is returned.
      * @return A writable version of {@code uri}.
      */
-    public @NotNull org.gstreamer.gst.Uri makeWritable() {
+    public org.gstreamer.gst.Uri makeWritable() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_make_writable.invokeExact(
@@ -466,7 +463,7 @@ public class Uri extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.gst.Uri(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -483,22 +480,22 @@ public class Uri extends Struct {
      * @param fragment The fragment name for the new URI.
      * @return The new URI joined onto {@code base}.
      */
-    public @NotNull org.gstreamer.gst.Uri newWithBase(@Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @Nullable java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
+    public org.gstreamer.gst.Uri newWithBase(@Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @Nullable java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_new_with_base.invokeExact(
                     handle(),
-                    (Addressable) (scheme == null ? MemoryAddress.NULL : Interop.allocateNativeString(scheme)),
-                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Interop.allocateNativeString(userinfo)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, null)),
+                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path)),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, null)),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Uri(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -518,7 +515,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -526,17 +523,16 @@ public class Uri extends Struct {
      * @param queryKey The key to lookup.
      * @return {@code true} if {@code query_key} exists in the URI query table.
      */
-    public boolean queryHasKey(@NotNull java.lang.String queryKey) {
-        java.util.Objects.requireNonNull(queryKey, "Parameter 'queryKey' must not be null");
+    public boolean queryHasKey(java.lang.String queryKey) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_query_has_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(queryKey));
+                    Marshal.stringToAddress.marshal(queryKey, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -544,17 +540,16 @@ public class Uri extends Struct {
      * @param queryKey The key to remove.
      * @return {@code true} if the key existed in the table and was removed.
      */
-    public boolean removeQueryKey(@NotNull java.lang.String queryKey) {
-        java.util.Objects.requireNonNull(queryKey, "Parameter 'queryKey' must not be null");
+    public boolean removeQueryKey(java.lang.String queryKey) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_remove_query_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(queryKey));
+                    Marshal.stringToAddress.marshal(queryKey, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -568,11 +563,11 @@ public class Uri extends Struct {
         try {
             RESULT = (int) DowncallHandles.gst_uri_set_fragment.invokeExact(
                     handle(),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -580,17 +575,16 @@ public class Uri extends Struct {
      * @param host The new host string to set or {@code null} to unset.
      * @return {@code true} if the host was set/unset successfully.
      */
-    public boolean setHost(@NotNull java.lang.String host) {
-        java.util.Objects.requireNonNull(host, "Parameter 'host' must not be null");
+    public boolean setHost(java.lang.String host) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_set_host.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(host));
+                    Marshal.stringToAddress.marshal(host, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -599,17 +593,16 @@ public class Uri extends Struct {
      *        to unset the path.
      * @return {@code true} if the path was set successfully.
      */
-    public boolean setPath(@NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public boolean setPath(java.lang.String path) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_set_path.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -628,7 +621,7 @@ public class Uri extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         pathSegments.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -637,17 +630,16 @@ public class Uri extends Struct {
      * '/', or use {@code null} to unset the path.
      * @return {@code true} if the path was set successfully.
      */
-    public boolean setPathString(@NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public boolean setPathString(java.lang.String path) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_set_path_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -664,7 +656,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -673,17 +665,16 @@ public class Uri extends Struct {
      *        table, or use {@code null} to unset the query table.
      * @return {@code true} if the query table was set successfully.
      */
-    public boolean setQueryString(@NotNull java.lang.String query) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public boolean setQueryString(java.lang.String query) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_set_query_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(query));
+                    Marshal.stringToAddress.marshal(query, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -703,7 +694,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -714,18 +705,17 @@ public class Uri extends Struct {
      * @param queryValue The value for the key.
      * @return {@code true} if the query table was successfully updated.
      */
-    public boolean setQueryValue(@NotNull java.lang.String queryKey, @Nullable java.lang.String queryValue) {
-        java.util.Objects.requireNonNull(queryKey, "Parameter 'queryKey' must not be null");
+    public boolean setQueryValue(java.lang.String queryKey, @Nullable java.lang.String queryValue) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_set_query_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(queryKey),
-                    (Addressable) (queryValue == null ? MemoryAddress.NULL : Interop.allocateNativeString(queryValue)));
+                    Marshal.stringToAddress.marshal(queryKey, null),
+                    (Addressable) (queryValue == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(queryValue, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -733,17 +723,16 @@ public class Uri extends Struct {
      * @param scheme The new scheme to set or {@code null} to unset the scheme.
      * @return {@code true} if the scheme was set/unset successfully.
      */
-    public boolean setScheme(@NotNull java.lang.String scheme) {
-        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
+    public boolean setScheme(java.lang.String scheme) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_set_scheme.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(scheme));
+                    Marshal.stringToAddress.marshal(scheme, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -751,17 +740,16 @@ public class Uri extends Struct {
      * @param userinfo The new user-information string to set or {@code null} to unset.
      * @return {@code true} if the user information was set/unset successfully.
      */
-    public boolean setUserinfo(@NotNull java.lang.String userinfo) {
-        java.util.Objects.requireNonNull(userinfo, "Parameter 'userinfo' must not be null");
+    public boolean setUserinfo(java.lang.String userinfo) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_set_userinfo.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(userinfo));
+                    Marshal.stringToAddress.marshal(userinfo, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -772,7 +760,7 @@ public class Uri extends Struct {
      * The string is put together as described in RFC 3986.
      * @return The string version of the URI.
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_to_string.invokeExact(
@@ -780,7 +768,7 @@ public class Uri extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -794,18 +782,16 @@ public class Uri extends Struct {
      * @deprecated Use GstURI instead.
      */
     @Deprecated
-    public static @NotNull java.lang.String construct(@NotNull java.lang.String protocol, @NotNull java.lang.String location) {
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
+    public static java.lang.String construct(java.lang.String protocol, java.lang.String location) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_construct.invokeExact(
-                    Interop.allocateNativeString(protocol),
-                    Interop.allocateNativeString(location));
+                    Marshal.stringToAddress.marshal(protocol, null),
+                    Marshal.stringToAddress.marshal(location, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -814,16 +800,15 @@ public class Uri extends Struct {
      * @param uri The URI string to parse.
      * @return A new {@link Uri} object, or NULL.
      */
-    public static @Nullable org.gstreamer.gst.Uri fromString(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable org.gstreamer.gst.Uri fromString(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Uri(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -843,16 +828,15 @@ public class Uri extends Struct {
      * @param uri The URI string to parse.
      * @return A new {@link Uri} object, or NULL.
      */
-    public static @Nullable org.gstreamer.gst.Uri fromStringEscaped(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable org.gstreamer.gst.Uri fromStringEscaped(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string_escaped.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Uri(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -867,16 +851,15 @@ public class Uri extends Struct {
      *     {@code null} if the URI isn't valid. If the URI does not contain a location, an
      *     empty string is returned.
      */
-    public static @Nullable java.lang.String getLocation(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable java.lang.String getLocation(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_location.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -885,16 +868,15 @@ public class Uri extends Struct {
      * @param uri A URI string
      * @return The protocol for this URI.
      */
-    public static @Nullable java.lang.String getProtocol(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable java.lang.String getProtocol(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_protocol.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -903,18 +885,16 @@ public class Uri extends Struct {
      * @param protocol a protocol string (e.g. "http")
      * @return {@code true} if the protocol matches.
      */
-    public static boolean hasProtocol(@NotNull java.lang.String uri, @NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static boolean hasProtocol(java.lang.String uri, java.lang.String protocol) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_has_protocol.invokeExact(
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -923,16 +903,15 @@ public class Uri extends Struct {
      * @param uri A URI string
      * @return {@code true} if the string is a valid URI
      */
-    public static boolean isValid(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static boolean isValid(java.lang.String uri) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_is_valid.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -943,18 +922,16 @@ public class Uri extends Struct {
      * @return A string representing the percent-encoded join of
      *          the two URIs.
      */
-    public static @NotNull java.lang.String joinStrings(@NotNull java.lang.String baseUri, @NotNull java.lang.String refUri) {
-        java.util.Objects.requireNonNull(baseUri, "Parameter 'baseUri' must not be null");
-        java.util.Objects.requireNonNull(refUri, "Parameter 'refUri' must not be null");
+    public static java.lang.String joinStrings(java.lang.String baseUri, java.lang.String refUri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_join_strings.invokeExact(
-                    Interop.allocateNativeString(baseUri),
-                    Interop.allocateNativeString(refUri));
+                    Marshal.stringToAddress.marshal(baseUri, null),
+                    Marshal.stringToAddress.marshal(refUri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -965,18 +942,16 @@ public class Uri extends Struct {
      * @param protocol Protocol that should be checked for (e.g. "http" or "smb")
      * @return {@code true}
      */
-    public static boolean protocolIsSupported(@NotNull org.gstreamer.gst.URIType type, @NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static boolean protocolIsSupported(org.gstreamer.gst.URIType type, java.lang.String protocol) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_protocol_is_supported.invokeExact(
                     type.getValue(),
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -986,16 +961,15 @@ public class Uri extends Struct {
      * @param protocol A string
      * @return {@code true} if the string is a valid protocol identifier, {@code false} otherwise.
      */
-    public static boolean protocolIsValid(@NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static boolean protocolIsValid(java.lang.String protocol) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_protocol_is_valid.invokeExact(
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

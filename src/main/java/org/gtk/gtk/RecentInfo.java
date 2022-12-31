@@ -44,10 +44,12 @@ public class RecentInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RecentInfo(Addressable address, Ownership ownership) {
+    protected RecentInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RecentInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RecentInfo(input, ownership);
     
     /**
      * Creates a {@code GAppInfo} for the specified {@code GtkRecentInfo}
@@ -66,7 +68,7 @@ public class RecentInfo extends Struct {
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_create_app_info.invokeExact(
                     handle(),
-                    (Addressable) (appName == null ? MemoryAddress.NULL : Interop.allocateNativeString(appName)),
+                    (Addressable) (appName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(appName, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -74,7 +76,7 @@ public class RecentInfo extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.AppInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -91,7 +93,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -100,7 +102,7 @@ public class RecentInfo extends Struct {
      * @return a {@code GDateTime} for the time
      *    when the resource was added
      */
-    public @NotNull org.gtk.glib.DateTime getAdded() {
+    public org.gtk.glib.DateTime getAdded() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_added.invokeExact(
@@ -108,7 +110,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.NONE);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -145,29 +147,25 @@ public class RecentInfo extends Struct {
      *   {@code app_exec} string is owned by the {@code GtkRecentInfo} and should not be
      *   modified or freed
      */
-    public boolean getApplicationInfo(@NotNull java.lang.String appName, @NotNull Out<java.lang.String> appExec, Out<Integer> count, @NotNull Out<org.gtk.glib.DateTime> stamp) {
-        java.util.Objects.requireNonNull(appName, "Parameter 'appName' must not be null");
-        java.util.Objects.requireNonNull(appExec, "Parameter 'appExec' must not be null");
+    public boolean getApplicationInfo(java.lang.String appName, Out<java.lang.String> appExec, Out<Integer> count, Out<org.gtk.glib.DateTime> stamp) {
         MemorySegment appExecPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
         MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(stamp, "Parameter 'stamp' must not be null");
         MemorySegment stampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_info_get_application_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(appName),
+                    Marshal.stringToAddress.marshal(appName, null),
                     (Addressable) appExecPOINTER.address(),
                     (Addressable) countPOINTER.address(),
                     (Addressable) stampPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        appExec.set(Interop.getStringFrom(appExecPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        appExec.set(Marshal.addressToString.marshal(appExecPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
-        stamp.set(new org.gtk.glib.DateTime(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return RESULT != 0;
+        stamp.set(org.gtk.glib.DateTime.fromAddress.marshal(stampPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -176,22 +174,21 @@ public class RecentInfo extends Struct {
      * @return a newly
      *   allocated {@code null}-terminated array of strings. Use g_strfreev() to free it.
      */
-    public @NotNull java.lang.String[] getApplications(Out<Long> length) {
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String[] getApplications(Out<Long> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_applications.invokeExact(
                     handle(),
-                    (Addressable) lengthPOINTER.address());
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -201,7 +198,7 @@ public class RecentInfo extends Struct {
      * @return the description of the resource. The returned string
      *   is owned by the recent manager, and should not be freed.
      */
-    public @NotNull java.lang.String getDescription() {
+    public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_description.invokeExact(
@@ -209,7 +206,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -220,7 +217,7 @@ public class RecentInfo extends Struct {
      * @return the display name of the resource. The returned string
      *   is owned by the recent manager, and should not be freed.
      */
-    public @NotNull java.lang.String getDisplayName() {
+    public java.lang.String getDisplayName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_display_name.invokeExact(
@@ -228,7 +225,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -243,7 +240,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -255,22 +252,21 @@ public class RecentInfo extends Struct {
      * @return a newly allocated {@code null} terminated array of strings.
      *   Use g_strfreev() to free it.
      */
-    public @NotNull java.lang.String[] getGroups(Out<Long> length) {
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String[] getGroups(Out<Long> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_groups.invokeExact(
                     handle(),
-                    (Addressable) lengthPOINTER.address());
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -280,7 +276,7 @@ public class RecentInfo extends Struct {
      * @return the MIME type of the resource. The returned string
      *   is owned by the recent manager, and should not be freed.
      */
-    public @NotNull java.lang.String getMimeType() {
+    public java.lang.String getMimeType() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_mime_type.invokeExact(
@@ -288,7 +284,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -297,7 +293,7 @@ public class RecentInfo extends Struct {
      * @return a {@code GDateTime} for the time
      *   when the resource was last modified
      */
-    public @NotNull org.gtk.glib.DateTime getModified() {
+    public org.gtk.glib.DateTime getModified() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_modified.invokeExact(
@@ -305,7 +301,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.NONE);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -324,7 +320,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -336,7 +332,7 @@ public class RecentInfo extends Struct {
      * @return A newly-allocated string in UTF-8 encoding
      *   free it with g_free()
      */
-    public @NotNull java.lang.String getShortName() {
+    public java.lang.String getShortName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_short_name.invokeExact(
@@ -344,7 +340,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -352,7 +348,7 @@ public class RecentInfo extends Struct {
      * @return the URI of the resource. The returned string is
      *   owned by the recent manager, and should not be freed.
      */
-    public @NotNull java.lang.String getUri() {
+    public java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_uri.invokeExact(
@@ -360,7 +356,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -380,7 +376,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -389,7 +385,7 @@ public class RecentInfo extends Struct {
      * @return a {@code GDateTime} for the time
      *    when the resource was last visited
      */
-    public @NotNull org.gtk.glib.DateTime getVisited() {
+    public org.gtk.glib.DateTime getVisited() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_get_visited.invokeExact(
@@ -397,7 +393,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.NONE);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -406,17 +402,16 @@ public class RecentInfo extends Struct {
      * @return {@code true} if an application with name {@code app_name} was found,
      *   {@code false} otherwise
      */
-    public boolean hasApplication(@NotNull java.lang.String appName) {
-        java.util.Objects.requireNonNull(appName, "Parameter 'appName' must not be null");
+    public boolean hasApplication(java.lang.String appName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_info_has_application.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(appName));
+                    Marshal.stringToAddress.marshal(appName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -425,17 +420,16 @@ public class RecentInfo extends Struct {
      * @param groupName name of a group
      * @return {@code true} if the group was found
      */
-    public boolean hasGroup(@NotNull java.lang.String groupName) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
+    public boolean hasGroup(java.lang.String groupName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_info_has_group.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName));
+                    Marshal.stringToAddress.marshal(groupName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -451,7 +445,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -459,7 +453,7 @@ public class RecentInfo extends Struct {
      * recently used resource represented by {@code info}.
      * @return an application name. Use g_free() to free it.
      */
-    public @NotNull java.lang.String lastApplication() {
+    public java.lang.String lastApplication() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_last_application.invokeExact(
@@ -467,7 +461,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -476,8 +470,7 @@ public class RecentInfo extends Struct {
      * @return {@code true} if both {@code GtkRecentInfo} point to the same
      *   resource, {@code false} otherwise
      */
-    public boolean match(@NotNull org.gtk.gtk.RecentInfo infoB) {
-        java.util.Objects.requireNonNull(infoB, "Parameter 'infoB' must not be null");
+    public boolean match(org.gtk.gtk.RecentInfo infoB) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_info_match.invokeExact(
@@ -486,7 +479,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -494,7 +487,7 @@ public class RecentInfo extends Struct {
      * @return the recent info object with its reference count
      *   increased by one
      */
-    public @NotNull org.gtk.gtk.RecentInfo ref() {
+    public org.gtk.gtk.RecentInfo ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_recent_info_ref.invokeExact(
@@ -502,7 +495,7 @@ public class RecentInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.RecentInfo(RESULT, Ownership.FULL);
+        return org.gtk.gtk.RecentInfo.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

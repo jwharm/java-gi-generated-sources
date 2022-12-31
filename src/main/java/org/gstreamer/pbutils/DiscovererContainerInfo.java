@@ -30,32 +30,14 @@ public class DiscovererContainerInfo extends org.gstreamer.pbutils.DiscovererStr
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DiscovererContainerInfo(Addressable address, Ownership ownership) {
+    protected DiscovererContainerInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DiscovererContainerInfo if its GType is a (or inherits from) "GstDiscovererContainerInfo".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DiscovererContainerInfo} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstDiscovererContainerInfo", a ClassCastException will be thrown.
-     */
-    public static DiscovererContainerInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DiscovererContainerInfo.getType())) {
-            return new DiscovererContainerInfo(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstDiscovererContainerInfo");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DiscovererContainerInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererContainerInfo(input, ownership);
     
-    public @NotNull org.gtk.glib.List getStreams() {
+    public org.gtk.glib.List getStreams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_container_info_get_streams.invokeExact(
@@ -63,10 +45,10 @@ public class DiscovererContainerInfo extends org.gstreamer.pbutils.DiscovererStr
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.gst.TagList getTags() {
+    public org.gstreamer.gst.TagList getTags() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_container_info_get_tags.invokeExact(
@@ -74,14 +56,14 @@ public class DiscovererContainerInfo extends org.gstreamer.pbutils.DiscovererStr
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_discoverer_container_info_get_type.invokeExact();
@@ -90,38 +72,40 @@ public class DiscovererContainerInfo extends org.gstreamer.pbutils.DiscovererStr
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link DiscovererContainerInfo.Builder} object constructs a {@link DiscovererContainerInfo} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DiscovererContainerInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.pbutils.DiscovererStreamInfo.Build {
+    public static class Builder extends org.gstreamer.pbutils.DiscovererStreamInfo.Builder {
         
-         /**
-         * A {@link DiscovererContainerInfo.Build} object constructs a {@link DiscovererContainerInfo} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DiscovererContainerInfo} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DiscovererContainerInfo} using {@link DiscovererContainerInfo#castFrom}.
+         * {@link DiscovererContainerInfo}.
          * @return A new instance of {@code DiscovererContainerInfo} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DiscovererContainerInfo construct() {
-            return DiscovererContainerInfo.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DiscovererContainerInfo.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DiscovererContainerInfo build() {
+            return (DiscovererContainerInfo) org.gtk.gobject.GObject.newWithProperties(
+                DiscovererContainerInfo.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

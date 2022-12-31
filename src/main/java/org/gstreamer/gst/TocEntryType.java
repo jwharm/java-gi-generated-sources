@@ -72,8 +72,7 @@ public enum TocEntryType implements io.github.jwharm.javagi.Enumeration {
      *    only for debugging purpose and should not be displayed in a user
      *    interface.
      */
-    public static @NotNull java.lang.String getNick(@NotNull org.gstreamer.gst.TocEntryType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String getNick(org.gstreamer.gst.TocEntryType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_entry_type_get_nick.invokeExact(
@@ -81,7 +80,7 @@ public enum TocEntryType implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

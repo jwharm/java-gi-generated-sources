@@ -57,25 +57,8 @@ import org.jetbrains.annotations.*;
  */
 public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to DatagramBased if its GType is a (or inherits from) "GDatagramBased".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DatagramBased} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDatagramBased", a ClassCastException will be thrown.
-     */
-    public static DatagramBased castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DatagramBased.getType())) {
-            return new DatagramBasedImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDatagramBased");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DatagramBasedImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DatagramBasedImpl(input, ownership);
     
     /**
      * Checks on the readiness of {@code datagram_based} to perform operations. The
@@ -117,8 +100,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * @param condition a {@link org.gtk.glib.IOCondition} mask to check
      * @return the {@link org.gtk.glib.IOCondition} mask of the current state
      */
-    default @NotNull org.gtk.glib.IOCondition conditionCheck(@NotNull org.gtk.glib.IOCondition condition) {
-        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+    default org.gtk.glib.IOCondition conditionCheck(org.gtk.glib.IOCondition condition) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_datagram_based_condition_check.invokeExact(
@@ -144,8 +126,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the condition was met, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean conditionWait(@NotNull org.gtk.glib.IOCondition condition, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+    default boolean conditionWait(org.gtk.glib.IOCondition condition, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -161,7 +142,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -183,8 +164,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * @param cancellable a {@link Cancellable}
      * @return a newly allocated {@link org.gtk.glib.Source}
      */
-    default @NotNull org.gtk.glib.Source createSource(@NotNull org.gtk.glib.IOCondition condition, @Nullable org.gtk.gio.Cancellable cancellable) {
-        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+    default org.gtk.glib.Source createSource(org.gtk.glib.IOCondition condition, @Nullable org.gtk.gio.Cancellable cancellable) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_datagram_based_create_source.invokeExact(
@@ -194,7 +174,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -261,8 +241,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      *     to receive the remaining messages.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default int receiveMessages(@NotNull org.gtk.gio.InputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
+    default int receiveMessages(org.gtk.gio.InputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -337,8 +316,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      *     which case the caller may re-try to send the remaining messages.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default int sendMessages(@NotNull org.gtk.gio.OutputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
+    default int sendMessages(org.gtk.gio.OutputMessage[] messages, int numMessages, int flags, long timeout, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -363,7 +341,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_datagram_based_get_type.invokeExact();
@@ -419,7 +397,7 @@ public interface DatagramBased extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class DatagramBasedImpl extends org.gtk.gobject.Object implements DatagramBased {
+    class DatagramBasedImpl extends org.gtk.gobject.GObject implements DatagramBased {
         
         static {
             Gio.javagi$ensureInitialized();

@@ -40,8 +40,10 @@ public class RegistryPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RegistryPrivate(Addressable address, Ownership ownership) {
+    protected RegistryPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RegistryPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RegistryPrivate(input, ownership);
 }

@@ -13,22 +13,20 @@ public class VulkanBarrierMemoryInfo extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanBarrierMemoryInfo";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("type"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        Interop.valueLayout.ADDRESS.withName("queue"),
-        org.vulkan.PipelineStageFlags.getMemoryLayout().withName("pipeline_stages"),
-        org.vulkan.AccessFlags.getMemoryLayout().withName("access_flags"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("type"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            Interop.valueLayout.ADDRESS.withName("queue"),
+            org.vulkan.PipelineStageFlags.getMemoryLayout().withName("pipeline_stages"),
+            org.vulkan.AccessFlags.getMemoryLayout().withName("access_flags"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.vulkan.VulkanBarrierType type$get() {
+    public org.gstreamer.vulkan.VulkanBarrierType getType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,17 +57,17 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.vulkan.VulkanBarrierType type) {
+    public void setType(org.gstreamer.vulkan.VulkanBarrierType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public org.gstreamer.vulkan.VulkanBarrierFlags flags$get() {
+    public org.gstreamer.vulkan.VulkanBarrierFlags getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,49 +78,69 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(org.gstreamer.vulkan.VulkanBarrierFlags flags) {
+    public void setFlags(org.gstreamer.vulkan.VulkanBarrierFlags flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
     }
     
     /**
      * Get the value of the field {@code queue}
      * @return The value of the field {@code queue}
      */
-    public org.gstreamer.vulkan.VulkanQueue queue$get() {
+    public org.gstreamer.vulkan.VulkanQueue getQueue() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("queue"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.vulkan.VulkanQueue(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.vulkan.VulkanQueue) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanQueue.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code queue}
      * @param queue The new value of the field {@code queue}
      */
-    public void queue$set(org.gstreamer.vulkan.VulkanQueue queue) {
+    public void setQueue(org.gstreamer.vulkan.VulkanQueue queue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("queue"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), queue.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (queue == null ? MemoryAddress.NULL : queue.handle()));
     }
     
     /**
      * Get the value of the field {@code pipeline_stages}
      * @return The value of the field {@code pipeline_stages}
      */
-    public org.vulkan.PipelineStageFlags pipelineStages$get() {
+    public org.vulkan.PipelineStageFlags getPipelineStages() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("pipeline_stages"));
-        return new org.vulkan.PipelineStageFlags(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.PipelineStageFlags.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code pipeline_stages}
+     * @param pipelineStages The new value of the field {@code pipeline_stages}
+     */
+    public void setPipelineStages(org.vulkan.PipelineStageFlags pipelineStages) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pipeline_stages"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pipelineStages == null ? MemoryAddress.NULL : pipelineStages.handle()));
     }
     
     /**
      * Get the value of the field {@code access_flags}
      * @return The value of the field {@code access_flags}
      */
-    public org.vulkan.AccessFlags accessFlags$get() {
+    public org.vulkan.AccessFlags getAccessFlags() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("access_flags"));
-        return new org.vulkan.AccessFlags(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.AccessFlags.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code access_flags}
+     * @param accessFlags The new value of the field {@code access_flags}
+     */
+    public void setAccessFlags(org.vulkan.AccessFlags accessFlags) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("access_flags"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (accessFlags == null ? MemoryAddress.NULL : accessFlags.handle()));
     }
     
     /**
@@ -130,35 +148,41 @@ public class VulkanBarrierMemoryInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanBarrierMemoryInfo(Addressable address, Ownership ownership) {
+    protected VulkanBarrierMemoryInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanBarrierMemoryInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanBarrierMemoryInfo(input, ownership);
+    
+    /**
+     * A {@link VulkanBarrierMemoryInfo.Builder} object constructs a {@link VulkanBarrierMemoryInfo} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VulkanBarrierMemoryInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VulkanBarrierMemoryInfo struct;
+        private final VulkanBarrierMemoryInfo struct;
         
-         /**
-         * A {@link VulkanBarrierMemoryInfo.Build} object constructs a {@link VulkanBarrierMemoryInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VulkanBarrierMemoryInfo.allocate();
         }
         
          /**
          * Finish building the {@link VulkanBarrierMemoryInfo} struct.
          * @return A new instance of {@code VulkanBarrierMemoryInfo} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanBarrierMemoryInfo construct() {
+        public VulkanBarrierMemoryInfo build() {
             return struct;
         }
         
@@ -168,14 +192,14 @@ public class VulkanBarrierMemoryInfo extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.vulkan.VulkanBarrierType type) {
+        public Builder setType(org.gstreamer.vulkan.VulkanBarrierType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
             return this;
         }
         
-        public Build setFlags(org.gstreamer.vulkan.VulkanBarrierFlags flags) {
+        public Builder setFlags(org.gstreamer.vulkan.VulkanBarrierFlags flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
@@ -187,7 +211,7 @@ public class VulkanBarrierMemoryInfo extends Struct {
          * @param queue The value for the {@code queue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setQueue(org.gstreamer.vulkan.VulkanQueue queue) {
+        public Builder setQueue(org.gstreamer.vulkan.VulkanQueue queue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("queue"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (queue == null ? MemoryAddress.NULL : queue.handle()));
@@ -199,7 +223,7 @@ public class VulkanBarrierMemoryInfo extends Struct {
          * @param pipelineStages The value for the {@code pipelineStages} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPipelineStages(org.vulkan.PipelineStageFlags pipelineStages) {
+        public Builder setPipelineStages(org.vulkan.PipelineStageFlags pipelineStages) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pipeline_stages"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pipelineStages == null ? MemoryAddress.NULL : pipelineStages.handle()));
@@ -211,14 +235,14 @@ public class VulkanBarrierMemoryInfo extends Struct {
          * @param accessFlags The value for the {@code accessFlags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAccessFlags(org.vulkan.AccessFlags accessFlags) {
+        public Builder setAccessFlags(org.vulkan.AccessFlags accessFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("access_flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (accessFlags == null ? MemoryAddress.NULL : accessFlags.handle()));
             return this;
         }
         
-        public Build setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
+        public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));

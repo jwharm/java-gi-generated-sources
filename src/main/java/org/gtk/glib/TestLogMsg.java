@@ -13,22 +13,20 @@ public class TestLogMsg extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GTestLogMsg";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("log_type"),
-        Interop.valueLayout.C_INT.withName("n_strings"),
-        Interop.valueLayout.ADDRESS.withName("strings"),
-        Interop.valueLayout.C_INT.withName("n_nums"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("nums")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("log_type"),
+            Interop.valueLayout.C_INT.withName("n_strings"),
+            Interop.valueLayout.ADDRESS.withName("strings"),
+            Interop.valueLayout.C_INT.withName("n_nums"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("nums")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class TestLogMsg extends Struct {
      * Get the value of the field {@code log_type}
      * @return The value of the field {@code log_type}
      */
-    public org.gtk.glib.TestLogType logType$get() {
+    public org.gtk.glib.TestLogType getLogType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,17 +57,17 @@ public class TestLogMsg extends Struct {
      * Change the value of the field {@code log_type}
      * @param logType The new value of the field {@code log_type}
      */
-    public void logType$set(org.gtk.glib.TestLogType logType) {
+    public void setLogType(org.gtk.glib.TestLogType logType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), logType.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logType == null ? MemoryAddress.NULL : logType.getValue()));
     }
     
     /**
      * Get the value of the field {@code n_strings}
      * @return The value of the field {@code n_strings}
      */
-    public int nStrings$get() {
+    public int getNStrings() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class TestLogMsg extends Struct {
      * Change the value of the field {@code n_strings}
      * @param nStrings The new value of the field {@code n_strings}
      */
-    public void nStrings$set(int nStrings) {
+    public void setNStrings(int nStrings) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nStrings);
@@ -90,7 +88,7 @@ public class TestLogMsg extends Struct {
      * Get the value of the field {@code strings}
      * @return The value of the field {@code strings}
      */
-    public PointerString strings$get() {
+    public PointerString getStrings() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("strings"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -101,17 +99,17 @@ public class TestLogMsg extends Struct {
      * Change the value of the field {@code strings}
      * @param strings The new value of the field {@code strings}
      */
-    public void strings$set(PointerString strings) {
+    public void setStrings(PointerString strings) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("strings"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), strings.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (strings == null ? MemoryAddress.NULL : strings.handle()));
     }
     
     /**
      * Get the value of the field {@code n_nums}
      * @return The value of the field {@code n_nums}
      */
-    public int nNums$get() {
+    public int getNNums() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -122,7 +120,7 @@ public class TestLogMsg extends Struct {
      * Change the value of the field {@code n_nums}
      * @param nNums The new value of the field {@code n_nums}
      */
-    public void nNums$set(int nNums) {
+    public void setNNums(int nNums) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nNums);
@@ -132,7 +130,7 @@ public class TestLogMsg extends Struct {
      * Get the value of the field {@code nums}
      * @return The value of the field {@code nums}
      */
-    public PointerDouble nums$get() {
+    public PointerDouble getNums() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("nums"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -143,10 +141,10 @@ public class TestLogMsg extends Struct {
      * Change the value of the field {@code nums}
      * @param nums The new value of the field {@code nums}
      */
-    public void nums$set(PointerDouble nums) {
+    public void setNums(PointerDouble nums) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("nums"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nums.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nums == null ? MemoryAddress.NULL : nums.handle()));
     }
     
     /**
@@ -154,10 +152,12 @@ public class TestLogMsg extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TestLogMsg(Addressable address, Ownership ownership) {
+    protected TestLogMsg(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TestLogMsg> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestLogMsg(input, ownership);
     
     /**
      * Internal function for gtester to free test log messages, no ABI guarantees provided.
@@ -179,63 +179,67 @@ public class TestLogMsg extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TestLogMsg.Builder} object constructs a {@link TestLogMsg} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TestLogMsg.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TestLogMsg struct;
+        private final TestLogMsg struct;
         
-         /**
-         * A {@link TestLogMsg.Build} object constructs a {@link TestLogMsg} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TestLogMsg.allocate();
         }
         
          /**
          * Finish building the {@link TestLogMsg} struct.
          * @return A new instance of {@code TestLogMsg} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TestLogMsg construct() {
+        public TestLogMsg build() {
             return struct;
         }
         
-        public Build setLogType(org.gtk.glib.TestLogType logType) {
+        public Builder setLogType(org.gtk.glib.TestLogType logType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("log_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logType == null ? MemoryAddress.NULL : logType.getValue()));
             return this;
         }
         
-        public Build setNStrings(int nStrings) {
+        public Builder setNStrings(int nStrings) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_strings"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nStrings);
             return this;
         }
         
-        public Build setStrings(PointerString strings) {
+        public Builder setStrings(PointerString strings) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("strings"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (strings == null ? MemoryAddress.NULL : strings.handle()));
             return this;
         }
         
-        public Build setNNums(int nNums) {
+        public Builder setNNums(int nNums) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_nums"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nNums);
             return this;
         }
         
-        public Build setNums(PointerDouble nums) {
+        public Builder setNums(PointerDouble nums) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("nums"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nums == null ? MemoryAddress.NULL : nums.handle()));

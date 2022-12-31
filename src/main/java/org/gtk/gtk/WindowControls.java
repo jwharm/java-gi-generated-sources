@@ -76,41 +76,26 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * <p>
      * Because WindowControls is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WindowControls(Addressable address, Ownership ownership) {
+    protected WindowControls(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to WindowControls if its GType is a (or inherits from) "GtkWindowControls".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code WindowControls} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkWindowControls", a ClassCastException will be thrown.
-     */
-    public static WindowControls castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), WindowControls.getType())) {
-            return new WindowControls(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkWindowControls");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WindowControls> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WindowControls(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.PackType side) {
-        java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gtk.PackType side) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_window_controls_new.invokeExact(
                     side.getValue());
@@ -124,7 +109,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * Creates a new {@code GtkWindowControls}.
      * @param side the side
      */
-    public WindowControls(@NotNull org.gtk.gtk.PackType side) {
+    public WindowControls(org.gtk.gtk.PackType side) {
         super(constructNew(side), Ownership.NONE);
     }
     
@@ -140,7 +125,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -155,14 +140,14 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the side to which this {@code GtkWindowControls} instance belongs.
      * @return the side
      */
-    public @NotNull org.gtk.gtk.PackType getSide() {
+    public org.gtk.gtk.PackType getSide() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_window_controls_get_side.invokeExact(
@@ -195,7 +180,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         try {
             DowncallHandles.gtk_window_controls_set_decoration_layout.invokeExact(
                     handle(),
-                    (Addressable) (layout == null ? MemoryAddress.NULL : Interop.allocateNativeString(layout)));
+                    (Addressable) (layout == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(layout, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,8 +192,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * See {@code Gtk.WindowControls:decoration-layout}.
      * @param side a side
      */
-    public void setSide(@NotNull org.gtk.gtk.PackType side) {
-        java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
+    public void setSide(org.gtk.gtk.PackType side) {
         try {
             DowncallHandles.gtk_window_controls_set_side.invokeExact(
                     handle(),
@@ -222,7 +206,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_window_controls_get_type.invokeExact();
@@ -231,38 +215,40 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link WindowControls.Builder} object constructs a {@link WindowControls} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link WindowControls.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link WindowControls.Build} object constructs a {@link WindowControls} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link WindowControls} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link WindowControls} using {@link WindowControls#castFrom}.
+         * {@link WindowControls}.
          * @return A new instance of {@code WindowControls} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public WindowControls construct() {
-            return WindowControls.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    WindowControls.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public WindowControls build() {
+            return (WindowControls) org.gtk.gobject.GObject.newWithProperties(
+                WindowControls.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -274,7 +260,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param decorationLayout The value for the {@code decoration-layout} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDecorationLayout(java.lang.String decorationLayout) {
+        public Builder setDecorationLayout(java.lang.String decorationLayout) {
             names.add("decoration-layout");
             values.add(org.gtk.gobject.Value.create(decorationLayout));
             return this;
@@ -285,7 +271,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param empty The value for the {@code empty} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEmpty(boolean empty) {
+        public Builder setEmpty(boolean empty) {
             names.add("empty");
             values.add(org.gtk.gobject.Value.create(empty));
             return this;
@@ -298,7 +284,7 @@ public class WindowControls extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param side The value for the {@code side} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSide(org.gtk.gtk.PackType side) {
+        public Builder setSide(org.gtk.gtk.PackType side) {
             names.add("side");
             values.add(org.gtk.gobject.Value.create(side));
             return this;

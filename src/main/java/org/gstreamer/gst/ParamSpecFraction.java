@@ -17,23 +17,21 @@ public class ParamSpecFraction extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstParamSpecFraction";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.ParamSpec.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.C_INT.withName("min_num"),
-        Interop.valueLayout.C_INT.withName("min_den"),
-        Interop.valueLayout.C_INT.withName("max_num"),
-        Interop.valueLayout.C_INT.withName("max_den"),
-        Interop.valueLayout.C_INT.withName("def_num"),
-        Interop.valueLayout.C_INT.withName("def_den")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.ParamSpec.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.C_INT.withName("min_num"),
+            Interop.valueLayout.C_INT.withName("min_den"),
+            Interop.valueLayout.C_INT.withName("max_num"),
+            Interop.valueLayout.C_INT.withName("max_den"),
+            Interop.valueLayout.C_INT.withName("def_num"),
+            Interop.valueLayout.C_INT.withName("def_den")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,16 +51,26 @@ public class ParamSpecFraction extends Struct {
      * Get the value of the field {@code parent_instance}
      * @return The value of the field {@code parent_instance}
      */
-    public org.gtk.gobject.ParamSpec parentInstance$get() {
+    public org.gtk.gobject.ParamSpec getParentInstance() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_instance"));
-        return new org.gtk.gobject.ParamSpec(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(((MemoryAddress) handle()).addOffset(OFFSET))), org.gtk.gobject.ParamSpec.fromAddress).marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_instance}
+     * @param parentInstance The new value of the field {@code parent_instance}
+     */
+    public void setParentInstance(org.gtk.gobject.ParamSpec parentInstance) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
     }
     
     /**
      * Get the value of the field {@code min_num}
      * @return The value of the field {@code min_num}
      */
-    public int minNum$get() {
+    public int getMinNum() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("min_num"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -73,7 +81,7 @@ public class ParamSpecFraction extends Struct {
      * Change the value of the field {@code min_num}
      * @param minNum The new value of the field {@code min_num}
      */
-    public void minNum$set(int minNum) {
+    public void setMinNum(int minNum) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("min_num"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minNum);
@@ -83,7 +91,7 @@ public class ParamSpecFraction extends Struct {
      * Get the value of the field {@code min_den}
      * @return The value of the field {@code min_den}
      */
-    public int minDen$get() {
+    public int getMinDen() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("min_den"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -94,7 +102,7 @@ public class ParamSpecFraction extends Struct {
      * Change the value of the field {@code min_den}
      * @param minDen The new value of the field {@code min_den}
      */
-    public void minDen$set(int minDen) {
+    public void setMinDen(int minDen) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("min_den"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minDen);
@@ -104,7 +112,7 @@ public class ParamSpecFraction extends Struct {
      * Get the value of the field {@code max_num}
      * @return The value of the field {@code max_num}
      */
-    public int maxNum$get() {
+    public int getMaxNum() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_num"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -115,7 +123,7 @@ public class ParamSpecFraction extends Struct {
      * Change the value of the field {@code max_num}
      * @param maxNum The new value of the field {@code max_num}
      */
-    public void maxNum$set(int maxNum) {
+    public void setMaxNum(int maxNum) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_num"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxNum);
@@ -125,7 +133,7 @@ public class ParamSpecFraction extends Struct {
      * Get the value of the field {@code max_den}
      * @return The value of the field {@code max_den}
      */
-    public int maxDen$get() {
+    public int getMaxDen() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_den"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -136,7 +144,7 @@ public class ParamSpecFraction extends Struct {
      * Change the value of the field {@code max_den}
      * @param maxDen The new value of the field {@code max_den}
      */
-    public void maxDen$set(int maxDen) {
+    public void setMaxDen(int maxDen) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_den"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxDen);
@@ -146,7 +154,7 @@ public class ParamSpecFraction extends Struct {
      * Get the value of the field {@code def_num}
      * @return The value of the field {@code def_num}
      */
-    public int defNum$get() {
+    public int getDefNum() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("def_num"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -157,7 +165,7 @@ public class ParamSpecFraction extends Struct {
      * Change the value of the field {@code def_num}
      * @param defNum The new value of the field {@code def_num}
      */
-    public void defNum$set(int defNum) {
+    public void setDefNum(int defNum) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("def_num"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), defNum);
@@ -167,7 +175,7 @@ public class ParamSpecFraction extends Struct {
      * Get the value of the field {@code def_den}
      * @return The value of the field {@code def_den}
      */
-    public int defDen$get() {
+    public int getDefDen() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("def_den"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -178,7 +186,7 @@ public class ParamSpecFraction extends Struct {
      * Change the value of the field {@code def_den}
      * @param defDen The new value of the field {@code def_den}
      */
-    public void defDen$set(int defDen) {
+    public void setDefDen(int defDen) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("def_den"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), defDen);
@@ -189,35 +197,41 @@ public class ParamSpecFraction extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ParamSpecFraction(Addressable address, Ownership ownership) {
+    protected ParamSpecFraction(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ParamSpecFraction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecFraction(input, ownership);
+    
+    /**
+     * A {@link ParamSpecFraction.Builder} object constructs a {@link ParamSpecFraction} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ParamSpecFraction.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ParamSpecFraction struct;
+        private final ParamSpecFraction struct;
         
-         /**
-         * A {@link ParamSpecFraction.Build} object constructs a {@link ParamSpecFraction} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ParamSpecFraction.allocate();
         }
         
          /**
          * Finish building the {@link ParamSpecFraction} struct.
          * @return A new instance of {@code ParamSpecFraction} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ParamSpecFraction construct() {
+        public ParamSpecFraction build() {
             return struct;
         }
         
@@ -226,7 +240,7 @@ public class ParamSpecFraction extends Struct {
          * @param parentInstance The value for the {@code parentInstance} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentInstance(org.gtk.gobject.ParamSpec parentInstance) {
+        public Builder setParentInstance(org.gtk.gobject.ParamSpec parentInstance) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_instance"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentInstance == null ? MemoryAddress.NULL : parentInstance.handle()));
@@ -238,7 +252,7 @@ public class ParamSpecFraction extends Struct {
          * @param minNum The value for the {@code minNum} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinNum(int minNum) {
+        public Builder setMinNum(int minNum) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("min_num"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minNum);
@@ -250,7 +264,7 @@ public class ParamSpecFraction extends Struct {
          * @param minDen The value for the {@code minDen} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinDen(int minDen) {
+        public Builder setMinDen(int minDen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("min_den"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minDen);
@@ -262,7 +276,7 @@ public class ParamSpecFraction extends Struct {
          * @param maxNum The value for the {@code maxNum} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxNum(int maxNum) {
+        public Builder setMaxNum(int maxNum) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max_num"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxNum);
@@ -274,7 +288,7 @@ public class ParamSpecFraction extends Struct {
          * @param maxDen The value for the {@code maxDen} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxDen(int maxDen) {
+        public Builder setMaxDen(int maxDen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max_den"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxDen);
@@ -286,7 +300,7 @@ public class ParamSpecFraction extends Struct {
          * @param defNum The value for the {@code defNum} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefNum(int defNum) {
+        public Builder setDefNum(int defNum) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("def_num"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), defNum);
@@ -298,7 +312,7 @@ public class ParamSpecFraction extends Struct {
          * @param defDen The value for the {@code defDen} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefDen(int defDen) {
+        public Builder setDefDen(int defDen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("def_den"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), defDen);

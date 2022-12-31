@@ -40,8 +40,10 @@ public class MemoryOutputStreamPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MemoryOutputStreamPrivate(Addressable address, Ownership ownership) {
+    protected MemoryOutputStreamPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MemoryOutputStreamPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryOutputStreamPrivate(input, ownership);
 }

@@ -106,7 +106,7 @@ import org.jetbrains.annotations.*;
  * access the buffer later. The adapter will never modify the data in the
  * buffer pushed in it.
  */
-public class Adapter extends org.gtk.gobject.Object {
+public class Adapter extends org.gtk.gobject.GObject {
     
     static {
         GstBase.javagi$ensureInitialized();
@@ -128,33 +128,15 @@ public class Adapter extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Adapter(Addressable address, Ownership ownership) {
+    protected Adapter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Adapter if its GType is a (or inherits from) "GstAdapter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Adapter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAdapter", a ClassCastException will be thrown.
-     */
-    public static Adapter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Adapter.getType())) {
-            return new Adapter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAdapter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Adapter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Adapter(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_adapter_new.invokeExact();
         } catch (Throwable ERR) {
@@ -218,34 +200,6 @@ public class Adapter extends org.gtk.gobject.Object {
     }
     
     /**
-     * Copies {@code size} bytes of data starting at {@code offset} out of the buffers
-     * contained in {@link Adapter} into an array {@code dest} provided by the caller.
-     * <p>
-     * The array {@code dest} should be large enough to contain {@code size} bytes.
-     * The user should check that the adapter has ({@code offset} + {@code size}) bytes
-     * available before calling this function.
-     * @param dest the memory to copy into
-     * @param offset the bytes offset in the adapter to start from
-     * @param size the number of bytes to copy
-     */
-    public void copy(@NotNull Out<byte[]> dest, long offset, Out<Long> size) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        try {
-            DowncallHandles.gst_adapter_copy.invokeExact(
-                    handle(),
-                    (Addressable) destPOINTER.address(),
-                    offset,
-                    (Addressable) sizePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-    }
-    
-    /**
      * Similar to gst_adapter_copy, but more suitable for language bindings. {@code size}
      * bytes of data starting at {@code offset} will be copied out of the buffers contained
      * in {@code adapter} and into a new {@link org.gtk.glib.Bytes} structure which is returned. Depending on
@@ -254,7 +208,7 @@ public class Adapter extends org.gtk.gobject.Object {
      * @param size the number of bytes to copy
      * @return A new {@link org.gtk.glib.Bytes} structure containing the copied data.
      */
-    public @NotNull org.gtk.glib.Bytes copyBytes(long offset, long size) {
+    public org.gtk.glib.Bytes copy(long offset, long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_adapter_copy_bytes.invokeExact(
@@ -264,7 +218,7 @@ public class Adapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -292,7 +246,7 @@ public class Adapter extends org.gtk.gobject.Object {
      * flag, or GST_CLOCK_TIME_NONE.
      * @return The DTS at the last discont or GST_CLOCK_TIME_NONE.
      */
-    public @NotNull org.gstreamer.gst.ClockTime dtsAtDiscont() {
+    public org.gstreamer.gst.ClockTime dtsAtDiscont() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_adapter_dts_at_discont.invokeExact(
@@ -343,7 +297,7 @@ public class Adapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -369,7 +323,7 @@ public class Adapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -393,7 +347,7 @@ public class Adapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.BufferList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -417,7 +371,7 @@ public class Adapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -437,19 +391,17 @@ public class Adapter extends org.gtk.gobject.Object {
      * @param size the number of bytes to map/peek
      * @return a pointer to the first {@code size} bytes of data, or {@code null}
      */
-    public @Nullable byte[] map(Out<Long> size) {
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+    public byte[] map(long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_adapter_map.invokeExact(
                     handle(),
-                    (Addressable) sizePOINTER.address());
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -527,7 +479,6 @@ public class Adapter extends org.gtk.gobject.Object {
      * @return offset of the first match, or -1 if no match was found.
      */
     public long maskedScanUint32Peek(int mask, int pattern, long offset, long size, Out<Integer> value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         long RESULT;
         try {
@@ -537,11 +488,11 @@ public class Adapter extends org.gtk.gobject.Object {
                     pattern,
                     offset,
                     size,
-                    (Addressable) valuePOINTER.address());
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT;
     }
     
@@ -573,18 +524,17 @@ public class Adapter extends org.gtk.gobject.Object {
      * @param distance pointer to location for distance, or {@code null}
      * @return The previously seen dts.
      */
-    public @NotNull org.gstreamer.gst.ClockTime prevDts(Out<Long> distance) {
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
+    public org.gstreamer.gst.ClockTime prevDts(Out<Long> distance) {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_adapter_prev_dts.invokeExact(
                     handle(),
-                    (Addressable) distancePOINTER.address());
+                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
@@ -601,19 +551,18 @@ public class Adapter extends org.gtk.gobject.Object {
      * @param distance pointer to location for distance, or {@code null}
      * @return The previously seen dts at given offset.
      */
-    public @NotNull org.gstreamer.gst.ClockTime prevDtsAtOffset(long offset, Out<Long> distance) {
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
+    public org.gstreamer.gst.ClockTime prevDtsAtOffset(long offset, Out<Long> distance) {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_adapter_prev_dts_at_offset.invokeExact(
                     handle(),
                     offset,
-                    (Addressable) distancePOINTER.address());
+                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
@@ -630,17 +579,16 @@ public class Adapter extends org.gtk.gobject.Object {
      * @return The previous seen offset.
      */
     public long prevOffset(Out<Long> distance) {
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_adapter_prev_offset.invokeExact(
                     handle(),
-                    (Addressable) distancePOINTER.address());
+                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -656,18 +604,17 @@ public class Adapter extends org.gtk.gobject.Object {
      * @param distance pointer to location for distance, or {@code null}
      * @return The previously seen pts.
      */
-    public @NotNull org.gstreamer.gst.ClockTime prevPts(Out<Long> distance) {
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
+    public org.gstreamer.gst.ClockTime prevPts(Out<Long> distance) {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_adapter_prev_pts.invokeExact(
                     handle(),
-                    (Addressable) distancePOINTER.address());
+                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
@@ -684,19 +631,18 @@ public class Adapter extends org.gtk.gobject.Object {
      * @param distance pointer to location for distance, or {@code null}
      * @return The previously seen pts at given offset.
      */
-    public @NotNull org.gstreamer.gst.ClockTime prevPtsAtOffset(long offset, Out<Long> distance) {
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
+    public org.gstreamer.gst.ClockTime prevPtsAtOffset(long offset, Out<Long> distance) {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_adapter_prev_pts_at_offset.invokeExact(
                     handle(),
                     offset,
-                    (Addressable) distancePOINTER.address());
+                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
@@ -705,7 +651,7 @@ public class Adapter extends org.gtk.gobject.Object {
      * flag, or GST_CLOCK_TIME_NONE.
      * @return The PTS at the last discont or GST_CLOCK_TIME_NONE.
      */
-    public @NotNull org.gstreamer.gst.ClockTime ptsAtDiscont() {
+    public org.gstreamer.gst.ClockTime ptsAtDiscont() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_adapter_pts_at_discont.invokeExact(
@@ -721,8 +667,7 @@ public class Adapter extends org.gtk.gobject.Object {
      * ownership of the buffer.
      * @param buf a {@link org.gstreamer.gst.Buffer} to add to queue in the adapter
      */
-    public void push(@NotNull org.gstreamer.gst.Buffer buf) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public void push(org.gstreamer.gst.Buffer buf) {
         try {
             DowncallHandles.gst_adapter_push.invokeExact(
                     handle(),
@@ -743,19 +688,17 @@ public class Adapter extends org.gtk.gobject.Object {
      * @param nbytes the number of bytes to take
      * @return oven-fresh hot data, or {@code null} if {@code nbytes} bytes are not available
      */
-    public @Nullable byte[] take(Out<Long> nbytes) {
-        MemorySegment nbytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+    public byte[] take(long nbytes) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_adapter_take.invokeExact(
                     handle(),
-                    (Addressable) nbytesPOINTER.address());
+                    nbytes);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nbytes.set(nbytesPOINTER.get(Interop.valueLayout.C_LONG, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), nbytes.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), nbytes * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -792,7 +735,7 @@ public class Adapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -833,7 +776,7 @@ public class Adapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -858,7 +801,7 @@ public class Adapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.BufferList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -883,7 +826,7 @@ public class Adapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -902,7 +845,7 @@ public class Adapter extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_adapter_get_type.invokeExact();
@@ -911,38 +854,40 @@ public class Adapter extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Adapter.Builder} object constructs a {@link Adapter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Adapter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Adapter.Build} object constructs a {@link Adapter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Adapter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Adapter} using {@link Adapter#castFrom}.
+         * {@link Adapter}.
          * @return A new instance of {@code Adapter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Adapter construct() {
-            return Adapter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Adapter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Adapter build() {
+            return (Adapter) org.gtk.gobject.GObject.newWithProperties(
+                Adapter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -970,12 +915,6 @@ public class Adapter extends org.gtk.gobject.Object {
         private static final MethodHandle gst_adapter_clear = Interop.downcallHandle(
             "gst_adapter_clear",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-            false
-        );
-        
-        private static final MethodHandle gst_adapter_copy = Interop.downcallHandle(
-            "gst_adapter_copy",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG),
             false
         );
         

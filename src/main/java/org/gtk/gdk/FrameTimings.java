@@ -50,10 +50,12 @@ public class FrameTimings extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FrameTimings(Addressable address, Ownership ownership) {
+    protected FrameTimings(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FrameTimings> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FrameTimings(input, ownership);
     
     /**
      * Returns whether {@code timings} are complete.
@@ -80,7 +82,7 @@ public class FrameTimings extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -190,7 +192,7 @@ public class FrameTimings extends Struct {
      * Increases the reference count of {@code timings}.
      * @return {@code timings}
      */
-    public @NotNull org.gtk.gdk.FrameTimings ref() {
+    public org.gtk.gdk.FrameTimings ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_frame_timings_ref.invokeExact(
@@ -198,7 +200,7 @@ public class FrameTimings extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.FrameTimings(RESULT, Ownership.FULL);
+        return org.gtk.gdk.FrameTimings.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

@@ -14,14 +14,21 @@ public final class GstController {
         System.loadLibrary("gstcontroller-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Reset the controlled value cache.
      * @param self the {@link TimedValueControlSource}
      */
-    public static void timedValueControlInvalidateCache(@NotNull org.gstreamer.controller.TimedValueControlSource self) {
-        java.util.Objects.requireNonNull(self, "Parameter 'self' must not be null");
+    public static void timedValueControlInvalidateCache(org.gstreamer.controller.TimedValueControlSource self) {
         try {
             DowncallHandles.gst_timed_value_control_invalidate_cache.invokeExact(
                     self.handle());

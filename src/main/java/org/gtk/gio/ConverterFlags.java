@@ -34,11 +34,15 @@ public class ConverterFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ConverterFlags or(ConverterFlags mask) {
-        return new ConverterFlags(this.getValue() | mask.getValue());
+    public ConverterFlags or(ConverterFlags... masks) {
+        int value = this.getValue();
+        for (ConverterFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ConverterFlags(value);
     }
     
     /**
@@ -48,7 +52,8 @@ public class ConverterFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ConverterFlags combined(ConverterFlags mask, ConverterFlags... masks) {
-        int value = mask.getValue();        for (ConverterFlags arg : masks) {
+        int value = mask.getValue();
+        for (ConverterFlags arg : masks) {
             value |= arg.getValue();
         }
         return new ConverterFlags(value);

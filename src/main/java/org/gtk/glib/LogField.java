@@ -23,19 +23,17 @@ public class LogField extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GLogField";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("key"),
-        Interop.valueLayout.ADDRESS.withName("value"),
-        Interop.valueLayout.C_LONG.withName("length")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("key"),
+            Interop.valueLayout.ADDRESS.withName("value"),
+            Interop.valueLayout.C_LONG.withName("length")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,28 +53,28 @@ public class LogField extends Struct {
      * Get the value of the field {@code key}
      * @return The value of the field {@code key}
      */
-    public java.lang.String key$get() {
+    public java.lang.String getKey() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("key"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code key}
      * @param key The new value of the field {@code key}
      */
-    public void key$set(java.lang.String key) {
+    public void setKey(java.lang.String key) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(key));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
     }
     
     /**
      * Get the value of the field {@code value}
      * @return The value of the field {@code value}
      */
-    public java.lang.foreign.MemoryAddress value$get() {
+    public java.lang.foreign.MemoryAddress getValue() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -87,17 +85,17 @@ public class LogField extends Struct {
      * Change the value of the field {@code value}
      * @param value The new value of the field {@code value}
      */
-    public void value$set(java.lang.foreign.MemoryAddress value) {
+    public void setValue(java.lang.foreign.MemoryAddress value) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) value);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
     }
     
     /**
      * Get the value of the field {@code length}
      * @return The value of the field {@code length}
      */
-    public long length$get() {
+    public long getLength() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -108,7 +106,7 @@ public class LogField extends Struct {
      * Change the value of the field {@code length}
      * @param length The new value of the field {@code length}
      */
-    public void length$set(long length) {
+    public void setLength(long length) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
@@ -119,35 +117,41 @@ public class LogField extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LogField(Addressable address, Ownership ownership) {
+    protected LogField(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LogField> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LogField(input, ownership);
+    
+    /**
+     * A {@link LogField.Builder} object constructs a {@link LogField} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link LogField.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private LogField struct;
+        private final LogField struct;
         
-         /**
-         * A {@link LogField.Build} object constructs a {@link LogField} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = LogField.allocate();
         }
         
          /**
          * Finish building the {@link LogField} struct.
          * @return A new instance of {@code LogField} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public LogField construct() {
+        public LogField build() {
             return struct;
         }
         
@@ -156,10 +160,10 @@ public class LogField extends Struct {
          * @param key The value for the {@code key} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKey(java.lang.String key) {
+        public Builder setKey(java.lang.String key) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("key"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
             return this;
         }
         
@@ -168,7 +172,7 @@ public class LogField extends Struct {
          * @param value The value for the {@code value} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(java.lang.foreign.MemoryAddress value) {
+        public Builder setValue(java.lang.foreign.MemoryAddress value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
@@ -180,7 +184,7 @@ public class LogField extends Struct {
          * @param length The value for the {@code length} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLength(long length) {
+        public Builder setLength(long length) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("length"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);

@@ -45,14 +45,15 @@ public class VideoVBIEncoder extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoVBIEncoder(Addressable address, Ownership ownership) {
+    protected VideoVBIEncoder(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.video.VideoFormat format, int pixelWidth) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoVBIEncoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoVBIEncoder(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.video.VideoFormat format, int pixelWidth) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_vbi_encoder_new.invokeExact(
                     format.getValue(),
@@ -68,7 +69,7 @@ public class VideoVBIEncoder extends Struct {
      * @param format a {@link VideoFormat}
      * @param pixelWidth The width in pixel to use
      */
-    public VideoVBIEncoder(@NotNull org.gstreamer.video.VideoFormat format, int pixelWidth) {
+    public VideoVBIEncoder(org.gstreamer.video.VideoFormat format, int pixelWidth) {
         super(constructNew(format, pixelWidth), Ownership.FULL);
     }
     
@@ -87,13 +88,12 @@ public class VideoVBIEncoder extends Struct {
      * @return {@code true} if enough space was left in the current line, {@code false}
      *          otherwise.
      */
-    public boolean addAncillary(boolean composite, byte DID, byte SDIDBlockNumber, @NotNull byte[] data, int dataCount) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean addAncillary(boolean composite, byte DID, byte SDIDBlockNumber, byte[] data, int dataCount) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_vbi_encoder_add_ancillary.invokeExact(
                     handle(),
-                    composite ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(composite, null).intValue(),
                     DID,
                     SDIDBlockNumber,
                     Interop.allocateNativeArray(data, false),
@@ -101,10 +101,10 @@ public class VideoVBIEncoder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull org.gstreamer.video.VideoVBIEncoder copy() {
+    public org.gstreamer.video.VideoVBIEncoder copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_vbi_encoder_copy.invokeExact(
@@ -112,7 +112,7 @@ public class VideoVBIEncoder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoVBIEncoder(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoVBIEncoder.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -128,7 +128,6 @@ public class VideoVBIEncoder extends Struct {
     }
     
     public void writeLine(PointerByte data) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         try {
             DowncallHandles.gst_video_vbi_encoder_write_line.invokeExact(
                     handle(),

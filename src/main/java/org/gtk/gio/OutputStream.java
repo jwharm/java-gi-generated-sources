@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * All of these functions have async variants too.
  */
-public class OutputStream extends org.gtk.gobject.Object {
+public class OutputStream extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -26,18 +26,16 @@ public class OutputStream extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GOutputStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -45,30 +43,12 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public OutputStream(Addressable address, Ownership ownership) {
+    protected OutputStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to OutputStream if its GType is a (or inherits from) "GOutputStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code OutputStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GOutputStream", a ClassCastException will be thrown.
-     */
-    public static OutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), OutputStream.getType())) {
-            return new OutputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GOutputStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, OutputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OutputStream(input, ownership);
     
     /**
      * Clears the pending flag on {@code stream}.
@@ -130,7 +110,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -154,12 +134,8 @@ public class OutputStream extends org.gtk.gobject.Object {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,8 +147,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return {@code true} if stream was successfully closed, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean closeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean closeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -186,7 +161,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -217,7 +192,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -238,12 +213,8 @@ public class OutputStream extends org.gtk.gobject.Object {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,8 +226,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return {@code true} if flush operation succeeded, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean flushFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean flushFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -270,7 +240,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -285,7 +255,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -300,7 +270,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -318,7 +288,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -342,24 +312,22 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @param varargs the parameters to insert into the format string
      * @return {@code true} on success, {@code false} if there was an error
      */
-    public boolean printf(Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable, @NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public boolean printf(Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable, PointerProxy<org.gtk.glib.Error> error, java.lang.String format, java.lang.Object... varargs) {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_output_stream_printf.invokeExact(
                     handle(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     error.handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -382,7 +350,7 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -397,9 +365,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      *     of bytes spliced.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long splice(@NotNull org.gtk.gio.InputStream source, @NotNull org.gtk.gio.OutputStreamSpliceFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public long splice(org.gtk.gio.InputStream source, org.gtk.gio.OutputStreamSpliceFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
@@ -432,9 +398,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback a {@link AsyncReadyCallback}.
      */
-    public void spliceAsync(@NotNull org.gtk.gio.InputStream source, @NotNull org.gtk.gio.OutputStreamSpliceFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void spliceAsync(org.gtk.gio.InputStream source, org.gtk.gio.OutputStreamSpliceFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_output_stream_splice_async.invokeExact(
                     handle(),
@@ -442,12 +406,8 @@ public class OutputStream extends org.gtk.gobject.Object {
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -462,8 +422,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      *     number of bytes spliced.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long spliceFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public long spliceFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
@@ -501,25 +460,22 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @param args the parameters to insert into the format string
      * @return {@code true} on success, {@code false} if there was an error
      */
-    public boolean vprintf(Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable, @NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public boolean vprintf(Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable, PointerProxy<org.gtk.glib.Error> error, java.lang.String format, VaList args) {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_output_stream_vprintf.invokeExact(
                     handle(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     error.handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -549,8 +505,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return Number of bytes written, or -1 on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long write(@NotNull byte[] buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public long write(byte[] buffer, long count, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
@@ -597,9 +552,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if there was an error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean writeAll(@NotNull byte[] buffer, long count, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public boolean writeAll(byte[] buffer, long count, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -608,7 +561,7 @@ public class OutputStream extends org.gtk.gobject.Object {
                     handle(),
                     Interop.allocateNativeArray(buffer, false),
                     count,
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -617,8 +570,8 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -643,8 +596,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
      * @param callback callback to call when the request is satisfied
      */
-    public void writeAllAsync(@NotNull byte[] buffer, long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public void writeAllAsync(byte[] buffer, long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_output_stream_write_all_async.invokeExact(
                     handle(),
@@ -652,12 +604,8 @@ public class OutputStream extends org.gtk.gobject.Object {
                     count,
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -679,9 +627,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if there was an error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean writeAllFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public boolean writeAllFinish(org.gtk.gio.AsyncResult result, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -689,7 +635,7 @@ public class OutputStream extends org.gtk.gobject.Object {
             RESULT = (int) DowncallHandles.g_output_stream_write_all_finish.invokeExact(
                     handle(),
                     result.handle(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -697,8 +643,8 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -743,8 +689,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback callback to call when the request is satisfied
      */
-    public void writeAsync(@NotNull byte[] buffer, long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public void writeAsync(byte[] buffer, long count, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_output_stream_write_async.invokeExact(
                     handle(),
@@ -752,12 +697,8 @@ public class OutputStream extends org.gtk.gobject.Object {
                     count,
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -780,8 +721,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return Number of bytes written, or -1 on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long writeBytes(@NotNull org.gtk.glib.Bytes bytes, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
+    public long writeBytes(org.gtk.glib.Bytes bytes, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
@@ -818,20 +758,15 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback callback to call when the request is satisfied
      */
-    public void writeBytesAsync(@NotNull org.gtk.glib.Bytes bytes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
+    public void writeBytesAsync(org.gtk.glib.Bytes bytes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_output_stream_write_bytes_async.invokeExact(
                     handle(),
                     bytes.handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -843,8 +778,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return a {@code gssize} containing the number of bytes written to the stream.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long writeBytesFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public long writeBytesFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
@@ -867,8 +801,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return a {@code gssize} containing the number of bytes written to the stream.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long writeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public long writeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
@@ -917,9 +850,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if there was an error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean writev(@NotNull org.gtk.gio.OutputVector[] vectors, long nVectors, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public boolean writev(org.gtk.gio.OutputVector[] vectors, long nVectors, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -928,7 +859,7 @@ public class OutputStream extends org.gtk.gobject.Object {
                     handle(),
                     Interop.allocateNativeArray(vectors, org.gtk.gio.OutputVector.getMemoryLayout(), false),
                     nVectors,
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -937,8 +868,8 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -972,9 +903,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if there was an error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean writevAll(@NotNull org.gtk.gio.OutputVector[] vectors, long nVectors, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public boolean writevAll(org.gtk.gio.OutputVector[] vectors, long nVectors, Out<Long> bytesWritten, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -983,7 +912,7 @@ public class OutputStream extends org.gtk.gobject.Object {
                     handle(),
                     Interop.allocateNativeArray(vectors, org.gtk.gio.OutputVector.getMemoryLayout(), false),
                     nVectors,
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -992,8 +921,8 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1019,8 +948,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
      * @param callback callback to call when the request is satisfied
      */
-    public void writevAllAsync(@NotNull org.gtk.gio.OutputVector[] vectors, long nVectors, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
+    public void writevAllAsync(org.gtk.gio.OutputVector[] vectors, long nVectors, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_output_stream_writev_all_async.invokeExact(
                     handle(),
@@ -1028,12 +956,8 @@ public class OutputStream extends org.gtk.gobject.Object {
                     nVectors,
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1055,9 +979,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if there was an error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean writevAllFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public boolean writevAllFinish(org.gtk.gio.AsyncResult result, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -1065,7 +987,7 @@ public class OutputStream extends org.gtk.gobject.Object {
             RESULT = (int) DowncallHandles.g_output_stream_writev_all_finish.invokeExact(
                     handle(),
                     result.handle(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1073,8 +995,8 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1114,8 +1036,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback callback to call when the request is satisfied
      */
-    public void writevAsync(@NotNull org.gtk.gio.OutputVector[] vectors, long nVectors, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
+    public void writevAsync(org.gtk.gio.OutputVector[] vectors, long nVectors, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_output_stream_writev_async.invokeExact(
                     handle(),
@@ -1123,12 +1044,8 @@ public class OutputStream extends org.gtk.gobject.Object {
                     nVectors,
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1141,9 +1058,7 @@ public class OutputStream extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if there was an error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean writevFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public boolean writevFinish(org.gtk.gio.AsyncResult result, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -1151,7 +1066,7 @@ public class OutputStream extends org.gtk.gobject.Object {
             RESULT = (int) DowncallHandles.g_output_stream_writev_finish.invokeExact(
                     handle(),
                     result.handle(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1159,15 +1074,15 @@ public class OutputStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_output_stream_get_type.invokeExact();
@@ -1176,38 +1091,40 @@ public class OutputStream extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link OutputStream.Builder} object constructs a {@link OutputStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link OutputStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link OutputStream.Build} object constructs a {@link OutputStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link OutputStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link OutputStream} using {@link OutputStream#castFrom}.
+         * {@link OutputStream}.
          * @return A new instance of {@code OutputStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public OutputStream construct() {
-            return OutputStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    OutputStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public OutputStream build() {
+            return (OutputStream) org.gtk.gobject.GObject.newWithProperties(
+                OutputStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

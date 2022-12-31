@@ -10,25 +10,8 @@ import org.jetbrains.annotations.*;
  */
 public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to TreeDragSource if its GType is a (or inherits from) "GtkTreeDragSource".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TreeDragSource} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTreeDragSource", a ClassCastException will be thrown.
-     */
-    public static TreeDragSource castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeDragSource.getType())) {
-            return new TreeDragSourceImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeDragSource");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeDragSourceImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeDragSourceImpl(input, ownership);
     
     /**
      * Asks the {@code GtkTreeDragSource} to delete the row at {@code path}, because
@@ -39,8 +22,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
      * @param path row that was being dragged
      * @return {@code true} if the row was successfully deleted
      */
-    default boolean dragDataDelete(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    default boolean dragDataDelete(org.gtk.gtk.TreePath path) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_drag_source_drag_data_delete.invokeExact(
@@ -49,7 +31,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -60,8 +42,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
      * @return a {@code GdkContentProvider} for the
      *    given {@code path}
      */
-    default @Nullable org.gtk.gdk.ContentProvider dragDataGet(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    default @Nullable org.gtk.gdk.ContentProvider dragDataGet(org.gtk.gtk.TreePath path) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_drag_source_drag_data_get.invokeExact(
@@ -70,7 +51,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentProvider(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -80,8 +61,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
      * @param path row on which user is initiating a drag
      * @return {@code true} if the row can be dragged
      */
-    default boolean rowDraggable(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    default boolean rowDraggable(org.gtk.gtk.TreePath path) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_drag_source_row_draggable.invokeExact(
@@ -90,14 +70,14 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_tree_drag_source_get_type.invokeExact();
@@ -139,7 +119,7 @@ public interface TreeDragSource extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class TreeDragSourceImpl extends org.gtk.gobject.Object implements TreeDragSource {
+    class TreeDragSourceImpl extends org.gtk.gobject.GObject implements TreeDragSource {
         
         static {
             Gtk.javagi$ensureInitialized();

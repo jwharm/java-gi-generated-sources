@@ -79,7 +79,7 @@ import org.jetbrains.annotations.*;
  * number of samples to use when calibrating and {@link Clock}:window-threshold
  * defines the minimum number of samples before the calibration is performed.
  */
-public class Clock extends org.gstreamer.gst.Object {
+public class Clock extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -87,19 +87,17 @@ public class Clock extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstClock";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -107,37 +105,23 @@ public class Clock extends org.gstreamer.gst.Object {
      * <p>
      * Because Clock is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Clock(Addressable address, Ownership ownership) {
+    protected Clock(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Clock if its GType is a (or inherits from) "GstClock".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Clock} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstClock", a ClassCastException will be thrown.
-     */
-    public static Clock castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Clock.getType())) {
-            return new Clock(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstClock");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Clock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Clock(input, ownership);
     
     /**
      * The time {@code master} of the master clock and the time {@code slave} of the slave
@@ -156,10 +140,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @return {@code true} if enough observations were added to run the
      * regression algorithm.
      */
-    public boolean addObservation(@NotNull org.gstreamer.gst.ClockTime slave, @NotNull org.gstreamer.gst.ClockTime master, Out<Double> rSquared) {
-        java.util.Objects.requireNonNull(slave, "Parameter 'slave' must not be null");
-        java.util.Objects.requireNonNull(master, "Parameter 'master' must not be null");
-        java.util.Objects.requireNonNull(rSquared, "Parameter 'rSquared' must not be null");
+    public boolean addObservation(org.gstreamer.gst.ClockTime slave, org.gstreamer.gst.ClockTime master, Out<Double> rSquared) {
         MemorySegment rSquaredPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -172,7 +153,7 @@ public class Clock extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         rSquared.set(rSquaredPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -192,18 +173,11 @@ public class Clock extends org.gstreamer.gst.Object {
      * @return {@code true} if enough observations were added to run the
      * regression algorithm.
      */
-    public boolean addObservationUnapplied(@NotNull org.gstreamer.gst.ClockTime slave, @NotNull org.gstreamer.gst.ClockTime master, Out<Double> rSquared, @NotNull Out<org.gstreamer.gst.ClockTime> internal, @NotNull Out<org.gstreamer.gst.ClockTime> external, @NotNull Out<org.gstreamer.gst.ClockTime> rateNum, @NotNull Out<org.gstreamer.gst.ClockTime> rateDenom) {
-        java.util.Objects.requireNonNull(slave, "Parameter 'slave' must not be null");
-        java.util.Objects.requireNonNull(master, "Parameter 'master' must not be null");
-        java.util.Objects.requireNonNull(rSquared, "Parameter 'rSquared' must not be null");
+    public boolean addObservationUnapplied(org.gstreamer.gst.ClockTime slave, org.gstreamer.gst.ClockTime master, Out<Double> rSquared, @Nullable org.gstreamer.gst.ClockTime internal, @Nullable org.gstreamer.gst.ClockTime external, @Nullable org.gstreamer.gst.ClockTime rateNum, @Nullable org.gstreamer.gst.ClockTime rateDenom) {
         MemorySegment rSquaredPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(internal, "Parameter 'internal' must not be null");
         MemorySegment internalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(external, "Parameter 'external' must not be null");
         MemorySegment externalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(rateNum, "Parameter 'rateNum' must not be null");
         MemorySegment rateNumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(rateDenom, "Parameter 'rateDenom' must not be null");
         MemorySegment rateDenomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -212,19 +186,19 @@ public class Clock extends org.gstreamer.gst.Object {
                     slave.getValue().longValue(),
                     master.getValue().longValue(),
                     (Addressable) rSquaredPOINTER.address(),
-                    (Addressable) internalPOINTER.address(),
-                    (Addressable) externalPOINTER.address(),
-                    (Addressable) rateNumPOINTER.address(),
-                    (Addressable) rateDenomPOINTER.address());
+                    (Addressable) (internal == null ? MemoryAddress.NULL : (Addressable) internalPOINTER.address()),
+                    (Addressable) (external == null ? MemoryAddress.NULL : (Addressable) externalPOINTER.address()),
+                    (Addressable) (rateNum == null ? MemoryAddress.NULL : (Addressable) rateNumPOINTER.address()),
+                    (Addressable) (rateDenom == null ? MemoryAddress.NULL : (Addressable) rateDenomPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         rSquared.set(rSquaredPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        internal.set(new org.gstreamer.gst.ClockTime(internalPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        external.set(new org.gstreamer.gst.ClockTime(externalPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        rateNum.set(new org.gstreamer.gst.ClockTime(rateNumPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        rateDenom.set(new org.gstreamer.gst.ClockTime(rateDenomPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        return RESULT != 0;
+        if (internal != null) internal.setValue(internalPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (external != null) external.setValue(externalPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (rateNum != null) rateNum.setValue(rateNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (rateDenom != null) rateDenom.setValue(rateDenomPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -237,8 +211,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param internal a clock time
      * @return the converted time of the clock.
      */
-    public @NotNull org.gstreamer.gst.ClockTime adjustUnlocked(@NotNull org.gstreamer.gst.ClockTime internal) {
-        java.util.Objects.requireNonNull(internal, "Parameter 'internal' must not be null");
+    public org.gstreamer.gst.ClockTime adjustUnlocked(org.gstreamer.gst.ClockTime internal) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_adjust_unlocked.invokeExact(
@@ -266,12 +239,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param cdenom the denominator of the rate of the clock
      * @return the converted time of the clock.
      */
-    public @NotNull org.gstreamer.gst.ClockTime adjustWithCalibration(@NotNull org.gstreamer.gst.ClockTime internalTarget, @NotNull org.gstreamer.gst.ClockTime cinternal, @NotNull org.gstreamer.gst.ClockTime cexternal, @NotNull org.gstreamer.gst.ClockTime cnum, @NotNull org.gstreamer.gst.ClockTime cdenom) {
-        java.util.Objects.requireNonNull(internalTarget, "Parameter 'internalTarget' must not be null");
-        java.util.Objects.requireNonNull(cinternal, "Parameter 'cinternal' must not be null");
-        java.util.Objects.requireNonNull(cexternal, "Parameter 'cexternal' must not be null");
-        java.util.Objects.requireNonNull(cnum, "Parameter 'cnum' must not be null");
-        java.util.Objects.requireNonNull(cdenom, "Parameter 'cdenom' must not be null");
+    public org.gstreamer.gst.ClockTime adjustWithCalibration(org.gstreamer.gst.ClockTime internalTarget, org.gstreamer.gst.ClockTime cinternal, org.gstreamer.gst.ClockTime cexternal, org.gstreamer.gst.ClockTime cnum, org.gstreamer.gst.ClockTime cdenom) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_adjust_with_calibration.invokeExact(
@@ -298,29 +266,25 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param rateNum a location to store the rate numerator
      * @param rateDenom a location to store the rate denominator
      */
-    public void getCalibration(@NotNull Out<org.gstreamer.gst.ClockTime> internal, @NotNull Out<org.gstreamer.gst.ClockTime> external, @NotNull Out<org.gstreamer.gst.ClockTime> rateNum, @NotNull Out<org.gstreamer.gst.ClockTime> rateDenom) {
-        java.util.Objects.requireNonNull(internal, "Parameter 'internal' must not be null");
+    public void getCalibration(@Nullable org.gstreamer.gst.ClockTime internal, @Nullable org.gstreamer.gst.ClockTime external, @Nullable org.gstreamer.gst.ClockTime rateNum, @Nullable org.gstreamer.gst.ClockTime rateDenom) {
         MemorySegment internalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(external, "Parameter 'external' must not be null");
         MemorySegment externalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(rateNum, "Parameter 'rateNum' must not be null");
         MemorySegment rateNumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(rateDenom, "Parameter 'rateDenom' must not be null");
         MemorySegment rateDenomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_clock_get_calibration.invokeExact(
                     handle(),
-                    (Addressable) internalPOINTER.address(),
-                    (Addressable) externalPOINTER.address(),
-                    (Addressable) rateNumPOINTER.address(),
-                    (Addressable) rateDenomPOINTER.address());
+                    (Addressable) (internal == null ? MemoryAddress.NULL : (Addressable) internalPOINTER.address()),
+                    (Addressable) (external == null ? MemoryAddress.NULL : (Addressable) externalPOINTER.address()),
+                    (Addressable) (rateNum == null ? MemoryAddress.NULL : (Addressable) rateNumPOINTER.address()),
+                    (Addressable) (rateDenom == null ? MemoryAddress.NULL : (Addressable) rateDenomPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        internal.set(new org.gstreamer.gst.ClockTime(internalPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        external.set(new org.gstreamer.gst.ClockTime(externalPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        rateNum.set(new org.gstreamer.gst.ClockTime(rateNumPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        rateDenom.set(new org.gstreamer.gst.ClockTime(rateDenomPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (internal != null) internal.setValue(internalPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (external != null) external.setValue(externalPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (rateNum != null) rateNum.setValue(rateNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (rateDenom != null) rateDenom.setValue(rateDenomPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -329,7 +293,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @return the internal time of the clock. Or {@code GST_CLOCK_TIME_NONE} when
      * given invalid input.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getInternalTime() {
+    public org.gstreamer.gst.ClockTime getInternalTime() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_get_internal_time.invokeExact(
@@ -354,7 +318,7 @@ public class Clock extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Clock(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -362,7 +326,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * of the values returned by gst_clock_get_time().
      * @return the resolution of the clock in units of {@link ClockTime}.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getResolution() {
+    public org.gstreamer.gst.ClockTime getResolution() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_get_resolution.invokeExact(
@@ -380,7 +344,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @return the time of the clock. Or {@code GST_CLOCK_TIME_NONE} when
      * given invalid input.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getTime() {
+    public org.gstreamer.gst.ClockTime getTime() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_get_time.invokeExact(
@@ -395,7 +359,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * Gets the amount of time that master and slave clocks are sampled.
      * @return the interval between samples.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getTimeout() {
+    public org.gstreamer.gst.ClockTime getTimeout() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_get_timeout.invokeExact(
@@ -419,7 +383,7 @@ public class Clock extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -431,9 +395,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @return a {@link ClockID} that can be used to request the
      *     time notification.
      */
-    public @NotNull org.gstreamer.gst.ClockID newPeriodicId(@NotNull org.gstreamer.gst.ClockTime startTime, @NotNull org.gstreamer.gst.ClockTime interval) {
-        java.util.Objects.requireNonNull(startTime, "Parameter 'startTime' must not be null");
-        java.util.Objects.requireNonNull(interval, "Parameter 'interval' must not be null");
+    public org.gstreamer.gst.ClockID newPeriodicId(org.gstreamer.gst.ClockTime startTime, org.gstreamer.gst.ClockTime interval) {
         java.lang.foreign.MemoryAddress RESULT;
         try {
             RESULT = (java.lang.foreign.MemoryAddress) DowncallHandles.gst_clock_new_periodic_id.invokeExact(
@@ -453,8 +415,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @return a {@link ClockID} that can be used to request the
      *     time notification.
      */
-    public @NotNull org.gstreamer.gst.ClockID newSingleShotId(@NotNull org.gstreamer.gst.ClockTime time) {
-        java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
+    public org.gstreamer.gst.ClockID newSingleShotId(org.gstreamer.gst.ClockTime time) {
         java.lang.foreign.MemoryAddress RESULT;
         try {
             RESULT = (java.lang.foreign.MemoryAddress) DowncallHandles.gst_clock_new_single_shot_id.invokeExact(
@@ -475,10 +436,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @return {@code true} if the GstClockID could be reinitialized to the provided
      * {@code time}, else {@code false}.
      */
-    public boolean periodicIdReinit(@NotNull org.gstreamer.gst.ClockID id, @NotNull org.gstreamer.gst.ClockTime startTime, @NotNull org.gstreamer.gst.ClockTime interval) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
-        java.util.Objects.requireNonNull(startTime, "Parameter 'startTime' must not be null");
-        java.util.Objects.requireNonNull(interval, "Parameter 'interval' must not be null");
+    public boolean periodicIdReinit(org.gstreamer.gst.ClockID id, org.gstreamer.gst.ClockTime startTime, org.gstreamer.gst.ClockTime interval) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_clock_periodic_id_reinit.invokeExact(
@@ -489,7 +447,7 @@ public class Clock extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -519,11 +477,7 @@ public class Clock extends org.gstreamer.gst.Object {
      *            internal time
      * @param rateDenom the denominator of the rate of the clock
      */
-    public void setCalibration(@NotNull org.gstreamer.gst.ClockTime internal, @NotNull org.gstreamer.gst.ClockTime external, @NotNull org.gstreamer.gst.ClockTime rateNum, @NotNull org.gstreamer.gst.ClockTime rateDenom) {
-        java.util.Objects.requireNonNull(internal, "Parameter 'internal' must not be null");
-        java.util.Objects.requireNonNull(external, "Parameter 'external' must not be null");
-        java.util.Objects.requireNonNull(rateNum, "Parameter 'rateNum' must not be null");
-        java.util.Objects.requireNonNull(rateDenom, "Parameter 'rateDenom' must not be null");
+    public void setCalibration(org.gstreamer.gst.ClockTime internal, org.gstreamer.gst.ClockTime external, org.gstreamer.gst.ClockTime rateNum, org.gstreamer.gst.ClockTime rateDenom) {
         try {
             DowncallHandles.gst_clock_set_calibration.invokeExact(
                     handle(),
@@ -561,7 +515,7 @@ public class Clock extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -573,8 +527,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param resolution The resolution to set
      * @return the new resolution of the clock.
      */
-    public @NotNull org.gstreamer.gst.ClockTime setResolution(@NotNull org.gstreamer.gst.ClockTime resolution) {
-        java.util.Objects.requireNonNull(resolution, "Parameter 'resolution' must not be null");
+    public org.gstreamer.gst.ClockTime setResolution(org.gstreamer.gst.ClockTime resolution) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_set_resolution.invokeExact(
@@ -598,7 +551,7 @@ public class Clock extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_clock_set_synced.invokeExact(
                     handle(),
-                    synced ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(synced, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -609,8 +562,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * clocks
      * @param timeout a timeout
      */
-    public void setTimeout(@NotNull org.gstreamer.gst.ClockTime timeout) {
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public void setTimeout(org.gstreamer.gst.ClockTime timeout) {
         try {
             DowncallHandles.gst_clock_set_timeout.invokeExact(
                     handle(),
@@ -628,9 +580,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @return {@code true} if the GstClockID could be reinitialized to the provided
      * {@code time}, else {@code false}.
      */
-    public boolean singleShotIdReinit(@NotNull org.gstreamer.gst.ClockID id, @NotNull org.gstreamer.gst.ClockTime time) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
-        java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
+    public boolean singleShotIdReinit(org.gstreamer.gst.ClockID id, org.gstreamer.gst.ClockTime time) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_clock_single_shot_id_reinit.invokeExact(
@@ -640,7 +590,7 @@ public class Clock extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -653,8 +603,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param external an external clock time
      * @return the internal time of the clock corresponding to {@code external}.
      */
-    public @NotNull org.gstreamer.gst.ClockTime unadjustUnlocked(@NotNull org.gstreamer.gst.ClockTime external) {
-        java.util.Objects.requireNonNull(external, "Parameter 'external' must not be null");
+    public org.gstreamer.gst.ClockTime unadjustUnlocked(org.gstreamer.gst.ClockTime external) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_unadjust_unlocked.invokeExact(
@@ -681,12 +630,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param cdenom the denominator of the rate of the clock
      * @return the converted time of the clock.
      */
-    public @NotNull org.gstreamer.gst.ClockTime unadjustWithCalibration(@NotNull org.gstreamer.gst.ClockTime externalTarget, @NotNull org.gstreamer.gst.ClockTime cinternal, @NotNull org.gstreamer.gst.ClockTime cexternal, @NotNull org.gstreamer.gst.ClockTime cnum, @NotNull org.gstreamer.gst.ClockTime cdenom) {
-        java.util.Objects.requireNonNull(externalTarget, "Parameter 'externalTarget' must not be null");
-        java.util.Objects.requireNonNull(cinternal, "Parameter 'cinternal' must not be null");
-        java.util.Objects.requireNonNull(cexternal, "Parameter 'cexternal' must not be null");
-        java.util.Objects.requireNonNull(cnum, "Parameter 'cnum' must not be null");
-        java.util.Objects.requireNonNull(cdenom, "Parameter 'cdenom' must not be null");
+    public org.gstreamer.gst.ClockTime unadjustWithCalibration(org.gstreamer.gst.ClockTime externalTarget, org.gstreamer.gst.ClockTime cinternal, org.gstreamer.gst.ClockTime cexternal, org.gstreamer.gst.ClockTime cnum, org.gstreamer.gst.ClockTime cdenom) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_unadjust_with_calibration.invokeExact(
@@ -714,8 +658,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param timeout timeout for waiting or {@code GST_CLOCK_TIME_NONE}
      * @return {@code true} if waiting was successful, or {@code false} on timeout
      */
-    public boolean waitForSync(@NotNull org.gstreamer.gst.ClockTime timeout) {
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public boolean waitForSync(org.gstreamer.gst.ClockTime timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_clock_wait_for_sync.invokeExact(
@@ -724,14 +667,14 @@ public class Clock extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_get_type.invokeExact();
@@ -766,8 +709,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @return a {@link Clock} or {@code null} when the
      *     underlying clock has been freed.
      */
-    public static @Nullable org.gstreamer.gst.Clock idGetClock(@NotNull org.gstreamer.gst.ClockID id) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public static @Nullable org.gstreamer.gst.Clock idGetClock(org.gstreamer.gst.ClockID id) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_clock_id_get_clock.invokeExact(
@@ -775,7 +717,7 @@ public class Clock extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Clock(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -783,8 +725,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param id The {@link ClockID} to query
      * @return the time of the given clock id.
      */
-    public static @NotNull org.gstreamer.gst.ClockTime idGetTime(@NotNull org.gstreamer.gst.ClockID id) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public static org.gstreamer.gst.ClockTime idGetTime(org.gstreamer.gst.ClockID id) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_clock_id_get_time.invokeExact(
@@ -800,8 +741,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param id The {@link ClockID} to ref
      * @return The same {@link ClockID} with increased refcount.
      */
-    public static @NotNull org.gstreamer.gst.ClockID idRef(@NotNull org.gstreamer.gst.ClockID id) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public static org.gstreamer.gst.ClockID idRef(org.gstreamer.gst.ClockID id) {
         java.lang.foreign.MemoryAddress RESULT;
         try {
             RESULT = (java.lang.foreign.MemoryAddress) DowncallHandles.gst_clock_id_ref.invokeExact(
@@ -817,8 +757,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * {@link ClockID} will be freed.
      * @param id The {@link ClockID} to unref
      */
-    public static void idUnref(@NotNull org.gstreamer.gst.ClockID id) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public static void idUnref(org.gstreamer.gst.ClockID id) {
         try {
             DowncallHandles.gst_clock_id_unref.invokeExact(
                     (Addressable) id.getValue());
@@ -834,8 +773,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * async notifications, you need to create a new {@link ClockID}.
      * @param id The id to unschedule
      */
-    public static void idUnschedule(@NotNull org.gstreamer.gst.ClockID id) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public static void idUnschedule(org.gstreamer.gst.ClockID id) {
         try {
             DowncallHandles.gst_clock_id_unschedule.invokeExact(
                     (Addressable) id.getValue());
@@ -853,9 +791,7 @@ public class Clock extends org.gstreamer.gst.Object {
      * @param clock a {@link Clock} to compare against
      * @return whether the clock {@code id} uses the same underlying {@link Clock} {@code clock}.
      */
-    public static boolean idUsesClock(@NotNull org.gstreamer.gst.ClockID id, @NotNull org.gstreamer.gst.Clock clock) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
-        java.util.Objects.requireNonNull(clock, "Parameter 'clock' must not be null");
+    public static boolean idUsesClock(org.gstreamer.gst.ClockID id, org.gstreamer.gst.Clock clock) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_clock_id_uses_clock.invokeExact(
@@ -864,7 +800,7 @@ public class Clock extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -889,19 +825,17 @@ public class Clock extends org.gstreamer.gst.Object {
      * {@code id} was scheduled in time. {@code GST_CLOCK_UNSCHEDULED} if {@code id} was
      * unscheduled with gst_clock_id_unschedule().
      */
-    public static @NotNull org.gstreamer.gst.ClockReturn idWait(@NotNull org.gstreamer.gst.ClockID id, @NotNull Out<org.gstreamer.gst.ClockTimeDiff> jitter) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
-        java.util.Objects.requireNonNull(jitter, "Parameter 'jitter' must not be null");
+    public static org.gstreamer.gst.ClockReturn idWait(org.gstreamer.gst.ClockID id, @Nullable org.gstreamer.gst.ClockTimeDiff jitter) {
         MemorySegment jitterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_clock_id_wait.invokeExact(
                     (Addressable) id.getValue(),
-                    (Addressable) jitterPOINTER.address());
+                    (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        jitter.set(new org.gstreamer.gst.ClockTimeDiff(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (jitter != null) jitter.setValue(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return org.gstreamer.gst.ClockReturn.of(RESULT);
     }
     
@@ -916,22 +850,17 @@ public class Clock extends org.gstreamer.gst.Object {
      * core or from a streaming thread. The application should be prepared for this.
      * @param id a {@link ClockID} to wait on
      * @param func The callback function
+     * @param destroyData {@link org.gtk.glib.DestroyNotify} for user_data
      * @return the result of the non blocking wait.
      */
-    public static @NotNull org.gstreamer.gst.ClockReturn idWaitAsync(@NotNull org.gstreamer.gst.ClockID id, @NotNull org.gstreamer.gst.ClockCallback func) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gstreamer.gst.ClockReturn idWaitAsync(org.gstreamer.gst.ClockID id, org.gstreamer.gst.ClockCallback func, org.gtk.glib.DestroyNotify destroyData) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_clock_id_wait_async.invokeExact(
                     (Addressable) id.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbClockCallback",
-                            MethodType.methodType(int.class, MemoryAddress.class, long.class, java.lang.foreign.MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyData.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -940,7 +869,18 @@ public class Clock extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface Synced {
-        void signalReceived(Clock sourceClock, boolean synced);
+        void run(boolean synced);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceClock, int synced) {
+            run(Marshal.integerToBoolean.marshal(synced, null).booleanValue());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Synced.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -956,68 +896,62 @@ public class Clock extends org.gstreamer.gst.Object {
     public Signal<Clock.Synced> onSynced(Clock.Synced handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("synced"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Clock.Callbacks.class, "signalClockSynced",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Clock.Synced>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("synced"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Clock.Builder} object constructs a {@link Clock} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Clock.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link Clock.Build} object constructs a {@link Clock} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Clock} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Clock} using {@link Clock#castFrom}.
+         * {@link Clock}.
          * @return A new instance of {@code Clock} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Clock construct() {
-            return Clock.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Clock.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Clock build() {
+            return (Clock) org.gtk.gobject.GObject.newWithProperties(
+                Clock.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setTimeout(long timeout) {
+        public Builder setTimeout(long timeout) {
             names.add("timeout");
             values.add(org.gtk.gobject.Value.create(timeout));
             return this;
         }
         
-        public Build setWindowSize(int windowSize) {
+        public Builder setWindowSize(int windowSize) {
             names.add("window-size");
             values.add(org.gtk.gobject.Value.create(windowSize));
             return this;
         }
         
-        public Build setWindowThreshold(int windowThreshold) {
+        public Builder setWindowThreshold(int windowThreshold) {
             names.add("window-threshold");
             values.add(org.gtk.gobject.Value.create(windowThreshold));
             return this;
@@ -1223,14 +1157,5 @@ public class Clock extends org.gstreamer.gst.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalClockSynced(MemoryAddress sourceClock, int synced, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Clock.Synced) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Clock(sourceClock, Ownership.NONE), synced != 0);
-        }
     }
 }

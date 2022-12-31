@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * Note that {@link EmblemedIcon} allows no control over the position
  * of the emblems. See also {@link Emblem} for more information.
  */
-public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
+public class EmblemedIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Icon {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -21,18 +21,16 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
     
     private static final java.lang.String C_TYPE_NAME = "GEmblemedIcon";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -40,34 +38,15 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EmblemedIcon(Addressable address, Ownership ownership) {
+    protected EmblemedIcon(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EmblemedIcon if its GType is a (or inherits from) "GEmblemedIcon".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EmblemedIcon} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GEmblemedIcon", a ClassCastException will be thrown.
-     */
-    public static EmblemedIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EmblemedIcon.getType())) {
-            return new EmblemedIcon(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GEmblemedIcon");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EmblemedIcon> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EmblemedIcon(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.Icon icon, @Nullable org.gtk.gio.Emblem emblem) {
-        java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.Icon icon, @Nullable org.gtk.gio.Emblem emblem) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_emblemed_icon_new.invokeExact(
                     icon.handle(),
@@ -83,7 +62,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param icon a {@link Icon}
      * @param emblem a {@link Emblem}, or {@code null}
      */
-    public EmblemedIcon(@NotNull org.gtk.gio.Icon icon, @Nullable org.gtk.gio.Emblem emblem) {
+    public EmblemedIcon(org.gtk.gio.Icon icon, @Nullable org.gtk.gio.Emblem emblem) {
         super(constructNew(icon, emblem), Ownership.FULL);
     }
     
@@ -91,8 +70,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
      * Adds {@code emblem} to the {@link org.gtk.glib.List} of {@code GEmblems}.
      * @param emblem a {@link Emblem}
      */
-    public void addEmblem(@NotNull org.gtk.gio.Emblem emblem) {
-        java.util.Objects.requireNonNull(emblem, "Parameter 'emblem' must not be null");
+    public void addEmblem(org.gtk.gio.Emblem emblem) {
         try {
             DowncallHandles.g_emblemed_icon_add_emblem.invokeExact(
                     handle(),
@@ -119,7 +97,7 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
      * @return a {@link org.gtk.glib.List} of
      *     {@code GEmblems} that is owned by {@code emblemed}
      */
-    public @NotNull org.gtk.glib.List getEmblems() {
+    public org.gtk.glib.List getEmblems() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_emblemed_icon_get_emblems.invokeExact(
@@ -127,14 +105,14 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the main icon for {@code emblemed}.
      * @return a {@link Icon} that is owned by {@code emblemed}
      */
-    public @NotNull org.gtk.gio.Icon getIcon() {
+    public org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_emblemed_icon_get_icon.invokeExact(
@@ -142,14 +120,14 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_emblemed_icon_get_type.invokeExact();
@@ -158,42 +136,44 @@ public class EmblemedIcon extends org.gtk.gobject.Object implements org.gtk.gio.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link EmblemedIcon.Builder} object constructs a {@link EmblemedIcon} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EmblemedIcon.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link EmblemedIcon.Build} object constructs a {@link EmblemedIcon} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EmblemedIcon} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EmblemedIcon} using {@link EmblemedIcon#castFrom}.
+         * {@link EmblemedIcon}.
          * @return A new instance of {@code EmblemedIcon} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EmblemedIcon construct() {
-            return EmblemedIcon.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EmblemedIcon.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EmblemedIcon build() {
+            return (EmblemedIcon) org.gtk.gobject.GObject.newWithProperties(
+                EmblemedIcon.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setGicon(org.gtk.gio.Icon gicon) {
+        public Builder setGicon(org.gtk.gio.Icon gicon) {
             names.add("gicon");
             values.add(org.gtk.gobject.Value.create(gicon));
             return this;

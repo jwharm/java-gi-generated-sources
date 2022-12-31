@@ -17,22 +17,20 @@ public class GlyphInfoT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "hb_glyph_info_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("codepoint"),
-        Interop.valueLayout.C_INT.withName("mask"),
-        Interop.valueLayout.C_INT.withName("cluster"),
-        MemoryLayout.paddingLayout(32),
-        org.harfbuzz.VarIntT.getMemoryLayout().withName("var1"),
-        org.harfbuzz.VarIntT.getMemoryLayout().withName("var2")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("codepoint"),
+            Interop.valueLayout.C_INT.withName("mask"),
+            Interop.valueLayout.C_INT.withName("cluster"),
+            MemoryLayout.paddingLayout(32),
+            org.harfbuzz.VarIntT.getMemoryLayout().withName("var1"),
+            org.harfbuzz.VarIntT.getMemoryLayout().withName("var2")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,7 +50,7 @@ public class GlyphInfoT extends Struct {
      * Get the value of the field {@code codepoint}
      * @return The value of the field {@code codepoint}
      */
-    public org.harfbuzz.CodepointT codepoint$get() {
+    public org.harfbuzz.CodepointT getCodepoint() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -63,17 +61,17 @@ public class GlyphInfoT extends Struct {
      * Change the value of the field {@code codepoint}
      * @param codepoint The new value of the field {@code codepoint}
      */
-    public void codepoint$set(org.harfbuzz.CodepointT codepoint) {
+    public void setCodepoint(org.harfbuzz.CodepointT codepoint) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), codepoint.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (codepoint == null ? MemoryAddress.NULL : codepoint.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code cluster}
      * @return The value of the field {@code cluster}
      */
-    public int cluster$get() {
+    public int getCluster() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,7 +82,7 @@ public class GlyphInfoT extends Struct {
      * Change the value of the field {@code cluster}
      * @param cluster The new value of the field {@code cluster}
      */
-    public void cluster$set(int cluster) {
+    public void setCluster(int cluster) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), cluster);
@@ -95,35 +93,41 @@ public class GlyphInfoT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GlyphInfoT(Addressable address, Ownership ownership) {
+    protected GlyphInfoT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GlyphInfoT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphInfoT(input, ownership);
+    
+    /**
+     * A {@link GlyphInfoT.Builder} object constructs a {@link GlyphInfoT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GlyphInfoT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GlyphInfoT struct;
+        private final GlyphInfoT struct;
         
-         /**
-         * A {@link GlyphInfoT.Build} object constructs a {@link GlyphInfoT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GlyphInfoT.allocate();
         }
         
          /**
          * Finish building the {@link GlyphInfoT} struct.
          * @return A new instance of {@code GlyphInfoT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GlyphInfoT construct() {
+        public GlyphInfoT build() {
             return struct;
         }
         
@@ -133,14 +137,14 @@ public class GlyphInfoT extends Struct {
          * @param codepoint The value for the {@code codepoint} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCodepoint(org.harfbuzz.CodepointT codepoint) {
+        public Builder setCodepoint(org.harfbuzz.CodepointT codepoint) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("codepoint"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (codepoint == null ? MemoryAddress.NULL : codepoint.getValue().intValue()));
             return this;
         }
         
-        public Build setMask(org.harfbuzz.MaskT mask) {
+        public Builder setMask(org.harfbuzz.MaskT mask) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mask"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mask == null ? MemoryAddress.NULL : mask.getValue().intValue()));
@@ -162,21 +166,21 @@ public class GlyphInfoT extends Struct {
          * @param cluster The value for the {@code cluster} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCluster(int cluster) {
+        public Builder setCluster(int cluster) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cluster"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), cluster);
             return this;
         }
         
-        public Build setVar1(org.harfbuzz.VarIntT var1) {
+        public Builder setVar1(org.harfbuzz.VarIntT var1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("var1"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (var1 == null ? MemoryAddress.NULL : var1.handle()));
             return this;
         }
         
-        public Build setVar2(org.harfbuzz.VarIntT var2) {
+        public Builder setVar2(org.harfbuzz.VarIntT var2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("var2"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (var2 == null ? MemoryAddress.NULL : var2.handle()));

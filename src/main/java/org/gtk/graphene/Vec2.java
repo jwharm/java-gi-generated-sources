@@ -19,17 +19,15 @@ public class Vec2 extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_vec2_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Simd4F.getMemoryLayout().withName("value")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Simd4F.getMemoryLayout().withName("value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,13 +48,15 @@ public class Vec2 extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Vec2(Addressable address, Ownership ownership) {
+    protected Vec2(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Vec2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vec2(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -76,7 +76,8 @@ public class Vec2 extends Struct {
      *   by this function.
      */
     public static Vec2 alloc() {
-        return new Vec2(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -85,9 +86,7 @@ public class Vec2 extends Struct {
      * @param b a {@link Vec2}
      * @param res return location for the result
      */
-    public void add(@NotNull org.gtk.graphene.Vec2 b, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void add(org.gtk.graphene.Vec2 b, org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_add.invokeExact(
                     handle(),
@@ -105,9 +104,7 @@ public class Vec2 extends Struct {
      * @param b a {@link Vec2}
      * @param res return location for the result
      */
-    public void divide(@NotNull org.gtk.graphene.Vec2 b, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void divide(org.gtk.graphene.Vec2 b, org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_divide.invokeExact(
                     handle(),
@@ -123,8 +120,7 @@ public class Vec2 extends Struct {
      * @param b a {@link Vec2}
      * @return the dot product of the vectors
      */
-    public float dot(@NotNull org.gtk.graphene.Vec2 b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public float dot(org.gtk.graphene.Vec2 b) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_vec2_dot.invokeExact(
@@ -141,8 +137,7 @@ public class Vec2 extends Struct {
      * @param v2 a {@link Vec2}
      * @return {@code true} if the two vectors are equal, and false otherwise
      */
-    public boolean equal(@NotNull org.gtk.graphene.Vec2 v2) {
-        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
+    public boolean equal(org.gtk.graphene.Vec2 v2) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_vec2_equal.invokeExact(
@@ -204,7 +199,7 @@ public class Vec2 extends Struct {
      * @param y the Y field of the vector
      * @return the initialized vector
      */
-    public @NotNull org.gtk.graphene.Vec2 init(float x, float y) {
+    public org.gtk.graphene.Vec2 init(float x, float y) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_init.invokeExact(
@@ -214,7 +209,7 @@ public class Vec2 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -223,8 +218,7 @@ public class Vec2 extends Struct {
      *   with at least two elements
      * @return the initialized vector
      */
-    public @NotNull org.gtk.graphene.Vec2 initFromFloat(@NotNull float[] src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Vec2 initFromFloat(float[] src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_init_from_float.invokeExact(
@@ -233,7 +227,7 @@ public class Vec2 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -241,8 +235,7 @@ public class Vec2 extends Struct {
      * @param src a {@link Vec2}
      * @return the initialized vector
      */
-    public @NotNull org.gtk.graphene.Vec2 initFromVec2(@NotNull org.gtk.graphene.Vec2 src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Vec2 initFromVec2(org.gtk.graphene.Vec2 src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_init_from_vec2.invokeExact(
@@ -251,7 +244,7 @@ public class Vec2 extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -260,9 +253,7 @@ public class Vec2 extends Struct {
      * @param factor the interpolation factor
      * @param res the interpolated vector
      */
-    public void interpolate(@NotNull org.gtk.graphene.Vec2 v2, double factor, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void interpolate(org.gtk.graphene.Vec2 v2, double factor, org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_interpolate.invokeExact(
                     handle(),
@@ -295,9 +286,7 @@ public class Vec2 extends Struct {
      * @param b a {@link Vec2}
      * @param res the resulting vector
      */
-    public void max(@NotNull org.gtk.graphene.Vec2 b, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void max(org.gtk.graphene.Vec2 b, org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_max.invokeExact(
                     handle(),
@@ -314,9 +303,7 @@ public class Vec2 extends Struct {
      * @param b a {@link Vec2}
      * @param res the resulting vector
      */
-    public void min(@NotNull org.gtk.graphene.Vec2 b, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void min(org.gtk.graphene.Vec2 b, org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_min.invokeExact(
                     handle(),
@@ -333,9 +320,7 @@ public class Vec2 extends Struct {
      * @param b a {@link Vec2}
      * @param res return location for the result
      */
-    public void multiply(@NotNull org.gtk.graphene.Vec2 b, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void multiply(org.gtk.graphene.Vec2 b, org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_multiply.invokeExact(
                     handle(),
@@ -353,8 +338,7 @@ public class Vec2 extends Struct {
      * @param epsilon the threshold between the two vectors
      * @return {@code true} if the two vectors are near each other
      */
-    public boolean near(@NotNull org.gtk.graphene.Vec2 v2, float epsilon) {
-        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
+    public boolean near(org.gtk.graphene.Vec2 v2, float epsilon) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_vec2_near.invokeExact(
@@ -371,8 +355,7 @@ public class Vec2 extends Struct {
      * Negates the given {@link Vec2}.
      * @param res return location for the result vector
      */
-    public void negate(@NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void negate(org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_negate.invokeExact(
                     handle(),
@@ -387,8 +370,7 @@ public class Vec2 extends Struct {
      * @param res return location for the
      *   normalized vector
      */
-    public void normalize(@NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void normalize(org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_normalize.invokeExact(
                     handle(),
@@ -403,8 +385,7 @@ public class Vec2 extends Struct {
      * @param factor the scalar factor
      * @param res return location for the result vector
      */
-    public void scale(float factor, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void scale(float factor, org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_scale.invokeExact(
                     handle(),
@@ -422,9 +403,7 @@ public class Vec2 extends Struct {
      * @param b a {@link Vec2}
      * @param res return location for the result
      */
-    public void subtract(@NotNull org.gtk.graphene.Vec2 b, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void subtract(org.gtk.graphene.Vec2 b, org.gtk.graphene.Vec2 res) {
         try {
             DowncallHandles.graphene_vec2_subtract.invokeExact(
                     handle(),
@@ -440,8 +419,7 @@ public class Vec2 extends Struct {
      * @param dest return location
      *   for an array of floating point values with at least 2 elements
      */
-    public void toFloat(@NotNull Out<float[]> dest) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public void toFloat(Out<float[]> dest) {
         MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.graphene_vec2_to_float.invokeExact(
@@ -457,56 +435,56 @@ public class Vec2 extends Struct {
      * Retrieves a constant vector with (1, 1) components.
      * @return the one vector
      */
-    public static @NotNull org.gtk.graphene.Vec2 one() {
+    public static org.gtk.graphene.Vec2 one() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves a constant vector with (1, 0) components.
      * @return the X axis vector
      */
-    public static @NotNull org.gtk.graphene.Vec2 xAxis() {
+    public static org.gtk.graphene.Vec2 xAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_x_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves a constant vector with (0, 1) components.
      * @return the Y axis vector
      */
-    public static @NotNull org.gtk.graphene.Vec2 yAxis() {
+    public static org.gtk.graphene.Vec2 yAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_y_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves a constant vector with (0, 0) components.
      * @return the zero vector
      */
-    public static @NotNull org.gtk.graphene.Vec2 zero() {
+    public static org.gtk.graphene.Vec2 zero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -667,35 +645,39 @@ public class Vec2 extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Vec2.Builder} object constructs a {@link Vec2} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Vec2.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Vec2 struct;
+        private final Vec2 struct;
         
-         /**
-         * A {@link Vec2.Build} object constructs a {@link Vec2} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Vec2.allocate();
         }
         
          /**
          * Finish building the {@link Vec2} struct.
          * @return A new instance of {@code Vec2} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Vec2 construct() {
+        public Vec2 build() {
             return struct;
         }
         
-        public Build setValue(org.gtk.graphene.Simd4F value) {
+        public Builder setValue(org.gtk.graphene.Simd4F value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * looking in the file system for clues. Can return a list of possible
  * completion strings for widget implementations.
  */
-public class FilenameCompleter extends org.gtk.gobject.Object {
+public class FilenameCompleter extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -32,33 +32,15 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FilenameCompleter(Addressable address, Ownership ownership) {
+    protected FilenameCompleter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FilenameCompleter if its GType is a (or inherits from) "GFilenameCompleter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FilenameCompleter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GFilenameCompleter", a ClassCastException will be thrown.
-     */
-    public static FilenameCompleter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FilenameCompleter.getType())) {
-            return new FilenameCompleter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFilenameCompleter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FilenameCompleter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FilenameCompleter(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_new.invokeExact();
         } catch (Throwable ERR) {
@@ -81,17 +63,16 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      *     completion exists. This string is not owned by GIO, so remember to g_free()
      *     it when finished.
      */
-    public @Nullable java.lang.String getCompletionSuffix(@NotNull java.lang.String initialText) {
-        java.util.Objects.requireNonNull(initialText, "Parameter 'initialText' must not be null");
+    public @Nullable java.lang.String getCompletionSuffix(java.lang.String initialText) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completion_suffix.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(initialText));
+                    Marshal.stringToAddress.marshal(initialText, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -100,13 +81,12 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      * @return array of strings with possible completions for {@code initial_text}.
      * This array must be freed by g_strfreev() when finished.
      */
-    public @NotNull PointerString getCompletions(@NotNull java.lang.String initialText) {
-        java.util.Objects.requireNonNull(initialText, "Parameter 'initialText' must not be null");
+    public PointerString getCompletions(java.lang.String initialText) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_completer_get_completions.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(initialText));
+                    Marshal.stringToAddress.marshal(initialText, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,7 +102,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_filename_completer_set_dirs_only.invokeExact(
                     handle(),
-                    dirsOnly ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(dirsOnly, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,7 +112,7 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_filename_completer_get_type.invokeExact();
@@ -144,7 +124,18 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface GotCompletionData {
-        void signalReceived(FilenameCompleter sourceFilenameCompleter);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceFilenameCompleter) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GotCompletionData.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -155,52 +146,46 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
     public Signal<FilenameCompleter.GotCompletionData> onGotCompletionData(FilenameCompleter.GotCompletionData handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("got-completion-data"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FilenameCompleter.Callbacks.class, "signalFilenameCompleterGotCompletionData",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<FilenameCompleter.GotCompletionData>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("got-completion-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link FilenameCompleter.Builder} object constructs a {@link FilenameCompleter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FilenameCompleter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link FilenameCompleter.Build} object constructs a {@link FilenameCompleter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FilenameCompleter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FilenameCompleter} using {@link FilenameCompleter#castFrom}.
+         * {@link FilenameCompleter}.
          * @return A new instance of {@code FilenameCompleter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FilenameCompleter construct() {
-            return FilenameCompleter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FilenameCompleter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FilenameCompleter build() {
+            return (FilenameCompleter) org.gtk.gobject.GObject.newWithProperties(
+                FilenameCompleter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -236,14 +221,5 @@ public class FilenameCompleter extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalFilenameCompleterGotCompletionData(MemoryAddress sourceFilenameCompleter, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FilenameCompleter.GotCompletionData) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FilenameCompleter(sourceFilenameCompleter, Ownership.NONE));
-        }
     }
 }

@@ -40,8 +40,10 @@ public class PipelineStageFlags extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PipelineStageFlags(Addressable address, Ownership ownership) {
+    protected PipelineStageFlags(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PipelineStageFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineStageFlags(input, ownership);
 }

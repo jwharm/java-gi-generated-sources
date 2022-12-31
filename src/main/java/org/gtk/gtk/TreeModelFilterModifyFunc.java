@@ -15,5 +15,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeModelFilterModifyFunc {
-        void onTreeModelFilterModifyFunc(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter, @NotNull org.gtk.gobject.Value value, int column);
+    void run(org.gtk.gtk.TreeModel model, org.gtk.gtk.TreeIter iter, org.gtk.gobject.Value value, int column);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress model, MemoryAddress iter, MemoryAddress value, int column, MemoryAddress data) {
+        run((org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.TreeModel.fromAddress).marshal(model, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE), column);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TreeModelFilterModifyFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

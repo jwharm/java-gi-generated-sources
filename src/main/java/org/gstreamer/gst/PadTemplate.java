@@ -67,7 +67,7 @@ import org.jetbrains.annotations.*;
  *   }
  * }</pre>
  */
-public class PadTemplate extends org.gstreamer.gst.Object {
+public class PadTemplate extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -75,21 +75,19 @@ public class PadTemplate extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstPadTemplate";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("name_template"),
-        Interop.valueLayout.C_INT.withName("direction"),
-        Interop.valueLayout.C_INT.withName("presence"),
-        Interop.valueLayout.ADDRESS.withName("caps")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("name_template"),
+            Interop.valueLayout.C_INT.withName("direction"),
+            Interop.valueLayout.C_INT.withName("presence"),
+            Interop.valueLayout.ADDRESS.withName("caps")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -97,47 +95,29 @@ public class PadTemplate extends org.gstreamer.gst.Object {
      * <p>
      * Because PadTemplate is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PadTemplate(Addressable address, Ownership ownership) {
+    protected PadTemplate(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PadTemplate if its GType is a (or inherits from) "GstPadTemplate".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PadTemplate} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPadTemplate", a ClassCastException will be thrown.
-     */
-    public static PadTemplate castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PadTemplate.getType())) {
-            return new PadTemplate(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPadTemplate");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PadTemplate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PadTemplate(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String nameTemplate, @NotNull org.gstreamer.gst.PadDirection direction, @NotNull org.gstreamer.gst.PadPresence presence, @NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(nameTemplate, "Parameter 'nameTemplate' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(presence, "Parameter 'presence' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String nameTemplate, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.PadPresence presence, org.gstreamer.gst.Caps caps) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_new.invokeExact(
-                    Interop.allocateNativeString(nameTemplate),
+                    Marshal.stringToAddress.marshal(nameTemplate, null),
                     direction.getValue(),
                     presence.getValue(),
                     caps.handle());
@@ -155,14 +135,12 @@ public class PadTemplate extends org.gstreamer.gst.Object {
      * @param presence the {@link PadPresence} of the pad.
      * @param caps a {@link Caps} set for the template.
      */
-    public PadTemplate(@NotNull java.lang.String nameTemplate, @NotNull org.gstreamer.gst.PadDirection direction, @NotNull org.gstreamer.gst.PadPresence presence, @NotNull org.gstreamer.gst.Caps caps) {
+    public PadTemplate(java.lang.String nameTemplate, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.PadPresence presence, org.gstreamer.gst.Caps caps) {
         super(constructNew(nameTemplate, direction, presence, caps), Ownership.NONE);
     }
     
-    private static Addressable constructNewFromStaticPadTemplateWithGtype(@NotNull org.gstreamer.gst.StaticPadTemplate padTemplate, @NotNull org.gtk.glib.Type padType) {
-        java.util.Objects.requireNonNull(padTemplate, "Parameter 'padTemplate' must not be null");
-        java.util.Objects.requireNonNull(padType, "Parameter 'padType' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromStaticPadTemplateWithGtype(org.gstreamer.gst.StaticPadTemplate padTemplate, org.gtk.glib.Type padType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_new_from_static_pad_template_with_gtype.invokeExact(
                     padTemplate.handle(),
@@ -176,23 +154,19 @@ public class PadTemplate extends org.gstreamer.gst.Object {
     /**
      * Converts a {@link StaticPadTemplate} into a {@link PadTemplate} with a type.
      * @param padTemplate the static pad template
-     * @param padType The {@link org.gtk.gobject.Type} of the pad to create
+     * @param padType The {@link org.gtk.glib.Type} of the pad to create
      * @return a new {@link PadTemplate}.
      */
-    public static PadTemplate newFromStaticPadTemplateWithGtype(@NotNull org.gstreamer.gst.StaticPadTemplate padTemplate, @NotNull org.gtk.glib.Type padType) {
-        return new PadTemplate(constructNewFromStaticPadTemplateWithGtype(padTemplate, padType), Ownership.NONE);
+    public static PadTemplate newFromStaticPadTemplateWithGtype(org.gstreamer.gst.StaticPadTemplate padTemplate, org.gtk.glib.Type padType) {
+        var RESULT = constructNewFromStaticPadTemplateWithGtype(padTemplate, padType);
+        return (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewWithGtype(@NotNull java.lang.String nameTemplate, @NotNull org.gstreamer.gst.PadDirection direction, @NotNull org.gstreamer.gst.PadPresence presence, @NotNull org.gstreamer.gst.Caps caps, @NotNull org.gtk.glib.Type padType) {
-        java.util.Objects.requireNonNull(nameTemplate, "Parameter 'nameTemplate' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(presence, "Parameter 'presence' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(padType, "Parameter 'padType' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithGtype(java.lang.String nameTemplate, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.PadPresence presence, org.gstreamer.gst.Caps caps, org.gtk.glib.Type padType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_new_with_gtype.invokeExact(
-                    Interop.allocateNativeString(nameTemplate),
+                    Marshal.stringToAddress.marshal(nameTemplate, null),
                     direction.getValue(),
                     presence.getValue(),
                     caps.handle(),
@@ -210,11 +184,12 @@ public class PadTemplate extends org.gstreamer.gst.Object {
      * @param direction the {@link PadDirection} of the template.
      * @param presence the {@link PadPresence} of the pad.
      * @param caps a {@link Caps} set for the template.
-     * @param padType The {@link org.gtk.gobject.Type} of the pad to create
+     * @param padType The {@link org.gtk.glib.Type} of the pad to create
      * @return a new {@link PadTemplate}.
      */
-    public static PadTemplate newWithGtype(@NotNull java.lang.String nameTemplate, @NotNull org.gstreamer.gst.PadDirection direction, @NotNull org.gstreamer.gst.PadPresence presence, @NotNull org.gstreamer.gst.Caps caps, @NotNull org.gtk.glib.Type padType) {
-        return new PadTemplate(constructNewWithGtype(nameTemplate, direction, presence, caps, padType), Ownership.NONE);
+    public static PadTemplate newWithGtype(java.lang.String nameTemplate, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.PadPresence presence, org.gstreamer.gst.Caps caps, org.gtk.glib.Type padType) {
+        var RESULT = constructNewWithGtype(nameTemplate, direction, presence, caps, padType);
+        return (org.gstreamer.gst.PadTemplate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PadTemplate.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -222,7 +197,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
      * @return the {@link Caps} of the pad template.
      * Unref after usage.
      */
-    public @NotNull org.gstreamer.gst.Caps getCaps() {
+    public org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_get_caps.invokeExact(
@@ -230,7 +205,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -238,7 +213,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
      * @return The caps to document. For convenience, this will return
      *   gst_pad_template_get_caps() when no documentation caps were set.
      */
-    public @NotNull org.gstreamer.gst.Caps getDocumentationCaps() {
+    public org.gstreamer.gst.Caps getDocumentationCaps() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pad_template_get_documentation_caps.invokeExact(
@@ -246,15 +221,14 @@ public class PadTemplate extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Emit the pad-created signal for this template when created by this pad.
      * @param pad the {@link Pad} that created it
      */
-    public void padCreated(@NotNull org.gstreamer.gst.Pad pad) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public void padCreated(org.gstreamer.gst.Pad pad) {
         try {
             DowncallHandles.gst_pad_template_pad_created.invokeExact(
                     handle(),
@@ -271,8 +245,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
      * expose "stable" caps to the reader.
      * @param caps the documented capabilities
      */
-    public void setDocumentationCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void setDocumentationCaps(org.gstreamer.gst.Caps caps) {
         try {
             DowncallHandles.gst_pad_template_set_documentation_caps.invokeExact(
                     handle(),
@@ -287,7 +260,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_pad_template_get_type.invokeExact();
@@ -299,7 +272,18 @@ public class PadTemplate extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface PadCreated {
-        void signalReceived(PadTemplate sourcePadTemplate, @NotNull org.gstreamer.gst.Pad pad);
+        void run(org.gstreamer.gst.Pad pad);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePadTemplate, MemoryAddress pad) {
+            run((org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pad)), org.gstreamer.gst.Pad.fromAddress).marshal(pad, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PadCreated.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -310,52 +294,46 @@ public class PadTemplate extends org.gstreamer.gst.Object {
     public Signal<PadTemplate.PadCreated> onPadCreated(PadTemplate.PadCreated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("pad-created"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PadTemplate.Callbacks.class, "signalPadTemplatePadCreated",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PadTemplate.PadCreated>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("pad-created"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link PadTemplate.Builder} object constructs a {@link PadTemplate} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PadTemplate.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link PadTemplate.Build} object constructs a {@link PadTemplate} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PadTemplate} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PadTemplate} using {@link PadTemplate#castFrom}.
+         * {@link PadTemplate}.
          * @return A new instance of {@code PadTemplate} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PadTemplate construct() {
-            return PadTemplate.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PadTemplate.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PadTemplate build() {
+            return (PadTemplate) org.gtk.gobject.GObject.newWithProperties(
+                PadTemplate.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -364,7 +342,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
          * @param caps The value for the {@code caps} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCaps(org.gstreamer.gst.Caps caps) {
+        public Builder setCaps(org.gstreamer.gst.Caps caps) {
             names.add("caps");
             values.add(org.gtk.gobject.Value.create(caps));
             return this;
@@ -375,7 +353,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
          * @param direction The value for the {@code direction} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDirection(org.gstreamer.gst.PadDirection direction) {
+        public Builder setDirection(org.gstreamer.gst.PadDirection direction) {
             names.add("direction");
             values.add(org.gtk.gobject.Value.create(direction));
             return this;
@@ -386,7 +364,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
          * @param gtype The value for the {@code gtype} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGtype(org.gtk.glib.Type gtype) {
+        public Builder setGtype(org.gtk.glib.Type gtype) {
             names.add("gtype");
             values.add(org.gtk.gobject.Value.create(gtype));
             return this;
@@ -397,7 +375,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
          * @param nameTemplate The value for the {@code name-template} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNameTemplate(java.lang.String nameTemplate) {
+        public Builder setNameTemplate(java.lang.String nameTemplate) {
             names.add("name-template");
             values.add(org.gtk.gobject.Value.create(nameTemplate));
             return this;
@@ -408,7 +386,7 @@ public class PadTemplate extends org.gstreamer.gst.Object {
          * @param presence The value for the {@code presence} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPresence(org.gstreamer.gst.PadPresence presence) {
+        public Builder setPresence(org.gstreamer.gst.PadPresence presence) {
             names.add("presence");
             values.add(org.gtk.gobject.Value.create(presence));
             return this;
@@ -464,14 +442,5 @@ public class PadTemplate extends org.gstreamer.gst.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalPadTemplatePadCreated(MemoryAddress sourcePadTemplate, MemoryAddress pad, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PadTemplate.PadCreated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PadTemplate(sourcePadTemplate, Ownership.NONE), new org.gstreamer.gst.Pad(pad, Ownership.NONE));
-        }
     }
 }

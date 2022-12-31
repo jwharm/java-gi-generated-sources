@@ -186,40 +186,26 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * <p>
      * Because AboutWindow is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AboutWindow(Addressable address, Ownership ownership) {
+    protected AboutWindow(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AboutWindow if its GType is a (or inherits from) "AdwAboutWindow".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AboutWindow} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwAboutWindow", a ClassCastException will be thrown.
-     */
-    public static AboutWindow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AboutWindow.getType())) {
-            return new AboutWindow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwAboutWindow");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AboutWindow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AboutWindow(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_new.invokeExact();
         } catch (Throwable ERR) {
@@ -256,12 +242,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param name the section name
      * @param people the list of names
      */
-    public void addAcknowledgementSection(@Nullable java.lang.String name, @NotNull java.lang.String[] people) {
-        java.util.Objects.requireNonNull(people, "Parameter 'people' must not be null");
+    public void addAcknowledgementSection(@Nullable java.lang.String name, java.lang.String[] people) {
         try {
             DowncallHandles.adw_about_window_add_acknowledgement_section.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
                     Interop.allocateNativeArray(people, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -287,12 +272,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param name the section name
      * @param people the list of names
      */
-    public void addCreditSection(@Nullable java.lang.String name, @NotNull java.lang.String[] people) {
-        java.util.Objects.requireNonNull(people, "Parameter 'people' must not be null");
+    public void addCreditSection(@Nullable java.lang.String name, java.lang.String[] people) {
         try {
             DowncallHandles.adw_about_window_add_credit_section.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
                     Interop.allocateNativeArray(people, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -344,16 +328,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param licenseType the type of license
      * @param license custom license information
      */
-    public void addLegalSection(@NotNull java.lang.String title, @Nullable java.lang.String copyright, @NotNull org.gtk.gtk.License licenseType, @Nullable java.lang.String license) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
-        java.util.Objects.requireNonNull(licenseType, "Parameter 'licenseType' must not be null");
+    public void addLegalSection(java.lang.String title, @Nullable java.lang.String copyright, org.gtk.gtk.License licenseType, @Nullable java.lang.String license) {
         try {
             DowncallHandles.adw_about_window_add_legal_section.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title),
-                    (Addressable) (copyright == null ? MemoryAddress.NULL : Interop.allocateNativeString(copyright)),
+                    Marshal.stringToAddress.marshal(title, null),
+                    (Addressable) (copyright == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(copyright, null)),
                     licenseType.getValue(),
-                    (Addressable) (license == null ? MemoryAddress.NULL : Interop.allocateNativeString(license)));
+                    (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -370,14 +352,12 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * @param title the link title
      * @param url the link URL
      */
-    public void addLink(@NotNull java.lang.String title, @NotNull java.lang.String url) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
-        java.util.Objects.requireNonNull(url, "Parameter 'url' must not be null");
+    public void addLink(java.lang.String title, java.lang.String url) {
         try {
             DowncallHandles.adw_about_window_add_link.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title),
-                    Interop.allocateNativeString(url));
+                    Marshal.stringToAddress.marshal(title, null),
+                    Marshal.stringToAddress.marshal(url, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,7 +367,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Gets the name of the application icon for {@code self}.
      * @return the application icon name
      */
-    public @NotNull java.lang.String getApplicationIcon() {
+    public java.lang.String getApplicationIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_application_icon.invokeExact(
@@ -395,14 +375,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the application name for {@code self}.
      * @return the application name
      */
-    public @NotNull java.lang.String getApplicationName() {
+    public java.lang.String getApplicationName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_application_name.invokeExact(
@@ -410,7 +390,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -432,7 +412,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Gets the comments about the application.
      * @return the comments
      */
-    public @NotNull java.lang.String getComments() {
+    public java.lang.String getComments() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_comments.invokeExact(
@@ -440,14 +420,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the copyright information for {@code self}.
      * @return the copyright information
      */
-    public @NotNull java.lang.String getCopyright() {
+    public java.lang.String getCopyright() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_copyright.invokeExact(
@@ -455,14 +435,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the debug information for {@code self}.
      * @return the debug information
      */
-    public @NotNull java.lang.String getDebugInfo() {
+    public java.lang.String getDebugInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_debug_info.invokeExact(
@@ -470,14 +450,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the debug information filename for {@code self}.
      * @return the debug information filename
      */
-    public @NotNull java.lang.String getDebugInfoFilename() {
+    public java.lang.String getDebugInfoFilename() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_debug_info_filename.invokeExact(
@@ -485,7 +465,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -507,7 +487,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Gets the developer name for {@code self}.
      * @return the developer_name
      */
-    public @NotNull java.lang.String getDeveloperName() {
+    public java.lang.String getDeveloperName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_developer_name.invokeExact(
@@ -515,7 +495,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -552,7 +532,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Gets the issue tracker URL for {@code self}.
      * @return the issue tracker URL
      */
-    public @NotNull java.lang.String getIssueUrl() {
+    public java.lang.String getIssueUrl() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_issue_url.invokeExact(
@@ -560,14 +540,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the license for {@code self}.
      * @return the license
      */
-    public @NotNull java.lang.String getLicense() {
+    public java.lang.String getLicense() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_license.invokeExact(
@@ -575,14 +555,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the license type for {@code self}.
      * @return the license type
      */
-    public @NotNull org.gtk.gtk.License getLicenseType() {
+    public org.gtk.gtk.License getLicenseType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_about_window_get_license_type.invokeExact(
@@ -597,7 +577,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Gets the release notes for {@code self}.
      * @return the release notes
      */
-    public @NotNull java.lang.String getReleaseNotes() {
+    public java.lang.String getReleaseNotes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_release_notes.invokeExact(
@@ -605,14 +585,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the version described by the application's release notes.
      * @return the release notes version
      */
-    public @NotNull java.lang.String getReleaseNotesVersion() {
+    public java.lang.String getReleaseNotesVersion() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_release_notes_version.invokeExact(
@@ -620,14 +600,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the URL of the support page for {@code self}.
      * @return the support page URL
      */
-    public @NotNull java.lang.String getSupportUrl() {
+    public java.lang.String getSupportUrl() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_support_url.invokeExact(
@@ -635,14 +615,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the translator credits string.
      * @return The translator credits string
      */
-    public @NotNull java.lang.String getTranslatorCredits() {
+    public java.lang.String getTranslatorCredits() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_translator_credits.invokeExact(
@@ -650,14 +630,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the version for {@code self}.
      * @return the version
      */
-    public @NotNull java.lang.String getVersion() {
+    public java.lang.String getVersion() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_version.invokeExact(
@@ -665,14 +645,14 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the application website URL for {@code self}.
      * @return the website URL
      */
-    public @NotNull java.lang.String getWebsite() {
+    public java.lang.String getWebsite() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_about_window_get_website.invokeExact(
@@ -680,7 +660,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -689,12 +669,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * The icon is displayed at the top of the main page.
      * @param applicationIcon the application icon name
      */
-    public void setApplicationIcon(@NotNull java.lang.String applicationIcon) {
-        java.util.Objects.requireNonNull(applicationIcon, "Parameter 'applicationIcon' must not be null");
+    public void setApplicationIcon(java.lang.String applicationIcon) {
         try {
             DowncallHandles.adw_about_window_set_application_icon.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(applicationIcon));
+                    Marshal.stringToAddress.marshal(applicationIcon, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -706,12 +685,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * The name is displayed at the top of the main page.
      * @param applicationName the application name
      */
-    public void setApplicationName(@NotNull java.lang.String applicationName) {
-        java.util.Objects.requireNonNull(applicationName, "Parameter 'applicationName' must not be null");
+    public void setApplicationName(java.lang.String applicationName) {
         try {
             DowncallHandles.adw_about_window_set_application_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(applicationName));
+                    Marshal.stringToAddress.marshal(applicationName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -754,12 +732,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * detailed. It can also contain links and Pango markup.
      * @param comments the comments
      */
-    public void setComments(@NotNull java.lang.String comments) {
-        java.util.Objects.requireNonNull(comments, "Parameter 'comments' must not be null");
+    public void setComments(java.lang.String comments) {
         try {
             DowncallHandles.adw_about_window_set_comments.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(comments));
+                    Marshal.stringToAddress.marshal(comments, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -778,12 +755,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * information for the application dependencies or other components.
      * @param copyright the copyright information
      */
-    public void setCopyright(@NotNull java.lang.String copyright) {
-        java.util.Objects.requireNonNull(copyright, "Parameter 'copyright' must not be null");
+    public void setCopyright(java.lang.String copyright) {
         try {
             DowncallHandles.adw_about_window_set_copyright.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(copyright));
+                    Marshal.stringToAddress.marshal(copyright, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -803,12 +779,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Debug information cannot contain markup or links.
      * @param debugInfo the debug information
      */
-    public void setDebugInfo(@NotNull java.lang.String debugInfo) {
-        java.util.Objects.requireNonNull(debugInfo, "Parameter 'debugInfo' must not be null");
+    public void setDebugInfo(java.lang.String debugInfo) {
         try {
             DowncallHandles.adw_about_window_set_debug_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(debugInfo));
+                    Marshal.stringToAddress.marshal(debugInfo, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -823,12 +798,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * See {@code AboutWindow:debug-info}.
      * @param filename the debug info filename
      */
-    public void setDebugInfoFilename(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public void setDebugInfoFilename(java.lang.String filename) {
         try {
             DowncallHandles.adw_about_window_set_debug_info_filename.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -873,12 +847,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Credits page, with {@code AboutWindow:developers} and related properties.
      * @param developerName the developer name
      */
-    public void setDeveloperName(@NotNull java.lang.String developerName) {
-        java.util.Objects.requireNonNull(developerName, "Parameter 'developerName' must not be null");
+    public void setDeveloperName(java.lang.String developerName) {
         try {
             DowncallHandles.adw_about_window_set_developer_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(developerName));
+                    Marshal.stringToAddress.marshal(developerName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -946,12 +919,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * The issue tracker link is displayed on the main page.
      * @param issueUrl the issue tracker URL
      */
-    public void setIssueUrl(@NotNull java.lang.String issueUrl) {
-        java.util.Objects.requireNonNull(issueUrl, "Parameter 'issueUrl' must not be null");
+    public void setIssueUrl(java.lang.String issueUrl) {
         try {
             DowncallHandles.adw_about_window_set_issue_url.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(issueUrl));
+                    Marshal.stringToAddress.marshal(issueUrl, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -975,12 +947,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * for the application dependencies or other components.
      * @param license the license
      */
-    public void setLicense(@NotNull java.lang.String license) {
-        java.util.Objects.requireNonNull(license, "Parameter 'license' must not be null");
+    public void setLicense(java.lang.String license) {
         try {
             DowncallHandles.adw_about_window_set_license.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(license));
+                    Marshal.stringToAddress.marshal(license, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1005,8 +976,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * for the application dependencies or other components.
      * @param licenseType the license type
      */
-    public void setLicenseType(@NotNull org.gtk.gtk.License licenseType) {
-        java.util.Objects.requireNonNull(licenseType, "Parameter 'licenseType' must not be null");
+    public void setLicenseType(org.gtk.gtk.License licenseType) {
         try {
             DowncallHandles.adw_about_window_set_license_type.invokeExact(
                     handle(),
@@ -1043,12 +1013,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * as the version; otherwise, {@code AboutWindow:version} is used.
      * @param releaseNotes the release notes
      */
-    public void setReleaseNotes(@NotNull java.lang.String releaseNotes) {
-        java.util.Objects.requireNonNull(releaseNotes, "Parameter 'releaseNotes' must not be null");
+    public void setReleaseNotes(java.lang.String releaseNotes) {
         try {
             DowncallHandles.adw_about_window_set_release_notes.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(releaseNotes));
+                    Marshal.stringToAddress.marshal(releaseNotes, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1069,12 +1038,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * See {@code AboutWindow:release-notes}.
      * @param version the release notes version
      */
-    public void setReleaseNotesVersion(@NotNull java.lang.String version) {
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
+    public void setReleaseNotesVersion(java.lang.String version) {
         try {
             DowncallHandles.adw_about_window_set_release_notes_version.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(version));
+                    Marshal.stringToAddress.marshal(version, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1086,12 +1054,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * The support page link is displayed on the main page.
      * @param supportUrl the support page URL
      */
-    public void setSupportUrl(@NotNull java.lang.String supportUrl) {
-        java.util.Objects.requireNonNull(supportUrl, "Parameter 'supportUrl' must not be null");
+    public void setSupportUrl(java.lang.String supportUrl) {
         try {
             DowncallHandles.adw_about_window_set_support_url.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(supportUrl));
+                    Marshal.stringToAddress.marshal(supportUrl, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1118,12 +1085,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * * {@code AboutWindow#addAcknowledgementSection}
      * @param translatorCredits the translator credits
      */
-    public void setTranslatorCredits(@NotNull java.lang.String translatorCredits) {
-        java.util.Objects.requireNonNull(translatorCredits, "Parameter 'translatorCredits' must not be null");
+    public void setTranslatorCredits(java.lang.String translatorCredits) {
         try {
             DowncallHandles.adw_about_window_set_translator_credits.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(translatorCredits));
+                    Marshal.stringToAddress.marshal(translatorCredits, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1138,12 +1104,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * also be displayed above the release notes on the What's New page.
      * @param version the version
      */
-    public void setVersion(@NotNull java.lang.String version) {
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
+    public void setVersion(java.lang.String version) {
         try {
             DowncallHandles.adw_about_window_set_version.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(version));
+                    Marshal.stringToAddress.marshal(version, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1158,12 +1123,11 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Applications can add other links below, see {@code AboutWindow#addLink}.
      * @param website the website URL
      */
-    public void setWebsite(@NotNull java.lang.String website) {
-        java.util.Objects.requireNonNull(website, "Parameter 'website' must not be null");
+    public void setWebsite(java.lang.String website) {
         try {
             DowncallHandles.adw_about_window_set_website.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(website));
+                    Marshal.stringToAddress.marshal(website, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1173,7 +1137,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_about_window_get_type.invokeExact();
@@ -1185,7 +1149,19 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     
     @FunctionalInterface
     public interface ActivateLink {
-        boolean signalReceived(AboutWindow sourceAboutWindow, @NotNull java.lang.String uri);
+        boolean run(java.lang.String uri);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceAboutWindow, MemoryAddress uri) {
+            var RESULT = run(Marshal.addressToString.marshal(uri, null));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateLink.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1199,52 +1175,46 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
     public Signal<AboutWindow.ActivateLink> onActivateLink(AboutWindow.ActivateLink handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate-link"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AboutWindow.Callbacks.class, "signalAboutWindowActivateLink",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AboutWindow.ActivateLink>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate-link"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link AboutWindow.Builder} object constructs a {@link AboutWindow} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AboutWindow.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gnome.adw.Window.Build {
+    public static class Builder extends org.gnome.adw.Window.Builder {
         
-         /**
-         * A {@link AboutWindow.Build} object constructs a {@link AboutWindow} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AboutWindow} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AboutWindow} using {@link AboutWindow#castFrom}.
+         * {@link AboutWindow}.
          * @return A new instance of {@code AboutWindow} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AboutWindow construct() {
-            return AboutWindow.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AboutWindow.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AboutWindow build() {
+            return (AboutWindow) org.gtk.gobject.GObject.newWithProperties(
+                AboutWindow.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1255,7 +1225,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param applicationIcon The value for the {@code application-icon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setApplicationIcon(java.lang.String applicationIcon) {
+        public Builder setApplicationIcon(java.lang.String applicationIcon) {
             names.add("application-icon");
             values.add(org.gtk.gobject.Value.create(applicationIcon));
             return this;
@@ -1268,7 +1238,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param applicationName The value for the {@code application-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setApplicationName(java.lang.String applicationName) {
+        public Builder setApplicationName(java.lang.String applicationName) {
             names.add("application-name");
             values.add(org.gtk.gobject.Value.create(applicationName));
             return this;
@@ -1284,7 +1254,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param comments The value for the {@code comments} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setComments(java.lang.String comments) {
+        public Builder setComments(java.lang.String comments) {
             names.add("comments");
             values.add(org.gtk.gobject.Value.create(comments));
             return this;
@@ -1304,7 +1274,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param copyright The value for the {@code copyright} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCopyright(java.lang.String copyright) {
+        public Builder setCopyright(java.lang.String copyright) {
             names.add("copyright");
             values.add(org.gtk.gobject.Value.create(copyright));
             return this;
@@ -1325,7 +1295,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param debugInfo The value for the {@code debug-info} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDebugInfo(java.lang.String debugInfo) {
+        public Builder setDebugInfo(java.lang.String debugInfo) {
             names.add("debug-info");
             values.add(org.gtk.gobject.Value.create(debugInfo));
             return this;
@@ -1341,7 +1311,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param debugInfoFilename The value for the {@code debug-info-filename} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDebugInfoFilename(java.lang.String debugInfoFilename) {
+        public Builder setDebugInfoFilename(java.lang.String debugInfoFilename) {
             names.add("debug-info-filename");
             values.add(org.gtk.gobject.Value.create(debugInfoFilename));
             return this;
@@ -1361,7 +1331,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param developerName The value for the {@code developer-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDeveloperName(java.lang.String developerName) {
+        public Builder setDeveloperName(java.lang.String developerName) {
             names.add("developer-name");
             values.add(org.gtk.gobject.Value.create(developerName));
             return this;
@@ -1374,7 +1344,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param issueUrl The value for the {@code issue-url} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIssueUrl(java.lang.String issueUrl) {
+        public Builder setIssueUrl(java.lang.String issueUrl) {
             names.add("issue-url");
             values.add(org.gtk.gobject.Value.create(issueUrl));
             return this;
@@ -1399,7 +1369,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param license The value for the {@code license} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLicense(java.lang.String license) {
+        public Builder setLicense(java.lang.String license) {
             names.add("license");
             values.add(org.gtk.gobject.Value.create(license));
             return this;
@@ -1427,7 +1397,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param licenseType The value for the {@code license-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLicenseType(org.gtk.gtk.License licenseType) {
+        public Builder setLicenseType(org.gtk.gtk.License licenseType) {
             names.add("license-type");
             values.add(org.gtk.gobject.Value.create(licenseType));
             return this;
@@ -1461,7 +1431,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param releaseNotes The value for the {@code release-notes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReleaseNotes(java.lang.String releaseNotes) {
+        public Builder setReleaseNotes(java.lang.String releaseNotes) {
             names.add("release-notes");
             values.add(org.gtk.gobject.Value.create(releaseNotes));
             return this;
@@ -1483,7 +1453,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param releaseNotesVersion The value for the {@code release-notes-version} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReleaseNotesVersion(java.lang.String releaseNotesVersion) {
+        public Builder setReleaseNotesVersion(java.lang.String releaseNotesVersion) {
             names.add("release-notes-version");
             values.add(org.gtk.gobject.Value.create(releaseNotesVersion));
             return this;
@@ -1496,7 +1466,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param supportUrl The value for the {@code support-url} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSupportUrl(java.lang.String supportUrl) {
+        public Builder setSupportUrl(java.lang.String supportUrl) {
             names.add("support-url");
             values.add(org.gtk.gobject.Value.create(supportUrl));
             return this;
@@ -1524,7 +1494,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param translatorCredits The value for the {@code translator-credits} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTranslatorCredits(java.lang.String translatorCredits) {
+        public Builder setTranslatorCredits(java.lang.String translatorCredits) {
             names.add("translator-credits");
             values.add(org.gtk.gobject.Value.create(translatorCredits));
             return this;
@@ -1540,7 +1510,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param version The value for the {@code version} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVersion(java.lang.String version) {
+        public Builder setVersion(java.lang.String version) {
             names.add("version");
             values.add(org.gtk.gobject.Value.create(version));
             return this;
@@ -1556,7 +1526,7 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
          * @param website The value for the {@code website} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWebsite(java.lang.String website) {
+        public Builder setWebsite(java.lang.String website) {
             names.add("website");
             values.add(org.gtk.gobject.Value.create(website));
             return this;
@@ -1840,14 +1810,5 @@ public class AboutWindow extends org.gnome.adw.Window implements org.gtk.gtk.Acc
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalAboutWindowActivateLink(MemoryAddress sourceAboutWindow, MemoryAddress uri, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AboutWindow.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new AboutWindow(sourceAboutWindow, Ownership.NONE), Interop.getStringFrom(uri));
-        }
     }
 }

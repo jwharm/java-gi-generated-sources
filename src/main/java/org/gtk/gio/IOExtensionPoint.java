@@ -44,10 +44,12 @@ public class IOExtensionPoint extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IOExtensionPoint(Addressable address, Ownership ownership) {
+    protected IOExtensionPoint(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IOExtensionPoint> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOExtensionPoint(input, ownership);
     
     /**
      * Finds a {@link IOExtension} for an extension point by name.
@@ -55,17 +57,16 @@ public class IOExtensionPoint extends Struct {
      * @return the {@link IOExtension} for {@code extension_point} that has the
      *    given name, or {@code null} if there is no extension with that name
      */
-    public @NotNull org.gtk.gio.IOExtension getExtensionByName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public org.gtk.gio.IOExtension getExtensionByName(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extension_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtension(RESULT, Ownership.NONE);
+        return org.gtk.gio.IOExtension.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -75,7 +76,7 @@ public class IOExtensionPoint extends Struct {
      *     {@code GIOExtensions}. The list is owned by GIO and should not be
      *     modified.
      */
-    public @NotNull org.gtk.glib.List getExtensions() {
+    public org.gtk.glib.List getExtensions() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_get_extensions.invokeExact(
@@ -83,15 +84,15 @@ public class IOExtensionPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the required type for {@code extension_point}.
-     * @return the {@link org.gtk.gobject.Type} that all implementations must have,
+     * @return the {@link org.gtk.glib.Type} that all implementations must have,
      *   or {@code G_TYPE_INVALID} if the extension point has no required type
      */
-    public @NotNull org.gtk.glib.Type getRequiredType() {
+    public org.gtk.glib.Type getRequiredType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_io_extension_point_get_required_type.invokeExact(
@@ -105,10 +106,9 @@ public class IOExtensionPoint extends Struct {
     /**
      * Sets the required type for {@code extension_point} to {@code type}.
      * All implementations must henceforth have this type.
-     * @param type the {@link org.gtk.gobject.Type} to require
+     * @param type the {@link org.gtk.glib.Type} to require
      */
-    public void setRequiredType(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void setRequiredType(org.gtk.glib.Type type) {
         try {
             DowncallHandles.g_io_extension_point_set_required_type.invokeExact(
                     handle(),
@@ -125,26 +125,23 @@ public class IOExtensionPoint extends Struct {
      * If {@code type} has already been registered as an extension for this
      * extension point, the existing {@link IOExtension} object is returned.
      * @param extensionPointName the name of the extension point
-     * @param type the {@link org.gtk.gobject.Type} to register as extension
+     * @param type the {@link org.gtk.glib.Type} to register as extension
      * @param extensionName the name for the extension
      * @param priority the priority for the extension
-     * @return a {@link IOExtension} object for {@link org.gtk.gobject.Type}
+     * @return a {@link IOExtension} object for {@link org.gtk.glib.Type}
      */
-    public static @NotNull org.gtk.gio.IOExtension implement(@NotNull java.lang.String extensionPointName, @NotNull org.gtk.glib.Type type, @NotNull java.lang.String extensionName, int priority) {
-        java.util.Objects.requireNonNull(extensionPointName, "Parameter 'extensionPointName' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(extensionName, "Parameter 'extensionName' must not be null");
+    public static org.gtk.gio.IOExtension implement(java.lang.String extensionPointName, org.gtk.glib.Type type, java.lang.String extensionName, int priority) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_implement.invokeExact(
-                    Interop.allocateNativeString(extensionPointName),
+                    Marshal.stringToAddress.marshal(extensionPointName, null),
                     type.getValue().longValue(),
-                    Interop.allocateNativeString(extensionName),
+                    Marshal.stringToAddress.marshal(extensionName, null),
                     priority);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtension(RESULT, Ownership.NONE);
+        return org.gtk.gio.IOExtension.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -153,16 +150,15 @@ public class IOExtensionPoint extends Struct {
      * @return the {@link IOExtensionPoint}, or {@code null} if there
      *    is no registered extension point with the given name.
      */
-    public static @NotNull org.gtk.gio.IOExtensionPoint lookup(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gtk.gio.IOExtensionPoint lookup(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_lookup.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtensionPoint(RESULT, Ownership.NONE);
+        return org.gtk.gio.IOExtensionPoint.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -171,16 +167,15 @@ public class IOExtensionPoint extends Struct {
      * @return the new {@link IOExtensionPoint}. This object is
      *    owned by GIO and should not be freed.
      */
-    public static @NotNull org.gtk.gio.IOExtensionPoint register(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gtk.gio.IOExtensionPoint register(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_extension_point_register.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOExtensionPoint(RESULT, Ownership.NONE);
+        return org.gtk.gio.IOExtensionPoint.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {

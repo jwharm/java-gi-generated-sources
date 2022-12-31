@@ -17,23 +17,21 @@ public class RecentData extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkRecentData";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("display_name"),
-        Interop.valueLayout.ADDRESS.withName("description"),
-        Interop.valueLayout.ADDRESS.withName("mime_type"),
-        Interop.valueLayout.ADDRESS.withName("app_name"),
-        Interop.valueLayout.ADDRESS.withName("app_exec"),
-        Interop.valueLayout.ADDRESS.withName("groups"),
-        Interop.valueLayout.C_INT.withName("is_private")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("display_name"),
+            Interop.valueLayout.ADDRESS.withName("description"),
+            Interop.valueLayout.ADDRESS.withName("mime_type"),
+            Interop.valueLayout.ADDRESS.withName("app_name"),
+            Interop.valueLayout.ADDRESS.withName("app_exec"),
+            Interop.valueLayout.ADDRESS.withName("groups"),
+            Interop.valueLayout.C_INT.withName("is_private")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,126 +51,147 @@ public class RecentData extends Struct {
      * Get the value of the field {@code display_name}
      * @return The value of the field {@code display_name}
      */
-    public java.lang.String displayName$get() {
+    public java.lang.String getDisplayName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("display_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code display_name}
      * @param displayName The new value of the field {@code display_name}
      */
-    public void displayName$set(java.lang.String displayName) {
+    public void setDisplayName(java.lang.String displayName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("display_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(displayName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (displayName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(displayName, null)));
     }
     
     /**
      * Get the value of the field {@code description}
      * @return The value of the field {@code description}
      */
-    public java.lang.String description$get() {
+    public java.lang.String getDescription() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code description}
      * @param description The new value of the field {@code description}
      */
-    public void description$set(java.lang.String description) {
+    public void setDescription(java.lang.String description) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(description));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
     }
     
     /**
      * Get the value of the field {@code mime_type}
      * @return The value of the field {@code mime_type}
      */
-    public java.lang.String mimeType$get() {
+    public java.lang.String getMimeType() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mime_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code mime_type}
      * @param mimeType The new value of the field {@code mime_type}
      */
-    public void mimeType$set(java.lang.String mimeType) {
+    public void setMimeType(java.lang.String mimeType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mime_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(mimeType));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mimeType == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(mimeType, null)));
     }
     
     /**
      * Get the value of the field {@code app_name}
      * @return The value of the field {@code app_name}
      */
-    public java.lang.String appName$get() {
+    public java.lang.String getAppName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("app_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code app_name}
      * @param appName The new value of the field {@code app_name}
      */
-    public void appName$set(java.lang.String appName) {
+    public void setAppName(java.lang.String appName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("app_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(appName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (appName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(appName, null)));
     }
     
     /**
      * Get the value of the field {@code app_exec}
      * @return The value of the field {@code app_exec}
      */
-    public java.lang.String appExec$get() {
+    public java.lang.String getAppExec() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("app_exec"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code app_exec}
      * @param appExec The new value of the field {@code app_exec}
      */
-    public void appExec$set(java.lang.String appExec) {
+    public void setAppExec(java.lang.String appExec) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("app_exec"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(appExec));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (appExec == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(appExec, null)));
+    }
+    
+    /**
+     * Get the value of the field {@code groups}
+     * @return The value of the field {@code groups}
+     */
+    public PointerString getGroups() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("groups"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerString(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code groups}
+     * @param groups The new value of the field {@code groups}
+     */
+    public void setGroups(java.lang.String[] groups) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("groups"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (groups == null ? MemoryAddress.NULL : Interop.allocateNativeArray(groups, false)));
     }
     
     /**
      * Get the value of the field {@code is_private}
      * @return The value of the field {@code is_private}
      */
-    public boolean isPrivate$get() {
+    public boolean getIsPrivate() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_private"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code is_private}
      * @param isPrivate The new value of the field {@code is_private}
      */
-    public void isPrivate$set(boolean isPrivate) {
+    public void setIsPrivate(boolean isPrivate) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_private"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isPrivate ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(isPrivate, null).intValue());
     }
     
     /**
@@ -180,35 +199,41 @@ public class RecentData extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RecentData(Addressable address, Ownership ownership) {
+    protected RecentData(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RecentData> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RecentData(input, ownership);
+    
+    /**
+     * A {@link RecentData.Builder} object constructs a {@link RecentData} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RecentData.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RecentData struct;
+        private final RecentData struct;
         
-         /**
-         * A {@link RecentData.Build} object constructs a {@link RecentData} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RecentData.allocate();
         }
         
          /**
          * Finish building the {@link RecentData} struct.
          * @return A new instance of {@code RecentData} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RecentData construct() {
+        public RecentData build() {
             return struct;
         }
         
@@ -218,10 +243,10 @@ public class RecentData extends Struct {
          * @param displayName The value for the {@code displayName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplayName(java.lang.String displayName) {
+        public Builder setDisplayName(java.lang.String displayName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("display_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (displayName == null ? MemoryAddress.NULL : Interop.allocateNativeString(displayName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (displayName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(displayName, null)));
             return this;
         }
         
@@ -231,10 +256,10 @@ public class RecentData extends Struct {
          * @param description The value for the {@code description} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescription(java.lang.String description) {
+        public Builder setDescription(java.lang.String description) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
             return this;
         }
         
@@ -243,10 +268,10 @@ public class RecentData extends Struct {
          * @param mimeType The value for the {@code mimeType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMimeType(java.lang.String mimeType) {
+        public Builder setMimeType(java.lang.String mimeType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mime_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mimeType == null ? MemoryAddress.NULL : Interop.allocateNativeString(mimeType)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mimeType == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(mimeType, null)));
             return this;
         }
         
@@ -256,10 +281,10 @@ public class RecentData extends Struct {
          * @param appName The value for the {@code appName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAppName(java.lang.String appName) {
+        public Builder setAppName(java.lang.String appName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("app_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (appName == null ? MemoryAddress.NULL : Interop.allocateNativeString(appName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (appName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(appName, null)));
             return this;
         }
         
@@ -271,10 +296,10 @@ public class RecentData extends Struct {
          * @param appExec The value for the {@code appExec} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAppExec(java.lang.String appExec) {
+        public Builder setAppExec(java.lang.String appExec) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("app_exec"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (appExec == null ? MemoryAddress.NULL : Interop.allocateNativeString(appExec)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (appExec == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(appExec, null)));
             return this;
         }
         
@@ -284,7 +309,7 @@ public class RecentData extends Struct {
          * @param groups The value for the {@code groups} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGroups(java.lang.String[] groups) {
+        public Builder setGroups(java.lang.String[] groups) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("groups"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (groups == null ? MemoryAddress.NULL : Interop.allocateNativeArray(groups, false)));
@@ -297,10 +322,10 @@ public class RecentData extends Struct {
          * @param isPrivate The value for the {@code isPrivate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsPrivate(boolean isPrivate) {
+        public Builder setIsPrivate(boolean isPrivate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_private"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isPrivate ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(isPrivate, null).intValue());
             return this;
         }
     }

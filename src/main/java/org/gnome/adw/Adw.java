@@ -14,7 +14,15 @@ public final class Adw {
         System.loadLibrary("adwaita-1");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Indicates an {@link Animation} with an infinite duration.
@@ -52,8 +60,7 @@ public final class Adw {
      * @param value a value to ease
      * @return the easing for {@code value}
      */
-    public static double easingEase(@NotNull org.gnome.adw.Easing self, double value) {
-        java.util.Objects.requireNonNull(self, "Parameter 'self' must not be null");
+    public static double easingEase(org.gnome.adw.Easing self, double value) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.adw_easing_ease.invokeExact(
@@ -73,8 +80,7 @@ public final class Adw {
      * @param widget a {@code GtkWidget}
      * @return whether animations are enabled for {@code widget}
      */
-    public static boolean getEnableAnimations(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public static boolean getEnableAnimations(org.gtk.gtk.Widget widget) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_get_enable_animations.invokeExact(
@@ -82,7 +88,7 @@ public final class Adw {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -181,7 +187,7 @@ public final class Adw {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -211,12 +217,11 @@ public final class Adw {
      * @param varargs value of first property, followed by more pairs of property name and
      *   value, {@code NULL}-terminated
      */
-    public static void showAboutWindow(@Nullable org.gtk.gtk.Window parent, @NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+    public static void showAboutWindow(@Nullable org.gtk.gtk.Window parent, java.lang.String firstPropertyName, java.lang.Object... varargs) {
         try {
             DowncallHandles.adw_show_about_window.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    Interop.allocateNativeString(firstPropertyName),
+                    Marshal.stringToAddress.marshal(firstPropertyName, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -282,11 +287,5 @@ public final class Adw {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static void cbAnimationTargetFunc(double value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AnimationTargetFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onAnimationTargetFunc(value);
-        }
     }
 }

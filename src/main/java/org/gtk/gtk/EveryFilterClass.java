@@ -40,8 +40,10 @@ public class EveryFilterClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EveryFilterClass(Addressable address, Ownership ownership) {
+    protected EveryFilterClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EveryFilterClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EveryFilterClass(input, ownership);
 }

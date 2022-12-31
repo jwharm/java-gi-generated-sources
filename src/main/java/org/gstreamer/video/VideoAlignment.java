@@ -18,21 +18,19 @@ public class VideoAlignment extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoAlignment";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("padding_top"),
-        Interop.valueLayout.C_INT.withName("padding_bottom"),
-        Interop.valueLayout.C_INT.withName("padding_left"),
-        Interop.valueLayout.C_INT.withName("padding_right"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("stride_align")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("padding_top"),
+            Interop.valueLayout.C_INT.withName("padding_bottom"),
+            Interop.valueLayout.C_INT.withName("padding_left"),
+            Interop.valueLayout.C_INT.withName("padding_right"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("stride_align")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,7 +50,7 @@ public class VideoAlignment extends Struct {
      * Get the value of the field {@code padding_top}
      * @return The value of the field {@code padding_top}
      */
-    public int paddingTop$get() {
+    public int getPaddingTop() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("padding_top"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -63,7 +61,7 @@ public class VideoAlignment extends Struct {
      * Change the value of the field {@code padding_top}
      * @param paddingTop The new value of the field {@code padding_top}
      */
-    public void paddingTop$set(int paddingTop) {
+    public void setPaddingTop(int paddingTop) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("padding_top"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingTop);
@@ -73,7 +71,7 @@ public class VideoAlignment extends Struct {
      * Get the value of the field {@code padding_bottom}
      * @return The value of the field {@code padding_bottom}
      */
-    public int paddingBottom$get() {
+    public int getPaddingBottom() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("padding_bottom"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,7 +82,7 @@ public class VideoAlignment extends Struct {
      * Change the value of the field {@code padding_bottom}
      * @param paddingBottom The new value of the field {@code padding_bottom}
      */
-    public void paddingBottom$set(int paddingBottom) {
+    public void setPaddingBottom(int paddingBottom) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("padding_bottom"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingBottom);
@@ -94,7 +92,7 @@ public class VideoAlignment extends Struct {
      * Get the value of the field {@code padding_left}
      * @return The value of the field {@code padding_left}
      */
-    public int paddingLeft$get() {
+    public int getPaddingLeft() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("padding_left"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -105,7 +103,7 @@ public class VideoAlignment extends Struct {
      * Change the value of the field {@code padding_left}
      * @param paddingLeft The new value of the field {@code padding_left}
      */
-    public void paddingLeft$set(int paddingLeft) {
+    public void setPaddingLeft(int paddingLeft) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("padding_left"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingLeft);
@@ -115,7 +113,7 @@ public class VideoAlignment extends Struct {
      * Get the value of the field {@code padding_right}
      * @return The value of the field {@code padding_right}
      */
-    public int paddingRight$get() {
+    public int getPaddingRight() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("padding_right"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -126,10 +124,31 @@ public class VideoAlignment extends Struct {
      * Change the value of the field {@code padding_right}
      * @param paddingRight The new value of the field {@code padding_right}
      */
-    public void paddingRight$set(int paddingRight) {
+    public void setPaddingRight(int paddingRight) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("padding_right"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingRight);
+    }
+    
+    /**
+     * Get the value of the field {@code stride_align}
+     * @return The value of the field {@code stride_align}
+     */
+    public int[] getStrideAlign() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("stride_align"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+    }
+    
+    /**
+     * Change the value of the field {@code stride_align}
+     * @param strideAlign The new value of the field {@code stride_align}
+     */
+    public void setStrideAlign(int[] strideAlign) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("stride_align"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (strideAlign == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strideAlign, false)));
     }
     
     /**
@@ -137,10 +156,12 @@ public class VideoAlignment extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoAlignment(Addressable address, Ownership ownership) {
+    protected VideoAlignment(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoAlignment> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAlignment(input, ownership);
     
     /**
      * Set {@code align} to its default values with no padding and no alignment.
@@ -162,31 +183,35 @@ public class VideoAlignment extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoAlignment.Builder} object constructs a {@link VideoAlignment} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoAlignment.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoAlignment struct;
+        private final VideoAlignment struct;
         
-         /**
-         * A {@link VideoAlignment.Build} object constructs a {@link VideoAlignment} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoAlignment.allocate();
         }
         
          /**
          * Finish building the {@link VideoAlignment} struct.
          * @return A new instance of {@code VideoAlignment} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoAlignment construct() {
+        public VideoAlignment build() {
             return struct;
         }
         
@@ -195,7 +220,7 @@ public class VideoAlignment extends Struct {
          * @param paddingTop The value for the {@code paddingTop} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPaddingTop(int paddingTop) {
+        public Builder setPaddingTop(int paddingTop) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding_top"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingTop);
@@ -207,7 +232,7 @@ public class VideoAlignment extends Struct {
          * @param paddingBottom The value for the {@code paddingBottom} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPaddingBottom(int paddingBottom) {
+        public Builder setPaddingBottom(int paddingBottom) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding_bottom"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingBottom);
@@ -219,7 +244,7 @@ public class VideoAlignment extends Struct {
          * @param paddingLeft The value for the {@code paddingLeft} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPaddingLeft(int paddingLeft) {
+        public Builder setPaddingLeft(int paddingLeft) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding_left"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingLeft);
@@ -231,7 +256,7 @@ public class VideoAlignment extends Struct {
          * @param paddingRight The value for the {@code paddingRight} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPaddingRight(int paddingRight) {
+        public Builder setPaddingRight(int paddingRight) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding_right"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), paddingRight);
@@ -243,7 +268,7 @@ public class VideoAlignment extends Struct {
          * @param strideAlign The value for the {@code strideAlign} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStrideAlign(int[] strideAlign) {
+        public Builder setStrideAlign(int[] strideAlign) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("stride_align"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (strideAlign == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strideAlign, false)));

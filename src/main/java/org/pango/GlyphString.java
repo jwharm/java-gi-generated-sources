@@ -20,21 +20,19 @@ public class GlyphString extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoGlyphString";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("num_glyphs"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("glyphs"),
-        Interop.valueLayout.ADDRESS.withName("log_clusters"),
-        Interop.valueLayout.C_INT.withName("space")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("num_glyphs"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("glyphs"),
+            Interop.valueLayout.ADDRESS.withName("log_clusters"),
+            Interop.valueLayout.C_INT.withName("space")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -54,7 +52,7 @@ public class GlyphString extends Struct {
      * Get the value of the field {@code num_glyphs}
      * @return The value of the field {@code num_glyphs}
      */
-    public int numGlyphs$get() {
+    public int getNumGlyphs() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_glyphs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,17 +63,38 @@ public class GlyphString extends Struct {
      * Change the value of the field {@code num_glyphs}
      * @param numGlyphs The new value of the field {@code num_glyphs}
      */
-    public void numGlyphs$set(int numGlyphs) {
+    public void setNumGlyphs(int numGlyphs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_glyphs"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numGlyphs);
     }
     
     /**
+     * Get the value of the field {@code glyphs}
+     * @return The value of the field {@code glyphs}
+     */
+    public PointerProxy<org.pango.GlyphInfo> getGlyphs() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.pango.GlyphInfo>(RESULT, org.pango.GlyphInfo.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code glyphs}
+     * @param glyphs The new value of the field {@code glyphs}
+     */
+    public void setGlyphs(org.pango.GlyphInfo[] glyphs) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyphs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(glyphs, org.pango.GlyphInfo.getMemoryLayout(), false)));
+    }
+    
+    /**
      * Get the value of the field {@code log_clusters}
      * @return The value of the field {@code log_clusters}
      */
-    public PointerInteger logClusters$get() {
+    public PointerInteger getLogClusters() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("log_clusters"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,10 +105,10 @@ public class GlyphString extends Struct {
      * Change the value of the field {@code log_clusters}
      * @param logClusters The new value of the field {@code log_clusters}
      */
-    public void logClusters$set(PointerInteger logClusters) {
+    public void setLogClusters(PointerInteger logClusters) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("log_clusters"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), logClusters.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logClusters == null ? MemoryAddress.NULL : logClusters.handle()));
     }
     
     /**
@@ -97,13 +116,15 @@ public class GlyphString extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GlyphString(Addressable address, Ownership ownership) {
+    protected GlyphString(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GlyphString> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphString(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_glyph_string_new.invokeExact();
         } catch (Throwable ERR) {
@@ -131,7 +152,7 @@ public class GlyphString extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.GlyphString(RESULT, Ownership.FULL);
+        return org.pango.GlyphString.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -147,16 +168,13 @@ public class GlyphString extends Struct {
      * @param inkRect rectangle used to store the extents of the glyph string as drawn
      * @param logicalRect rectangle used to store the logical extents of the glyph string
      */
-    public void extents(@NotNull org.pango.Font font, @NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void extents(org.pango.Font font, @Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_glyph_string_extents.invokeExact(
                     handle(),
                     font.handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,18 +195,15 @@ public class GlyphString extends Struct {
      * @param logicalRect rectangle used to
      *   store the logical extents of the glyph string range
      */
-    public void extentsRange(int start, int end, @NotNull org.pango.Font font, @NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void extentsRange(int start, int end, org.pango.Font font, @Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_glyph_string_extents_range.invokeExact(
                     handle(),
                     start,
                     end,
                     font.handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,13 +236,11 @@ public class GlyphString extends Struct {
      *   characters in text (equal to {@code g_utf8_strlen (text, length)} unless
      *   text has {@code NUL} bytes) to be filled in with the resulting character widths.
      */
-    public void getLogicalWidths(@NotNull java.lang.String text, int length, int embeddingLevel, @NotNull int[] logicalWidths) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(logicalWidths, "Parameter 'logicalWidths' must not be null");
+    public void getLogicalWidths(java.lang.String text, int length, int embeddingLevel, int[] logicalWidths) {
         try {
             DowncallHandles.pango_glyph_string_get_logical_widths.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     length,
                     embeddingLevel,
                     Interop.allocateNativeArray(logicalWidths, false));
@@ -276,19 +289,16 @@ public class GlyphString extends Struct {
      *   or end ({@code true}) of the character.
      * @param xPos location to store result
      */
-    public void indexToX(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, int index, boolean trailing, Out<Integer> xPos) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
-        java.util.Objects.requireNonNull(xPos, "Parameter 'xPos' must not be null");
+    public void indexToX(java.lang.String text, int length, org.pango.Analysis analysis, int index, boolean trailing, Out<Integer> xPos) {
         MemorySegment xPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_glyph_string_index_to_x.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     length,
                     analysis.handle(),
                     index,
-                    trailing ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(trailing, null).intValue(),
                     (Addressable) xPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -312,20 +322,17 @@ public class GlyphString extends Struct {
      *   or end ({@code true}) of the character.
      * @param xPos location to store result
      */
-    public void indexToXFull(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, @Nullable org.pango.LogAttr attrs, int index, boolean trailing, Out<Integer> xPos) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
-        java.util.Objects.requireNonNull(xPos, "Parameter 'xPos' must not be null");
+    public void indexToXFull(java.lang.String text, int length, org.pango.Analysis analysis, @Nullable org.pango.LogAttr attrs, int index, boolean trailing, Out<Integer> xPos) {
         MemorySegment xPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_glyph_string_index_to_x_full.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     length,
                     analysis.handle(),
                     (Addressable) (attrs == null ? MemoryAddress.NULL : attrs.handle()),
                     index,
-                    trailing ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(trailing, null).intValue(),
                     (Addressable) xPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -363,17 +370,13 @@ public class GlyphString extends Struct {
      * @param trailing location to store a boolean indicating whether the
      *   user clicked on the leading or trailing edge of the character
      */
-    public void xToIndex(@NotNull java.lang.String text, int length, @NotNull org.pango.Analysis analysis, int xPos, Out<Integer> index, Out<Integer> trailing) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(analysis, "Parameter 'analysis' must not be null");
-        java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
+    public void xToIndex(java.lang.String text, int length, org.pango.Analysis analysis, int xPos, Out<Integer> index, Out<Integer> trailing) {
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(trailing, "Parameter 'trailing' must not be null");
         MemorySegment trailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_glyph_string_x_to_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     length,
                     analysis.handle(),
                     xPos,
@@ -454,31 +457,35 @@ public class GlyphString extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GlyphString.Builder} object constructs a {@link GlyphString} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GlyphString.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GlyphString struct;
+        private final GlyphString struct;
         
-         /**
-         * A {@link GlyphString.Build} object constructs a {@link GlyphString} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GlyphString.allocate();
         }
         
          /**
          * Finish building the {@link GlyphString} struct.
          * @return A new instance of {@code GlyphString} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GlyphString construct() {
+        public GlyphString build() {
             return struct;
         }
         
@@ -487,7 +494,7 @@ public class GlyphString extends Struct {
          * @param numGlyphs The value for the {@code numGlyphs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumGlyphs(int numGlyphs) {
+        public Builder setNumGlyphs(int numGlyphs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num_glyphs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numGlyphs);
@@ -499,7 +506,7 @@ public class GlyphString extends Struct {
          * @param glyphs The value for the {@code glyphs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGlyphs(org.pango.GlyphInfo[] glyphs) {
+        public Builder setGlyphs(org.pango.GlyphInfo[] glyphs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("glyphs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyphs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(glyphs, org.pango.GlyphInfo.getMemoryLayout(), false)));
@@ -512,14 +519,14 @@ public class GlyphString extends Struct {
          * @param logClusters The value for the {@code logClusters} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLogClusters(PointerInteger logClusters) {
+        public Builder setLogClusters(PointerInteger logClusters) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("log_clusters"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logClusters == null ? MemoryAddress.NULL : logClusters.handle()));
             return this;
         }
         
-        public Build setSpace(int space) {
+        public Builder setSpace(int space) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("space"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), space);

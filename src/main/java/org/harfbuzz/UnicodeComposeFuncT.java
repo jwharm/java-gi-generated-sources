@@ -16,5 +16,19 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface UnicodeComposeFuncT {
-        org.harfbuzz.BoolT onUnicodeComposeFuncT(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT a, @NotNull org.harfbuzz.CodepointT b, @NotNull Out<org.harfbuzz.CodepointT> ab, @Nullable java.lang.foreign.MemoryAddress userData);
+    org.harfbuzz.BoolT run(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT a, org.harfbuzz.CodepointT b, org.harfbuzz.CodepointT ab, @Nullable java.lang.foreign.MemoryAddress userData);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress ufuncs, int a, int b, MemoryAddress ab, MemoryAddress userData) {
+        org.harfbuzz.CodepointT abALIAS = new org.harfbuzz.CodepointT(ab.get(Interop.valueLayout.C_INT, 0));
+        var RESULT = run(org.harfbuzz.UnicodeFuncsT.fromAddress.marshal(ufuncs, Ownership.NONE), new org.harfbuzz.CodepointT(a), new org.harfbuzz.CodepointT(b), abALIAS, userData);
+        ab.set(Interop.valueLayout.C_INT, 0, abALIAS.getValue());
+        return RESULT.getValue().intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnicodeComposeFuncT.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

@@ -26,11 +26,15 @@ public class PopoverMenuFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PopoverMenuFlags or(PopoverMenuFlags mask) {
-        return new PopoverMenuFlags(this.getValue() | mask.getValue());
+    public PopoverMenuFlags or(PopoverMenuFlags... masks) {
+        int value = this.getValue();
+        for (PopoverMenuFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new PopoverMenuFlags(value);
     }
     
     /**
@@ -40,7 +44,8 @@ public class PopoverMenuFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PopoverMenuFlags combined(PopoverMenuFlags mask, PopoverMenuFlags... masks) {
-        int value = mask.getValue();        for (PopoverMenuFlags arg : masks) {
+        int value = mask.getValue();
+        for (PopoverMenuFlags arg : masks) {
             value |= arg.getValue();
         }
         return new PopoverMenuFlags(value);

@@ -67,13 +67,15 @@ public class Bytes extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Bytes(Addressable address, Ownership ownership) {
+    protected Bytes(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable byte[] data, long size) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Bytes> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Bytes(input, ownership);
+    
+    private static MemoryAddress constructNew(byte[] data, long size) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_new.invokeExact(
                     (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
@@ -91,12 +93,12 @@ public class Bytes extends Struct {
      * @param data the data to be used for the bytes
      * @param size the size of {@code data}
      */
-    public Bytes(@Nullable byte[] data, long size) {
+    public Bytes(byte[] data, long size) {
         super(constructNew(data, size), Ownership.FULL);
     }
     
-    private static Addressable constructNewStatic(@Nullable byte[] data, long size) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewStatic(byte[] data, long size) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_static.invokeExact(
                     (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
@@ -116,12 +118,13 @@ public class Bytes extends Struct {
      * @param size the size of {@code data}
      * @return a new {@link Bytes}
      */
-    public static Bytes newStatic(@Nullable byte[] data, long size) {
-        return new Bytes(constructNewStatic(data, size), Ownership.FULL);
+    public static Bytes newStatic(byte[] data, long size) {
+        var RESULT = constructNewStatic(data, size);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewTake(@Nullable byte[] data, long size) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewTake(byte[] data, long size) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_take.invokeExact(
                     (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
@@ -149,18 +152,19 @@ public class Bytes extends Struct {
      * @param size the size of {@code data}
      * @return a new {@link Bytes}
      */
-    public static Bytes newTake(@Nullable byte[] data, long size) {
-        return new Bytes(constructNewTake(data, size), Ownership.FULL);
+    public static Bytes newTake(byte[] data, long size) {
+        var RESULT = constructNewTake(data, size);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWithFreeFunc(@Nullable byte[] data, long size, @NotNull org.gtk.glib.DestroyNotify freeFunc, @Nullable java.lang.foreign.MemoryAddress userData) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithFreeFunc(byte[] data, long size, org.gtk.glib.DestroyNotify freeFunc) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_with_free_func.invokeExact(
                     (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
                     size,
-                    Interop.cbDestroyNotifySymbol(),
-                    (Addressable) userData);
+                    (Addressable) freeFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,11 +184,11 @@ public class Bytes extends Struct {
      * @param data the data to be used for the bytes
      * @param size the size of {@code data}
      * @param freeFunc the function to call to release the data
-     * @param userData data to pass to {@code free_func}
      * @return a new {@link Bytes}
      */
-    public static Bytes newWithFreeFunc(@Nullable byte[] data, long size, @NotNull org.gtk.glib.DestroyNotify freeFunc, @Nullable java.lang.foreign.MemoryAddress userData) {
-        return new Bytes(constructNewWithFreeFunc(data, size, freeFunc, userData), Ownership.FULL);
+    public static Bytes newWithFreeFunc(byte[] data, long size, org.gtk.glib.DestroyNotify freeFunc) {
+        var RESULT = constructNewWithFreeFunc(data, size, freeFunc);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -202,8 +206,7 @@ public class Bytes extends Struct {
      *          if {@code bytes1} is greater than {@code bytes2}, and zero if {@code bytes1} is equal to
      *          {@code bytes2}
      */
-    public int compare(@NotNull org.gtk.glib.Bytes bytes2) {
-        java.util.Objects.requireNonNull(bytes2, "Parameter 'bytes2' must not be null");
+    public int compare(org.gtk.glib.Bytes bytes2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bytes_compare.invokeExact(
@@ -224,8 +227,7 @@ public class Bytes extends Struct {
      * @param bytes2 a pointer to a {@link Bytes} to compare with {@code bytes1}
      * @return {@code true} if the two keys match.
      */
-    public boolean equal(@NotNull org.gtk.glib.Bytes bytes2) {
-        java.util.Objects.requireNonNull(bytes2, "Parameter 'bytes2' must not be null");
+    public boolean equal(org.gtk.glib.Bytes bytes2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bytes_equal.invokeExact(
@@ -234,7 +236,7 @@ public class Bytes extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -248,18 +250,17 @@ public class Bytes extends Struct {
      * @param size location to return size of byte data
      * @return a pointer to the byte data, or {@code null}
      */
-    public @Nullable byte[] getData(Out<Long> size) {
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
+    public byte[] getData(Out<Long> size) {
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_get_data.invokeExact(
                     handle(),
-                    (Addressable) sizePOINTER.address());
+                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
         return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
@@ -355,7 +356,7 @@ public class Bytes extends Struct {
      * @param length length of subsection
      * @return a new {@link Bytes}
      */
-    public @NotNull org.gtk.glib.Bytes newFromBytes(long offset, long length) {
+    public org.gtk.glib.Bytes newFromBytes(long offset, long length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_new_from_bytes.invokeExact(
@@ -365,14 +366,14 @@ public class Bytes extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Increase the reference count on {@code bytes}.
      * @return the {@link Bytes}
      */
-    public @NotNull org.gtk.glib.Bytes ref() {
+    public org.gtk.glib.Bytes ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_ref.invokeExact(
@@ -380,7 +381,7 @@ public class Bytes extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -410,7 +411,7 @@ public class Bytes extends Struct {
      * may be shorter than {@code gsize}, that {@code bytes} is using.
      * @return a new mutable {@link ByteArray} containing the same byte data
      */
-    public @NotNull PointerByte unrefToArray() {
+    public PointerByte unrefToArray() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_unref_to_array.invokeExact(
@@ -434,8 +435,7 @@ public class Bytes extends Struct {
      * @return a pointer to the same byte data, which should be
      *          freed with g_free()
      */
-    public @NotNull byte[] unrefToData(Out<Long> size) {
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
+    public byte[] unrefToData(Out<Long> size) {
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {

@@ -16,19 +16,17 @@ public class ColorStop extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GskColorStop";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_FLOAT.withName("offset"),
-        MemoryLayout.paddingLayout(32),
-        org.gtk.gdk.RGBA.getMemoryLayout().withName("color")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_FLOAT.withName("offset"),
+            MemoryLayout.paddingLayout(32),
+            org.gtk.gdk.RGBA.getMemoryLayout().withName("color")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class ColorStop extends Struct {
      * Get the value of the field {@code offset}
      * @return The value of the field {@code offset}
      */
-    public float offset$get() {
+    public float getOffset() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,7 +57,7 @@ public class ColorStop extends Struct {
      * Change the value of the field {@code offset}
      * @param offset The new value of the field {@code offset}
      */
-    public void offset$set(float offset) {
+    public void setOffset(float offset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -69,9 +67,19 @@ public class ColorStop extends Struct {
      * Get the value of the field {@code color}
      * @return The value of the field {@code color}
      */
-    public org.gtk.gdk.RGBA color$get() {
+    public org.gtk.gdk.RGBA getColor() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("color"));
-        return new org.gtk.gdk.RGBA(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gdk.RGBA.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code color}
+     * @param color The new value of the field {@code color}
+     */
+    public void setColor(org.gtk.gdk.RGBA color) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("color"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
     }
     
     /**
@@ -79,35 +87,41 @@ public class ColorStop extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ColorStop(Addressable address, Ownership ownership) {
+    protected ColorStop(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ColorStop> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorStop(input, ownership);
+    
+    /**
+     * A {@link ColorStop.Builder} object constructs a {@link ColorStop} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ColorStop.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ColorStop struct;
+        private final ColorStop struct;
         
-         /**
-         * A {@link ColorStop.Build} object constructs a {@link ColorStop} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ColorStop.allocate();
         }
         
          /**
          * Finish building the {@link ColorStop} struct.
          * @return A new instance of {@code ColorStop} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ColorStop construct() {
+        public ColorStop build() {
             return struct;
         }
         
@@ -116,7 +130,7 @@ public class ColorStop extends Struct {
          * @param offset The value for the {@code offset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(float offset) {
+        public Builder setOffset(float offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -128,7 +142,7 @@ public class ColorStop extends Struct {
          * @param color The value for the {@code color} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColor(org.gtk.gdk.RGBA color) {
+        public Builder setColor(org.gtk.gdk.RGBA color) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("color"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));

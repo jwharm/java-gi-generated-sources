@@ -7,7 +7,7 @@ import org.jetbrains.annotations.*;
 
 /**
  * A {@link PropertyAction} is a way to get a {@link Action} with a state value
- * reflecting and controlling the value of a {@link org.gtk.gobject.Object} property.
+ * reflecting and controlling the value of a {@link org.gtk.gobject.GObject} property.
  * <p>
  * The state of the action will correspond to the value of the property.
  * Changing it will change the property (assuming the requested value
@@ -59,7 +59,7 @@ import org.jetbrains.annotations.*;
  * combine its use with g_settings_bind().
  * @version 2.38
  */
-public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gio.Action {
+public class PropertyAction extends org.gtk.gobject.GObject implements org.gtk.gio.Action {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -81,41 +81,20 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PropertyAction(Addressable address, Ownership ownership) {
+    protected PropertyAction(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PropertyAction if its GType is a (or inherits from) "GPropertyAction".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PropertyAction} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GPropertyAction", a ClassCastException will be thrown.
-     */
-    public static PropertyAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PropertyAction.getType())) {
-            return new PropertyAction(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GPropertyAction");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PropertyAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PropertyAction(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String name, org.gtk.gobject.GObject object, java.lang.String propertyName) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_property_action_new.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     object.handle(),
-                    Interop.allocateNativeString(propertyName));
+                    Marshal.stringToAddress.marshal(propertyName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +115,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
      *   to wrap
      * @param propertyName the name of the property
      */
-    public PropertyAction(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
+    public PropertyAction(java.lang.String name, org.gtk.gobject.GObject object, java.lang.String propertyName) {
         super(constructNew(name, object, propertyName), Ownership.FULL);
     }
     
@@ -144,7 +123,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_property_action_get_type.invokeExact();
@@ -153,38 +132,40 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PropertyAction.Builder} object constructs a {@link PropertyAction} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PropertyAction.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PropertyAction.Build} object constructs a {@link PropertyAction} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PropertyAction} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PropertyAction} using {@link PropertyAction#castFrom}.
+         * {@link PropertyAction}.
          * @return A new instance of {@code PropertyAction} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PropertyAction construct() {
-            return PropertyAction.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PropertyAction.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PropertyAction build() {
+            return (PropertyAction) org.gtk.gobject.GObject.newWithProperties(
+                PropertyAction.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -196,7 +177,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
          * @param enabled The value for the {@code enabled} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnabled(boolean enabled) {
+        public Builder setEnabled(boolean enabled) {
             names.add("enabled");
             values.add(org.gtk.gobject.Value.create(enabled));
             return this;
@@ -208,7 +189,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
          * @param invertBoolean The value for the {@code invert-boolean} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInvertBoolean(boolean invertBoolean) {
+        public Builder setInvertBoolean(boolean invertBoolean) {
             names.add("invert-boolean");
             values.add(org.gtk.gobject.Value.create(invertBoolean));
             return this;
@@ -220,7 +201,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
@@ -229,11 +210,11 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
         /**
          * The object to wrap a property on.
          * <p>
-         * The object must be a non-{@code null} {@link org.gtk.gobject.Object} with properties.
+         * The object must be a non-{@code null} {@link org.gtk.gobject.GObject} with properties.
          * @param object The value for the {@code object} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setObject(org.gtk.gobject.Object object) {
+        public Builder setObject(org.gtk.gobject.GObject object) {
             names.add("object");
             values.add(org.gtk.gobject.Value.create(object));
             return this;
@@ -245,7 +226,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
          * @param parameterType The value for the {@code parameter-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParameterType(org.gtk.glib.VariantType parameterType) {
+        public Builder setParameterType(org.gtk.glib.VariantType parameterType) {
             names.add("parameter-type");
             values.add(org.gtk.gobject.Value.create(parameterType));
             return this;
@@ -259,7 +240,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
          * @param propertyName The value for the {@code property-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPropertyName(java.lang.String propertyName) {
+        public Builder setPropertyName(java.lang.String propertyName) {
             names.add("property-name");
             values.add(org.gtk.gobject.Value.create(propertyName));
             return this;
@@ -270,7 +251,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
          * @param state The value for the {@code state} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setState(org.gtk.glib.Variant state) {
+        public Builder setState(org.gtk.glib.Variant state) {
             names.add("state");
             values.add(org.gtk.gobject.Value.create(state));
             return this;
@@ -282,7 +263,7 @@ public class PropertyAction extends org.gtk.gobject.Object implements org.gtk.gi
          * @param stateType The value for the {@code state-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStateType(org.gtk.glib.VariantType stateType) {
+        public Builder setStateType(org.gtk.glib.VariantType stateType) {
             names.add("state-type");
             values.add(org.gtk.gobject.Value.create(stateType));
             return this;

@@ -40,8 +40,10 @@ public class DisplayNativeHdrSurfaceCapabilitiesAMD extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DisplayNativeHdrSurfaceCapabilitiesAMD(Addressable address, Ownership ownership) {
+    protected DisplayNativeHdrSurfaceCapabilitiesAMD(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DisplayNativeHdrSurfaceCapabilitiesAMD> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayNativeHdrSurfaceCapabilitiesAMD(input, ownership);
 }

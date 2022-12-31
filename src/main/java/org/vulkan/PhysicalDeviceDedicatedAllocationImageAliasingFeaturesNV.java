@@ -40,8 +40,10 @@ public class PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV extends St
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceDedicatedAllocationImageAliasingFeaturesNV(input, ownership);
 }

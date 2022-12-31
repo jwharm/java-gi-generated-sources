@@ -16,18 +16,16 @@ public class ProxyControlBindingClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstProxyControlBindingClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.ControlBindingClass.getMemoryLayout().withName("parent_class"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.ControlBindingClass.getMemoryLayout().withName("parent_class"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,46 +46,52 @@ public class ProxyControlBindingClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ProxyControlBindingClass(Addressable address, Ownership ownership) {
+    protected ProxyControlBindingClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ProxyControlBindingClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyControlBindingClass(input, ownership);
+    
+    /**
+     * A {@link ProxyControlBindingClass.Builder} object constructs a {@link ProxyControlBindingClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ProxyControlBindingClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ProxyControlBindingClass struct;
+        private final ProxyControlBindingClass struct;
         
-         /**
-         * A {@link ProxyControlBindingClass.Build} object constructs a {@link ProxyControlBindingClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ProxyControlBindingClass.allocate();
         }
         
          /**
          * Finish building the {@link ProxyControlBindingClass} struct.
          * @return A new instance of {@code ProxyControlBindingClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ProxyControlBindingClass construct() {
+        public ProxyControlBindingClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gstreamer.gst.ControlBindingClass parentClass) {
+        public Builder setParentClass(org.gstreamer.gst.ControlBindingClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

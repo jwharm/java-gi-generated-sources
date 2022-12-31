@@ -18,21 +18,19 @@ public class SegmentPropertiesT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "hb_segment_properties_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("direction"),
-        Interop.valueLayout.C_INT.withName("script"),
-        org.harfbuzz.LanguageT.getMemoryLayout().withName("language"),
-        Interop.valueLayout.ADDRESS.withName("reserved1"),
-        Interop.valueLayout.ADDRESS.withName("reserved2")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("direction"),
+            Interop.valueLayout.C_INT.withName("script"),
+            org.harfbuzz.LanguageT.getMemoryLayout().withName("language"),
+            Interop.valueLayout.ADDRESS.withName("reserved1"),
+            Interop.valueLayout.ADDRESS.withName("reserved2")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,7 +50,7 @@ public class SegmentPropertiesT extends Struct {
      * Get the value of the field {@code direction}
      * @return The value of the field {@code direction}
      */
-    public org.harfbuzz.DirectionT direction$get() {
+    public org.harfbuzz.DirectionT getDirection() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("direction"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -63,17 +61,17 @@ public class SegmentPropertiesT extends Struct {
      * Change the value of the field {@code direction}
      * @param direction The new value of the field {@code direction}
      */
-    public void direction$set(org.harfbuzz.DirectionT direction) {
+    public void setDirection(org.harfbuzz.DirectionT direction) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("direction"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), direction.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (direction == null ? MemoryAddress.NULL : direction.getValue()));
     }
     
     /**
      * Get the value of the field {@code script}
      * @return The value of the field {@code script}
      */
-    public org.harfbuzz.ScriptT script$get() {
+    public org.harfbuzz.ScriptT getScript() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("script"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,10 +82,10 @@ public class SegmentPropertiesT extends Struct {
      * Change the value of the field {@code script}
      * @param script The new value of the field {@code script}
      */
-    public void script$set(org.harfbuzz.ScriptT script) {
+    public void setScript(org.harfbuzz.ScriptT script) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("script"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), script.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (script == null ? MemoryAddress.NULL : script.getValue()));
     }
     
     /**
@@ -95,35 +93,41 @@ public class SegmentPropertiesT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SegmentPropertiesT(Addressable address, Ownership ownership) {
+    protected SegmentPropertiesT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SegmentPropertiesT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SegmentPropertiesT(input, ownership);
+    
+    /**
+     * A {@link SegmentPropertiesT.Builder} object constructs a {@link SegmentPropertiesT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SegmentPropertiesT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SegmentPropertiesT struct;
+        private final SegmentPropertiesT struct;
         
-         /**
-         * A {@link SegmentPropertiesT.Build} object constructs a {@link SegmentPropertiesT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SegmentPropertiesT.allocate();
         }
         
          /**
          * Finish building the {@link SegmentPropertiesT} struct.
          * @return A new instance of {@code SegmentPropertiesT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SegmentPropertiesT construct() {
+        public SegmentPropertiesT build() {
             return struct;
         }
         
@@ -132,7 +136,7 @@ public class SegmentPropertiesT extends Struct {
          * @param direction The value for the {@code direction} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDirection(org.harfbuzz.DirectionT direction) {
+        public Builder setDirection(org.harfbuzz.DirectionT direction) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("direction"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (direction == null ? MemoryAddress.NULL : direction.getValue()));
@@ -144,7 +148,7 @@ public class SegmentPropertiesT extends Struct {
          * @param script The value for the {@code script} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScript(org.harfbuzz.ScriptT script) {
+        public Builder setScript(org.harfbuzz.ScriptT script) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("script"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (script == null ? MemoryAddress.NULL : script.getValue()));
@@ -156,21 +160,21 @@ public class SegmentPropertiesT extends Struct {
          * @param language The value for the {@code language} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLanguage(org.harfbuzz.LanguageT language) {
+        public Builder setLanguage(org.harfbuzz.LanguageT language) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("language"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (language == null ? MemoryAddress.NULL : language.handle()));
             return this;
         }
         
-        public Build setReserved1(java.lang.foreign.MemoryAddress reserved1) {
+        public Builder setReserved1(java.lang.foreign.MemoryAddress reserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved1 == null ? MemoryAddress.NULL : (Addressable) reserved1));
             return this;
         }
         
-        public Build setReserved2(java.lang.foreign.MemoryAddress reserved2) {
+        public Builder setReserved2(java.lang.foreign.MemoryAddress reserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved2 == null ? MemoryAddress.NULL : (Addressable) reserved2));

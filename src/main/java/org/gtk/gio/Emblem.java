@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * Currently, only metainformation about the emblem's origin is
  * supported. More may be added in the future.
  */
-public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
+public class Emblem extends org.gtk.gobject.GObject implements org.gtk.gio.Icon {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -35,34 +35,15 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Emblem(Addressable address, Ownership ownership) {
+    protected Emblem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Emblem if its GType is a (or inherits from) "GEmblem".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Emblem} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GEmblem", a ClassCastException will be thrown.
-     */
-    public static Emblem castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Emblem.getType())) {
-            return new Emblem(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GEmblem");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Emblem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Emblem(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.Icon icon) {
-        java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.Icon icon) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_emblem_new.invokeExact(
                     icon.handle());
@@ -76,14 +57,12 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * Creates a new emblem for {@code icon}.
      * @param icon a GIcon containing the icon.
      */
-    public Emblem(@NotNull org.gtk.gio.Icon icon) {
+    public Emblem(org.gtk.gio.Icon icon) {
         super(constructNew(icon), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithOrigin(@NotNull org.gtk.gio.Icon icon, @NotNull org.gtk.gio.EmblemOrigin origin) {
-        java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
-        java.util.Objects.requireNonNull(origin, "Parameter 'origin' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithOrigin(org.gtk.gio.Icon icon, org.gtk.gio.EmblemOrigin origin) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_emblem_new_with_origin.invokeExact(
                     icon.handle(),
@@ -100,8 +79,9 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * @param origin a GEmblemOrigin enum defining the emblem's origin
      * @return a new {@link Emblem}.
      */
-    public static Emblem newWithOrigin(@NotNull org.gtk.gio.Icon icon, @NotNull org.gtk.gio.EmblemOrigin origin) {
-        return new Emblem(constructNewWithOrigin(icon, origin), Ownership.FULL);
+    public static Emblem newWithOrigin(org.gtk.gio.Icon icon, org.gtk.gio.EmblemOrigin origin) {
+        var RESULT = constructNewWithOrigin(icon, origin);
+        return (org.gtk.gio.Emblem) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Emblem.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -109,7 +89,7 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * @return a {@link Icon}. The returned object belongs to
      *          the emblem and should not be modified or freed.
      */
-    public @NotNull org.gtk.gio.Icon getIcon() {
+    public org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_emblem_get_icon.invokeExact(
@@ -117,14 +97,14 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the origin of the emblem.
      * @return the origin of the emblem
      */
-    public @NotNull org.gtk.gio.EmblemOrigin getOrigin() {
+    public org.gtk.gio.EmblemOrigin getOrigin() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_emblem_get_origin.invokeExact(
@@ -139,7 +119,7 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_emblem_get_type.invokeExact();
@@ -148,48 +128,50 @@ public class Emblem extends org.gtk.gobject.Object implements org.gtk.gio.Icon {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Emblem.Builder} object constructs a {@link Emblem} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Emblem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Emblem.Build} object constructs a {@link Emblem} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Emblem} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Emblem} using {@link Emblem#castFrom}.
+         * {@link Emblem}.
          * @return A new instance of {@code Emblem} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Emblem construct() {
-            return Emblem.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Emblem.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Emblem build() {
+            return (Emblem) org.gtk.gobject.GObject.newWithProperties(
+                Emblem.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setIcon(org.gtk.gobject.Object icon) {
+        public Builder setIcon(org.gtk.gobject.GObject icon) {
             names.add("icon");
             values.add(org.gtk.gobject.Value.create(icon));
             return this;
         }
         
-        public Build setOrigin(org.gtk.gio.EmblemOrigin origin) {
+        public Builder setOrigin(org.gtk.gio.EmblemOrigin origin) {
             names.add("origin");
             values.add(org.gtk.gobject.Value.create(origin));
             return this;

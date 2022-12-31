@@ -32,36 +32,18 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusMenuModel(Addressable address, Ownership ownership) {
+    protected DBusMenuModel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DBusMenuModel if its GType is a (or inherits from) "GDBusMenuModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DBusMenuModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDBusMenuModel", a ClassCastException will be thrown.
-     */
-    public static DBusMenuModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusMenuModel.getType())) {
-            return new DBusMenuModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusMenuModel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusMenuModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusMenuModel(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dbus_menu_model_get_type.invokeExact();
@@ -87,52 +69,52 @@ public class DBusMenuModel extends org.gtk.gio.MenuModel {
      * @return a {@link DBusMenuModel} object. Free with
      *     g_object_unref().
      */
-    public static @NotNull org.gtk.gio.DBusMenuModel get(@NotNull org.gtk.gio.DBusConnection connection, @Nullable java.lang.String busName, @NotNull java.lang.String objectPath) {
-        java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
+    public static org.gtk.gio.DBusMenuModel get(org.gtk.gio.DBusConnection connection, @Nullable java.lang.String busName, java.lang.String objectPath) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_menu_model_get.invokeExact(
                     connection.handle(),
-                    (Addressable) (busName == null ? MemoryAddress.NULL : Interop.allocateNativeString(busName)),
-                    Interop.allocateNativeString(objectPath));
+                    (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, null)),
+                    Marshal.stringToAddress.marshal(objectPath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusMenuModel(RESULT, Ownership.FULL);
+        return (org.gtk.gio.DBusMenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusMenuModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link DBusMenuModel.Builder} object constructs a {@link DBusMenuModel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DBusMenuModel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.MenuModel.Build {
+    public static class Builder extends org.gtk.gio.MenuModel.Builder {
         
-         /**
-         * A {@link DBusMenuModel.Build} object constructs a {@link DBusMenuModel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DBusMenuModel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DBusMenuModel} using {@link DBusMenuModel#castFrom}.
+         * {@link DBusMenuModel}.
          * @return A new instance of {@code DBusMenuModel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusMenuModel construct() {
-            return DBusMenuModel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DBusMenuModel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DBusMenuModel build() {
+            return (DBusMenuModel) org.gtk.gobject.GObject.newWithProperties(
+                DBusMenuModel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

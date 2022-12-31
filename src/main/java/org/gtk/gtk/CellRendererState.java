@@ -54,11 +54,15 @@ public class CellRendererState extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public CellRendererState or(CellRendererState mask) {
-        return new CellRendererState(this.getValue() | mask.getValue());
+    public CellRendererState or(CellRendererState... masks) {
+        int value = this.getValue();
+        for (CellRendererState arg : masks) {
+            value |= arg.getValue();
+        }
+        return new CellRendererState(value);
     }
     
     /**
@@ -68,7 +72,8 @@ public class CellRendererState extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static CellRendererState combined(CellRendererState mask, CellRendererState... masks) {
-        int value = mask.getValue();        for (CellRendererState arg : masks) {
+        int value = mask.getValue();
+        for (CellRendererState arg : masks) {
             value |= arg.getValue();
         }
         return new CellRendererState(value);

@@ -13,19 +13,17 @@ public class CheckABIStruct extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstCheckABIStruct";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("name"),
-        Interop.valueLayout.C_INT.withName("size"),
-        Interop.valueLayout.C_INT.withName("abi_size")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("name"),
+            Interop.valueLayout.C_INT.withName("size"),
+            Interop.valueLayout.C_INT.withName("abi_size")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,28 +43,28 @@ public class CheckABIStruct extends Struct {
      * Get the value of the field {@code name}
      * @return The value of the field {@code name}
      */
-    public java.lang.String name$get() {
+    public java.lang.String getName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code name}
      * @param name The new value of the field {@code name}
      */
-    public void name$set(java.lang.String name) {
+    public void setName(java.lang.String name) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
     }
     
     /**
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public int size$get() {
+    public int getSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -77,7 +75,7 @@ public class CheckABIStruct extends Struct {
      * Change the value of the field {@code size}
      * @param size The new value of the field {@code size}
      */
-    public void size$set(int size) {
+    public void setSize(int size) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -87,7 +85,7 @@ public class CheckABIStruct extends Struct {
      * Get the value of the field {@code abi_size}
      * @return The value of the field {@code abi_size}
      */
-    public int abiSize$get() {
+    public int getAbiSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("abi_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -98,7 +96,7 @@ public class CheckABIStruct extends Struct {
      * Change the value of the field {@code abi_size}
      * @param abiSize The new value of the field {@code abi_size}
      */
-    public void abiSize$set(int abiSize) {
+    public void setAbiSize(int abiSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("abi_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), abiSize);
@@ -109,35 +107,41 @@ public class CheckABIStruct extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CheckABIStruct(Addressable address, Ownership ownership) {
+    protected CheckABIStruct(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CheckABIStruct> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CheckABIStruct(input, ownership);
+    
+    /**
+     * A {@link CheckABIStruct.Builder} object constructs a {@link CheckABIStruct} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link CheckABIStruct.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private CheckABIStruct struct;
+        private final CheckABIStruct struct;
         
-         /**
-         * A {@link CheckABIStruct.Build} object constructs a {@link CheckABIStruct} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = CheckABIStruct.allocate();
         }
         
          /**
          * Finish building the {@link CheckABIStruct} struct.
          * @return A new instance of {@code CheckABIStruct} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CheckABIStruct construct() {
+        public CheckABIStruct build() {
             return struct;
         }
         
@@ -146,10 +150,10 @@ public class CheckABIStruct extends Struct {
          * @param name The value for the {@code name} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
             return this;
         }
         
@@ -158,7 +162,7 @@ public class CheckABIStruct extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(int size) {
+        public Builder setSize(int size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -170,7 +174,7 @@ public class CheckABIStruct extends Struct {
          * @param abiSize The value for the {@code abiSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAbiSize(int abiSize) {
+        public Builder setAbiSize(int abiSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("abi_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), abiSize);

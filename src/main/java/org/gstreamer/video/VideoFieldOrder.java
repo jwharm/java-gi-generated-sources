@@ -55,12 +55,11 @@ public enum VideoFieldOrder implements io.github.jwharm.javagi.Enumeration {
      *    {@code GST_VIDEO_FIELD_ORDER_UNKNOWN} when {@code order} is not a valid
      *    string representation for a {@link VideoFieldOrder}.
      */
-    public static @NotNull org.gstreamer.video.VideoFieldOrder fromString(@NotNull java.lang.String order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public static org.gstreamer.video.VideoFieldOrder fromString(java.lang.String order) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_field_order_from_string.invokeExact(
-                    Interop.allocateNativeString(order));
+                    Marshal.stringToAddress.marshal(order, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -72,8 +71,7 @@ public enum VideoFieldOrder implements io.github.jwharm.javagi.Enumeration {
      * @param order a {@link VideoFieldOrder}
      * @return {@code order} as a string or NULL if {@code order} in invalid.
      */
-    public static @NotNull java.lang.String toString(@NotNull org.gstreamer.video.VideoFieldOrder order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public static java.lang.String toString(org.gstreamer.video.VideoFieldOrder order) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_field_order_to_string.invokeExact(
@@ -81,7 +79,7 @@ public enum VideoFieldOrder implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

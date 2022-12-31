@@ -102,24 +102,22 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioDecoder";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
-        Interop.valueLayout.ADDRESS.withName("sinkpad"),
-        Interop.valueLayout.ADDRESS.withName("srcpad"),
-        org.gtk.glib.RecMutex.getMemoryLayout().withName("stream_lock"),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("input_segment"),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("output_segment"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
+            Interop.valueLayout.ADDRESS.withName("sinkpad"),
+            Interop.valueLayout.ADDRESS.withName("srcpad"),
+            org.gtk.glib.RecMutex.getMemoryLayout().withName("stream_lock"),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("input_segment"),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("output_segment"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -127,37 +125,23 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * <p>
      * Because AudioDecoder is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioDecoder(Addressable address, Ownership ownership) {
+    protected AudioDecoder(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AudioDecoder if its GType is a (or inherits from) "GstAudioDecoder".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AudioDecoder} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAudioDecoder", a ClassCastException will be thrown.
-     */
-    public static AudioDecoder castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AudioDecoder.getType())) {
-            return new AudioDecoder(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAudioDecoder");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioDecoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioDecoder(input, ownership);
     
     /**
      * Helper function that allocates a buffer to hold an audio frame
@@ -165,7 +149,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param size size of the buffer
      * @return allocated buffer
      */
-    public @NotNull org.gstreamer.gst.Buffer allocateOutputBuffer(long size) {
+    public org.gstreamer.gst.Buffer allocateOutputBuffer(long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_decoder_allocate_output_buffer.invokeExact(
@@ -174,7 +158,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -192,7 +176,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param frames number of decoded frames represented by decoded data
      * @return a {@link org.gstreamer.gst.FlowReturn} that should be escalated to caller (of caller)
      */
-    public @NotNull org.gstreamer.gst.FlowReturn finishFrame(@Nullable org.gstreamer.gst.Buffer buf, int frames) {
+    public org.gstreamer.gst.FlowReturn finishFrame(@Nullable org.gstreamer.gst.Buffer buf, int frames) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_decoder_finish_frame.invokeExact(
@@ -223,7 +207,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param buf decoded data
      * @return a {@link org.gstreamer.gst.FlowReturn} that should be escalated to caller (of caller)
      */
-    public @NotNull org.gstreamer.gst.FlowReturn finishSubframe(@Nullable org.gstreamer.gst.Buffer buf) {
+    public org.gstreamer.gst.FlowReturn finishSubframe(@Nullable org.gstreamer.gst.Buffer buf) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_decoder_finish_subframe.invokeExact(
@@ -246,23 +230,21 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param params the
      * {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
-    public void getAllocator(@NotNull Out<org.gstreamer.gst.Allocator> allocator, @NotNull org.gstreamer.gst.AllocationParams params) {
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
+    public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
         MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         try {
             DowncallHandles.gst_audio_decoder_get_allocator.invokeExact(
                     handle(),
-                    (Addressable) allocatorPOINTER.address(),
-                    params.handle());
+                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        allocator.set(new org.gstreamer.gst.Allocator(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         params.yieldOwnership();
     }
     
-    public @NotNull org.gstreamer.audio.AudioInfo getAudioInfo() {
+    public org.gstreamer.audio.AudioInfo getAudioInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_decoder_get_audio_info.invokeExact(
@@ -270,7 +252,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     public int getDelay() {
@@ -298,7 +280,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public int getEstimateRate() {
@@ -318,21 +300,19 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param min a pointer to storage to hold minimum latency
      * @param max a pointer to storage to hold maximum latency
      */
-    public void getLatency(@NotNull Out<org.gstreamer.gst.ClockTime> min, @NotNull Out<org.gstreamer.gst.ClockTime> max) {
-        java.util.Objects.requireNonNull(min, "Parameter 'min' must not be null");
+    public void getLatency(@Nullable org.gstreamer.gst.ClockTime min, @Nullable org.gstreamer.gst.ClockTime max) {
         MemorySegment minPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(max, "Parameter 'max' must not be null");
         MemorySegment maxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_audio_decoder_get_latency.invokeExact(
                     handle(),
-                    (Addressable) minPOINTER.address(),
-                    (Addressable) maxPOINTER.address());
+                    (Addressable) (min == null ? MemoryAddress.NULL : (Addressable) minPOINTER.address()),
+                    (Addressable) (max == null ? MemoryAddress.NULL : (Addressable) maxPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        min.set(new org.gstreamer.gst.ClockTime(minPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        max.set(new org.gstreamer.gst.ClockTime(maxPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (min != null) min.setValue(minPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (max != null) max.setValue(maxPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     public int getMaxErrors() {
@@ -352,7 +332,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getMinLatency() {
+    public org.gstreamer.gst.ClockTime getMinLatency() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_decoder_get_min_latency.invokeExact(
@@ -377,7 +357,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -386,20 +366,18 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param eos a pointer to a variable to hold the current eos state
      */
     public void getParseState(Out<Boolean> sync, Out<Boolean> eos) {
-        java.util.Objects.requireNonNull(sync, "Parameter 'sync' must not be null");
         MemorySegment syncPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(eos, "Parameter 'eos' must not be null");
         MemorySegment eosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_audio_decoder_get_parse_state.invokeExact(
                     handle(),
-                    (Addressable) syncPOINTER.address(),
-                    (Addressable) eosPOINTER.address());
+                    (Addressable) (sync == null ? MemoryAddress.NULL : (Addressable) syncPOINTER.address()),
+                    (Addressable) (eos == null ? MemoryAddress.NULL : (Addressable) eosPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        sync.set(syncPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        eos.set(eosPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (sync != null) sync.set(syncPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (eos != null) eos.set(eosPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -416,7 +394,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public int getPlcAware() {
@@ -436,7 +414,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getTolerance() {
+    public org.gstreamer.gst.ClockTime getTolerance() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_decoder_get_tolerance.invokeExact(
@@ -457,8 +435,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param tags a {@link org.gstreamer.gst.TagList} to merge, or NULL
      * @param mode the {@link org.gstreamer.gst.TagMergeMode} to use, usually {@code GST_TAG_MERGE_REPLACE}
      */
-    public void mergeTags(@Nullable org.gstreamer.gst.TagList tags, @NotNull org.gstreamer.gst.TagMergeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void mergeTags(@Nullable org.gstreamer.gst.TagList tags, org.gstreamer.gst.TagMergeMode mode) {
         try {
             DowncallHandles.gst_audio_decoder_merge_tags.invokeExact(
                     handle(),
@@ -483,7 +460,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -494,7 +471,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param filter filter caps
      * @return a {@link org.gstreamer.gst.Caps} owned by caller
      */
-    public @NotNull org.gstreamer.gst.Caps proxyGetcaps(@Nullable org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.gst.Caps filter) {
+    public org.gstreamer.gst.Caps proxyGetcaps(@Nullable org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.gst.Caps filter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_decoder_proxy_getcaps.invokeExact(
@@ -504,7 +481,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -537,7 +514,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_audio_decoder_set_drainable.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -551,7 +528,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_audio_decoder_set_estimate_rate.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -562,9 +539,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param min minimum latency
      * @param max maximum latency
      */
-    public void setLatency(@NotNull org.gstreamer.gst.ClockTime min, @NotNull org.gstreamer.gst.ClockTime max) {
-        java.util.Objects.requireNonNull(min, "Parameter 'min' must not be null");
-        java.util.Objects.requireNonNull(max, "Parameter 'max' must not be null");
+    public void setLatency(org.gstreamer.gst.ClockTime min, org.gstreamer.gst.ClockTime max) {
         try {
             DowncallHandles.gst_audio_decoder_set_latency.invokeExact(
                     handle(),
@@ -598,8 +573,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * MT safe.
      * @param num new minimum latency
      */
-    public void setMinLatency(@NotNull org.gstreamer.gst.ClockTime num) {
-        java.util.Objects.requireNonNull(num, "Parameter 'num' must not be null");
+    public void setMinLatency(org.gstreamer.gst.ClockTime num) {
         try {
             DowncallHandles.gst_audio_decoder_set_min_latency.invokeExact(
                     handle(),
@@ -624,7 +598,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_audio_decoder_set_needs_format.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -638,8 +612,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param caps (fixed) {@link org.gstreamer.gst.Caps}
      * @return {@code true} on success.
      */
-    public boolean setOutputCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean setOutputCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_decoder_set_output_caps.invokeExact(
@@ -648,7 +621,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -656,8 +629,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * @param info {@link AudioInfo}
      * @return {@code true} on success.
      */
-    public boolean setOutputFormat(@NotNull org.gstreamer.audio.AudioInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public boolean setOutputFormat(org.gstreamer.audio.AudioInfo info) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_decoder_set_output_format.invokeExact(
@@ -666,7 +638,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -680,7 +652,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_audio_decoder_set_plc.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -694,7 +666,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_audio_decoder_set_plc_aware.invokeExact(
                     handle(),
-                    plc ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(plc, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -706,8 +678,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * MT safe.
      * @param tolerance new tolerance
      */
-    public void setTolerance(@NotNull org.gstreamer.gst.ClockTime tolerance) {
-        java.util.Objects.requireNonNull(tolerance, "Parameter 'tolerance' must not be null");
+    public void setTolerance(org.gstreamer.gst.ClockTime tolerance) {
         try {
             DowncallHandles.gst_audio_decoder_set_tolerance.invokeExact(
                     handle(),
@@ -730,7 +701,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_audio_decoder_set_use_default_pad_acceptcaps.invokeExact(
                     handle(),
-                    use ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(use, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -740,7 +711,7 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_decoder_get_type.invokeExact();
@@ -749,38 +720,40 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link AudioDecoder.Builder} object constructs a {@link AudioDecoder} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AudioDecoder.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Element.Build {
+    public static class Builder extends org.gstreamer.gst.Element.Builder {
         
-         /**
-         * A {@link AudioDecoder.Build} object constructs a {@link AudioDecoder} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AudioDecoder} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AudioDecoder} using {@link AudioDecoder#castFrom}.
+         * {@link AudioDecoder}.
          * @return A new instance of {@code AudioDecoder} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioDecoder construct() {
-            return AudioDecoder.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AudioDecoder.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AudioDecoder build() {
+            return (AudioDecoder) org.gtk.gobject.GObject.newWithProperties(
+                AudioDecoder.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -790,25 +763,25 @@ public class AudioDecoder extends org.gstreamer.gst.Element {
          * @param maxErrors The value for the {@code max-errors} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxErrors(int maxErrors) {
+        public Builder setMaxErrors(int maxErrors) {
             names.add("max-errors");
             values.add(org.gtk.gobject.Value.create(maxErrors));
             return this;
         }
         
-        public Build setMinLatency(long minLatency) {
+        public Builder setMinLatency(long minLatency) {
             names.add("min-latency");
             values.add(org.gtk.gobject.Value.create(minLatency));
             return this;
         }
         
-        public Build setPlc(boolean plc) {
+        public Builder setPlc(boolean plc) {
             names.add("plc");
             values.add(org.gtk.gobject.Value.create(plc));
             return this;
         }
         
-        public Build setTolerance(long tolerance) {
+        public Builder setTolerance(long tolerance) {
             names.add("tolerance");
             values.add(org.gtk.gobject.Value.create(tolerance));
             return this;

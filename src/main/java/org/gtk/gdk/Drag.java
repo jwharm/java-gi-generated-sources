@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * and so they are not normally needed in GTK applications. See the
  * "Drag and Drop" section of the GTK documentation for more information.
  */
-public class Drag extends org.gtk.gobject.Object {
+public class Drag extends org.gtk.gobject.GObject {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -39,30 +39,12 @@ public class Drag extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Drag(Addressable address, Ownership ownership) {
+    protected Drag(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Drag if its GType is a (or inherits from) "GdkDrag".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Drag} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkDrag", a ClassCastException will be thrown.
-     */
-    public static Drag castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Drag.getType())) {
-            return new Drag(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkDrag");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Drag> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Drag(input, ownership);
     
     /**
      * Informs GDK that the drop ended.
@@ -82,7 +64,7 @@ public class Drag extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gdk_drag_drop_done.invokeExact(
                     handle(),
-                    success ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(success, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +74,7 @@ public class Drag extends org.gtk.gobject.Object {
      * Determines the bitmask of possible actions proposed by the source.
      * @return the {@code GdkDragAction} flags
      */
-    public @NotNull org.gtk.gdk.DragAction getActions() {
+    public org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_drag_get_actions.invokeExact(
@@ -107,7 +89,7 @@ public class Drag extends org.gtk.gobject.Object {
      * Returns the {@code GdkContentProvider} associated to the {@code GdkDrag} object.
      * @return The {@code GdkContentProvider} associated to {@code drag}.
      */
-    public @NotNull org.gtk.gdk.ContentProvider getContent() {
+    public org.gtk.gdk.ContentProvider getContent() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_content.invokeExact(
@@ -115,14 +97,14 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentProvider(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Returns the {@code GdkDevice} associated to the {@code GdkDrag} object.
      * @return The {@code GdkDevice} associated to {@code drag}.
      */
-    public @NotNull org.gtk.gdk.Device getDevice() {
+    public org.gtk.gdk.Device getDevice() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_device.invokeExact(
@@ -130,14 +112,14 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Device(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Device.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the {@code GdkDisplay} that the drag object was created for.
      * @return a {@code GdkDisplay}
      */
-    public @NotNull org.gtk.gdk.Display getDisplay() {
+    public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_display.invokeExact(
@@ -145,7 +127,7 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -166,14 +148,14 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves the formats supported by this {@code GdkDrag} object.
      * @return a {@code GdkContentFormats}
      */
-    public @NotNull org.gtk.gdk.ContentFormats getFormats() {
+    public org.gtk.gdk.ContentFormats getFormats() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_formats.invokeExact(
@@ -181,14 +163,14 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.NONE);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Determines the action chosen by the drag destination.
      * @return a {@code GdkDragAction} value
      */
-    public @NotNull org.gtk.gdk.DragAction getSelectedAction() {
+    public org.gtk.gdk.DragAction getSelectedAction() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_drag_get_selected_action.invokeExact(
@@ -203,7 +185,7 @@ public class Drag extends org.gtk.gobject.Object {
      * Returns the {@code GdkSurface} where the drag originates.
      * @return The {@code GdkSurface} where the drag originates
      */
-    public @NotNull org.gtk.gdk.Surface getSurface() {
+    public org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drag_get_surface.invokeExact(
@@ -211,7 +193,7 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -237,7 +219,7 @@ public class Drag extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_drag_get_type.invokeExact();
@@ -270,11 +252,7 @@ public class Drag extends org.gtk.gobject.Object {
      * @param dy the y offset to {@code device}'s position where the drag nominally started
      * @return a newly created {@code GdkDrag}
      */
-    public static @Nullable org.gtk.gdk.Drag begin(@NotNull org.gtk.gdk.Surface surface, @NotNull org.gtk.gdk.Device device, @NotNull org.gtk.gdk.ContentProvider content, @NotNull org.gtk.gdk.DragAction actions, double dx, double dy) {
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(content, "Parameter 'content' must not be null");
-        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
+    public static @Nullable org.gtk.gdk.Drag begin(org.gtk.gdk.Surface surface, org.gtk.gdk.Device device, org.gtk.gdk.ContentProvider content, org.gtk.gdk.DragAction actions, double dx, double dy) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drag_begin.invokeExact(
@@ -287,12 +265,23 @@ public class Drag extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Drag(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.Drag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Drag.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @FunctionalInterface
     public interface Cancel {
-        void signalReceived(Drag sourceDrag, @NotNull org.gtk.gdk.DragCancelReason reason);
+        void run(org.gtk.gdk.DragCancelReason reason);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDrag, int reason) {
+            run(org.gtk.gdk.DragCancelReason.of(reason));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Cancel.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -303,16 +292,8 @@ public class Drag extends org.gtk.gobject.Object {
     public Signal<Drag.Cancel> onCancel(Drag.Cancel handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("cancel"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drag.Callbacks.class, "signalDragCancel",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Drag.Cancel>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("cancel"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +301,18 @@ public class Drag extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DndFinished {
-        void signalReceived(Drag sourceDrag);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDrag) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DndFinished.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -333,16 +325,8 @@ public class Drag extends org.gtk.gobject.Object {
     public Signal<Drag.DndFinished> onDndFinished(Drag.DndFinished handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("dnd-finished"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drag.Callbacks.class, "signalDragDndFinished",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Drag.DndFinished>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("dnd-finished"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +334,18 @@ public class Drag extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DropPerformed {
-        void signalReceived(Drag sourceDrag);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDrag) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DropPerformed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -361,52 +356,46 @@ public class Drag extends org.gtk.gobject.Object {
     public Signal<Drag.DropPerformed> onDropPerformed(Drag.DropPerformed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("drop-performed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drag.Callbacks.class, "signalDragDropPerformed",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Drag.DropPerformed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("drop-performed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Drag.Builder} object constructs a {@link Drag} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Drag.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Drag.Build} object constructs a {@link Drag} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Drag} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Drag} using {@link Drag#castFrom}.
+         * {@link Drag}.
          * @return A new instance of {@code Drag} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Drag construct() {
-            return Drag.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Drag.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Drag build() {
+            return (Drag) org.gtk.gobject.GObject.newWithProperties(
+                Drag.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -415,7 +404,7 @@ public class Drag extends org.gtk.gobject.Object {
          * @param actions The value for the {@code actions} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActions(org.gtk.gdk.DragAction actions) {
+        public Builder setActions(org.gtk.gdk.DragAction actions) {
             names.add("actions");
             values.add(org.gtk.gobject.Value.create(actions));
             return this;
@@ -426,7 +415,7 @@ public class Drag extends org.gtk.gobject.Object {
          * @param content The value for the {@code content} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContent(org.gtk.gdk.ContentProvider content) {
+        public Builder setContent(org.gtk.gdk.ContentProvider content) {
             names.add("content");
             values.add(org.gtk.gobject.Value.create(content));
             return this;
@@ -437,7 +426,7 @@ public class Drag extends org.gtk.gobject.Object {
          * @param device The value for the {@code device} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDevice(org.gtk.gdk.Device device) {
+        public Builder setDevice(org.gtk.gdk.Device device) {
             names.add("device");
             values.add(org.gtk.gobject.Value.create(device));
             return this;
@@ -448,7 +437,7 @@ public class Drag extends org.gtk.gobject.Object {
          * @param display The value for the {@code display} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplay(org.gtk.gdk.Display display) {
+        public Builder setDisplay(org.gtk.gdk.Display display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;
@@ -459,7 +448,7 @@ public class Drag extends org.gtk.gobject.Object {
          * @param formats The value for the {@code formats} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormats(org.gtk.gdk.ContentFormats formats) {
+        public Builder setFormats(org.gtk.gdk.ContentFormats formats) {
             names.add("formats");
             values.add(org.gtk.gobject.Value.create(formats));
             return this;
@@ -470,7 +459,7 @@ public class Drag extends org.gtk.gobject.Object {
          * @param selectedAction The value for the {@code selected-action} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelectedAction(org.gtk.gdk.DragAction selectedAction) {
+        public Builder setSelectedAction(org.gtk.gdk.DragAction selectedAction) {
             names.add("selected-action");
             values.add(org.gtk.gobject.Value.create(selectedAction));
             return this;
@@ -481,7 +470,7 @@ public class Drag extends org.gtk.gobject.Object {
          * @param surface The value for the {@code surface} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSurface(org.gtk.gdk.Surface surface) {
+        public Builder setSurface(org.gtk.gdk.Surface surface) {
             names.add("surface");
             values.add(org.gtk.gobject.Value.create(surface));
             return this;
@@ -561,26 +550,5 @@ public class Drag extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalDragCancel(MemoryAddress sourceDrag, int reason, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Drag.Cancel) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drag(sourceDrag, Ownership.NONE), org.gtk.gdk.DragCancelReason.of(reason));
-        }
-        
-        public static void signalDragDndFinished(MemoryAddress sourceDrag, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Drag.DndFinished) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drag(sourceDrag, Ownership.NONE));
-        }
-        
-        public static void signalDragDropPerformed(MemoryAddress sourceDrag, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Drag.DropPerformed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drag(sourceDrag, Ownership.NONE));
-        }
     }
 }

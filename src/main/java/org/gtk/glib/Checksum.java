@@ -47,14 +47,15 @@ public class Checksum extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Checksum(Addressable address, Ownership ownership) {
+    protected Checksum(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gtk.glib.ChecksumType checksumType) {
-        java.util.Objects.requireNonNull(checksumType, "Parameter 'checksumType' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Checksum> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Checksum(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gtk.glib.ChecksumType checksumType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_checksum_new.invokeExact(
                     checksumType.getValue());
@@ -80,7 +81,7 @@ public class Checksum extends Struct {
      * on it anymore.
      * @param checksumType the desired type of checksum
      */
-    public Checksum(@NotNull org.gtk.glib.ChecksumType checksumType) {
+    public Checksum(org.gtk.glib.ChecksumType checksumType) {
         super(constructNew(checksumType), Ownership.FULL);
     }
     
@@ -91,7 +92,7 @@ public class Checksum extends Struct {
      * @return the copy of the passed {@link Checksum}. Use
      *   g_checksum_free() when finished using it.
      */
-    public @NotNull org.gtk.glib.Checksum copy() {
+    public org.gtk.glib.Checksum copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_checksum_copy.invokeExact(
@@ -99,7 +100,7 @@ public class Checksum extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Checksum(RESULT, Ownership.FULL);
+        return org.gtk.glib.Checksum.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -124,9 +125,7 @@ public class Checksum extends Struct {
      * @param digestLen an inout parameter. The caller initializes it to the size of {@code buffer}.
      *   After the call it contains the length of the digest.
      */
-    public void getDigest(@NotNull byte[] buffer, Out<Long> digestLen) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(digestLen, "Parameter 'digestLen' must not be null");
+    public void getDigest(byte[] buffer, Out<Long> digestLen) {
         MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.g_checksum_get_digest.invokeExact(
@@ -150,7 +149,7 @@ public class Checksum extends Struct {
      *   returned string is owned by the checksum and should not be modified
      *   or freed.
      */
-    public @NotNull java.lang.String getString() {
+    public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_checksum_get_string.invokeExact(
@@ -158,7 +157,7 @@ public class Checksum extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -180,8 +179,7 @@ public class Checksum extends Struct {
      * @param data buffer used to compute the checksum
      * @param length size of the buffer, or -1 if it is a null-terminated string.
      */
-    public void update(@NotNull byte[] data, long length) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void update(byte[] data, long length) {
         try {
             DowncallHandles.g_checksum_update.invokeExact(
                     handle(),
@@ -198,8 +196,7 @@ public class Checksum extends Struct {
      * @return the checksum length, or -1 if {@code checksum_type} is
      * not supported.
      */
-    public static long typeGetLength(@NotNull org.gtk.glib.ChecksumType checksumType) {
-        java.util.Objects.requireNonNull(checksumType, "Parameter 'checksumType' must not be null");
+    public static long typeGetLength(org.gtk.glib.ChecksumType checksumType) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_checksum_type_get_length.invokeExact(

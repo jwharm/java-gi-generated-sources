@@ -19,19 +19,17 @@ public class ConverterIface extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GConverterIface";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
-        Interop.valueLayout.ADDRESS.withName("convert"),
-        Interop.valueLayout.ADDRESS.withName("reset")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
+            Interop.valueLayout.ADDRESS.withName("convert"),
+            Interop.valueLayout.ADDRESS.withName("reset")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,9 +49,76 @@ public class ConverterIface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface gIface$get() {
+    public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code g_iface}
+     * @param gIface The new value of the field {@code g_iface}
+     */
+    public void setGIface(org.gtk.gobject.TypeInterface gIface) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface ConvertCallback {
+        org.gtk.gio.ConverterResult run(org.gtk.gio.Converter converter, byte[] inbuf, long inbufSize, byte[] outbuf, long outbufSize, org.gtk.gio.ConverterFlags flags, Out<Long> bytesRead, Out<Long> bytesWritten);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress converter, MemoryAddress inbuf, long inbufSize, MemoryAddress outbuf, long outbufSize, int flags, MemoryAddress bytesRead, MemoryAddress bytesWritten) {
+            Out<Long> bytesReadOUT = new Out<>(bytesRead.get(Interop.valueLayout.C_LONG, 0));
+            Out<Long> bytesWrittenOUT = new Out<>(bytesWritten.get(Interop.valueLayout.C_LONG, 0));
+            var RESULT = run((org.gtk.gio.Converter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(converter)), org.gtk.gio.Converter.fromAddress).marshal(converter, Ownership.NONE), MemorySegment.ofAddress(inbuf, inbufSize, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE), inbufSize, MemorySegment.ofAddress(outbuf, outbufSize, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE), outbufSize, new org.gtk.gio.ConverterFlags(flags), bytesReadOUT, bytesWrittenOUT);
+            bytesRead.set(Interop.valueLayout.C_LONG, 0, bytesReadOUT.get());
+            bytesWritten.set(Interop.valueLayout.C_LONG, 0, bytesWrittenOUT.get());
+            return RESULT.getValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ConvertCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code convert}
+     * @param convert The new value of the field {@code convert}
+     */
+    public void setConvert(ConvertCallback convert) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("convert"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (convert == null ? MemoryAddress.NULL : convert.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface ResetCallback {
+        void run(org.gtk.gio.Converter converter);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress converter) {
+            run((org.gtk.gio.Converter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(converter)), org.gtk.gio.Converter.fromAddress).marshal(converter, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ResetCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code reset}
+     * @param reset The new value of the field {@code reset}
+     */
+    public void setReset(ResetCallback reset) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("reset"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reset == null ? MemoryAddress.NULL : reset.toCallback()));
     }
     
     /**
@@ -61,35 +126,41 @@ public class ConverterIface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ConverterIface(Addressable address, Ownership ownership) {
+    protected ConverterIface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ConverterIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConverterIface(input, ownership);
+    
+    /**
+     * A {@link ConverterIface.Builder} object constructs a {@link ConverterIface} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ConverterIface.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ConverterIface struct;
+        private final ConverterIface struct;
         
-         /**
-         * A {@link ConverterIface.Build} object constructs a {@link ConverterIface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ConverterIface.allocate();
         }
         
          /**
          * Finish building the {@link ConverterIface} struct.
          * @return A new instance of {@code ConverterIface} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ConverterIface construct() {
+        public ConverterIface build() {
             return struct;
         }
         
@@ -98,24 +169,24 @@ public class ConverterIface extends Struct {
          * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
+        public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setConvert(java.lang.foreign.MemoryAddress convert) {
+        public Builder setConvert(ConvertCallback convert) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("convert"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (convert == null ? MemoryAddress.NULL : convert));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (convert == null ? MemoryAddress.NULL : convert.toCallback()));
             return this;
         }
         
-        public Build setReset(java.lang.foreign.MemoryAddress reset) {
+        public Builder setReset(ResetCallback reset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("reset"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reset == null ? MemoryAddress.NULL : reset));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reset == null ? MemoryAddress.NULL : reset.toCallback()));
             return this;
         }
     }

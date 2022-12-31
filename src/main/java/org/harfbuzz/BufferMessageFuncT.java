@@ -15,5 +15,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface BufferMessageFuncT {
-        org.harfbuzz.BoolT onBufferMessageFuncT(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.FontT font, @NotNull java.lang.String message, @Nullable java.lang.foreign.MemoryAddress userData);
+    org.harfbuzz.BoolT run(org.harfbuzz.BufferT buffer, org.harfbuzz.FontT font, java.lang.String message, @Nullable java.lang.foreign.MemoryAddress userData);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress buffer, MemoryAddress font, MemoryAddress message, MemoryAddress userData) {
+        var RESULT = run(org.harfbuzz.BufferT.fromAddress.marshal(buffer, Ownership.NONE), org.harfbuzz.FontT.fromAddress.marshal(font, Ownership.NONE), Marshal.addressToString.marshal(message, null), userData);
+        return RESULT.getValue().intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BufferMessageFuncT.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

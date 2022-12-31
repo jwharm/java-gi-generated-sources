@@ -10,5 +10,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ScannerMsgFunc {
-        void onScannerMsgFunc(@NotNull org.gtk.glib.Scanner scanner, @NotNull java.lang.String message, boolean error);
+    void run(org.gtk.glib.Scanner scanner, java.lang.String message, boolean error);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress scanner, MemoryAddress message, int error) {
+        run(org.gtk.glib.Scanner.fromAddress.marshal(scanner, Ownership.NONE), Marshal.addressToString.marshal(message, null), Marshal.integerToBoolean.marshal(error, null).booleanValue());
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ScannerMsgFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

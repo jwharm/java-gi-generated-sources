@@ -17,19 +17,17 @@ public class SDPTime extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstSDPTime";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("start"),
-        Interop.valueLayout.ADDRESS.withName("stop"),
-        Interop.valueLayout.ADDRESS.withName("repeat")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("start"),
+            Interop.valueLayout.ADDRESS.withName("stop"),
+            Interop.valueLayout.ADDRESS.withName("repeat")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,42 +47,63 @@ public class SDPTime extends Struct {
      * Get the value of the field {@code start}
      * @return The value of the field {@code start}
      */
-    public java.lang.String start$get() {
+    public java.lang.String getStart() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code start}
      * @param start The new value of the field {@code start}
      */
-    public void start$set(java.lang.String start) {
+    public void setStart(java.lang.String start) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(start));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(start, null)));
     }
     
     /**
      * Get the value of the field {@code stop}
      * @return The value of the field {@code stop}
      */
-    public java.lang.String stop$get() {
+    public java.lang.String getStop() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stop"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code stop}
      * @param stop The new value of the field {@code stop}
      */
-    public void stop$set(java.lang.String stop) {
+    public void setStop(java.lang.String stop) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(stop));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stop, null)));
+    }
+    
+    /**
+     * Get the value of the field {@code repeat}
+     * @return The value of the field {@code repeat}
+     */
+    public PointerAddress getRepeat() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("repeat"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code repeat}
+     * @param repeat The new value of the field {@code repeat}
+     */
+    public void setRepeat(java.lang.foreign.MemoryAddress[] repeat) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("repeat"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (repeat == null ? MemoryAddress.NULL : Interop.allocateNativeArray(repeat, false)));
     }
     
     /**
@@ -92,16 +111,18 @@ public class SDPTime extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SDPTime(Addressable address, Ownership ownership) {
+    protected SDPTime(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SDPTime> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPTime(input, ownership);
     
     /**
      * Reset the time information in {@code t}.
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult clear() {
+    public org.gstreamer.sdp.SDPResult clear() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_time_clear.invokeExact(
@@ -119,16 +140,13 @@ public class SDPTime extends Struct {
      * @param repeat the repeat times
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult set(@NotNull java.lang.String start, @NotNull java.lang.String stop, @NotNull java.lang.String[] repeat) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(stop, "Parameter 'stop' must not be null");
-        java.util.Objects.requireNonNull(repeat, "Parameter 'repeat' must not be null");
+    public org.gstreamer.sdp.SDPResult set(java.lang.String start, java.lang.String stop, java.lang.String[] repeat) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_time_set.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(start),
-                    Interop.allocateNativeString(stop),
+                    Marshal.stringToAddress.marshal(start, null),
+                    Marshal.stringToAddress.marshal(stop, null),
                     Interop.allocateNativeArray(repeat, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -150,31 +168,35 @@ public class SDPTime extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link SDPTime.Builder} object constructs a {@link SDPTime} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SDPTime.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SDPTime struct;
+        private final SDPTime struct;
         
-         /**
-         * A {@link SDPTime.Build} object constructs a {@link SDPTime} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SDPTime.allocate();
         }
         
          /**
          * Finish building the {@link SDPTime} struct.
          * @return A new instance of {@code SDPTime} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SDPTime construct() {
+        public SDPTime build() {
             return struct;
         }
         
@@ -184,10 +206,10 @@ public class SDPTime extends Struct {
          * @param start The value for the {@code start} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStart(java.lang.String start) {
+        public Builder setStart(java.lang.String start) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : Interop.allocateNativeString(start)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(start, null)));
             return this;
         }
         
@@ -197,10 +219,10 @@ public class SDPTime extends Struct {
          * @param stop The value for the {@code stop} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStop(java.lang.String stop) {
+        public Builder setStop(java.lang.String stop) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : Interop.allocateNativeString(stop)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stop, null)));
             return this;
         }
         
@@ -209,7 +231,7 @@ public class SDPTime extends Struct {
          * @param repeat The value for the {@code repeat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRepeat(java.lang.foreign.MemoryAddress[] repeat) {
+        public Builder setRepeat(java.lang.foreign.MemoryAddress[] repeat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("repeat"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (repeat == null ? MemoryAddress.NULL : Interop.allocateNativeArray(repeat, false)));

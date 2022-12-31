@@ -53,7 +53,7 @@ import org.jetbrains.annotations.*;
  * {@link LayoutManager#layoutChanged} every time a property is
  * updated, in order to queue a new size measuring and allocation.
  */
-public class LayoutManager extends org.gtk.gobject.Object {
+public class LayoutManager extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -61,17 +61,15 @@ public class LayoutManager extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkLayoutManager";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -79,30 +77,12 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LayoutManager(Addressable address, Ownership ownership) {
+    protected LayoutManager(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to LayoutManager if its GType is a (or inherits from) "GtkLayoutManager".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code LayoutManager} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkLayoutManager", a ClassCastException will be thrown.
-     */
-    public static LayoutManager castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), LayoutManager.getType())) {
-            return new LayoutManager(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkLayoutManager");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LayoutManager> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutManager(input, ownership);
     
     /**
      * Assigns the given {@code width}, {@code height}, and {@code baseline} to
@@ -113,8 +93,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * @param height the new height of the {@code widget}
      * @param baseline the baseline position of the {@code widget}, or -1
      */
-    public void allocate(@NotNull org.gtk.gtk.Widget widget, int width, int height, int baseline) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void allocate(org.gtk.gtk.Widget widget, int width, int height, int baseline) {
         try {
             DowncallHandles.gtk_layout_manager_allocate.invokeExact(
                     handle(),
@@ -139,8 +118,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * @param child a {@code GtkWidget}
      * @return a {@code GtkLayoutChild}
      */
-    public @NotNull org.gtk.gtk.LayoutChild getLayoutChild(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gtk.gtk.LayoutChild getLayoutChild(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_layout_manager_get_layout_child.invokeExact(
@@ -149,14 +127,14 @@ public class LayoutManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.LayoutChild(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.LayoutChild) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.LayoutChild.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves the request mode of {@code manager}.
      * @return a {@code GtkSizeRequestMode}
      */
-    public @NotNull org.gtk.gtk.SizeRequestMode getRequestMode() {
+    public org.gtk.gtk.SizeRequestMode getRequestMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_layout_manager_get_request_mode.invokeExact(
@@ -179,7 +157,7 @@ public class LayoutManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -220,16 +198,10 @@ public class LayoutManager extends org.gtk.gobject.Object {
      * @param naturalBaseline the baseline position for the
      *   natural size
      */
-    public void measure(@NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.Orientation orientation, int forSize, Out<Integer> minimum, Out<Integer> natural, Out<Integer> minimumBaseline, Out<Integer> naturalBaseline) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        java.util.Objects.requireNonNull(minimum, "Parameter 'minimum' must not be null");
+    public void measure(org.gtk.gtk.Widget widget, org.gtk.gtk.Orientation orientation, int forSize, Out<Integer> minimum, Out<Integer> natural, Out<Integer> minimumBaseline, Out<Integer> naturalBaseline) {
         MemorySegment minimumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(natural, "Parameter 'natural' must not be null");
         MemorySegment naturalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minimumBaseline, "Parameter 'minimumBaseline' must not be null");
         MemorySegment minimumBaselinePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(naturalBaseline, "Parameter 'naturalBaseline' must not be null");
         MemorySegment naturalBaselinePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_layout_manager_measure.invokeExact(
@@ -237,24 +209,24 @@ public class LayoutManager extends org.gtk.gobject.Object {
                     widget.handle(),
                     orientation.getValue(),
                     forSize,
-                    (Addressable) minimumPOINTER.address(),
-                    (Addressable) naturalPOINTER.address(),
-                    (Addressable) minimumBaselinePOINTER.address(),
-                    (Addressable) naturalBaselinePOINTER.address());
+                    (Addressable) (minimum == null ? MemoryAddress.NULL : (Addressable) minimumPOINTER.address()),
+                    (Addressable) (natural == null ? MemoryAddress.NULL : (Addressable) naturalPOINTER.address()),
+                    (Addressable) (minimumBaseline == null ? MemoryAddress.NULL : (Addressable) minimumBaselinePOINTER.address()),
+                    (Addressable) (naturalBaseline == null ? MemoryAddress.NULL : (Addressable) naturalBaselinePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimum.set(minimumPOINTER.get(Interop.valueLayout.C_INT, 0));
-        natural.set(naturalPOINTER.get(Interop.valueLayout.C_INT, 0));
-        minimumBaseline.set(minimumBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
-        naturalBaseline.set(naturalBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minimum != null) minimum.set(minimumPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (natural != null) natural.set(naturalPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minimumBaseline != null) minimumBaseline.set(minimumBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (naturalBaseline != null) naturalBaseline.set(naturalBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_layout_manager_get_type.invokeExact();
@@ -263,38 +235,40 @@ public class LayoutManager extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link LayoutManager.Builder} object constructs a {@link LayoutManager} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link LayoutManager.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link LayoutManager.Build} object constructs a {@link LayoutManager} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link LayoutManager} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link LayoutManager} using {@link LayoutManager#castFrom}.
+         * {@link LayoutManager}.
          * @return A new instance of {@code LayoutManager} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public LayoutManager construct() {
-            return LayoutManager.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    LayoutManager.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public LayoutManager build() {
+            return (LayoutManager) org.gtk.gobject.GObject.newWithProperties(
+                LayoutManager.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

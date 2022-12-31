@@ -60,40 +60,26 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * <p>
      * Because Leaflet is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Leaflet(Addressable address, Ownership ownership) {
+    protected Leaflet(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Leaflet if its GType is a (or inherits from) "AdwLeaflet".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Leaflet} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwLeaflet", a ClassCastException will be thrown.
-     */
-    public static Leaflet castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Leaflet.getType())) {
-            return new Leaflet(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwLeaflet");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Leaflet> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Leaflet(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_new.invokeExact();
         } catch (Throwable ERR) {
@@ -114,8 +100,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * @param child the widget to add
      * @return the {@link LeafletPage} for {@code child}
      */
-    public @NotNull org.gnome.adw.LeafletPage append(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.LeafletPage append(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_append.invokeExact(
@@ -124,7 +109,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.LeafletPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.LeafletPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.LeafletPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -139,8 +124,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * @param direction the direction
      * @return the previous or next child
      */
-    public @Nullable org.gtk.gtk.Widget getAdjacentChild(@NotNull org.gnome.adw.NavigationDirection direction) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public @Nullable org.gtk.gtk.Widget getAdjacentChild(org.gnome.adw.NavigationDirection direction) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_get_adjacent_child.invokeExact(
@@ -149,7 +133,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -164,7 +148,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -179,7 +163,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -194,7 +178,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -206,24 +190,23 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * @param name the name of the child to find
      * @return the requested child of {@code self}
      */
-    public @Nullable org.gtk.gtk.Widget getChildByName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gtk.gtk.Widget getChildByName(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_get_child_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the child transition spring parameters for {@code self}.
      * @return the child transition parameters
      */
-    public @NotNull org.gnome.adw.SpringParams getChildTransitionParams() {
+    public org.gnome.adw.SpringParams getChildTransitionParams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_get_child_transition_params.invokeExact(
@@ -231,7 +214,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SpringParams(RESULT, Ownership.FULL);
+        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -246,13 +229,13 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the fold threshold policy for {@code self}.
      */
-    public @NotNull org.gnome.adw.FoldThresholdPolicy getFoldThresholdPolicy() {
+    public org.gnome.adw.FoldThresholdPolicy getFoldThresholdPolicy() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_leaflet_get_fold_threshold_policy.invokeExact(
@@ -279,7 +262,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -294,7 +277,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -317,8 +300,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * @param child a child of {@code self}
      * @return the page object for {@code child}
      */
-    public @NotNull org.gnome.adw.LeafletPage getPage(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.LeafletPage getPage(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_get_page.invokeExact(
@@ -327,7 +309,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.LeafletPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.LeafletPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.LeafletPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -338,7 +320,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * page.
      * @return a {@code GtkSelectionModel} for the leaflet's children
      */
-    public @NotNull org.gtk.gtk.SelectionModel getPages() {
+    public org.gtk.gtk.SelectionModel getPages() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_get_pages.invokeExact(
@@ -346,14 +328,14 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Gets the type of animation used for transitions between modes and children.
      * @return the current transition type of {@code self}
      */
-    public @NotNull org.gnome.adw.LeafletTransitionType getTransitionType() {
+    public org.gnome.adw.LeafletTransitionType getTransitionType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_leaflet_get_transition_type.invokeExact(
@@ -376,7 +358,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -391,7 +373,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -402,8 +384,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * @param sibling the sibling after which to insert {@code child}
      * @return the {@link LeafletPage} for {@code child}
      */
-    public @NotNull org.gnome.adw.LeafletPage insertChildAfter(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.LeafletPage insertChildAfter(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_insert_child_after.invokeExact(
@@ -413,7 +394,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.LeafletPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.LeafletPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.LeafletPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -427,8 +408,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * @param direction the direction
      * @return whether the visible child was changed
      */
-    public boolean navigate(@NotNull org.gnome.adw.NavigationDirection direction) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public boolean navigate(org.gnome.adw.NavigationDirection direction) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_leaflet_navigate.invokeExact(
@@ -437,7 +417,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -445,8 +425,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * @param child the widget to prepend
      * @return the {@link LeafletPage} for {@code child}
      */
-    public @NotNull org.gnome.adw.LeafletPage prepend(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gnome.adw.LeafletPage prepend(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_leaflet_prepend.invokeExact(
@@ -455,15 +434,14 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.LeafletPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.LeafletPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.LeafletPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Removes a child widget from {@code self}.
      * @param child the child to remove
      */
-    public void remove(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void remove(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.adw_leaflet_remove.invokeExact(
                     handle(),
@@ -480,8 +458,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * @param child the widget to move, must be a child of {@code self}
      * @param sibling the sibling to move {@code child} after
      */
-    public void reorderChildAfter(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void reorderChildAfter(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling) {
         try {
             DowncallHandles.adw_leaflet_reorder_child_after.invokeExact(
                     handle(),
@@ -517,7 +494,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         try {
             DowncallHandles.adw_leaflet_set_can_navigate_back.invokeExact(
                     handle(),
-                    canNavigateBack ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(canNavigateBack, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -548,7 +525,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         try {
             DowncallHandles.adw_leaflet_set_can_navigate_forward.invokeExact(
                     handle(),
-                    canNavigateForward ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(canNavigateForward, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -562,7 +539,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         try {
             DowncallHandles.adw_leaflet_set_can_unfold.invokeExact(
                     handle(),
-                    canUnfold ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(canUnfold, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -577,8 +554,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * }</pre>
      * @param params the new parameters
      */
-    public void setChildTransitionParams(@NotNull org.gnome.adw.SpringParams params) {
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
+    public void setChildTransitionParams(org.gnome.adw.SpringParams params) {
         try {
             DowncallHandles.adw_leaflet_set_child_transition_params.invokeExact(
                     handle(),
@@ -599,8 +575,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * ellipsize instead of immediately folding.
      * @param policy the policy to use
      */
-    public void setFoldThresholdPolicy(@NotNull org.gnome.adw.FoldThresholdPolicy policy) {
-        java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
+    public void setFoldThresholdPolicy(org.gnome.adw.FoldThresholdPolicy policy) {
         try {
             DowncallHandles.adw_leaflet_set_fold_threshold_policy.invokeExact(
                     handle(),
@@ -621,7 +596,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         try {
             DowncallHandles.adw_leaflet_set_homogeneous.invokeExact(
                     handle(),
-                    homogeneous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(homogeneous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -649,8 +624,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * become current.
      * @param transition the new transition type
      */
-    public void setTransitionType(@NotNull org.gnome.adw.LeafletTransitionType transition) {
-        java.util.Objects.requireNonNull(transition, "Parameter 'transition' must not be null");
+    public void setTransitionType(org.gnome.adw.LeafletTransitionType transition) {
         try {
             DowncallHandles.adw_leaflet_set_transition_type.invokeExact(
                     handle(),
@@ -669,8 +643,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * visible child.
      * @param visibleChild the new child
      */
-    public void setVisibleChild(@NotNull org.gtk.gtk.Widget visibleChild) {
-        java.util.Objects.requireNonNull(visibleChild, "Parameter 'visibleChild' must not be null");
+    public void setVisibleChild(org.gtk.gtk.Widget visibleChild) {
         try {
             DowncallHandles.adw_leaflet_set_visible_child.invokeExact(
                     handle(),
@@ -686,12 +659,11 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * See {@code Leaflet:visible-child}.
      * @param name the name of a child
      */
-    public void setVisibleChildName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setVisibleChildName(java.lang.String name) {
         try {
             DowncallHandles.adw_leaflet_set_visible_child_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -701,7 +673,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_leaflet_get_type.invokeExact();
@@ -710,38 +682,40 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Leaflet.Builder} object constructs a {@link Leaflet} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Leaflet.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Leaflet.Build} object constructs a {@link Leaflet} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Leaflet} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Leaflet} using {@link Leaflet#castFrom}.
+         * {@link Leaflet}.
          * @return A new instance of {@code Leaflet} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Leaflet construct() {
-            return Leaflet.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Leaflet.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Leaflet build() {
+            return (Leaflet) org.gtk.gobject.GObject.newWithProperties(
+                Leaflet.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -767,7 +741,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param canNavigateBack The value for the {@code can-navigate-back} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanNavigateBack(boolean canNavigateBack) {
+        public Builder setCanNavigateBack(boolean canNavigateBack) {
             names.add("can-navigate-back");
             values.add(org.gtk.gobject.Value.create(canNavigateBack));
             return this;
@@ -795,7 +769,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param canNavigateForward The value for the {@code can-navigate-forward} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanNavigateForward(boolean canNavigateForward) {
+        public Builder setCanNavigateForward(boolean canNavigateForward) {
             names.add("can-navigate-forward");
             values.add(org.gtk.gobject.Value.create(canNavigateForward));
             return this;
@@ -806,7 +780,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param canUnfold The value for the {@code can-unfold} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanUnfold(boolean canUnfold) {
+        public Builder setCanUnfold(boolean canUnfold) {
             names.add("can-unfold");
             values.add(org.gtk.gobject.Value.create(canUnfold));
             return this;
@@ -822,7 +796,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param childTransitionParams The value for the {@code child-transition-params} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChildTransitionParams(org.gnome.adw.SpringParams childTransitionParams) {
+        public Builder setChildTransitionParams(org.gnome.adw.SpringParams childTransitionParams) {
             names.add("child-transition-params");
             values.add(org.gtk.gobject.Value.create(childTransitionParams));
             return this;
@@ -833,7 +807,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param childTransitionRunning The value for the {@code child-transition-running} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChildTransitionRunning(boolean childTransitionRunning) {
+        public Builder setChildTransitionRunning(boolean childTransitionRunning) {
             names.add("child-transition-running");
             values.add(org.gtk.gobject.Value.create(childTransitionRunning));
             return this;
@@ -851,7 +825,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param foldThresholdPolicy The value for the {@code fold-threshold-policy} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFoldThresholdPolicy(org.gnome.adw.FoldThresholdPolicy foldThresholdPolicy) {
+        public Builder setFoldThresholdPolicy(org.gnome.adw.FoldThresholdPolicy foldThresholdPolicy) {
             names.add("fold-threshold-policy");
             values.add(org.gtk.gobject.Value.create(foldThresholdPolicy));
             return this;
@@ -866,7 +840,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param folded The value for the {@code folded} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFolded(boolean folded) {
+        public Builder setFolded(boolean folded) {
             names.add("folded");
             values.add(org.gtk.gobject.Value.create(folded));
             return this;
@@ -880,7 +854,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param homogeneous The value for the {@code homogeneous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHomogeneous(boolean homogeneous) {
+        public Builder setHomogeneous(boolean homogeneous) {
             names.add("homogeneous");
             values.add(org.gtk.gobject.Value.create(homogeneous));
             return this;
@@ -891,7 +865,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param modeTransitionDuration The value for the {@code mode-transition-duration} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModeTransitionDuration(int modeTransitionDuration) {
+        public Builder setModeTransitionDuration(int modeTransitionDuration) {
             names.add("mode-transition-duration");
             values.add(org.gtk.gobject.Value.create(modeTransitionDuration));
             return this;
@@ -906,7 +880,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param pages The value for the {@code pages} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPages(org.gtk.gtk.SelectionModel pages) {
+        public Builder setPages(org.gtk.gtk.SelectionModel pages) {
             names.add("pages");
             values.add(org.gtk.gobject.Value.create(pages));
             return this;
@@ -921,7 +895,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param transitionType The value for the {@code transition-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTransitionType(org.gnome.adw.LeafletTransitionType transitionType) {
+        public Builder setTransitionType(org.gnome.adw.LeafletTransitionType transitionType) {
             names.add("transition-type");
             values.add(org.gtk.gobject.Value.create(transitionType));
             return this;
@@ -937,7 +911,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param visibleChild The value for the {@code visible-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisibleChild(org.gtk.gtk.Widget visibleChild) {
+        public Builder setVisibleChild(org.gtk.gtk.Widget visibleChild) {
             names.add("visible-child");
             values.add(org.gtk.gobject.Value.create(visibleChild));
             return this;
@@ -950,7 +924,7 @@ public class Leaflet extends org.gtk.gtk.Widget implements org.gnome.adw.Swipeab
          * @param visibleChildName The value for the {@code visible-child-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisibleChildName(java.lang.String visibleChildName) {
+        public Builder setVisibleChildName(java.lang.String visibleChildName) {
             names.add("visible-child-name");
             values.add(org.gtk.gobject.Value.create(visibleChildName));
             return this;

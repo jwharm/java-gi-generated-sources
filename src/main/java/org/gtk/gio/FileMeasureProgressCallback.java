@@ -37,5 +37,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface FileMeasureProgressCallback {
-        void onFileMeasureProgressCallback(boolean reporting, long currentSize, long numDirs, long numFiles);
+    void run(boolean reporting, long currentSize, long numDirs, long numFiles);
+
+    @ApiStatus.Internal default void upcall(int reporting, long currentSize, long numDirs, long numFiles, MemoryAddress userData) {
+        run(Marshal.integerToBoolean.marshal(reporting, null).booleanValue(), currentSize, numDirs, numFiles);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FileMeasureProgressCallback.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

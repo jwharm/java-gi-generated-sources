@@ -41,27 +41,25 @@ public class MiniObject extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMiniObject";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("type"),
-        Interop.valueLayout.C_INT.withName("refcount"),
-        Interop.valueLayout.C_INT.withName("lockstate"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("copy"),
-        Interop.valueLayout.ADDRESS.withName("dispose"),
-        Interop.valueLayout.ADDRESS.withName("free"),
-        Interop.valueLayout.C_INT.withName("priv_uint"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("priv_pointer")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("type"),
+            Interop.valueLayout.C_INT.withName("refcount"),
+            Interop.valueLayout.C_INT.withName("lockstate"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("copy"),
+            Interop.valueLayout.ADDRESS.withName("dispose"),
+            Interop.valueLayout.ADDRESS.withName("free"),
+            Interop.valueLayout.C_INT.withName("priv_uint"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("priv_pointer")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -81,7 +79,7 @@ public class MiniObject extends Struct {
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gtk.glib.Type type$get() {
+    public org.gtk.glib.Type getType() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -92,17 +90,17 @@ public class MiniObject extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gtk.glib.Type type) {
+    public void setType(org.gtk.glib.Type type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code refcount}
      * @return The value of the field {@code refcount}
      */
-    public int refcount$get() {
+    public int getRefcount() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -113,7 +111,7 @@ public class MiniObject extends Struct {
      * Change the value of the field {@code refcount}
      * @param refcount The new value of the field {@code refcount}
      */
-    public void refcount$set(int refcount) {
+    public void setRefcount(int refcount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refcount);
@@ -123,7 +121,7 @@ public class MiniObject extends Struct {
      * Get the value of the field {@code lockstate}
      * @return The value of the field {@code lockstate}
      */
-    public int lockstate$get() {
+    public int getLockstate() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lockstate"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -134,7 +132,7 @@ public class MiniObject extends Struct {
      * Change the value of the field {@code lockstate}
      * @param lockstate The new value of the field {@code lockstate}
      */
-    public void lockstate$set(int lockstate) {
+    public void setLockstate(int lockstate) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lockstate"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lockstate);
@@ -144,7 +142,7 @@ public class MiniObject extends Struct {
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public int flags$get() {
+    public int getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -155,7 +153,7 @@ public class MiniObject extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(int flags) {
+    public void setFlags(int flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -165,7 +163,7 @@ public class MiniObject extends Struct {
      * Get the value of the field {@code copy}
      * @return The value of the field {@code copy}
      */
-    public org.gstreamer.gst.MiniObjectCopyFunction copy$get() {
+    public org.gstreamer.gst.MiniObjectCopyFunction getCopy() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("copy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -173,10 +171,20 @@ public class MiniObject extends Struct {
     }
     
     /**
+     * Change the value of the field {@code copy}
+     * @param copy The new value of the field {@code copy}
+     */
+    public void setCopy(org.gstreamer.gst.MiniObjectCopyFunction copy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code dispose}
      * @return The value of the field {@code dispose}
      */
-    public org.gstreamer.gst.MiniObjectDisposeFunction dispose$get() {
+    public org.gstreamer.gst.MiniObjectDisposeFunction getDispose() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -184,10 +192,20 @@ public class MiniObject extends Struct {
     }
     
     /**
+     * Change the value of the field {@code dispose}
+     * @param dispose The new value of the field {@code dispose}
+     */
+    public void setDispose(org.gstreamer.gst.MiniObjectDisposeFunction dispose) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispose == null ? MemoryAddress.NULL : (Addressable) dispose.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code free}
      * @return The value of the field {@code free}
      */
-    public org.gstreamer.gst.MiniObjectFreeFunction free$get() {
+    public org.gstreamer.gst.MiniObjectFreeFunction getFree() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("free"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -195,14 +213,26 @@ public class MiniObject extends Struct {
     }
     
     /**
+     * Change the value of the field {@code free}
+     * @param free The new value of the field {@code free}
+     */
+    public void setFree(org.gstreamer.gst.MiniObjectFreeFunction free) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("free"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
+    }
+    
+    /**
      * Create a MiniObject proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MiniObject(Addressable address, Ownership ownership) {
+    protected MiniObject(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MiniObject> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MiniObject(input, ownership);
     
     /**
      * This adds {@code parent} as a parent for {@code object}. Having one ore more parents affects the
@@ -215,8 +245,7 @@ public class MiniObject extends Struct {
      * remove the parent again at a later time.
      * @param parent a parent {@link MiniObject}
      */
-    public void addParent(@NotNull org.gstreamer.gst.MiniObject parent) {
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    public void addParent(org.gstreamer.gst.MiniObject parent) {
         try {
             DowncallHandles.gst_mini_object_add_parent.invokeExact(
                     handle(),
@@ -241,7 +270,7 @@ public class MiniObject extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MiniObject(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -251,8 +280,7 @@ public class MiniObject extends Struct {
      * @return The user data pointer set, or
      * {@code null}
      */
-    public @Nullable java.lang.foreign.MemoryAddress getQdata(@NotNull org.gtk.glib.Quark quark) {
-        java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress getQdata(org.gtk.glib.Quark quark) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_get_qdata.invokeExact(
@@ -268,13 +296,23 @@ public class MiniObject extends Struct {
      * Initializes a mini-object with the desired type and copy/dispose/free
      * functions.
      * @param flags initial {@link MiniObjectFlags}
-     * @param type the {@link org.gtk.gobject.Type} of the mini-object to create
+     * @param type the {@link org.gtk.glib.Type} of the mini-object to create
      * @param copyFunc the copy function, or {@code null}
      * @param disposeFunc the dispose function, or {@code null}
      * @param freeFunc the free function or {@code null}
      */
-    public void init(int flags, @NotNull org.gtk.glib.Type type, @Nullable org.gstreamer.gst.MiniObjectCopyFunction copyFunc, @Nullable org.gstreamer.gst.MiniObjectDisposeFunction disposeFunc, @Nullable org.gstreamer.gst.MiniObjectFreeFunction freeFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void init(int flags, org.gtk.glib.Type type, @Nullable org.gstreamer.gst.MiniObjectCopyFunction copyFunc, @Nullable org.gstreamer.gst.MiniObjectDisposeFunction disposeFunc, @Nullable org.gstreamer.gst.MiniObjectFreeFunction freeFunc) {
+        try {
+            DowncallHandles.gst_mini_object_init.invokeExact(
+                    handle(),
+                    flags,
+                    type.getValue().longValue(),
+                    (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) copyFunc.toCallback()),
+                    (Addressable) (disposeFunc == null ? MemoryAddress.NULL : (Addressable) disposeFunc.toCallback()),
+                    (Addressable) (freeFunc == null ? MemoryAddress.NULL : (Addressable) freeFunc.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -298,7 +336,7 @@ public class MiniObject extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -306,8 +344,7 @@ public class MiniObject extends Struct {
      * @param flags {@link LockFlags}
      * @return {@code true} if {@code object} could be locked.
      */
-    public boolean lock(@NotNull org.gstreamer.gst.LockFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean lock(org.gstreamer.gst.LockFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mini_object_lock.invokeExact(
@@ -316,7 +353,7 @@ public class MiniObject extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -328,7 +365,7 @@ public class MiniObject extends Struct {
      * @return a mini-object (possibly the same pointer) that
      *     is writable.
      */
-    public @NotNull org.gstreamer.gst.MiniObject makeWritable() {
+    public org.gstreamer.gst.MiniObject makeWritable() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_make_writable.invokeExact(
@@ -337,7 +374,7 @@ public class MiniObject extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.gst.MiniObject(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -351,7 +388,7 @@ public class MiniObject extends Struct {
      * is a {@link Buffer}.
      * @return the mini-object.
      */
-    public @NotNull org.gstreamer.gst.MiniObject ref() {
+    public org.gstreamer.gst.MiniObject ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_ref.invokeExact(
@@ -359,7 +396,7 @@ public class MiniObject extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MiniObject(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -367,8 +404,7 @@ public class MiniObject extends Struct {
      * gst_mini_object_add_parent().
      * @param parent a parent {@link MiniObject}
      */
-    public void removeParent(@NotNull org.gstreamer.gst.MiniObject parent) {
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    public void removeParent(org.gstreamer.gst.MiniObject parent) {
         try {
             DowncallHandles.gst_mini_object_remove_parent.invokeExact(
                     handle(),
@@ -392,18 +428,16 @@ public class MiniObject extends Struct {
      * when the {@code object} is disposed, or the data is being overwritten by
      * a call to gst_mini_object_set_qdata() with the same {@code quark}.
      * @param quark A {@link org.gtk.glib.Quark}, naming the user data pointer
-     * @param data An opaque user data pointer
      * @param destroy Function to invoke with {@code data} as argument, when {@code data}
      *           needs to be freed
      */
-    public void setQdata(@NotNull org.gtk.glib.Quark quark, @Nullable java.lang.foreign.MemoryAddress data, @NotNull org.gtk.glib.DestroyNotify destroy) {
-        java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
+    public void setQdata(org.gtk.glib.Quark quark, org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.gst_mini_object_set_qdata.invokeExact(
                     handle(),
                     quark.getValue().intValue(),
-                    (Addressable) data,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroy.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -417,8 +451,7 @@ public class MiniObject extends Struct {
      * @return The user data pointer set, or
      * {@code null}
      */
-    public @Nullable java.lang.foreign.MemoryAddress stealQdata(@NotNull org.gtk.glib.Quark quark) {
-        java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress stealQdata(org.gtk.glib.Quark quark) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mini_object_steal_qdata.invokeExact(
@@ -434,8 +467,7 @@ public class MiniObject extends Struct {
      * Unlock the mini-object with the specified access mode in {@code flags}.
      * @param flags {@link LockFlags}
      */
-    public void unlock(@NotNull org.gstreamer.gst.LockFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void unlock(org.gstreamer.gst.LockFlags flags) {
         try {
             DowncallHandles.gst_mini_object_unlock.invokeExact(
                     handle(),
@@ -467,17 +499,12 @@ public class MiniObject extends Struct {
      * to stay alive).
      * @param notify callback to invoke before the mini object is freed
      */
-    public void weakRef(@NotNull org.gstreamer.gst.MiniObjectNotify notify) {
-        java.util.Objects.requireNonNull(notify, "Parameter 'notify' must not be null");
+    public void weakRef(org.gstreamer.gst.MiniObjectNotify notify) {
         try {
             DowncallHandles.gst_mini_object_weak_ref.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbMiniObjectNotify",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(notify)));
+                    (Addressable) notify.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -487,17 +514,12 @@ public class MiniObject extends Struct {
      * Removes a weak reference callback from a mini object.
      * @param notify callback to search for
      */
-    public void weakUnref(@NotNull org.gstreamer.gst.MiniObjectNotify notify) {
-        java.util.Objects.requireNonNull(notify, "Parameter 'notify' must not be null");
+    public void weakUnref(org.gstreamer.gst.MiniObjectNotify notify) {
         try {
             DowncallHandles.gst_mini_object_weak_unref.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbMiniObjectNotify",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(notify)));
+                    (Addressable) notify.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -524,8 +546,8 @@ public class MiniObject extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (olddata != null) olddata.set(new org.gstreamer.gst.MiniObject(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (olddata != null) olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -535,8 +557,7 @@ public class MiniObject extends Struct {
      *     be stolen
      * @return the {@link MiniObject} at {@code oldata}
      */
-    public static @Nullable org.gstreamer.gst.MiniObject steal(@NotNull Out<org.gstreamer.gst.MiniObject> olddata) {
-        java.util.Objects.requireNonNull(olddata, "Parameter 'olddata' must not be null");
+    public static @Nullable org.gstreamer.gst.MiniObject steal(Out<org.gstreamer.gst.MiniObject> olddata) {
         MemorySegment olddataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -545,8 +566,8 @@ public class MiniObject extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        olddata.set(new org.gstreamer.gst.MiniObject(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gstreamer.gst.MiniObject(RESULT, Ownership.FULL);
+        olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -561,10 +582,8 @@ public class MiniObject extends Struct {
      * @param newdata pointer to new mini-object
      * @return {@code true} if {@code newdata} was different from {@code olddata}
      */
-    public static boolean take(@NotNull Out<org.gstreamer.gst.MiniObject> olddata, @NotNull org.gstreamer.gst.MiniObject newdata) {
-        java.util.Objects.requireNonNull(olddata, "Parameter 'olddata' must not be null");
+    public static boolean take(Out<org.gstreamer.gst.MiniObject> olddata, org.gstreamer.gst.MiniObject newdata) {
         MemorySegment olddataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(newdata, "Parameter 'newdata' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mini_object_take.invokeExact(
@@ -573,8 +592,8 @@ public class MiniObject extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        olddata.set(new org.gstreamer.gst.MiniObject(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -687,31 +706,35 @@ public class MiniObject extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link MiniObject.Builder} object constructs a {@link MiniObject} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link MiniObject.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private MiniObject struct;
+        private final MiniObject struct;
         
-         /**
-         * A {@link MiniObject.Build} object constructs a {@link MiniObject} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = MiniObject.allocate();
         }
         
          /**
          * Finish building the {@link MiniObject} struct.
          * @return A new instance of {@code MiniObject} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MiniObject construct() {
+        public MiniObject build() {
             return struct;
         }
         
@@ -720,7 +743,7 @@ public class MiniObject extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gtk.glib.Type type) {
+        public Builder setType(org.gtk.glib.Type type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
@@ -732,7 +755,7 @@ public class MiniObject extends Struct {
          * @param refcount The value for the {@code refcount} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRefcount(int refcount) {
+        public Builder setRefcount(int refcount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refcount);
@@ -744,7 +767,7 @@ public class MiniObject extends Struct {
          * @param lockstate The value for the {@code lockstate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLockstate(int lockstate) {
+        public Builder setLockstate(int lockstate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lockstate"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lockstate);
@@ -756,7 +779,7 @@ public class MiniObject extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(int flags) {
+        public Builder setFlags(int flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -768,10 +791,10 @@ public class MiniObject extends Struct {
          * @param copy The value for the {@code copy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCopy(java.lang.foreign.MemoryAddress copy) {
+        public Builder setCopy(org.gstreamer.gst.MiniObjectCopyFunction copy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : copy));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
             return this;
         }
         
@@ -780,10 +803,10 @@ public class MiniObject extends Struct {
          * @param dispose The value for the {@code dispose} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDispose(java.lang.foreign.MemoryAddress dispose) {
+        public Builder setDispose(org.gstreamer.gst.MiniObjectDisposeFunction dispose) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dispose"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispose == null ? MemoryAddress.NULL : dispose));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispose == null ? MemoryAddress.NULL : (Addressable) dispose.toCallback()));
             return this;
         }
         
@@ -792,21 +815,21 @@ public class MiniObject extends Struct {
          * @param free The value for the {@code free} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFree(java.lang.foreign.MemoryAddress free) {
+        public Builder setFree(org.gstreamer.gst.MiniObjectFreeFunction free) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : free));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
             return this;
         }
         
-        public Build setPrivUint(int privUint) {
+        public Builder setPrivUint(int privUint) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priv_uint"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), privUint);
             return this;
         }
         
-        public Build setPrivPointer(java.lang.foreign.MemoryAddress privPointer) {
+        public Builder setPrivPointer(java.lang.foreign.MemoryAddress privPointer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priv_pointer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privPointer == null ? MemoryAddress.NULL : (Addressable) privPointer));

@@ -40,8 +40,10 @@ public class DescriptorUpdateTemplateEntryKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DescriptorUpdateTemplateEntryKHR(Addressable address, Ownership ownership) {
+    protected DescriptorUpdateTemplateEntryKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DescriptorUpdateTemplateEntryKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorUpdateTemplateEntryKHR(input, ownership);
 }

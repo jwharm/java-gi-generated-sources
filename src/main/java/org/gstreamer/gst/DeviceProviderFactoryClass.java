@@ -44,8 +44,10 @@ public class DeviceProviderFactoryClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DeviceProviderFactoryClass(Addressable address, Ownership ownership) {
+    protected DeviceProviderFactoryClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DeviceProviderFactoryClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceProviderFactoryClass(input, ownership);
 }

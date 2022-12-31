@@ -16,20 +16,18 @@ public class AtscEIT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsAtscEIT";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("source_id"),
-        Interop.valueLayout.C_BYTE.withName("protocol_version"),
-        MemoryLayout.paddingLayout(40),
-        Interop.valueLayout.ADDRESS.withName("events")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("source_id"),
+            Interop.valueLayout.C_BYTE.withName("protocol_version"),
+            MemoryLayout.paddingLayout(40),
+            Interop.valueLayout.ADDRESS.withName("events")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class AtscEIT extends Struct {
      * Get the value of the field {@code source_id}
      * @return The value of the field {@code source_id}
      */
-    public short sourceId$get() {
+    public short getSourceId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,7 +58,7 @@ public class AtscEIT extends Struct {
      * Change the value of the field {@code source_id}
      * @param sourceId The new value of the field {@code source_id}
      */
-    public void sourceId$set(short sourceId) {
+    public void setSourceId(short sourceId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
@@ -70,7 +68,7 @@ public class AtscEIT extends Struct {
      * Get the value of the field {@code protocol_version}
      * @return The value of the field {@code protocol_version}
      */
-    public byte protocolVersion$get() {
+    public byte getProtocolVersion() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,10 +79,31 @@ public class AtscEIT extends Struct {
      * Change the value of the field {@code protocol_version}
      * @param protocolVersion The new value of the field {@code protocol_version}
      */
-    public void protocolVersion$set(byte protocolVersion) {
+    public void setProtocolVersion(byte protocolVersion) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
+    }
+    
+    /**
+     * Get the value of the field {@code events}
+     * @return The value of the field {@code events}
+     */
+    public PointerProxy<org.gstreamer.mpegts.AtscEITEvent> getEvents() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("events"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.AtscEITEvent>(RESULT, org.gstreamer.mpegts.AtscEITEvent.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code events}
+     * @param events The new value of the field {@code events}
+     */
+    public void setEvents(org.gstreamer.mpegts.AtscEITEvent[] events) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("events"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.AtscEITEvent.getMemoryLayout(), false)));
     }
     
     /**
@@ -92,35 +111,41 @@ public class AtscEIT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AtscEIT(Addressable address, Ownership ownership) {
+    protected AtscEIT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AtscEIT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscEIT(input, ownership);
+    
+    /**
+     * A {@link AtscEIT.Builder} object constructs a {@link AtscEIT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AtscEIT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AtscEIT struct;
+        private final AtscEIT struct;
         
-         /**
-         * A {@link AtscEIT.Build} object constructs a {@link AtscEIT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AtscEIT.allocate();
         }
         
          /**
          * Finish building the {@link AtscEIT} struct.
          * @return A new instance of {@code AtscEIT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AtscEIT construct() {
+        public AtscEIT build() {
             return struct;
         }
         
@@ -129,7 +154,7 @@ public class AtscEIT extends Struct {
          * @param sourceId The value for the {@code sourceId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSourceId(short sourceId) {
+        public Builder setSourceId(short sourceId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
@@ -141,7 +166,7 @@ public class AtscEIT extends Struct {
          * @param protocolVersion The value for the {@code protocolVersion} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProtocolVersion(byte protocolVersion) {
+        public Builder setProtocolVersion(byte protocolVersion) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
@@ -153,7 +178,7 @@ public class AtscEIT extends Struct {
          * @param events The value for the {@code events} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEvents(org.gstreamer.mpegts.AtscEITEvent[] events) {
+        public Builder setEvents(org.gstreamer.mpegts.AtscEITEvent[] events) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("events"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.AtscEITEvent.getMemoryLayout(), false)));

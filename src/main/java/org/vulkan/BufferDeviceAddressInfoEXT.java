@@ -40,8 +40,10 @@ public class BufferDeviceAddressInfoEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BufferDeviceAddressInfoEXT(Addressable address, Ownership ownership) {
+    protected BufferDeviceAddressInfoEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BufferDeviceAddressInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferDeviceAddressInfoEXT(input, ownership);
 }

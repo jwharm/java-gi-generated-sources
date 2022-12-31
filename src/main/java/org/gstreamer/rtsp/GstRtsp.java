@@ -14,7 +14,15 @@ public final class GstRtsp {
         System.loadLibrary("gstrtsp-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * The default RTSP port to connect to.
@@ -26,8 +34,7 @@ public final class GstRtsp {
      * gst_rtsp_message_parse_auth_credentials().
      * @param credentials a {@code null}-terminated array of {@link RTSPAuthCredential}
      */
-    public static void rtspAuthCredentialsFree(@NotNull PointerProxy<org.gstreamer.rtsp.RTSPAuthCredential> credentials) {
-        java.util.Objects.requireNonNull(credentials, "Parameter 'credentials' must not be null");
+    public static void rtspAuthCredentialsFree(PointerProxy<org.gstreamer.rtsp.RTSPAuthCredential> credentials) {
         try {
             DowncallHandles.gst_rtsp_auth_credentials_free.invokeExact(
                     credentials.handle());
@@ -44,9 +51,7 @@ public final class GstRtsp {
      * @param cancellable a {@link org.gtk.gio.Cancellable} to cancel the operation
      * @return {@code GST_RTSP_OK} when {@code conn} contains a valid connection.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspConnectionAccept(@NotNull org.gtk.gio.Socket socket, @NotNull Out<org.gstreamer.rtsp.RTSPConnection> conn, @Nullable org.gtk.gio.Cancellable cancellable) {
-        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspConnectionAccept(org.gtk.gio.Socket socket, Out<org.gstreamer.rtsp.RTSPConnection> conn, @Nullable org.gtk.gio.Cancellable cancellable) {
         MemorySegment connPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -57,7 +62,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        conn.set(new org.gstreamer.rtsp.RTSPConnection(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -71,9 +76,7 @@ public final class GstRtsp {
      * @param conn storage for a {@link RTSPConnection}
      * @return {@code GST_RTSP_OK} when {@code conn} contains a valid connection.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspConnectionCreate(@NotNull org.gstreamer.rtsp.RTSPUrl url, @NotNull Out<org.gstreamer.rtsp.RTSPConnection> conn) {
-        java.util.Objects.requireNonNull(url, "Parameter 'url' must not be null");
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspConnectionCreate(org.gstreamer.rtsp.RTSPUrl url, Out<org.gstreamer.rtsp.RTSPConnection> conn) {
         MemorySegment connPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -83,7 +86,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        conn.set(new org.gstreamer.rtsp.RTSPConnection(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -98,24 +101,20 @@ public final class GstRtsp {
      * @param conn storage for a {@link RTSPConnection}
      * @return {@code GST_RTSP_OK} when {@code conn} contains a valid connection.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspConnectionCreateFromSocket(@NotNull org.gtk.gio.Socket socket, @NotNull java.lang.String ip, short port, @NotNull java.lang.String initialBuffer, @NotNull Out<org.gstreamer.rtsp.RTSPConnection> conn) {
-        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
-        java.util.Objects.requireNonNull(ip, "Parameter 'ip' must not be null");
-        java.util.Objects.requireNonNull(initialBuffer, "Parameter 'initialBuffer' must not be null");
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspConnectionCreateFromSocket(org.gtk.gio.Socket socket, java.lang.String ip, short port, java.lang.String initialBuffer, Out<org.gstreamer.rtsp.RTSPConnection> conn) {
         MemorySegment connPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_create_from_socket.invokeExact(
                     socket.handle(),
-                    Interop.allocateNativeString(ip),
+                    Marshal.stringToAddress.marshal(ip, null),
                     port,
-                    Interop.allocateNativeString(initialBuffer),
+                    Marshal.stringToAddress.marshal(initialBuffer, null),
                     (Addressable) connPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        conn.set(new org.gstreamer.rtsp.RTSPConnection(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -125,12 +124,11 @@ public final class GstRtsp {
      * @return a {@link RTSPHeaderField} for {@code header} or {@code GST_RTSP_HDR_INVALID} if the
      * header field is unknown.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPHeaderField rtspFindHeaderField(@NotNull java.lang.String header) {
-        java.util.Objects.requireNonNull(header, "Parameter 'header' must not be null");
+    public static org.gstreamer.rtsp.RTSPHeaderField rtspFindHeaderField(java.lang.String header) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_find_header_field.invokeExact(
-                    Interop.allocateNativeString(header));
+                    Marshal.stringToAddress.marshal(header, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,12 +141,11 @@ public final class GstRtsp {
      * @return a {@link RTSPMethod} for {@code method} or {@code GST_RTSP_INVALID} if the
      * method is unknown.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPMethod rtspFindMethod(@NotNull java.lang.String method) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
+    public static org.gstreamer.rtsp.RTSPMethod rtspFindMethod(java.lang.String method) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_find_method.invokeExact(
-                    Interop.allocateNativeString(method));
+                    Marshal.stringToAddress.marshal(method, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,27 +166,21 @@ public final class GstRtsp {
      * @param nonce Nonce
      * @return Authentication response or {@code null} if unsupported
      */
-    public static @NotNull java.lang.String rtspGenerateDigestAuthResponse(@Nullable java.lang.String algorithm, @NotNull java.lang.String method, @NotNull java.lang.String realm, @NotNull java.lang.String username, @NotNull java.lang.String password, @NotNull java.lang.String uri, @NotNull java.lang.String nonce) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(realm, "Parameter 'realm' must not be null");
-        java.util.Objects.requireNonNull(username, "Parameter 'username' must not be null");
-        java.util.Objects.requireNonNull(password, "Parameter 'password' must not be null");
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(nonce, "Parameter 'nonce' must not be null");
+    public static java.lang.String rtspGenerateDigestAuthResponse(@Nullable java.lang.String algorithm, java.lang.String method, java.lang.String realm, java.lang.String username, java.lang.String password, java.lang.String uri, java.lang.String nonce) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_generate_digest_auth_response.invokeExact(
-                    (Addressable) (algorithm == null ? MemoryAddress.NULL : Interop.allocateNativeString(algorithm)),
-                    Interop.allocateNativeString(method),
-                    Interop.allocateNativeString(realm),
-                    Interop.allocateNativeString(username),
-                    Interop.allocateNativeString(password),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(nonce));
+                    (Addressable) (algorithm == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(algorithm, null)),
+                    Marshal.stringToAddress.marshal(method, null),
+                    Marshal.stringToAddress.marshal(realm, null),
+                    Marshal.stringToAddress.marshal(username, null),
+                    Marshal.stringToAddress.marshal(password, null),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(nonce, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -207,23 +198,19 @@ public final class GstRtsp {
      * @param nonce Nonce
      * @return Authentication response or {@code null} if unsupported
      */
-    public static @NotNull java.lang.String rtspGenerateDigestAuthResponseFromMd5(@Nullable java.lang.String algorithm, @NotNull java.lang.String method, @NotNull java.lang.String md5, @NotNull java.lang.String uri, @NotNull java.lang.String nonce) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(md5, "Parameter 'md5' must not be null");
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(nonce, "Parameter 'nonce' must not be null");
+    public static java.lang.String rtspGenerateDigestAuthResponseFromMd5(@Nullable java.lang.String algorithm, java.lang.String method, java.lang.String md5, java.lang.String uri, java.lang.String nonce) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_generate_digest_auth_response_from_md5.invokeExact(
-                    (Addressable) (algorithm == null ? MemoryAddress.NULL : Interop.allocateNativeString(algorithm)),
-                    Interop.allocateNativeString(method),
-                    Interop.allocateNativeString(md5),
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(nonce));
+                    (Addressable) (algorithm == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(algorithm, null)),
+                    Marshal.stringToAddress.marshal(method, null),
+                    Marshal.stringToAddress.marshal(md5, null),
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(nonce, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -231,8 +218,7 @@ public final class GstRtsp {
      * @param field a {@link RTSPHeaderField}
      * @return {@code true} if multiple headers are allowed.
      */
-    public static boolean rtspHeaderAllowMultiple(@NotNull org.gstreamer.rtsp.RTSPHeaderField field) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
+    public static boolean rtspHeaderAllowMultiple(org.gstreamer.rtsp.RTSPHeaderField field) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_header_allow_multiple.invokeExact(
@@ -240,7 +226,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -248,8 +234,7 @@ public final class GstRtsp {
      * @param field a {@link RTSPHeaderField}
      * @return a string representation of {@code field}.
      */
-    public static @NotNull java.lang.String rtspHeaderAsText(@NotNull org.gstreamer.rtsp.RTSPHeaderField field) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
+    public static java.lang.String rtspHeaderAsText(org.gstreamer.rtsp.RTSPHeaderField field) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_header_as_text.invokeExact(
@@ -257,7 +242,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -265,8 +250,7 @@ public final class GstRtsp {
      * @param msg a location for the new {@link RTSPMessage}
      * @return a {@link RTSPResult}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspMessageNew(@NotNull Out<org.gstreamer.rtsp.RTSPMessage> msg) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspMessageNew(Out<org.gstreamer.rtsp.RTSPMessage> msg) {
         MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -275,7 +259,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        msg.set(new org.gstreamer.rtsp.RTSPMessage(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        msg.set(org.gstreamer.rtsp.RTSPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -286,8 +270,7 @@ public final class GstRtsp {
      * @param channel the channel
      * @return a {@link RTSPResult}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspMessageNewData(@NotNull Out<org.gstreamer.rtsp.RTSPMessage> msg, byte channel) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspMessageNewData(Out<org.gstreamer.rtsp.RTSPMessage> msg, byte channel) {
         MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -297,7 +280,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        msg.set(new org.gstreamer.rtsp.RTSPMessage(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        msg.set(org.gstreamer.rtsp.RTSPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -309,21 +292,18 @@ public final class GstRtsp {
      * @param uri the uri of the request
      * @return a {@link RTSPResult}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspMessageNewRequest(@NotNull Out<org.gstreamer.rtsp.RTSPMessage> msg, @NotNull org.gstreamer.rtsp.RTSPMethod method, @NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspMessageNewRequest(Out<org.gstreamer.rtsp.RTSPMessage> msg, org.gstreamer.rtsp.RTSPMethod method, java.lang.String uri) {
         MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_new_request.invokeExact(
                     (Addressable) msgPOINTER.address(),
                     method.getValue(),
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        msg.set(new org.gstreamer.rtsp.RTSPMessage(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        msg.set(org.gstreamer.rtsp.RTSPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -341,21 +321,19 @@ public final class GstRtsp {
      * @param request the request that triggered the response or {@code null}
      * @return a {@link RTSPResult}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspMessageNewResponse(@NotNull Out<org.gstreamer.rtsp.RTSPMessage> msg, @NotNull org.gstreamer.rtsp.RTSPStatusCode code, @Nullable java.lang.String reason, @Nullable org.gstreamer.rtsp.RTSPMessage request) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspMessageNewResponse(Out<org.gstreamer.rtsp.RTSPMessage> msg, org.gstreamer.rtsp.RTSPStatusCode code, @Nullable java.lang.String reason, @Nullable org.gstreamer.rtsp.RTSPMessage request) {
         MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(code, "Parameter 'code' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_message_new_response.invokeExact(
                     (Addressable) msgPOINTER.address(),
                     code.getValue(),
-                    (Addressable) (reason == null ? MemoryAddress.NULL : Interop.allocateNativeString(reason)),
+                    (Addressable) (reason == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(reason, null)),
                     (Addressable) (request == null ? MemoryAddress.NULL : request.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        msg.set(new org.gstreamer.rtsp.RTSPMessage(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        msg.set(org.gstreamer.rtsp.RTSPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -364,8 +342,7 @@ public final class GstRtsp {
      * @param method a {@link RTSPMethod}
      * @return a string representation of {@code method}.
      */
-    public static @NotNull java.lang.String rtspMethodAsText(@NotNull org.gstreamer.rtsp.RTSPMethod method) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
+    public static java.lang.String rtspMethodAsText(org.gstreamer.rtsp.RTSPMethod method) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_method_as_text.invokeExact(
@@ -373,7 +350,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -381,8 +358,7 @@ public final class GstRtsp {
      * @param options one or more {@link RTSPMethod}
      * @return a new string of {@code options}. g_free() after usage.
      */
-    public static @NotNull java.lang.String rtspOptionsAsText(@NotNull org.gstreamer.rtsp.RTSPMethod options) {
-        java.util.Objects.requireNonNull(options, "Parameter 'options' must not be null");
+    public static java.lang.String rtspOptionsAsText(org.gstreamer.rtsp.RTSPMethod options) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_options_as_text.invokeExact(
@@ -390,7 +366,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -399,12 +375,11 @@ public final class GstRtsp {
      * @param options a comma separated list of options
      * @return a {@link RTSPMethod}
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPMethod rtspOptionsFromText(@NotNull java.lang.String options) {
-        java.util.Objects.requireNonNull(options, "Parameter 'options' must not be null");
+    public static org.gstreamer.rtsp.RTSPMethod rtspOptionsFromText(java.lang.String options) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_options_from_text.invokeExact(
-                    Interop.allocateNativeString(options));
+                    Marshal.stringToAddress.marshal(options, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -419,9 +394,7 @@ public final class GstRtsp {
      * @param unit the unit to convert the range into
      * @return {@code true} if the range could be converted
      */
-    public static boolean rtspRangeConvertUnits(@NotNull org.gstreamer.rtsp.RTSPTimeRange range, @NotNull org.gstreamer.rtsp.RTSPRangeUnit unit) {
-        java.util.Objects.requireNonNull(range, "Parameter 'range' must not be null");
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
+    public static boolean rtspRangeConvertUnits(org.gstreamer.rtsp.RTSPTimeRange range, org.gstreamer.rtsp.RTSPRangeUnit unit) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_range_convert_units.invokeExact(
@@ -430,15 +403,14 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Free the memory allocated by {@code range}.
      * @param range a {@link RTSPTimeRange}
      */
-    public static void rtspRangeFree(@NotNull org.gstreamer.rtsp.RTSPTimeRange range) {
-        java.util.Objects.requireNonNull(range, "Parameter 'range' must not be null");
+    public static void rtspRangeFree(org.gstreamer.rtsp.RTSPTimeRange range) {
         try {
             DowncallHandles.gst_rtsp_range_free.invokeExact(
                     range.handle());
@@ -460,11 +432,8 @@ public final class GstRtsp {
      * @param max result maximum {@link org.gstreamer.gst.ClockTime}
      * @return {@code true} on success.
      */
-    public static boolean rtspRangeGetTimes(@NotNull org.gstreamer.rtsp.RTSPTimeRange range, @NotNull Out<org.gstreamer.gst.ClockTime> min, @NotNull Out<org.gstreamer.gst.ClockTime> max) {
-        java.util.Objects.requireNonNull(range, "Parameter 'range' must not be null");
-        java.util.Objects.requireNonNull(min, "Parameter 'min' must not be null");
+    public static boolean rtspRangeGetTimes(org.gstreamer.rtsp.RTSPTimeRange range, org.gstreamer.gst.ClockTime min, org.gstreamer.gst.ClockTime max) {
         MemorySegment minPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(max, "Parameter 'max' must not be null");
         MemorySegment maxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -475,9 +444,9 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        min.set(new org.gstreamer.gst.ClockTime(minPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        max.set(new org.gstreamer.gst.ClockTime(maxPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        return RESULT != 0;
+        min.setValue(minPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        max.setValue(maxPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -486,19 +455,17 @@ public final class GstRtsp {
      * @param range location to hold the {@link RTSPTimeRange} result
      * @return {@code GST_RTSP_OK} on success.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspRangeParse(@NotNull java.lang.String rangestr, @NotNull Out<org.gstreamer.rtsp.RTSPTimeRange> range) {
-        java.util.Objects.requireNonNull(rangestr, "Parameter 'rangestr' must not be null");
-        java.util.Objects.requireNonNull(range, "Parameter 'range' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspRangeParse(java.lang.String rangestr, Out<org.gstreamer.rtsp.RTSPTimeRange> range) {
         MemorySegment rangePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_range_parse.invokeExact(
-                    Interop.allocateNativeString(rangestr),
+                    Marshal.stringToAddress.marshal(rangestr, null),
                     (Addressable) rangePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        range.set(new org.gstreamer.rtsp.RTSPTimeRange(rangePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        range.set(org.gstreamer.rtsp.RTSPTimeRange.fromAddress.marshal(rangePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -507,8 +474,7 @@ public final class GstRtsp {
      * @param range a {@link RTSPTimeRange}
      * @return The string representation of {@code range}. g_free() after usage.
      */
-    public static @NotNull java.lang.String rtspRangeToString(@NotNull org.gstreamer.rtsp.RTSPTimeRange range) {
-        java.util.Objects.requireNonNull(range, "Parameter 'range' must not be null");
+    public static java.lang.String rtspRangeToString(org.gstreamer.rtsp.RTSPTimeRange range) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_range_to_string.invokeExact(
@@ -516,7 +482,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -524,8 +490,7 @@ public final class GstRtsp {
      * @param code a {@link RTSPStatusCode}
      * @return a string representation of {@code code}.
      */
-    public static @NotNull java.lang.String rtspStatusAsText(@NotNull org.gstreamer.rtsp.RTSPStatusCode code) {
-        java.util.Objects.requireNonNull(code, "Parameter 'code' must not be null");
+    public static java.lang.String rtspStatusAsText(org.gstreamer.rtsp.RTSPStatusCode code) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_status_as_text.invokeExact(
@@ -533,7 +498,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -541,8 +506,7 @@ public final class GstRtsp {
      * @param result a {@link RTSPResult}
      * @return a newly allocated string. g_free() after usage.
      */
-    public static @NotNull java.lang.String rtspStrresult(@NotNull org.gstreamer.rtsp.RTSPResult result) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static java.lang.String rtspStrresult(org.gstreamer.rtsp.RTSPResult result) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_strresult.invokeExact(
@@ -550,7 +514,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -566,8 +530,7 @@ public final class GstRtsp {
      * @param option option index.
      * @return {@code GST_RTSP_OK}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspTransportGetManager(@NotNull org.gstreamer.rtsp.RTSPTransMode trans, @Nullable Out<java.lang.String> manager, int option) {
-        java.util.Objects.requireNonNull(trans, "Parameter 'trans' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspTransportGetManager(org.gstreamer.rtsp.RTSPTransMode trans, @Nullable Out<java.lang.String> manager, int option) {
         MemorySegment managerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -578,7 +541,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (manager != null) manager.set(Interop.getStringFrom(managerPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (manager != null) manager.set(Marshal.addressToString.marshal(managerPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -593,9 +556,7 @@ public final class GstRtsp {
      *    gst_rtsp_transport_get_media_type() instead.
      */
     @Deprecated
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspTransportGetMime(@NotNull org.gstreamer.rtsp.RTSPTransMode trans, @NotNull PointerString mime) {
-        java.util.Objects.requireNonNull(trans, "Parameter 'trans' must not be null");
-        java.util.Objects.requireNonNull(mime, "Parameter 'mime' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspTransportGetMime(org.gstreamer.rtsp.RTSPTransMode trans, PointerString mime) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_transport_get_mime.invokeExact(
@@ -613,8 +574,7 @@ public final class GstRtsp {
      * @param transport location to hold the new {@link RTSPTransport}
      * @return a {@link RTSPResult}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspTransportNew(@NotNull PointerProxy<org.gstreamer.rtsp.RTSPTransport> transport) {
-        java.util.Objects.requireNonNull(transport, "Parameter 'transport' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspTransportNew(PointerProxy<org.gstreamer.rtsp.RTSPTransport> transport) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_transport_new.invokeExact(
@@ -631,13 +591,11 @@ public final class GstRtsp {
      * @param transport a {@link RTSPTransport}
      * @return a {@link RTSPResult}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspTransportParse(@NotNull java.lang.String str, @NotNull org.gstreamer.rtsp.RTSPTransport transport) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(transport, "Parameter 'transport' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspTransportParse(java.lang.String str, org.gstreamer.rtsp.RTSPTransport transport) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_transport_parse.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     transport.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -652,19 +610,17 @@ public final class GstRtsp {
      * @param url location to hold the result.
      * @return a {@link RTSPResult}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult rtspUrlParse(@NotNull java.lang.String urlstr, @NotNull Out<org.gstreamer.rtsp.RTSPUrl> url) {
-        java.util.Objects.requireNonNull(urlstr, "Parameter 'urlstr' must not be null");
-        java.util.Objects.requireNonNull(url, "Parameter 'url' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult rtspUrlParse(java.lang.String urlstr, Out<org.gstreamer.rtsp.RTSPUrl> url) {
         MemorySegment urlPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_url_parse.invokeExact(
-                    Interop.allocateNativeString(urlstr),
+                    Marshal.stringToAddress.marshal(urlstr, null),
                     (Addressable) urlPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        url.set(new org.gstreamer.rtsp.RTSPUrl(urlPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        url.set(org.gstreamer.rtsp.RTSPUrl.fromAddress.marshal(urlPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -673,8 +629,7 @@ public final class GstRtsp {
      * @param version a {@link RTSPVersion}
      * @return a string representation of {@code version}.
      */
-    public static @NotNull java.lang.String rtspVersionAsText(@NotNull org.gstreamer.rtsp.RTSPVersion version) {
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
+    public static java.lang.String rtspVersionAsText(org.gstreamer.rtsp.RTSPVersion version) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_version_as_text.invokeExact(
@@ -682,7 +637,7 @@ public final class GstRtsp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -695,25 +650,22 @@ public final class GstRtsp {
      * {@code conn} must exist for the entire lifetime of the watch.
      * @param conn a {@link RTSPConnection}
      * @param funcs watch functions
-     * @param userData user data to pass to {@code funcs}
      * @param notify notify when {@code user_data} is not referenced anymore
      * @return a {@link RTSPWatch} that can be used for asynchronous RTSP
      * communication. Free with gst_rtsp_watch_unref () after usage.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPWatch rtspWatchNew(@NotNull org.gstreamer.rtsp.RTSPConnection conn, @NotNull org.gstreamer.rtsp.RTSPWatchFuncs funcs, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
-        java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
+    public static org.gstreamer.rtsp.RTSPWatch rtspWatchNew(org.gstreamer.rtsp.RTSPConnection conn, org.gstreamer.rtsp.RTSPWatchFuncs funcs, org.gtk.glib.DestroyNotify notify) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_watch_new.invokeExact(
                     conn.handle(),
                     funcs.handle(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.rtsp.RTSPWatch(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPWatch.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -907,12 +859,5 @@ public final class GstRtsp {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static int cbRTSPConnectionAcceptCertificateFunc(MemoryAddress conn, MemoryAddress peerCert, int errors, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (RTSPConnectionAcceptCertificateFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onRTSPConnectionAcceptCertificateFunc(new org.gtk.gio.TlsConnection(conn, Ownership.NONE), new org.gtk.gio.TlsCertificate(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
-            return RESULT ? 1 : 0;
-        }
     }
 }

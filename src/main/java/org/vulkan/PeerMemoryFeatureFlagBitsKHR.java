@@ -40,8 +40,10 @@ public class PeerMemoryFeatureFlagBitsKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PeerMemoryFeatureFlagBitsKHR(Addressable address, Ownership ownership) {
+    protected PeerMemoryFeatureFlagBitsKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PeerMemoryFeatureFlagBitsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PeerMemoryFeatureFlagBitsKHR(input, ownership);
 }

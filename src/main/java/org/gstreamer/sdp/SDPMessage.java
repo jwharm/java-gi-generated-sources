@@ -17,30 +17,28 @@ public class SDPMessage extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstSDPMessage";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("version"),
-        org.gstreamer.sdp.SDPOrigin.getMemoryLayout().withName("origin"),
-        Interop.valueLayout.ADDRESS.withName("session_name"),
-        Interop.valueLayout.ADDRESS.withName("information"),
-        Interop.valueLayout.ADDRESS.withName("uri"),
-        Interop.valueLayout.ADDRESS.withName("emails"),
-        Interop.valueLayout.ADDRESS.withName("phones"),
-        org.gstreamer.sdp.SDPConnection.getMemoryLayout().withName("connection"),
-        Interop.valueLayout.ADDRESS.withName("bandwidths"),
-        Interop.valueLayout.ADDRESS.withName("times"),
-        Interop.valueLayout.ADDRESS.withName("zones"),
-        org.gstreamer.sdp.SDPKey.getMemoryLayout().withName("key"),
-        Interop.valueLayout.ADDRESS.withName("attributes"),
-        Interop.valueLayout.ADDRESS.withName("medias")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("version"),
+            org.gstreamer.sdp.SDPOrigin.getMemoryLayout().withName("origin"),
+            Interop.valueLayout.ADDRESS.withName("session_name"),
+            Interop.valueLayout.ADDRESS.withName("information"),
+            Interop.valueLayout.ADDRESS.withName("uri"),
+            Interop.valueLayout.ADDRESS.withName("emails"),
+            Interop.valueLayout.ADDRESS.withName("phones"),
+            org.gstreamer.sdp.SDPConnection.getMemoryLayout().withName("connection"),
+            Interop.valueLayout.ADDRESS.withName("bandwidths"),
+            Interop.valueLayout.ADDRESS.withName("times"),
+            Interop.valueLayout.ADDRESS.withName("zones"),
+            org.gstreamer.sdp.SDPKey.getMemoryLayout().withName("key"),
+            Interop.valueLayout.ADDRESS.withName("attributes"),
+            Interop.valueLayout.ADDRESS.withName("medias")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -60,111 +58,288 @@ public class SDPMessage extends Struct {
      * Get the value of the field {@code version}
      * @return The value of the field {@code version}
      */
-    public java.lang.String version$get() {
+    public java.lang.String getVersion_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("version"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code version}
      * @param version The new value of the field {@code version}
      */
-    public void version$set(java.lang.String version) {
+    public void setVersion_(java.lang.String version) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(version));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, null)));
     }
     
     /**
      * Get the value of the field {@code origin}
      * @return The value of the field {@code origin}
      */
-    public org.gstreamer.sdp.SDPOrigin origin$get() {
+    public org.gstreamer.sdp.SDPOrigin getOrigin_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("origin"));
-        return new org.gstreamer.sdp.SDPOrigin(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.SDPOrigin.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code origin}
+     * @param origin The new value of the field {@code origin}
+     */
+    public void setOrigin_(org.gstreamer.sdp.SDPOrigin origin) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
     }
     
     /**
      * Get the value of the field {@code session_name}
      * @return The value of the field {@code session_name}
      */
-    public java.lang.String sessionName$get() {
+    public java.lang.String getSessionName_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("session_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code session_name}
      * @param sessionName The new value of the field {@code session_name}
      */
-    public void sessionName$set(java.lang.String sessionName) {
+    public void setSessionName_(java.lang.String sessionName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("session_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(sessionName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessionName, null)));
     }
     
     /**
      * Get the value of the field {@code information}
      * @return The value of the field {@code information}
      */
-    public java.lang.String information$get() {
+    public java.lang.String getInformation_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("information"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code information}
      * @param information The new value of the field {@code information}
      */
-    public void information$set(java.lang.String information) {
+    public void setInformation_(java.lang.String information) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("information"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(information));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, null)));
     }
     
     /**
      * Get the value of the field {@code uri}
      * @return The value of the field {@code uri}
      */
-    public java.lang.String uri$get() {
+    public java.lang.String getUri_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("uri"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code uri}
      * @param uri The new value of the field {@code uri}
      */
-    public void uri$set(java.lang.String uri) {
+    public void setUri_(java.lang.String uri) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("uri"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(uri));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)));
+    }
+    
+    /**
+     * Get the value of the field {@code emails}
+     * @return The value of the field {@code emails}
+     */
+    public PointerAddress getEmails() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("emails"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code emails}
+     * @param emails The new value of the field {@code emails}
+     */
+    public void setEmails(java.lang.foreign.MemoryAddress[] emails) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("emails"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (emails == null ? MemoryAddress.NULL : Interop.allocateNativeArray(emails, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code phones}
+     * @return The value of the field {@code phones}
+     */
+    public PointerAddress getPhones() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("phones"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code phones}
+     * @param phones The new value of the field {@code phones}
+     */
+    public void setPhones(java.lang.foreign.MemoryAddress[] phones) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("phones"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (phones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(phones, false)));
     }
     
     /**
      * Get the value of the field {@code connection}
      * @return The value of the field {@code connection}
      */
-    public org.gstreamer.sdp.SDPConnection connection$get() {
+    public org.gstreamer.sdp.SDPConnection getConnection_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("connection"));
-        return new org.gstreamer.sdp.SDPConnection(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.SDPConnection.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code connection}
+     * @param connection The new value of the field {@code connection}
+     */
+    public void setConnection_(org.gstreamer.sdp.SDPConnection connection) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("connection"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connection == null ? MemoryAddress.NULL : connection.handle()));
+    }
+    
+    /**
+     * Get the value of the field {@code bandwidths}
+     * @return The value of the field {@code bandwidths}
+     */
+    public PointerAddress getBandwidths() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code bandwidths}
+     * @param bandwidths The new value of the field {@code bandwidths}
+     */
+    public void setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code times}
+     * @return The value of the field {@code times}
+     */
+    public PointerAddress getTimes() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("times"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code times}
+     * @param times The new value of the field {@code times}
+     */
+    public void setTimes(java.lang.foreign.MemoryAddress[] times) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("times"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (times == null ? MemoryAddress.NULL : Interop.allocateNativeArray(times, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code zones}
+     * @return The value of the field {@code zones}
+     */
+    public PointerAddress getZones() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("zones"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code zones}
+     * @param zones The new value of the field {@code zones}
+     */
+    public void setZones(java.lang.foreign.MemoryAddress[] zones) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("zones"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (zones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(zones, false)));
     }
     
     /**
      * Get the value of the field {@code key}
      * @return The value of the field {@code key}
      */
-    public org.gstreamer.sdp.SDPKey key$get() {
+    public org.gstreamer.sdp.SDPKey getKey_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("key"));
-        return new org.gstreamer.sdp.SDPKey(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code key}
+     * @param key The new value of the field {@code key}
+     */
+    public void setKey_(org.gstreamer.sdp.SDPKey key) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("key"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
+    }
+    
+    /**
+     * Get the value of the field {@code attributes}
+     * @return The value of the field {@code attributes}
+     */
+    public PointerAddress getAttributes() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code attributes}
+     * @param attributes The new value of the field {@code attributes}
+     */
+    public void setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code medias}
+     * @return The value of the field {@code medias}
+     */
+    public PointerAddress getMedias() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("medias"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code medias}
+     * @param medias The new value of the field {@code medias}
+     */
+    public void setMedias(java.lang.foreign.MemoryAddress[] medias) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("medias"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (medias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(medias, false)));
     }
     
     /**
@@ -172,10 +347,12 @@ public class SDPMessage extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SDPMessage(Addressable address, Ownership ownership) {
+    protected SDPMessage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SDPMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPMessage(input, ownership);
     
     /**
      * Add the attribute with {@code key} and {@code value} to {@code msg}.
@@ -183,14 +360,13 @@ public class SDPMessage extends Struct {
      * @param value the value
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addAttribute(@NotNull java.lang.String key, @Nullable java.lang.String value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public org.gstreamer.sdp.SDPResult addAttribute(java.lang.String key, @Nullable java.lang.String value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_add_attribute.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
+                    Marshal.stringToAddress.marshal(key, null),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,13 +379,12 @@ public class SDPMessage extends Struct {
      * @param bandwidth the bandwidth in kilobits per second
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addBandwidth(@NotNull java.lang.String bwtype, int bandwidth) {
-        java.util.Objects.requireNonNull(bwtype, "Parameter 'bwtype' must not be null");
+    public org.gstreamer.sdp.SDPResult addBandwidth(java.lang.String bwtype, int bandwidth) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_add_bandwidth.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(bwtype),
+                    Marshal.stringToAddress.marshal(bwtype, null),
                     bandwidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -222,13 +397,12 @@ public class SDPMessage extends Struct {
      * @param email an email
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addEmail(@NotNull java.lang.String email) {
-        java.util.Objects.requireNonNull(email, "Parameter 'email' must not be null");
+    public org.gstreamer.sdp.SDPResult addEmail(java.lang.String email) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_add_email.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(email));
+                    Marshal.stringToAddress.marshal(email, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,8 +416,7 @@ public class SDPMessage extends Struct {
      * @param media a {@link SDPMedia} to add
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addMedia(@NotNull org.gstreamer.sdp.SDPMedia media) {
-        java.util.Objects.requireNonNull(media, "Parameter 'media' must not be null");
+    public org.gstreamer.sdp.SDPResult addMedia(org.gstreamer.sdp.SDPMedia media) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_add_media.invokeExact(
@@ -260,13 +433,12 @@ public class SDPMessage extends Struct {
      * @param phone a phone
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addPhone(@NotNull java.lang.String phone) {
-        java.util.Objects.requireNonNull(phone, "Parameter 'phone' must not be null");
+    public org.gstreamer.sdp.SDPResult addPhone(java.lang.String phone) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_add_phone.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(phone));
+                    Marshal.stringToAddress.marshal(phone, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -280,16 +452,13 @@ public class SDPMessage extends Struct {
      * @param repeat the repeat times
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addTime(@NotNull java.lang.String start, @NotNull java.lang.String stop, @NotNull java.lang.String[] repeat) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(stop, "Parameter 'stop' must not be null");
-        java.util.Objects.requireNonNull(repeat, "Parameter 'repeat' must not be null");
+    public org.gstreamer.sdp.SDPResult addTime(java.lang.String start, java.lang.String stop, java.lang.String[] repeat) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_add_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(start),
-                    Interop.allocateNativeString(stop),
+                    Marshal.stringToAddress.marshal(start, null),
+                    Marshal.stringToAddress.marshal(stop, null),
                     Interop.allocateNativeArray(repeat, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -303,15 +472,13 @@ public class SDPMessage extends Struct {
      * @param typedTime the offset from the time when the session was first scheduled
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addZone(@NotNull java.lang.String adjTime, @NotNull java.lang.String typedTime) {
-        java.util.Objects.requireNonNull(adjTime, "Parameter 'adjTime' must not be null");
-        java.util.Objects.requireNonNull(typedTime, "Parameter 'typedTime' must not be null");
+    public org.gstreamer.sdp.SDPResult addZone(java.lang.String adjTime, java.lang.String typedTime) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_add_zone.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(adjTime),
-                    Interop.allocateNativeString(typedTime));
+                    Marshal.stringToAddress.marshal(adjTime, null),
+                    Marshal.stringToAddress.marshal(typedTime, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,7 +489,7 @@ public class SDPMessage extends Struct {
      * Convert the contents of {@code msg} to a text string.
      * @return A dynamically allocated string representing the SDP description.
      */
-    public @NotNull java.lang.String asText() {
+    public java.lang.String asText() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_as_text.invokeExact(
@@ -330,7 +497,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -353,8 +520,7 @@ public class SDPMessage extends Struct {
      * @param caps a {@link org.gstreamer.gst.Caps}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult attributesToCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public org.gstreamer.sdp.SDPResult attributesToCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_attributes_to_caps.invokeExact(
@@ -387,8 +553,7 @@ public class SDPMessage extends Struct {
      * @param copy pointer to new {@link SDPMessage}
      * @return a {@link SDPResult}
      */
-    public @NotNull org.gstreamer.sdp.SDPResult copy(@NotNull Out<org.gstreamer.sdp.SDPMessage> copy) {
-        java.util.Objects.requireNonNull(copy, "Parameter 'copy' must not be null");
+    public org.gstreamer.sdp.SDPResult copy(Out<org.gstreamer.sdp.SDPMessage> copy) {
         MemorySegment copyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -398,7 +563,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        copy.set(new org.gstreamer.sdp.SDPMessage(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        copy.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -406,7 +571,7 @@ public class SDPMessage extends Struct {
      * Dump the parsed contents of {@code msg} to stdout.
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult dump() {
+    public org.gstreamer.sdp.SDPResult dump() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_dump.invokeExact(
@@ -438,7 +603,7 @@ public class SDPMessage extends Struct {
      * allocated with gst_sdp_message_new().
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult free() {
+    public org.gstreamer.sdp.SDPResult free() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_free.invokeExact(
@@ -454,7 +619,7 @@ public class SDPMessage extends Struct {
      * @param idx the index
      * @return the {@link SDPAttribute} at position {@code idx}.
      */
-    public @NotNull org.gstreamer.sdp.SDPAttribute getAttribute(int idx) {
+    public org.gstreamer.sdp.SDPAttribute getAttribute(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_attribute.invokeExact(
@@ -463,7 +628,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPAttribute(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPAttribute.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -471,17 +636,16 @@ public class SDPMessage extends Struct {
      * @param key the key
      * @return the attribute value of the first attribute with {@code key}.
      */
-    public @NotNull java.lang.String getAttributeVal(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public java.lang.String getAttributeVal(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_attribute_val.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -490,18 +654,17 @@ public class SDPMessage extends Struct {
      * @param nth the index
      * @return the attribute value of the {@code nth} attribute with {@code key}.
      */
-    public @NotNull java.lang.String getAttributeValN(@NotNull java.lang.String key, int nth) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public java.lang.String getAttributeValN(java.lang.String key, int nth) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_attribute_val_n.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     nth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -509,7 +672,7 @@ public class SDPMessage extends Struct {
      * @param idx the bandwidth index
      * @return a {@link SDPBandwidth}.
      */
-    public @NotNull org.gstreamer.sdp.SDPBandwidth getBandwidth(int idx) {
+    public org.gstreamer.sdp.SDPBandwidth getBandwidth(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_bandwidth.invokeExact(
@@ -518,14 +681,14 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPBandwidth(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPBandwidth.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the connection of {@code msg}.
      * @return a {@link SDPConnection}. The result remains valid as long as {@code msg} is valid.
      */
-    public @NotNull org.gstreamer.sdp.SDPConnection getConnection() {
+    public org.gstreamer.sdp.SDPConnection getConnection() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_connection.invokeExact(
@@ -533,7 +696,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPConnection(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPConnection.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -541,7 +704,7 @@ public class SDPMessage extends Struct {
      * @param idx an email index
      * @return the email at position {@code idx}.
      */
-    public @NotNull java.lang.String getEmail(int idx) {
+    public java.lang.String getEmail(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_email.invokeExact(
@@ -550,14 +713,14 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the information in {@code msg}.
      * @return a {@link SDPResult}.
      */
-    public @NotNull java.lang.String getInformation() {
+    public java.lang.String getInformation() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_information.invokeExact(
@@ -565,14 +728,14 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the encryption information from {@code msg}.
      * @return a {@link SDPKey}.
      */
-    public @NotNull org.gstreamer.sdp.SDPKey getKey() {
+    public org.gstreamer.sdp.SDPKey getKey() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_key.invokeExact(
@@ -580,7 +743,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPKey(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -588,7 +751,7 @@ public class SDPMessage extends Struct {
      * @param idx the index
      * @return a {@link SDPMedia}.
      */
-    public @NotNull org.gstreamer.sdp.SDPMedia getMedia(int idx) {
+    public org.gstreamer.sdp.SDPMedia getMedia(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_media.invokeExact(
@@ -597,14 +760,14 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPMedia(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPMedia.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the origin of {@code msg}.
      * @return a {@link SDPOrigin}. The result remains valid as long as {@code msg} is valid.
      */
-    public @NotNull org.gstreamer.sdp.SDPOrigin getOrigin() {
+    public org.gstreamer.sdp.SDPOrigin getOrigin() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_origin.invokeExact(
@@ -612,7 +775,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPOrigin(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPOrigin.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -620,7 +783,7 @@ public class SDPMessage extends Struct {
      * @param idx a phone index
      * @return the phone at position {@code idx}.
      */
-    public @NotNull java.lang.String getPhone(int idx) {
+    public java.lang.String getPhone(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_phone.invokeExact(
@@ -629,14 +792,14 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the session name in {@code msg}.
      * @return a {@link SDPResult}.
      */
-    public @NotNull java.lang.String getSessionName() {
+    public java.lang.String getSessionName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_session_name.invokeExact(
@@ -644,7 +807,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -652,7 +815,7 @@ public class SDPMessage extends Struct {
      * @param idx the time index
      * @return a {@link SDPTime}.
      */
-    public @NotNull org.gstreamer.sdp.SDPTime getTime(int idx) {
+    public org.gstreamer.sdp.SDPTime getTime(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_time.invokeExact(
@@ -661,14 +824,14 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPTime(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPTime.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the URI in {@code msg}.
      * @return a {@link SDPResult}.
      */
-    public @NotNull java.lang.String getUri() {
+    public java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_uri.invokeExact(
@@ -676,14 +839,14 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the version in {@code msg}.
      * @return a {@link SDPResult}.
      */
-    public @NotNull java.lang.String getVersion() {
+    public java.lang.String getVersion() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_version.invokeExact(
@@ -691,7 +854,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -699,7 +862,7 @@ public class SDPMessage extends Struct {
      * @param idx the zone index
      * @return a {@link SDPZone}.
      */
-    public @NotNull org.gstreamer.sdp.SDPZone getZone(int idx) {
+    public org.gstreamer.sdp.SDPZone getZone(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_get_zone.invokeExact(
@@ -708,7 +871,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPZone(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPZone.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -720,7 +883,7 @@ public class SDPMessage extends Struct {
      * stack), its contents should be set to 0 before calling this function.
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult init() {
+    public org.gstreamer.sdp.SDPResult init() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_init.invokeExact(
@@ -739,8 +902,7 @@ public class SDPMessage extends Struct {
      * @param attr a {@link SDPAttribute}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertAttribute(int idx, @NotNull org.gstreamer.sdp.SDPAttribute attr) {
-        java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
+    public org.gstreamer.sdp.SDPResult insertAttribute(int idx, org.gstreamer.sdp.SDPAttribute attr) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_insert_attribute.invokeExact(
@@ -761,8 +923,7 @@ public class SDPMessage extends Struct {
      * @param bw the bandwidth
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertBandwidth(int idx, @NotNull org.gstreamer.sdp.SDPBandwidth bw) {
-        java.util.Objects.requireNonNull(bw, "Parameter 'bw' must not be null");
+    public org.gstreamer.sdp.SDPResult insertBandwidth(int idx, org.gstreamer.sdp.SDPBandwidth bw) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_insert_bandwidth.invokeExact(
@@ -782,14 +943,13 @@ public class SDPMessage extends Struct {
      * @param email an email
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertEmail(int idx, @NotNull java.lang.String email) {
-        java.util.Objects.requireNonNull(email, "Parameter 'email' must not be null");
+    public org.gstreamer.sdp.SDPResult insertEmail(int idx, java.lang.String email) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_insert_email.invokeExact(
                     handle(),
                     idx,
-                    Interop.allocateNativeString(email));
+                    Marshal.stringToAddress.marshal(email, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -803,14 +963,13 @@ public class SDPMessage extends Struct {
      * @param phone a phone
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertPhone(int idx, @NotNull java.lang.String phone) {
-        java.util.Objects.requireNonNull(phone, "Parameter 'phone' must not be null");
+    public org.gstreamer.sdp.SDPResult insertPhone(int idx, java.lang.String phone) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_insert_phone.invokeExact(
                     handle(),
                     idx,
-                    Interop.allocateNativeString(phone));
+                    Marshal.stringToAddress.marshal(phone, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -825,8 +984,7 @@ public class SDPMessage extends Struct {
      * @param t a {@link SDPTime}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertTime(int idx, @NotNull org.gstreamer.sdp.SDPTime t) {
-        java.util.Objects.requireNonNull(t, "Parameter 't' must not be null");
+    public org.gstreamer.sdp.SDPResult insertTime(int idx, org.gstreamer.sdp.SDPTime t) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_insert_time.invokeExact(
@@ -847,8 +1005,7 @@ public class SDPMessage extends Struct {
      * @param zone a {@link SDPZone}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertZone(int idx, @NotNull org.gstreamer.sdp.SDPZone zone) {
-        java.util.Objects.requireNonNull(zone, "Parameter 'zone' must not be null");
+    public org.gstreamer.sdp.SDPResult insertZone(int idx, org.gstreamer.sdp.SDPZone zone) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_insert_zone.invokeExact(
@@ -882,8 +1039,7 @@ public class SDPMessage extends Struct {
      * @param mikey pointer to new {@link MIKEYMessage}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult parseKeymgmt(@NotNull Out<org.gstreamer.sdp.MIKEYMessage> mikey) {
-        java.util.Objects.requireNonNull(mikey, "Parameter 'mikey' must not be null");
+    public org.gstreamer.sdp.SDPResult parseKeymgmt(Out<org.gstreamer.sdp.MIKEYMessage> mikey) {
         MemorySegment mikeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -893,7 +1049,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        mikey.set(new org.gstreamer.sdp.MIKEYMessage(mikeyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        mikey.set(org.gstreamer.sdp.MIKEYMessage.fromAddress.marshal(mikeyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -917,7 +1073,7 @@ public class SDPMessage extends Struct {
      * @param idx the index
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removeAttribute(int idx) {
+    public org.gstreamer.sdp.SDPResult removeAttribute(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_remove_attribute.invokeExact(
@@ -934,7 +1090,7 @@ public class SDPMessage extends Struct {
      * @param idx the bandwidth index
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removeBandwidth(int idx) {
+    public org.gstreamer.sdp.SDPResult removeBandwidth(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_remove_bandwidth.invokeExact(
@@ -951,7 +1107,7 @@ public class SDPMessage extends Struct {
      * @param idx an email index
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removeEmail(int idx) {
+    public org.gstreamer.sdp.SDPResult removeEmail(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_remove_email.invokeExact(
@@ -968,7 +1124,7 @@ public class SDPMessage extends Struct {
      * @param idx a phone index
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removePhone(int idx) {
+    public org.gstreamer.sdp.SDPResult removePhone(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_remove_phone.invokeExact(
@@ -985,7 +1141,7 @@ public class SDPMessage extends Struct {
      * @param idx the index
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removeTime(int idx) {
+    public org.gstreamer.sdp.SDPResult removeTime(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_remove_time.invokeExact(
@@ -1002,7 +1158,7 @@ public class SDPMessage extends Struct {
      * @param idx the index
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removeZone(int idx) {
+    public org.gstreamer.sdp.SDPResult removeZone(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_remove_zone.invokeExact(
@@ -1020,8 +1176,7 @@ public class SDPMessage extends Struct {
      * @param attr a {@link SDPAttribute}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replaceAttribute(int idx, @NotNull org.gstreamer.sdp.SDPAttribute attr) {
-        java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
+    public org.gstreamer.sdp.SDPResult replaceAttribute(int idx, org.gstreamer.sdp.SDPAttribute attr) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_replace_attribute.invokeExact(
@@ -1040,8 +1195,7 @@ public class SDPMessage extends Struct {
      * @param bw the bandwidth
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replaceBandwidth(int idx, @NotNull org.gstreamer.sdp.SDPBandwidth bw) {
-        java.util.Objects.requireNonNull(bw, "Parameter 'bw' must not be null");
+    public org.gstreamer.sdp.SDPResult replaceBandwidth(int idx, org.gstreamer.sdp.SDPBandwidth bw) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_replace_bandwidth.invokeExact(
@@ -1060,14 +1214,13 @@ public class SDPMessage extends Struct {
      * @param email an email
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replaceEmail(int idx, @NotNull java.lang.String email) {
-        java.util.Objects.requireNonNull(email, "Parameter 'email' must not be null");
+    public org.gstreamer.sdp.SDPResult replaceEmail(int idx, java.lang.String email) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_replace_email.invokeExact(
                     handle(),
                     idx,
-                    Interop.allocateNativeString(email));
+                    Marshal.stringToAddress.marshal(email, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1080,14 +1233,13 @@ public class SDPMessage extends Struct {
      * @param phone a phone
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replacePhone(int idx, @NotNull java.lang.String phone) {
-        java.util.Objects.requireNonNull(phone, "Parameter 'phone' must not be null");
+    public org.gstreamer.sdp.SDPResult replacePhone(int idx, java.lang.String phone) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_replace_phone.invokeExact(
                     handle(),
                     idx,
-                    Interop.allocateNativeString(phone));
+                    Marshal.stringToAddress.marshal(phone, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1100,8 +1252,7 @@ public class SDPMessage extends Struct {
      * @param t a {@link SDPTime}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replaceTime(int idx, @NotNull org.gstreamer.sdp.SDPTime t) {
-        java.util.Objects.requireNonNull(t, "Parameter 't' must not be null");
+    public org.gstreamer.sdp.SDPResult replaceTime(int idx, org.gstreamer.sdp.SDPTime t) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_replace_time.invokeExact(
@@ -1120,8 +1271,7 @@ public class SDPMessage extends Struct {
      * @param zone a {@link SDPZone}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replaceZone(int idx, @NotNull org.gstreamer.sdp.SDPZone zone) {
-        java.util.Objects.requireNonNull(zone, "Parameter 'zone' must not be null");
+    public org.gstreamer.sdp.SDPResult replaceZone(int idx, org.gstreamer.sdp.SDPZone zone) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_replace_zone.invokeExact(
@@ -1144,17 +1294,14 @@ public class SDPMessage extends Struct {
      * @param addrNumber the number of layers
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setConnection(@NotNull java.lang.String nettype, @NotNull java.lang.String addrtype, @NotNull java.lang.String address, int ttl, int addrNumber) {
-        java.util.Objects.requireNonNull(nettype, "Parameter 'nettype' must not be null");
-        java.util.Objects.requireNonNull(addrtype, "Parameter 'addrtype' must not be null");
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+    public org.gstreamer.sdp.SDPResult setConnection(java.lang.String nettype, java.lang.String addrtype, java.lang.String address, int ttl, int addrNumber) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_set_connection.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(nettype),
-                    Interop.allocateNativeString(addrtype),
-                    Interop.allocateNativeString(address),
+                    Marshal.stringToAddress.marshal(nettype, null),
+                    Marshal.stringToAddress.marshal(addrtype, null),
+                    Marshal.stringToAddress.marshal(address, null),
                     ttl,
                     addrNumber);
         } catch (Throwable ERR) {
@@ -1168,13 +1315,12 @@ public class SDPMessage extends Struct {
      * @param information the information
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setInformation(@NotNull java.lang.String information) {
-        java.util.Objects.requireNonNull(information, "Parameter 'information' must not be null");
+    public org.gstreamer.sdp.SDPResult setInformation(java.lang.String information) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_set_information.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(information));
+                    Marshal.stringToAddress.marshal(information, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1187,15 +1333,13 @@ public class SDPMessage extends Struct {
      * @param data the encryption data
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setKey(@NotNull java.lang.String type, @NotNull java.lang.String data) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public org.gstreamer.sdp.SDPResult setKey(java.lang.String type, java.lang.String data) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_set_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(type),
-                    Interop.allocateNativeString(data));
+                    Marshal.stringToAddress.marshal(type, null),
+                    Marshal.stringToAddress.marshal(data, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1212,23 +1356,17 @@ public class SDPMessage extends Struct {
      * @param addr an address
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setOrigin(@NotNull java.lang.String username, @NotNull java.lang.String sessId, @NotNull java.lang.String sessVersion, @NotNull java.lang.String nettype, @NotNull java.lang.String addrtype, @NotNull java.lang.String addr) {
-        java.util.Objects.requireNonNull(username, "Parameter 'username' must not be null");
-        java.util.Objects.requireNonNull(sessId, "Parameter 'sessId' must not be null");
-        java.util.Objects.requireNonNull(sessVersion, "Parameter 'sessVersion' must not be null");
-        java.util.Objects.requireNonNull(nettype, "Parameter 'nettype' must not be null");
-        java.util.Objects.requireNonNull(addrtype, "Parameter 'addrtype' must not be null");
-        java.util.Objects.requireNonNull(addr, "Parameter 'addr' must not be null");
+    public org.gstreamer.sdp.SDPResult setOrigin(java.lang.String username, java.lang.String sessId, java.lang.String sessVersion, java.lang.String nettype, java.lang.String addrtype, java.lang.String addr) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_set_origin.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(username),
-                    Interop.allocateNativeString(sessId),
-                    Interop.allocateNativeString(sessVersion),
-                    Interop.allocateNativeString(nettype),
-                    Interop.allocateNativeString(addrtype),
-                    Interop.allocateNativeString(addr));
+                    Marshal.stringToAddress.marshal(username, null),
+                    Marshal.stringToAddress.marshal(sessId, null),
+                    Marshal.stringToAddress.marshal(sessVersion, null),
+                    Marshal.stringToAddress.marshal(nettype, null),
+                    Marshal.stringToAddress.marshal(addrtype, null),
+                    Marshal.stringToAddress.marshal(addr, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1240,13 +1378,12 @@ public class SDPMessage extends Struct {
      * @param sessionName the session name
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setSessionName(@NotNull java.lang.String sessionName) {
-        java.util.Objects.requireNonNull(sessionName, "Parameter 'sessionName' must not be null");
+    public org.gstreamer.sdp.SDPResult setSessionName(java.lang.String sessionName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_set_session_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(sessionName));
+                    Marshal.stringToAddress.marshal(sessionName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1258,13 +1395,12 @@ public class SDPMessage extends Struct {
      * @param uri the URI
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setUri(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public org.gstreamer.sdp.SDPResult setUri(java.lang.String uri) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_set_uri.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1276,13 +1412,12 @@ public class SDPMessage extends Struct {
      * @param version the version
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setVersion(@NotNull java.lang.String version) {
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
+    public org.gstreamer.sdp.SDPResult setVersion(java.lang.String version) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_set_version.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(version));
+                    Marshal.stringToAddress.marshal(version, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1310,7 +1445,7 @@ public class SDPMessage extends Struct {
      * stack and initialized with gst_sdp_message_init().
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult uninit() {
+    public org.gstreamer.sdp.SDPResult uninit() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_uninit.invokeExact(
@@ -1346,18 +1481,16 @@ public class SDPMessage extends Struct {
      * @param msg the {@link SDPMessage}
      * @return a uri for {@code msg}.
      */
-    public static @NotNull java.lang.String asUri(@NotNull java.lang.String scheme, @NotNull org.gstreamer.sdp.SDPMessage msg) {
-        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static java.lang.String asUri(java.lang.String scheme, org.gstreamer.sdp.SDPMessage msg) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_as_uri.invokeExact(
-                    Interop.allocateNativeString(scheme),
+                    Marshal.stringToAddress.marshal(scheme, null),
                     msg.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1365,8 +1498,7 @@ public class SDPMessage extends Struct {
      * @param msg pointer to new {@link SDPMessage}
      * @return a {@link SDPResult}.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult new_(@NotNull Out<org.gstreamer.sdp.SDPMessage> msg) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.sdp.SDPResult new_(Out<org.gstreamer.sdp.SDPMessage> msg) {
         MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -1375,7 +1507,7 @@ public class SDPMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        msg.set(new org.gstreamer.sdp.SDPMessage(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        msg.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -1385,19 +1517,17 @@ public class SDPMessage extends Struct {
      * @param msg pointer to new {@link SDPMessage}
      * @return a {@link SDPResult}.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult newFromText(@NotNull java.lang.String text, @NotNull Out<org.gstreamer.sdp.SDPMessage> msg) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.sdp.SDPResult newFromText(java.lang.String text, Out<org.gstreamer.sdp.SDPMessage> msg) {
         MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_new_from_text.invokeExact(
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     (Addressable) msgPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        msg.set(new org.gstreamer.sdp.SDPMessage(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        msg.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -1409,9 +1539,7 @@ public class SDPMessage extends Struct {
      * @param msg the result {@link SDPMessage}
      * @return {@code GST_SDP_OK} on success.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult parseBuffer(@NotNull byte[] data, int size, @NotNull org.gstreamer.sdp.SDPMessage msg) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.sdp.SDPResult parseBuffer(byte[] data, int size, org.gstreamer.sdp.SDPMessage msg) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_parse_buffer.invokeExact(
@@ -1438,13 +1566,11 @@ public class SDPMessage extends Struct {
      * @param msg the result {@link SDPMessage}
      * @return {@code GST_SDP_OK} on success.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult parseUri(@NotNull java.lang.String uri, @NotNull org.gstreamer.sdp.SDPMessage msg) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.sdp.SDPResult parseUri(java.lang.String uri, org.gstreamer.sdp.SDPMessage msg) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_parse_uri.invokeExact(
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     msg.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1862,31 +1988,35 @@ public class SDPMessage extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link SDPMessage.Builder} object constructs a {@link SDPMessage} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SDPMessage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SDPMessage struct;
+        private final SDPMessage struct;
         
-         /**
-         * A {@link SDPMessage.Build} object constructs a {@link SDPMessage} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SDPMessage.allocate();
         }
         
          /**
          * Finish building the {@link SDPMessage} struct.
          * @return A new instance of {@code SDPMessage} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SDPMessage construct() {
+        public SDPMessage build() {
             return struct;
         }
         
@@ -1895,10 +2025,10 @@ public class SDPMessage extends Struct {
          * @param version The value for the {@code version} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVersion(java.lang.String version) {
+        public Builder setVersion(java.lang.String version) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (version == null ? MemoryAddress.NULL : Interop.allocateNativeString(version)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, null)));
             return this;
         }
         
@@ -1907,7 +2037,7 @@ public class SDPMessage extends Struct {
          * @param origin The value for the {@code origin} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOrigin(org.gstreamer.sdp.SDPOrigin origin) {
+        public Builder setOrigin(org.gstreamer.sdp.SDPOrigin origin) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("origin"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
@@ -1919,10 +2049,10 @@ public class SDPMessage extends Struct {
          * @param sessionName The value for the {@code sessionName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSessionName(java.lang.String sessionName) {
+        public Builder setSessionName(java.lang.String sessionName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("session_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessionName == null ? MemoryAddress.NULL : Interop.allocateNativeString(sessionName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessionName, null)));
             return this;
         }
         
@@ -1931,10 +2061,10 @@ public class SDPMessage extends Struct {
          * @param information The value for the {@code information} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInformation(java.lang.String information) {
+        public Builder setInformation(java.lang.String information) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("information"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Interop.allocateNativeString(information)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, null)));
             return this;
         }
         
@@ -1943,10 +2073,10 @@ public class SDPMessage extends Struct {
          * @param uri The value for the {@code uri} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUri(java.lang.String uri) {
+        public Builder setUri(java.lang.String uri) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("uri"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (uri == null ? MemoryAddress.NULL : Interop.allocateNativeString(uri)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)));
             return this;
         }
         
@@ -1955,7 +2085,7 @@ public class SDPMessage extends Struct {
          * @param emails The value for the {@code emails} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEmails(java.lang.foreign.MemoryAddress[] emails) {
+        public Builder setEmails(java.lang.foreign.MemoryAddress[] emails) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("emails"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (emails == null ? MemoryAddress.NULL : Interop.allocateNativeArray(emails, false)));
@@ -1967,7 +2097,7 @@ public class SDPMessage extends Struct {
          * @param phones The value for the {@code phones} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPhones(java.lang.foreign.MemoryAddress[] phones) {
+        public Builder setPhones(java.lang.foreign.MemoryAddress[] phones) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("phones"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (phones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(phones, false)));
@@ -1979,7 +2109,7 @@ public class SDPMessage extends Struct {
          * @param connection The value for the {@code connection} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setConnection(org.gstreamer.sdp.SDPConnection connection) {
+        public Builder setConnection(org.gstreamer.sdp.SDPConnection connection) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("connection"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connection == null ? MemoryAddress.NULL : connection.handle()));
@@ -1991,7 +2121,7 @@ public class SDPMessage extends Struct {
          * @param bandwidths The value for the {@code bandwidths} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
+        public Builder setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false)));
@@ -2003,7 +2133,7 @@ public class SDPMessage extends Struct {
          * @param times The value for the {@code times} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTimes(java.lang.foreign.MemoryAddress[] times) {
+        public Builder setTimes(java.lang.foreign.MemoryAddress[] times) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("times"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (times == null ? MemoryAddress.NULL : Interop.allocateNativeArray(times, false)));
@@ -2015,7 +2145,7 @@ public class SDPMessage extends Struct {
          * @param zones The value for the {@code zones} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setZones(java.lang.foreign.MemoryAddress[] zones) {
+        public Builder setZones(java.lang.foreign.MemoryAddress[] zones) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("zones"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (zones == null ? MemoryAddress.NULL : Interop.allocateNativeArray(zones, false)));
@@ -2027,7 +2157,7 @@ public class SDPMessage extends Struct {
          * @param key The value for the {@code key} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKey(org.gstreamer.sdp.SDPKey key) {
+        public Builder setKey(org.gstreamer.sdp.SDPKey key) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("key"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
@@ -2039,7 +2169,7 @@ public class SDPMessage extends Struct {
          * @param attributes The value for the {@code attributes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
+        public Builder setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false)));
@@ -2051,7 +2181,7 @@ public class SDPMessage extends Struct {
          * @param medias The value for the {@code medias} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMedias(java.lang.foreign.MemoryAddress[] medias) {
+        public Builder setMedias(java.lang.foreign.MemoryAddress[] medias) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("medias"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (medias == null ? MemoryAddress.NULL : Interop.allocateNativeArray(medias, false)));

@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface DataForeachFunc {
-        void onDataForeachFunc(@NotNull org.gtk.glib.Quark keyId);
+    void run(org.gtk.glib.Quark keyId);
+
+    @ApiStatus.Internal default void upcall(int keyId, MemoryAddress data, MemoryAddress userData) {
+        run(new org.gtk.glib.Quark(keyId));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DataForeachFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

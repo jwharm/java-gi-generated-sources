@@ -51,23 +51,21 @@ public class Memory extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMemory";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
-        Interop.valueLayout.ADDRESS.withName("allocator"),
-        Interop.valueLayout.ADDRESS.withName("parent"),
-        Interop.valueLayout.C_LONG.withName("maxsize"),
-        Interop.valueLayout.C_LONG.withName("align"),
-        Interop.valueLayout.C_LONG.withName("offset"),
-        Interop.valueLayout.C_LONG.withName("size")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
+            Interop.valueLayout.ADDRESS.withName("allocator"),
+            Interop.valueLayout.ADDRESS.withName("parent"),
+            Interop.valueLayout.C_LONG.withName("maxsize"),
+            Interop.valueLayout.C_LONG.withName("align"),
+            Interop.valueLayout.C_LONG.withName("offset"),
+            Interop.valueLayout.C_LONG.withName("size")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -87,58 +85,68 @@ public class Memory extends Struct {
      * Get the value of the field {@code mini_object}
      * @return The value of the field {@code mini_object}
      */
-    public org.gstreamer.gst.MiniObject miniObject$get() {
+    public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return new org.gstreamer.gst.MiniObject(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mini_object}
+     * @param miniObject The new value of the field {@code mini_object}
+     */
+    public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
     }
     
     /**
      * Get the value of the field {@code allocator}
      * @return The value of the field {@code allocator}
      */
-    public org.gstreamer.gst.Allocator allocator$get() {
+    public org.gstreamer.gst.Allocator getAllocator() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("allocator"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Allocator(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Allocator.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code allocator}
      * @param allocator The new value of the field {@code allocator}
      */
-    public void allocator$set(org.gstreamer.gst.Allocator allocator) {
+    public void setAllocator(org.gstreamer.gst.Allocator allocator) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("allocator"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocator.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocator == null ? MemoryAddress.NULL : allocator.handle()));
     }
     
     /**
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gstreamer.gst.Memory parent$get() {
+    public org.gstreamer.gst.Memory getParent() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parent"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code parent}
      * @param parent The new value of the field {@code parent}
      */
-    public void parent$set(org.gstreamer.gst.Memory parent) {
+    public void setParent(org.gstreamer.gst.Memory parent) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), parent.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
      * Get the value of the field {@code maxsize}
      * @return The value of the field {@code maxsize}
      */
-    public long maxsize$get() {
+    public long getMaxsize() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("maxsize"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -149,7 +157,7 @@ public class Memory extends Struct {
      * Change the value of the field {@code maxsize}
      * @param maxsize The new value of the field {@code maxsize}
      */
-    public void maxsize$set(long maxsize) {
+    public void setMaxsize(long maxsize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("maxsize"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxsize);
@@ -159,7 +167,7 @@ public class Memory extends Struct {
      * Get the value of the field {@code align}
      * @return The value of the field {@code align}
      */
-    public long align$get() {
+    public long getAlign() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("align"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -170,7 +178,7 @@ public class Memory extends Struct {
      * Change the value of the field {@code align}
      * @param align The new value of the field {@code align}
      */
-    public void align$set(long align) {
+    public void setAlign(long align) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("align"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), align);
@@ -180,7 +188,7 @@ public class Memory extends Struct {
      * Get the value of the field {@code offset}
      * @return The value of the field {@code offset}
      */
-    public long offset$get() {
+    public long getOffset() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -191,7 +199,7 @@ public class Memory extends Struct {
      * Change the value of the field {@code offset}
      * @param offset The new value of the field {@code offset}
      */
-    public void offset$set(long offset) {
+    public void setOffset(long offset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -201,7 +209,7 @@ public class Memory extends Struct {
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public long size$get() {
+    public long getSize() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -212,7 +220,7 @@ public class Memory extends Struct {
      * Change the value of the field {@code size}
      * @param size The new value of the field {@code size}
      */
-    public void size$set(long size) {
+    public void setSize(long size) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -223,15 +231,15 @@ public class Memory extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Memory(Addressable address, Ownership ownership) {
+    protected Memory(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewWrapped(@NotNull org.gstreamer.gst.MemoryFlags flags, @NotNull byte[] data, long maxsize, long offset, long size, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Memory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Memory(input, ownership);
+    
+    private static MemoryAddress constructNewWrapped(org.gstreamer.gst.MemoryFlags flags, byte[] data, long maxsize, long offset, long size, @Nullable org.gtk.glib.DestroyNotify notify) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_memory_new_wrapped.invokeExact(
                     flags.getValue(),
@@ -239,8 +247,8 @@ public class Memory extends Struct {
                     maxsize,
                     offset,
                     size,
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,12 +266,12 @@ public class Memory extends Struct {
      * @param maxsize allocated size of {@code data}
      * @param offset offset in {@code data}
      * @param size size of valid data
-     * @param userData user_data
      * @param notify called with {@code user_data} when the memory is freed
      * @return a new {@link Memory}.
      */
-    public static Memory newWrapped(@NotNull org.gstreamer.gst.MemoryFlags flags, @NotNull byte[] data, long maxsize, long offset, long size, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        return new Memory(constructNewWrapped(flags, data, maxsize, offset, size, userData, notify), Ownership.FULL);
+    public static Memory newWrapped(org.gstreamer.gst.MemoryFlags flags, byte[] data, long maxsize, long offset, long size, @Nullable org.gtk.glib.DestroyNotify notify) {
+        var RESULT = constructNewWrapped(flags, data, maxsize, offset, size, notify);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -274,7 +282,7 @@ public class Memory extends Struct {
      * @param size size to copy, or -1 to copy to the end of the memory region
      * @return a new {@link Memory}.
      */
-    public @NotNull org.gstreamer.gst.Memory copy(long offset, long size) {
+    public org.gstreamer.gst.Memory copy(long offset, long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_memory_copy.invokeExact(
@@ -284,7 +292,7 @@ public class Memory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -294,21 +302,19 @@ public class Memory extends Struct {
      * @return the current size of {@code mem}
      */
     public long getSizes(Out<Long> offset, Out<Long> maxsize) {
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
         MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(maxsize, "Parameter 'maxsize' must not be null");
         MemorySegment maxsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_memory_get_sizes.invokeExact(
                     handle(),
-                    (Addressable) offsetPOINTER.address(),
-                    (Addressable) maxsizePOINTER.address());
+                    (Addressable) (offset == null ? MemoryAddress.NULL : (Addressable) offsetPOINTER.address()),
+                    (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (offset != null) offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -323,10 +329,7 @@ public class Memory extends Struct {
      * @param offset The offset in the memory
      * @param size the size of valid data in the memory
      */
-    public void init(@NotNull org.gstreamer.gst.MemoryFlags flags, @NotNull org.gstreamer.gst.Allocator allocator, @NotNull org.gstreamer.gst.Memory parent, long maxsize, long align, long offset, long size) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    public void init(org.gstreamer.gst.MemoryFlags flags, org.gstreamer.gst.Allocator allocator, org.gstreamer.gst.Memory parent, long maxsize, long align, long offset, long size) {
         try {
             DowncallHandles.gst_memory_init.invokeExact(
                     handle(),
@@ -353,9 +356,7 @@ public class Memory extends Struct {
      * @param offset a pointer to a result offset
      * @return {@code true} if the memory is contiguous and of a common parent.
      */
-    public boolean isSpan(@NotNull org.gstreamer.gst.Memory mem2, Out<Long> offset) {
-        java.util.Objects.requireNonNull(mem2, "Parameter 'mem2' must not be null");
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
+    public boolean isSpan(org.gstreamer.gst.Memory mem2, Out<Long> offset) {
         MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -367,7 +368,7 @@ public class Memory extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -375,17 +376,16 @@ public class Memory extends Struct {
      * @param memType a memory type
      * @return {@code true} if {@code mem} was allocated from an allocator for {@code mem_type}.
      */
-    public boolean isType(@NotNull java.lang.String memType) {
-        java.util.Objects.requireNonNull(memType, "Parameter 'memType' must not be null");
+    public boolean isType(java.lang.String memType) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_memory_is_type.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(memType));
+                    Marshal.stringToAddress.marshal(memType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -400,9 +400,7 @@ public class Memory extends Struct {
      * @return a {@link Memory} object mapped
      * with {@code flags} or {@code null} when a mapping is not possible.
      */
-    public @Nullable org.gstreamer.gst.Memory makeMapped(@NotNull org.gstreamer.gst.MapInfo info, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public @Nullable org.gstreamer.gst.Memory makeMapped(org.gstreamer.gst.MapInfo info, org.gstreamer.gst.MapFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_memory_make_mapped.invokeExact(
@@ -413,7 +411,7 @@ public class Memory extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -435,9 +433,7 @@ public class Memory extends Struct {
      * @param flags mapping flags
      * @return {@code true} if the map operation was successful.
      */
-    public boolean map(@NotNull org.gstreamer.gst.MapInfo info, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean map(org.gstreamer.gst.MapInfo info, org.gstreamer.gst.MapFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_memory_map.invokeExact(
@@ -447,7 +443,7 @@ public class Memory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -479,7 +475,7 @@ public class Memory extends Struct {
      * @param size size to share, or -1 to share to the end of the memory region
      * @return a new {@link Memory}.
      */
-    public @NotNull org.gstreamer.gst.Memory share(long offset, long size) {
+    public org.gstreamer.gst.Memory share(long offset, long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_memory_share.invokeExact(
@@ -489,15 +485,14 @@ public class Memory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Release the memory obtained with gst_memory_map()
      * @param info a {@link MapInfo}
      */
-    public void unmap(@NotNull org.gstreamer.gst.MapInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public void unmap(org.gstreamer.gst.MapInfo info) {
         try {
             DowncallHandles.gst_memory_unmap.invokeExact(
                     handle(),
@@ -575,31 +570,35 @@ public class Memory extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Memory.Builder} object constructs a {@link Memory} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Memory.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Memory struct;
+        private final Memory struct;
         
-         /**
-         * A {@link Memory.Build} object constructs a {@link Memory} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Memory.allocate();
         }
         
          /**
          * Finish building the {@link Memory} struct.
          * @return A new instance of {@code Memory} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Memory construct() {
+        public Memory build() {
             return struct;
         }
         
@@ -608,7 +607,7 @@ public class Memory extends Struct {
          * @param miniObject The value for the {@code miniObject} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
@@ -620,7 +619,7 @@ public class Memory extends Struct {
          * @param allocator The value for the {@code allocator} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllocator(org.gstreamer.gst.Allocator allocator) {
+        public Builder setAllocator(org.gstreamer.gst.Allocator allocator) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("allocator"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocator == null ? MemoryAddress.NULL : allocator.handle()));
@@ -632,7 +631,7 @@ public class Memory extends Struct {
          * @param parent The value for the {@code parent} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gstreamer.gst.Memory parent) {
+        public Builder setParent(org.gstreamer.gst.Memory parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -644,7 +643,7 @@ public class Memory extends Struct {
          * @param maxsize The value for the {@code maxsize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxsize(long maxsize) {
+        public Builder setMaxsize(long maxsize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("maxsize"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxsize);
@@ -656,7 +655,7 @@ public class Memory extends Struct {
          * @param align The value for the {@code align} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAlign(long align) {
+        public Builder setAlign(long align) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("align"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), align);
@@ -668,7 +667,7 @@ public class Memory extends Struct {
          * @param offset The value for the {@code offset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(long offset) {
+        public Builder setOffset(long offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -680,7 +679,7 @@ public class Memory extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(long size) {
+        public Builder setSize(long size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);

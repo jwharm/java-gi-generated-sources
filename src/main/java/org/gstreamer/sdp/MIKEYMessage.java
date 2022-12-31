@@ -16,26 +16,24 @@ public class MIKEYMessage extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMIKEYMessage";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
-        Interop.valueLayout.C_BYTE.withName("version"),
-        MemoryLayout.paddingLayout(24),
-        Interop.valueLayout.C_INT.withName("type"),
-        Interop.valueLayout.C_INT.withName("V"),
-        Interop.valueLayout.C_INT.withName("prf_func"),
-        Interop.valueLayout.C_INT.withName("CSB_id"),
-        Interop.valueLayout.C_INT.withName("map_type"),
-        Interop.valueLayout.ADDRESS.withName("map_info"),
-        Interop.valueLayout.ADDRESS.withName("payloads")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
+            Interop.valueLayout.C_BYTE.withName("version"),
+            MemoryLayout.paddingLayout(24),
+            Interop.valueLayout.C_INT.withName("type"),
+            Interop.valueLayout.C_INT.withName("V"),
+            Interop.valueLayout.C_INT.withName("prf_func"),
+            Interop.valueLayout.C_INT.withName("CSB_id"),
+            Interop.valueLayout.C_INT.withName("map_type"),
+            Interop.valueLayout.ADDRESS.withName("map_info"),
+            Interop.valueLayout.ADDRESS.withName("payloads")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,7 +53,7 @@ public class MIKEYMessage extends Struct {
      * Get the value of the field {@code version}
      * @return The value of the field {@code version}
      */
-    public byte version$get() {
+    public byte getVersion() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("version"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -66,7 +64,7 @@ public class MIKEYMessage extends Struct {
      * Change the value of the field {@code version}
      * @param version The new value of the field {@code version}
      */
-    public void version$set(byte version) {
+    public void setVersion(byte version) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("version"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), version);
@@ -76,7 +74,7 @@ public class MIKEYMessage extends Struct {
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.sdp.MIKEYType type$get() {
+    public org.gstreamer.sdp.MIKEYType getType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -87,38 +85,38 @@ public class MIKEYMessage extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.sdp.MIKEYType type) {
+    public void setType(org.gstreamer.sdp.MIKEYType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
      * Get the value of the field {@code V}
      * @return The value of the field {@code V}
      */
-    public boolean V$get() {
+    public boolean getV() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("V"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code V}
      * @param V The new value of the field {@code V}
      */
-    public void V$set(boolean V) {
+    public void setV(boolean V) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("V"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), V ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(V, null).intValue());
     }
     
     /**
      * Get the value of the field {@code prf_func}
      * @return The value of the field {@code prf_func}
      */
-    public org.gstreamer.sdp.MIKEYPRFFunc prfFunc$get() {
+    public org.gstreamer.sdp.MIKEYPRFFunc getPrfFunc() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prf_func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -129,17 +127,17 @@ public class MIKEYMessage extends Struct {
      * Change the value of the field {@code prf_func}
      * @param prfFunc The new value of the field {@code prf_func}
      */
-    public void prfFunc$set(org.gstreamer.sdp.MIKEYPRFFunc prfFunc) {
+    public void setPrfFunc(org.gstreamer.sdp.MIKEYPRFFunc prfFunc) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prf_func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), prfFunc.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prfFunc == null ? MemoryAddress.NULL : prfFunc.getValue()));
     }
     
     /**
      * Get the value of the field {@code CSB_id}
      * @return The value of the field {@code CSB_id}
      */
-    public int CSBId$get() {
+    public int getCSBId() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("CSB_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -150,7 +148,7 @@ public class MIKEYMessage extends Struct {
      * Change the value of the field {@code CSB_id}
      * @param CSBId The new value of the field {@code CSB_id}
      */
-    public void CSBId$set(int CSBId) {
+    public void setCSBId(int CSBId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("CSB_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), CSBId);
@@ -160,7 +158,7 @@ public class MIKEYMessage extends Struct {
      * Get the value of the field {@code map_type}
      * @return The value of the field {@code map_type}
      */
-    public org.gstreamer.sdp.MIKEYMapType mapType$get() {
+    public org.gstreamer.sdp.MIKEYMapType getMapType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("map_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -171,10 +169,52 @@ public class MIKEYMessage extends Struct {
      * Change the value of the field {@code map_type}
      * @param mapType The new value of the field {@code map_type}
      */
-    public void mapType$set(org.gstreamer.sdp.MIKEYMapType mapType) {
+    public void setMapType(org.gstreamer.sdp.MIKEYMapType mapType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("map_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), mapType.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mapType == null ? MemoryAddress.NULL : mapType.getValue()));
+    }
+    
+    /**
+     * Get the value of the field {@code map_info}
+     * @return The value of the field {@code map_info}
+     */
+    public PointerAddress getMapInfo() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("map_info"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code map_info}
+     * @param mapInfo The new value of the field {@code map_info}
+     */
+    public void setMapInfo(java.lang.foreign.MemoryAddress[] mapInfo) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("map_info"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mapInfo == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mapInfo, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code payloads}
+     * @return The value of the field {@code payloads}
+     */
+    public PointerAddress getPayloads() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("payloads"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code payloads}
+     * @param payloads The new value of the field {@code payloads}
+     */
+    public void setPayloads(java.lang.foreign.MemoryAddress[] payloads) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("payloads"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (payloads == null ? MemoryAddress.NULL : Interop.allocateNativeArray(payloads, false)));
     }
     
     /**
@@ -182,13 +222,15 @@ public class MIKEYMessage extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MIKEYMessage(Addressable address, Ownership ownership) {
+    protected MIKEYMessage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MIKEYMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYMessage(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mikey_message_new.invokeExact();
         } catch (Throwable ERR) {
@@ -204,11 +246,9 @@ public class MIKEYMessage extends Struct {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromBytes(@NotNull org.gtk.glib.Bytes bytes, @NotNull org.gstreamer.sdp.MIKEYDecryptInfo info) throws GErrorException {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    private static MemoryAddress constructNewFromBytes(org.gtk.glib.Bytes bytes, org.gstreamer.sdp.MIKEYDecryptInfo info) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mikey_message_new_from_bytes.invokeExact(
                     bytes.handle(),
@@ -230,13 +270,13 @@ public class MIKEYMessage extends Struct {
      * @return a new {@link MIKEYMessage}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static MIKEYMessage newFromBytes(@NotNull org.gtk.glib.Bytes bytes, @NotNull org.gstreamer.sdp.MIKEYDecryptInfo info) throws GErrorException {
-        return new MIKEYMessage(constructNewFromBytes(bytes, info), Ownership.FULL);
+    public static MIKEYMessage newFromBytes(org.gtk.glib.Bytes bytes, org.gstreamer.sdp.MIKEYDecryptInfo info) throws GErrorException {
+        var RESULT = constructNewFromBytes(bytes, info);
+        return org.gstreamer.sdp.MIKEYMessage.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromCaps(org.gstreamer.gst.Caps caps) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mikey_message_new_from_caps.invokeExact(
                     caps.handle());
@@ -257,15 +297,14 @@ public class MIKEYMessage extends Struct {
      * @return a {@link MIKEYMessage},
      * or {@code null} if there is no srtp information in the caps.
      */
-    public static MIKEYMessage newFromCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        return new MIKEYMessage(constructNewFromCaps(caps), Ownership.FULL);
+    public static MIKEYMessage newFromCaps(org.gstreamer.gst.Caps caps) {
+        var RESULT = constructNewFromCaps(caps);
+        return org.gstreamer.sdp.MIKEYMessage.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromData(@NotNull byte[] data, long size, @NotNull org.gstreamer.sdp.MIKEYDecryptInfo info) throws GErrorException {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    private static MemoryAddress constructNewFromData(byte[] data, long size, org.gstreamer.sdp.MIKEYDecryptInfo info) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mikey_message_new_from_data.invokeExact(
                     Interop.allocateNativeArray(data, false),
@@ -291,8 +330,9 @@ public class MIKEYMessage extends Struct {
      * {@code error} will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static MIKEYMessage newFromData(@NotNull byte[] data, long size, @NotNull org.gstreamer.sdp.MIKEYDecryptInfo info) throws GErrorException {
-        return new MIKEYMessage(constructNewFromData(data, size, info), Ownership.FULL);
+    public static MIKEYMessage newFromData(byte[] data, long size, org.gstreamer.sdp.MIKEYDecryptInfo info) throws GErrorException {
+        var RESULT = constructNewFromData(data, size, info);
+        return org.gstreamer.sdp.MIKEYMessage.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -313,7 +353,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -321,8 +361,7 @@ public class MIKEYMessage extends Struct {
      * @param payload a {@link MIKEYPayload}
      * @return {@code true} on success
      */
-    public boolean addPayload(@NotNull org.gstreamer.sdp.MIKEYPayload payload) {
-        java.util.Objects.requireNonNull(payload, "Parameter 'payload' must not be null");
+    public boolean addPayload(org.gstreamer.sdp.MIKEYPayload payload) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_add_payload.invokeExact(
@@ -332,7 +371,7 @@ public class MIKEYMessage extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         payload.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -342,9 +381,7 @@ public class MIKEYMessage extends Struct {
      * @param data the encrypted envelope key
      * @return {@code true} on success
      */
-    public boolean addPke(@NotNull org.gstreamer.sdp.MIKEYCacheType C, short dataLen, @NotNull byte[] data) {
-        java.util.Objects.requireNonNull(C, "Parameter 'C' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean addPke(org.gstreamer.sdp.MIKEYCacheType C, short dataLen, byte[] data) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_add_pke.invokeExact(
@@ -355,7 +392,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -364,8 +401,7 @@ public class MIKEYMessage extends Struct {
      * @param rand random data
      * @return {@code true} on success
      */
-    public boolean addRand(byte len, @NotNull byte[] rand) {
-        java.util.Objects.requireNonNull(rand, "Parameter 'rand' must not be null");
+    public boolean addRand(byte len, byte[] rand) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_add_rand.invokeExact(
@@ -375,7 +411,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -392,7 +428,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -401,9 +437,7 @@ public class MIKEYMessage extends Struct {
      * @param tsValue The timestamp value of the specified {@code type}
      * @return {@code true} on success
      */
-    public boolean addT(@NotNull org.gstreamer.sdp.MIKEYTSType type, @NotNull byte[] tsValue) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(tsValue, "Parameter 'tsValue' must not be null");
+    public boolean addT(org.gstreamer.sdp.MIKEYTSType type, byte[] tsValue) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_add_t.invokeExact(
@@ -413,7 +447,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -429,10 +463,10 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull java.lang.String base64Encode() {
+    public java.lang.String base64Encode() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mikey_message_base64_encode.invokeExact(
@@ -440,7 +474,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -449,8 +483,7 @@ public class MIKEYMessage extends Struct {
      * @param nth payload to find
      * @return the {@code nth} {@link MIKEYPayload} of {@code type}.
      */
-    public @NotNull org.gstreamer.sdp.MIKEYPayload findPayload(@NotNull org.gstreamer.sdp.MIKEYPayloadType type, int nth) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public org.gstreamer.sdp.MIKEYPayload findPayload(org.gstreamer.sdp.MIKEYPayloadType type, int nth) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mikey_message_find_payload.invokeExact(
@@ -460,7 +493,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.MIKEYPayload(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.MIKEYPayload.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -468,7 +501,7 @@ public class MIKEYMessage extends Struct {
      * @param idx an index
      * @return a {@link MIKEYMapSRTP}
      */
-    public @NotNull org.gstreamer.sdp.MIKEYMapSRTP getCsSrtp(int idx) {
+    public org.gstreamer.sdp.MIKEYMapSRTP getCsSrtp(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mikey_message_get_cs_srtp.invokeExact(
@@ -477,7 +510,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.MIKEYMapSRTP(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.MIKEYMapSRTP.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -516,7 +549,7 @@ public class MIKEYMessage extends Struct {
      * @return the {@link MIKEYPayload} at {@code idx}. The payload
      * remains valid for as long as it is part of {@code msg}.
      */
-    public @NotNull org.gstreamer.sdp.MIKEYPayload getPayload(int idx) {
+    public org.gstreamer.sdp.MIKEYPayload getPayload(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mikey_message_get_payload.invokeExact(
@@ -525,7 +558,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.MIKEYPayload(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.MIKEYPayload.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -536,8 +569,7 @@ public class MIKEYMessage extends Struct {
      * @param map the map info
      * @return {@code true} on success
      */
-    public boolean insertCsSrtp(int idx, @NotNull org.gstreamer.sdp.MIKEYMapSRTP map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public boolean insertCsSrtp(int idx, org.gstreamer.sdp.MIKEYMapSRTP map) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_insert_cs_srtp.invokeExact(
@@ -547,7 +579,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -557,8 +589,7 @@ public class MIKEYMessage extends Struct {
      * @param payload a {@link MIKEYPayload}
      * @return {@code true} on success
      */
-    public boolean insertPayload(int idx, @NotNull org.gstreamer.sdp.MIKEYPayload payload) {
-        java.util.Objects.requireNonNull(payload, "Parameter 'payload' must not be null");
+    public boolean insertPayload(int idx, org.gstreamer.sdp.MIKEYPayload payload) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_insert_payload.invokeExact(
@@ -569,7 +600,7 @@ public class MIKEYMessage extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         payload.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -586,7 +617,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -603,7 +634,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -612,8 +643,7 @@ public class MIKEYMessage extends Struct {
      * @param map the map info
      * @return {@code true} on success
      */
-    public boolean replaceCsSrtp(int idx, @NotNull org.gstreamer.sdp.MIKEYMapSRTP map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public boolean replaceCsSrtp(int idx, org.gstreamer.sdp.MIKEYMapSRTP map) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_replace_cs_srtp.invokeExact(
@@ -623,7 +653,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -632,8 +662,7 @@ public class MIKEYMessage extends Struct {
      * @param payload a {@link MIKEYPayload}
      * @return {@code true} on success
      */
-    public boolean replacePayload(int idx, @NotNull org.gstreamer.sdp.MIKEYPayload payload) {
-        java.util.Objects.requireNonNull(payload, "Parameter 'payload' must not be null");
+    public boolean replacePayload(int idx, org.gstreamer.sdp.MIKEYPayload payload) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_replace_payload.invokeExact(
@@ -644,7 +673,7 @@ public class MIKEYMessage extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         payload.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -657,24 +686,21 @@ public class MIKEYMessage extends Struct {
      * @param mapType the {@link MIKEYMapType}
      * @return {@code true} on success
      */
-    public boolean setInfo(byte version, @NotNull org.gstreamer.sdp.MIKEYType type, boolean V, @NotNull org.gstreamer.sdp.MIKEYPRFFunc prfFunc, int CSBId, @NotNull org.gstreamer.sdp.MIKEYMapType mapType) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(prfFunc, "Parameter 'prfFunc' must not be null");
-        java.util.Objects.requireNonNull(mapType, "Parameter 'mapType' must not be null");
+    public boolean setInfo(byte version, org.gstreamer.sdp.MIKEYType type, boolean V, org.gstreamer.sdp.MIKEYPRFFunc prfFunc, int CSBId, org.gstreamer.sdp.MIKEYMapType mapType) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_set_info.invokeExact(
                     handle(),
                     version,
                     type.getValue(),
-                    V ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(V, null).intValue(),
                     prfFunc.getValue(),
                     CSBId,
                     mapType.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -683,8 +709,7 @@ public class MIKEYMessage extends Struct {
      * @return a new {@link org.gtk.glib.Bytes} for {@code msg}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Bytes toBytes(@NotNull org.gstreamer.sdp.MIKEYEncryptInfo info) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public org.gtk.glib.Bytes toBytes(org.gstreamer.sdp.MIKEYEncryptInfo info) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -698,11 +723,10 @@ public class MIKEYMessage extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public boolean toCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean toCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mikey_message_to_caps.invokeExact(
@@ -711,7 +735,7 @@ public class MIKEYMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -872,35 +896,39 @@ public class MIKEYMessage extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link MIKEYMessage.Builder} object constructs a {@link MIKEYMessage} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link MIKEYMessage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private MIKEYMessage struct;
+        private final MIKEYMessage struct;
         
-         /**
-         * A {@link MIKEYMessage.Build} object constructs a {@link MIKEYMessage} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = MIKEYMessage.allocate();
         }
         
          /**
          * Finish building the {@link MIKEYMessage} struct.
          * @return A new instance of {@code MIKEYMessage} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MIKEYMessage construct() {
+        public MIKEYMessage build() {
             return struct;
         }
         
-        public Build setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
@@ -912,7 +940,7 @@ public class MIKEYMessage extends Struct {
          * @param version The value for the {@code version} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVersion(byte version) {
+        public Builder setVersion(byte version) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("version"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), version);
@@ -924,7 +952,7 @@ public class MIKEYMessage extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.sdp.MIKEYType type) {
+        public Builder setType(org.gstreamer.sdp.MIKEYType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
@@ -936,10 +964,10 @@ public class MIKEYMessage extends Struct {
          * @param V The value for the {@code V} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setV(boolean V) {
+        public Builder setV(boolean V) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("V"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), V ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(V, null).intValue());
             return this;
         }
         
@@ -948,7 +976,7 @@ public class MIKEYMessage extends Struct {
          * @param prfFunc The value for the {@code prfFunc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrfFunc(org.gstreamer.sdp.MIKEYPRFFunc prfFunc) {
+        public Builder setPrfFunc(org.gstreamer.sdp.MIKEYPRFFunc prfFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("prf_func"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prfFunc == null ? MemoryAddress.NULL : prfFunc.getValue()));
@@ -960,7 +988,7 @@ public class MIKEYMessage extends Struct {
          * @param CSBId The value for the {@code CSBId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCSBId(int CSBId) {
+        public Builder setCSBId(int CSBId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("CSB_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), CSBId);
@@ -972,7 +1000,7 @@ public class MIKEYMessage extends Struct {
          * @param mapType The value for the {@code mapType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMapType(org.gstreamer.sdp.MIKEYMapType mapType) {
+        public Builder setMapType(org.gstreamer.sdp.MIKEYMapType mapType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mapType == null ? MemoryAddress.NULL : mapType.getValue()));
@@ -984,7 +1012,7 @@ public class MIKEYMessage extends Struct {
          * @param mapInfo The value for the {@code mapInfo} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMapInfo(java.lang.foreign.MemoryAddress[] mapInfo) {
+        public Builder setMapInfo(java.lang.foreign.MemoryAddress[] mapInfo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map_info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mapInfo == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mapInfo, false)));
@@ -996,7 +1024,7 @@ public class MIKEYMessage extends Struct {
          * @param payloads The value for the {@code payloads} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPayloads(java.lang.foreign.MemoryAddress[] payloads) {
+        public Builder setPayloads(java.lang.foreign.MemoryAddress[] payloads) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("payloads"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (payloads == null ? MemoryAddress.NULL : Interop.allocateNativeArray(payloads, false)));

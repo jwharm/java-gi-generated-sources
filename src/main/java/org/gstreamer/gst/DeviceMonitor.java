@@ -69,7 +69,7 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * @version 1.4
  */
-public class DeviceMonitor extends org.gstreamer.gst.Object {
+public class DeviceMonitor extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -77,19 +77,17 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstDeviceMonitor";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -97,40 +95,26 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
      * <p>
      * Because DeviceMonitor is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DeviceMonitor(Addressable address, Ownership ownership) {
+    protected DeviceMonitor(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to DeviceMonitor if its GType is a (or inherits from) "GstDeviceMonitor".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DeviceMonitor} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstDeviceMonitor", a ClassCastException will be thrown.
-     */
-    public static DeviceMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DeviceMonitor.getType())) {
-            return new DeviceMonitor(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstDeviceMonitor");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DeviceMonitor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceMonitor(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_monitor_new.invokeExact();
         } catch (Throwable ERR) {
@@ -168,7 +152,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
         try {
             RESULT = (int) DowncallHandles.gst_device_monitor_add_filter.invokeExact(
                     handle(),
-                    (Addressable) (classes == null ? MemoryAddress.NULL : Interop.allocateNativeString(classes)),
+                    (Addressable) (classes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(classes, null)),
                     (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -180,7 +164,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
      * Gets the {@link Bus} of this {@link DeviceMonitor}
      * @return a {@link Bus}
      */
-    public @NotNull org.gstreamer.gst.Bus getBus() {
+    public org.gstreamer.gst.Bus getBus() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_monitor_get_bus.invokeExact(
@@ -188,7 +172,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Bus(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -205,7 +189,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -215,7 +199,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
      * @return A list of device provider factory names that are currently being
      *     monitored by {@code monitor} or {@code null} when nothing is being monitored.
      */
-    public @NotNull PointerString getProviders() {
+    public PointerString getProviders() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_monitor_get_providers.invokeExact(
@@ -239,7 +223,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -257,7 +241,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -269,7 +253,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_device_monitor_set_show_all_devices.invokeExact(
                     handle(),
-                    showAll ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showAll, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -290,7 +274,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -309,7 +293,7 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_device_monitor_get_type.invokeExact();
@@ -318,42 +302,44 @@ public class DeviceMonitor extends org.gstreamer.gst.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link DeviceMonitor.Builder} object constructs a {@link DeviceMonitor} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DeviceMonitor.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link DeviceMonitor.Build} object constructs a {@link DeviceMonitor} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DeviceMonitor} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DeviceMonitor} using {@link DeviceMonitor#castFrom}.
+         * {@link DeviceMonitor}.
          * @return A new instance of {@code DeviceMonitor} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DeviceMonitor construct() {
-            return DeviceMonitor.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DeviceMonitor.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DeviceMonitor build() {
+            return (DeviceMonitor) org.gtk.gobject.GObject.newWithProperties(
+                DeviceMonitor.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setShowAll(boolean showAll) {
+        public Builder setShowAll(boolean showAll) {
             names.add("show-all");
             values.add(org.gtk.gobject.Value.create(showAll));
             return this;

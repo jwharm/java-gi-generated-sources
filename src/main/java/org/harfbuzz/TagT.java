@@ -18,4 +18,14 @@ public class TagT extends io.github.jwharm.javagi.Alias<Integer> {
     public TagT(int value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static TagT[] fromNativeArray(MemoryAddress address, long length) {
+        TagT[] array = new TagT[(int) length];
+        long bytesSize = Interop.valueLayout.C_INT.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new TagT(address.get(Interop.valueLayout.C_INT, i * bytesSize));
+        }
+        return array;
+    }
 }

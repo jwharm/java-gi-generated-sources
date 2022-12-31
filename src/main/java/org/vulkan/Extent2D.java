@@ -40,8 +40,10 @@ public class Extent2D extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Extent2D(Addressable address, Ownership ownership) {
+    protected Extent2D(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Extent2D> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Extent2D(input, ownership);
 }

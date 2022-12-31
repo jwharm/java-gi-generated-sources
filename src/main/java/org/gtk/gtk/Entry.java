@@ -99,17 +99,15 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static final java.lang.String C_TYPE_NAME = "GtkEntry";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -117,40 +115,26 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * Because Entry is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Entry(Addressable address, Ownership ownership) {
+    protected Entry(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Entry if its GType is a (or inherits from) "GtkEntry".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Entry} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkEntry", a ClassCastException will be thrown.
-     */
-    public static Entry castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Entry.getType())) {
-            return new Entry(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEntry");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Entry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Entry(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_new.invokeExact();
         } catch (Throwable ERR) {
@@ -166,9 +150,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithBuffer(org.gtk.gtk.EntryBuffer buffer) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_new_with_buffer.invokeExact(
                     buffer.handle());
@@ -183,8 +166,9 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param buffer The buffer to use for the new {@code GtkEntry}.
      * @return a new {@code GtkEntry}
      */
-    public static Entry newWithBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
-        return new Entry(constructNewWithBuffer(buffer), Ownership.NONE);
+    public static Entry newWithBuffer(org.gtk.gtk.EntryBuffer buffer) {
+        var RESULT = constructNewWithBuffer(buffer);
+        return (org.gtk.gtk.Entry) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Entry.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -199,7 +183,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -233,7 +217,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.NONE);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -241,7 +225,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * this widget.
      * @return A {@code GtkEntryBuffer} object.
      */
-    public @NotNull org.gtk.gtk.EntryBuffer getBuffer() {
+    public org.gtk.gtk.EntryBuffer getBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_buffer.invokeExact(
@@ -249,7 +233,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.EntryBuffer(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.EntryBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.EntryBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -266,7 +250,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.EntryCompletion(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.EntryCompletion) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.EntryCompletion.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -298,7 +282,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -313,7 +297,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -321,8 +305,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos Icon position
      * @return {@code true} if the icon is activatable.
      */
-    public boolean getIconActivatable(@NotNull org.gtk.gtk.EntryIconPosition iconPos) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public boolean getIconActivatable(org.gtk.gtk.EntryIconPosition iconPos) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_entry_get_icon_activatable.invokeExact(
@@ -331,7 +314,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -347,9 +330,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos Icon position
      * @param iconArea Return location for the icon’s area
      */
-    public void getIconArea(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @NotNull org.gtk.gdk.Rectangle iconArea) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
-        java.util.Objects.requireNonNull(iconArea, "Parameter 'iconArea' must not be null");
+    public void getIconArea(org.gtk.gtk.EntryIconPosition iconPos, org.gtk.gdk.Rectangle iconArea) {
         try {
             DowncallHandles.gtk_entry_get_icon_area.invokeExact(
                     handle(),
@@ -392,8 +373,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos Icon position
      * @return A {@code GIcon}
      */
-    public @Nullable org.gtk.gio.Icon getIconGicon(@NotNull org.gtk.gtk.EntryIconPosition iconPos) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public @Nullable org.gtk.gio.Icon getIconGicon(org.gtk.gtk.EntryIconPosition iconPos) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_gicon.invokeExact(
@@ -402,7 +382,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -413,8 +393,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos Icon position
      * @return An icon name
      */
-    public @Nullable java.lang.String getIconName(@NotNull org.gtk.gtk.EntryIconPosition iconPos) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public @Nullable java.lang.String getIconName(org.gtk.gtk.EntryIconPosition iconPos) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_name.invokeExact(
@@ -423,7 +402,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -435,8 +414,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      *   if no icon is set for this position or the icon set is not
      *   a {@code GdkPaintable}.
      */
-    public @Nullable org.gtk.gdk.Paintable getIconPaintable(@NotNull org.gtk.gtk.EntryIconPosition iconPos) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public @Nullable org.gtk.gdk.Paintable getIconPaintable(org.gtk.gtk.EntryIconPosition iconPos) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_paintable.invokeExact(
@@ -445,7 +423,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -453,8 +431,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos Icon position
      * @return {@code true} if the icon is sensitive.
      */
-    public boolean getIconSensitive(@NotNull org.gtk.gtk.EntryIconPosition iconPos) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public boolean getIconSensitive(org.gtk.gtk.EntryIconPosition iconPos) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_entry_get_icon_sensitive.invokeExact(
@@ -463,7 +440,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -475,8 +452,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos Icon position
      * @return image representation being used
      */
-    public @NotNull org.gtk.gtk.ImageType getIconStorageType(@NotNull org.gtk.gtk.EntryIconPosition iconPos) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public org.gtk.gtk.ImageType getIconStorageType(org.gtk.gtk.EntryIconPosition iconPos) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_entry_get_icon_storage_type.invokeExact(
@@ -494,8 +470,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos the icon position
      * @return the tooltip text
      */
-    public @Nullable java.lang.String getIconTooltipMarkup(@NotNull org.gtk.gtk.EntryIconPosition iconPos) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public @Nullable java.lang.String getIconTooltipMarkup(org.gtk.gtk.EntryIconPosition iconPos) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_tooltip_markup.invokeExact(
@@ -504,7 +479,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -513,8 +488,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos the icon position
      * @return the tooltip text
      */
-    public @Nullable java.lang.String getIconTooltipText(@NotNull org.gtk.gtk.EntryIconPosition iconPos) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public @Nullable java.lang.String getIconTooltipText(org.gtk.gtk.EntryIconPosition iconPos) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_get_icon_tooltip_text.invokeExact(
@@ -523,14 +497,14 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the input hints of this {@code GtkEntry}.
      * @return the input hints
      */
-    public @NotNull org.gtk.gtk.InputHints getInputHints() {
+    public org.gtk.gtk.InputHints getInputHints() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_entry_get_input_hints.invokeExact(
@@ -545,7 +519,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Gets the input purpose of the {@code GtkEntry}.
      * @return the input purpose
      */
-    public @NotNull org.gtk.gtk.InputPurpose getInputPurpose() {
+    public org.gtk.gtk.InputPurpose getInputPurpose() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_entry_get_input_purpose.invokeExact(
@@ -603,7 +577,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -623,7 +597,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -673,7 +647,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(RESULT, Ownership.NONE);
+        return org.pango.TabArray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -709,7 +683,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -729,7 +703,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -778,7 +752,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_entry_set_activates_default.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -814,8 +788,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * with unlimited extent.
      * @param attrs a {@code PangoAttrList}
      */
-    public void setAttributes(@NotNull org.pango.AttrList attrs) {
-        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
+    public void setAttributes(org.pango.AttrList attrs) {
         try {
             DowncallHandles.gtk_entry_set_attributes.invokeExact(
                     handle(),
@@ -830,8 +803,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * this widget.
      * @param buffer a {@code GtkEntryBuffer}
      */
-    public void setBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public void setBuffer(org.gtk.gtk.EntryBuffer buffer) {
         try {
             DowncallHandles.gtk_entry_set_buffer.invokeExact(
                     handle(),
@@ -883,7 +855,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_entry_set_has_frame.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -894,13 +866,12 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos Icon position
      * @param activatable {@code true} if the icon should be activatable
      */
-    public void setIconActivatable(@NotNull org.gtk.gtk.EntryIconPosition iconPos, boolean activatable) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public void setIconActivatable(org.gtk.gtk.EntryIconPosition iconPos, boolean activatable) {
         try {
             DowncallHandles.gtk_entry_set_icon_activatable.invokeExact(
                     handle(),
                     iconPos.getValue(),
-                    activatable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(activatable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -915,10 +886,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param provider a {@code GdkContentProvider}
      * @param actions a bitmask of the allowed drag actions
      */
-    public void setIconDragSource(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @NotNull org.gtk.gdk.ContentProvider provider, @NotNull org.gtk.gdk.DragAction actions) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
-        java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
-        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
+    public void setIconDragSource(org.gtk.gtk.EntryIconPosition iconPos, org.gtk.gdk.ContentProvider provider, org.gtk.gdk.DragAction actions) {
         try {
             DowncallHandles.gtk_entry_set_icon_drag_source.invokeExact(
                     handle(),
@@ -942,8 +910,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos The position at which to set the icon
      * @param icon The icon to set
      */
-    public void setIconFromGicon(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable org.gtk.gio.Icon icon) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public void setIconFromGicon(org.gtk.gtk.EntryIconPosition iconPos, @Nullable org.gtk.gio.Icon icon) {
         try {
             DowncallHandles.gtk_entry_set_icon_from_gicon.invokeExact(
                     handle(),
@@ -966,13 +933,12 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos The position at which to set the icon
      * @param iconName An icon name
      */
-    public void setIconFromIconName(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable java.lang.String iconName) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public void setIconFromIconName(org.gtk.gtk.EntryIconPosition iconPos, @Nullable java.lang.String iconName) {
         try {
             DowncallHandles.gtk_entry_set_icon_from_icon_name.invokeExact(
                     handle(),
                     iconPos.getValue(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -985,8 +951,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos Icon position
      * @param paintable A {@code GdkPaintable}
      */
-    public void setIconFromPaintable(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable org.gtk.gdk.Paintable paintable) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public void setIconFromPaintable(org.gtk.gtk.EntryIconPosition iconPos, @Nullable org.gtk.gdk.Paintable paintable) {
         try {
             DowncallHandles.gtk_entry_set_icon_from_paintable.invokeExact(
                     handle(),
@@ -1003,13 +968,12 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param sensitive Specifies whether the icon should appear
      *   sensitive or insensitive
      */
-    public void setIconSensitive(@NotNull org.gtk.gtk.EntryIconPosition iconPos, boolean sensitive) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public void setIconSensitive(org.gtk.gtk.EntryIconPosition iconPos, boolean sensitive) {
         try {
             DowncallHandles.gtk_entry_set_icon_sensitive.invokeExact(
                     handle(),
                     iconPos.getValue(),
-                    sensitive ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(sensitive, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1028,13 +992,12 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos the icon position
      * @param tooltip the contents of the tooltip for the icon
      */
-    public void setIconTooltipMarkup(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable java.lang.String tooltip) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public void setIconTooltipMarkup(org.gtk.gtk.EntryIconPosition iconPos, @Nullable java.lang.String tooltip) {
         try {
             DowncallHandles.gtk_entry_set_icon_tooltip_markup.invokeExact(
                     handle(),
                     iconPos.getValue(),
-                    (Addressable) (tooltip == null ? MemoryAddress.NULL : Interop.allocateNativeString(tooltip)));
+                    (Addressable) (tooltip == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tooltip, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1061,13 +1024,12 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param iconPos the icon position
      * @param tooltip the contents of the tooltip for the icon
      */
-    public void setIconTooltipText(@NotNull org.gtk.gtk.EntryIconPosition iconPos, @Nullable java.lang.String tooltip) {
-        java.util.Objects.requireNonNull(iconPos, "Parameter 'iconPos' must not be null");
+    public void setIconTooltipText(org.gtk.gtk.EntryIconPosition iconPos, @Nullable java.lang.String tooltip) {
         try {
             DowncallHandles.gtk_entry_set_icon_tooltip_text.invokeExact(
                     handle(),
                     iconPos.getValue(),
-                    (Addressable) (tooltip == null ? MemoryAddress.NULL : Interop.allocateNativeString(tooltip)));
+                    (Addressable) (tooltip == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tooltip, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1078,8 +1040,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * fine-tune their behavior.
      * @param hints the hints
      */
-    public void setInputHints(@NotNull org.gtk.gtk.InputHints hints) {
-        java.util.Objects.requireNonNull(hints, "Parameter 'hints' must not be null");
+    public void setInputHints(org.gtk.gtk.InputHints hints) {
         try {
             DowncallHandles.gtk_entry_set_input_hints.invokeExact(
                     handle(),
@@ -1094,8 +1055,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * to adjust their behavior.
      * @param purpose the purpose
      */
-    public void setInputPurpose(@NotNull org.gtk.gtk.InputPurpose purpose) {
-        java.util.Objects.requireNonNull(purpose, "Parameter 'purpose' must not be null");
+    public void setInputPurpose(org.gtk.gtk.InputPurpose purpose) {
         try {
             DowncallHandles.gtk_entry_set_input_purpose.invokeExact(
                     handle(),
@@ -1158,7 +1118,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_entry_set_overwrite_mode.invokeExact(
                     handle(),
-                    overwrite ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(overwrite, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1175,7 +1135,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_entry_set_placeholder_text.invokeExact(
                     handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1253,7 +1213,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_entry_set_visibility.invokeExact(
                     handle(),
-                    visible ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(visible, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1276,7 +1236,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_entry_get_type.invokeExact();
@@ -1288,7 +1248,18 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Entry sourceEntry);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEntry) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1301,16 +1272,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Entry.Activate> onActivate(Entry.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Entry.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1318,7 +1281,18 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface IconPress {
-        void signalReceived(Entry sourceEntry, @NotNull org.gtk.gtk.EntryIconPosition iconPos);
+        void run(org.gtk.gtk.EntryIconPosition iconPos);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEntry, int iconPos) {
+            run(org.gtk.gtk.EntryIconPosition.of(iconPos));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IconPress.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1329,16 +1303,8 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Entry.IconPress> onIconPress(Entry.IconPress handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("icon-press"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryIconPress",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Entry.IconPress>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("icon-press"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1346,7 +1312,18 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface IconRelease {
-        void signalReceived(Entry sourceEntry, @NotNull org.gtk.gtk.EntryIconPosition iconPos);
+        void run(org.gtk.gtk.EntryIconPosition iconPos);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEntry, int iconPos) {
+            run(org.gtk.gtk.EntryIconPosition.of(iconPos));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IconRelease.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1358,52 +1335,46 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Entry.IconRelease> onIconRelease(Entry.IconRelease handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("icon-release"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Entry.Callbacks.class, "signalEntryIconRelease",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Entry.IconRelease>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("icon-release"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Entry.Builder} object constructs a {@link Entry} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Entry.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Entry.Build} object constructs a {@link Entry} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Entry} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Entry} using {@link Entry#castFrom}.
+         * {@link Entry}.
          * @return A new instance of {@code Entry} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Entry construct() {
-            return Entry.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Entry.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Entry build() {
+            return (Entry) org.gtk.gobject.GObject.newWithProperties(
+                Entry.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1412,7 +1383,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param activatesDefault The value for the {@code activates-default} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActivatesDefault(boolean activatesDefault) {
+        public Builder setActivatesDefault(boolean activatesDefault) {
             names.add("activates-default");
             values.add(org.gtk.gobject.Value.create(activatesDefault));
             return this;
@@ -1428,7 +1399,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param attributes The value for the {@code attributes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttributes(org.pango.AttrList attributes) {
+        public Builder setAttributes(org.pango.AttrList attributes) {
             names.add("attributes");
             values.add(org.gtk.gobject.Value.create(attributes));
             return this;
@@ -1439,7 +1410,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param buffer The value for the {@code buffer} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBuffer(org.gtk.gtk.EntryBuffer buffer) {
+        public Builder setBuffer(org.gtk.gtk.EntryBuffer buffer) {
             names.add("buffer");
             values.add(org.gtk.gobject.Value.create(buffer));
             return this;
@@ -1450,7 +1421,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param completion The value for the {@code completion} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCompletion(org.gtk.gtk.EntryCompletion completion) {
+        public Builder setCompletion(org.gtk.gtk.EntryCompletion completion) {
             names.add("completion");
             values.add(org.gtk.gobject.Value.create(completion));
             return this;
@@ -1462,7 +1433,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param enableEmojiCompletion The value for the {@code enable-emoji-completion} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnableEmojiCompletion(boolean enableEmojiCompletion) {
+        public Builder setEnableEmojiCompletion(boolean enableEmojiCompletion) {
             names.add("enable-emoji-completion");
             values.add(org.gtk.gobject.Value.create(enableEmojiCompletion));
             return this;
@@ -1473,7 +1444,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param extraMenu The value for the {@code extra-menu} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
+        public Builder setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
             names.add("extra-menu");
             values.add(org.gtk.gobject.Value.create(extraMenu));
             return this;
@@ -1484,7 +1455,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param hasFrame The value for the {@code has-frame} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasFrame(boolean hasFrame) {
+        public Builder setHasFrame(boolean hasFrame) {
             names.add("has-frame");
             values.add(org.gtk.gobject.Value.create(hasFrame));
             return this;
@@ -1501,7 +1472,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param imModule The value for the {@code im-module} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setImModule(java.lang.String imModule) {
+        public Builder setImModule(java.lang.String imModule) {
             names.add("im-module");
             values.add(org.gtk.gobject.Value.create(imModule));
             return this;
@@ -1514,7 +1485,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param inputHints The value for the {@code input-hints} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputHints(org.gtk.gtk.InputHints inputHints) {
+        public Builder setInputHints(org.gtk.gtk.InputHints inputHints) {
             names.add("input-hints");
             values.add(org.gtk.gobject.Value.create(inputHints));
             return this;
@@ -1532,7 +1503,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param inputPurpose The value for the {@code input-purpose} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
+        public Builder setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
             names.add("input-purpose");
             values.add(org.gtk.gobject.Value.create(inputPurpose));
             return this;
@@ -1543,7 +1514,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param invisibleChar The value for the {@code invisible-char} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInvisibleChar(int invisibleChar) {
+        public Builder setInvisibleChar(int invisibleChar) {
             names.add("invisible-char");
             values.add(org.gtk.gobject.Value.create(invisibleChar));
             return this;
@@ -1554,7 +1525,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param invisibleCharSet The value for the {@code invisible-char-set} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInvisibleCharSet(boolean invisibleCharSet) {
+        public Builder setInvisibleCharSet(boolean invisibleCharSet) {
             names.add("invisible-char-set");
             values.add(org.gtk.gobject.Value.create(invisibleCharSet));
             return this;
@@ -1565,7 +1536,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param maxLength The value for the {@code max-length} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxLength(int maxLength) {
+        public Builder setMaxLength(int maxLength) {
             names.add("max-length");
             values.add(org.gtk.gobject.Value.create(maxLength));
             return this;
@@ -1576,7 +1547,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param overwriteMode The value for the {@code overwrite-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOverwriteMode(boolean overwriteMode) {
+        public Builder setOverwriteMode(boolean overwriteMode) {
             names.add("overwrite-mode");
             values.add(org.gtk.gobject.Value.create(overwriteMode));
             return this;
@@ -1588,7 +1559,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param placeholderText The value for the {@code placeholder-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlaceholderText(java.lang.String placeholderText) {
+        public Builder setPlaceholderText(java.lang.String placeholderText) {
             names.add("placeholder-text");
             values.add(org.gtk.gobject.Value.create(placeholderText));
             return this;
@@ -1606,7 +1577,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param primaryIconActivatable The value for the {@code primary-icon-activatable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrimaryIconActivatable(boolean primaryIconActivatable) {
+        public Builder setPrimaryIconActivatable(boolean primaryIconActivatable) {
             names.add("primary-icon-activatable");
             values.add(org.gtk.gobject.Value.create(primaryIconActivatable));
             return this;
@@ -1617,7 +1588,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param primaryIconGicon The value for the {@code primary-icon-gicon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrimaryIconGicon(org.gtk.gio.Icon primaryIconGicon) {
+        public Builder setPrimaryIconGicon(org.gtk.gio.Icon primaryIconGicon) {
             names.add("primary-icon-gicon");
             values.add(org.gtk.gobject.Value.create(primaryIconGicon));
             return this;
@@ -1628,7 +1599,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param primaryIconName The value for the {@code primary-icon-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrimaryIconName(java.lang.String primaryIconName) {
+        public Builder setPrimaryIconName(java.lang.String primaryIconName) {
             names.add("primary-icon-name");
             values.add(org.gtk.gobject.Value.create(primaryIconName));
             return this;
@@ -1639,7 +1610,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param primaryIconPaintable The value for the {@code primary-icon-paintable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrimaryIconPaintable(org.gtk.gdk.Paintable primaryIconPaintable) {
+        public Builder setPrimaryIconPaintable(org.gtk.gdk.Paintable primaryIconPaintable) {
             names.add("primary-icon-paintable");
             values.add(org.gtk.gobject.Value.create(primaryIconPaintable));
             return this;
@@ -1657,7 +1628,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param primaryIconSensitive The value for the {@code primary-icon-sensitive} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrimaryIconSensitive(boolean primaryIconSensitive) {
+        public Builder setPrimaryIconSensitive(boolean primaryIconSensitive) {
             names.add("primary-icon-sensitive");
             values.add(org.gtk.gobject.Value.create(primaryIconSensitive));
             return this;
@@ -1668,7 +1639,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param primaryIconStorageType The value for the {@code primary-icon-storage-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrimaryIconStorageType(org.gtk.gtk.ImageType primaryIconStorageType) {
+        public Builder setPrimaryIconStorageType(org.gtk.gtk.ImageType primaryIconStorageType) {
             names.add("primary-icon-storage-type");
             values.add(org.gtk.gobject.Value.create(primaryIconStorageType));
             return this;
@@ -1681,7 +1652,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param primaryIconTooltipMarkup The value for the {@code primary-icon-tooltip-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrimaryIconTooltipMarkup(java.lang.String primaryIconTooltipMarkup) {
+        public Builder setPrimaryIconTooltipMarkup(java.lang.String primaryIconTooltipMarkup) {
             names.add("primary-icon-tooltip-markup");
             values.add(org.gtk.gobject.Value.create(primaryIconTooltipMarkup));
             return this;
@@ -1694,7 +1665,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param primaryIconTooltipText The value for the {@code primary-icon-tooltip-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrimaryIconTooltipText(java.lang.String primaryIconTooltipText) {
+        public Builder setPrimaryIconTooltipText(java.lang.String primaryIconTooltipText) {
             names.add("primary-icon-tooltip-text");
             values.add(org.gtk.gobject.Value.create(primaryIconTooltipText));
             return this;
@@ -1705,7 +1676,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param progressFraction The value for the {@code progress-fraction} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProgressFraction(double progressFraction) {
+        public Builder setProgressFraction(double progressFraction) {
             names.add("progress-fraction");
             values.add(org.gtk.gobject.Value.create(progressFraction));
             return this;
@@ -1719,7 +1690,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param progressPulseStep The value for the {@code progress-pulse-step} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProgressPulseStep(double progressPulseStep) {
+        public Builder setProgressPulseStep(double progressPulseStep) {
             names.add("progress-pulse-step");
             values.add(org.gtk.gobject.Value.create(progressPulseStep));
             return this;
@@ -1730,7 +1701,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param scrollOffset The value for the {@code scroll-offset} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScrollOffset(int scrollOffset) {
+        public Builder setScrollOffset(int scrollOffset) {
             names.add("scroll-offset");
             values.add(org.gtk.gobject.Value.create(scrollOffset));
             return this;
@@ -1748,7 +1719,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param secondaryIconActivatable The value for the {@code secondary-icon-activatable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryIconActivatable(boolean secondaryIconActivatable) {
+        public Builder setSecondaryIconActivatable(boolean secondaryIconActivatable) {
             names.add("secondary-icon-activatable");
             values.add(org.gtk.gobject.Value.create(secondaryIconActivatable));
             return this;
@@ -1759,7 +1730,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param secondaryIconGicon The value for the {@code secondary-icon-gicon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryIconGicon(org.gtk.gio.Icon secondaryIconGicon) {
+        public Builder setSecondaryIconGicon(org.gtk.gio.Icon secondaryIconGicon) {
             names.add("secondary-icon-gicon");
             values.add(org.gtk.gobject.Value.create(secondaryIconGicon));
             return this;
@@ -1770,7 +1741,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param secondaryIconName The value for the {@code secondary-icon-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryIconName(java.lang.String secondaryIconName) {
+        public Builder setSecondaryIconName(java.lang.String secondaryIconName) {
             names.add("secondary-icon-name");
             values.add(org.gtk.gobject.Value.create(secondaryIconName));
             return this;
@@ -1781,7 +1752,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param secondaryIconPaintable The value for the {@code secondary-icon-paintable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryIconPaintable(org.gtk.gdk.Paintable secondaryIconPaintable) {
+        public Builder setSecondaryIconPaintable(org.gtk.gdk.Paintable secondaryIconPaintable) {
             names.add("secondary-icon-paintable");
             values.add(org.gtk.gobject.Value.create(secondaryIconPaintable));
             return this;
@@ -1799,7 +1770,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param secondaryIconSensitive The value for the {@code secondary-icon-sensitive} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryIconSensitive(boolean secondaryIconSensitive) {
+        public Builder setSecondaryIconSensitive(boolean secondaryIconSensitive) {
             names.add("secondary-icon-sensitive");
             values.add(org.gtk.gobject.Value.create(secondaryIconSensitive));
             return this;
@@ -1810,7 +1781,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param secondaryIconStorageType The value for the {@code secondary-icon-storage-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryIconStorageType(org.gtk.gtk.ImageType secondaryIconStorageType) {
+        public Builder setSecondaryIconStorageType(org.gtk.gtk.ImageType secondaryIconStorageType) {
             names.add("secondary-icon-storage-type");
             values.add(org.gtk.gobject.Value.create(secondaryIconStorageType));
             return this;
@@ -1823,7 +1794,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param secondaryIconTooltipMarkup The value for the {@code secondary-icon-tooltip-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryIconTooltipMarkup(java.lang.String secondaryIconTooltipMarkup) {
+        public Builder setSecondaryIconTooltipMarkup(java.lang.String secondaryIconTooltipMarkup) {
             names.add("secondary-icon-tooltip-markup");
             values.add(org.gtk.gobject.Value.create(secondaryIconTooltipMarkup));
             return this;
@@ -1836,19 +1807,19 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param secondaryIconTooltipText The value for the {@code secondary-icon-tooltip-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryIconTooltipText(java.lang.String secondaryIconTooltipText) {
+        public Builder setSecondaryIconTooltipText(java.lang.String secondaryIconTooltipText) {
             names.add("secondary-icon-tooltip-text");
             values.add(org.gtk.gobject.Value.create(secondaryIconTooltipText));
             return this;
         }
         
-        public Build setShowEmojiIcon(boolean showEmojiIcon) {
+        public Builder setShowEmojiIcon(boolean showEmojiIcon) {
             names.add("show-emoji-icon");
             values.add(org.gtk.gobject.Value.create(showEmojiIcon));
             return this;
         }
         
-        public Build setTabs(org.pango.TabArray tabs) {
+        public Builder setTabs(org.pango.TabArray tabs) {
             names.add("tabs");
             values.add(org.gtk.gobject.Value.create(tabs));
             return this;
@@ -1859,7 +1830,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param textLength The value for the {@code text-length} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTextLength(int textLength) {
+        public Builder setTextLength(int textLength) {
             names.add("text-length");
             values.add(org.gtk.gobject.Value.create(textLength));
             return this;
@@ -1870,7 +1841,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param truncateMultiline The value for the {@code truncate-multiline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTruncateMultiline(boolean truncateMultiline) {
+        public Builder setTruncateMultiline(boolean truncateMultiline) {
             names.add("truncate-multiline");
             values.add(org.gtk.gobject.Value.create(truncateMultiline));
             return this;
@@ -1882,7 +1853,7 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param visibility The value for the {@code visibility} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisibility(boolean visibility) {
+        public Builder setVisibility(boolean visibility) {
             names.add("visibility");
             values.add(org.gtk.gobject.Value.create(visibility));
             return this;
@@ -2256,26 +2227,5 @@ public class Entry extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalEntryActivate(MemoryAddress sourceEntry, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Entry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Entry(sourceEntry, Ownership.NONE));
-        }
-        
-        public static void signalEntryIconPress(MemoryAddress sourceEntry, int iconPos, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Entry.IconPress) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Entry(sourceEntry, Ownership.NONE), org.gtk.gtk.EntryIconPosition.of(iconPos));
-        }
-        
-        public static void signalEntryIconRelease(MemoryAddress sourceEntry, int iconPos, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Entry.IconRelease) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Entry(sourceEntry, Ownership.NONE), org.gtk.gtk.EntryIconPosition.of(iconPos));
-        }
     }
 }

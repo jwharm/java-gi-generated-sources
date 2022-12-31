@@ -12,5 +12,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleLoadFunc {
-        org.gtk.gdkpixbuf.Pixbuf onPixbufModuleLoadFunc(@Nullable java.lang.foreign.MemoryAddress f);
+    org.gtk.gdkpixbuf.Pixbuf run(@Nullable java.lang.foreign.MemoryAddress f);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress f) {
+        var RESULT = run(f);
+        return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PixbufModuleLoadFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

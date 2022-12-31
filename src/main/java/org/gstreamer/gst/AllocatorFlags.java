@@ -28,11 +28,15 @@ public class AllocatorFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public AllocatorFlags or(AllocatorFlags mask) {
-        return new AllocatorFlags(this.getValue() | mask.getValue());
+    public AllocatorFlags or(AllocatorFlags... masks) {
+        int value = this.getValue();
+        for (AllocatorFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new AllocatorFlags(value);
     }
     
     /**
@@ -42,7 +46,8 @@ public class AllocatorFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static AllocatorFlags combined(AllocatorFlags mask, AllocatorFlags... masks) {
-        int value = mask.getValue();        for (AllocatorFlags arg : masks) {
+        int value = mask.getValue();
+        for (AllocatorFlags arg : masks) {
             value |= arg.getValue();
         }
         return new AllocatorFlags(value);

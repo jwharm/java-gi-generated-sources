@@ -147,30 +147,12 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Expression(Addressable address, Ownership ownership) {
+    protected Expression(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Expression if its GType is a (or inherits from) "GtkExpression".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Expression} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkExpression", a ClassCastException will be thrown.
-     */
-    public static Expression castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Expression.getType())) {
-            return new Expression(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkExpression");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Expression> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Expression(input, ownership);
     
     /**
      * Bind {@code target}'s property named {@code property} to {@code self}.
@@ -191,21 +173,19 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
      *   the evaluation of {@code self}
      * @return a {@code GtkExpressionWatch}
      */
-    public @NotNull org.gtk.gtk.ExpressionWatch bind(@NotNull org.gtk.gobject.Object target, @NotNull java.lang.String property, @Nullable org.gtk.gobject.Object this_) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+    public org.gtk.gtk.ExpressionWatch bind(org.gtk.gobject.GObject target, java.lang.String property, @Nullable org.gtk.gobject.GObject this_) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_expression_bind.invokeExact(
                     handle(),
                     target.handle(),
-                    Interop.allocateNativeString(property),
+                    Marshal.stringToAddress.marshal(property, null),
                     (Addressable) (this_ == null ? MemoryAddress.NULL : this_.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gtk.ExpressionWatch(RESULT, Ownership.NONE);
+        return org.gtk.gtk.ExpressionWatch.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -223,8 +203,7 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
      * @param value an empty {@code GValue}
      * @return {@code TRUE} if the expression could be evaluated
      */
-    public boolean evaluate(@Nullable org.gtk.gobject.Object this_, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean evaluate(@Nullable org.gtk.gobject.GObject this_, org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_expression_evaluate.invokeExact(
@@ -234,7 +213,7 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -244,7 +223,7 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
      * of this expression.
      * @return The type returned from {@link Expression#evaluate}
      */
-    public @NotNull org.gtk.glib.Type getValueType() {
+    public org.gtk.glib.Type getValueType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_expression_get_value_type.invokeExact(
@@ -273,14 +252,14 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Acquires a reference on the given {@code GtkExpression}.
      * @return the {@code GtkExpression} with an additional reference
      */
-    public @NotNull org.gtk.gtk.Expression ref() {
+    public org.gtk.gtk.Expression ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_expression_ref.invokeExact(
@@ -288,7 +267,7 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -319,37 +298,33 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
      * @param this_ the {@code this} argument to
      *   watch
      * @param notify callback to invoke when the expression changes
+     * @param userDestroy destroy notify for {@code user_data}
      * @return The newly installed watch. Note that the only
      *   reference held to the watch will be released when the watch is unwatched
      *   which can happen automatically, and not just via
      *   {@link ExpressionWatch#unwatch}. You should call {@link ExpressionWatch#ref}
      *   if you want to keep the watch around.
      */
-    public @NotNull org.gtk.gtk.ExpressionWatch watch(@Nullable org.gtk.gobject.Object this_, @NotNull org.gtk.gtk.ExpressionNotify notify) {
-        java.util.Objects.requireNonNull(notify, "Parameter 'notify' must not be null");
+    public org.gtk.gtk.ExpressionWatch watch(@Nullable org.gtk.gobject.GObject this_, org.gtk.gtk.ExpressionNotify notify, org.gtk.glib.DestroyNotify userDestroy) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_expression_watch.invokeExact(
                     handle(),
                     (Addressable) (this_ == null ? MemoryAddress.NULL : this_.handle()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbExpressionNotify",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(notify)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) notify.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) userDestroy.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ExpressionWatch(RESULT, Ownership.NONE);
+        return org.gtk.gtk.ExpressionWatch.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_expression_get_type.invokeExact();
@@ -357,41 +332,6 @@ public class Expression extends io.github.jwharm.javagi.ObjectBase {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Type(RESULT);
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends io.github.jwharm.javagi.Build {
-        
-         /**
-         * A {@link Expression.Build} object constructs a {@link Expression} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link Expression} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link Expression} using {@link Expression#castFrom}.
-         * @return A new instance of {@code Expression} with the properties 
-         *         that were set in the Build object.
-         */
-        public Expression construct() {
-            return Expression.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Expression.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
     }
     
     private static class DowncallHandles {

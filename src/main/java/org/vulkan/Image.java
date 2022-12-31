@@ -40,8 +40,10 @@ public class Image extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Image(Addressable address, Ownership ownership) {
+    protected Image(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Image> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Image(input, ownership);
 }

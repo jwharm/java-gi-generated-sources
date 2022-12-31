@@ -17,24 +17,22 @@ public class DataQueueItem extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstDataQueueItem";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("object"),
-        Interop.valueLayout.C_INT.withName("size"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("duration"),
-        Interop.valueLayout.C_INT.withName("visible"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("destroy"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("object"),
+            Interop.valueLayout.C_INT.withName("size"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("duration"),
+            Interop.valueLayout.C_INT.withName("visible"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("destroy"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -54,28 +52,28 @@ public class DataQueueItem extends Struct {
      * Get the value of the field {@code object}
      * @return The value of the field {@code object}
      */
-    public org.gstreamer.gst.MiniObject object$get() {
+    public org.gstreamer.gst.MiniObject getObject() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("object"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.MiniObject(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code object}
      * @param object The new value of the field {@code object}
      */
-    public void object$set(org.gstreamer.gst.MiniObject object) {
+    public void setObject(org.gstreamer.gst.MiniObject object) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("object"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), object.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (object == null ? MemoryAddress.NULL : object.handle()));
     }
     
     /**
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public int size$get() {
+    public int getSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,7 +84,7 @@ public class DataQueueItem extends Struct {
      * Change the value of the field {@code size}
      * @param size The new value of the field {@code size}
      */
-    public void size$set(int size) {
+    public void setSize(int size) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -96,7 +94,7 @@ public class DataQueueItem extends Struct {
      * Get the value of the field {@code duration}
      * @return The value of the field {@code duration}
      */
-    public long duration$get() {
+    public long getDuration() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -107,7 +105,7 @@ public class DataQueueItem extends Struct {
      * Change the value of the field {@code duration}
      * @param duration The new value of the field {@code duration}
      */
-    public void duration$set(long duration) {
+    public void setDuration(long duration) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration);
@@ -117,28 +115,28 @@ public class DataQueueItem extends Struct {
      * Get the value of the field {@code visible}
      * @return The value of the field {@code visible}
      */
-    public boolean visible$get() {
+    public boolean getVisible() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("visible"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code visible}
      * @param visible The new value of the field {@code visible}
      */
-    public void visible$set(boolean visible) {
+    public void setVisible(boolean visible) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("visible"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), visible ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(visible, null).intValue());
     }
     
     /**
      * Get the value of the field {@code destroy}
      * @return The value of the field {@code destroy}
      */
-    public org.gtk.glib.DestroyNotify destroy$get() {
+    public org.gtk.glib.DestroyNotify getDestroy() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("destroy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -146,39 +144,55 @@ public class DataQueueItem extends Struct {
     }
     
     /**
+     * Change the value of the field {@code destroy}
+     * @param destroy The new value of the field {@code destroy}
+     */
+    public void setDestroy(org.gtk.glib.DestroyNotify destroy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("destroy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+    }
+    
+    /**
      * Create a DataQueueItem proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DataQueueItem(Addressable address, Ownership ownership) {
+    protected DataQueueItem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DataQueueItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DataQueueItem(input, ownership);
+    
+    /**
+     * A {@link DataQueueItem.Builder} object constructs a {@link DataQueueItem} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DataQueueItem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DataQueueItem struct;
+        private final DataQueueItem struct;
         
-         /**
-         * A {@link DataQueueItem.Build} object constructs a {@link DataQueueItem} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DataQueueItem.allocate();
         }
         
          /**
          * Finish building the {@link DataQueueItem} struct.
          * @return A new instance of {@code DataQueueItem} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DataQueueItem construct() {
+        public DataQueueItem build() {
             return struct;
         }
         
@@ -187,7 +201,7 @@ public class DataQueueItem extends Struct {
          * @param object The value for the {@code object} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setObject(org.gstreamer.gst.MiniObject object) {
+        public Builder setObject(org.gstreamer.gst.MiniObject object) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("object"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (object == null ? MemoryAddress.NULL : object.handle()));
@@ -199,7 +213,7 @@ public class DataQueueItem extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(int size) {
+        public Builder setSize(int size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -212,7 +226,7 @@ public class DataQueueItem extends Struct {
          * @param duration The value for the {@code duration} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDuration(long duration) {
+        public Builder setDuration(long duration) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("duration"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration);
@@ -224,10 +238,10 @@ public class DataQueueItem extends Struct {
          * @param visible The value for the {@code visible} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisible(boolean visible) {
+        public Builder setVisible(boolean visible) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("visible"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), visible ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(visible, null).intValue());
             return this;
         }
         
@@ -238,14 +252,14 @@ public class DataQueueItem extends Struct {
          * @param destroy The value for the {@code destroy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDestroy(java.lang.foreign.MemoryAddress destroy) {
+        public Builder setDestroy(org.gtk.glib.DestroyNotify destroy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("destroy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroy == null ? MemoryAddress.NULL : destroy));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

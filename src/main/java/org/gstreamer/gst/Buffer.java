@@ -103,23 +103,21 @@ public class Buffer extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
-        Interop.valueLayout.ADDRESS.withName("pool"),
-        Interop.valueLayout.C_LONG.withName("pts"),
-        Interop.valueLayout.C_LONG.withName("dts"),
-        Interop.valueLayout.C_LONG.withName("duration"),
-        Interop.valueLayout.C_LONG.withName("offset"),
-        Interop.valueLayout.C_LONG.withName("offset_end")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
+            Interop.valueLayout.ADDRESS.withName("pool"),
+            Interop.valueLayout.C_LONG.withName("pts"),
+            Interop.valueLayout.C_LONG.withName("dts"),
+            Interop.valueLayout.C_LONG.withName("duration"),
+            Interop.valueLayout.C_LONG.withName("offset"),
+            Interop.valueLayout.C_LONG.withName("offset_end")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -139,37 +137,47 @@ public class Buffer extends Struct {
      * Get the value of the field {@code mini_object}
      * @return The value of the field {@code mini_object}
      */
-    public org.gstreamer.gst.MiniObject miniObject$get() {
+    public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return new org.gstreamer.gst.MiniObject(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mini_object}
+     * @param miniObject The new value of the field {@code mini_object}
+     */
+    public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
     }
     
     /**
      * Get the value of the field {@code pool}
      * @return The value of the field {@code pool}
      */
-    public org.gstreamer.gst.BufferPool pool$get() {
+    public org.gstreamer.gst.BufferPool getPool() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pool"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.BufferPool(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code pool}
      * @param pool The new value of the field {@code pool}
      */
-    public void pool$set(org.gstreamer.gst.BufferPool pool) {
+    public void setPool(org.gstreamer.gst.BufferPool pool) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pool.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
     }
     
     /**
      * Get the value of the field {@code pts}
      * @return The value of the field {@code pts}
      */
-    public org.gstreamer.gst.ClockTime pts$get() {
+    public org.gstreamer.gst.ClockTime getPts() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pts"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -180,17 +188,17 @@ public class Buffer extends Struct {
      * Change the value of the field {@code pts}
      * @param pts The new value of the field {@code pts}
      */
-    public void pts$set(org.gstreamer.gst.ClockTime pts) {
+    public void setPts(org.gstreamer.gst.ClockTime pts) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pts.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code dts}
      * @return The value of the field {@code dts}
      */
-    public org.gstreamer.gst.ClockTime dts$get() {
+    public org.gstreamer.gst.ClockTime getDts() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dts"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -201,17 +209,17 @@ public class Buffer extends Struct {
      * Change the value of the field {@code dts}
      * @param dts The new value of the field {@code dts}
      */
-    public void dts$set(org.gstreamer.gst.ClockTime dts) {
+    public void setDts(org.gstreamer.gst.ClockTime dts) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dts.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code duration}
      * @return The value of the field {@code duration}
      */
-    public org.gstreamer.gst.ClockTime duration$get() {
+    public org.gstreamer.gst.ClockTime getDuration() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -222,17 +230,17 @@ public class Buffer extends Struct {
      * Change the value of the field {@code duration}
      * @param duration The new value of the field {@code duration}
      */
-    public void duration$set(org.gstreamer.gst.ClockTime duration) {
+    public void setDuration(org.gstreamer.gst.ClockTime duration) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code offset}
      * @return The value of the field {@code offset}
      */
-    public long offset$get() {
+    public long getOffset() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -243,7 +251,7 @@ public class Buffer extends Struct {
      * Change the value of the field {@code offset}
      * @param offset The new value of the field {@code offset}
      */
-    public void offset$set(long offset) {
+    public void setOffset(long offset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -253,7 +261,7 @@ public class Buffer extends Struct {
      * Get the value of the field {@code offset_end}
      * @return The value of the field {@code offset_end}
      */
-    public long offsetEnd$get() {
+    public long getOffsetEnd() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset_end"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -264,7 +272,7 @@ public class Buffer extends Struct {
      * Change the value of the field {@code offset_end}
      * @param offsetEnd The new value of the field {@code offset_end}
      */
-    public void offsetEnd$set(long offsetEnd) {
+    public void setOffsetEnd(long offsetEnd) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset_end"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offsetEnd);
@@ -275,13 +283,15 @@ public class Buffer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Buffer(Addressable address, Ownership ownership) {
+    protected Buffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Buffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Buffer(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new.invokeExact();
         } catch (Throwable ERR) {
@@ -297,8 +307,8 @@ public class Buffer extends Struct {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewAllocate(@Nullable org.gstreamer.gst.Allocator allocator, long size, @Nullable org.gstreamer.gst.AllocationParams params) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewAllocate(@Nullable org.gstreamer.gst.Allocator allocator, long size, @Nullable org.gstreamer.gst.AllocationParams params) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_allocate.invokeExact(
                     (Addressable) (allocator == null ? MemoryAddress.NULL : allocator.handle()),
@@ -325,12 +335,12 @@ public class Buffer extends Struct {
      * @return a new {@link Buffer}
      */
     public static Buffer newAllocate(@Nullable org.gstreamer.gst.Allocator allocator, long size, @Nullable org.gstreamer.gst.AllocationParams params) {
-        return new Buffer(constructNewAllocate(allocator, size, params), Ownership.FULL);
+        var RESULT = constructNewAllocate(allocator, size, params);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewMemdup(@NotNull byte[] data, long size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewMemdup(byte[] data, long size) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_memdup.invokeExact(
                     Interop.allocateNativeArray(data, false),
@@ -347,13 +357,13 @@ public class Buffer extends Struct {
      * @param size size of {@code data} in bytes
      * @return a new {@link Buffer}
      */
-    public static Buffer newMemdup(@NotNull byte[] data, long size) {
-        return new Buffer(constructNewMemdup(data, size), Ownership.FULL);
+    public static Buffer newMemdup(byte[] data, long size) {
+        var RESULT = constructNewMemdup(data, size);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWrapped(@NotNull byte[] data, long size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWrapped(byte[] data, long size) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_wrapped.invokeExact(
                     Interop.allocateNativeArray(data, false),
@@ -371,13 +381,13 @@ public class Buffer extends Struct {
      * @param size allocated size of {@code data}
      * @return a new {@link Buffer}
      */
-    public static Buffer newWrapped(@NotNull byte[] data, long size) {
-        return new Buffer(constructNewWrapped(data, size), Ownership.FULL);
+    public static Buffer newWrapped(byte[] data, long size) {
+        var RESULT = constructNewWrapped(data, size);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWrappedBytes(@NotNull org.gtk.glib.Bytes bytes) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWrappedBytes(org.gtk.glib.Bytes bytes) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_wrapped_bytes.invokeExact(
                     bytes.handle());
@@ -393,14 +403,13 @@ public class Buffer extends Struct {
      * @param bytes a {@link org.gtk.glib.Bytes} to wrap
      * @return a new {@link Buffer} wrapping {@code bytes}
      */
-    public static Buffer newWrappedBytes(@NotNull org.gtk.glib.Bytes bytes) {
-        return new Buffer(constructNewWrappedBytes(bytes), Ownership.FULL);
+    public static Buffer newWrappedBytes(org.gtk.glib.Bytes bytes) {
+        var RESULT = constructNewWrappedBytes(bytes);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWrappedFull(@NotNull org.gstreamer.gst.MemoryFlags flags, @NotNull byte[] data, long maxsize, long offset, long size, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWrappedFull(org.gstreamer.gst.MemoryFlags flags, byte[] data, long maxsize, long offset, long size, @Nullable org.gtk.glib.DestroyNotify notify) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_new_wrapped_full.invokeExact(
                     flags.getValue(),
@@ -408,8 +417,8 @@ public class Buffer extends Struct {
                     maxsize,
                     offset,
                     size,
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -430,12 +439,12 @@ public class Buffer extends Struct {
      * @param maxsize allocated size of {@code data}
      * @param offset offset in {@code data}
      * @param size size of valid data
-     * @param userData user_data
      * @param notify called with {@code user_data} when the memory is freed
      * @return a new {@link Buffer}
      */
-    public static Buffer newWrappedFull(@NotNull org.gstreamer.gst.MemoryFlags flags, @NotNull byte[] data, long maxsize, long offset, long size, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        return new Buffer(constructNewWrappedFull(flags, data, maxsize, offset, size, userData, notify), Ownership.FULL);
+    public static Buffer newWrappedFull(org.gstreamer.gst.MemoryFlags flags, byte[] data, long maxsize, long offset, long size, @Nullable org.gtk.glib.DestroyNotify notify) {
+        var RESULT = constructNewWrappedFull(flags, data, maxsize, offset, size, notify);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -444,17 +453,16 @@ public class Buffer extends Struct {
      * @param name the registered name of the desired custom meta
      * @return The {@link CustomMeta} that was added to the buffer
      */
-    public @Nullable org.gstreamer.gst.CustomMeta addCustomMeta(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gstreamer.gst.CustomMeta addCustomMeta(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_custom_meta.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.CustomMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.CustomMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -463,8 +471,7 @@ public class Buffer extends Struct {
      * @param params params for {@code info}
      * @return the metadata for the api in {@code info} on {@code buffer}.
      */
-    public @Nullable org.gstreamer.gst.Meta addMeta(@NotNull org.gstreamer.gst.MetaInfo info, @Nullable java.lang.foreign.MemoryAddress params) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public @Nullable org.gstreamer.gst.Meta addMeta(org.gstreamer.gst.MetaInfo info, @Nullable java.lang.foreign.MemoryAddress params) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_meta.invokeExact(
@@ -474,7 +481,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Meta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -483,8 +490,7 @@ public class Buffer extends Struct {
      * @param ref a {@link Buffer} to ref
      * @return The {@link ParentBufferMeta} that was added to the buffer
      */
-    public @Nullable org.gstreamer.gst.ParentBufferMeta addParentBufferMeta(@NotNull org.gstreamer.gst.Buffer ref) {
-        java.util.Objects.requireNonNull(ref, "Parameter 'ref' must not be null");
+    public @Nullable org.gstreamer.gst.ParentBufferMeta addParentBufferMeta(org.gstreamer.gst.Buffer ref) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_parent_buffer_meta.invokeExact(
@@ -493,7 +499,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.ParentBufferMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.ParentBufferMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -503,8 +509,7 @@ public class Buffer extends Struct {
      *     function takes ownership of {@code info}.
      * @return a pointer to the added {@link ProtectionMeta} if successful
      */
-    public @NotNull org.gstreamer.gst.ProtectionMeta addProtectionMeta(@NotNull org.gstreamer.gst.Structure info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public org.gstreamer.gst.ProtectionMeta addProtectionMeta(org.gstreamer.gst.Structure info) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_protection_meta.invokeExact(
@@ -514,7 +519,7 @@ public class Buffer extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         info.yieldOwnership();
-        return new org.gstreamer.gst.ProtectionMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.ProtectionMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -526,10 +531,7 @@ public class Buffer extends Struct {
      * @param duration duration, or {@code GST_CLOCK_TIME_NONE}
      * @return The {@link ReferenceTimestampMeta} that was added to the buffer
      */
-    public @Nullable org.gstreamer.gst.ReferenceTimestampMeta addReferenceTimestampMeta(@NotNull org.gstreamer.gst.Caps reference, @NotNull org.gstreamer.gst.ClockTime timestamp, @NotNull org.gstreamer.gst.ClockTime duration) {
-        java.util.Objects.requireNonNull(reference, "Parameter 'reference' must not be null");
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
+    public @Nullable org.gstreamer.gst.ReferenceTimestampMeta addReferenceTimestampMeta(org.gstreamer.gst.Caps reference, org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime duration) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_reference_timestamp_meta.invokeExact(
@@ -540,7 +542,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.ReferenceTimestampMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.ReferenceTimestampMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -550,8 +552,7 @@ public class Buffer extends Struct {
      * @return the new {@link Buffer} that contains the memory
      *     of the two source buffers.
      */
-    public @NotNull org.gstreamer.gst.Buffer append(@NotNull org.gstreamer.gst.Buffer buf2) {
-        java.util.Objects.requireNonNull(buf2, "Parameter 'buf2' must not be null");
+    public org.gstreamer.gst.Buffer append(org.gstreamer.gst.Buffer buf2) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_append.invokeExact(
@@ -562,7 +563,7 @@ public class Buffer extends Struct {
         }
         this.yieldOwnership();
         buf2.yieldOwnership();
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -573,8 +574,7 @@ public class Buffer extends Struct {
      * See gst_buffer_insert_memory() for more details.
      * @param mem a {@link Memory}.
      */
-    public void appendMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public void appendMemory(org.gstreamer.gst.Memory mem) {
         try {
             DowncallHandles.gst_buffer_append_memory.invokeExact(
                     handle(),
@@ -595,8 +595,7 @@ public class Buffer extends Struct {
      * @return the new {@link Buffer} that contains the memory
      *     of the two source buffers.
      */
-    public @NotNull org.gstreamer.gst.Buffer appendRegion(@NotNull org.gstreamer.gst.Buffer buf2, long offset, long size) {
-        java.util.Objects.requireNonNull(buf2, "Parameter 'buf2' must not be null");
+    public org.gstreamer.gst.Buffer appendRegion(org.gstreamer.gst.Buffer buf2, long offset, long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_append_region.invokeExact(
@@ -609,7 +608,7 @@ public class Buffer extends Struct {
         }
         this.yieldOwnership();
         buf2.yieldOwnership();
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -617,7 +616,7 @@ public class Buffer extends Struct {
      * copy of the data the source buffer contains.
      * @return a new copy of {@code buf}.
      */
-    public @NotNull org.gstreamer.gst.Buffer copyDeep() {
+    public org.gstreamer.gst.Buffer copyDeep() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_copy_deep.invokeExact(
@@ -625,7 +624,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -641,9 +640,7 @@ public class Buffer extends Struct {
      * @param size total size to copy. If -1, all data is copied.
      * @return {@code true} if the copying succeeded, {@code false} otherwise.
      */
-    public boolean copyInto(@NotNull org.gstreamer.gst.Buffer src, @NotNull org.gstreamer.gst.BufferCopyFlags flags, long offset, long size) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean copyInto(org.gstreamer.gst.Buffer src, org.gstreamer.gst.BufferCopyFlags flags, long offset, long size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_copy_into.invokeExact(
@@ -655,7 +652,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -675,8 +672,7 @@ public class Buffer extends Struct {
      * @return the new {@link Buffer} or {@code null} if the arguments were
      *     invalid.
      */
-    public @NotNull org.gstreamer.gst.Buffer copyRegion(@NotNull org.gstreamer.gst.BufferCopyFlags flags, long offset, long size) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gstreamer.gst.Buffer copyRegion(org.gstreamer.gst.BufferCopyFlags flags, long offset, long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_copy_region.invokeExact(
@@ -687,7 +683,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -698,22 +694,19 @@ public class Buffer extends Struct {
      * @return The amount of bytes extracted. This value can be lower than {@code size}
      *    when {@code buffer} did not contain enough data.
      */
-    public long extract(long offset, @NotNull Out<byte[]> dest, Out<Long> size) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public long extract(long offset, Out<byte[]> dest, long size) {
         MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_buffer_extract.invokeExact(
                     handle(),
                     offset,
                     (Addressable) destPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
+        dest.set(MemorySegment.ofAddress(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT;
     }
     
@@ -726,10 +719,8 @@ public class Buffer extends Struct {
      *  the destination array will be written. Might be {@code null} if the size is 0.
      * @param destSize A location where the size of {@code dest} can be written
      */
-    public void extractDup(long offset, long size, @NotNull Out<byte[]> dest, Out<Long> destSize) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public void extractDup(long offset, long size, Out<byte[]> dest, Out<Long> destSize) {
         MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(destSize, "Parameter 'destSize' must not be null");
         MemorySegment destSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_buffer_extract_dup.invokeExact(
@@ -753,8 +744,7 @@ public class Buffer extends Struct {
      * @return The amount of bytes copied. This value can be lower than {@code size}
      *    when {@code buffer} did not contain enough data.
      */
-    public long fill(long offset, @NotNull byte[] src, long size) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public long fill(long offset, byte[] src, long size) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_buffer_fill.invokeExact(
@@ -788,11 +778,8 @@ public class Buffer extends Struct {
      * {@code buffer} and {@code idx}, {@code length} and {@code skip} will be filled.
      */
     public boolean findMemory(long offset, long size, Out<Integer> idx, Out<Integer> length, Out<Long> skip) {
-        java.util.Objects.requireNonNull(idx, "Parameter 'idx' must not be null");
         MemorySegment idxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(skip, "Parameter 'skip' must not be null");
         MemorySegment skipPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -809,7 +796,7 @@ public class Buffer extends Struct {
         idx.set(idxPOINTER.get(Interop.valueLayout.C_INT, 0));
         length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
         skip.set(skipPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -821,22 +808,17 @@ public class Buffer extends Struct {
      * @param func a {@link BufferForeachMetaFunc} to call
      * @return {@code false} when {@code func} returned {@code false} for one of the metadata.
      */
-    public boolean foreachMeta(@NotNull org.gstreamer.gst.BufferForeachMetaFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public boolean foreachMeta(org.gstreamer.gst.BufferForeachMetaFunc func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_foreach_meta.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbBufferForeachMetaFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -852,7 +834,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -860,24 +842,23 @@ public class Buffer extends Struct {
      * @param name the registered name of the custom meta to retrieve.
      * @return the {@link CustomMeta}
      */
-    public @Nullable org.gstreamer.gst.CustomMeta getCustomMeta(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gstreamer.gst.CustomMeta getCustomMeta(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_custom_meta.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.CustomMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.CustomMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the {@link BufferFlags} flags set on this buffer.
      * @return the flags set on this buffer.
      */
-    public @NotNull org.gstreamer.gst.BufferFlags getFlags() {
+    public org.gstreamer.gst.BufferFlags getFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_get_flags.invokeExact(
@@ -903,7 +884,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -926,7 +907,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -935,11 +916,10 @@ public class Buffer extends Struct {
      * buffer only the first one is returned.  To handle multiple metadata with a
      * given API use gst_buffer_iterate_meta() or gst_buffer_foreach_meta() instead
      * and check the {@code meta->info.api} member for the API type.
-     * @param api the {@link org.gtk.gobject.Type} of an API
+     * @param api the {@link org.gtk.glib.Type} of an API
      * @return the metadata for {@code api} on {@code buffer}.
      */
-    public @Nullable org.gstreamer.gst.Meta getMeta(@NotNull org.gtk.glib.Type api) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
+    public @Nullable org.gstreamer.gst.Meta getMeta(org.gtk.glib.Type api) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_meta.invokeExact(
@@ -948,11 +928,10 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Meta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public int getNMeta(@NotNull org.gtk.glib.Type apiType) {
-        java.util.Objects.requireNonNull(apiType, "Parameter 'apiType' must not be null");
+    public int getNMeta(org.gtk.glib.Type apiType) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_get_n_meta.invokeExact(
@@ -983,7 +962,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.ReferenceTimestampMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.ReferenceTimestampMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1014,21 +993,19 @@ public class Buffer extends Struct {
      * @return total size of the memory blocks in {@code buffer}.
      */
     public long getSizes(Out<Long> offset, Out<Long> maxsize) {
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
         MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(maxsize, "Parameter 'maxsize' must not be null");
         MemorySegment maxsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_buffer_get_sizes.invokeExact(
                     handle(),
-                    (Addressable) offsetPOINTER.address(),
-                    (Addressable) maxsizePOINTER.address());
+                    (Addressable) (offset == null ? MemoryAddress.NULL : (Addressable) offsetPOINTER.address()),
+                    (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (offset != null) offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -1048,9 +1025,7 @@ public class Buffer extends Struct {
      * @return total size of {@code length} memory blocks starting at {@code idx} in {@code buffer}.
      */
     public long getSizesRange(int idx, int length, Out<Long> offset, Out<Long> maxsize) {
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
         MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(maxsize, "Parameter 'maxsize' must not be null");
         MemorySegment maxsizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
@@ -1058,13 +1033,13 @@ public class Buffer extends Struct {
                     handle(),
                     idx,
                     length,
-                    (Addressable) offsetPOINTER.address(),
-                    (Addressable) maxsizePOINTER.address());
+                    (Addressable) (offset == null ? MemoryAddress.NULL : (Addressable) offsetPOINTER.address()),
+                    (Addressable) (maxsize == null ? MemoryAddress.NULL : (Addressable) maxsizePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (offset != null) offset.set(offsetPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (maxsize != null) maxsize.set(maxsizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -1073,8 +1048,7 @@ public class Buffer extends Struct {
      * @param flags the {@link BufferFlags} flag to check.
      * @return {@code true} if all flags in {@code flags} are found on {@code buffer}.
      */
-    public boolean hasFlags(@NotNull org.gstreamer.gst.BufferFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean hasFlags(org.gstreamer.gst.BufferFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_has_flags.invokeExact(
@@ -1083,7 +1057,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1096,8 +1070,7 @@ public class Buffer extends Struct {
      * @param idx the index to add the memory at, or -1 to append it to the end
      * @param mem a {@link Memory}.
      */
-    public void insertMemory(int idx, @NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public void insertMemory(int idx, org.gstreamer.gst.Memory mem) {
         try {
             DowncallHandles.gst_buffer_insert_memory.invokeExact(
                     handle(),
@@ -1124,7 +1097,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1148,7 +1121,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1171,7 +1144,7 @@ public class Buffer extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (state != null) state.set(statePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return new org.gstreamer.gst.Meta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1185,9 +1158,8 @@ public class Buffer extends Struct {
      * @return The next {@link Meta} of type
      * {@code meta_api_type} or {@code null} when there are no more items.
      */
-    public @Nullable org.gstreamer.gst.Meta iterateMetaFiltered(@Nullable Out<java.lang.foreign.MemoryAddress> state, @NotNull org.gtk.glib.Type metaApiType) {
+    public @Nullable org.gstreamer.gst.Meta iterateMetaFiltered(@Nullable Out<java.lang.foreign.MemoryAddress> state, org.gtk.glib.Type metaApiType) {
         MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(metaApiType, "Parameter 'metaApiType' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_iterate_meta_filtered.invokeExact(
@@ -1198,7 +1170,7 @@ public class Buffer extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (state != null) state.set(statePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return new org.gstreamer.gst.Meta(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1218,9 +1190,7 @@ public class Buffer extends Struct {
      * @param flags flags for the mapping
      * @return {@code true} if the map succeeded and {@code info} contains valid data.
      */
-    public boolean map(@NotNull org.gstreamer.gst.MapInfo info, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean map(org.gstreamer.gst.MapInfo info, org.gstreamer.gst.MapFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_map.invokeExact(
@@ -1230,7 +1200,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1254,9 +1224,7 @@ public class Buffer extends Struct {
      * @return {@code true} if the map succeeded and {@code info} contains valid
      * data.
      */
-    public boolean mapRange(int idx, int length, @NotNull org.gstreamer.gst.MapInfo info, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean mapRange(int idx, int length, org.gstreamer.gst.MapInfo info, org.gstreamer.gst.MapFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_map_range.invokeExact(
@@ -1268,7 +1236,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1278,8 +1246,7 @@ public class Buffer extends Struct {
      * @param size the size to compare
      * @return 0 if the memory is equal.
      */
-    public int memcmp(long offset, @NotNull byte[] mem, long size) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public int memcmp(long offset, byte[] mem, long size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_memcmp.invokeExact(
@@ -1347,7 +1314,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1358,8 +1325,7 @@ public class Buffer extends Struct {
      * See gst_buffer_insert_memory() for more details.
      * @param mem a {@link Memory}.
      */
-    public void prependMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public void prependMemory(org.gstreamer.gst.Memory mem) {
         try {
             DowncallHandles.gst_buffer_prepend_memory.invokeExact(
                     handle(),
@@ -1420,8 +1386,7 @@ public class Buffer extends Struct {
      * @return {@code true} if the metadata existed and was removed, {@code false} if no such
      * metadata was on {@code buffer}.
      */
-    public boolean removeMeta(@NotNull org.gstreamer.gst.Meta meta) {
-        java.util.Objects.requireNonNull(meta, "Parameter 'meta' must not be null");
+    public boolean removeMeta(org.gstreamer.gst.Meta meta) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_remove_meta.invokeExact(
@@ -1430,15 +1395,14 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Replaces all memory in {@code buffer} with {@code mem}.
      * @param mem a {@link Memory}
      */
-    public void replaceAllMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public void replaceAllMemory(org.gstreamer.gst.Memory mem) {
         try {
             DowncallHandles.gst_buffer_replace_all_memory.invokeExact(
                     handle(),
@@ -1454,8 +1418,7 @@ public class Buffer extends Struct {
      * @param idx an index
      * @param mem a {@link Memory}
      */
-    public void replaceMemory(int idx, @NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public void replaceMemory(int idx, org.gstreamer.gst.Memory mem) {
         try {
             DowncallHandles.gst_buffer_replace_memory.invokeExact(
                     handle(),
@@ -1478,8 +1441,7 @@ public class Buffer extends Struct {
      * @param length a length, should not be 0
      * @param mem a {@link Memory}
      */
-    public void replaceMemoryRange(int idx, int length, @NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public void replaceMemoryRange(int idx, int length, org.gstreamer.gst.Memory mem) {
         try {
             DowncallHandles.gst_buffer_replace_memory_range.invokeExact(
                     handle(),
@@ -1529,7 +1491,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1537,8 +1499,7 @@ public class Buffer extends Struct {
      * @param flags the {@link BufferFlags} to set.
      * @return {@code true} if {@code flags} were successfully set on buffer.
      */
-    public boolean setFlags(@NotNull org.gstreamer.gst.BufferFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean setFlags(org.gstreamer.gst.BufferFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_set_flags.invokeExact(
@@ -1547,7 +1508,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1568,8 +1529,7 @@ public class Buffer extends Struct {
      * Releases the memory previously mapped with gst_buffer_map().
      * @param info a {@link MapInfo}
      */
-    public void unmap(@NotNull org.gstreamer.gst.MapInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public void unmap(org.gstreamer.gst.MapInfo info) {
         try {
             DowncallHandles.gst_buffer_unmap.invokeExact(
                     handle(),
@@ -1584,8 +1544,7 @@ public class Buffer extends Struct {
      * @param flags the {@link BufferFlags} to clear
      * @return true if {@code flags} is successfully cleared from buffer.
      */
-    public boolean unsetFlags(@NotNull org.gstreamer.gst.BufferFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean unsetFlags(org.gstreamer.gst.BufferFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_unset_flags.invokeExact(
@@ -1594,7 +1553,7 @@ public class Buffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1977,31 +1936,35 @@ public class Buffer extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Buffer.Builder} object constructs a {@link Buffer} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Buffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Buffer struct;
+        private final Buffer struct;
         
-         /**
-         * A {@link Buffer.Build} object constructs a {@link Buffer} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Buffer.allocate();
         }
         
          /**
          * Finish building the {@link Buffer} struct.
          * @return A new instance of {@code Buffer} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Buffer construct() {
+        public Buffer build() {
             return struct;
         }
         
@@ -2010,7 +1973,7 @@ public class Buffer extends Struct {
          * @param miniObject The value for the {@code miniObject} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
@@ -2022,7 +1985,7 @@ public class Buffer extends Struct {
          * @param pool The value for the {@code pool} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPool(org.gstreamer.gst.BufferPool pool) {
+        public Builder setPool(org.gstreamer.gst.BufferPool pool) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pool"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
@@ -2036,7 +1999,7 @@ public class Buffer extends Struct {
          * @param pts The value for the {@code pts} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPts(org.gstreamer.gst.ClockTime pts) {
+        public Builder setPts(org.gstreamer.gst.ClockTime pts) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pts"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
@@ -2050,7 +2013,7 @@ public class Buffer extends Struct {
          * @param dts The value for the {@code dts} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDts(org.gstreamer.gst.ClockTime dts) {
+        public Builder setDts(org.gstreamer.gst.ClockTime dts) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dts"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
@@ -2063,7 +2026,7 @@ public class Buffer extends Struct {
          * @param duration The value for the {@code duration} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDuration(org.gstreamer.gst.ClockTime duration) {
+        public Builder setDuration(org.gstreamer.gst.ClockTime duration) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("duration"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
@@ -2079,7 +2042,7 @@ public class Buffer extends Struct {
          * @param offset The value for the {@code offset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(long offset) {
+        public Builder setOffset(long offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -2092,7 +2055,7 @@ public class Buffer extends Struct {
          * @param offsetEnd The value for the {@code offsetEnd} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffsetEnd(long offsetEnd) {
+        public Builder setOffsetEnd(long offsetEnd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset_end"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offsetEnd);

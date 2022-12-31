@@ -17,19 +17,17 @@ public class Triangle extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_triangle_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("a"),
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("b"),
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("c")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("a"),
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("b"),
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("c")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,13 +48,15 @@ public class Triangle extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Triangle(Addressable address, Ownership ownership) {
+    protected Triangle(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Triangle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Triangle(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -74,7 +74,8 @@ public class Triangle extends Struct {
      *   allocated by this function
      */
     public static Triangle alloc() {
-        return new Triangle(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -82,8 +83,7 @@ public class Triangle extends Struct {
      * @param p a {@link Point3D}
      * @return {@code true} if the point is inside the triangle
      */
-    public boolean containsPoint(@NotNull org.gtk.graphene.Point3D p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public boolean containsPoint(org.gtk.graphene.Point3D p) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_triangle_contains_point.invokeExact(
@@ -100,8 +100,7 @@ public class Triangle extends Struct {
      * @param b a {@link Triangle}
      * @return {@code true} if the triangles are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Triangle b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Triangle b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_triangle_equal.invokeExact(
@@ -163,8 +162,7 @@ public class Triangle extends Struct {
      *   with the barycentric coordinates
      * @return {@code true} if the barycentric coordinates are valid
      */
-    public boolean getBarycoords(@Nullable org.gtk.graphene.Point3D p, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean getBarycoords(@Nullable org.gtk.graphene.Point3D p, org.gtk.graphene.Vec2 res) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_triangle_get_barycoords.invokeExact(
@@ -181,8 +179,7 @@ public class Triangle extends Struct {
      * Computes the bounding box of the given {@link Triangle}.
      * @param res return location for the box
      */
-    public void getBoundingBox(@NotNull org.gtk.graphene.Box res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void getBoundingBox(org.gtk.graphene.Box res) {
         try {
             DowncallHandles.graphene_triangle_get_bounding_box.invokeExact(
                     handle(),
@@ -200,8 +197,7 @@ public class Triangle extends Struct {
      * @param res return location for the coordinates of
      *   the midpoint
      */
-    public void getMidpoint(@NotNull org.gtk.graphene.Point3D res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void getMidpoint(org.gtk.graphene.Point3D res) {
         try {
             DowncallHandles.graphene_triangle_get_midpoint.invokeExact(
                     handle(),
@@ -215,8 +211,7 @@ public class Triangle extends Struct {
      * Computes the normal vector of the given {@link Triangle}.
      * @param res return location for the normal vector
      */
-    public void getNormal(@NotNull org.gtk.graphene.Vec3 res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void getNormal(org.gtk.graphene.Vec3 res) {
         try {
             DowncallHandles.graphene_triangle_get_normal.invokeExact(
                     handle(),
@@ -230,8 +225,7 @@ public class Triangle extends Struct {
      * Computes the plane based on the vertices of the given {@link Triangle}.
      * @param res return location for the plane
      */
-    public void getPlane(@NotNull org.gtk.graphene.Plane res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void getPlane(org.gtk.graphene.Plane res) {
         try {
             DowncallHandles.graphene_triangle_get_plane.invokeExact(
                     handle(),
@@ -251,16 +245,13 @@ public class Triangle extends Struct {
      * @param c return location for the coordinates
      *   of the third vertex
      */
-    public void getPoints(@NotNull org.gtk.graphene.Point3D a, @NotNull org.gtk.graphene.Point3D b, @NotNull org.gtk.graphene.Point3D c) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(c, "Parameter 'c' must not be null");
+    public void getPoints(@Nullable org.gtk.graphene.Point3D a, @Nullable org.gtk.graphene.Point3D b, @Nullable org.gtk.graphene.Point3D c) {
         try {
             DowncallHandles.graphene_triangle_get_points.invokeExact(
                     handle(),
-                    a.handle(),
-                    b.handle(),
-                    c.handle());
+                    (Addressable) (a == null ? MemoryAddress.NULL : a.handle()),
+                    (Addressable) (b == null ? MemoryAddress.NULL : b.handle()),
+                    (Addressable) (c == null ? MemoryAddress.NULL : c.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -288,11 +279,7 @@ public class Triangle extends Struct {
      *   of the given point {@code p}
      * @return {@code true} if the coordinates are valid
      */
-    public boolean getUv(@Nullable org.gtk.graphene.Point3D p, @NotNull org.gtk.graphene.Vec2 uvA, @NotNull org.gtk.graphene.Vec2 uvB, @NotNull org.gtk.graphene.Vec2 uvC, @NotNull org.gtk.graphene.Vec2 res) {
-        java.util.Objects.requireNonNull(uvA, "Parameter 'uvA' must not be null");
-        java.util.Objects.requireNonNull(uvB, "Parameter 'uvB' must not be null");
-        java.util.Objects.requireNonNull(uvC, "Parameter 'uvC' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean getUv(@Nullable org.gtk.graphene.Point3D p, org.gtk.graphene.Vec2 uvA, org.gtk.graphene.Vec2 uvB, org.gtk.graphene.Vec2 uvC, org.gtk.graphene.Vec2 res) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_triangle_get_uv.invokeExact(
@@ -314,16 +301,13 @@ public class Triangle extends Struct {
      * @param b return location for the second vertex
      * @param c return location for the third vertex
      */
-    public void getVertices(@NotNull org.gtk.graphene.Vec3 a, @NotNull org.gtk.graphene.Vec3 b, @NotNull org.gtk.graphene.Vec3 c) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(c, "Parameter 'c' must not be null");
+    public void getVertices(@Nullable org.gtk.graphene.Vec3 a, @Nullable org.gtk.graphene.Vec3 b, @Nullable org.gtk.graphene.Vec3 c) {
         try {
             DowncallHandles.graphene_triangle_get_vertices.invokeExact(
                     handle(),
-                    a.handle(),
-                    b.handle(),
-                    c.handle());
+                    (Addressable) (a == null ? MemoryAddress.NULL : a.handle()),
+                    (Addressable) (b == null ? MemoryAddress.NULL : b.handle()),
+                    (Addressable) (c == null ? MemoryAddress.NULL : c.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,10 +322,7 @@ public class Triangle extends Struct {
      * @param c an array of 3 floating point values
      * @return the initialized {@link Triangle}
      */
-    public @NotNull org.gtk.graphene.Triangle initFromFloat(@NotNull float[] a, @NotNull float[] b, @NotNull float[] c) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(c, "Parameter 'c' must not be null");
+    public org.gtk.graphene.Triangle initFromFloat(float[] a, float[] b, float[] c) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_float.invokeExact(
@@ -352,7 +333,7 @@ public class Triangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Triangle(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -362,7 +343,7 @@ public class Triangle extends Struct {
      * @param c a {@link Point3D}
      * @return the initialized {@link Triangle}
      */
-    public @NotNull org.gtk.graphene.Triangle initFromPoint3d(@Nullable org.gtk.graphene.Point3D a, @Nullable org.gtk.graphene.Point3D b, @Nullable org.gtk.graphene.Point3D c) {
+    public org.gtk.graphene.Triangle initFromPoint3d(@Nullable org.gtk.graphene.Point3D a, @Nullable org.gtk.graphene.Point3D b, @Nullable org.gtk.graphene.Point3D c) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_point3d.invokeExact(
@@ -373,7 +354,7 @@ public class Triangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Triangle(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -383,7 +364,7 @@ public class Triangle extends Struct {
      * @param c a {@link Vec3}
      * @return the initialized {@link Triangle}
      */
-    public @NotNull org.gtk.graphene.Triangle initFromVec3(@Nullable org.gtk.graphene.Vec3 a, @Nullable org.gtk.graphene.Vec3 b, @Nullable org.gtk.graphene.Vec3 c) {
+    public org.gtk.graphene.Triangle initFromVec3(@Nullable org.gtk.graphene.Vec3 a, @Nullable org.gtk.graphene.Vec3 b, @Nullable org.gtk.graphene.Vec3 c) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_triangle_init_from_vec3.invokeExact(
@@ -394,7 +375,7 @@ public class Triangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Triangle(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Triangle.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -495,49 +476,53 @@ public class Triangle extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Triangle.Builder} object constructs a {@link Triangle} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Triangle.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Triangle struct;
+        private final Triangle struct;
         
-         /**
-         * A {@link Triangle.Build} object constructs a {@link Triangle} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Triangle.allocate();
         }
         
          /**
          * Finish building the {@link Triangle} struct.
          * @return A new instance of {@code Triangle} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Triangle construct() {
+        public Triangle build() {
             return struct;
         }
         
-        public Build setA(org.gtk.graphene.Vec3 a) {
+        public Builder setA(org.gtk.graphene.Vec3 a) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("a"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (a == null ? MemoryAddress.NULL : a.handle()));
             return this;
         }
         
-        public Build setB(org.gtk.graphene.Vec3 b) {
+        public Builder setB(org.gtk.graphene.Vec3 b) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("b"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (b == null ? MemoryAddress.NULL : b.handle()));
             return this;
         }
         
-        public Build setC(org.gtk.graphene.Vec3 c) {
+        public Builder setC(org.gtk.graphene.Vec3 c) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("c"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (c == null ? MemoryAddress.NULL : c.handle()));

@@ -66,40 +66,26 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * <p>
      * Because TreeExpander is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeExpander(Addressable address, Ownership ownership) {
+    protected TreeExpander(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to TreeExpander if its GType is a (or inherits from) "GtkTreeExpander".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TreeExpander} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTreeExpander", a ClassCastException will be thrown.
-     */
-    public static TreeExpander castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeExpander.getType())) {
-            return new TreeExpander(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeExpander");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeExpander> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeExpander(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_new.invokeExact();
         } catch (Throwable ERR) {
@@ -127,7 +113,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -142,7 +128,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -154,7 +140,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * }</pre>
      * @return The item of the row
      */
-    public @Nullable org.gtk.gobject.Object getItem() {
+    public @Nullable org.gtk.gobject.GObject getItem() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_expander_get_item.invokeExact(
@@ -162,7 +148,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -177,7 +163,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeListRow(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeListRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeListRow.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -202,7 +188,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         try {
             DowncallHandles.gtk_tree_expander_set_indent_for_icon.invokeExact(
                     handle(),
-                    indentForIcon ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(indentForIcon, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,7 +212,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_tree_expander_get_type.invokeExact();
@@ -235,38 +221,40 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TreeExpander.Builder} object constructs a {@link TreeExpander} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TreeExpander.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link TreeExpander.Build} object constructs a {@link TreeExpander} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TreeExpander} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TreeExpander} using {@link TreeExpander#castFrom}.
+         * {@link TreeExpander}.
          * @return A new instance of {@code TreeExpander} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TreeExpander construct() {
-            return TreeExpander.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TreeExpander.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TreeExpander build() {
+            return (TreeExpander) org.gtk.gobject.GObject.newWithProperties(
+                TreeExpander.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -275,7 +263,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -286,7 +274,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
          * @param indentForIcon The value for the {@code indent-for-icon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIndentForIcon(boolean indentForIcon) {
+        public Builder setIndentForIcon(boolean indentForIcon) {
             names.add("indent-for-icon");
             values.add(org.gtk.gobject.Value.create(indentForIcon));
             return this;
@@ -297,7 +285,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
          * @param item The value for the {@code item} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItem(org.gtk.gobject.Object item) {
+        public Builder setItem(org.gtk.gobject.GObject item) {
             names.add("item");
             values.add(org.gtk.gobject.Value.create(item));
             return this;
@@ -308,7 +296,7 @@ public class TreeExpander extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
          * @param listRow The value for the {@code list-row} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setListRow(org.gtk.gtk.TreeListRow listRow) {
+        public Builder setListRow(org.gtk.gtk.TreeListRow listRow) {
             names.add("list-row");
             values.add(org.gtk.gobject.Value.create(listRow));
             return this;

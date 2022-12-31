@@ -42,11 +42,15 @@ public class FdMemoryFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FdMemoryFlags or(FdMemoryFlags mask) {
-        return new FdMemoryFlags(this.getValue() | mask.getValue());
+    public FdMemoryFlags or(FdMemoryFlags... masks) {
+        int value = this.getValue();
+        for (FdMemoryFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FdMemoryFlags(value);
     }
     
     /**
@@ -56,7 +60,8 @@ public class FdMemoryFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FdMemoryFlags combined(FdMemoryFlags mask, FdMemoryFlags... masks) {
-        int value = mask.getValue();        for (FdMemoryFlags arg : masks) {
+        int value = mask.getValue();
+        for (FdMemoryFlags arg : masks) {
             value |= arg.getValue();
         }
         return new FdMemoryFlags(value);

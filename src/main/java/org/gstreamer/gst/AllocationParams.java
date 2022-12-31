@@ -16,22 +16,20 @@ public class AllocationParams extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstAllocationParams";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("align"),
-        Interop.valueLayout.C_LONG.withName("prefix"),
-        Interop.valueLayout.C_LONG.withName("padding"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("align"),
+            Interop.valueLayout.C_LONG.withName("prefix"),
+            Interop.valueLayout.C_LONG.withName("padding"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class AllocationParams extends Struct {
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public org.gstreamer.gst.MemoryFlags flags$get() {
+    public org.gstreamer.gst.MemoryFlags getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,17 +60,17 @@ public class AllocationParams extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(org.gstreamer.gst.MemoryFlags flags) {
+    public void setFlags(org.gstreamer.gst.MemoryFlags flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
     }
     
     /**
      * Get the value of the field {@code align}
      * @return The value of the field {@code align}
      */
-    public long align$get() {
+    public long getAlign() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("align"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,7 +81,7 @@ public class AllocationParams extends Struct {
      * Change the value of the field {@code align}
      * @param align The new value of the field {@code align}
      */
-    public void align$set(long align) {
+    public void setAlign(long align) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("align"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), align);
@@ -93,7 +91,7 @@ public class AllocationParams extends Struct {
      * Get the value of the field {@code prefix}
      * @return The value of the field {@code prefix}
      */
-    public long prefix$get() {
+    public long getPrefix() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,31 +102,10 @@ public class AllocationParams extends Struct {
      * Change the value of the field {@code prefix}
      * @param prefix The new value of the field {@code prefix}
      */
-    public void prefix$set(long prefix) {
+    public void setPrefix(long prefix) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), prefix);
-    }
-    
-    /**
-     * Get the value of the field {@code padding}
-     * @return The value of the field {@code padding}
-     */
-    public long padding$get() {
-        var RESULT = (long) getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT;
-    }
-    
-    /**
-     * Change the value of the field {@code padding}
-     * @param padding The new value of the field {@code padding}
-     */
-    public void padding$set(long padding) {
-        getMemoryLayout()
-            .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), padding);
     }
     
     /**
@@ -136,13 +113,15 @@ public class AllocationParams extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AllocationParams(Addressable address, Ownership ownership) {
+    protected AllocationParams(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AllocationParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AllocationParams(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_allocation_params_new.invokeExact();
         } catch (Throwable ERR) {
@@ -176,7 +155,7 @@ public class AllocationParams extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.AllocationParams(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.AllocationParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -230,31 +209,35 @@ public class AllocationParams extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AllocationParams.Builder} object constructs a {@link AllocationParams} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AllocationParams.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AllocationParams struct;
+        private final AllocationParams struct;
         
-         /**
-         * A {@link AllocationParams.Build} object constructs a {@link AllocationParams} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AllocationParams.allocate();
         }
         
          /**
          * Finish building the {@link AllocationParams} struct.
          * @return A new instance of {@code AllocationParams} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AllocationParams construct() {
+        public AllocationParams build() {
             return struct;
         }
         
@@ -263,7 +246,7 @@ public class AllocationParams extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gstreamer.gst.MemoryFlags flags) {
+        public Builder setFlags(org.gstreamer.gst.MemoryFlags flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
@@ -275,7 +258,7 @@ public class AllocationParams extends Struct {
          * @param align The value for the {@code align} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAlign(long align) {
+        public Builder setAlign(long align) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("align"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), align);
@@ -287,7 +270,7 @@ public class AllocationParams extends Struct {
          * @param prefix The value for the {@code prefix} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrefix(long prefix) {
+        public Builder setPrefix(long prefix) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), prefix);
@@ -299,14 +282,14 @@ public class AllocationParams extends Struct {
          * @param padding The value for the {@code padding} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPadding(long padding) {
+        public Builder setPadding(long padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), padding);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

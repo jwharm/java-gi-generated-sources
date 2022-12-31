@@ -43,10 +43,12 @@ public class Dir extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Dir(Addressable address, Ownership ownership) {
+    protected Dir(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Dir> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Dir(input, ownership);
     
     /**
      * Closes the directory and deallocates all related resources.
@@ -78,7 +80,7 @@ public class Dir extends Struct {
      *   more entries. The return value is owned by GLib and
      *   must not be modified or freed.
      */
-    public @NotNull java.lang.String readName() {
+    public java.lang.String readName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dir_read_name.invokeExact(
@@ -86,7 +88,7 @@ public class Dir extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -122,12 +124,12 @@ public class Dir extends Struct {
      *     returned and {@code error} will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String makeTmp(@Nullable java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
+    public static java.lang.String makeTmp(@Nullable java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dir_make_tmp.invokeExact(
-                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
+                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tmpl, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -135,7 +137,7 @@ public class Dir extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -150,13 +152,12 @@ public class Dir extends Struct {
      *   when you are finished with it.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.Dir open(@NotNull java.lang.String path, int flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static org.gtk.glib.Dir open(java.lang.String path, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dir_open.invokeExact(
-                    Interop.allocateNativeString(path),
+                    Marshal.stringToAddress.marshal(path, null),
                     flags,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -165,7 +166,7 @@ public class Dir extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Dir(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Dir.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

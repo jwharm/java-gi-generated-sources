@@ -55,17 +55,15 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static final java.lang.String C_TYPE_NAME = "GtkFrame";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -73,43 +71,29 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * Because Frame is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Frame(Addressable address, Ownership ownership) {
+    protected Frame(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Frame if its GType is a (or inherits from) "GtkFrame".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Frame} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkFrame", a ClassCastException will be thrown.
-     */
-    public static Frame castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Frame.getType())) {
-            return new Frame(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFrame");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Frame> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Frame(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String label) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String label) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_frame_new.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -138,7 +122,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -158,7 +142,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -188,7 +172,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -214,7 +198,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_frame_set_label.invokeExact(
                     handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,7 +243,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_frame_get_type.invokeExact();
@@ -268,38 +252,40 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Frame.Builder} object constructs a {@link Frame} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Frame.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Frame.Build} object constructs a {@link Frame} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Frame} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Frame} using {@link Frame#castFrom}.
+         * {@link Frame}.
          * @return A new instance of {@code Frame} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Frame construct() {
-            return Frame.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Frame.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Frame build() {
+            return (Frame) org.gtk.gobject.GObject.newWithProperties(
+                Frame.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -308,7 +294,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -319,7 +305,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param label The value for the {@code label} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLabel(java.lang.String label) {
+        public Builder setLabel(java.lang.String label) {
             names.add("label");
             values.add(org.gtk.gobject.Value.create(label));
             return this;
@@ -330,7 +316,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param labelWidget The value for the {@code label-widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLabelWidget(org.gtk.gtk.Widget labelWidget) {
+        public Builder setLabelWidget(org.gtk.gtk.Widget labelWidget) {
             names.add("label-widget");
             values.add(org.gtk.gobject.Value.create(labelWidget));
             return this;
@@ -341,7 +327,7 @@ public class Frame extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param labelXalign The value for the {@code label-xalign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLabelXalign(float labelXalign) {
+        public Builder setLabelXalign(float labelXalign) {
             names.add("label-xalign");
             values.add(org.gtk.gobject.Value.create(labelXalign));
             return this;

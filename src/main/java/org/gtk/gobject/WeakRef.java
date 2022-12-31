@@ -6,7 +6,7 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
- * A structure containing a weak reference to a {@link Object}.
+ * A structure containing a weak reference to a {@link GObject}.
  * <p>
  * A {@code GWeakRef} can either be empty (i.e. point to {@code null}), or point to an
  * object for as long as at least one "strong" reference to that object
@@ -34,7 +34,7 @@ import org.jetbrains.annotations.*;
 public class WeakRef extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GWeakRef";
@@ -66,10 +66,12 @@ public class WeakRef extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WeakRef(Addressable address, Ownership ownership) {
+    protected WeakRef(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WeakRef> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WeakRef(input, ownership);
     
     /**
      * Frees resources associated with a non-statically-allocated {@link WeakRef}.
@@ -101,7 +103,7 @@ public class WeakRef extends Struct {
      * @return the object pointed to
      *     by {@code weak_ref}, or {@code null} if it was empty
      */
-    public @NotNull org.gtk.gobject.Object get() {
+    public org.gtk.gobject.GObject get() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_weak_ref_get.invokeExact(
@@ -110,7 +112,7 @@ public class WeakRef extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -123,9 +125,9 @@ public class WeakRef extends Struct {
      * g_weak_ref_clear().  It is not necessary to use this function for a
      * {@link WeakRef} in static storage because it will already be
      * properly initialised.  Just use g_weak_ref_set() directly.
-     * @param object a {@link Object} or {@code null}
+     * @param object a {@link GObject} or {@code null}
      */
-    public void init(@Nullable org.gtk.gobject.Object object) {
+    public void init(@Nullable org.gtk.gobject.GObject object) {
         try {
             DowncallHandles.g_weak_ref_init.invokeExact(
                     handle(),
@@ -142,9 +144,9 @@ public class WeakRef extends Struct {
      * <p>
      * You must own a strong reference on {@code object} while calling this
      * function.
-     * @param object a {@link Object} or {@code null}
+     * @param object a {@link GObject} or {@code null}
      */
-    public void set(@Nullable org.gtk.gobject.Object object) {
+    public void set(@Nullable org.gtk.gobject.GObject object) {
         try {
             DowncallHandles.g_weak_ref_set.invokeExact(
                     handle(),

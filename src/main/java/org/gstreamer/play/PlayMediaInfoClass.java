@@ -40,8 +40,10 @@ public class PlayMediaInfoClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PlayMediaInfoClass(Addressable address, Ownership ownership) {
+    protected PlayMediaInfoClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PlayMediaInfoClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayMediaInfoClass(input, ownership);
 }

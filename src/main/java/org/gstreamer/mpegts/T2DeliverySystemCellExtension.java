@@ -13,19 +13,17 @@ public class T2DeliverySystemCellExtension extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsT2DeliverySystemCellExtension";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("cell_id_extension"),
-        MemoryLayout.paddingLayout(24),
-        Interop.valueLayout.C_INT.withName("transposer_frequency")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("cell_id_extension"),
+            MemoryLayout.paddingLayout(24),
+            Interop.valueLayout.C_INT.withName("transposer_frequency")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,7 +43,7 @@ public class T2DeliverySystemCellExtension extends Struct {
      * Get the value of the field {@code cell_id_extension}
      * @return The value of the field {@code cell_id_extension}
      */
-    public byte cellIdExtension$get() {
+    public byte getCellIdExtension() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cell_id_extension"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -56,7 +54,7 @@ public class T2DeliverySystemCellExtension extends Struct {
      * Change the value of the field {@code cell_id_extension}
      * @param cellIdExtension The new value of the field {@code cell_id_extension}
      */
-    public void cellIdExtension$set(byte cellIdExtension) {
+    public void setCellIdExtension(byte cellIdExtension) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cell_id_extension"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), cellIdExtension);
@@ -66,7 +64,7 @@ public class T2DeliverySystemCellExtension extends Struct {
      * Get the value of the field {@code transposer_frequency}
      * @return The value of the field {@code transposer_frequency}
      */
-    public int transposerFrequency$get() {
+    public int getTransposerFrequency() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("transposer_frequency"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -77,7 +75,7 @@ public class T2DeliverySystemCellExtension extends Struct {
      * Change the value of the field {@code transposer_frequency}
      * @param transposerFrequency The new value of the field {@code transposer_frequency}
      */
-    public void transposerFrequency$set(int transposerFrequency) {
+    public void setTransposerFrequency(int transposerFrequency) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("transposer_frequency"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), transposerFrequency);
@@ -88,35 +86,41 @@ public class T2DeliverySystemCellExtension extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public T2DeliverySystemCellExtension(Addressable address, Ownership ownership) {
+    protected T2DeliverySystemCellExtension(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, T2DeliverySystemCellExtension> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new T2DeliverySystemCellExtension(input, ownership);
+    
+    /**
+     * A {@link T2DeliverySystemCellExtension.Builder} object constructs a {@link T2DeliverySystemCellExtension} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link T2DeliverySystemCellExtension.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private T2DeliverySystemCellExtension struct;
+        private final T2DeliverySystemCellExtension struct;
         
-         /**
-         * A {@link T2DeliverySystemCellExtension.Build} object constructs a {@link T2DeliverySystemCellExtension} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = T2DeliverySystemCellExtension.allocate();
         }
         
          /**
          * Finish building the {@link T2DeliverySystemCellExtension} struct.
          * @return A new instance of {@code T2DeliverySystemCellExtension} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public T2DeliverySystemCellExtension construct() {
+        public T2DeliverySystemCellExtension build() {
             return struct;
         }
         
@@ -125,7 +129,7 @@ public class T2DeliverySystemCellExtension extends Struct {
          * @param cellIdExtension The value for the {@code cellIdExtension} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCellIdExtension(byte cellIdExtension) {
+        public Builder setCellIdExtension(byte cellIdExtension) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cell_id_extension"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), cellIdExtension);
@@ -137,7 +141,7 @@ public class T2DeliverySystemCellExtension extends Struct {
          * @param transposerFrequency The value for the {@code transposerFrequency} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTransposerFrequency(int transposerFrequency) {
+        public Builder setTransposerFrequency(int transposerFrequency) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("transposer_frequency"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), transposerFrequency);

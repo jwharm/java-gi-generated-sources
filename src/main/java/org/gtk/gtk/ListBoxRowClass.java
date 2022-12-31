@@ -13,19 +13,17 @@ public class ListBoxRowClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkListBoxRowClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.WidgetClass.getMemoryLayout().withName("parent_class"),
-        Interop.valueLayout.ADDRESS.withName("activate"),
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.WidgetClass.getMemoryLayout().withName("parent_class"),
+            Interop.valueLayout.ADDRESS.withName("activate"),
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,9 +43,45 @@ public class ListBoxRowClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.WidgetClass parentClass$get() {
+    public org.gtk.gtk.WidgetClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.WidgetClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gtk.gtk.WidgetClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface ActivateCallback {
+        void run(org.gtk.gtk.ListBoxRow row);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress row) {
+            run((org.gtk.gtk.ListBoxRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(row)), org.gtk.gtk.ListBoxRow.fromAddress).marshal(row, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code activate}
+     * @param activate The new value of the field {@code activate}
+     */
+    public void setActivate(ActivateCallback activate) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("activate"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
     }
     
     /**
@@ -55,35 +89,41 @@ public class ListBoxRowClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ListBoxRowClass(Addressable address, Ownership ownership) {
+    protected ListBoxRowClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ListBoxRowClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListBoxRowClass(input, ownership);
+    
+    /**
+     * A {@link ListBoxRowClass.Builder} object constructs a {@link ListBoxRowClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ListBoxRowClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ListBoxRowClass struct;
+        private final ListBoxRowClass struct;
         
-         /**
-         * A {@link ListBoxRowClass.Build} object constructs a {@link ListBoxRowClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ListBoxRowClass.allocate();
         }
         
          /**
          * Finish building the {@link ListBoxRowClass} struct.
          * @return A new instance of {@code ListBoxRowClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ListBoxRowClass construct() {
+        public ListBoxRowClass build() {
             return struct;
         }
         
@@ -92,21 +132,21 @@ public class ListBoxRowClass extends Struct {
          * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gtk.WidgetClass parentClass) {
+        public Builder setParentClass(org.gtk.gtk.WidgetClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setActivate(java.lang.foreign.MemoryAddress activate) {
+        public Builder setActivate(ActivateCallback activate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("activate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (activate == null ? MemoryAddress.NULL : activate.toCallback()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));

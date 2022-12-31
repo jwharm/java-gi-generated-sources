@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * {@link DBusInterfaceVTable} that was passed to g_dbus_connection_register_object().
  * @version 2.26
  */
-public class DBusMethodInvocation extends org.gtk.gobject.Object {
+public class DBusMethodInvocation extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -37,36 +37,18 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusMethodInvocation(Addressable address, Ownership ownership) {
+    protected DBusMethodInvocation(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DBusMethodInvocation if its GType is a (or inherits from) "GDBusMethodInvocation".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DBusMethodInvocation} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDBusMethodInvocation", a ClassCastException will be thrown.
-     */
-    public static DBusMethodInvocation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusMethodInvocation.getType())) {
-            return new DBusMethodInvocation(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusMethodInvocation");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusMethodInvocation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusMethodInvocation(input, ownership);
     
     /**
      * Gets the {@link DBusConnection} the method was invoked on.
      * @return A {@link DBusConnection}. Do not free, it is owned by {@code invocation}.
      */
-    public @NotNull org.gtk.gio.DBusConnection getConnection() {
+    public org.gtk.gio.DBusConnection getConnection() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_method_invocation_get_connection.invokeExact(
@@ -74,7 +56,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusConnection(RESULT, Ownership.NONE);
+        return (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -86,7 +68,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * {@link DBusInterfaceVTable} for more information.
      * @return A string. Do not free, it is owned by {@code invocation}.
      */
-    public @NotNull java.lang.String getInterfaceName() {
+    public java.lang.String getInterfaceName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_method_invocation_get_interface_name.invokeExact(
@@ -94,7 +76,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -108,7 +90,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * UNIX file descriptors.
      * @return {@link DBusMessage}. Do not free, it is owned by {@code invocation}.
      */
-    public @NotNull org.gtk.gio.DBusMessage getMessage() {
+    public org.gtk.gio.DBusMessage getMessage() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_method_invocation_get_message.invokeExact(
@@ -116,7 +98,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusMessage(RESULT, Ownership.NONE);
+        return (org.gtk.gio.DBusMessage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusMessage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -136,14 +118,14 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusMethodInfo(RESULT, Ownership.NONE);
+        return org.gtk.gio.DBusMethodInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the name of the method that was invoked.
      * @return A string. Do not free, it is owned by {@code invocation}.
      */
-    public @NotNull java.lang.String getMethodName() {
+    public java.lang.String getMethodName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_method_invocation_get_method_name.invokeExact(
@@ -151,14 +133,14 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the object path the method was invoked on.
      * @return A string. Do not free, it is owned by {@code invocation}.
      */
-    public @NotNull java.lang.String getObjectPath() {
+    public java.lang.String getObjectPath() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_method_invocation_get_object_path.invokeExact(
@@ -166,7 +148,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -174,7 +156,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * parameters then this will return a GVariant with 0 children rather than NULL.
      * @return A {@link org.gtk.glib.Variant} tuple. Do not unref this because it is owned by {@code invocation}.
      */
-    public @NotNull org.gtk.glib.Variant getParameters() {
+    public org.gtk.glib.Variant getParameters() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_method_invocation_get_parameters.invokeExact(
@@ -182,7 +164,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -207,14 +189,14 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusPropertyInfo(RESULT, Ownership.NONE);
+        return org.gtk.gio.DBusPropertyInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the bus name that invoked the method.
      * @return A string. Do not free, it is owned by {@code invocation}.
      */
-    public @NotNull java.lang.String getSender() {
+    public java.lang.String getSender() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_method_invocation_get_sender.invokeExact(
@@ -222,7 +204,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -249,14 +231,12 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @param errorName A valid D-Bus error name.
      * @param errorMessage A valid D-Bus error message.
      */
-    public void returnDbusError(@NotNull java.lang.String errorName, @NotNull java.lang.String errorMessage) {
-        java.util.Objects.requireNonNull(errorName, "Parameter 'errorName' must not be null");
-        java.util.Objects.requireNonNull(errorMessage, "Parameter 'errorMessage' must not be null");
+    public void returnDbusError(java.lang.String errorName, java.lang.String errorMessage) {
         try {
             DowncallHandles.g_dbus_method_invocation_return_dbus_error.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(errorName),
-                    Interop.allocateNativeString(errorMessage));
+                    Marshal.stringToAddress.marshal(errorName, null),
+                    Marshal.stringToAddress.marshal(errorMessage, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,15 +269,13 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @param format printf()-style format.
      * @param varargs Parameters for {@code format}.
      */
-    public void returnError(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void returnError(org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_dbus_method_invocation_return_error.invokeExact(
                     handle(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -315,15 +293,13 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @param code The error code.
      * @param message The error message.
      */
-    public void returnErrorLiteral(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String message) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public void returnErrorLiteral(org.gtk.glib.Quark domain, int code, java.lang.String message) {
         try {
             DowncallHandles.g_dbus_method_invocation_return_error_literal.invokeExact(
                     handle(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(message));
+                    Marshal.stringToAddress.marshal(message, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,16 +318,13 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * @param format printf()-style format.
      * @param varArgs {@code va_list} of parameters for {@code format}.
      */
-    public void returnErrorValist(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, @NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+    public void returnErrorValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList varArgs) {
         try {
             DowncallHandles.g_dbus_method_invocation_return_error_valist.invokeExact(
                     handle(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -368,8 +341,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * {@code invocation}.
      * @param error A {@link org.gtk.glib.Error}.
      */
-    public void returnGerror(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public void returnGerror(org.gtk.glib.Error error) {
         try {
             DowncallHandles.g_dbus_method_invocation_return_gerror.invokeExact(
                     handle(),
@@ -457,8 +429,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * {@code invocation}.
      * @param error A {@link org.gtk.glib.Error}.
      */
-    public void takeError(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public void takeError(org.gtk.glib.Error error) {
         try {
             DowncallHandles.g_dbus_method_invocation_take_error.invokeExact(
                     handle(),
@@ -474,7 +445,7 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dbus_method_invocation_get_type.invokeExact();
@@ -483,38 +454,40 @@ public class DBusMethodInvocation extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link DBusMethodInvocation.Builder} object constructs a {@link DBusMethodInvocation} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DBusMethodInvocation.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DBusMethodInvocation.Build} object constructs a {@link DBusMethodInvocation} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DBusMethodInvocation} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DBusMethodInvocation} using {@link DBusMethodInvocation#castFrom}.
+         * {@link DBusMethodInvocation}.
          * @return A new instance of {@code DBusMethodInvocation} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusMethodInvocation construct() {
-            return DBusMethodInvocation.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DBusMethodInvocation.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DBusMethodInvocation build() {
+            return (DBusMethodInvocation) org.gtk.gobject.GObject.newWithProperties(
+                DBusMethodInvocation.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

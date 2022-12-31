@@ -15,25 +15,8 @@ import org.jetbrains.annotations.*;
  */
 public interface FontMap extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to FontMap if its GType is a (or inherits from) "PangoCairoFontMap".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FontMap} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "PangoCairoFontMap", a ClassCastException will be thrown.
-     */
-    public static FontMap castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontMap.getType())) {
-            return new FontMapImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoCairoFontMap");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FontMapImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontMapImpl(input, ownership);
     
     /**
      * Create a {@code PangoContext} for the given fontmap.
@@ -41,7 +24,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      * @deprecated Use pango_font_map_create_context() instead.
      */
     @Deprecated
-    default @NotNull org.pango.Context createContext() {
+    default org.pango.Context createContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_create_context.invokeExact(
@@ -49,14 +32,14 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(RESULT, Ownership.UNKNOWN);
+        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Gets the type of Cairo font backend that {@code fontmap} uses.
      * @return the {@code cairo_font_type_t} cairo font backend type
      */
-    default @NotNull org.cairographics.FontType getFontType() {
+    default org.cairographics.FontType getFontType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_cairo_font_map_get_font_type.invokeExact(
@@ -134,7 +117,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.pango_cairo_font_map_get_type.invokeExact();
@@ -164,14 +147,14 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      *  for the current thread. This object is owned by Pango and must
      *  not be freed.
      */
-    public static @NotNull org.pango.FontMap getDefault() {
+    public static org.pango.FontMap getDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(RESULT, Ownership.NONE);
+        return (org.pango.FontMap) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontMap.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -196,14 +179,14 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      * @return the newly allocated {@code PangoFontMap},
      *   which should be freed with g_object_unref().
      */
-    public static @NotNull org.pango.FontMap new_() {
+    public static org.pango.FontMap new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(RESULT, Ownership.FULL);
+        return (org.pango.FontMap) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontMap.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -218,8 +201,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
      *   g_object_unref(), or {@code null} if the requested cairo font backend
      *   is not supported / compiled in.
      */
-    public static @Nullable org.pango.FontMap newForFontType(@NotNull org.cairographics.FontType fonttype) {
-        java.util.Objects.requireNonNull(fonttype, "Parameter 'fonttype' must not be null");
+    public static @Nullable org.pango.FontMap newForFontType(org.cairographics.FontType fonttype) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_new_for_font_type.invokeExact(
@@ -227,7 +209,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(RESULT, Ownership.FULL);
+        return (org.pango.FontMap) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontMap.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -297,7 +279,7 @@ public interface FontMap extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class FontMapImpl extends org.gtk.gobject.Object implements FontMap {
+    class FontMapImpl extends org.gtk.gobject.GObject implements FontMap {
         
         static {
             PangoCairo.javagi$ensureInitialized();

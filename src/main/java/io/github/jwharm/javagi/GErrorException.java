@@ -1,5 +1,6 @@
 package io.github.jwharm.javagi;
 
+import java.io.Serial;
 import java.lang.foreign.MemoryAddress;
 import java.lang.foreign.MemorySegment;
 
@@ -15,6 +16,7 @@ import org.gtk.glib.Quark;
 public class GErrorException extends Exception {
 
     // Auto-generated
+    @Serial
     private static final long serialVersionUID = -5219056090883059292L;
     
     // The GError proxy object
@@ -22,12 +24,12 @@ public class GErrorException extends Exception {
 
     // Dereference the GError instance from the pointer
     private static org.gtk.glib.Error dereference(MemorySegment pointer) {
-        return new org.gtk.glib.Error(pointer.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE);
+        return (org.gtk.glib.Error) org.gtk.glib.Error.fromAddress.marshal(pointer.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE);
     }
     
     // Get the message from the GError instance (used by the GErrorException constructor)
     private static String getMessage(MemorySegment pointer) {
-        return dereference(pointer).message$get();
+        return dereference(pointer).getMessage();
     }
 
     /**
@@ -68,7 +70,7 @@ public class GErrorException extends Exception {
      * @return the code of the GError
      */
     public int getCode() {
-        return gerror.code$get();
+        return gerror.getCode();
     }
 
     /**
@@ -76,7 +78,7 @@ public class GErrorException extends Exception {
      * @return The domain of the GError
      */
     public Quark getDomain() {
-        return gerror.domain$get();
+        return gerror.getDomain();
     }
     
     /**

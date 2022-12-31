@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * properties during construction. If you want to change a trigger, you
  * have to replace it with a new one.
  */
-public class ShortcutTrigger extends org.gtk.gobject.Object {
+public class ShortcutTrigger extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -40,37 +40,18 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ShortcutTrigger(Addressable address, Ownership ownership) {
+    protected ShortcutTrigger(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ShortcutTrigger if its GType is a (or inherits from) "GtkShortcutTrigger".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ShortcutTrigger} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkShortcutTrigger", a ClassCastException will be thrown.
-     */
-    public static ShortcutTrigger castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ShortcutTrigger.getType())) {
-            return new ShortcutTrigger(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutTrigger");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ShortcutTrigger> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutTrigger(input, ownership);
     
-    private static Addressable constructParseString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructParseString(java.lang.String string) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_trigger_parse_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,8 +79,9 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * @param string the string to parse
      * @return a new {@code GtkShortcutTrigger}
      */
-    public static ShortcutTrigger parseString(@NotNull java.lang.String string) {
-        return new ShortcutTrigger(constructParseString(string), Ownership.FULL);
+    public static ShortcutTrigger parseString(java.lang.String string) {
+        var RESULT = constructParseString(string);
+        return (org.gtk.gtk.ShortcutTrigger) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ShortcutTrigger.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -112,8 +94,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      *   {@code trigger1} is found, respectively, to be less than, to match,
      *   or be greater than {@code trigger2}.
      */
-    public int compare(@NotNull org.gtk.gtk.ShortcutTrigger trigger2) {
-        java.util.Objects.requireNonNull(trigger2, "Parameter 'trigger2' must not be null");
+    public int compare(org.gtk.gtk.ShortcutTrigger trigger2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_shortcut_trigger_compare.invokeExact(
@@ -133,8 +114,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * @param trigger2 a {@code GtkShortcutTrigger}
      * @return {@code true} if {@code trigger1} and {@code trigger2} are equal
      */
-    public boolean equal(@NotNull org.gtk.gtk.ShortcutTrigger trigger2) {
-        java.util.Objects.requireNonNull(trigger2, "Parameter 'trigger2' must not be null");
+    public boolean equal(org.gtk.gtk.ShortcutTrigger trigger2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_shortcut_trigger_equal.invokeExact(
@@ -143,7 +123,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -177,8 +157,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * and is not guaranteed to stay identical.
      * @param string a {@code GString} to print into
      */
-    public void print(@NotNull org.gtk.glib.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public void print(org.gtk.glib.GString string) {
         try {
             DowncallHandles.gtk_shortcut_trigger_print.invokeExact(
                     handle(),
@@ -206,9 +185,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      *   trigger did not have a textual representation suitable
      *   for end users.
      */
-    public boolean printLabel(@NotNull org.gtk.gdk.Display display, @NotNull org.gtk.glib.String string) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public boolean printLabel(org.gtk.gdk.Display display, org.gtk.glib.GString string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_shortcut_trigger_print_label.invokeExact(
@@ -218,7 +195,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -237,8 +214,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * @param display {@code GdkDisplay} to print for
      * @return a new string
      */
-    public @NotNull java.lang.String toLabel(@NotNull org.gtk.gdk.Display display) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public java.lang.String toLabel(org.gtk.gdk.Display display) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_trigger_to_label.invokeExact(
@@ -247,7 +223,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -257,7 +233,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * to help when debugging.
      * @return a new string
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_trigger_to_string.invokeExact(
@@ -265,7 +241,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -276,14 +252,13 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      *   in {@code event} is a Key event and has the right modifiers set.
      * @return Whether the event triggered the shortcut
      */
-    public @NotNull org.gtk.gdk.KeyMatch trigger(@NotNull org.gtk.gdk.Event event, boolean enableMnemonics) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public org.gtk.gdk.KeyMatch trigger(org.gtk.gdk.Event event, boolean enableMnemonics) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_shortcut_trigger_trigger.invokeExact(
                     handle(),
                     event.handle(),
-                    enableMnemonics ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enableMnemonics, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -294,7 +269,7 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_shortcut_trigger_get_type.invokeExact();
@@ -303,38 +278,40 @@ public class ShortcutTrigger extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ShortcutTrigger.Builder} object constructs a {@link ShortcutTrigger} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ShortcutTrigger.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ShortcutTrigger.Build} object constructs a {@link ShortcutTrigger} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ShortcutTrigger} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ShortcutTrigger} using {@link ShortcutTrigger#castFrom}.
+         * {@link ShortcutTrigger}.
          * @return A new instance of {@code ShortcutTrigger} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ShortcutTrigger construct() {
-            return ShortcutTrigger.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ShortcutTrigger.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ShortcutTrigger build() {
+            return (ShortcutTrigger) org.gtk.gobject.GObject.newWithProperties(
+                ShortcutTrigger.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

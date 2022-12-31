@@ -63,40 +63,26 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * <p>
      * Because Assistant is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Assistant(Addressable address, Ownership ownership) {
+    protected Assistant(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Assistant if its GType is a (or inherits from) "GtkAssistant".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Assistant} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkAssistant", a ClassCastException will be thrown.
-     */
-    public static Assistant castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Assistant.getType())) {
-            return new Assistant(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAssistant");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Assistant> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Assistant(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_new.invokeExact();
         } catch (Throwable ERR) {
@@ -116,8 +102,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * Adds a widget to the action area of a {@code GtkAssistant}.
      * @param child a {@code GtkWidget}
      */
-    public void addActionWidget(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void addActionWidget(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_assistant_add_action_widget.invokeExact(
                     handle(),
@@ -132,8 +117,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @param page a {@code GtkWidget}
      * @return the index (starting at 0) of the inserted page
      */
-    public int appendPage(@NotNull org.gtk.gtk.Widget page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public int appendPage(org.gtk.gtk.Widget page) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_assistant_append_page.invokeExact(
@@ -214,7 +198,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -222,8 +206,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @param child a child of {@code assistant}
      * @return the {@code GtkAssistantPage} for {@code child}
      */
-    public @NotNull org.gtk.gtk.AssistantPage getPage(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gtk.gtk.AssistantPage getPage(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_page.invokeExact(
@@ -232,7 +215,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.AssistantPage(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.AssistantPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.AssistantPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -240,8 +223,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @param page a page of {@code assistant}
      * @return {@code true} if {@code page} is complete.
      */
-    public boolean getPageComplete(@NotNull org.gtk.gtk.Widget page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public boolean getPageComplete(org.gtk.gtk.Widget page) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_assistant_get_page_complete.invokeExact(
@@ -250,7 +232,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -258,8 +240,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @param page a page of {@code assistant}
      * @return the title for {@code page}
      */
-    public @NotNull java.lang.String getPageTitle(@NotNull org.gtk.gtk.Widget page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public java.lang.String getPageTitle(org.gtk.gtk.Widget page) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_page_title.invokeExact(
@@ -268,7 +249,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -276,8 +257,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @param page a page of {@code assistant}
      * @return the page type of {@code page}
      */
-    public @NotNull org.gtk.gtk.AssistantPageType getPageType(@NotNull org.gtk.gtk.Widget page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public org.gtk.gtk.AssistantPageType getPageType(org.gtk.gtk.Widget page) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_assistant_get_page_type.invokeExact(
@@ -293,7 +273,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * Gets a list model of the assistant pages.
      * @return A list model of the pages.
      */
-    public @NotNull org.gtk.gio.ListModel getPages() {
+    public org.gtk.gio.ListModel getPages() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_assistant_get_pages.invokeExact(
@@ -301,7 +281,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -311,8 +291,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      *   or -1 to append the page to the {@code assistant}
      * @return the index (starting from 0) of the inserted page
      */
-    public int insertPage(@NotNull org.gtk.gtk.Widget page, int position) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public int insertPage(org.gtk.gtk.Widget page, int position) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_assistant_insert_page.invokeExact(
@@ -348,8 +327,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @param page a {@code GtkWidget}
      * @return the index (starting at 0) of the inserted page
      */
-    public int prependPage(@NotNull org.gtk.gtk.Widget page) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public int prependPage(org.gtk.gtk.Widget page) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_assistant_prepend_page.invokeExact(
@@ -383,8 +361,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * Removes a widget from the action area of a {@code GtkAssistant}.
      * @param child a {@code GtkWidget}
      */
-    public void removeActionWidget(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void removeActionWidget(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_assistant_remove_action_widget.invokeExact(
                     handle(),
@@ -440,18 +417,15 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * next visible page.
      * @param pageFunc the {@code GtkAssistantPageFunc}, or {@code null}
      *   to use the default one
+     * @param destroy destroy notifier for {@code data}
      */
-    public void setForwardPageFunc(@Nullable org.gtk.gtk.AssistantPageFunc pageFunc) {
+    public void setForwardPageFunc(@Nullable org.gtk.gtk.AssistantPageFunc pageFunc, org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.gtk_assistant_set_forward_page_func.invokeExact(
                     handle(),
-                    (Addressable) (pageFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbAssistantPageFunc",
-                            MethodType.methodType(int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (pageFunc == null ? MemoryAddress.NULL : Interop.registerCallback(pageFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (pageFunc == null ? MemoryAddress.NULL : (Addressable) pageFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroy.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -465,13 +439,12 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @param page a page of {@code assistant}
      * @param complete the completeness status of the page
      */
-    public void setPageComplete(@NotNull org.gtk.gtk.Widget page, boolean complete) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
+    public void setPageComplete(org.gtk.gtk.Widget page, boolean complete) {
         try {
             DowncallHandles.gtk_assistant_set_page_complete.invokeExact(
                     handle(),
                     page.handle(),
-                    complete ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(complete, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -485,14 +458,12 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @param page a page of {@code assistant}
      * @param title the new title for {@code page}
      */
-    public void setPageTitle(@NotNull org.gtk.gtk.Widget page, @NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setPageTitle(org.gtk.gtk.Widget page, java.lang.String title) {
         try {
             DowncallHandles.gtk_assistant_set_page_title.invokeExact(
                     handle(),
                     page.handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -505,9 +476,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * @param page a page of {@code assistant}
      * @param type the new type for {@code page}
      */
-    public void setPageType(@NotNull org.gtk.gtk.Widget page, @NotNull org.gtk.gtk.AssistantPageType type) {
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void setPageType(org.gtk.gtk.Widget page, org.gtk.gtk.AssistantPageType type) {
         try {
             DowncallHandles.gtk_assistant_set_page_type.invokeExact(
                     handle(),
@@ -542,7 +511,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_assistant_get_type.invokeExact();
@@ -554,7 +523,18 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Apply {
-        void signalReceived(Assistant sourceAssistant);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAssistant) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Apply.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -575,16 +555,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public Signal<Assistant.Apply> onApply(Assistant.Apply handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("apply"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantApply",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Assistant.Apply>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("apply"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -592,7 +564,18 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Cancel {
-        void signalReceived(Assistant sourceAssistant);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAssistant) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Cancel.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -603,16 +586,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public Signal<Assistant.Cancel> onCancel(Assistant.Cancel handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("cancel"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantCancel",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Assistant.Cancel>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("cancel"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -620,7 +595,18 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Close {
-        void signalReceived(Assistant sourceAssistant);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAssistant) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Close.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -633,16 +619,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public Signal<Assistant.Close> onClose(Assistant.Close handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("close"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantClose",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Assistant.Close>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("close"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -650,7 +628,18 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Escape {
-        void signalReceived(Assistant sourceAssistant);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAssistant) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Escape.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -661,16 +650,8 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public Signal<Assistant.Escape> onEscape(Assistant.Escape handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("escape"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantEscape",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Assistant.Escape>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("escape"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -678,7 +659,18 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     
     @FunctionalInterface
     public interface Prepare {
-        void signalReceived(Assistant sourceAssistant, @NotNull org.gtk.gtk.Widget page);
+        void run(org.gtk.gtk.Widget page);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAssistant, MemoryAddress page) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gtk.gtk.Widget.fromAddress).marshal(page, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Prepare.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -693,52 +685,46 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
     public Signal<Assistant.Prepare> onPrepare(Assistant.Prepare handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("prepare"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Assistant.Callbacks.class, "signalAssistantPrepare",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Assistant.Prepare>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("prepare"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Assistant.Builder} object constructs a {@link Assistant} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Assistant.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Window.Build {
+    public static class Builder extends org.gtk.gtk.Window.Builder {
         
-         /**
-         * A {@link Assistant.Build} object constructs a {@link Assistant} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Assistant} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Assistant} using {@link Assistant#castFrom}.
+         * {@link Assistant}.
          * @return A new instance of {@code Assistant} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Assistant construct() {
-            return Assistant.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Assistant.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Assistant build() {
+            return (Assistant) org.gtk.gobject.GObject.newWithProperties(
+                Assistant.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -747,7 +733,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
          * @param pages The value for the {@code pages} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPages(org.gtk.gio.ListModel pages) {
+        public Builder setPages(org.gtk.gio.ListModel pages) {
             names.add("pages");
             values.add(org.gtk.gobject.Value.create(pages));
             return this;
@@ -762,7 +748,7 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
          * @param useHeaderBar The value for the {@code use-header-bar} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseHeaderBar(int useHeaderBar) {
+        public Builder setUseHeaderBar(int useHeaderBar) {
             names.add("use-header-bar");
             values.add(org.gtk.gobject.Value.create(useHeaderBar));
             return this;
@@ -920,38 +906,5 @@ public class Assistant extends org.gtk.gtk.Window implements org.gtk.gtk.Accessi
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalAssistantApply(MemoryAddress sourceAssistant, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Assistant.Apply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE));
-        }
-        
-        public static void signalAssistantCancel(MemoryAddress sourceAssistant, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Assistant.Cancel) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE));
-        }
-        
-        public static void signalAssistantClose(MemoryAddress sourceAssistant, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Assistant.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE));
-        }
-        
-        public static void signalAssistantEscape(MemoryAddress sourceAssistant, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Assistant.Escape) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE));
-        }
-        
-        public static void signalAssistantPrepare(MemoryAddress sourceAssistant, MemoryAddress page, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Assistant.Prepare) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Assistant(sourceAssistant, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE));
-        }
     }
 }

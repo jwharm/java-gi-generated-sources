@@ -26,25 +26,8 @@ import org.jetbrains.annotations.*;
  */
 public interface DevicePad extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to DevicePad if its GType is a (or inherits from) "GdkDevicePad".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DevicePad} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkDevicePad", a ClassCastException will be thrown.
-     */
-    public static DevicePad castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DevicePad.getType())) {
-            return new DevicePadImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkDevicePad");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DevicePadImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DevicePadImpl(input, ownership);
     
     /**
      * Returns the group the given {@code feature} and {@code idx} belong to.
@@ -54,8 +37,7 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
      * @param featureIdx the index of the feature to get the group from
      * @return The group number of the queried pad feature.
      */
-    default int getFeatureGroup(@NotNull org.gtk.gdk.DevicePadFeature feature, int featureIdx) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    default int getFeatureGroup(org.gtk.gdk.DevicePadFeature feature, int featureIdx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_device_pad_get_feature_group.invokeExact(
@@ -90,8 +72,7 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
      * @param feature a pad feature
      * @return The amount of elements of type {@code feature} that this pad has.
      */
-    default int getNFeatures(@NotNull org.gtk.gdk.DevicePadFeature feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    default int getNFeatures(org.gtk.gdk.DevicePadFeature feature) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_device_pad_get_n_features.invokeExact(
@@ -126,7 +107,7 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_device_pad_get_type.invokeExact();
@@ -175,7 +156,7 @@ public interface DevicePad extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class DevicePadImpl extends org.gtk.gobject.Object implements DevicePad {
+    class DevicePadImpl extends org.gtk.gobject.GObject implements DevicePad {
         
         static {
             Gdk.javagi$ensureInitialized();

@@ -40,8 +40,10 @@ public class PhysicalDeviceShaderDrawParameterFeatures extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceShaderDrawParameterFeatures(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceShaderDrawParameterFeatures(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceShaderDrawParameterFeatures> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceShaderDrawParameterFeatures(input, ownership);
 }

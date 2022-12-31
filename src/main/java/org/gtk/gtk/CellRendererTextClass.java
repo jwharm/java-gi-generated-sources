@@ -13,19 +13,17 @@ public class CellRendererTextClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkCellRendererTextClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.CellRendererClass.getMemoryLayout().withName("parent_class"),
-        Interop.valueLayout.ADDRESS.withName("edited"),
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.CellRendererClass.getMemoryLayout().withName("parent_class"),
+            Interop.valueLayout.ADDRESS.withName("edited"),
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,9 +43,45 @@ public class CellRendererTextClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.CellRendererClass parentClass$get() {
+    public org.gtk.gtk.CellRendererClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.CellRendererClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.CellRendererClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gtk.gtk.CellRendererClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface EditedCallback {
+        void run(org.gtk.gtk.CellRendererText cellRendererText, java.lang.String path, java.lang.String newText);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress cellRendererText, MemoryAddress path, MemoryAddress newText) {
+            run((org.gtk.gtk.CellRendererText) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cellRendererText)), org.gtk.gtk.CellRendererText.fromAddress).marshal(cellRendererText, Ownership.NONE), Marshal.addressToString.marshal(path, null), Marshal.addressToString.marshal(newText, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EditedCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code edited}
+     * @param edited The new value of the field {@code edited}
+     */
+    public void setEdited(EditedCallback edited) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("edited"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (edited == null ? MemoryAddress.NULL : edited.toCallback()));
     }
     
     /**
@@ -55,53 +89,59 @@ public class CellRendererTextClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CellRendererTextClass(Addressable address, Ownership ownership) {
+    protected CellRendererTextClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellRendererTextClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererTextClass(input, ownership);
+    
+    /**
+     * A {@link CellRendererTextClass.Builder} object constructs a {@link CellRendererTextClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link CellRendererTextClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private CellRendererTextClass struct;
+        private final CellRendererTextClass struct;
         
-         /**
-         * A {@link CellRendererTextClass.Build} object constructs a {@link CellRendererTextClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = CellRendererTextClass.allocate();
         }
         
          /**
          * Finish building the {@link CellRendererTextClass} struct.
          * @return A new instance of {@code CellRendererTextClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CellRendererTextClass construct() {
+        public CellRendererTextClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gtk.CellRendererClass parentClass) {
+        public Builder setParentClass(org.gtk.gtk.CellRendererClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setEdited(java.lang.foreign.MemoryAddress edited) {
+        public Builder setEdited(EditedCallback edited) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("edited"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (edited == null ? MemoryAddress.NULL : edited));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (edited == null ? MemoryAddress.NULL : edited.toCallback()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));

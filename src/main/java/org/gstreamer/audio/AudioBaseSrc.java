@@ -18,24 +18,22 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioBaseSrc";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.base.PushSrc.getMemoryLayout().withName("element"),
-        Interop.valueLayout.ADDRESS.withName("ringbuffer"),
-        Interop.valueLayout.C_LONG.withName("buffer_time"),
-        Interop.valueLayout.C_LONG.withName("latency_time"),
-        Interop.valueLayout.C_LONG.withName("next_sample"),
-        Interop.valueLayout.ADDRESS.withName("clock"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.base.PushSrc.getMemoryLayout().withName("element"),
+            Interop.valueLayout.ADDRESS.withName("ringbuffer"),
+            Interop.valueLayout.C_LONG.withName("buffer_time"),
+            Interop.valueLayout.C_LONG.withName("latency_time"),
+            Interop.valueLayout.C_LONG.withName("next_sample"),
+            Interop.valueLayout.ADDRESS.withName("clock"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -43,37 +41,23 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
      * <p>
      * Because AudioBaseSrc is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioBaseSrc(Addressable address, Ownership ownership) {
+    protected AudioBaseSrc(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AudioBaseSrc if its GType is a (or inherits from) "GstAudioBaseSrc".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AudioBaseSrc} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAudioBaseSrc", a ClassCastException will be thrown.
-     */
-    public static AudioBaseSrc castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AudioBaseSrc.getType())) {
-            return new AudioBaseSrc(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAudioBaseSrc");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioBaseSrc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSrc(input, ownership);
     
     /**
      * Create and return the {@link AudioRingBuffer} for {@code src}. This function will call
@@ -81,7 +65,7 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
      * returned buffer (see gst_object_set_parent()).
      * @return The new ringbuffer of {@code src}.
      */
-    public @NotNull org.gstreamer.audio.AudioRingBuffer createRingbuffer() {
+    public org.gstreamer.audio.AudioRingBuffer createRingbuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_base_src_create_ringbuffer.invokeExact(
@@ -89,7 +73,7 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioRingBuffer(RESULT, Ownership.NONE);
+        return (org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -105,14 +89,14 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the current slave method used by {@code src}.
      * @return The current slave method used by {@code src}.
      */
-    public @NotNull org.gstreamer.audio.AudioBaseSrcSlaveMethod getSlaveMethod() {
+    public org.gstreamer.audio.AudioBaseSrcSlaveMethod getSlaveMethod() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_base_src_get_slave_method.invokeExact(
@@ -133,7 +117,7 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
         try {
             DowncallHandles.gst_audio_base_src_set_provide_clock.invokeExact(
                     handle(),
-                    provide ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(provide, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -143,8 +127,7 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
      * Controls how clock slaving will be performed in {@code src}.
      * @param method the new slave method
      */
-    public void setSlaveMethod(@NotNull org.gstreamer.audio.AudioBaseSrcSlaveMethod method) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
+    public void setSlaveMethod(org.gstreamer.audio.AudioBaseSrcSlaveMethod method) {
         try {
             DowncallHandles.gst_audio_base_src_set_slave_method.invokeExact(
                     handle(),
@@ -158,7 +141,7 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_base_src_get_type.invokeExact();
@@ -167,38 +150,40 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link AudioBaseSrc.Builder} object constructs a {@link AudioBaseSrc} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AudioBaseSrc.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.base.PushSrc.Build {
+    public static class Builder extends org.gstreamer.base.PushSrc.Builder {
         
-         /**
-         * A {@link AudioBaseSrc.Build} object constructs a {@link AudioBaseSrc} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AudioBaseSrc} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AudioBaseSrc} using {@link AudioBaseSrc#castFrom}.
+         * {@link AudioBaseSrc}.
          * @return A new instance of {@code AudioBaseSrc} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioBaseSrc construct() {
-            return AudioBaseSrc.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AudioBaseSrc.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AudioBaseSrc build() {
+            return (AudioBaseSrc) org.gtk.gobject.GObject.newWithProperties(
+                AudioBaseSrc.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -207,7 +192,7 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
          * @param actualBufferTime The value for the {@code actual-buffer-time} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActualBufferTime(long actualBufferTime) {
+        public Builder setActualBufferTime(long actualBufferTime) {
             names.add("actual-buffer-time");
             values.add(org.gtk.gobject.Value.create(actualBufferTime));
             return this;
@@ -218,31 +203,31 @@ public class AudioBaseSrc extends org.gstreamer.base.PushSrc {
          * @param actualLatencyTime The value for the {@code actual-latency-time} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActualLatencyTime(long actualLatencyTime) {
+        public Builder setActualLatencyTime(long actualLatencyTime) {
             names.add("actual-latency-time");
             values.add(org.gtk.gobject.Value.create(actualLatencyTime));
             return this;
         }
         
-        public Build setBufferTime(long bufferTime) {
+        public Builder setBufferTime(long bufferTime) {
             names.add("buffer-time");
             values.add(org.gtk.gobject.Value.create(bufferTime));
             return this;
         }
         
-        public Build setLatencyTime(long latencyTime) {
+        public Builder setLatencyTime(long latencyTime) {
             names.add("latency-time");
             values.add(org.gtk.gobject.Value.create(latencyTime));
             return this;
         }
         
-        public Build setProvideClock(boolean provideClock) {
+        public Builder setProvideClock(boolean provideClock) {
             names.add("provide-clock");
             values.add(org.gtk.gobject.Value.create(provideClock));
             return this;
         }
         
-        public Build setSlaveMethod(org.gstreamer.audio.AudioBaseSrcSlaveMethod slaveMethod) {
+        public Builder setSlaveMethod(org.gstreamer.audio.AudioBaseSrcSlaveMethod slaveMethod) {
             names.add("slave-method");
             values.add(org.gtk.gobject.Value.create(slaveMethod));
             return this;

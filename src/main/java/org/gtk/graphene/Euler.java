@@ -20,18 +20,16 @@ public class Euler extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_euler_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("angles"),
-        Interop.valueLayout.C_INT.withName("order")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("angles"),
+            Interop.valueLayout.C_INT.withName("order")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,13 +50,15 @@ public class Euler extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Euler(Addressable address, Ownership ownership) {
+    protected Euler(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Euler> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Euler(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_euler_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -74,7 +74,8 @@ public class Euler extends Struct {
      * @return the newly allocated {@link Euler}
      */
     public static Euler alloc() {
-        return new Euler(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -82,8 +83,7 @@ public class Euler extends Struct {
      * @param b a {@link Euler}
      * @return {@code true} if the two {@link Euler} are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Euler b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Euler b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_euler_equal.invokeExact(
@@ -171,7 +171,7 @@ public class Euler extends Struct {
      * instead.
      * @return the order used to apply the rotations
      */
-    public @NotNull org.gtk.graphene.EulerOrder getOrder() {
+    public org.gtk.graphene.EulerOrder getOrder() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.graphene_euler_get_order.invokeExact(
@@ -236,7 +236,7 @@ public class Euler extends Struct {
      * @param z rotation angle on the Z axis, in degrees
      * @return the initialized {@link Euler}
      */
-    public @NotNull org.gtk.graphene.Euler init(float x, float y, float z) {
+    public org.gtk.graphene.Euler init(float x, float y, float z) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init.invokeExact(
@@ -247,7 +247,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Euler(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -259,7 +259,7 @@ public class Euler extends Struct {
      * @param src a {@link Euler}
      * @return the initialized {@link Euler}
      */
-    public @NotNull org.gtk.graphene.Euler initFromEuler(@Nullable org.gtk.graphene.Euler src) {
+    public org.gtk.graphene.Euler initFromEuler(@Nullable org.gtk.graphene.Euler src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_euler.invokeExact(
@@ -268,7 +268,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Euler(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -280,8 +280,7 @@ public class Euler extends Struct {
      * @param order the order used to apply the rotations
      * @return the initialized {@link Euler}
      */
-    public @NotNull org.gtk.graphene.Euler initFromMatrix(@Nullable org.gtk.graphene.Matrix m, @NotNull org.gtk.graphene.EulerOrder order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public org.gtk.graphene.Euler initFromMatrix(@Nullable org.gtk.graphene.Matrix m, org.gtk.graphene.EulerOrder order) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_matrix.invokeExact(
@@ -291,7 +290,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Euler(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -303,8 +302,7 @@ public class Euler extends Struct {
      * @param order the order used to apply the rotations
      * @return the initialized {@link Euler}
      */
-    public @NotNull org.gtk.graphene.Euler initFromQuaternion(@Nullable org.gtk.graphene.Quaternion q, @NotNull org.gtk.graphene.EulerOrder order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public org.gtk.graphene.Euler initFromQuaternion(@Nullable org.gtk.graphene.Quaternion q, org.gtk.graphene.EulerOrder order) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_quaternion.invokeExact(
@@ -314,7 +312,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Euler(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -326,8 +324,7 @@ public class Euler extends Struct {
      * @param order order of rotations
      * @return the initialized {@link Euler}
      */
-    public @NotNull org.gtk.graphene.Euler initFromRadians(float x, float y, float z, @NotNull org.gtk.graphene.EulerOrder order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public org.gtk.graphene.Euler initFromRadians(float x, float y, float z, org.gtk.graphene.EulerOrder order) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_radians.invokeExact(
@@ -339,7 +336,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Euler(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -353,8 +350,7 @@ public class Euler extends Struct {
      * @param order the order used to apply the rotations
      * @return the initialized {@link Euler}
      */
-    public @NotNull org.gtk.graphene.Euler initFromVec3(@Nullable org.gtk.graphene.Vec3 v, @NotNull org.gtk.graphene.EulerOrder order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public org.gtk.graphene.Euler initFromVec3(@Nullable org.gtk.graphene.Vec3 v, org.gtk.graphene.EulerOrder order) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_from_vec3.invokeExact(
@@ -364,7 +360,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Euler(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -375,8 +371,7 @@ public class Euler extends Struct {
      * @param order the order used to apply the rotations
      * @return the initialized {@link Euler}
      */
-    public @NotNull org.gtk.graphene.Euler initWithOrder(float x, float y, float z, @NotNull org.gtk.graphene.EulerOrder order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public org.gtk.graphene.Euler initWithOrder(float x, float y, float z, org.gtk.graphene.EulerOrder order) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_euler_init_with_order.invokeExact(
@@ -388,7 +383,7 @@ public class Euler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Euler(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Euler.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -401,9 +396,7 @@ public class Euler extends Struct {
      * @param res return location for the reordered
      *   {@link Euler}
      */
-    public void reorder(@NotNull org.gtk.graphene.EulerOrder order, @NotNull org.gtk.graphene.Euler res) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void reorder(org.gtk.graphene.EulerOrder order, org.gtk.graphene.Euler res) {
         try {
             DowncallHandles.graphene_euler_reorder.invokeExact(
                     handle(),
@@ -433,8 +426,7 @@ public class Euler extends Struct {
      * between Euler-based, quaternion-based, and angle-axis-based rotations.
      * @param res return location for a {@link Matrix}
      */
-    public void toMatrix(@NotNull org.gtk.graphene.Matrix res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void toMatrix(org.gtk.graphene.Matrix res) {
         try {
             DowncallHandles.graphene_euler_to_matrix.invokeExact(
                     handle(),
@@ -448,8 +440,7 @@ public class Euler extends Struct {
      * Converts a {@link Euler} into a {@link Quaternion}.
      * @param res return location for a {@link Quaternion}
      */
-    public void toQuaternion(@NotNull org.gtk.graphene.Quaternion res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void toQuaternion(org.gtk.graphene.Quaternion res) {
         try {
             DowncallHandles.graphene_euler_to_quaternion.invokeExact(
                     handle(),
@@ -464,8 +455,7 @@ public class Euler extends Struct {
      * {@link Vec3} with them.
      * @param res return location for a {@link Vec3}
      */
-    public void toVec3(@NotNull org.gtk.graphene.Vec3 res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void toVec3(org.gtk.graphene.Vec3 res) {
         try {
             DowncallHandles.graphene_euler_to_vec3.invokeExact(
                     handle(),
@@ -603,42 +593,46 @@ public class Euler extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Euler.Builder} object constructs a {@link Euler} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Euler.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Euler struct;
+        private final Euler struct;
         
-         /**
-         * A {@link Euler.Build} object constructs a {@link Euler} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Euler.allocate();
         }
         
          /**
          * Finish building the {@link Euler} struct.
          * @return A new instance of {@code Euler} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Euler construct() {
+        public Euler build() {
             return struct;
         }
         
-        public Build setAngles(org.gtk.graphene.Vec3 angles) {
+        public Builder setAngles(org.gtk.graphene.Vec3 angles) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("angles"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (angles == null ? MemoryAddress.NULL : angles.handle()));
             return this;
         }
         
-        public Build setOrder(org.gtk.graphene.EulerOrder order) {
+        public Builder setOrder(org.gtk.graphene.EulerOrder order) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("order"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (order == null ? MemoryAddress.NULL : order.getValue()));

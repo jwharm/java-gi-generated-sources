@@ -35,40 +35,26 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      * <p>
      * Because CellRendererToggle is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CellRendererToggle(Addressable address, Ownership ownership) {
+    protected CellRendererToggle(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to CellRendererToggle if its GType is a (or inherits from) "GtkCellRendererToggle".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CellRendererToggle} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCellRendererToggle", a ClassCastException will be thrown.
-     */
-    public static CellRendererToggle castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellRendererToggle.getType())) {
-            return new CellRendererToggle(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRendererToggle");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellRendererToggle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererToggle(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_cell_renderer_toggle_new.invokeExact();
         } catch (Throwable ERR) {
@@ -103,7 +89,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -119,7 +105,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -134,7 +120,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -145,7 +131,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         try {
             DowncallHandles.gtk_cell_renderer_toggle_set_activatable.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,7 +145,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         try {
             DowncallHandles.gtk_cell_renderer_toggle_set_active.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -179,7 +165,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
         try {
             DowncallHandles.gtk_cell_renderer_toggle_set_radio.invokeExact(
                     handle(),
-                    radio ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(radio, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,7 +175,7 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_cell_renderer_toggle_get_type.invokeExact();
@@ -201,7 +187,18 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     
     @FunctionalInterface
     public interface Toggled {
-        void signalReceived(CellRendererToggle sourceCellRendererToggle, @NotNull java.lang.String path);
+        void run(java.lang.String path);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceCellRendererToggle, MemoryAddress path) {
+            run(Marshal.addressToString.marshal(path, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Toggled.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -216,74 +213,68 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
     public Signal<CellRendererToggle.Toggled> onToggled(CellRendererToggle.Toggled handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("toggled"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellRendererToggle.Callbacks.class, "signalCellRendererToggleToggled",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<CellRendererToggle.Toggled>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("toggled"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link CellRendererToggle.Builder} object constructs a {@link CellRendererToggle} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CellRendererToggle.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.CellRenderer.Build {
+    public static class Builder extends org.gtk.gtk.CellRenderer.Builder {
         
-         /**
-         * A {@link CellRendererToggle.Build} object constructs a {@link CellRendererToggle} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CellRendererToggle} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CellRendererToggle} using {@link CellRendererToggle#castFrom}.
+         * {@link CellRendererToggle}.
          * @return A new instance of {@code CellRendererToggle} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CellRendererToggle construct() {
-            return CellRendererToggle.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CellRendererToggle.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CellRendererToggle build() {
+            return (CellRendererToggle) org.gtk.gobject.GObject.newWithProperties(
+                CellRendererToggle.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setActivatable(boolean activatable) {
+        public Builder setActivatable(boolean activatable) {
             names.add("activatable");
             values.add(org.gtk.gobject.Value.create(activatable));
             return this;
         }
         
-        public Build setActive(boolean active) {
+        public Builder setActive(boolean active) {
             names.add("active");
             values.add(org.gtk.gobject.Value.create(active));
             return this;
         }
         
-        public Build setInconsistent(boolean inconsistent) {
+        public Builder setInconsistent(boolean inconsistent) {
             names.add("inconsistent");
             values.add(org.gtk.gobject.Value.create(inconsistent));
             return this;
         }
         
-        public Build setRadio(boolean radio) {
+        public Builder setRadio(boolean radio) {
             names.add("radio");
             values.add(org.gtk.gobject.Value.create(radio));
             return this;
@@ -339,14 +330,5 @@ public class CellRendererToggle extends org.gtk.gtk.CellRenderer {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalCellRendererToggleToggled(MemoryAddress sourceCellRendererToggle, MemoryAddress path, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CellRendererToggle.Toggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererToggle(sourceCellRendererToggle, Ownership.NONE), Interop.getStringFrom(path));
-        }
     }
 }

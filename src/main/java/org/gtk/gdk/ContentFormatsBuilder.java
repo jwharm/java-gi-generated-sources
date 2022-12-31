@@ -44,13 +44,15 @@ public class ContentFormatsBuilder extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ContentFormatsBuilder(Addressable address, Ownership ownership) {
+    protected ContentFormatsBuilder(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ContentFormatsBuilder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ContentFormatsBuilder(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_new.invokeExact();
         } catch (Throwable ERR) {
@@ -74,8 +76,7 @@ public class ContentFormatsBuilder extends Struct {
      * already exist.
      * @param formats the formats to add
      */
-    public void addFormats(@NotNull org.gtk.gdk.ContentFormats formats) {
-        java.util.Objects.requireNonNull(formats, "Parameter 'formats' must not be null");
+    public void addFormats(org.gtk.gdk.ContentFormats formats) {
         try {
             DowncallHandles.gdk_content_formats_builder_add_formats.invokeExact(
                     handle(),
@@ -89,8 +90,7 @@ public class ContentFormatsBuilder extends Struct {
      * Appends {@code type} to {@code builder} if it has not already been added.
      * @param type a {@code GType}
      */
-    public void addGtype(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void addGtype(org.gtk.glib.Type type) {
         try {
             DowncallHandles.gdk_content_formats_builder_add_gtype.invokeExact(
                     handle(),
@@ -104,12 +104,11 @@ public class ContentFormatsBuilder extends Struct {
      * Appends {@code mime_type} to {@code builder} if it has not already been added.
      * @param mimeType a mime type
      */
-    public void addMimeType(@NotNull java.lang.String mimeType) {
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
+    public void addMimeType(java.lang.String mimeType) {
         try {
             DowncallHandles.gdk_content_formats_builder_add_mime_type.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(mimeType));
+                    Marshal.stringToAddress.marshal(mimeType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,7 +120,7 @@ public class ContentFormatsBuilder extends Struct {
      * @return the newly created {@code GdkContentFormats}
      *   with all the formats added to {@code builder}
      */
-    public @NotNull org.gtk.gdk.ContentFormats freeToFormats() {
+    public org.gtk.gdk.ContentFormats freeToFormats() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_free_to_formats.invokeExact(
@@ -129,7 +128,7 @@ public class ContentFormatsBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -140,7 +139,7 @@ public class ContentFormatsBuilder extends Struct {
      * @return the given {@code GdkContentFormatsBuilder}
      *   with its reference count increased
      */
-    public @NotNull org.gtk.gdk.ContentFormatsBuilder ref() {
+    public org.gtk.gdk.ContentFormatsBuilder ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_ref.invokeExact(
@@ -148,7 +147,7 @@ public class ContentFormatsBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormatsBuilder(RESULT, Ownership.NONE);
+        return org.gtk.gdk.ContentFormatsBuilder.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -162,7 +161,7 @@ public class ContentFormatsBuilder extends Struct {
      * @return the newly created {@code GdkContentFormats}
      *   with all the formats added to {@code builder}
      */
-    public @NotNull org.gtk.gdk.ContentFormats toFormats() {
+    public org.gtk.gdk.ContentFormats toFormats() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_builder_to_formats.invokeExact(
@@ -170,7 +169,7 @@ public class ContentFormatsBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

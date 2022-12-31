@@ -12,5 +12,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface GLBaseMemoryAllocatorCreateFunction {
-        boolean onGLBaseMemoryAllocatorCreateFunction(@NotNull org.gstreamer.gl.GLBaseMemory mem);
+    boolean run(org.gstreamer.gl.GLBaseMemory mem);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress mem) {
+        var RESULT = run(org.gstreamer.gl.GLBaseMemory.fromAddress.marshal(mem, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GLBaseMemoryAllocatorCreateFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

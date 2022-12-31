@@ -37,33 +37,15 @@ public class StringSorter extends org.gtk.gtk.Sorter {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StringSorter(Addressable address, Ownership ownership) {
+    protected StringSorter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to StringSorter if its GType is a (or inherits from) "GtkStringSorter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code StringSorter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkStringSorter", a ClassCastException will be thrown.
-     */
-    public static StringSorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StringSorter.getType())) {
-            return new StringSorter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStringSorter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StringSorter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringSorter(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.Expression expression) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Expression expression) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_string_sorter_new.invokeExact(
                     (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
@@ -98,7 +80,7 @@ public class StringSorter extends org.gtk.gtk.Sorter {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -113,7 +95,7 @@ public class StringSorter extends org.gtk.gtk.Sorter {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -140,7 +122,7 @@ public class StringSorter extends org.gtk.gtk.Sorter {
         try {
             DowncallHandles.gtk_string_sorter_set_ignore_case.invokeExact(
                     handle(),
-                    ignoreCase ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(ignoreCase, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,7 +132,7 @@ public class StringSorter extends org.gtk.gtk.Sorter {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_string_sorter_get_type.invokeExact();
@@ -159,38 +141,40 @@ public class StringSorter extends org.gtk.gtk.Sorter {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link StringSorter.Builder} object constructs a {@link StringSorter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link StringSorter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Sorter.Build {
+    public static class Builder extends org.gtk.gtk.Sorter.Builder {
         
-         /**
-         * A {@link StringSorter.Build} object constructs a {@link StringSorter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link StringSorter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link StringSorter} using {@link StringSorter#castFrom}.
+         * {@link StringSorter}.
          * @return A new instance of {@code StringSorter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public StringSorter construct() {
-            return StringSorter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    StringSorter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public StringSorter build() {
+            return (StringSorter) org.gtk.gobject.GObject.newWithProperties(
+                StringSorter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -199,7 +183,7 @@ public class StringSorter extends org.gtk.gtk.Sorter {
          * @param expression The value for the {@code expression} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExpression(org.gtk.gtk.Expression expression) {
+        public Builder setExpression(org.gtk.gtk.Expression expression) {
             names.add("expression");
             values.add(org.gtk.gobject.Value.create(expression));
             return this;
@@ -210,7 +194,7 @@ public class StringSorter extends org.gtk.gtk.Sorter {
          * @param ignoreCase The value for the {@code ignore-case} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIgnoreCase(boolean ignoreCase) {
+        public Builder setIgnoreCase(boolean ignoreCase) {
             names.add("ignore-case");
             values.add(org.gtk.gobject.Value.create(ignoreCase));
             return this;

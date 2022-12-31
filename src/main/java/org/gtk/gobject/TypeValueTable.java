@@ -12,21 +12,10 @@ import org.jetbrains.annotations.*;
 public class TypeValueTable extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GTypeValueTable";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("value_init"),
-        Interop.valueLayout.ADDRESS.withName("value_free"),
-        Interop.valueLayout.ADDRESS.withName("value_copy"),
-        Interop.valueLayout.ADDRESS.withName("value_peek_pointer"),
-        Interop.valueLayout.ADDRESS.withName("collect_format"),
-        Interop.valueLayout.ADDRESS.withName("collect_value"),
-        Interop.valueLayout.ADDRESS.withName("lcopy_format"),
-        Interop.valueLayout.ADDRESS.withName("lcopy_value")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -34,7 +23,16 @@ public class TypeValueTable extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("value_init"),
+            Interop.valueLayout.ADDRESS.withName("value_free"),
+            Interop.valueLayout.ADDRESS.withName("value_copy"),
+            Interop.valueLayout.ADDRESS.withName("value_peek_pointer"),
+            Interop.valueLayout.ADDRESS.withName("collect_format"),
+            Interop.valueLayout.ADDRESS.withName("collect_value"),
+            Interop.valueLayout.ADDRESS.withName("lcopy_format"),
+            Interop.valueLayout.ADDRESS.withName("lcopy_value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,46 +48,205 @@ public class TypeValueTable extends Struct {
         return newInstance;
     }
     
+    @FunctionalInterface
+    public interface ValueInitCallback {
+        void run(org.gtk.gobject.Value value);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress value) {
+            run(org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueInitCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code value_init}
+     * @param valueInit The new value of the field {@code value_init}
+     */
+    public void setValueInit(ValueInitCallback valueInit) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value_init"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueInit == null ? MemoryAddress.NULL : valueInit.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface ValueFreeCallback {
+        void run(org.gtk.gobject.Value value);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress value) {
+            run(org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueFreeCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code value_free}
+     * @param valueFree The new value of the field {@code value_free}
+     */
+    public void setValueFree(ValueFreeCallback valueFree) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value_free"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueFree == null ? MemoryAddress.NULL : valueFree.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface ValueCopyCallback {
+        void run(org.gtk.gobject.Value srcValue, org.gtk.gobject.Value destValue);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress srcValue, MemoryAddress destValue) {
+            run(org.gtk.gobject.Value.fromAddress.marshal(srcValue, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(destValue, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueCopyCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code value_copy}
+     * @param valueCopy The new value of the field {@code value_copy}
+     */
+    public void setValueCopy(ValueCopyCallback valueCopy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value_copy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueCopy == null ? MemoryAddress.NULL : valueCopy.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface ValuePeekPointerCallback {
+        java.lang.foreign.MemoryAddress run(org.gtk.gobject.Value value);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress value) {
+            var RESULT = run(org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE));
+            return RESULT == null ? MemoryAddress.NULL.address() : ((Addressable) RESULT).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValuePeekPointerCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code value_peek_pointer}
+     * @param valuePeekPointer The new value of the field {@code value_peek_pointer}
+     */
+    public void setValuePeekPointer(ValuePeekPointerCallback valuePeekPointer) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value_peek_pointer"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valuePeekPointer == null ? MemoryAddress.NULL : valuePeekPointer.toCallback()));
+    }
+    
     /**
      * Get the value of the field {@code collect_format}
      * @return The value of the field {@code collect_format}
      */
-    public java.lang.String collectFormat$get() {
+    public java.lang.String getCollectFormat() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("collect_format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code collect_format}
      * @param collectFormat The new value of the field {@code collect_format}
      */
-    public void collectFormat$set(java.lang.String collectFormat) {
+    public void setCollectFormat(java.lang.String collectFormat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("collect_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(collectFormat));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collectFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(collectFormat, null)));
+    }
+    
+    @FunctionalInterface
+    public interface CollectValueCallback {
+        java.lang.String run(org.gtk.gobject.Value value, int nCollectValues, org.gtk.gobject.TypeCValue collectValues, int collectFlags);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress value, int nCollectValues, MemoryAddress collectValues, int collectFlags) {
+            var RESULT = run(org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE), nCollectValues, org.gtk.gobject.TypeCValue.fromAddress.marshal(collectValues, Ownership.NONE), collectFlags);
+            return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CollectValueCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code collect_value}
+     * @param collectValue The new value of the field {@code collect_value}
+     */
+    public void setCollectValue(CollectValueCallback collectValue) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("collect_value"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collectValue == null ? MemoryAddress.NULL : collectValue.toCallback()));
     }
     
     /**
      * Get the value of the field {@code lcopy_format}
      * @return The value of the field {@code lcopy_format}
      */
-    public java.lang.String lcopyFormat$get() {
+    public java.lang.String getLcopyFormat() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lcopy_format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code lcopy_format}
      * @param lcopyFormat The new value of the field {@code lcopy_format}
      */
-    public void lcopyFormat$set(java.lang.String lcopyFormat) {
+    public void setLcopyFormat(java.lang.String lcopyFormat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lcopy_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(lcopyFormat));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopyFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(lcopyFormat, null)));
+    }
+    
+    @FunctionalInterface
+    public interface LcopyValueCallback {
+        java.lang.String run(org.gtk.gobject.Value value, int nCollectValues, org.gtk.gobject.TypeCValue collectValues, int collectFlags);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress value, int nCollectValues, MemoryAddress collectValues, int collectFlags) {
+            var RESULT = run(org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE), nCollectValues, org.gtk.gobject.TypeCValue.fromAddress.marshal(collectValues, Ownership.NONE), collectFlags);
+            return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LcopyValueCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code lcopy_value}
+     * @param lcopyValue The new value of the field {@code lcopy_value}
+     */
+    public void setLcopyValue(LcopyValueCallback lcopyValue) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("lcopy_value"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopyValue == null ? MemoryAddress.NULL : lcopyValue.toCallback()));
     }
     
     /**
@@ -97,10 +254,12 @@ public class TypeValueTable extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TypeValueTable(Addressable address, Ownership ownership) {
+    protected TypeValueTable(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TypeValueTable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeValueTable(input, ownership);
     
     /**
      * Returns the location of the {@link TypeValueTable} associated with {@code type}.
@@ -108,12 +267,11 @@ public class TypeValueTable extends Struct {
      * Note that this function should only be used from source code
      * that implements or has internal knowledge of the implementation of
      * {@code type}.
-     * @param type a {@link Type}
+     * @param type a {@link org.gtk.glib.Type}
      * @return location of the {@link TypeValueTable} associated with {@code type} or
      *     {@code null} if there is no {@link TypeValueTable} associated with {@code type}
      */
-    public static @NotNull org.gtk.gobject.TypeValueTable peek(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.gobject.TypeValueTable peek(org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_value_table_peek.invokeExact(
@@ -121,7 +279,7 @@ public class TypeValueTable extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeValueTable(RESULT, Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeValueTable.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -132,59 +290,63 @@ public class TypeValueTable extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TypeValueTable.Builder} object constructs a {@link TypeValueTable} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TypeValueTable.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TypeValueTable struct;
+        private final TypeValueTable struct;
         
-         /**
-         * A {@link TypeValueTable.Build} object constructs a {@link TypeValueTable} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TypeValueTable.allocate();
         }
         
          /**
          * Finish building the {@link TypeValueTable} struct.
          * @return A new instance of {@code TypeValueTable} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TypeValueTable construct() {
+        public TypeValueTable build() {
             return struct;
         }
         
-        public Build setValueInit(java.lang.foreign.MemoryAddress valueInit) {
+        public Builder setValueInit(ValueInitCallback valueInit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueInit == null ? MemoryAddress.NULL : valueInit));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueInit == null ? MemoryAddress.NULL : valueInit.toCallback()));
             return this;
         }
         
-        public Build setValueFree(java.lang.foreign.MemoryAddress valueFree) {
+        public Builder setValueFree(ValueFreeCallback valueFree) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueFree == null ? MemoryAddress.NULL : valueFree));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueFree == null ? MemoryAddress.NULL : valueFree.toCallback()));
             return this;
         }
         
-        public Build setValueCopy(java.lang.foreign.MemoryAddress valueCopy) {
+        public Builder setValueCopy(ValueCopyCallback valueCopy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_copy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueCopy == null ? MemoryAddress.NULL : valueCopy));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueCopy == null ? MemoryAddress.NULL : valueCopy.toCallback()));
             return this;
         }
         
-        public Build setValuePeekPointer(java.lang.foreign.MemoryAddress valuePeekPointer) {
+        public Builder setValuePeekPointer(ValuePeekPointerCallback valuePeekPointer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_peek_pointer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valuePeekPointer == null ? MemoryAddress.NULL : valuePeekPointer));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valuePeekPointer == null ? MemoryAddress.NULL : valuePeekPointer.toCallback()));
             return this;
         }
         
@@ -206,17 +368,17 @@ public class TypeValueTable extends Struct {
          * @param collectFormat The value for the {@code collectFormat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCollectFormat(java.lang.String collectFormat) {
+        public Builder setCollectFormat(java.lang.String collectFormat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("collect_format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collectFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(collectFormat)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collectFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(collectFormat, null)));
             return this;
         }
         
-        public Build setCollectValue(java.lang.foreign.MemoryAddress collectValue) {
+        public Builder setCollectValue(CollectValueCallback collectValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("collect_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collectValue == null ? MemoryAddress.NULL : collectValue));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collectValue == null ? MemoryAddress.NULL : collectValue.toCallback()));
             return this;
         }
         
@@ -227,17 +389,17 @@ public class TypeValueTable extends Struct {
          * @param lcopyFormat The value for the {@code lcopyFormat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLcopyFormat(java.lang.String lcopyFormat) {
+        public Builder setLcopyFormat(java.lang.String lcopyFormat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lcopy_format"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopyFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(lcopyFormat)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopyFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(lcopyFormat, null)));
             return this;
         }
         
-        public Build setLcopyValue(java.lang.foreign.MemoryAddress lcopyValue) {
+        public Builder setLcopyValue(LcopyValueCallback lcopyValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lcopy_value"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopyValue == null ? MemoryAddress.NULL : lcopyValue));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lcopyValue == null ? MemoryAddress.NULL : lcopyValue.toCallback()));
             return this;
         }
     }

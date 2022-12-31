@@ -51,13 +51,15 @@ public class Transform extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Transform(Addressable address, Ownership ownership) {
+    protected Transform(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Transform> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Transform(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_transform_new.invokeExact();
         } catch (Throwable ERR) {
@@ -84,14 +86,14 @@ public class Transform extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Returns the category this transform belongs to.
      * @return The category of the transform
      */
-    public @NotNull org.gtk.gsk.TransformCategory getCategory() {
+    public org.gtk.gsk.TransformCategory getCategory() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_transform_get_category.invokeExact(
@@ -121,7 +123,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -129,8 +131,7 @@ public class Transform extends Struct {
      * @param matrix the matrix to multiply {@code next} with
      * @return The new transform
      */
-    public @NotNull org.gtk.gsk.Transform matrix(@NotNull org.gtk.graphene.Matrix matrix) {
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
+    public org.gtk.gsk.Transform matrix(org.gtk.graphene.Matrix matrix) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_transform_matrix.invokeExact(
@@ -140,7 +141,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -155,7 +156,7 @@ public class Transform extends Struct {
      *   perspective effect.
      * @return The new transform
      */
-    public @NotNull org.gtk.gsk.Transform perspective(float depth) {
+    public org.gtk.gsk.Transform perspective(float depth) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_transform_perspective.invokeExact(
@@ -165,7 +166,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -176,8 +177,7 @@ public class Transform extends Struct {
      * {@link Transform#parse}.
      * @param string The string to print into
      */
-    public void print(@NotNull org.gtk.glib.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public void print(org.gtk.glib.GString string) {
         try {
             DowncallHandles.gsk_transform_print.invokeExact(
                     handle(),
@@ -199,7 +199,7 @@ public class Transform extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(RESULT, Ownership.NONE);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -217,7 +217,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -228,8 +228,7 @@ public class Transform extends Struct {
      * @param axis The rotation axis
      * @return The new transform
      */
-    public @Nullable org.gtk.gsk.Transform rotate3d(float angle, @NotNull org.gtk.graphene.Vec3 axis) {
-        java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
+    public @Nullable org.gtk.gsk.Transform rotate3d(float angle, org.gtk.graphene.Vec3 axis) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_transform_rotate_3d.invokeExact(
@@ -240,7 +239,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -262,7 +261,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -284,7 +283,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -304,7 +303,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -332,17 +331,11 @@ public class Transform extends Struct {
      * @param outDy return location for the y0 member
      */
     public void to2d(Out<Float> outXx, Out<Float> outYx, Out<Float> outXy, Out<Float> outYy, Out<Float> outDx, Out<Float> outDy) {
-        java.util.Objects.requireNonNull(outXx, "Parameter 'outXx' must not be null");
         MemorySegment outXxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outYx, "Parameter 'outYx' must not be null");
         MemorySegment outYxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outXy, "Parameter 'outXy' must not be null");
         MemorySegment outXyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outYy, "Parameter 'outYy' must not be null");
         MemorySegment outYyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outDx, "Parameter 'outDx' must not be null");
         MemorySegment outDxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outDy, "Parameter 'outDy' must not be null");
         MemorySegment outDyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.gsk_transform_to_2d.invokeExact(
@@ -398,19 +391,12 @@ public class Transform extends Struct {
      *   in the y direction
      */
     public void to2dComponents(Out<Float> outSkewX, Out<Float> outSkewY, Out<Float> outScaleX, Out<Float> outScaleY, Out<Float> outAngle, Out<Float> outDx, Out<Float> outDy) {
-        java.util.Objects.requireNonNull(outSkewX, "Parameter 'outSkewX' must not be null");
         MemorySegment outSkewXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outSkewY, "Parameter 'outSkewY' must not be null");
         MemorySegment outSkewYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outScaleX, "Parameter 'outScaleX' must not be null");
         MemorySegment outScaleXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outScaleY, "Parameter 'outScaleY' must not be null");
         MemorySegment outScaleYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outAngle, "Parameter 'outAngle' must not be null");
         MemorySegment outAnglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outDx, "Parameter 'outDx' must not be null");
         MemorySegment outDxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outDy, "Parameter 'outDy' must not be null");
         MemorySegment outDyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.gsk_transform_to_2d_components.invokeExact(
@@ -460,13 +446,9 @@ public class Transform extends Struct {
      *   in the y direction
      */
     public void toAffine(Out<Float> outScaleX, Out<Float> outScaleY, Out<Float> outDx, Out<Float> outDy) {
-        java.util.Objects.requireNonNull(outScaleX, "Parameter 'outScaleX' must not be null");
         MemorySegment outScaleXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outScaleY, "Parameter 'outScaleY' must not be null");
         MemorySegment outScaleYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outDx, "Parameter 'outDx' must not be null");
         MemorySegment outDxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outDy, "Parameter 'outDy' must not be null");
         MemorySegment outDyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.gsk_transform_to_affine.invokeExact(
@@ -490,8 +472,7 @@ public class Transform extends Struct {
      * The previous value of {@code out_matrix} will be ignored.
      * @param outMatrix The matrix to set
      */
-    public void toMatrix(@NotNull org.gtk.graphene.Matrix outMatrix) {
-        java.util.Objects.requireNonNull(outMatrix, "Parameter 'outMatrix' must not be null");
+    public void toMatrix(org.gtk.graphene.Matrix outMatrix) {
         try {
             DowncallHandles.gsk_transform_to_matrix.invokeExact(
                     handle(),
@@ -509,7 +490,7 @@ public class Transform extends Struct {
      * This is a wrapper around {@link Transform#print}.
      * @return A new string for {@code self}
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_transform_to_string.invokeExact(
@@ -517,7 +498,7 @@ public class Transform extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -535,9 +516,7 @@ public class Transform extends Struct {
      *   in the y direction
      */
     public void toTranslate(Out<Float> outDx, Out<Float> outDy) {
-        java.util.Objects.requireNonNull(outDx, "Parameter 'outDx' must not be null");
         MemorySegment outDxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(outDy, "Parameter 'outDy' must not be null");
         MemorySegment outDyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.gsk_transform_to_translate.invokeExact(
@@ -566,7 +545,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -577,9 +556,7 @@ public class Transform extends Struct {
      * @param outRect return location for the bounds
      *   of the transformed rectangle
      */
-    public void transformBounds(@NotNull org.gtk.graphene.Rect rect, @NotNull org.gtk.graphene.Rect outRect) {
-        java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
-        java.util.Objects.requireNonNull(outRect, "Parameter 'outRect' must not be null");
+    public void transformBounds(org.gtk.graphene.Rect rect, org.gtk.graphene.Rect outRect) {
         try {
             DowncallHandles.gsk_transform_transform_bounds.invokeExact(
                     handle(),
@@ -596,9 +573,7 @@ public class Transform extends Struct {
      * @param outPoint return location for
      *   the transformed point
      */
-    public void transformPoint(@NotNull org.gtk.graphene.Point point, @NotNull org.gtk.graphene.Point outPoint) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
-        java.util.Objects.requireNonNull(outPoint, "Parameter 'outPoint' must not be null");
+    public void transformPoint(org.gtk.graphene.Point point, org.gtk.graphene.Point outPoint) {
         try {
             DowncallHandles.gsk_transform_transform_point.invokeExact(
                     handle(),
@@ -614,8 +589,7 @@ public class Transform extends Struct {
      * @param point the point to translate the transform by
      * @return The new transform
      */
-    public @Nullable org.gtk.gsk.Transform translate(@NotNull org.gtk.graphene.Point point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public @Nullable org.gtk.gsk.Transform translate(org.gtk.graphene.Point point) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_transform_translate.invokeExact(
@@ -625,7 +599,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -633,8 +607,7 @@ public class Transform extends Struct {
      * @param point the point to translate the transform by
      * @return The new transform
      */
-    public @Nullable org.gtk.gsk.Transform translate3d(@NotNull org.gtk.graphene.Point3D point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public @Nullable org.gtk.gsk.Transform translate3d(org.gtk.graphene.Point3D point) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_transform_translate_3d.invokeExact(
@@ -644,7 +617,7 @@ public class Transform extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gsk.Transform(RESULT, Ownership.FULL);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -675,20 +648,18 @@ public class Transform extends Struct {
      * @param outTransform The location to put the transform in
      * @return {@code true} if {@code string} described a valid transform.
      */
-    public static boolean parse(@NotNull java.lang.String string, @NotNull Out<org.gtk.gsk.Transform> outTransform) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(outTransform, "Parameter 'outTransform' must not be null");
+    public static boolean parse(java.lang.String string, Out<org.gtk.gsk.Transform> outTransform) {
         MemorySegment outTransformPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_transform_parse.invokeExact(
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     (Addressable) outTransformPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outTransform.set(new org.gtk.gsk.Transform(outTransformPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        outTransform.set(org.gtk.gsk.Transform.fromAddress.marshal(outTransformPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

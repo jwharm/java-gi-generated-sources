@@ -24,18 +24,16 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
     
     private static final java.lang.String C_TYPE_NAME = "GUnixOutputStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -43,37 +41,19 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public UnixOutputStream(Addressable address, Ownership ownership) {
+    protected UnixOutputStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to UnixOutputStream if its GType is a (or inherits from) "GUnixOutputStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code UnixOutputStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GUnixOutputStream", a ClassCastException will be thrown.
-     */
-    public static UnixOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), UnixOutputStream.getType())) {
-            return new UnixOutputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GUnixOutputStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, UnixOutputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UnixOutputStream(input, ownership);
     
-    private static Addressable constructNew(int fd, boolean closeFd) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(int fd, boolean closeFd) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_output_stream_new.invokeExact(
                     fd,
-                    closeFd ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(closeFd, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +85,7 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -132,7 +112,7 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
         try {
             DowncallHandles.g_unix_output_stream_set_close_fd.invokeExact(
                     handle(),
-                    closeFd ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(closeFd, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -142,7 +122,7 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_unix_output_stream_get_type.invokeExact();
@@ -151,38 +131,40 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link UnixOutputStream.Builder} object constructs a {@link UnixOutputStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link UnixOutputStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.OutputStream.Build {
+    public static class Builder extends org.gtk.gio.OutputStream.Builder {
         
-         /**
-         * A {@link UnixOutputStream.Build} object constructs a {@link UnixOutputStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link UnixOutputStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link UnixOutputStream} using {@link UnixOutputStream#castFrom}.
+         * {@link UnixOutputStream}.
          * @return A new instance of {@code UnixOutputStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public UnixOutputStream construct() {
-            return UnixOutputStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    UnixOutputStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public UnixOutputStream build() {
+            return (UnixOutputStream) org.gtk.gobject.GObject.newWithProperties(
+                UnixOutputStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -191,7 +173,7 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
          * @param closeFd The value for the {@code close-fd} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCloseFd(boolean closeFd) {
+        public Builder setCloseFd(boolean closeFd) {
             names.add("close-fd");
             values.add(org.gtk.gobject.Value.create(closeFd));
             return this;
@@ -202,7 +184,7 @@ public class UnixOutputStream extends org.gtk.gio.OutputStream implements org.gt
          * @param fd The value for the {@code fd} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFd(int fd) {
+        public Builder setFd(int fd) {
             names.add("fd");
             values.add(org.gtk.gobject.Value.create(fd));
             return this;

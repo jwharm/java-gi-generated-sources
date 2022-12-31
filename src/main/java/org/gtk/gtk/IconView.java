@@ -51,40 +51,26 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * Because IconView is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IconView(Addressable address, Ownership ownership) {
+    protected IconView(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to IconView if its GType is a (or inherits from) "GtkIconView".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code IconView} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkIconView", a ClassCastException will be thrown.
-     */
-    public static IconView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IconView.getType())) {
-            return new IconView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkIconView");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IconView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IconView(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_new.invokeExact();
         } catch (Throwable ERR) {
@@ -100,9 +86,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithArea(@NotNull org.gtk.gtk.CellArea area) {
-        java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithArea(org.gtk.gtk.CellArea area) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_new_with_area.invokeExact(
                     area.handle());
@@ -118,13 +103,13 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param area the {@code GtkCellArea} to use to layout cells
      * @return A newly created {@code GtkIconView} widget
      */
-    public static IconView newWithArea(@NotNull org.gtk.gtk.CellArea area) {
-        return new IconView(constructNewWithArea(area), Ownership.NONE);
+    public static IconView newWithArea(org.gtk.gtk.CellArea area) {
+        var RESULT = constructNewWithArea(area);
+        return (org.gtk.gtk.IconView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.IconView.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewWithModel(@NotNull org.gtk.gtk.TreeModel model) {
-        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithModel(org.gtk.gtk.TreeModel model) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_new_with_model.invokeExact(
                     model.handle());
@@ -139,8 +124,9 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param model The model.
      * @return A newly created {@code GtkIconView} widget.
      */
-    public static IconView newWithModel(@NotNull org.gtk.gtk.TreeModel model) {
-        return new IconView(constructNewWithModel(model), Ownership.NONE);
+    public static IconView newWithModel(org.gtk.gtk.TreeModel model) {
+        var RESULT = constructNewWithModel(model);
+        return (org.gtk.gtk.IconView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.IconView.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -149,8 +135,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param path a {@code GtkTreePath} in {@code icon_view}
      * @return a newly-allocated {@code GdkPaintable} of the drag icon.
      */
-    public @Nullable org.gtk.gdk.Paintable createDragIcon(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public @Nullable org.gtk.gdk.Paintable createDragIcon(org.gtk.gtk.TreePath path) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_create_drag_icon.invokeExact(
@@ -159,7 +144,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -169,9 +154,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param actions the bitmask of possible actions for a drag to this
      *    widget
      */
-    public void enableModelDragDest(@NotNull org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
-        java.util.Objects.requireNonNull(formats, "Parameter 'formats' must not be null");
-        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
+    public void enableModelDragDest(org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
         try {
             DowncallHandles.gtk_icon_view_enable_model_drag_dest.invokeExact(
                     handle(),
@@ -190,10 +173,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param actions the bitmask of possible actions for a drag from this
      *    widget
      */
-    public void enableModelDragSource(@NotNull org.gtk.gdk.ModifierType startButtonMask, @NotNull org.gtk.gdk.ContentFormats formats, @NotNull org.gtk.gdk.DragAction actions) {
-        java.util.Objects.requireNonNull(startButtonMask, "Parameter 'startButtonMask' must not be null");
-        java.util.Objects.requireNonNull(formats, "Parameter 'formats' must not be null");
-        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
+    public void enableModelDragSource(org.gtk.gdk.ModifierType startButtonMask, org.gtk.gdk.ContentFormats formats, org.gtk.gdk.DragAction actions) {
         try {
             DowncallHandles.gtk_icon_view_enable_model_drag_source.invokeExact(
                     handle(),
@@ -217,7 +197,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -230,9 +210,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param rect rectangle to fill with cell rect
      * @return {@code false} if there is no such item, {@code true} otherwise
      */
-    public boolean getCellRect(@NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell, @NotNull org.gtk.gdk.Rectangle rect) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
+    public boolean getCellRect(org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell, org.gtk.gdk.Rectangle rect) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_cell_rect.invokeExact(
@@ -243,7 +221,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -288,23 +266,21 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   focus cell
      * @return {@code true} if the cursor is set.
      */
-    public boolean getCursor(@NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.CellRenderer> cell) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public boolean getCursor(@Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.CellRenderer> cell) {
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         MemorySegment cellPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_cursor.invokeExact(
                     handle(),
-                    (Addressable) pathPOINTER.address(),
-                    (Addressable) cellPOINTER.address());
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                    (Addressable) (cell == null ? MemoryAddress.NULL : (Addressable) cellPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        cell.set(new org.gtk.gtk.CellRenderer(cellPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return RESULT != 0;
+        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (cell != null) cell.set((org.gtk.gtk.CellRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cellPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.CellRenderer.fromAddress).marshal(cellPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -315,10 +291,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param pos Return location for the drop position
      * @return whether there is an item at the given position.
      */
-    public boolean getDestItemAtPos(int dragX, int dragY, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public boolean getDestItemAtPos(int dragX, int dragY, @Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.IconViewDropPosition> pos) {
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         MemorySegment posPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -326,14 +300,14 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     handle(),
                     dragX,
                     dragY,
-                    (Addressable) pathPOINTER.address(),
-                    (Addressable) posPOINTER.address());
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                    (Addressable) (pos == null ? MemoryAddress.NULL : (Addressable) posPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        pos.set(org.gtk.gtk.IconViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (pos != null) pos.set(org.gtk.gtk.IconViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -342,20 +316,19 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   the highlighted item
      * @param pos Return location for the drop position
      */
-    public void getDragDestItem(@Nullable Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.IconViewDropPosition> pos) {
+    public void getDragDestItem(@Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.IconViewDropPosition> pos) {
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
         MemorySegment posPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_icon_view_get_drag_dest_item.invokeExact(
                     handle(),
                     (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
-                    (Addressable) posPOINTER.address());
+                    (Addressable) (pos == null ? MemoryAddress.NULL : (Addressable) posPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        pos.set(org.gtk.gtk.IconViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (pos != null) pos.set(org.gtk.gtk.IconViewDropPosition.of(posPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -367,10 +340,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   responsible for the cell at ({@code x}, {@code y})
      * @return {@code true} if an item exists at the specified position
      */
-    public boolean getItemAtPos(int x, int y, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull Out<org.gtk.gtk.CellRenderer> cell) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public boolean getItemAtPos(int x, int y, @Nullable Out<org.gtk.gtk.TreePath> path, @Nullable Out<org.gtk.gtk.CellRenderer> cell) {
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
         MemorySegment cellPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -378,14 +349,14 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     handle(),
                     x,
                     y,
-                    (Addressable) pathPOINTER.address(),
-                    (Addressable) cellPOINTER.address());
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                    (Addressable) (cell == null ? MemoryAddress.NULL : (Addressable) cellPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        cell.set(new org.gtk.gtk.CellRenderer(cellPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return RESULT != 0;
+        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (cell != null) cell.set((org.gtk.gtk.CellRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cellPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.CellRenderer.fromAddress).marshal(cellPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -394,8 +365,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param path the {@code GtkTreePath} of the item
      * @return The column in which the item is displayed
      */
-    public int getItemColumn(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public int getItemColumn(org.gtk.gtk.TreePath path) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_item_column.invokeExact(
@@ -412,7 +382,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * whether the labels are drawn beside the icons instead of below.
      * @return the relative position of texts and icons
      */
-    public @NotNull org.gtk.gtk.Orientation getItemOrientation() {
+    public org.gtk.gtk.Orientation getItemOrientation() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_item_orientation.invokeExact(
@@ -444,8 +414,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param path the {@code GtkTreePath} of the item
      * @return The row in which the item is displayed
      */
-    public int getItemRow(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public int getItemRow(org.gtk.gtk.TreePath path) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_item_row.invokeExact(
@@ -515,7 +484,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -535,7 +504,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -566,7 +535,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -603,7 +572,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * }</pre>
      * @return A {@code GList} containing a {@code GtkTreePath} for each selected row.
      */
-    public @NotNull org.gtk.glib.List getSelectedItems() {
+    public org.gtk.glib.List getSelectedItems() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_icon_view_get_selected_items.invokeExact(
@@ -611,14 +580,14 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Gets the selection mode of the {@code icon_view}.
      * @return the current selection mode
      */
-    public @NotNull org.gtk.gtk.SelectionMode getSelectionMode() {
+    public org.gtk.gtk.SelectionMode getSelectionMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_selection_mode.invokeExact(
@@ -695,28 +664,25 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a pointer to receive a {@code GtkTreeIter}
      * @return whether or not the given tooltip context points to an item
      */
-    public boolean getTooltipContext(int x, int y, boolean keyboardTip, @NotNull Out<org.gtk.gtk.TreeModel> model, @NotNull Out<org.gtk.gtk.TreePath> path, @NotNull org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
+    public boolean getTooltipContext(int x, int y, boolean keyboardTip, @Nullable Out<org.gtk.gtk.TreeModel> model, @Nullable Out<org.gtk.gtk.TreePath> path, @Nullable org.gtk.gtk.TreeIter iter) {
         MemorySegment modelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_tooltip_context.invokeExact(
                     handle(),
                     x,
                     y,
-                    keyboardTip ? 1 : 0,
-                    (Addressable) modelPOINTER.address(),
-                    (Addressable) pathPOINTER.address(),
-                    iter.handle());
+                    Marshal.booleanToInteger.marshal(keyboardTip, null).intValue(),
+                    (Addressable) (model == null ? MemoryAddress.NULL : (Addressable) modelPOINTER.address()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
+                    (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        model.set(new org.gtk.gtk.TreeModel.TreeModelImpl(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (model != null) model.set((org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.TreeModel.fromAddress).marshal(modelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -728,31 +694,28 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param endPath Return location for end of region
      * @return {@code true}, if valid paths were placed in {@code start_path} and {@code end_path}
      */
-    public boolean getVisibleRange(@NotNull Out<org.gtk.gtk.TreePath> startPath, @NotNull Out<org.gtk.gtk.TreePath> endPath) {
-        java.util.Objects.requireNonNull(startPath, "Parameter 'startPath' must not be null");
+    public boolean getVisibleRange(@Nullable Out<org.gtk.gtk.TreePath> startPath, @Nullable Out<org.gtk.gtk.TreePath> endPath) {
         MemorySegment startPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(endPath, "Parameter 'endPath' must not be null");
         MemorySegment endPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_get_visible_range.invokeExact(
                     handle(),
-                    (Addressable) startPathPOINTER.address(),
-                    (Addressable) endPathPOINTER.address());
+                    (Addressable) (startPath == null ? MemoryAddress.NULL : (Addressable) startPathPOINTER.address()),
+                    (Addressable) (endPath == null ? MemoryAddress.NULL : (Addressable) endPathPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        startPath.set(new org.gtk.gtk.TreePath(startPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        endPath.set(new org.gtk.gtk.TreePath(endPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (startPath != null) startPath.set(org.gtk.gtk.TreePath.fromAddress.marshal(startPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (endPath != null) endPath.set(org.gtk.gtk.TreePath.fromAddress.marshal(endPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Activates the item determined by {@code path}.
      * @param path The {@code GtkTreePath} to be activated
      */
-    public void itemActivated(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void itemActivated(org.gtk.gtk.TreePath path) {
         try {
             DowncallHandles.gtk_icon_view_item_activated.invokeExact(
                     handle(),
@@ -768,8 +731,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param path A {@code GtkTreePath} to check selection on.
      * @return {@code true} if {@code path} is selected.
      */
-    public boolean pathIsSelected(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public boolean pathIsSelected(org.gtk.gtk.TreePath path) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_view_path_is_selected.invokeExact(
@@ -778,7 +740,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -801,13 +763,12 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param rowAlign The vertical alignment of the item specified by {@code path}.
      * @param colAlign The horizontal alignment of the item specified by {@code path}.
      */
-    public void scrollToPath(@NotNull org.gtk.gtk.TreePath path, boolean useAlign, float rowAlign, float colAlign) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void scrollToPath(org.gtk.gtk.TreePath path, boolean useAlign, float rowAlign, float colAlign) {
         try {
             DowncallHandles.gtk_icon_view_scroll_to_path.invokeExact(
                     handle(),
                     path.handle(),
-                    useAlign ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(useAlign, null).intValue(),
                     rowAlign,
                     colAlign);
         } catch (Throwable ERR) {
@@ -832,8 +793,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Selects the row at {@code path}.
      * @param path The {@code GtkTreePath} to be selected.
      */
-    public void selectPath(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void selectPath(org.gtk.gtk.TreePath path) {
         try {
             DowncallHandles.gtk_icon_view_select_path.invokeExact(
                     handle(),
@@ -848,17 +808,12 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * selection cannot be modified from within this function.
      * @param func The function to call for each selected icon.
      */
-    public void selectedForeach(@NotNull org.gtk.gtk.IconViewForeachFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void selectedForeach(org.gtk.gtk.IconViewForeachFunc func) {
         try {
             DowncallHandles.gtk_icon_view_selected_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbIconViewForeachFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -873,7 +828,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_icon_view_set_activate_on_single_click.invokeExact(
                     handle(),
-                    single ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(single, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -925,14 +880,13 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param cell One of the cell renderers of {@code icon_view}
      * @param startEditing {@code true} if the specified cell should start being edited.
      */
-    public void setCursor(@NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell, boolean startEditing) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void setCursor(org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell, boolean startEditing) {
         try {
             DowncallHandles.gtk_icon_view_set_cursor.invokeExact(
                     handle(),
                     path.handle(),
                     (Addressable) (cell == null ? MemoryAddress.NULL : cell.handle()),
-                    startEditing ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(startEditing, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -943,8 +897,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param path The path of the item to highlight
      * @param pos Specifies where to drop, relative to the item
      */
-    public void setDragDestItem(@Nullable org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.IconViewDropPosition pos) {
-        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+    public void setDragDestItem(@Nullable org.gtk.gtk.TreePath path, org.gtk.gtk.IconViewDropPosition pos) {
         try {
             DowncallHandles.gtk_icon_view_set_drag_dest_item.invokeExact(
                     handle(),
@@ -960,8 +913,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * are drawn beside the icons instead of below.
      * @param orientation the relative position of texts and icons
      */
-    public void setItemOrientation(@NotNull org.gtk.gtk.Orientation orientation) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
+    public void setItemOrientation(org.gtk.gtk.Orientation orientation) {
         try {
             DowncallHandles.gtk_icon_view_set_item_orientation.invokeExact(
                     handle(),
@@ -1086,7 +1038,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_icon_view_set_reorderable.invokeExact(
                     handle(),
-                    reorderable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(reorderable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1111,8 +1063,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Sets the selection mode of the {@code icon_view}.
      * @param mode The selection mode
      */
-    public void setSelectionMode(@NotNull org.gtk.gtk.SelectionMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setSelectionMode(org.gtk.gtk.SelectionMode mode) {
         try {
             DowncallHandles.gtk_icon_view_set_selection_mode.invokeExact(
                     handle(),
@@ -1162,9 +1113,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param path a {@code GtkTreePath}
      * @param cell a {@code GtkCellRenderer}
      */
-    public void setTooltipCell(@NotNull org.gtk.gtk.Tooltip tooltip, @NotNull org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell) {
-        java.util.Objects.requireNonNull(tooltip, "Parameter 'tooltip' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void setTooltipCell(org.gtk.gtk.Tooltip tooltip, org.gtk.gtk.TreePath path, @Nullable org.gtk.gtk.CellRenderer cell) {
         try {
             DowncallHandles.gtk_icon_view_set_tooltip_cell.invokeExact(
                     handle(),
@@ -1206,9 +1155,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param tooltip a {@code GtkTooltip}
      * @param path a {@code GtkTreePath}
      */
-    public void setTooltipItem(@NotNull org.gtk.gtk.Tooltip tooltip, @NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(tooltip, "Parameter 'tooltip' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void setTooltipItem(org.gtk.gtk.Tooltip tooltip, org.gtk.gtk.TreePath path) {
         try {
             DowncallHandles.gtk_icon_view_set_tooltip_item.invokeExact(
                     handle(),
@@ -1235,8 +1182,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Unselects the row at {@code path}.
      * @param path The {@code GtkTreePath} to be unselected.
      */
-    public void unselectPath(@NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void unselectPath(org.gtk.gtk.TreePath path) {
         try {
             DowncallHandles.gtk_icon_view_unselect_path.invokeExact(
                     handle(),
@@ -1276,7 +1222,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_icon_view_get_type.invokeExact();
@@ -1288,7 +1234,19 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ActivateCursorItem {
-        boolean signalReceived(IconView sourceIconView);
+        boolean run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceIconView) {
+            var RESULT = run();
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCursorItem.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1307,16 +1265,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<IconView.ActivateCursorItem> onActivateCursorItem(IconView.ActivateCursorItem handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate-cursor-item"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewActivateCursorItem",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IconView.ActivateCursorItem>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate-cursor-item"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1324,7 +1274,18 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ItemActivated {
-        void signalReceived(IconView sourceIconView, @NotNull org.gtk.gtk.TreePath path);
+        void run(org.gtk.gtk.TreePath path);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIconView, MemoryAddress path) {
+            run(org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ItemActivated.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1341,16 +1302,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<IconView.ItemActivated> onItemActivated(IconView.ItemActivated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("item-activated"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewItemActivated",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IconView.ItemActivated>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("item-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1358,7 +1311,19 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface MoveCursor {
-        boolean signalReceived(IconView sourceIconView, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extend, boolean modify);
+        boolean run(org.gtk.gtk.MovementStep step, int count, boolean extend, boolean modify);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceIconView, int step, int count, int extend, int modify) {
+            var RESULT = run(org.gtk.gtk.MovementStep.of(step), count, Marshal.integerToBoolean.marshal(extend, null).booleanValue(), Marshal.integerToBoolean.marshal(modify, null).booleanValue());
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveCursor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1384,16 +1349,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<IconView.MoveCursor> onMoveCursor(IconView.MoveCursor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-cursor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewMoveCursor",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IconView.MoveCursor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1401,7 +1358,18 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectAll {
-        void signalReceived(IconView sourceIconView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIconView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectAll.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1419,16 +1387,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<IconView.SelectAll> onSelectAll(IconView.SelectAll handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("select-all"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewSelectAll",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IconView.SelectAll>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("select-all"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1436,7 +1396,18 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectCursorItem {
-        void signalReceived(IconView sourceIconView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIconView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectCursorItem.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1455,16 +1426,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<IconView.SelectCursorItem> onSelectCursorItem(IconView.SelectCursorItem handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("select-cursor-item"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewSelectCursorItem",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IconView.SelectCursorItem>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("select-cursor-item"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1472,7 +1435,18 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectionChanged {
-        void signalReceived(IconView sourceIconView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIconView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectionChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1484,16 +1458,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<IconView.SelectionChanged> onSelectionChanged(IconView.SelectionChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("selection-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewSelectionChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IconView.SelectionChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("selection-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1501,7 +1467,18 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ToggleCursorItem {
-        void signalReceived(IconView sourceIconView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIconView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleCursorItem.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1521,16 +1498,8 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<IconView.ToggleCursorItem> onToggleCursorItem(IconView.ToggleCursorItem handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("toggle-cursor-item"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewToggleCursorItem",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IconView.ToggleCursorItem>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("toggle-cursor-item"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1538,7 +1507,18 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface UnselectAll {
-        void signalReceived(IconView sourceIconView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIconView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnselectAll.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1556,52 +1536,46 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<IconView.UnselectAll> onUnselectAll(IconView.UnselectAll handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("unselect-all"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IconView.Callbacks.class, "signalIconViewUnselectAll",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IconView.UnselectAll>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("unselect-all"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link IconView.Builder} object constructs a {@link IconView} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link IconView.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link IconView.Build} object constructs a {@link IconView} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link IconView} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link IconView} using {@link IconView#castFrom}.
+         * {@link IconView}.
          * @return A new instance of {@code IconView} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public IconView construct() {
-            return IconView.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    IconView.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public IconView build() {
+            return (IconView) org.gtk.gobject.GObject.newWithProperties(
+                IconView.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1611,7 +1585,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param activateOnSingleClick The value for the {@code activate-on-single-click} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActivateOnSingleClick(boolean activateOnSingleClick) {
+        public Builder setActivateOnSingleClick(boolean activateOnSingleClick) {
             names.add("activate-on-single-click");
             values.add(org.gtk.gobject.Value.create(activateOnSingleClick));
             return this;
@@ -1625,7 +1599,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param cellArea The value for the {@code cell-area} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCellArea(org.gtk.gtk.CellArea cellArea) {
+        public Builder setCellArea(org.gtk.gtk.CellArea cellArea) {
             names.add("cell-area");
             values.add(org.gtk.gobject.Value.create(cellArea));
             return this;
@@ -1637,7 +1611,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param columnSpacing The value for the {@code column-spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColumnSpacing(int columnSpacing) {
+        public Builder setColumnSpacing(int columnSpacing) {
             names.add("column-spacing");
             values.add(org.gtk.gobject.Value.create(columnSpacing));
             return this;
@@ -1650,7 +1624,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param columns The value for the {@code columns} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColumns(int columns) {
+        public Builder setColumns(int columns) {
             names.add("columns");
             values.add(org.gtk.gobject.Value.create(columns));
             return this;
@@ -1662,7 +1636,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param itemOrientation The value for the {@code item-orientation} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemOrientation(org.gtk.gtk.Orientation itemOrientation) {
+        public Builder setItemOrientation(org.gtk.gtk.Orientation itemOrientation) {
             names.add("item-orientation");
             values.add(org.gtk.gobject.Value.create(itemOrientation));
             return this;
@@ -1674,7 +1648,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param itemPadding The value for the {@code item-padding} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemPadding(int itemPadding) {
+        public Builder setItemPadding(int itemPadding) {
             names.add("item-padding");
             values.add(org.gtk.gobject.Value.create(itemPadding));
             return this;
@@ -1687,7 +1661,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param itemWidth The value for the {@code item-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemWidth(int itemWidth) {
+        public Builder setItemWidth(int itemWidth) {
             names.add("item-width");
             values.add(org.gtk.gobject.Value.create(itemWidth));
             return this;
@@ -1699,7 +1673,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param margin The value for the {@code margin} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMargin(int margin) {
+        public Builder setMargin(int margin) {
             names.add("margin");
             values.add(org.gtk.gobject.Value.create(margin));
             return this;
@@ -1714,13 +1688,13 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param markupColumn The value for the {@code markup-column} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMarkupColumn(int markupColumn) {
+        public Builder setMarkupColumn(int markupColumn) {
             names.add("markup-column");
             values.add(org.gtk.gobject.Value.create(markupColumn));
             return this;
         }
         
-        public Build setModel(org.gtk.gtk.TreeModel model) {
+        public Builder setModel(org.gtk.gtk.TreeModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -1734,7 +1708,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param pixbufColumn The value for the {@code pixbuf-column} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPixbufColumn(int pixbufColumn) {
+        public Builder setPixbufColumn(int pixbufColumn) {
             names.add("pixbuf-column");
             values.add(org.gtk.gobject.Value.create(pixbufColumn));
             return this;
@@ -1746,7 +1720,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param reorderable The value for the {@code reorderable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReorderable(boolean reorderable) {
+        public Builder setReorderable(boolean reorderable) {
             names.add("reorderable");
             values.add(org.gtk.gobject.Value.create(reorderable));
             return this;
@@ -1758,7 +1732,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param rowSpacing The value for the {@code row-spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRowSpacing(int rowSpacing) {
+        public Builder setRowSpacing(int rowSpacing) {
             names.add("row-spacing");
             values.add(org.gtk.gobject.Value.create(rowSpacing));
             return this;
@@ -1771,7 +1745,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param selectionMode The value for the {@code selection-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelectionMode(org.gtk.gtk.SelectionMode selectionMode) {
+        public Builder setSelectionMode(org.gtk.gtk.SelectionMode selectionMode) {
             names.add("selection-mode");
             values.add(org.gtk.gobject.Value.create(selectionMode));
             return this;
@@ -1783,7 +1757,7 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param spacing The value for the {@code spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSpacing(int spacing) {
+        public Builder setSpacing(int spacing) {
             names.add("spacing");
             values.add(org.gtk.gobject.Value.create(spacing));
             return this;
@@ -1797,13 +1771,13 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param textColumn The value for the {@code text-column} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTextColumn(int textColumn) {
+        public Builder setTextColumn(int textColumn) {
             names.add("text-column");
             values.add(org.gtk.gobject.Value.create(textColumn));
             return this;
         }
         
-        public Build setTooltipColumn(int tooltipColumn) {
+        public Builder setTooltipColumn(int tooltipColumn) {
             names.add("tooltip-column");
             values.add(org.gtk.gobject.Value.create(tooltipColumn));
             return this;
@@ -2195,56 +2169,5 @@ public class IconView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalIconViewActivateCursorItem(MemoryAddress sourceIconView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IconView.ActivateCursorItem) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
-        }
-        
-        public static void signalIconViewItemActivated(MemoryAddress sourceIconView, MemoryAddress path, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IconView.ItemActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
-        }
-        
-        public static boolean signalIconViewMoveCursor(MemoryAddress sourceIconView, int step, int count, int extend, int modify, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IconView.MoveCursor) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), count, extend != 0, modify != 0);
-        }
-        
-        public static void signalIconViewSelectAll(MemoryAddress sourceIconView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IconView.SelectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
-        }
-        
-        public static void signalIconViewSelectCursorItem(MemoryAddress sourceIconView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IconView.SelectCursorItem) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
-        }
-        
-        public static void signalIconViewSelectionChanged(MemoryAddress sourceIconView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IconView.SelectionChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
-        }
-        
-        public static void signalIconViewToggleCursorItem(MemoryAddress sourceIconView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IconView.ToggleCursorItem) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
-        }
-        
-        public static void signalIconViewUnselectAll(MemoryAddress sourceIconView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IconView.UnselectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IconView(sourceIconView, Ownership.NONE));
-        }
     }
 }

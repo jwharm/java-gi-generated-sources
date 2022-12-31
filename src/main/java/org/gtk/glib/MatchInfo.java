@@ -44,10 +44,12 @@ public class MatchInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MatchInfo(Addressable address, Ownership ownership) {
+    protected MatchInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MatchInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MatchInfo(input, ownership);
     
     /**
      * Returns a new string containing the text in {@code string_to_expand} with
@@ -71,14 +73,13 @@ public class MatchInfo extends Struct {
      * @return the expanded string, or {@code null} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @Nullable java.lang.String expandReferences(@NotNull java.lang.String stringToExpand) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(stringToExpand, "Parameter 'stringToExpand' must not be null");
+    public @Nullable java.lang.String expandReferences(java.lang.String stringToExpand) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_match_info_expand_references.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(stringToExpand),
+                    Marshal.stringToAddress.marshal(stringToExpand, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -86,7 +87,7 @@ public class MatchInfo extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -119,7 +120,7 @@ public class MatchInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -143,7 +144,7 @@ public class MatchInfo extends Struct {
      *     pointers.  It must be freed using g_strfreev(). If the previous
      *     match failed {@code null} is returned
      */
-    public @NotNull PointerString fetchAll() {
+    public PointerString fetchAll() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_all.invokeExact(
@@ -167,17 +168,16 @@ public class MatchInfo extends Struct {
      * @return The matched substring, or {@code null} if an error
      *     occurred. You have to free the string yourself
      */
-    public @Nullable java.lang.String fetchNamed(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable java.lang.String fetchNamed(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_match_info_fetch_named.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -195,25 +195,22 @@ public class MatchInfo extends Struct {
      *     If the position cannot be fetched, {@code start_pos} and {@code end_pos}
      *     are left unchanged.
      */
-    public boolean fetchNamedPos(@NotNull java.lang.String name, Out<Integer> startPos, Out<Integer> endPos) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(startPos, "Parameter 'startPos' must not be null");
+    public boolean fetchNamedPos(java.lang.String name, Out<Integer> startPos, Out<Integer> endPos) {
         MemorySegment startPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(endPos, "Parameter 'endPos' must not be null");
         MemorySegment endPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_match_info_fetch_named_pos.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
-                    (Addressable) startPosPOINTER.address(),
-                    (Addressable) endPosPOINTER.address());
+                    Marshal.stringToAddress.marshal(name, null),
+                    (Addressable) (startPos == null ? MemoryAddress.NULL : (Addressable) startPosPOINTER.address()),
+                    (Addressable) (endPos == null ? MemoryAddress.NULL : (Addressable) endPosPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (startPos != null) startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (endPos != null) endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -240,23 +237,21 @@ public class MatchInfo extends Struct {
      *   unchanged
      */
     public boolean fetchPos(int matchNum, Out<Integer> startPos, Out<Integer> endPos) {
-        java.util.Objects.requireNonNull(startPos, "Parameter 'startPos' must not be null");
         MemorySegment startPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(endPos, "Parameter 'endPos' must not be null");
         MemorySegment endPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_match_info_fetch_pos.invokeExact(
                     handle(),
                     matchNum,
-                    (Addressable) startPosPOINTER.address(),
-                    (Addressable) endPosPOINTER.address());
+                    (Addressable) (startPos == null ? MemoryAddress.NULL : (Addressable) startPosPOINTER.address()),
+                    (Addressable) (endPos == null ? MemoryAddress.NULL : (Addressable) endPosPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (startPos != null) startPos.set(startPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (endPos != null) endPos.set(endPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -300,7 +295,7 @@ public class MatchInfo extends Struct {
      * after you free {@code match_info} object.
      * @return {@link Regex} object used in {@code match_info}
      */
-    public @NotNull org.gtk.glib.Regex getRegex() {
+    public org.gtk.glib.Regex getRegex() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_regex.invokeExact(
@@ -308,7 +303,7 @@ public class MatchInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Regex(RESULT, Ownership.NONE);
+        return org.gtk.glib.Regex.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -317,7 +312,7 @@ public class MatchInfo extends Struct {
      * you may not free it before calling this function.
      * @return the string searched with {@code match_info}
      */
-    public @NotNull java.lang.String getString() {
+    public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_match_info_get_string.invokeExact(
@@ -325,7 +320,7 @@ public class MatchInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -372,7 +367,7 @@ public class MatchInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -388,7 +383,7 @@ public class MatchInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -414,14 +409,14 @@ public class MatchInfo extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Increases reference count of {@code match_info} by 1.
      * @return {@code match_info}
      */
-    public @NotNull org.gtk.glib.MatchInfo ref() {
+    public org.gtk.glib.MatchInfo ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_match_info_ref.invokeExact(
@@ -429,7 +424,7 @@ public class MatchInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MatchInfo(RESULT, Ownership.FULL);
+        return org.gtk.glib.MatchInfo.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

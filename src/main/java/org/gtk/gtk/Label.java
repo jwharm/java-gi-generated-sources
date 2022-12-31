@@ -196,43 +196,29 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * Because Label is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Label(Addressable address, Ownership ownership) {
+    protected Label(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Label if its GType is a (or inherits from) "GtkLabel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Label} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkLabel", a ClassCastException will be thrown.
-     */
-    public static Label castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Label.getType())) {
-            return new Label(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkLabel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Label> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Label(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String str) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String str) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_label_new.invokeExact(
-                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str)));
+                    (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,11 +235,11 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         super(constructNew(str), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithMnemonic(@Nullable java.lang.String str) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithMnemonic(@Nullable java.lang.String str) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_label_new_with_mnemonic.invokeExact(
-                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str)));
+                    (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -280,7 +266,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return the new {@code GtkLabel}
      */
     public static Label newWithMnemonic(@Nullable java.lang.String str) {
-        return new Label(constructNewWithMnemonic(str), Ownership.NONE);
+        var RESULT = constructNewWithMnemonic(str);
+        return (org.gtk.gtk.Label) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Label.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -302,7 +289,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.NONE);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -324,7 +311,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -333,7 +320,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * See {@link Label#setEllipsize}.
      * @return {@code PangoEllipsizeMode}
      */
-    public @NotNull org.pango.EllipsizeMode getEllipsize() {
+    public org.pango.EllipsizeMode getEllipsize() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_label_get_ellipsize.invokeExact(
@@ -358,7 +345,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -367,7 +354,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * See {@link Label#setJustify}.
      * @return {@code GtkJustification}
      */
-    public @NotNull org.gtk.gtk.Justification getJustify() {
+    public org.gtk.gtk.Justification getJustify() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_label_get_justify.invokeExact(
@@ -386,7 +373,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return the text of the label widget. This string is
      *   owned by the widget and must not be modified or freed.
      */
-    public @NotNull java.lang.String getLabel() {
+    public java.lang.String getLabel() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_label.invokeExact(
@@ -394,7 +381,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -407,7 +394,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * at any time, so it should be considered read-only.
      * @return the {@link org.pango.Layout} for this label
      */
-    public @NotNull org.pango.Layout getLayout() {
+    public org.pango.Layout getLayout() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_layout.invokeExact(
@@ -415,7 +402,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(RESULT, Ownership.NONE);
+        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -430,20 +417,18 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param y location to store Y offset of layout
      */
     public void getLayoutOffsets(Out<Integer> x, Out<Integer> y) {
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_label_get_layout_offsets.invokeExact(
                     handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address());
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_INT, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -516,7 +501,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -525,7 +510,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * See {@link Label#setNaturalWrapMode}.
      * @return the natural line wrap mode
      */
-    public @NotNull org.gtk.gtk.NaturalWrapMode getNaturalWrapMode() {
+    public org.gtk.gtk.NaturalWrapMode getNaturalWrapMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_label_get_natural_wrap_mode.invokeExact(
@@ -548,7 +533,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -558,22 +543,20 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return {@code true} if selection is non-empty
      */
     public boolean getSelectionBounds(Out<Integer> start, Out<Integer> end) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_label_get_selection_bounds.invokeExact(
                     handle(),
-                    (Addressable) startPOINTER.address(),
-                    (Addressable) endPOINTER.address());
+                    (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
+                    (Addressable) (end == null ? MemoryAddress.NULL : (Addressable) endPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        start.set(startPOINTER.get(Interop.valueLayout.C_INT, 0));
-        end.set(endPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (start != null) start.set(startPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (end != null) end.set(endPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -588,7 +571,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -608,7 +591,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(RESULT, Ownership.FULL);
+        return org.pango.TabArray.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -620,7 +603,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return the text in the label widget. This is the internal
      *   string used by the label, and must not be modified.
      */
-    public @NotNull java.lang.String getText() {
+    public java.lang.String getText() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_label_get_text.invokeExact(
@@ -628,7 +611,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -645,7 +628,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -663,7 +646,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -697,7 +680,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -706,7 +689,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * See {@link Label#setWrapMode}.
      * @return the line wrap mode
      */
-    public @NotNull org.pango.WrapMode getWrapMode() {
+    public org.pango.WrapMode getWrapMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_label_get_wrap_mode.invokeExact(
@@ -799,8 +782,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * to render the entire string.
      * @param mode a {@code PangoEllipsizeMode}
      */
-    public void setEllipsize(@NotNull org.pango.EllipsizeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setEllipsize(org.pango.EllipsizeMode mode) {
         try {
             DowncallHandles.gtk_label_set_ellipsize.invokeExact(
                     handle(),
@@ -836,8 +818,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * only a single line.
      * @param jtype a {@code GtkJustification}
      */
-    public void setJustify(@NotNull org.gtk.gtk.Justification jtype) {
-        java.util.Objects.requireNonNull(jtype, "Parameter 'jtype' must not be null");
+    public void setJustify(org.gtk.gtk.Justification jtype) {
         try {
             DowncallHandles.gtk_label_set_justify.invokeExact(
                     handle(),
@@ -855,12 +836,11 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * and {@code Gtk.Label:use-markup} properties.
      * @param str the new text to set for the label
      */
-    public void setLabel(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void setLabel(java.lang.String str) {
         try {
             DowncallHandles.gtk_label_set_label.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -913,12 +893,11 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * See also: {@link Label#setText}
      * @param str a markup string
      */
-    public void setMarkup(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void setMarkup(java.lang.String str) {
         try {
             DowncallHandles.gtk_label_set_markup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -936,12 +915,11 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * automatically, or explicitly using {@link Label#setMnemonicWidget}.
      * @param str a markup string
      */
-    public void setMarkupWithMnemonic(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void setMarkupWithMnemonic(java.lang.String str) {
         try {
             DowncallHandles.gtk_label_set_markup_with_mnemonic.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -998,8 +976,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * see the {@code Gtk.Label:wrap-mode} property.
      * @param wrapMode the line wrapping mode
      */
-    public void setNaturalWrapMode(@NotNull org.gtk.gtk.NaturalWrapMode wrapMode) {
-        java.util.Objects.requireNonNull(wrapMode, "Parameter 'wrapMode' must not be null");
+    public void setNaturalWrapMode(org.gtk.gtk.NaturalWrapMode wrapMode) {
         try {
             DowncallHandles.gtk_label_set_natural_wrap_mode.invokeExact(
                     handle(),
@@ -1020,7 +997,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_label_set_selectable.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1034,7 +1011,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_label_set_single_line_mode.invokeExact(
                     handle(),
-                    singleLineMode ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(singleLineMode, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1069,12 +1046,11 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * See also: {@link Label#setMarkup}
      * @param str The text you want to set
      */
-    public void setText(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void setText(java.lang.String str) {
         try {
             DowncallHandles.gtk_label_set_text.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1089,12 +1065,11 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * automatically, or explicitly using {@link Label#setMnemonicWidget}.
      * @param str a string
      */
-    public void setTextWithMnemonic(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void setTextWithMnemonic(java.lang.String str) {
         try {
             DowncallHandles.gtk_label_set_text_with_mnemonic.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1110,7 +1085,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_label_set_use_markup.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1124,7 +1099,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_label_set_use_underline.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1162,7 +1137,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_label_set_wrap.invokeExact(
                     handle(),
-                    wrap ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(wrap, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1179,8 +1154,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * property.
      * @param wrapMode the line wrapping mode
      */
-    public void setWrapMode(@NotNull org.pango.WrapMode wrapMode) {
-        java.util.Objects.requireNonNull(wrapMode, "Parameter 'wrapMode' must not be null");
+    public void setWrapMode(org.pango.WrapMode wrapMode) {
         try {
             DowncallHandles.gtk_label_set_wrap_mode.invokeExact(
                     handle(),
@@ -1226,7 +1200,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_label_get_type.invokeExact();
@@ -1238,7 +1212,18 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ActivateCurrentLink {
-        void signalReceived(Label sourceLabel);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceLabel) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateCurrentLink.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1256,16 +1241,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Label.ActivateCurrentLink> onActivateCurrentLink(Label.ActivateCurrentLink handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate-current-link"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelActivateCurrentLink",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Label.ActivateCurrentLink>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate-current-link"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1273,7 +1250,19 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ActivateLink {
-        boolean signalReceived(Label sourceLabel, @NotNull java.lang.String uri);
+        boolean run(java.lang.String uri);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceLabel, MemoryAddress uri) {
+            var RESULT = run(Marshal.addressToString.marshal(uri, null));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateLink.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1287,16 +1276,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Label.ActivateLink> onActivateLink(Label.ActivateLink handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate-link"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelActivateLink",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Label.ActivateLink>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate-link"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1304,7 +1285,18 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface CopyClipboard {
-        void signalReceived(Label sourceLabel);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceLabel) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CopyClipboard.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1319,16 +1311,8 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Label.CopyClipboard> onCopyClipboard(Label.CopyClipboard handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("copy-clipboard"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelCopyClipboard",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Label.CopyClipboard>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("copy-clipboard"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1336,7 +1320,18 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface MoveCursor {
-        void signalReceived(Label sourceLabel, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extendSelection);
+        void run(org.gtk.gtk.MovementStep step, int count, boolean extendSelection);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceLabel, int step, int count, int extendSelection) {
+            run(org.gtk.gtk.MovementStep.of(step), count, Marshal.integerToBoolean.marshal(extendSelection, null).booleanValue());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveCursor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1365,52 +1360,46 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Label.MoveCursor> onMoveCursor(Label.MoveCursor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-cursor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Label.Callbacks.class, "signalLabelMoveCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Label.MoveCursor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Label.Builder} object constructs a {@link Label} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Label.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Label.Build} object constructs a {@link Label} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Label} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Label} using {@link Label#castFrom}.
+         * {@link Label}.
          * @return A new instance of {@code Label} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Label construct() {
-            return Label.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Label.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Label build() {
+            return (Label) org.gtk.gobject.GObject.newWithProperties(
+                Label.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1419,7 +1408,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param attributes The value for the {@code attributes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttributes(org.pango.AttrList attributes) {
+        public Builder setAttributes(org.pango.AttrList attributes) {
             names.add("attributes");
             values.add(org.gtk.gobject.Value.create(attributes));
             return this;
@@ -1439,7 +1428,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param ellipsize The value for the {@code ellipsize} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEllipsize(org.pango.EllipsizeMode ellipsize) {
+        public Builder setEllipsize(org.pango.EllipsizeMode ellipsize) {
             names.add("ellipsize");
             values.add(org.gtk.gobject.Value.create(ellipsize));
             return this;
@@ -1450,7 +1439,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param extraMenu The value for the {@code extra-menu} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
+        public Builder setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
             names.add("extra-menu");
             values.add(org.gtk.gobject.Value.create(extraMenu));
             return this;
@@ -1464,7 +1453,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param justify The value for the {@code justify} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setJustify(org.gtk.gtk.Justification justify) {
+        public Builder setJustify(org.gtk.gtk.Justification justify) {
             names.add("justify");
             values.add(org.gtk.gobject.Value.create(justify));
             return this;
@@ -1486,7 +1475,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param label The value for the {@code label} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLabel(java.lang.String label) {
+        public Builder setLabel(java.lang.String label) {
             names.add("label");
             values.add(org.gtk.gobject.Value.create(label));
             return this;
@@ -1501,7 +1490,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param lines The value for the {@code lines} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLines(int lines) {
+        public Builder setLines(int lines) {
             names.add("lines");
             values.add(org.gtk.gobject.Value.create(lines));
             return this;
@@ -1518,7 +1507,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param maxWidthChars The value for the {@code max-width-chars} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxWidthChars(int maxWidthChars) {
+        public Builder setMaxWidthChars(int maxWidthChars) {
             names.add("max-width-chars");
             values.add(org.gtk.gobject.Value.create(maxWidthChars));
             return this;
@@ -1529,7 +1518,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param mnemonicKeyval The value for the {@code mnemonic-keyval} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMnemonicKeyval(int mnemonicKeyval) {
+        public Builder setMnemonicKeyval(int mnemonicKeyval) {
             names.add("mnemonic-keyval");
             values.add(org.gtk.gobject.Value.create(mnemonicKeyval));
             return this;
@@ -1540,7 +1529,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param mnemonicWidget The value for the {@code mnemonic-widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMnemonicWidget(org.gtk.gtk.Widget mnemonicWidget) {
+        public Builder setMnemonicWidget(org.gtk.gtk.Widget mnemonicWidget) {
             names.add("mnemonic-widget");
             values.add(org.gtk.gobject.Value.create(mnemonicWidget));
             return this;
@@ -1557,7 +1546,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param naturalWrapMode The value for the {@code natural-wrap-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNaturalWrapMode(org.gtk.gtk.NaturalWrapMode naturalWrapMode) {
+        public Builder setNaturalWrapMode(org.gtk.gtk.NaturalWrapMode naturalWrapMode) {
             names.add("natural-wrap-mode");
             values.add(org.gtk.gobject.Value.create(naturalWrapMode));
             return this;
@@ -1568,7 +1557,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param selectable The value for the {@code selectable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelectable(boolean selectable) {
+        public Builder setSelectable(boolean selectable) {
             names.add("selectable");
             values.add(org.gtk.gobject.Value.create(selectable));
             return this;
@@ -1584,7 +1573,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param singleLineMode The value for the {@code single-line-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSingleLineMode(boolean singleLineMode) {
+        public Builder setSingleLineMode(boolean singleLineMode) {
             names.add("single-line-mode");
             values.add(org.gtk.gobject.Value.create(singleLineMode));
             return this;
@@ -1595,7 +1584,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param tabs The value for the {@code tabs} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTabs(org.pango.TabArray tabs) {
+        public Builder setTabs(org.pango.TabArray tabs) {
             names.add("tabs");
             values.add(org.gtk.gobject.Value.create(tabs));
             return this;
@@ -1608,7 +1597,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param useMarkup The value for the {@code use-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseMarkup(boolean useMarkup) {
+        public Builder setUseMarkup(boolean useMarkup) {
             names.add("use-markup");
             values.add(org.gtk.gobject.Value.create(useMarkup));
             return this;
@@ -1619,7 +1608,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param useUnderline The value for the {@code use-underline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseUnderline(boolean useUnderline) {
+        public Builder setUseUnderline(boolean useUnderline) {
             names.add("use-underline");
             values.add(org.gtk.gobject.Value.create(useUnderline));
             return this;
@@ -1636,7 +1625,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param widthChars The value for the {@code width-chars} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidthChars(int widthChars) {
+        public Builder setWidthChars(int widthChars) {
             names.add("width-chars");
             values.add(org.gtk.gobject.Value.create(widthChars));
             return this;
@@ -1647,7 +1636,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param wrap The value for the {@code wrap} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWrap(boolean wrap) {
+        public Builder setWrap(boolean wrap) {
             names.add("wrap");
             values.add(org.gtk.gobject.Value.create(wrap));
             return this;
@@ -1665,7 +1654,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param wrapMode The value for the {@code wrap-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWrapMode(org.pango.WrapMode wrapMode) {
+        public Builder setWrapMode(org.pango.WrapMode wrapMode) {
             names.add("wrap-mode");
             values.add(org.gtk.gobject.Value.create(wrapMode));
             return this;
@@ -1679,7 +1668,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param xalign The value for the {@code xalign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setXalign(float xalign) {
+        public Builder setXalign(float xalign) {
             names.add("xalign");
             values.add(org.gtk.gobject.Value.create(xalign));
             return this;
@@ -1693,7 +1682,7 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param yalign The value for the {@code yalign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYalign(float yalign) {
+        public Builder setYalign(float yalign) {
             names.add("yalign");
             values.add(org.gtk.gobject.Value.create(yalign));
             return this;
@@ -2013,32 +2002,5 @@ public class Label extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalLabelActivateCurrentLink(MemoryAddress sourceLabel, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Label.ActivateCurrentLink) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Label(sourceLabel, Ownership.NONE));
-        }
-        
-        public static boolean signalLabelActivateLink(MemoryAddress sourceLabel, MemoryAddress uri, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Label.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Label(sourceLabel, Ownership.NONE), Interop.getStringFrom(uri));
-        }
-        
-        public static void signalLabelCopyClipboard(MemoryAddress sourceLabel, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Label.CopyClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Label(sourceLabel, Ownership.NONE));
-        }
-        
-        public static void signalLabelMoveCursor(MemoryAddress sourceLabel, int step, int count, int extendSelection, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Label.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Label(sourceLabel, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), count, extendSelection != 0);
-        }
     }
 }

@@ -32,42 +32,24 @@ import org.jetbrains.annotations.*;
  */
 public interface Preset extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Preset if its GType is a (or inherits from) "GstPreset".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Preset} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPreset", a ClassCastException will be thrown.
-     */
-    public static Preset castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Preset.getType())) {
-            return new PresetImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPreset");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PresetImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PresetImpl(input, ownership);
     
     /**
      * Delete the given preset.
      * @param name preset name to remove
      * @return {@code true} for success, {@code false} if e.g. there is no preset with that {@code name}
      */
-    default boolean deletePreset(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    default boolean deletePreset(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_preset_delete_preset.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -79,30 +61,27 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} for success, {@code false} if e.g. there is no preset with that {@code name}
      * or no value for the given {@code tag}
      */
-    default boolean getMeta(@NotNull java.lang.String name, @NotNull java.lang.String tag, @NotNull Out<java.lang.String> value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    default boolean getMeta(java.lang.String name, java.lang.String tag, Out<java.lang.String> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_preset_get_meta.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(Interop.getStringFrom(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get a copy of preset names as a {@code null} terminated string array.
      * @return list with names, use g_strfreev() after usage.
      */
-    default @NotNull PointerString getPresetNames() {
+    default PointerString getPresetNames() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_preset_get_preset_names.invokeExact(
@@ -118,7 +97,7 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @return an
      *   array of property names which should be freed with g_strfreev() after use.
      */
-    default @NotNull PointerString getPropertyNames() {
+    default PointerString getPropertyNames() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_preset_get_property_names.invokeExact(
@@ -141,7 +120,7 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -149,17 +128,16 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @param name preset name to load
      * @return {@code true} for success, {@code false} if e.g. there is no preset with that {@code name}
      */
-    default boolean loadPreset(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    default boolean loadPreset(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_preset_load_preset.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -169,19 +147,17 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @param newName new preset name
      * @return {@code true} for success, {@code false} if e.g. there is no preset with {@code old_name}
      */
-    default boolean renamePreset(@NotNull java.lang.String oldName, @NotNull java.lang.String newName) {
-        java.util.Objects.requireNonNull(oldName, "Parameter 'oldName' must not be null");
-        java.util.Objects.requireNonNull(newName, "Parameter 'newName' must not be null");
+    default boolean renamePreset(java.lang.String oldName, java.lang.String newName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_preset_rename_preset.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(oldName),
-                    Interop.allocateNativeString(newName));
+                    Marshal.stringToAddress.marshal(oldName, null),
+                    Marshal.stringToAddress.marshal(newName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -190,17 +166,16 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @param name preset name to save
      * @return {@code true} for success, {@code false}
      */
-    default boolean savePreset(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    default boolean savePreset(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_preset_save_preset.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -212,27 +187,25 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @param value new value
      * @return {@code true} for success, {@code false} if e.g. there is no preset with that {@code name}
      */
-    default boolean setMeta(@NotNull java.lang.String name, @NotNull java.lang.String tag, @Nullable java.lang.String value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    default boolean setMeta(java.lang.String name, java.lang.String tag, @Nullable java.lang.String value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_preset_set_meta.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(tag),
-                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(tag, null),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_preset_get_type.invokeExact();
@@ -255,7 +228,7 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -265,16 +238,15 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
      * @param appDir the application specific preset dir
      * @return {@code true} for success, {@code false} if the dir already has been set
      */
-    public static boolean setAppDir(@NotNull java.lang.String appDir) {
-        java.util.Objects.requireNonNull(appDir, "Parameter 'appDir' must not be null");
+    public static boolean setAppDir(java.lang.String appDir) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_preset_set_app_dir.invokeExact(
-                    Interop.allocateNativeString(appDir));
+                    Marshal.stringToAddress.marshal(appDir, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     @ApiStatus.Internal
@@ -365,7 +337,7 @@ public interface Preset extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class PresetImpl extends org.gtk.gobject.Object implements Preset {
+    class PresetImpl extends org.gtk.gobject.GObject implements Preset {
         
         static {
             Gst.javagi$ensureInitialized();

@@ -23,5 +23,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleSizeFunc {
-        void onPixbufModuleSizeFunc(PointerInteger width, PointerInteger height);
+    void run(PointerInteger width, PointerInteger height);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress width, MemoryAddress height, MemoryAddress userData) {
+        run(new PointerInteger(width), new PointerInteger(height));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PixbufModuleSizeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

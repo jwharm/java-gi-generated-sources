@@ -16,30 +16,28 @@ public class AudioFormatInfo extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioFormatInfo";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("format"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("name"),
-        Interop.valueLayout.ADDRESS.withName("description"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        Interop.valueLayout.C_INT.withName("endianness"),
-        Interop.valueLayout.C_INT.withName("width"),
-        Interop.valueLayout.C_INT.withName("depth"),
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.C_BYTE).withName("silence"),
-        Interop.valueLayout.C_INT.withName("unpack_format"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("unpack_func"),
-        Interop.valueLayout.ADDRESS.withName("pack_func"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("format"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("name"),
+            Interop.valueLayout.ADDRESS.withName("description"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            Interop.valueLayout.C_INT.withName("endianness"),
+            Interop.valueLayout.C_INT.withName("width"),
+            Interop.valueLayout.C_INT.withName("depth"),
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.C_BYTE).withName("silence"),
+            Interop.valueLayout.C_INT.withName("unpack_format"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("unpack_func"),
+            Interop.valueLayout.ADDRESS.withName("pack_func"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -59,7 +57,7 @@ public class AudioFormatInfo extends Struct {
      * Get the value of the field {@code format}
      * @return The value of the field {@code format}
      */
-    public org.gstreamer.audio.AudioFormat format$get() {
+    public org.gstreamer.audio.AudioFormat getFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -70,59 +68,59 @@ public class AudioFormatInfo extends Struct {
      * Change the value of the field {@code format}
      * @param format The new value of the field {@code format}
      */
-    public void format$set(org.gstreamer.audio.AudioFormat format) {
+    public void setFormat(org.gstreamer.audio.AudioFormat format) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), format.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
     }
     
     /**
      * Get the value of the field {@code name}
      * @return The value of the field {@code name}
      */
-    public java.lang.String name$get() {
+    public java.lang.String getName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code name}
      * @param name The new value of the field {@code name}
      */
-    public void name$set(java.lang.String name) {
+    public void setName(java.lang.String name) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
     }
     
     /**
      * Get the value of the field {@code description}
      * @return The value of the field {@code description}
      */
-    public java.lang.String description$get() {
+    public java.lang.String getDescription() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code description}
      * @param description The new value of the field {@code description}
      */
-    public void description$set(java.lang.String description) {
+    public void setDescription(java.lang.String description) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(description));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
     }
     
     /**
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public org.gstreamer.audio.AudioFormatFlags flags$get() {
+    public org.gstreamer.audio.AudioFormatFlags getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -133,17 +131,17 @@ public class AudioFormatInfo extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(org.gstreamer.audio.AudioFormatFlags flags) {
+    public void setFlags(org.gstreamer.audio.AudioFormatFlags flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
     }
     
     /**
      * Get the value of the field {@code endianness}
      * @return The value of the field {@code endianness}
      */
-    public int endianness$get() {
+    public int getEndianness() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("endianness"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -154,7 +152,7 @@ public class AudioFormatInfo extends Struct {
      * Change the value of the field {@code endianness}
      * @param endianness The new value of the field {@code endianness}
      */
-    public void endianness$set(int endianness) {
+    public void setEndianness(int endianness) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("endianness"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), endianness);
@@ -164,7 +162,7 @@ public class AudioFormatInfo extends Struct {
      * Get the value of the field {@code width}
      * @return The value of the field {@code width}
      */
-    public int width$get() {
+    public int getWidth() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -175,7 +173,7 @@ public class AudioFormatInfo extends Struct {
      * Change the value of the field {@code width}
      * @param width The new value of the field {@code width}
      */
-    public void width$set(int width) {
+    public void setWidth(int width) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -185,7 +183,7 @@ public class AudioFormatInfo extends Struct {
      * Get the value of the field {@code depth}
      * @return The value of the field {@code depth}
      */
-    public int depth$get() {
+    public int getDepth() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("depth"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -196,17 +194,38 @@ public class AudioFormatInfo extends Struct {
      * Change the value of the field {@code depth}
      * @param depth The new value of the field {@code depth}
      */
-    public void depth$set(int depth) {
+    public void setDepth(int depth) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("depth"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), depth);
     }
     
     /**
+     * Get the value of the field {@code silence}
+     * @return The value of the field {@code silence}
+     */
+    public byte[] getSilence() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("silence"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 8, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code silence}
+     * @param silence The new value of the field {@code silence}
+     */
+    public void setSilence(byte[] silence) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("silence"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (silence == null ? MemoryAddress.NULL : Interop.allocateNativeArray(silence, false)));
+    }
+    
+    /**
      * Get the value of the field {@code unpack_format}
      * @return The value of the field {@code unpack_format}
      */
-    public org.gstreamer.audio.AudioFormat unpackFormat$get() {
+    public org.gstreamer.audio.AudioFormat getUnpackFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -217,17 +236,17 @@ public class AudioFormatInfo extends Struct {
      * Change the value of the field {@code unpack_format}
      * @param unpackFormat The new value of the field {@code unpack_format}
      */
-    public void unpackFormat$set(org.gstreamer.audio.AudioFormat unpackFormat) {
+    public void setUnpackFormat(org.gstreamer.audio.AudioFormat unpackFormat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), unpackFormat.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFormat == null ? MemoryAddress.NULL : unpackFormat.getValue()));
     }
     
     /**
      * Get the value of the field {@code unpack_func}
      * @return The value of the field {@code unpack_func}
      */
-    public org.gstreamer.audio.AudioFormatUnpack unpackFunc$get() {
+    public org.gstreamer.audio.AudioFormatUnpack getUnpackFunc() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -235,10 +254,20 @@ public class AudioFormatInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code unpack_func}
+     * @param unpackFunc The new value of the field {@code unpack_func}
+     */
+    public void setUnpackFunc(org.gstreamer.audio.AudioFormatUnpack unpackFunc) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : (Addressable) unpackFunc.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code pack_func}
      * @return The value of the field {@code pack_func}
      */
-    public org.gstreamer.audio.AudioFormatPack packFunc$get() {
+    public org.gstreamer.audio.AudioFormatPack getPackFunc() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -246,14 +275,26 @@ public class AudioFormatInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code pack_func}
+     * @param packFunc The new value of the field {@code pack_func}
+     */
+    public void setPackFunc(org.gstreamer.audio.AudioFormatPack packFunc) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packFunc == null ? MemoryAddress.NULL : (Addressable) packFunc.toCallback()));
+    }
+    
+    /**
      * Create a AudioFormatInfo proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioFormatInfo(Addressable address, Ownership ownership) {
+    protected AudioFormatInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioFormatInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioFormatInfo(input, ownership);
     
     /**
      * Fill {@code length} bytes in {@code dest} with silence samples for {@code info}.
@@ -261,8 +302,7 @@ public class AudioFormatInfo extends Struct {
      *   to fill
      * @param length the length to fill
      */
-    public void fillSilence(@NotNull byte[] dest, long length) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public void fillSilence(byte[] dest, long length) {
         try {
             DowncallHandles.gst_audio_format_info_fill_silence.invokeExact(
                     handle(),
@@ -281,31 +321,35 @@ public class AudioFormatInfo extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AudioFormatInfo.Builder} object constructs a {@link AudioFormatInfo} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AudioFormatInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AudioFormatInfo struct;
+        private final AudioFormatInfo struct;
         
-         /**
-         * A {@link AudioFormatInfo.Build} object constructs a {@link AudioFormatInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AudioFormatInfo.allocate();
         }
         
          /**
          * Finish building the {@link AudioFormatInfo} struct.
          * @return A new instance of {@code AudioFormatInfo} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioFormatInfo construct() {
+        public AudioFormatInfo build() {
             return struct;
         }
         
@@ -314,7 +358,7 @@ public class AudioFormatInfo extends Struct {
          * @param format The value for the {@code format} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormat(org.gstreamer.audio.AudioFormat format) {
+        public Builder setFormat(org.gstreamer.audio.AudioFormat format) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
@@ -326,10 +370,10 @@ public class AudioFormatInfo extends Struct {
          * @param name The value for the {@code name} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
             return this;
         }
         
@@ -338,10 +382,10 @@ public class AudioFormatInfo extends Struct {
          * @param description The value for the {@code description} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescription(java.lang.String description) {
+        public Builder setDescription(java.lang.String description) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
             return this;
         }
         
@@ -350,7 +394,7 @@ public class AudioFormatInfo extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gstreamer.audio.AudioFormatFlags flags) {
+        public Builder setFlags(org.gstreamer.audio.AudioFormatFlags flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
@@ -362,7 +406,7 @@ public class AudioFormatInfo extends Struct {
          * @param endianness The value for the {@code endianness} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEndianness(int endianness) {
+        public Builder setEndianness(int endianness) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("endianness"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), endianness);
@@ -374,7 +418,7 @@ public class AudioFormatInfo extends Struct {
          * @param width The value for the {@code width} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidth(int width) {
+        public Builder setWidth(int width) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("width"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -386,7 +430,7 @@ public class AudioFormatInfo extends Struct {
          * @param depth The value for the {@code depth} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDepth(int depth) {
+        public Builder setDepth(int depth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("depth"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), depth);
@@ -398,7 +442,7 @@ public class AudioFormatInfo extends Struct {
          * @param silence The value for the {@code silence} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSilence(byte[] silence) {
+        public Builder setSilence(byte[] silence) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("silence"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (silence == null ? MemoryAddress.NULL : Interop.allocateNativeArray(silence, false)));
@@ -410,7 +454,7 @@ public class AudioFormatInfo extends Struct {
          * @param unpackFormat The value for the {@code unpackFormat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUnpackFormat(org.gstreamer.audio.AudioFormat unpackFormat) {
+        public Builder setUnpackFormat(org.gstreamer.audio.AudioFormat unpackFormat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFormat == null ? MemoryAddress.NULL : unpackFormat.getValue()));
@@ -422,10 +466,10 @@ public class AudioFormatInfo extends Struct {
          * @param unpackFunc The value for the {@code unpackFunc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUnpackFunc(java.lang.foreign.MemoryAddress unpackFunc) {
+        public Builder setUnpackFunc(org.gstreamer.audio.AudioFormatUnpack unpackFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : unpackFunc));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : (Addressable) unpackFunc.toCallback()));
             return this;
         }
         
@@ -434,14 +478,14 @@ public class AudioFormatInfo extends Struct {
          * @param packFunc The value for the {@code packFunc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPackFunc(java.lang.foreign.MemoryAddress packFunc) {
+        public Builder setPackFunc(org.gstreamer.audio.AudioFormatPack packFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packFunc == null ? MemoryAddress.NULL : packFunc));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packFunc == null ? MemoryAddress.NULL : (Addressable) packFunc.toCallback()));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

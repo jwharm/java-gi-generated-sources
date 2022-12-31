@@ -42,11 +42,15 @@ public class MiniObjectFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public MiniObjectFlags or(MiniObjectFlags mask) {
-        return new MiniObjectFlags(this.getValue() | mask.getValue());
+    public MiniObjectFlags or(MiniObjectFlags... masks) {
+        int value = this.getValue();
+        for (MiniObjectFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new MiniObjectFlags(value);
     }
     
     /**
@@ -56,7 +60,8 @@ public class MiniObjectFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static MiniObjectFlags combined(MiniObjectFlags mask, MiniObjectFlags... masks) {
-        int value = mask.getValue();        for (MiniObjectFlags arg : masks) {
+        int value = mask.getValue();
+        for (MiniObjectFlags arg : masks) {
             value |= arg.getValue();
         }
         return new MiniObjectFlags(value);

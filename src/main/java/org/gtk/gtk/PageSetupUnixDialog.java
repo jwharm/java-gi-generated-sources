@@ -37,43 +37,29 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
      * <p>
      * Because PageSetupUnixDialog is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PageSetupUnixDialog(Addressable address, Ownership ownership) {
+    protected PageSetupUnixDialog(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PageSetupUnixDialog if its GType is a (or inherits from) "GtkPageSetupUnixDialog".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PageSetupUnixDialog} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPageSetupUnixDialog", a ClassCastException will be thrown.
-     */
-    public static PageSetupUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PageSetupUnixDialog.getType())) {
-            return new PageSetupUnixDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPageSetupUnixDialog");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PageSetupUnixDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PageSetupUnixDialog(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_new.invokeExact(
-                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (title == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(title, null)),
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -94,7 +80,7 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
      * Gets the currently selected page setup from the dialog.
      * @return the current page setup
      */
-    public @NotNull org.gtk.gtk.PageSetup getPageSetup() {
+    public org.gtk.gtk.PageSetup getPageSetup() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_page_setup_unix_dialog_get_page_setup.invokeExact(
@@ -102,7 +88,7 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageSetup(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -117,7 +103,7 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintSettings(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PrintSettings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PrintSettings.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -125,8 +111,7 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
      * dialog takes its values.
      * @param pageSetup a {@code GtkPageSetup}
      */
-    public void setPageSetup(@NotNull org.gtk.gtk.PageSetup pageSetup) {
-        java.util.Objects.requireNonNull(pageSetup, "Parameter 'pageSetup' must not be null");
+    public void setPageSetup(org.gtk.gtk.PageSetup pageSetup) {
         try {
             DowncallHandles.gtk_page_setup_unix_dialog_set_page_setup.invokeExact(
                     handle(),
@@ -155,7 +140,7 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_page_setup_unix_dialog_get_type.invokeExact();
@@ -164,38 +149,40 @@ public class PageSetupUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.g
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PageSetupUnixDialog.Builder} object constructs a {@link PageSetupUnixDialog} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PageSetupUnixDialog.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Dialog.Build {
+    public static class Builder extends org.gtk.gtk.Dialog.Builder {
         
-         /**
-         * A {@link PageSetupUnixDialog.Build} object constructs a {@link PageSetupUnixDialog} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PageSetupUnixDialog} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PageSetupUnixDialog} using {@link PageSetupUnixDialog#castFrom}.
+         * {@link PageSetupUnixDialog}.
          * @return A new instance of {@code PageSetupUnixDialog} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PageSetupUnixDialog construct() {
-            return PageSetupUnixDialog.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PageSetupUnixDialog.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PageSetupUnixDialog build() {
+            return (PageSetupUnixDialog) org.gtk.gobject.GObject.newWithProperties(
+                PageSetupUnixDialog.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

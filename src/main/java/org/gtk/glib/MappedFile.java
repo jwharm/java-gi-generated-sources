@@ -45,19 +45,20 @@ public class MappedFile extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MappedFile(Addressable address, Ownership ownership) {
+    protected MappedFile(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String filename, boolean writable) throws GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MappedFile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MappedFile(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String filename, boolean writable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_new.invokeExact(
-                    Interop.allocateNativeString(filename),
-                    writable ? 1 : 0,
+                    Marshal.stringToAddress.marshal(filename, null),
+                    Marshal.booleanToInteger.marshal(writable, null).intValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -90,17 +91,17 @@ public class MappedFile extends Struct {
      * @param writable whether the mapping should be writable
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public MappedFile(@NotNull java.lang.String filename, boolean writable) throws GErrorException {
+    public MappedFile(java.lang.String filename, boolean writable) throws GErrorException {
         super(constructNew(filename, writable), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromFd(int fd, boolean writable) throws GErrorException {
+    private static MemoryAddress constructNewFromFd(int fd, boolean writable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_new_from_fd.invokeExact(
                     fd,
-                    writable ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(writable, null).intValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -130,7 +131,8 @@ public class MappedFile extends Struct {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static MappedFile newFromFd(int fd, boolean writable) throws GErrorException {
-        return new MappedFile(constructNewFromFd(fd, writable), Ownership.FULL);
+        var RESULT = constructNewFromFd(fd, writable);
+        return org.gtk.glib.MappedFile.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -155,7 +157,7 @@ public class MappedFile extends Struct {
      * @return A newly allocated {@link Bytes} referencing data
      *     from {@code file}
      */
-    public @NotNull org.gtk.glib.Bytes getBytes() {
+    public org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_bytes.invokeExact(
@@ -163,7 +165,7 @@ public class MappedFile extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -175,7 +177,7 @@ public class MappedFile extends Struct {
      * If the file is empty then {@code null} is returned.
      * @return the contents of {@code file}, or {@code null}.
      */
-    public @NotNull java.lang.String getContents() {
+    public java.lang.String getContents() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_get_contents.invokeExact(
@@ -183,7 +185,7 @@ public class MappedFile extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -206,7 +208,7 @@ public class MappedFile extends Struct {
      * this function from any thread.
      * @return the passed in {@link MappedFile}.
      */
-    public @NotNull org.gtk.glib.MappedFile ref() {
+    public org.gtk.glib.MappedFile ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mapped_file_ref.invokeExact(
@@ -214,7 +216,7 @@ public class MappedFile extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MappedFile(RESULT, Ownership.FULL);
+        return org.gtk.glib.MappedFile.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

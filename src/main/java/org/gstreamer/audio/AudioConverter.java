@@ -51,16 +51,15 @@ public class AudioConverter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioConverter(Addressable address, Ownership ownership) {
+    protected AudioConverter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.audio.AudioConverterFlags flags, @NotNull org.gstreamer.audio.AudioInfo inInfo, @NotNull org.gstreamer.audio.AudioInfo outInfo, @Nullable org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(inInfo, "Parameter 'inInfo' must not be null");
-        java.util.Objects.requireNonNull(outInfo, "Parameter 'outInfo' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioConverter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioConverter(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.audio.AudioConverterFlags flags, org.gstreamer.audio.AudioInfo inInfo, org.gstreamer.audio.AudioInfo outInfo, @Nullable org.gstreamer.gst.Structure config) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_converter_new.invokeExact(
                     flags.getValue(),
@@ -85,7 +84,7 @@ public class AudioConverter extends Struct {
      * @param outInfo a destination {@link AudioInfo}
      * @param config a {@link org.gstreamer.gst.Structure} with configuration options
      */
-    public AudioConverter(@NotNull org.gstreamer.audio.AudioConverterFlags flags, @NotNull org.gstreamer.audio.AudioInfo inInfo, @NotNull org.gstreamer.audio.AudioInfo outInfo, @Nullable org.gstreamer.gst.Structure config) {
+    public AudioConverter(org.gstreamer.audio.AudioConverterFlags flags, org.gstreamer.audio.AudioInfo inInfo, org.gstreamer.audio.AudioInfo outInfo, @Nullable org.gstreamer.gst.Structure config) {
         super(constructNew(flags, inInfo, outInfo, config), Ownership.FULL);
     }
     
@@ -101,12 +100,8 @@ public class AudioConverter extends Struct {
      * @param outSize a pointer where the size of {@code out} will be written
      * @return {@code true} is the conversion could be performed.
      */
-    public boolean convert(@NotNull org.gstreamer.audio.AudioConverterFlags flags, @NotNull byte[] in, long inSize, @NotNull Out<byte[]> out, Out<Long> outSize) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(in, "Parameter 'in' must not be null");
-        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+    public boolean convert(org.gstreamer.audio.AudioConverterFlags flags, byte[] in, long inSize, Out<byte[]> out, Out<Long> outSize) {
         MemorySegment outPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(outSize, "Parameter 'outSize' must not be null");
         MemorySegment outSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -122,7 +117,7 @@ public class AudioConverter extends Struct {
         }
         outSize.set(outSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         out.set(MemorySegment.ofAddress(outPOINTER.get(Interop.valueLayout.ADDRESS, 0), outSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -144,23 +139,21 @@ public class AudioConverter extends Struct {
      * @return a {@link org.gstreamer.gst.Structure} that remains valid for as long as {@code convert} is valid
      *   or until gst_audio_converter_update_config() is called.
      */
-    public @NotNull org.gstreamer.gst.Structure getConfig(Out<Integer> inRate, Out<Integer> outRate) {
-        java.util.Objects.requireNonNull(inRate, "Parameter 'inRate' must not be null");
+    public org.gstreamer.gst.Structure getConfig(Out<Integer> inRate, Out<Integer> outRate) {
         MemorySegment inRatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(outRate, "Parameter 'outRate' must not be null");
         MemorySegment outRatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_converter_get_config.invokeExact(
                     handle(),
-                    (Addressable) inRatePOINTER.address(),
-                    (Addressable) outRatePOINTER.address());
+                    (Addressable) (inRate == null ? MemoryAddress.NULL : (Addressable) inRatePOINTER.address()),
+                    (Addressable) (outRate == null ? MemoryAddress.NULL : (Addressable) outRatePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        inRate.set(inRatePOINTER.get(Interop.valueLayout.C_INT, 0));
-        outRate.set(outRatePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        if (inRate != null) inRate.set(inRatePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (outRate != null) outRate.set(outRatePOINTER.get(Interop.valueLayout.C_INT, 0));
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -229,7 +222,7 @@ public class AudioConverter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -269,8 +262,7 @@ public class AudioConverter extends Struct {
      * @param outFrames number of output frames
      * @return {@code true} is the conversion could be performed.
      */
-    public boolean samples(@NotNull org.gstreamer.audio.AudioConverterFlags flags, @Nullable java.lang.foreign.MemoryAddress in, long inFrames, @Nullable java.lang.foreign.MemoryAddress out, long outFrames) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean samples(org.gstreamer.audio.AudioConverterFlags flags, @Nullable java.lang.foreign.MemoryAddress in, long inFrames, @Nullable java.lang.foreign.MemoryAddress out, long outFrames) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_converter_samples.invokeExact(
@@ -283,7 +275,7 @@ public class AudioConverter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -299,7 +291,7 @@ public class AudioConverter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -334,7 +326,7 @@ public class AudioConverter extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

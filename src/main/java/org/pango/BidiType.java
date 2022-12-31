@@ -158,7 +158,7 @@ public enum BidiType implements io.github.jwharm.javagi.Enumeration {
      * @return the bidirectional character type, as used in the
      * Unicode bidirectional algorithm.
      */
-    public static @NotNull org.pango.BidiType forUnichar(int ch) {
+    public static org.pango.BidiType forUnichar(int ch) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_bidi_type_for_unichar.invokeExact(

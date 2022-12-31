@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * sockets API. This is an abstract class; use {@link InetSocketAddress}
  * for internet sockets, or {@link UnixSocketAddress} for UNIX domain sockets.
  */
-public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio.SocketConnectable {
+public class SocketAddress extends org.gtk.gobject.GObject implements org.gtk.gio.SocketConnectable {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -18,17 +18,15 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
     
     private static final java.lang.String C_TYPE_NAME = "GSocketAddress";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -36,34 +34,15 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SocketAddress(Addressable address, Ownership ownership) {
+    protected SocketAddress(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SocketAddress if its GType is a (or inherits from) "GSocketAddress".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SocketAddress} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSocketAddress", a ClassCastException will be thrown.
-     */
-    public static SocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SocketAddress.getType())) {
-            return new SocketAddress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSocketAddress");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SocketAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketAddress(input, ownership);
     
-    private static Addressable constructNewFromNative(@NotNull java.lang.foreign.MemoryAddress native_, long len) {
-        java.util.Objects.requireNonNull(native_, "Parameter 'native_' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromNative(java.lang.foreign.MemoryAddress native_, long len) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_address_new_from_native.invokeExact(
                     (Addressable) native_,
@@ -82,15 +61,16 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
      * @return a new {@link SocketAddress} if {@code native} could successfully
      *     be converted, otherwise {@code null}
      */
-    public static SocketAddress newFromNative(@NotNull java.lang.foreign.MemoryAddress native_, long len) {
-        return new SocketAddress(constructNewFromNative(native_, len), Ownership.FULL);
+    public static SocketAddress newFromNative(java.lang.foreign.MemoryAddress native_, long len) {
+        var RESULT = constructNewFromNative(native_, len);
+        return (org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Gets the socket family type of {@code address}.
      * @return the socket family type of {@code address}
      */
-    public @NotNull org.gtk.gio.SocketFamily getFamily() {
+    public org.gtk.gio.SocketFamily getFamily() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_socket_address_get_family.invokeExact(
@@ -148,14 +128,14 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_address_get_type.invokeExact();
@@ -164,42 +144,44 @@ public class SocketAddress extends org.gtk.gobject.Object implements org.gtk.gio
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SocketAddress.Builder} object constructs a {@link SocketAddress} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SocketAddress.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SocketAddress.Build} object constructs a {@link SocketAddress} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SocketAddress} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SocketAddress} using {@link SocketAddress#castFrom}.
+         * {@link SocketAddress}.
          * @return A new instance of {@code SocketAddress} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SocketAddress construct() {
-            return SocketAddress.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SocketAddress.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SocketAddress build() {
+            return (SocketAddress) org.gtk.gobject.GObject.newWithProperties(
+                SocketAddress.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setFamily(org.gtk.gio.SocketFamily family) {
+        public Builder setFamily(org.gtk.gio.SocketFamily family) {
             names.add("family");
             values.add(org.gtk.gobject.Value.create(family));
             return this;

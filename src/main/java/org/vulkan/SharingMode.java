@@ -40,8 +40,10 @@ public class SharingMode extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SharingMode(Addressable address, Ownership ownership) {
+    protected SharingMode(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SharingMode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SharingMode(input, ownership);
 }

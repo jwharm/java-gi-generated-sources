@@ -80,19 +80,17 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     
     private static final java.lang.String C_TYPE_NAME = "GstAppSrc";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.base.BaseSrc.getMemoryLayout().withName("basesrc"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.base.BaseSrc.getMemoryLayout().withName("basesrc"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -100,37 +98,23 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * <p>
      * Because AppSrc is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AppSrc(Addressable address, Ownership ownership) {
+    protected AppSrc(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AppSrc if its GType is a (or inherits from) "GstAppSrc".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AppSrc} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAppSrc", a ClassCastException will be thrown.
-     */
-    public static AppSrc castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AppSrc.getType())) {
-            return new AppSrc(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAppSrc");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AppSrc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppSrc(input, ownership);
     
     /**
      * Indicates to the appsrc element that the last buffer queued in the
@@ -138,7 +122,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @return {@code GST_FLOW_OK} when the EOS was successfully queued.
      * {@code GST_FLOW_FLUSHING} when {@code appsrc} is not PAUSED or PLAYING.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn endOfStream() {
+    public org.gstreamer.gst.FlowReturn endOfStream() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_app_src_end_of_stream.invokeExact(
@@ -153,7 +137,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * Get the configured caps on {@code appsrc}.
      * @return the {@link org.gstreamer.gst.Caps} produced by the source. gst_caps_unref() after usage.
      */
-    public @NotNull org.gstreamer.gst.Caps getCaps() {
+    public org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_app_src_get_caps.invokeExact(
@@ -161,7 +145,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -198,7 +182,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * Get the amount of currently queued time inside {@code appsrc}.
      * @return The amount of currently queued time.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getCurrentLevelTime() {
+    public org.gstreamer.gst.ClockTime getCurrentLevelTime() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_app_src_get_current_level_time.invokeExact(
@@ -214,7 +198,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * not known.
      * @return the duration of the stream previously set with gst_app_src_set_duration();
      */
-    public @NotNull org.gstreamer.gst.ClockTime getDuration() {
+    public org.gstreamer.gst.ClockTime getDuration() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_app_src_get_duration.invokeExact(
@@ -238,7 +222,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -247,9 +231,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * @param max the max latency
      */
     public void getLatency(Out<Long> min, Out<Long> max) {
-        java.util.Objects.requireNonNull(min, "Parameter 'min' must not be null");
         MemorySegment minPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(max, "Parameter 'max' must not be null");
         MemorySegment maxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_app_src_get_latency.invokeExact(
@@ -268,7 +250,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * for more details.
      * @return The currently set {@link AppLeakyType}.
      */
-    public @NotNull org.gstreamer.app.AppLeakyType getLeakyType() {
+    public org.gstreamer.app.AppLeakyType getLeakyType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_app_src_get_leaky_type.invokeExact(
@@ -313,7 +295,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * Get the maximum amount of time that can be queued in {@code appsrc}.
      * @return The maximum amount of time that can be queued.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getMaxTime() {
+    public org.gstreamer.gst.ClockTime getMaxTime() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_app_src_get_max_time.invokeExact(
@@ -345,7 +327,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * with gst_app_src_set_stream_type().
      * @return the stream type.
      */
-    public @NotNull org.gstreamer.app.AppStreamType getStreamType() {
+    public org.gstreamer.app.AppStreamType getStreamType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_app_src_get_stream_type.invokeExact(
@@ -367,8 +349,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * {@code GST_FLOW_FLUSHING} when {@code appsrc} is not PAUSED or PLAYING.
      * {@code GST_FLOW_EOS} when EOS occurred.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn pushBuffer(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.gst.FlowReturn pushBuffer(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_app_src_push_buffer.invokeExact(
@@ -393,8 +374,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * {@code GST_FLOW_FLUSHING} when {@code appsrc} is not PAUSED or PLAYING.
      * {@code GST_FLOW_EOS} when EOS occurred.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn pushBufferList(@NotNull org.gstreamer.gst.BufferList bufferList) {
-        java.util.Objects.requireNonNull(bufferList, "Parameter 'bufferList' must not be null");
+    public org.gstreamer.gst.FlowReturn pushBufferList(org.gstreamer.gst.BufferList bufferList) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_app_src_push_buffer_list.invokeExact(
@@ -424,8 +404,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * {@code GST_FLOW_FLUSHING} when {@code appsrc} is not PAUSED or PLAYING.
      * {@code GST_FLOW_EOS} when EOS occurred.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn pushSample(@NotNull org.gstreamer.gst.Sample sample) {
-        java.util.Objects.requireNonNull(sample, "Parameter 'sample' must not be null");
+    public org.gstreamer.gst.FlowReturn pushSample(org.gstreamer.gst.Sample sample) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_app_src_push_sample.invokeExact(
@@ -449,17 +428,15 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * Before 1.16.3 it was not possible to change the callbacks in a thread-safe
      * way.
      * @param callbacks the callbacks
-     * @param userData a user_data argument for the callbacks
      * @param notify a destroy notify function
      */
-    public void setCallbacks(@NotNull org.gstreamer.app.AppSrcCallbacks callbacks, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(callbacks, "Parameter 'callbacks' must not be null");
+    public void setCallbacks(org.gstreamer.app.AppSrcCallbacks callbacks, org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_app_src_set_callbacks.invokeExact(
                     handle(),
                     callbacks.handle(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -487,8 +464,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * not known.
      * @param duration the duration to set
      */
-    public void setDuration(@NotNull org.gstreamer.gst.ClockTime duration) {
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
+    public void setDuration(org.gstreamer.gst.ClockTime duration) {
         try {
             DowncallHandles.gst_app_src_set_duration.invokeExact(
                     handle(),
@@ -508,7 +484,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
         try {
             DowncallHandles.gst_app_src_set_emit_signals.invokeExact(
                     handle(),
-                    emit ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(emit, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -538,8 +514,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * buffers.
      * @param leaky the {@link AppLeakyType}
      */
-    public void setLeakyType(@NotNull org.gstreamer.app.AppLeakyType leaky) {
-        java.util.Objects.requireNonNull(leaky, "Parameter 'leaky' must not be null");
+    public void setLeakyType(org.gstreamer.app.AppLeakyType leaky) {
         try {
             DowncallHandles.gst_app_src_set_leaky_type.invokeExact(
                     handle(),
@@ -587,8 +562,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * "enough-data" signal.
      * @param max the maximum amonut of time to queue
      */
-    public void setMaxTime(@NotNull org.gstreamer.gst.ClockTime max) {
-        java.util.Objects.requireNonNull(max, "Parameter 'max' must not be null");
+    public void setMaxTime(org.gstreamer.gst.ClockTime max) {
         try {
             DowncallHandles.gst_app_src_set_max_time.invokeExact(
                     handle(),
@@ -620,8 +594,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * A stream_type stream
      * @param type the new state
      */
-    public void setStreamType(@NotNull org.gstreamer.app.AppStreamType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void setStreamType(org.gstreamer.app.AppStreamType type) {
         try {
             DowncallHandles.gst_app_src_set_stream_type.invokeExact(
                     handle(),
@@ -635,7 +608,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_app_src_get_type.invokeExact();
@@ -647,7 +620,19 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     
     @FunctionalInterface
     public interface EndOfStream {
-        void signalReceived(AppSrc sourceAppSrc);
+        org.gstreamer.gst.FlowReturn run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc) {
+            var RESULT = run();
+            return RESULT.getValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndOfStream.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -658,16 +643,8 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public Signal<AppSrc.EndOfStream> onEndOfStream(AppSrc.EndOfStream handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("end-of-stream"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppSrc.Callbacks.class, "signalAppSrcEndOfStream",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AppSrc.EndOfStream>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("end-of-stream"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -675,7 +652,18 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     
     @FunctionalInterface
     public interface EnoughData {
-        void signalReceived(AppSrc sourceAppSrc);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAppSrc) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EnoughData.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -688,16 +676,8 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public Signal<AppSrc.EnoughData> onEnoughData(AppSrc.EnoughData handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("enough-data"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppSrc.Callbacks.class, "signalAppSrcEnoughData",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AppSrc.EnoughData>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("enough-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -705,7 +685,18 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     
     @FunctionalInterface
     public interface NeedData {
-        void signalReceived(AppSrc sourceAppSrc, int length);
+        void run(int length);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAppSrc, int length) {
+            run(length);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NeedData.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -723,16 +714,8 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public Signal<AppSrc.NeedData> onNeedData(AppSrc.NeedData handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("need-data"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppSrc.Callbacks.class, "signalAppSrcNeedData",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AppSrc.NeedData>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("need-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -740,7 +723,19 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     
     @FunctionalInterface
     public interface PushBuffer {
-        void signalReceived(AppSrc sourceAppSrc, @NotNull org.gstreamer.gst.Buffer buffer);
+        org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.Buffer buffer);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc, MemoryAddress buffer) {
+            var RESULT = run(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE));
+            return RESULT.getValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PushBuffer.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -759,16 +754,8 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public Signal<AppSrc.PushBuffer> onPushBuffer(AppSrc.PushBuffer handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("push-buffer"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppSrc.Callbacks.class, "signalAppSrcPushBuffer",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AppSrc.PushBuffer>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("push-buffer"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -776,7 +763,19 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     
     @FunctionalInterface
     public interface PushBufferList {
-        void signalReceived(AppSrc sourceAppSrc, @NotNull org.gstreamer.gst.BufferList bufferList);
+        org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.BufferList bufferList);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc, MemoryAddress bufferList) {
+            var RESULT = run(org.gstreamer.gst.BufferList.fromAddress.marshal(bufferList, Ownership.NONE));
+            return RESULT.getValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PushBufferList.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -795,16 +794,8 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public Signal<AppSrc.PushBufferList> onPushBufferList(AppSrc.PushBufferList handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("push-buffer-list"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppSrc.Callbacks.class, "signalAppSrcPushBufferList",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AppSrc.PushBufferList>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("push-buffer-list"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -812,7 +803,19 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     
     @FunctionalInterface
     public interface PushSample {
-        void signalReceived(AppSrc sourceAppSrc, @NotNull org.gstreamer.gst.Sample sample);
+        org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.Sample sample);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc, MemoryAddress sample) {
+            var RESULT = run(org.gstreamer.gst.Sample.fromAddress.marshal(sample, Ownership.NONE));
+            return RESULT.getValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PushSample.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -835,16 +838,8 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public Signal<AppSrc.PushSample> onPushSample(AppSrc.PushSample handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("push-sample"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppSrc.Callbacks.class, "signalAppSrcPushSample",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AppSrc.PushSample>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("push-sample"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -852,7 +847,19 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     
     @FunctionalInterface
     public interface SeekData {
-        boolean signalReceived(AppSrc sourceAppSrc, long offset);
+        boolean run(long offset);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceAppSrc, long offset) {
+            var RESULT = run(offset);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SeekData.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -865,52 +872,46 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
     public Signal<AppSrc.SeekData> onSeekData(AppSrc.SeekData handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("seek-data"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppSrc.Callbacks.class, "signalAppSrcSeekData",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, long.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AppSrc.SeekData>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("seek-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link AppSrc.Builder} object constructs a {@link AppSrc} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AppSrc.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.base.BaseSrc.Build {
+    public static class Builder extends org.gstreamer.base.BaseSrc.Builder {
         
-         /**
-         * A {@link AppSrc.Build} object constructs a {@link AppSrc} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AppSrc} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AppSrc} using {@link AppSrc#castFrom}.
+         * {@link AppSrc}.
          * @return A new instance of {@code AppSrc} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AppSrc construct() {
-            return AppSrc.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AppSrc.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AppSrc build() {
+            return (AppSrc) org.gtk.gobject.GObject.newWithProperties(
+                AppSrc.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -921,7 +922,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param block The value for the {@code block} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBlock(boolean block) {
+        public Builder setBlock(boolean block) {
             names.add("block");
             values.add(org.gtk.gobject.Value.create(block));
             return this;
@@ -933,7 +934,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param caps The value for the {@code caps} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCaps(org.gstreamer.gst.Caps caps) {
+        public Builder setCaps(org.gstreamer.gst.Caps caps) {
             names.add("caps");
             values.add(org.gtk.gobject.Value.create(caps));
             return this;
@@ -944,7 +945,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param currentLevelBuffers The value for the {@code current-level-buffers} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentLevelBuffers(long currentLevelBuffers) {
+        public Builder setCurrentLevelBuffers(long currentLevelBuffers) {
             names.add("current-level-buffers");
             values.add(org.gtk.gobject.Value.create(currentLevelBuffers));
             return this;
@@ -955,7 +956,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param currentLevelBytes The value for the {@code current-level-bytes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentLevelBytes(long currentLevelBytes) {
+        public Builder setCurrentLevelBytes(long currentLevelBytes) {
             names.add("current-level-bytes");
             values.add(org.gtk.gobject.Value.create(currentLevelBytes));
             return this;
@@ -966,7 +967,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param currentLevelTime The value for the {@code current-level-time} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentLevelTime(long currentLevelTime) {
+        public Builder setCurrentLevelTime(long currentLevelTime) {
             names.add("current-level-time");
             values.add(org.gtk.gobject.Value.create(currentLevelTime));
             return this;
@@ -978,7 +979,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param duration The value for the {@code duration} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDuration(long duration) {
+        public Builder setDuration(long duration) {
             names.add("duration");
             values.add(org.gtk.gobject.Value.create(duration));
             return this;
@@ -991,7 +992,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param emitSignals The value for the {@code emit-signals} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEmitSignals(boolean emitSignals) {
+        public Builder setEmitSignals(boolean emitSignals) {
             names.add("emit-signals");
             values.add(org.gtk.gobject.Value.create(emitSignals));
             return this;
@@ -1003,7 +1004,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param format The value for the {@code format} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormat(org.gstreamer.gst.Format format) {
+        public Builder setFormat(org.gstreamer.gst.Format format) {
             names.add("format");
             values.add(org.gtk.gobject.Value.create(format));
             return this;
@@ -1021,7 +1022,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param handleSegmentChange The value for the {@code handle-segment-change} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHandleSegmentChange(boolean handleSegmentChange) {
+        public Builder setHandleSegmentChange(boolean handleSegmentChange) {
             names.add("handle-segment-change");
             values.add(org.gtk.gobject.Value.create(handleSegmentChange));
             return this;
@@ -1033,7 +1034,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param isLive The value for the {@code is-live} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsLive(boolean isLive) {
+        public Builder setIsLive(boolean isLive) {
             names.add("is-live");
             values.add(org.gtk.gobject.Value.create(isLive));
             return this;
@@ -1047,7 +1048,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param leakyType The value for the {@code leaky-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLeakyType(org.gstreamer.app.AppLeakyType leakyType) {
+        public Builder setLeakyType(org.gstreamer.app.AppLeakyType leakyType) {
             names.add("leaky-type");
             values.add(org.gtk.gobject.Value.create(leakyType));
             return this;
@@ -1060,7 +1061,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param maxBuffers The value for the {@code max-buffers} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxBuffers(long maxBuffers) {
+        public Builder setMaxBuffers(long maxBuffers) {
             names.add("max-buffers");
             values.add(org.gtk.gobject.Value.create(maxBuffers));
             return this;
@@ -1073,13 +1074,13 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param maxBytes The value for the {@code max-bytes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxBytes(long maxBytes) {
+        public Builder setMaxBytes(long maxBytes) {
             names.add("max-bytes");
             values.add(org.gtk.gobject.Value.create(maxBytes));
             return this;
         }
         
-        public Build setMaxLatency(long maxLatency) {
+        public Builder setMaxLatency(long maxLatency) {
             names.add("max-latency");
             values.add(org.gtk.gobject.Value.create(maxLatency));
             return this;
@@ -1092,7 +1093,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param maxTime The value for the {@code max-time} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxTime(long maxTime) {
+        public Builder setMaxTime(long maxTime) {
             names.add("max-time");
             values.add(org.gtk.gobject.Value.create(maxTime));
             return this;
@@ -1104,7 +1105,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param minLatency The value for the {@code min-latency} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinLatency(long minLatency) {
+        public Builder setMinLatency(long minLatency) {
             names.add("min-latency");
             values.add(org.gtk.gobject.Value.create(minLatency));
             return this;
@@ -1116,7 +1117,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param minPercent The value for the {@code min-percent} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinPercent(int minPercent) {
+        public Builder setMinPercent(int minPercent) {
             names.add("min-percent");
             values.add(org.gtk.gobject.Value.create(minPercent));
             return this;
@@ -1128,7 +1129,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param size The value for the {@code size} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(long size) {
+        public Builder setSize(long size) {
             names.add("size");
             values.add(org.gtk.gobject.Value.create(size));
             return this;
@@ -1140,7 +1141,7 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
          * @param streamType The value for the {@code stream-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStreamType(org.gstreamer.app.AppStreamType streamType) {
+        public Builder setStreamType(org.gstreamer.app.AppStreamType streamType) {
             names.add("stream-type");
             values.add(org.gtk.gobject.Value.create(streamType));
             return this;
@@ -1322,50 +1323,5 @@ public class AppSrc extends org.gstreamer.base.BaseSrc implements org.gstreamer.
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalAppSrcEndOfStream(MemoryAddress sourceAppSrc, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AppSrc.EndOfStream) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppSrc(sourceAppSrc, Ownership.NONE));
-        }
-        
-        public static void signalAppSrcEnoughData(MemoryAddress sourceAppSrc, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AppSrc.EnoughData) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppSrc(sourceAppSrc, Ownership.NONE));
-        }
-        
-        public static void signalAppSrcNeedData(MemoryAddress sourceAppSrc, int length, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AppSrc.NeedData) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppSrc(sourceAppSrc, Ownership.NONE), length);
-        }
-        
-        public static void signalAppSrcPushBuffer(MemoryAddress sourceAppSrc, MemoryAddress buffer, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AppSrc.PushBuffer) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppSrc(sourceAppSrc, Ownership.NONE), new org.gstreamer.gst.Buffer(buffer, Ownership.NONE));
-        }
-        
-        public static void signalAppSrcPushBufferList(MemoryAddress sourceAppSrc, MemoryAddress bufferList, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AppSrc.PushBufferList) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppSrc(sourceAppSrc, Ownership.NONE), new org.gstreamer.gst.BufferList(bufferList, Ownership.NONE));
-        }
-        
-        public static void signalAppSrcPushSample(MemoryAddress sourceAppSrc, MemoryAddress sample, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AppSrc.PushSample) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppSrc(sourceAppSrc, Ownership.NONE), new org.gstreamer.gst.Sample(sample, Ownership.NONE));
-        }
-        
-        public static boolean signalAppSrcSeekData(MemoryAddress sourceAppSrc, long offset, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AppSrc.SeekData) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new AppSrc(sourceAppSrc, Ownership.NONE), offset);
-        }
     }
 }

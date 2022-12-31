@@ -22,22 +22,20 @@ public class HashTableIter extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GHashTableIter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("dummy1"),
-        Interop.valueLayout.ADDRESS.withName("dummy2"),
-        Interop.valueLayout.ADDRESS.withName("dummy3"),
-        Interop.valueLayout.C_INT.withName("dummy4"),
-        Interop.valueLayout.C_INT.withName("dummy5"),
-        Interop.valueLayout.ADDRESS.withName("dummy6")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("dummy1"),
+            Interop.valueLayout.ADDRESS.withName("dummy2"),
+            Interop.valueLayout.ADDRESS.withName("dummy3"),
+            Interop.valueLayout.C_INT.withName("dummy4"),
+            Interop.valueLayout.C_INT.withName("dummy5"),
+            Interop.valueLayout.ADDRESS.withName("dummy6")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -58,16 +56,18 @@ public class HashTableIter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public HashTableIter(Addressable address, Ownership ownership) {
+    protected HashTableIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, HashTableIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new HashTableIter(input, ownership);
     
     /**
      * Returns the {@link HashTable} associated with {@code iter}.
      * @return the {@link HashTable} associated with {@code iter}.
      */
-    public @NotNull org.gtk.glib.HashTable getHashTable() {
+    public org.gtk.glib.HashTable getHashTable() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hash_table_iter_get_hash_table.invokeExact(
@@ -75,7 +75,7 @@ public class HashTableIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.HashTable(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -97,8 +97,7 @@ public class HashTableIter extends Struct {
      * }</pre>
      * @param hashTable a {@link HashTable}
      */
-    public void init(@NotNull org.gtk.glib.HashTable hashTable) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public void init(org.gtk.glib.HashTable hashTable) {
         try {
             DowncallHandles.g_hash_table_iter_init.invokeExact(
                     handle(),
@@ -130,7 +129,7 @@ public class HashTableIter extends Struct {
         }
         if (key != null) key.set(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
         if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -235,70 +234,74 @@ public class HashTableIter extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link HashTableIter.Builder} object constructs a {@link HashTableIter} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link HashTableIter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private HashTableIter struct;
+        private final HashTableIter struct;
         
-         /**
-         * A {@link HashTableIter.Build} object constructs a {@link HashTableIter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = HashTableIter.allocate();
         }
         
          /**
          * Finish building the {@link HashTableIter} struct.
          * @return A new instance of {@code HashTableIter} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public HashTableIter construct() {
+        public HashTableIter build() {
             return struct;
         }
         
-        public Build setDummy1(java.lang.foreign.MemoryAddress dummy1) {
+        public Builder setDummy1(java.lang.foreign.MemoryAddress dummy1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
             return this;
         }
         
-        public Build setDummy2(java.lang.foreign.MemoryAddress dummy2) {
+        public Builder setDummy2(java.lang.foreign.MemoryAddress dummy2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
             return this;
         }
         
-        public Build setDummy3(java.lang.foreign.MemoryAddress dummy3) {
+        public Builder setDummy3(java.lang.foreign.MemoryAddress dummy3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
             return this;
         }
         
-        public Build setDummy4(int dummy4) {
+        public Builder setDummy4(int dummy4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy4"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy4);
             return this;
         }
         
-        public Build setDummy5(boolean dummy5) {
+        public Builder setDummy5(boolean dummy5) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy5 ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(dummy5, null).intValue());
             return this;
         }
         
-        public Build setDummy6(java.lang.foreign.MemoryAddress dummy6) {
+        public Builder setDummy6(java.lang.foreign.MemoryAddress dummy6) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy6"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy6 == null ? MemoryAddress.NULL : (Addressable) dummy6));

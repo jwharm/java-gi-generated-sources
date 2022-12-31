@@ -13,18 +13,16 @@ public class DvbMultilingualComponentItem extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDvbMultilingualComponentItem";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("language_code"),
-        Interop.valueLayout.ADDRESS.withName("description")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("language_code"),
+            Interop.valueLayout.ADDRESS.withName("description")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,42 +42,42 @@ public class DvbMultilingualComponentItem extends Struct {
      * Get the value of the field {@code language_code}
      * @return The value of the field {@code language_code}
      */
-    public java.lang.String languageCode$get() {
+    public java.lang.String getLanguageCode() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code language_code}
      * @param languageCode The new value of the field {@code language_code}
      */
-    public void languageCode$set(java.lang.String languageCode) {
+    public void setLanguageCode(java.lang.String languageCode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(languageCode));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
     }
     
     /**
      * Get the value of the field {@code description}
      * @return The value of the field {@code description}
      */
-    public java.lang.String description$get() {
+    public java.lang.String getDescription() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code description}
      * @param description The new value of the field {@code description}
      */
-    public void description$set(java.lang.String description) {
+    public void setDescription(java.lang.String description) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(description));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
     }
     
     /**
@@ -87,35 +85,41 @@ public class DvbMultilingualComponentItem extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DvbMultilingualComponentItem(Addressable address, Ownership ownership) {
+    protected DvbMultilingualComponentItem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DvbMultilingualComponentItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DvbMultilingualComponentItem(input, ownership);
+    
+    /**
+     * A {@link DvbMultilingualComponentItem.Builder} object constructs a {@link DvbMultilingualComponentItem} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DvbMultilingualComponentItem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DvbMultilingualComponentItem struct;
+        private final DvbMultilingualComponentItem struct;
         
-         /**
-         * A {@link DvbMultilingualComponentItem.Build} object constructs a {@link DvbMultilingualComponentItem} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DvbMultilingualComponentItem.allocate();
         }
         
          /**
          * Finish building the {@link DvbMultilingualComponentItem} struct.
          * @return A new instance of {@code DvbMultilingualComponentItem} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DvbMultilingualComponentItem construct() {
+        public DvbMultilingualComponentItem build() {
             return struct;
         }
         
@@ -124,10 +128,10 @@ public class DvbMultilingualComponentItem extends Struct {
          * @param languageCode The value for the {@code languageCode} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLanguageCode(java.lang.String languageCode) {
+        public Builder setLanguageCode(java.lang.String languageCode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Interop.allocateNativeString(languageCode)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
             return this;
         }
         
@@ -136,10 +140,10 @@ public class DvbMultilingualComponentItem extends Struct {
          * @param description The value for the {@code description} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescription(java.lang.String description) {
+        public Builder setDescription(java.lang.String description) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
             return this;
         }
     }

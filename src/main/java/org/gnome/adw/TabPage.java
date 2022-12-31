@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An auxiliary class used by {@link TabView}.
  */
-public class TabPage extends org.gtk.gobject.Object {
+public class TabPage extends org.gtk.gobject.GObject {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -30,36 +30,18 @@ public class TabPage extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TabPage(Addressable address, Ownership ownership) {
+    protected TabPage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TabPage if its GType is a (or inherits from) "AdwTabPage".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TabPage} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwTabPage", a ClassCastException will be thrown.
-     */
-    public static TabPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TabPage.getType())) {
-            return new TabPage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwTabPage");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TabPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TabPage(input, ownership);
     
     /**
      * Gets the child of {@code self}.
      * @return the child of {@code self}
      */
-    public @NotNull org.gtk.gtk.Widget getChild() {
+    public org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_child.invokeExact(
@@ -67,7 +49,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -82,7 +64,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -97,7 +79,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -112,14 +94,14 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the tooltip of the indicator icon of {@code self}.
      * @return the indicator tooltip of {@code self}
      */
-    public @NotNull java.lang.String getIndicatorTooltip() {
+    public java.lang.String getIndicatorTooltip() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_indicator_tooltip.invokeExact(
@@ -127,7 +109,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -142,7 +124,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -157,7 +139,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -174,7 +156,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabPage(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -191,7 +173,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -206,14 +188,14 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the title of {@code self}.
      * @return the title of {@code self}
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_page_get_title.invokeExact(
@@ -221,7 +203,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -236,7 +218,7 @@ public class TabPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -271,7 +253,7 @@ public class TabPage extends org.gtk.gobject.Object {
         try {
             DowncallHandles.adw_tab_page_set_indicator_activatable.invokeExact(
                     handle(),
-                    activatable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(activatable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -313,12 +295,11 @@ public class TabPage extends org.gtk.gobject.Object {
      * See {@code TabPage:indicator-icon}.
      * @param tooltip the indicator tooltip of {@code self}
      */
-    public void setIndicatorTooltip(@NotNull java.lang.String tooltip) {
-        java.util.Objects.requireNonNull(tooltip, "Parameter 'tooltip' must not be null");
+    public void setIndicatorTooltip(java.lang.String tooltip) {
         try {
             DowncallHandles.adw_tab_page_set_indicator_tooltip.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tooltip));
+                    Marshal.stringToAddress.marshal(tooltip, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,7 +318,7 @@ public class TabPage extends org.gtk.gobject.Object {
         try {
             DowncallHandles.adw_tab_page_set_loading.invokeExact(
                     handle(),
-                    loading ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(loading, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -355,7 +336,7 @@ public class TabPage extends org.gtk.gobject.Object {
         try {
             DowncallHandles.adw_tab_page_set_needs_attention.invokeExact(
                     handle(),
-                    needsAttention ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(needsAttention, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -368,12 +349,11 @@ public class TabPage extends org.gtk.gobject.Object {
      * Sets the title of {@code self}.
      * @param title the title of {@code self}
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.adw_tab_page_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,12 +368,11 @@ public class TabPage extends org.gtk.gobject.Object {
      * instead.
      * @param tooltip the tooltip of {@code self}
      */
-    public void setTooltip(@NotNull java.lang.String tooltip) {
-        java.util.Objects.requireNonNull(tooltip, "Parameter 'tooltip' must not be null");
+    public void setTooltip(java.lang.String tooltip) {
         try {
             DowncallHandles.adw_tab_page_set_tooltip.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tooltip));
+                    Marshal.stringToAddress.marshal(tooltip, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -403,7 +382,7 @@ public class TabPage extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_tab_page_get_type.invokeExact();
@@ -412,38 +391,40 @@ public class TabPage extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TabPage.Builder} object constructs a {@link TabPage} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TabPage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TabPage.Build} object constructs a {@link TabPage} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TabPage} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TabPage} using {@link TabPage#castFrom}.
+         * {@link TabPage}.
          * @return A new instance of {@code TabPage} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TabPage construct() {
-            return TabPage.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TabPage.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TabPage build() {
+            return (TabPage) org.gtk.gobject.GObject.newWithProperties(
+                TabPage.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -452,7 +433,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -468,7 +449,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param icon The value for the {@code icon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIcon(org.gtk.gio.Icon icon) {
+        public Builder setIcon(org.gtk.gio.Icon icon) {
             names.add("icon");
             values.add(org.gtk.gobject.Value.create(icon));
             return this;
@@ -484,7 +465,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param indicatorActivatable The value for the {@code indicator-activatable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIndicatorActivatable(boolean indicatorActivatable) {
+        public Builder setIndicatorActivatable(boolean indicatorActivatable) {
             names.add("indicator-activatable");
             values.add(org.gtk.gobject.Value.create(indicatorActivatable));
             return this;
@@ -509,7 +490,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param indicatorIcon The value for the {@code indicator-icon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIndicatorIcon(org.gtk.gio.Icon indicatorIcon) {
+        public Builder setIndicatorIcon(org.gtk.gio.Icon indicatorIcon) {
             names.add("indicator-icon");
             values.add(org.gtk.gobject.Value.create(indicatorIcon));
             return this;
@@ -524,7 +505,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param indicatorTooltip The value for the {@code indicator-tooltip} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIndicatorTooltip(java.lang.String indicatorTooltip) {
+        public Builder setIndicatorTooltip(java.lang.String indicatorTooltip) {
             names.add("indicator-tooltip");
             values.add(org.gtk.gobject.Value.create(indicatorTooltip));
             return this;
@@ -540,7 +521,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param loading The value for the {@code loading} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoading(boolean loading) {
+        public Builder setLoading(boolean loading) {
             names.add("loading");
             values.add(org.gtk.gobject.Value.create(loading));
             return this;
@@ -555,7 +536,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param needsAttention The value for the {@code needs-attention} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNeedsAttention(boolean needsAttention) {
+        public Builder setNeedsAttention(boolean needsAttention) {
             names.add("needs-attention");
             values.add(org.gtk.gobject.Value.create(needsAttention));
             return this;
@@ -568,7 +549,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param parent The value for the {@code parent} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gnome.adw.TabPage parent) {
+        public Builder setParent(org.gnome.adw.TabPage parent) {
             names.add("parent");
             values.add(org.gtk.gobject.Value.create(parent));
             return this;
@@ -581,7 +562,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param pinned The value for the {@code pinned} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPinned(boolean pinned) {
+        public Builder setPinned(boolean pinned) {
             names.add("pinned");
             values.add(org.gtk.gobject.Value.create(pinned));
             return this;
@@ -592,7 +573,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param selected The value for the {@code selected} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelected(boolean selected) {
+        public Builder setSelected(boolean selected) {
             names.add("selected");
             values.add(org.gtk.gobject.Value.create(selected));
             return this;
@@ -606,7 +587,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -622,7 +603,7 @@ public class TabPage extends org.gtk.gobject.Object {
          * @param tooltip The value for the {@code tooltip} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTooltip(java.lang.String tooltip) {
+        public Builder setTooltip(java.lang.String tooltip) {
             names.add("tooltip");
             values.add(org.gtk.gobject.Value.create(tooltip));
             return this;

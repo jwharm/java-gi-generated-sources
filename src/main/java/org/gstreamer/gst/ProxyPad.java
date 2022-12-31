@@ -13,18 +13,16 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
     
     private static final java.lang.String C_TYPE_NAME = "GstProxyPad";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Pad.getMemoryLayout().withName("pad"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Pad.getMemoryLayout().withName("pad"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -32,37 +30,23 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
      * <p>
      * Because ProxyPad is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ProxyPad(Addressable address, Ownership ownership) {
+    protected ProxyPad(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ProxyPad if its GType is a (or inherits from) "GstProxyPad".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ProxyPad} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstProxyPad", a ClassCastException will be thrown.
-     */
-    public static ProxyPad castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ProxyPad.getType())) {
-            return new ProxyPad(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstProxyPad");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ProxyPad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyPad(input, ownership);
     
     /**
      * Get the internal pad of {@code pad}. Unref target pad after usage.
@@ -80,14 +64,14 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.ProxyPad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.ProxyPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.ProxyPad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_proxy_pad_get_type.invokeExact();
@@ -105,9 +89,7 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
      *     if not.
      * @return a {@link FlowReturn} from the pad.
      */
-    public static @NotNull org.gstreamer.gst.FlowReturn chainDefault(@NotNull org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.Object parent, @NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gst.FlowReturn chainDefault(org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_proxy_pad_chain_default.invokeExact(
@@ -129,9 +111,7 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
      *     if not.
      * @return a {@link FlowReturn} from the pad.
      */
-    public static @NotNull org.gstreamer.gst.FlowReturn chainListDefault(@NotNull org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.Object parent, @NotNull org.gstreamer.gst.BufferList list) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gstreamer.gst.FlowReturn chainListDefault(org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.gst.BufferList list) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_proxy_pad_chain_list_default.invokeExact(
@@ -155,10 +135,7 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
      *     returns {@code GST_FLOW_ERROR} if {@code null}.
      * @return a {@link FlowReturn} from the pad.
      */
-    public static @NotNull org.gstreamer.gst.FlowReturn getrangeDefault(@NotNull org.gstreamer.gst.Pad pad, @NotNull org.gstreamer.gst.Object parent, long offset, int size, @NotNull Out<org.gstreamer.gst.Buffer> buffer) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gst.FlowReturn getrangeDefault(org.gstreamer.gst.Pad pad, org.gstreamer.gst.GstObject parent, long offset, int size, Out<org.gstreamer.gst.Buffer> buffer) {
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -171,7 +148,7 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        buffer.set(new org.gstreamer.gst.Buffer(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
@@ -182,8 +159,7 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
      * @return a {@link Iterator} of {@link Pad}, or {@code null} if {@code pad}
      * has no parent. Unref each returned pad with gst_object_unref().
      */
-    public static @Nullable org.gstreamer.gst.Iterator iterateInternalLinksDefault(@NotNull org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.Object parent) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public static @Nullable org.gstreamer.gst.Iterator iterateInternalLinksDefault(org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.GstObject parent) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_proxy_pad_iterate_internal_links_default.invokeExact(
@@ -192,40 +168,42 @@ public class ProxyPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link ProxyPad.Builder} object constructs a {@link ProxyPad} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ProxyPad.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Pad.Build {
+    public static class Builder extends org.gstreamer.gst.Pad.Builder {
         
-         /**
-         * A {@link ProxyPad.Build} object constructs a {@link ProxyPad} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ProxyPad} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ProxyPad} using {@link ProxyPad#castFrom}.
+         * {@link ProxyPad}.
          * @return A new instance of {@code ProxyPad} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ProxyPad construct() {
-            return ProxyPad.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ProxyPad.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ProxyPad build() {
+            return (ProxyPad) org.gtk.gobject.GObject.newWithProperties(
+                ProxyPad.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

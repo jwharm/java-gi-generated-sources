@@ -58,11 +58,15 @@ public class SeatCapabilities extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public SeatCapabilities or(SeatCapabilities mask) {
-        return new SeatCapabilities(this.getValue() | mask.getValue());
+    public SeatCapabilities or(SeatCapabilities... masks) {
+        int value = this.getValue();
+        for (SeatCapabilities arg : masks) {
+            value |= arg.getValue();
+        }
+        return new SeatCapabilities(value);
     }
     
     /**
@@ -72,7 +76,8 @@ public class SeatCapabilities extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static SeatCapabilities combined(SeatCapabilities mask, SeatCapabilities... masks) {
-        int value = mask.getValue();        for (SeatCapabilities arg : masks) {
+        int value = mask.getValue();
+        for (SeatCapabilities arg : masks) {
             value |= arg.getValue();
         }
         return new SeatCapabilities(value);

@@ -29,26 +29,24 @@ public class FontMetrics extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoFontMetrics";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("ref_count"),
-        Interop.valueLayout.C_INT.withName("ascent"),
-        Interop.valueLayout.C_INT.withName("descent"),
-        Interop.valueLayout.C_INT.withName("height"),
-        Interop.valueLayout.C_INT.withName("approximate_char_width"),
-        Interop.valueLayout.C_INT.withName("approximate_digit_width"),
-        Interop.valueLayout.C_INT.withName("underline_position"),
-        Interop.valueLayout.C_INT.withName("underline_thickness"),
-        Interop.valueLayout.C_INT.withName("strikethrough_position"),
-        Interop.valueLayout.C_INT.withName("strikethrough_thickness")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("ref_count"),
+            Interop.valueLayout.C_INT.withName("ascent"),
+            Interop.valueLayout.C_INT.withName("descent"),
+            Interop.valueLayout.C_INT.withName("height"),
+            Interop.valueLayout.C_INT.withName("approximate_char_width"),
+            Interop.valueLayout.C_INT.withName("approximate_digit_width"),
+            Interop.valueLayout.C_INT.withName("underline_position"),
+            Interop.valueLayout.C_INT.withName("underline_thickness"),
+            Interop.valueLayout.C_INT.withName("strikethrough_position"),
+            Interop.valueLayout.C_INT.withName("strikethrough_thickness")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -69,10 +67,12 @@ public class FontMetrics extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FontMetrics(Addressable address, Ownership ownership) {
+    protected FontMetrics(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FontMetrics> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontMetrics(input, ownership);
     
     /**
      * Gets the approximate character width for a font metrics structure.
@@ -253,7 +253,7 @@ public class FontMetrics extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMetrics(RESULT, Ownership.FULL);
+        return org.pango.FontMetrics.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -338,98 +338,102 @@ public class FontMetrics extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link FontMetrics.Builder} object constructs a {@link FontMetrics} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link FontMetrics.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private FontMetrics struct;
+        private final FontMetrics struct;
         
-         /**
-         * A {@link FontMetrics.Build} object constructs a {@link FontMetrics} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = FontMetrics.allocate();
         }
         
          /**
          * Finish building the {@link FontMetrics} struct.
          * @return A new instance of {@code FontMetrics} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FontMetrics construct() {
+        public FontMetrics build() {
             return struct;
         }
         
-        public Build setRefCount(int refCount) {
+        public Builder setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
-        public Build setAscent(int ascent) {
+        public Builder setAscent(int ascent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ascent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ascent);
             return this;
         }
         
-        public Build setDescent(int descent) {
+        public Builder setDescent(int descent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), descent);
             return this;
         }
         
-        public Build setHeight(int height) {
+        public Builder setHeight(int height) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("height"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
             return this;
         }
         
-        public Build setApproximateCharWidth(int approximateCharWidth) {
+        public Builder setApproximateCharWidth(int approximateCharWidth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("approximate_char_width"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximateCharWidth);
             return this;
         }
         
-        public Build setApproximateDigitWidth(int approximateDigitWidth) {
+        public Builder setApproximateDigitWidth(int approximateDigitWidth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("approximate_digit_width"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), approximateDigitWidth);
             return this;
         }
         
-        public Build setUnderlinePosition(int underlinePosition) {
+        public Builder setUnderlinePosition(int underlinePosition) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("underline_position"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underlinePosition);
             return this;
         }
         
-        public Build setUnderlineThickness(int underlineThickness) {
+        public Builder setUnderlineThickness(int underlineThickness) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("underline_thickness"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), underlineThickness);
             return this;
         }
         
-        public Build setStrikethroughPosition(int strikethroughPosition) {
+        public Builder setStrikethroughPosition(int strikethroughPosition) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_position"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethroughPosition);
             return this;
         }
         
-        public Build setStrikethroughThickness(int strikethroughThickness) {
+        public Builder setStrikethroughThickness(int strikethroughThickness) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("strikethrough_thickness"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), strikethroughThickness);

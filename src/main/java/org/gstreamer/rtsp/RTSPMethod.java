@@ -91,8 +91,7 @@ public class RTSPMethod extends io.github.jwharm.javagi.Bitfield {
      * @param method a {@link RTSPMethod}
      * @return a string representation of {@code method}.
      */
-    public static @NotNull java.lang.String asText(@NotNull org.gstreamer.rtsp.RTSPMethod method) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
+    public static java.lang.String asText(org.gstreamer.rtsp.RTSPMethod method) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_method_as_text.invokeExact(
@@ -100,16 +99,20 @@ public class RTSPMethod extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public RTSPMethod or(RTSPMethod mask) {
-        return new RTSPMethod(this.getValue() | mask.getValue());
+    public RTSPMethod or(RTSPMethod... masks) {
+        int value = this.getValue();
+        for (RTSPMethod arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RTSPMethod(value);
     }
     
     /**
@@ -119,7 +122,8 @@ public class RTSPMethod extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static RTSPMethod combined(RTSPMethod mask, RTSPMethod... masks) {
-        int value = mask.getValue();        for (RTSPMethod arg : masks) {
+        int value = mask.getValue();
+        for (RTSPMethod arg : masks) {
             value |= arg.getValue();
         }
         return new RTSPMethod(value);

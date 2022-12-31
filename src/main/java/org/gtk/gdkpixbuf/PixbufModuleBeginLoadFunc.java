@@ -18,5 +18,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleBeginLoadFunc {
-        java.lang.foreign.MemoryAddress onPixbufModuleBeginLoadFunc(@NotNull org.gtk.gdkpixbuf.PixbufModuleSizeFunc sizeFunc, @NotNull org.gtk.gdkpixbuf.PixbufModulePreparedFunc preparedFunc, @NotNull org.gtk.gdkpixbuf.PixbufModuleUpdatedFunc updatedFunc);
+    @Nullable java.lang.foreign.MemoryAddress run(org.gtk.gdkpixbuf.PixbufModuleSizeFunc sizeFunc, org.gtk.gdkpixbuf.PixbufModulePreparedFunc preparedFunc, org.gtk.gdkpixbuf.PixbufModuleUpdatedFunc updatedFunc);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress sizeFunc, MemoryAddress preparedFunc, MemoryAddress updatedFunc, MemoryAddress userData) {
+        var RESULT = run(null /* Unsupported parameter type */, null /* Unsupported parameter type */, null /* Unsupported parameter type */);
+        return RESULT == null ? MemoryAddress.NULL.address() : ((Addressable) RESULT).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PixbufModuleBeginLoadFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

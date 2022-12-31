@@ -16,18 +16,16 @@ public class BAT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsBAT";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("descriptors"),
-        Interop.valueLayout.ADDRESS.withName("streams")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("descriptors"),
+            Interop.valueLayout.ADDRESS.withName("streams")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,50 +42,98 @@ public class BAT extends Struct {
     }
     
     /**
+     * Get the value of the field {@code descriptors}
+     * @return The value of the field {@code descriptors}
+     */
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code descriptors}
+     * @param descriptors The new value of the field {@code descriptors}
+     */
+    public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
+    }
+    
+    /**
+     * Get the value of the field {@code streams}
+     * @return The value of the field {@code streams}
+     */
+    public PointerProxy<org.gstreamer.mpegts.BATStream> getStreams() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("streams"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.BATStream>(RESULT, org.gstreamer.mpegts.BATStream.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code streams}
+     * @param streams The new value of the field {@code streams}
+     */
+    public void setStreams(org.gstreamer.mpegts.BATStream[] streams) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("streams"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (streams == null ? MemoryAddress.NULL : Interop.allocateNativeArray(streams, org.gstreamer.mpegts.BATStream.getMemoryLayout(), false)));
+    }
+    
+    /**
      * Create a BAT proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BAT(Addressable address, Ownership ownership) {
+    protected BAT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BAT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BAT(input, ownership);
+    
+    /**
+     * A {@link BAT.Builder} object constructs a {@link BAT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link BAT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private BAT struct;
+        private final BAT struct;
         
-         /**
-         * A {@link BAT.Build} object constructs a {@link BAT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = BAT.allocate();
         }
         
          /**
          * Finish building the {@link BAT} struct.
          * @return A new instance of {@code BAT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BAT construct() {
+        public BAT build() {
             return struct;
         }
         
-        public Build setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
             return this;
         }
         
-        public Build setStreams(org.gstreamer.mpegts.BATStream[] streams) {
+        public Builder setStreams(org.gstreamer.mpegts.BATStream[] streams) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("streams"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (streams == null ? MemoryAddress.NULL : Interop.allocateNativeArray(streams, org.gstreamer.mpegts.BATStream.getMemoryLayout(), false)));

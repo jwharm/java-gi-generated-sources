@@ -32,11 +32,15 @@ public class AudioPackFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public AudioPackFlags or(AudioPackFlags mask) {
-        return new AudioPackFlags(this.getValue() | mask.getValue());
+    public AudioPackFlags or(AudioPackFlags... masks) {
+        int value = this.getValue();
+        for (AudioPackFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new AudioPackFlags(value);
     }
     
     /**
@@ -46,7 +50,8 @@ public class AudioPackFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static AudioPackFlags combined(AudioPackFlags mask, AudioPackFlags... masks) {
-        int value = mask.getValue();        for (AudioPackFlags arg : masks) {
+        int value = mask.getValue();
+        for (AudioPackFlags arg : masks) {
             value |= arg.getValue();
         }
         return new AudioPackFlags(value);

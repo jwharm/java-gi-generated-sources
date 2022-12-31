@@ -65,7 +65,7 @@ import org.jetbrains.annotations.*;
  * are similar to the familiar WIFEXITED-style POSIX macros).
  * @version 2.40
  */
-public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.Initable {
+public class Subprocess extends org.gtk.gobject.GObject implements org.gtk.gio.Initable {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -87,40 +87,20 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Subprocess(Addressable address, Ownership ownership) {
+    protected Subprocess(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Subprocess if its GType is a (or inherits from) "GSubprocess".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Subprocess} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSubprocess", a ClassCastException will be thrown.
-     */
-    public static Subprocess castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Subprocess.getType())) {
-            return new Subprocess(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSubprocess");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Subprocess> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Subprocess(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.SubprocessFlags flags, @Nullable PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String argv0, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(argv0, "Parameter 'argv0' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.SubprocessFlags flags, @Nullable PointerProxy<org.gtk.glib.Error> error, java.lang.String argv0, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_subprocess_new.invokeExact(
                     flags.getValue(),
                     error.handle(),
-                    Interop.allocateNativeString(argv0),
+                    Marshal.stringToAddress.marshal(argv0, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -141,15 +121,13 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param argv0 first commandline argument to pass to the subprocess
      * @param varargs more commandline arguments, followed by {@code null}
      */
-    public Subprocess(@NotNull org.gtk.gio.SubprocessFlags flags, @Nullable PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String argv0, java.lang.Object... varargs) {
+    public Subprocess(org.gtk.gio.SubprocessFlags flags, @Nullable PointerProxy<org.gtk.glib.Error> error, java.lang.String argv0, java.lang.Object... varargs) {
         super(constructNew(flags, error, argv0, varargs), Ownership.FULL);
     }
     
-    private static Addressable constructNewv(@NotNull java.lang.String[] argv, @NotNull org.gtk.gio.SubprocessFlags flags) throws GErrorException {
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    private static MemoryAddress constructNewv(java.lang.String[] argv, org.gtk.gio.SubprocessFlags flags) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_subprocess_newv.invokeExact(
                     Interop.allocateNativeArray(argv, false),
@@ -174,8 +152,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      *   will be set)
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static Subprocess newv(@NotNull java.lang.String[] argv, @NotNull org.gtk.gio.SubprocessFlags flags) throws GErrorException {
-        return new Subprocess(constructNewv(argv, flags), Ownership.FULL);
+    public static Subprocess newv(java.lang.String[] argv, org.gtk.gio.SubprocessFlags flags) throws GErrorException {
+        var RESULT = constructNewv(argv, flags);
+        return (org.gtk.gio.Subprocess) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Subprocess.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -246,9 +225,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (stdoutBuf != null) stdoutBuf.set(new org.gtk.glib.Bytes(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (stderrBuf != null) stderrBuf.set(new org.gtk.glib.Bytes(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (stdoutBuf != null) stdoutBuf.set(org.gtk.glib.Bytes.fromAddress.marshal(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (stderrBuf != null) stderrBuf.set(org.gtk.glib.Bytes.fromAddress.marshal(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -264,12 +243,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
                     handle(),
                     (Addressable) (stdinBuf == null ? MemoryAddress.NULL : stdinBuf.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,8 +257,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param stderrBuf Return location for stderr data
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean communicateFinish(@NotNull org.gtk.gio.AsyncResult result, @Nullable Out<org.gtk.glib.Bytes> stdoutBuf, @Nullable Out<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean communicateFinish(org.gtk.gio.AsyncResult result, @Nullable Out<org.gtk.glib.Bytes> stdoutBuf, @Nullable Out<org.gtk.glib.Bytes> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -301,9 +275,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (stdoutBuf != null) stdoutBuf.set(new org.gtk.glib.Bytes(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (stderrBuf != null) stderrBuf.set(new org.gtk.glib.Bytes(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (stdoutBuf != null) stdoutBuf.set(org.gtk.glib.Bytes.fromAddress.marshal(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (stderrBuf != null) stderrBuf.set(org.gtk.glib.Bytes.fromAddress.marshal(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -326,7 +300,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         try {
             RESULT = (int) DowncallHandles.g_subprocess_communicate_utf8.invokeExact(
                     handle(),
-                    (Addressable) (stdinBuf == null ? MemoryAddress.NULL : Interop.allocateNativeString(stdinBuf)),
+                    (Addressable) (stdinBuf == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stdinBuf, null)),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) (stdoutBuf == null ? MemoryAddress.NULL : (Addressable) stdoutBufPOINTER.address()),
                     (Addressable) (stderrBuf == null ? MemoryAddress.NULL : (Addressable) stderrBufPOINTER.address()),
@@ -337,9 +311,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (stdoutBuf != null) stdoutBuf.set(Interop.getStringFrom(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (stderrBuf != null) stderrBuf.set(Interop.getStringFrom(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (stdoutBuf != null) stdoutBuf.set(Marshal.addressToString.marshal(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (stderrBuf != null) stderrBuf.set(Marshal.addressToString.marshal(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -353,14 +327,10 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         try {
             DowncallHandles.g_subprocess_communicate_utf8_async.invokeExact(
                     handle(),
-                    (Addressable) (stdinBuf == null ? MemoryAddress.NULL : Interop.allocateNativeString(stdinBuf)),
+                    (Addressable) (stdinBuf == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stdinBuf, null)),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,8 +343,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @param stderrBuf Return location for stderr data
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean communicateUtf8Finish(@NotNull org.gtk.gio.AsyncResult result, @Nullable Out<java.lang.String> stdoutBuf, @Nullable Out<java.lang.String> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean communicateUtf8Finish(org.gtk.gio.AsyncResult result, @Nullable Out<java.lang.String> stdoutBuf, @Nullable Out<java.lang.String> stderrBuf) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment stdoutBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment stderrBufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -392,9 +361,9 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (stdoutBuf != null) stdoutBuf.set(Interop.getStringFrom(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (stderrBuf != null) stderrBuf.set(Interop.getStringFrom(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (stdoutBuf != null) stdoutBuf.set(Marshal.addressToString.marshal(stdoutBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (stderrBuf != null) stderrBuf.set(Marshal.addressToString.marshal(stderrBufPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -452,7 +421,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -473,7 +442,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -493,7 +462,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -537,7 +506,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InputStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -556,7 +525,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.OutputStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.OutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.OutputStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -575,7 +544,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InputStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -595,7 +564,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -669,7 +638,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -684,12 +653,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
             DowncallHandles.g_subprocess_wait_async.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -716,7 +681,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -731,12 +696,8 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
             DowncallHandles.g_subprocess_wait_check_async.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -749,8 +710,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @return {@code true} if successful, or {@code false} with {@code error} set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean waitCheckFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean waitCheckFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -764,7 +724,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -774,8 +734,7 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
      * @return {@code true} if successful, or {@code false} with {@code error} set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean waitFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean waitFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -789,14 +748,14 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_subprocess_get_type.invokeExact();
@@ -805,42 +764,44 @@ public class Subprocess extends org.gtk.gobject.Object implements org.gtk.gio.In
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Subprocess.Builder} object constructs a {@link Subprocess} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Subprocess.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Subprocess.Build} object constructs a {@link Subprocess} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Subprocess} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Subprocess} using {@link Subprocess#castFrom}.
+         * {@link Subprocess}.
          * @return A new instance of {@code Subprocess} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Subprocess construct() {
-            return Subprocess.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Subprocess.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Subprocess build() {
+            return (Subprocess) org.gtk.gobject.GObject.newWithProperties(
+                Subprocess.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setFlags(org.gtk.gio.SubprocessFlags flags) {
+        public Builder setFlags(org.gtk.gio.SubprocessFlags flags) {
             names.add("flags");
             values.add(org.gtk.gobject.Value.create(flags));
             return this;

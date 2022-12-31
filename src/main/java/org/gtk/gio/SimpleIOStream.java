@@ -38,35 +38,15 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SimpleIOStream(Addressable address, Ownership ownership) {
+    protected SimpleIOStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SimpleIOStream if its GType is a (or inherits from) "GSimpleIOStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SimpleIOStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSimpleIOStream", a ClassCastException will be thrown.
-     */
-    public static SimpleIOStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SimpleIOStream.getType())) {
-            return new SimpleIOStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSimpleIOStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SimpleIOStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleIOStream(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.InputStream inputStream, @NotNull org.gtk.gio.OutputStream outputStream) {
-        java.util.Objects.requireNonNull(inputStream, "Parameter 'inputStream' must not be null");
-        java.util.Objects.requireNonNull(outputStream, "Parameter 'outputStream' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.InputStream inputStream, org.gtk.gio.OutputStream outputStream) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_io_stream_new.invokeExact(
                     inputStream.handle(),
@@ -83,7 +63,7 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
      * @param inputStream a {@link InputStream}.
      * @param outputStream a {@link OutputStream}.
      */
-    public SimpleIOStream(@NotNull org.gtk.gio.InputStream inputStream, @NotNull org.gtk.gio.OutputStream outputStream) {
+    public SimpleIOStream(org.gtk.gio.InputStream inputStream, org.gtk.gio.OutputStream outputStream) {
         super(constructNew(inputStream, outputStream), Ownership.FULL);
     }
     
@@ -91,7 +71,7 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_simple_io_stream_get_type.invokeExact();
@@ -100,48 +80,50 @@ public class SimpleIOStream extends org.gtk.gio.IOStream {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SimpleIOStream.Builder} object constructs a {@link SimpleIOStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SimpleIOStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.IOStream.Build {
+    public static class Builder extends org.gtk.gio.IOStream.Builder {
         
-         /**
-         * A {@link SimpleIOStream.Build} object constructs a {@link SimpleIOStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SimpleIOStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SimpleIOStream} using {@link SimpleIOStream#castFrom}.
+         * {@link SimpleIOStream}.
          * @return A new instance of {@code SimpleIOStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SimpleIOStream construct() {
-            return SimpleIOStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SimpleIOStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SimpleIOStream build() {
+            return (SimpleIOStream) org.gtk.gobject.GObject.newWithProperties(
+                SimpleIOStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setInputStream(org.gtk.gio.InputStream inputStream) {
+        public Builder setInputStream(org.gtk.gio.InputStream inputStream) {
             names.add("input-stream");
             values.add(org.gtk.gobject.Value.create(inputStream));
             return this;
         }
         
-        public Build setOutputStream(org.gtk.gio.OutputStream outputStream) {
+        public Builder setOutputStream(org.gtk.gio.OutputStream outputStream) {
             names.add("output-stream");
             values.add(org.gtk.gobject.Value.create(outputStream));
             return this;

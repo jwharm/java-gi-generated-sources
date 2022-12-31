@@ -36,33 +36,15 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CenterLayout(Addressable address, Ownership ownership) {
+    protected CenterLayout(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to CenterLayout if its GType is a (or inherits from) "GtkCenterLayout".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CenterLayout} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCenterLayout", a ClassCastException will be thrown.
-     */
-    public static CenterLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CenterLayout.getType())) {
-            return new CenterLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCenterLayout");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CenterLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CenterLayout(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_center_layout_new.invokeExact();
         } catch (Throwable ERR) {
@@ -82,7 +64,7 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
      * Returns the baseline position of the layout.
      * @return The current baseline position of {@code self}.
      */
-    public @NotNull org.gtk.gtk.BaselinePosition getBaselinePosition() {
+    public org.gtk.gtk.BaselinePosition getBaselinePosition() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_center_layout_get_baseline_position.invokeExact(
@@ -105,7 +87,7 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -120,14 +102,14 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the current orienration of the layout manager.
      * @return The current orientation of {@code self}
      */
-    public @NotNull org.gtk.gtk.Orientation getOrientation() {
+    public org.gtk.gtk.Orientation getOrientation() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_center_layout_get_orientation.invokeExact(
@@ -150,15 +132,14 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Sets the new baseline position of {@code self}
      * @param baselinePosition the new baseline position
      */
-    public void setBaselinePosition(@NotNull org.gtk.gtk.BaselinePosition baselinePosition) {
-        java.util.Objects.requireNonNull(baselinePosition, "Parameter 'baselinePosition' must not be null");
+    public void setBaselinePosition(org.gtk.gtk.BaselinePosition baselinePosition) {
         try {
             DowncallHandles.gtk_center_layout_set_baseline_position.invokeExact(
                     handle(),
@@ -204,8 +185,7 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
      * Sets the orientation of {@code self}.
      * @param orientation the new orientation
      */
-    public void setOrientation(@NotNull org.gtk.gtk.Orientation orientation) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
+    public void setOrientation(org.gtk.gtk.Orientation orientation) {
         try {
             DowncallHandles.gtk_center_layout_set_orientation.invokeExact(
                     handle(),
@@ -235,7 +215,7 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_center_layout_get_type.invokeExact();
@@ -244,38 +224,40 @@ public class CenterLayout extends org.gtk.gtk.LayoutManager {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link CenterLayout.Builder} object constructs a {@link CenterLayout} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CenterLayout.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.LayoutManager.Build {
+    public static class Builder extends org.gtk.gtk.LayoutManager.Builder {
         
-         /**
-         * A {@link CenterLayout.Build} object constructs a {@link CenterLayout} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CenterLayout} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CenterLayout} using {@link CenterLayout#castFrom}.
+         * {@link CenterLayout}.
          * @return A new instance of {@code CenterLayout} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CenterLayout construct() {
-            return CenterLayout.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CenterLayout.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CenterLayout build() {
+            return (CenterLayout) org.gtk.gobject.GObject.newWithProperties(
+                CenterLayout.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

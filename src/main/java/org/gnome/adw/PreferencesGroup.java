@@ -44,17 +44,15 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     private static final java.lang.String C_TYPE_NAME = "AdwPreferencesGroup";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -62,40 +60,26 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * <p>
      * Because PreferencesGroup is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PreferencesGroup(Addressable address, Ownership ownership) {
+    protected PreferencesGroup(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PreferencesGroup if its GType is a (or inherits from) "AdwPreferencesGroup".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PreferencesGroup} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwPreferencesGroup", a ClassCastException will be thrown.
-     */
-    public static PreferencesGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PreferencesGroup.getType())) {
-            return new PreferencesGroup(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwPreferencesGroup");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PreferencesGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PreferencesGroup(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_new.invokeExact();
         } catch (Throwable ERR) {
@@ -115,8 +99,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * Adds a child to {@code self}.
      * @param child the widget to add
      */
-    public void add(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void add(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.adw_preferences_group_add.invokeExact(
                     handle(),
@@ -138,7 +121,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -153,14 +136,14 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the title of {@code self}.
      * @return the title of {@code self}
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_preferences_group_get_title.invokeExact(
@@ -168,15 +151,14 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Removes a child from {@code self}.
      * @param child the child to remove
      */
-    public void remove(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void remove(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.adw_preferences_group_remove.invokeExact(
                     handle(),
@@ -194,7 +176,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         try {
             DowncallHandles.adw_preferences_group_set_description.invokeExact(
                     handle(),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,12 +204,11 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * Sets the title for {@code self}.
      * @param title the title
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.adw_preferences_group_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -237,7 +218,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_preferences_group_get_type.invokeExact();
@@ -246,38 +227,40 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PreferencesGroup.Builder} object constructs a {@link PreferencesGroup} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PreferencesGroup.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link PreferencesGroup.Build} object constructs a {@link PreferencesGroup} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PreferencesGroup} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PreferencesGroup} using {@link PreferencesGroup#castFrom}.
+         * {@link PreferencesGroup}.
          * @return A new instance of {@code PreferencesGroup} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PreferencesGroup construct() {
-            return PreferencesGroup.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PreferencesGroup.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PreferencesGroup build() {
+            return (PreferencesGroup) org.gtk.gobject.GObject.newWithProperties(
+                PreferencesGroup.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -286,7 +269,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
          * @param description The value for the {@code description} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescription(java.lang.String description) {
+        public Builder setDescription(java.lang.String description) {
             names.add("description");
             values.add(org.gtk.gobject.Value.create(description));
             return this;
@@ -302,7 +285,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
          * @param headerSuffix The value for the {@code header-suffix} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeaderSuffix(org.gtk.gtk.Widget headerSuffix) {
+        public Builder setHeaderSuffix(org.gtk.gtk.Widget headerSuffix) {
             names.add("header-suffix");
             values.add(org.gtk.gobject.Value.create(headerSuffix));
             return this;
@@ -313,7 +296,7 @@ public class PreferencesGroup extends org.gtk.gtk.Widget implements org.gtk.gtk.
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;

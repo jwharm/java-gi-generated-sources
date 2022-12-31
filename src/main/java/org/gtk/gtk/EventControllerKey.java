@@ -31,33 +31,15 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EventControllerKey(Addressable address, Ownership ownership) {
+    protected EventControllerKey(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EventControllerKey if its GType is a (or inherits from) "GtkEventControllerKey".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EventControllerKey} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkEventControllerKey", a ClassCastException will be thrown.
-     */
-    public static EventControllerKey castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EventControllerKey.getType())) {
-            return new EventControllerKey(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEventControllerKey");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EventControllerKey> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerKey(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_key_new.invokeExact();
         } catch (Throwable ERR) {
@@ -83,8 +65,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      * @param widget a {@code GtkWidget}
      * @return whether the {@code widget} handled the event
      */
-    public boolean forward(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public boolean forward(org.gtk.gtk.Widget widget) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_event_controller_key_forward.invokeExact(
@@ -93,7 +74,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -125,7 +106,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.IMContext(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.IMContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.IMContext.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -146,7 +127,7 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_event_controller_key_get_type.invokeExact();
@@ -158,7 +139,18 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface ImUpdate {
-        void signalReceived(EventControllerKey sourceEventControllerKey);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEventControllerKey) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ImUpdate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -173,16 +165,8 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     public Signal<EventControllerKey.ImUpdate> onImUpdate(EventControllerKey.ImUpdate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("im-update"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerKey.Callbacks.class, "signalEventControllerKeyImUpdate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerKey.ImUpdate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("im-update"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +174,19 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface KeyPressed {
-        boolean signalReceived(EventControllerKey sourceEventControllerKey, int keyval, int keycode, @NotNull org.gtk.gdk.ModifierType state);
+        boolean run(int keyval, int keycode, org.gtk.gdk.ModifierType state);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceEventControllerKey, int keyval, int keycode, int state) {
+            var RESULT = run(keyval, keycode, new org.gtk.gdk.ModifierType(state));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(KeyPressed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -201,16 +197,8 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     public Signal<EventControllerKey.KeyPressed> onKeyPressed(EventControllerKey.KeyPressed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("key-pressed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerKey.Callbacks.class, "signalEventControllerKeyKeyPressed",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerKey.KeyPressed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("key-pressed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -218,7 +206,18 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface KeyReleased {
-        void signalReceived(EventControllerKey sourceEventControllerKey, int keyval, int keycode, @NotNull org.gtk.gdk.ModifierType state);
+        void run(int keyval, int keycode, org.gtk.gdk.ModifierType state);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEventControllerKey, int keyval, int keycode, int state) {
+            run(keyval, keycode, new org.gtk.gdk.ModifierType(state));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(KeyReleased.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -229,16 +228,8 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     public Signal<EventControllerKey.KeyReleased> onKeyReleased(EventControllerKey.KeyReleased handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("key-released"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerKey.Callbacks.class, "signalEventControllerKeyKeyReleased",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerKey.KeyReleased>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("key-released"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,7 +237,19 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Modifiers {
-        boolean signalReceived(EventControllerKey sourceEventControllerKey, @NotNull org.gtk.gdk.ModifierType keyval);
+        boolean run(org.gtk.gdk.ModifierType keyval);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceEventControllerKey, int keyval) {
+            var RESULT = run(new org.gtk.gdk.ModifierType(keyval));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Modifiers.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -257,52 +260,46 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
     public Signal<EventControllerKey.Modifiers> onModifiers(EventControllerKey.Modifiers handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("modifiers"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerKey.Callbacks.class, "signalEventControllerKeyModifiers",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerKey.Modifiers>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("modifiers"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link EventControllerKey.Builder} object constructs a {@link EventControllerKey} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EventControllerKey.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.EventController.Build {
+    public static class Builder extends org.gtk.gtk.EventController.Builder {
         
-         /**
-         * A {@link EventControllerKey.Build} object constructs a {@link EventControllerKey} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EventControllerKey} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EventControllerKey} using {@link EventControllerKey#castFrom}.
+         * {@link EventControllerKey}.
          * @return A new instance of {@code EventControllerKey} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EventControllerKey construct() {
-            return EventControllerKey.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EventControllerKey.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EventControllerKey build() {
+            return (EventControllerKey) org.gtk.gobject.GObject.newWithProperties(
+                EventControllerKey.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -344,32 +341,5 @@ public class EventControllerKey extends org.gtk.gtk.EventController {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalEventControllerKeyImUpdate(MemoryAddress sourceEventControllerKey, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerKey.ImUpdate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerKey(sourceEventControllerKey, Ownership.NONE));
-        }
-        
-        public static boolean signalEventControllerKeyKeyPressed(MemoryAddress sourceEventControllerKey, int keyval, int keycode, int state, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerKey.KeyPressed) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerKey(sourceEventControllerKey, Ownership.NONE), keyval, keycode, new org.gtk.gdk.ModifierType(state));
-        }
-        
-        public static void signalEventControllerKeyKeyReleased(MemoryAddress sourceEventControllerKey, int keyval, int keycode, int state, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerKey.KeyReleased) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerKey(sourceEventControllerKey, Ownership.NONE), keyval, keycode, new org.gtk.gdk.ModifierType(state));
-        }
-        
-        public static boolean signalEventControllerKeyModifiers(MemoryAddress sourceEventControllerKey, int keyval, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerKey.Modifiers) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerKey(sourceEventControllerKey, Ownership.NONE), new org.gtk.gdk.ModifierType(keyval));
-        }
     }
 }

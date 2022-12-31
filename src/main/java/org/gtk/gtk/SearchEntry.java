@@ -71,40 +71,26 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Because SearchEntry is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SearchEntry(Addressable address, Ownership ownership) {
+    protected SearchEntry(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to SearchEntry if its GType is a (or inherits from) "GtkSearchEntry".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SearchEntry} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSearchEntry", a ClassCastException will be thrown.
-     */
-    public static SearchEntry castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SearchEntry.getType())) {
-            return new SearchEntry(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSearchEntry");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SearchEntry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SearchEntry(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_search_entry_new.invokeExact();
         } catch (Throwable ERR) {
@@ -132,7 +118,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -200,7 +186,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_search_entry_get_type.invokeExact();
@@ -212,7 +198,18 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(SearchEntry sourceSearchEntry);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSearchEntry) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -225,16 +222,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<SearchEntry.Activate> onActivate(SearchEntry.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SearchEntry.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,7 +231,18 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface NextMatch {
-        void signalReceived(SearchEntry sourceSearchEntry);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSearchEntry) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NextMatch.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -261,16 +261,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<SearchEntry.NextMatch> onNextMatch(SearchEntry.NextMatch handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("next-match"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryNextMatch",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SearchEntry.NextMatch>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("next-match"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,7 +270,18 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface PreviousMatch {
-        void signalReceived(SearchEntry sourceSearchEntry);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSearchEntry) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreviousMatch.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -297,16 +300,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<SearchEntry.PreviousMatch> onPreviousMatch(SearchEntry.PreviousMatch handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("previous-match"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryPreviousMatch",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SearchEntry.PreviousMatch>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("previous-match"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,7 +309,18 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface SearchChanged {
-        void signalReceived(SearchEntry sourceSearchEntry);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSearchEntry) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SearchChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -327,16 +333,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<SearchEntry.SearchChanged> onSearchChanged(SearchEntry.SearchChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("search-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntrySearchChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SearchEntry.SearchChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("search-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,7 +342,18 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface SearchStarted {
-        void signalReceived(SearchEntry sourceSearchEntry);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSearchEntry) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SearchStarted.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -355,16 +364,8 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<SearchEntry.SearchStarted> onSearchStarted(SearchEntry.SearchStarted handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("search-started"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntrySearchStarted",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SearchEntry.SearchStarted>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("search-started"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -372,7 +373,18 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface StopSearch {
-        void signalReceived(SearchEntry sourceSearchEntry);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSearchEntry) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StopSearch.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -390,52 +402,46 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<SearchEntry.StopSearch> onStopSearch(SearchEntry.StopSearch handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("stop-search"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SearchEntry.Callbacks.class, "signalSearchEntryStopSearch",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SearchEntry.StopSearch>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("stop-search"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link SearchEntry.Builder} object constructs a {@link SearchEntry} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SearchEntry.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link SearchEntry.Build} object constructs a {@link SearchEntry} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SearchEntry} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SearchEntry} using {@link SearchEntry#castFrom}.
+         * {@link SearchEntry}.
          * @return A new instance of {@code SearchEntry} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SearchEntry construct() {
-            return SearchEntry.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SearchEntry.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SearchEntry build() {
+            return (SearchEntry) org.gtk.gobject.GObject.newWithProperties(
+                SearchEntry.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -444,7 +450,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param activatesDefault The value for the {@code activates-default} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActivatesDefault(boolean activatesDefault) {
+        public Builder setActivatesDefault(boolean activatesDefault) {
             names.add("activates-default");
             values.add(org.gtk.gobject.Value.create(activatesDefault));
             return this;
@@ -456,7 +462,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param placeholderText The value for the {@code placeholder-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlaceholderText(java.lang.String placeholderText) {
+        public Builder setPlaceholderText(java.lang.String placeholderText) {
             names.add("placeholder-text");
             values.add(org.gtk.gobject.Value.create(placeholderText));
             return this;
@@ -468,7 +474,7 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param searchDelay The value for the {@code search-delay} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSearchDelay(int searchDelay) {
+        public Builder setSearchDelay(int searchDelay) {
             names.add("search-delay");
             values.add(org.gtk.gobject.Value.create(searchDelay));
             return this;
@@ -512,44 +518,5 @@ public class SearchEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalSearchEntryActivate(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SearchEntry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
-        }
-        
-        public static void signalSearchEntryNextMatch(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SearchEntry.NextMatch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
-        }
-        
-        public static void signalSearchEntryPreviousMatch(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SearchEntry.PreviousMatch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
-        }
-        
-        public static void signalSearchEntrySearchChanged(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SearchEntry.SearchChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
-        }
-        
-        public static void signalSearchEntrySearchStarted(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SearchEntry.SearchStarted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
-        }
-        
-        public static void signalSearchEntryStopSearch(MemoryAddress sourceSearchEntry, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SearchEntry.StopSearch) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SearchEntry(sourceSearchEntry, Ownership.NONE));
-        }
     }
 }

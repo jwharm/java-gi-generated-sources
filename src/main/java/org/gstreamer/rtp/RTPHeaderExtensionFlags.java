@@ -33,11 +33,15 @@ public class RTPHeaderExtensionFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public RTPHeaderExtensionFlags or(RTPHeaderExtensionFlags mask) {
-        return new RTPHeaderExtensionFlags(this.getValue() | mask.getValue());
+    public RTPHeaderExtensionFlags or(RTPHeaderExtensionFlags... masks) {
+        int value = this.getValue();
+        for (RTPHeaderExtensionFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RTPHeaderExtensionFlags(value);
     }
     
     /**
@@ -47,7 +51,8 @@ public class RTPHeaderExtensionFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static RTPHeaderExtensionFlags combined(RTPHeaderExtensionFlags mask, RTPHeaderExtensionFlags... masks) {
-        int value = mask.getValue();        for (RTPHeaderExtensionFlags arg : masks) {
+        int value = mask.getValue();
+        for (RTPHeaderExtensionFlags arg : masks) {
             value |= arg.getValue();
         }
         return new RTPHeaderExtensionFlags(value);

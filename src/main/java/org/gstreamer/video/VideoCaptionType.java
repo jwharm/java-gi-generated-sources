@@ -77,8 +77,7 @@ public enum VideoCaptionType implements io.github.jwharm.javagi.Enumeration {
      * @param caps Fixed {@link org.gstreamer.gst.Caps} to parse
      * @return {@link VideoCaptionType}.
      */
-    public static @NotNull org.gstreamer.video.VideoCaptionType fromCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static org.gstreamer.video.VideoCaptionType fromCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_caption_type_from_caps.invokeExact(
@@ -94,8 +93,7 @@ public enum VideoCaptionType implements io.github.jwharm.javagi.Enumeration {
      * @param type {@link VideoCaptionType}
      * @return new {@link org.gstreamer.gst.Caps}
      */
-    public static @NotNull org.gstreamer.gst.Caps toCaps(@NotNull org.gstreamer.video.VideoCaptionType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gstreamer.gst.Caps toCaps(org.gstreamer.video.VideoCaptionType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_caption_type_to_caps.invokeExact(
@@ -103,7 +101,7 @@ public enum VideoCaptionType implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

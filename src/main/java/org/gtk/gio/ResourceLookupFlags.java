@@ -24,11 +24,15 @@ public class ResourceLookupFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ResourceLookupFlags or(ResourceLookupFlags mask) {
-        return new ResourceLookupFlags(this.getValue() | mask.getValue());
+    public ResourceLookupFlags or(ResourceLookupFlags... masks) {
+        int value = this.getValue();
+        for (ResourceLookupFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ResourceLookupFlags(value);
     }
     
     /**
@@ -38,7 +42,8 @@ public class ResourceLookupFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ResourceLookupFlags combined(ResourceLookupFlags mask, ResourceLookupFlags... masks) {
-        int value = mask.getValue();        for (ResourceLookupFlags arg : masks) {
+        int value = mask.getValue();
+        for (ResourceLookupFlags arg : masks) {
             value |= arg.getValue();
         }
         return new ResourceLookupFlags(value);

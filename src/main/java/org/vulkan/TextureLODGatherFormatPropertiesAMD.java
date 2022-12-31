@@ -40,8 +40,10 @@ public class TextureLODGatherFormatPropertiesAMD extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TextureLODGatherFormatPropertiesAMD(Addressable address, Ownership ownership) {
+    protected TextureLODGatherFormatPropertiesAMD(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TextureLODGatherFormatPropertiesAMD> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextureLODGatherFormatPropertiesAMD(input, ownership);
 }

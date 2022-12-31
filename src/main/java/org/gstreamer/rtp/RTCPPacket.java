@@ -17,27 +17,25 @@ public class RTCPPacket extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTCPPacket";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("rtcp"),
-        Interop.valueLayout.C_INT.withName("offset"),
-        Interop.valueLayout.C_INT.withName("padding"),
-        Interop.valueLayout.C_BYTE.withName("count"),
-        MemoryLayout.paddingLayout(24),
-        Interop.valueLayout.C_INT.withName("type"),
-        Interop.valueLayout.C_SHORT.withName("length"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.C_INT.withName("item_offset"),
-        Interop.valueLayout.C_INT.withName("item_count"),
-        Interop.valueLayout.C_INT.withName("entry_offset")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("rtcp"),
+            Interop.valueLayout.C_INT.withName("offset"),
+            Interop.valueLayout.C_INT.withName("padding"),
+            Interop.valueLayout.C_BYTE.withName("count"),
+            MemoryLayout.paddingLayout(24),
+            Interop.valueLayout.C_INT.withName("type"),
+            Interop.valueLayout.C_SHORT.withName("length"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.C_INT.withName("item_offset"),
+            Interop.valueLayout.C_INT.withName("item_count"),
+            Interop.valueLayout.C_INT.withName("entry_offset")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -57,28 +55,28 @@ public class RTCPPacket extends Struct {
      * Get the value of the field {@code rtcp}
      * @return The value of the field {@code rtcp}
      */
-    public org.gstreamer.rtp.RTCPBuffer rtcp$get() {
+    public org.gstreamer.rtp.RTCPBuffer getRtcp() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("rtcp"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.rtp.RTCPBuffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.rtp.RTCPBuffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code rtcp}
      * @param rtcp The new value of the field {@code rtcp}
      */
-    public void rtcp$set(org.gstreamer.rtp.RTCPBuffer rtcp) {
+    public void setRtcp(org.gstreamer.rtp.RTCPBuffer rtcp) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("rtcp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), rtcp.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rtcp == null ? MemoryAddress.NULL : rtcp.handle()));
     }
     
     /**
      * Get the value of the field {@code offset}
      * @return The value of the field {@code offset}
      */
-    public int offset$get() {
+    public int getOffset() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -89,7 +87,7 @@ public class RTCPPacket extends Struct {
      * Change the value of the field {@code offset}
      * @param offset The new value of the field {@code offset}
      */
-    public void offset$set(int offset) {
+    public void setOffset(int offset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -100,10 +98,12 @@ public class RTCPPacket extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTCPPacket(Addressable address, Ownership ownership) {
+    protected RTCPPacket(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTCPPacket> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTCPPacket(input, ownership);
     
     /**
      * Add profile-specific extension {@code data} to {@code packet}. If {@code packet} already
@@ -113,8 +113,7 @@ public class RTCPPacket extends Struct {
      * @param len length of the profile-specific data in bytes
      * @return {@code true} if the profile specific extension data was added.
      */
-    public boolean addProfileSpecificExt(@NotNull byte[] data, int len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean addProfileSpecificExt(byte[] data, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_add_profile_specific_ext.invokeExact(
@@ -124,7 +123,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -155,7 +154,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -193,7 +192,7 @@ public class RTCPPacket extends Struct {
      * Get the name field of the APP {@code packet}.
      * @return The 4-byte name field, not zero-terminated.
      */
-    public @NotNull java.lang.String appGetName() {
+    public java.lang.String appGetName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_app_get_name.invokeExact(
@@ -201,7 +200,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -250,19 +249,18 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Set the name field of the APP {@code packet}.
      * @param name 4-byte ASCII name
      */
-    public void appSetName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void appSetName(java.lang.String name) {
         try {
             DowncallHandles.gst_rtcp_packet_app_set_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,7 +310,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -323,8 +321,7 @@ public class RTCPPacket extends Struct {
      * the max MTU is exceeded or the number of sources blocks is greater than
      * {@code GST_RTCP_MAX_BYE_SSRC_COUNT}.
      */
-    public boolean byeAddSsrcs(@NotNull int[] ssrc, int len) {
-        java.util.Objects.requireNonNull(ssrc, "Parameter 'ssrc' must not be null");
+    public boolean byeAddSsrcs(int[] ssrc, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_bye_add_ssrcs.invokeExact(
@@ -334,7 +331,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -359,7 +356,7 @@ public class RTCPPacket extends Struct {
      * @return The reason for the BYE {@code packet} or NULL if the packet did not contain
      * a reason string. The string must be freed with g_free() after usage.
      */
-    public @NotNull java.lang.String byeGetReason() {
+    public java.lang.String byeGetReason() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_packet_bye_get_reason.invokeExact(
@@ -367,7 +364,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -406,17 +403,16 @@ public class RTCPPacket extends Struct {
      * @param reason a reason string
      * @return TRUE if the string could be set.
      */
-    public boolean byeSetReason(@NotNull java.lang.String reason) {
-        java.util.Objects.requireNonNull(reason, "Parameter 'reason' must not be null");
+    public boolean byeSetReason(java.lang.String reason) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_bye_set_reason.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(reason));
+                    Marshal.stringToAddress.marshal(reason, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -426,10 +422,8 @@ public class RTCPPacket extends Struct {
      * @param len length of the profile-specific extension data
      * @return {@code true} if there was valid data.
      */
-    public boolean copyProfileSpecificExt(@NotNull Out<byte[]> data, Out<Integer> len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean copyProfileSpecificExt(Out<byte[]> data, Out<Integer> len) {
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -442,7 +436,7 @@ public class RTCPPacket extends Struct {
         }
         len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
         data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -510,7 +504,7 @@ public class RTCPPacket extends Struct {
      * Get the feedback message type of the FB {@code packet}.
      * @return The feedback message type.
      */
-    public @NotNull org.gstreamer.rtp.RTCPFBType fbGetType() {
+    public org.gstreamer.rtp.RTCPFBType fbGetType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_fb_get_type.invokeExact(
@@ -536,7 +530,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -571,8 +565,7 @@ public class RTCPPacket extends Struct {
      * Set the feedback message type of the FB {@code packet}.
      * @param type the {@link RTCPFBType} to set
      */
-    public void fbSetType(@NotNull org.gstreamer.rtp.RTCPFBType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void fbSetType(org.gstreamer.rtp.RTCPFBType type) {
         try {
             DowncallHandles.gst_rtcp_packet_fb_set_type.invokeExact(
                     handle(),
@@ -626,13 +619,11 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public boolean getProfileSpecificExt(@NotNull Out<byte[]> data, Out<Integer> len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean getProfileSpecificExt(Out<byte[]> data, Out<Integer> len) {
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -645,7 +636,7 @@ public class RTCPPacket extends Struct {
         }
         len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
         data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public short getProfileSpecificExtLength() {
@@ -672,19 +663,12 @@ public class RTCPPacket extends Struct {
      * @param dlsr result for the delay since last SR packet
      */
     public void getRb(int nth, Out<Integer> ssrc, Out<Byte> fractionlost, Out<Integer> packetslost, Out<Integer> exthighestseq, Out<Integer> jitter, Out<Integer> lsr, Out<Integer> dlsr) {
-        java.util.Objects.requireNonNull(ssrc, "Parameter 'ssrc' must not be null");
         MemorySegment ssrcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(fractionlost, "Parameter 'fractionlost' must not be null");
         MemorySegment fractionlostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(packetslost, "Parameter 'packetslost' must not be null");
         MemorySegment packetslostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(exthighestseq, "Parameter 'exthighestseq' must not be null");
         MemorySegment exthighestseqPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(jitter, "Parameter 'jitter' must not be null");
         MemorySegment jitterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(lsr, "Parameter 'lsr' must not be null");
         MemorySegment lsrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(dlsr, "Parameter 'dlsr' must not be null");
         MemorySegment dlsrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_rtcp_packet_get_rb.invokeExact(
@@ -729,7 +713,7 @@ public class RTCPPacket extends Struct {
      * @return The packet type or GST_RTCP_TYPE_INVALID when {@code packet} is not
      * pointing to a valid packet.
      */
-    public @NotNull org.gstreamer.rtp.RTCPType getType() {
+    public org.gstreamer.rtp.RTCPType getType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_get_type.invokeExact(
@@ -754,7 +738,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -770,7 +754,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -810,9 +794,7 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the item could be added, {@code false} if the MTU has been
      * reached.
      */
-    public boolean sdesAddEntry(@NotNull org.gstreamer.rtp.RTCPSDESType type, byte len, @NotNull byte[] data) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean sdesAddEntry(org.gstreamer.rtp.RTCPSDESType type, byte len, byte[] data) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_add_entry.invokeExact(
@@ -823,7 +805,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -841,7 +823,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -852,17 +834,14 @@ public class RTCPPacket extends Struct {
      * @param data result entry data
      * @return {@code true} if there was valid data.
      */
-    public boolean sdesCopyEntry(@NotNull org.gstreamer.rtp.RTCPSDESType type, Out<Byte> len, @NotNull Out<byte[]> data) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
+    public boolean sdesCopyEntry(PointerEnumeration<org.gstreamer.rtp.RTCPSDESType> type, Out<Byte> len, Out<byte[]> data) {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_copy_entry.invokeExact(
                     handle(),
-                    new PointerInteger(type.getValue()).handle(),
+                    type.handle(),
                     (Addressable) lenPOINTER.address(),
                     (Addressable) dataPOINTER.address());
         } catch (Throwable ERR) {
@@ -870,7 +849,7 @@ public class RTCPPacket extends Struct {
         }
         len.set(lenPOINTER.get(Interop.valueLayout.C_BYTE, 0));
         data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -885,7 +864,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -900,7 +879,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -916,17 +895,14 @@ public class RTCPPacket extends Struct {
      * @param data result entry data
      * @return {@code true} if there was valid data.
      */
-    public boolean sdesGetEntry(@NotNull org.gstreamer.rtp.RTCPSDESType type, Out<Byte> len, @NotNull Out<byte[]> data) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
+    public boolean sdesGetEntry(PointerEnumeration<org.gstreamer.rtp.RTCPSDESType> type, Out<Byte> len, Out<byte[]> data) {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_sdes_get_entry.invokeExact(
                     handle(),
-                    new PointerInteger(type.getValue()).handle(),
+                    type.handle(),
                     (Addressable) lenPOINTER.address(),
                     (Addressable) dataPOINTER.address());
         } catch (Throwable ERR) {
@@ -934,7 +910,7 @@ public class RTCPPacket extends Struct {
         }
         len.set(lenPOINTER.get(Interop.valueLayout.C_BYTE, 0));
         data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -979,7 +955,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -994,7 +970,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1036,15 +1012,10 @@ public class RTCPPacket extends Struct {
      * @param octetCount result octet count
      */
     public void srGetSenderInfo(Out<Integer> ssrc, Out<Long> ntptime, Out<Integer> rtptime, Out<Integer> packetCount, Out<Integer> octetCount) {
-        java.util.Objects.requireNonNull(ssrc, "Parameter 'ssrc' must not be null");
         MemorySegment ssrcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(ntptime, "Parameter 'ntptime' must not be null");
         MemorySegment ntptimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(rtptime, "Parameter 'rtptime' must not be null");
         MemorySegment rtptimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(packetCount, "Parameter 'packetCount' must not be null");
         MemorySegment packetCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(octetCount, "Parameter 'octetCount' must not be null");
         MemorySegment octetCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_rtcp_packet_sr_get_sender_info.invokeExact(
@@ -1098,7 +1069,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public short xrGetBlockLength() {
@@ -1116,7 +1087,7 @@ public class RTCPPacket extends Struct {
      * Get the extended report block type of the XR {@code packet}.
      * @return The extended report block type.
      */
-    public @NotNull org.gstreamer.rtp.RTCPXRType xrGetBlockType() {
+    public org.gstreamer.rtp.RTCPXRType xrGetBlockType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_block_type.invokeExact(
@@ -1136,9 +1107,6 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the report block is correctly parsed.
      */
     public boolean xrGetDlrrBlock(int nth, PointerInteger ssrc, PointerInteger lastRr, PointerInteger delay) {
-        java.util.Objects.requireNonNull(ssrc, "Parameter 'ssrc' must not be null");
-        java.util.Objects.requireNonNull(lastRr, "Parameter 'lastRr' must not be null");
-        java.util.Objects.requireNonNull(delay, "Parameter 'delay' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_dlrr_block.invokeExact(
@@ -1150,7 +1118,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1160,7 +1128,6 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the report block returns the receipt time correctly.
      */
     public boolean xrGetPrtBySeq(short seq, PointerInteger receiptTime) {
-        java.util.Objects.requireNonNull(receiptTime, "Parameter 'receiptTime' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_prt_by_seq.invokeExact(
@@ -1170,7 +1137,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1182,10 +1149,6 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the report block is correctly parsed.
      */
     public boolean xrGetPrtInfo(PointerInteger ssrc, PointerByte thinning, PointerShort beginSeq, PointerShort endSeq) {
-        java.util.Objects.requireNonNull(ssrc, "Parameter 'ssrc' must not be null");
-        java.util.Objects.requireNonNull(thinning, "Parameter 'thinning' must not be null");
-        java.util.Objects.requireNonNull(beginSeq, "Parameter 'beginSeq' must not be null");
-        java.util.Objects.requireNonNull(endSeq, "Parameter 'endSeq' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_prt_info.invokeExact(
@@ -1197,7 +1160,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1210,11 +1173,6 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the report block is correctly parsed.
      */
     public boolean xrGetRleInfo(PointerInteger ssrc, PointerByte thinning, PointerShort beginSeq, PointerShort endSeq, PointerInteger chunkCount) {
-        java.util.Objects.requireNonNull(ssrc, "Parameter 'ssrc' must not be null");
-        java.util.Objects.requireNonNull(thinning, "Parameter 'thinning' must not be null");
-        java.util.Objects.requireNonNull(beginSeq, "Parameter 'beginSeq' must not be null");
-        java.util.Objects.requireNonNull(endSeq, "Parameter 'endSeq' must not be null");
-        java.util.Objects.requireNonNull(chunkCount, "Parameter 'chunkCount' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_rle_info.invokeExact(
@@ -1227,7 +1185,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1237,7 +1195,6 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the report block returns chunk correctly.
      */
     public boolean xrGetRleNthChunk(int nth, PointerShort chunk) {
-        java.util.Objects.requireNonNull(chunk, "Parameter 'chunk' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_rle_nth_chunk.invokeExact(
@@ -1247,11 +1204,10 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean xrGetRrt(PointerLong timestamp) {
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_rrt.invokeExact(
@@ -1260,7 +1216,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1286,9 +1242,6 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the report block is correctly parsed.
      */
     public boolean xrGetSummaryInfo(PointerInteger ssrc, PointerShort beginSeq, PointerShort endSeq) {
-        java.util.Objects.requireNonNull(ssrc, "Parameter 'ssrc' must not be null");
-        java.util.Objects.requireNonNull(beginSeq, "Parameter 'beginSeq' must not be null");
-        java.util.Objects.requireNonNull(endSeq, "Parameter 'endSeq' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_summary_info.invokeExact(
@@ -1299,7 +1252,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1312,10 +1265,6 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the report block is correctly parsed.
      */
     public boolean xrGetSummaryJitter(PointerInteger minJitter, PointerInteger maxJitter, PointerInteger meanJitter, PointerInteger devJitter) {
-        java.util.Objects.requireNonNull(minJitter, "Parameter 'minJitter' must not be null");
-        java.util.Objects.requireNonNull(maxJitter, "Parameter 'maxJitter' must not be null");
-        java.util.Objects.requireNonNull(meanJitter, "Parameter 'meanJitter' must not be null");
-        java.util.Objects.requireNonNull(devJitter, "Parameter 'devJitter' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_summary_jitter.invokeExact(
@@ -1327,7 +1276,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1338,8 +1287,6 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the report block is correctly parsed.
      */
     public boolean xrGetSummaryPkt(PointerInteger lostPackets, PointerInteger dupPackets) {
-        java.util.Objects.requireNonNull(lostPackets, "Parameter 'lostPackets' must not be null");
-        java.util.Objects.requireNonNull(dupPackets, "Parameter 'dupPackets' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_summary_pkt.invokeExact(
@@ -1349,7 +1296,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1362,11 +1309,6 @@ public class RTCPPacket extends Struct {
      * @return {@code true} if the report block is correctly parsed.
      */
     public boolean xrGetSummaryTtl(PointerBoolean isIpv4, PointerByte minTtl, PointerByte maxTtl, PointerByte meanTtl, PointerByte devTtl) {
-        java.util.Objects.requireNonNull(isIpv4, "Parameter 'isIpv4' must not be null");
-        java.util.Objects.requireNonNull(minTtl, "Parameter 'minTtl' must not be null");
-        java.util.Objects.requireNonNull(maxTtl, "Parameter 'maxTtl' must not be null");
-        java.util.Objects.requireNonNull(meanTtl, "Parameter 'meanTtl' must not be null");
-        java.util.Objects.requireNonNull(devTtl, "Parameter 'devTtl' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_summary_ttl.invokeExact(
@@ -1379,14 +1321,10 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean xrGetVoipBurstMetrics(PointerByte burstDensity, PointerByte gapDensity, PointerShort burstDuration, PointerShort gapDuration) {
-        java.util.Objects.requireNonNull(burstDensity, "Parameter 'burstDensity' must not be null");
-        java.util.Objects.requireNonNull(gapDensity, "Parameter 'gapDensity' must not be null");
-        java.util.Objects.requireNonNull(burstDuration, "Parameter 'burstDuration' must not be null");
-        java.util.Objects.requireNonNull(gapDuration, "Parameter 'gapDuration' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_voip_burst_metrics.invokeExact(
@@ -1398,12 +1336,10 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean xrGetVoipConfigurationParams(PointerByte gmin, PointerByte rxConfig) {
-        java.util.Objects.requireNonNull(gmin, "Parameter 'gmin' must not be null");
-        java.util.Objects.requireNonNull(rxConfig, "Parameter 'rxConfig' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_voip_configuration_params.invokeExact(
@@ -1413,12 +1349,10 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean xrGetVoipDelayMetrics(PointerShort roundtripDelay, PointerShort endSystemDelay) {
-        java.util.Objects.requireNonNull(roundtripDelay, "Parameter 'roundtripDelay' must not be null");
-        java.util.Objects.requireNonNull(endSystemDelay, "Parameter 'endSystemDelay' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_voip_delay_metrics.invokeExact(
@@ -1428,13 +1362,10 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean xrGetVoipJitterBufferParams(PointerShort jbNominal, PointerShort jbMaximum, PointerShort jbAbsMax) {
-        java.util.Objects.requireNonNull(jbNominal, "Parameter 'jbNominal' must not be null");
-        java.util.Objects.requireNonNull(jbMaximum, "Parameter 'jbMaximum' must not be null");
-        java.util.Objects.requireNonNull(jbAbsMax, "Parameter 'jbAbsMax' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_voip_jitter_buffer_params.invokeExact(
@@ -1445,11 +1376,10 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean xrGetVoipMetricsSsrc(PointerInteger ssrc) {
-        java.util.Objects.requireNonNull(ssrc, "Parameter 'ssrc' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_voip_metrics_ssrc.invokeExact(
@@ -1458,12 +1388,10 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean xrGetVoipPacketMetrics(PointerByte lossRate, PointerByte discardRate) {
-        java.util.Objects.requireNonNull(lossRate, "Parameter 'lossRate' must not be null");
-        java.util.Objects.requireNonNull(discardRate, "Parameter 'discardRate' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_voip_packet_metrics.invokeExact(
@@ -1473,14 +1401,10 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean xrGetVoipQualityMetrics(PointerByte rFactor, PointerByte extRFactor, PointerByte mosLq, PointerByte mosCq) {
-        java.util.Objects.requireNonNull(rFactor, "Parameter 'rFactor' must not be null");
-        java.util.Objects.requireNonNull(extRFactor, "Parameter 'extRFactor' must not be null");
-        java.util.Objects.requireNonNull(mosLq, "Parameter 'mosLq' must not be null");
-        java.util.Objects.requireNonNull(mosCq, "Parameter 'mosCq' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_voip_quality_metrics.invokeExact(
@@ -1492,14 +1416,10 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean xrGetVoipSignalMetrics(PointerByte signalLevel, PointerByte noiseLevel, PointerByte rerl, PointerByte gmin) {
-        java.util.Objects.requireNonNull(signalLevel, "Parameter 'signalLevel' must not be null");
-        java.util.Objects.requireNonNull(noiseLevel, "Parameter 'noiseLevel' must not be null");
-        java.util.Objects.requireNonNull(rerl, "Parameter 'rerl' must not be null");
-        java.util.Objects.requireNonNull(gmin, "Parameter 'gmin' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_packet_xr_get_voip_signal_metrics.invokeExact(
@@ -1511,7 +1431,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1526,7 +1446,7 @@ public class RTCPPacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -1987,31 +1907,35 @@ public class RTCPPacket extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RTCPPacket.Builder} object constructs a {@link RTCPPacket} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RTCPPacket.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RTCPPacket struct;
+        private final RTCPPacket struct;
         
-         /**
-         * A {@link RTCPPacket.Build} object constructs a {@link RTCPPacket} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RTCPPacket.allocate();
         }
         
          /**
          * Finish building the {@link RTCPPacket} struct.
          * @return A new instance of {@code RTCPPacket} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTCPPacket construct() {
+        public RTCPPacket build() {
             return struct;
         }
         
@@ -2020,7 +1944,7 @@ public class RTCPPacket extends Struct {
          * @param rtcp The value for the {@code rtcp} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRtcp(org.gstreamer.rtp.RTCPBuffer rtcp) {
+        public Builder setRtcp(org.gstreamer.rtp.RTCPBuffer rtcp) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("rtcp"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rtcp == null ? MemoryAddress.NULL : rtcp.handle()));
@@ -2032,56 +1956,56 @@ public class RTCPPacket extends Struct {
          * @param offset The value for the {@code offset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(int offset) {
+        public Builder setOffset(int offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
             return this;
         }
         
-        public Build setPadding(boolean padding) {
+        public Builder setPadding(boolean padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), padding ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(padding, null).intValue());
             return this;
         }
         
-        public Build setCount(byte count) {
+        public Builder setCount(byte count) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), count);
             return this;
         }
         
-        public Build setType(org.gstreamer.rtp.RTCPType type) {
+        public Builder setType(org.gstreamer.rtp.RTCPType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
             return this;
         }
         
-        public Build setLength(short length) {
+        public Builder setLength(short length) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("length"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
             return this;
         }
         
-        public Build setItemOffset(int itemOffset) {
+        public Builder setItemOffset(int itemOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("item_offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), itemOffset);
             return this;
         }
         
-        public Build setItemCount(int itemCount) {
+        public Builder setItemCount(int itemCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("item_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), itemCount);
             return this;
         }
         
-        public Build setEntryOffset(int entryOffset) {
+        public Builder setEntryOffset(int entryOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("entry_offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), entryOffset);

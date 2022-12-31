@@ -17,25 +17,8 @@ import org.jetbrains.annotations.*;
  */
 public interface URIHandler extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to URIHandler if its GType is a (or inherits from) "GstURIHandler".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code URIHandler} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstURIHandler", a ClassCastException will be thrown.
-     */
-    public static URIHandler castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), URIHandler.getType())) {
-            return new URIHandlerImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstURIHandler");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, URIHandlerImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new URIHandlerImpl(input, ownership);
     
     /**
      * Gets the list of protocols supported by {@code handler}. This list may not be
@@ -71,7 +54,7 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -79,7 +62,7 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
      * @return the {@link URIType} of the URI handler.
      * Returns {@code GST_URI_UNKNOWN} if the {@code handler} isn't implemented correctly.
      */
-    default @NotNull org.gstreamer.gst.URIType getUriType() {
+    default org.gstreamer.gst.URIType getUriType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_handler_get_uri_type.invokeExact(
@@ -96,14 +79,13 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the URI was set successfully, else {@code false}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setUri(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    default boolean setUri(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_handler_set_uri.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -111,14 +93,14 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_uri_handler_get_type.invokeExact();
@@ -167,7 +149,7 @@ public interface URIHandler extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class URIHandlerImpl extends org.gtk.gobject.Object implements URIHandler {
+    class URIHandlerImpl extends org.gtk.gobject.GObject implements URIHandler {
         
         static {
             Gst.javagi$ensureInitialized();

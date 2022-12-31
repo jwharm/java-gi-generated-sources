@@ -14,25 +14,8 @@ import org.jetbrains.annotations.*;
  */
 public interface CellEditable extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to CellEditable if its GType is a (or inherits from) "GtkCellEditable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CellEditable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCellEditable", a ClassCastException will be thrown.
-     */
-    public static CellEditable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellEditable.getType())) {
-            return new CellEditableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellEditable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellEditableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellEditableImpl(input, ownership);
     
     /**
      * Emits the {@code GtkCellEditable::editing-done} signal.
@@ -86,7 +69,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_cell_editable_get_type.invokeExact();
@@ -98,7 +81,18 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface EditingDone {
-        void signalReceived(CellEditable sourceCellEditable);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceCellEditable) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EditingDone.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -119,16 +113,8 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
     public default Signal<CellEditable.EditingDone> onEditingDone(CellEditable.EditingDone handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("editing-done"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellEditable.Callbacks.class, "signalCellEditableEditingDone",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<CellEditable.EditingDone>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("editing-done"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +122,18 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface RemoveWidget {
-        void signalReceived(CellEditable sourceCellEditable);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceCellEditable) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RemoveWidget.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -158,16 +155,8 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
     public default Signal<CellEditable.RemoveWidget> onRemoveWidget(CellEditable.RemoveWidget handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("remove-widget"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellEditable.Callbacks.class, "signalCellEditableRemoveWidget",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<CellEditable.RemoveWidget>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("remove-widget"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,23 +194,7 @@ public interface CellEditable extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalCellEditableEditingDone(MemoryAddress sourceCellEditable, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CellEditable.EditingDone) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellEditable.CellEditableImpl(sourceCellEditable, Ownership.NONE));
-        }
-        
-        public static void signalCellEditableRemoveWidget(MemoryAddress sourceCellEditable, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CellEditable.RemoveWidget) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellEditable.CellEditableImpl(sourceCellEditable, Ownership.NONE));
-        }
-    }
-    
-    class CellEditableImpl extends org.gtk.gobject.Object implements CellEditable {
+    class CellEditableImpl extends org.gtk.gobject.GObject implements CellEditable {
         
         static {
             Gtk.javagi$ensureInitialized();

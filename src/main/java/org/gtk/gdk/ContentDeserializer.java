@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * Also see {@link ContentSerializer}.
  */
-public class ContentDeserializer extends org.gtk.gobject.Object implements org.gtk.gio.AsyncResult {
+public class ContentDeserializer extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncResult {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -40,30 +40,12 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ContentDeserializer(Addressable address, Ownership ownership) {
+    protected ContentDeserializer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ContentDeserializer if its GType is a (or inherits from) "GdkContentDeserializer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ContentDeserializer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkContentDeserializer", a ClassCastException will be thrown.
-     */
-    public static ContentDeserializer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ContentDeserializer.getType())) {
-            return new ContentDeserializer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkContentDeserializer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ContentDeserializer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ContentDeserializer(input, ownership);
     
     /**
      * Gets the cancellable for the current operation.
@@ -79,14 +61,14 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Cancellable(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Cancellable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the {@code GType} to create an instance of.
      * @return the {@code GType} for the current operation
      */
-    public @NotNull org.gtk.glib.Type getGtype() {
+    public org.gtk.glib.Type getGtype() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_content_deserializer_get_gtype.invokeExact(
@@ -103,7 +85,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * This is the stream that was passed to {@link Gdk#contentDeserializeAsync}.
      * @return the input stream for the current operation
      */
-    public @NotNull org.gtk.gio.InputStream getInputStream() {
+    public org.gtk.gio.InputStream getInputStream() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_input_stream.invokeExact(
@@ -111,14 +93,14 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InputStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the mime type to deserialize from.
      * @return the mime type for the current operation
      */
-    public @NotNull java.lang.String getMimeType() {
+    public java.lang.String getMimeType() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_mime_type.invokeExact(
@@ -126,7 +108,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -182,7 +164,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * Gets the {@code GValue} to store the deserialized object in.
      * @return the {@code GValue} for the current operation
      */
-    public @NotNull org.gtk.gobject.Value getValue() {
+    public org.gtk.gobject.Value getValue() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_deserializer_get_value.invokeExact(
@@ -190,7 +172,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -199,8 +181,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * This function consumes {@code error}.
      * @param error a {@code GError}
      */
-    public void returnError(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public void returnError(org.gtk.glib.Error error) {
         try {
             DowncallHandles.gdk_content_deserializer_return_error.invokeExact(
                     handle(),
@@ -225,15 +206,14 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
     
     /**
      * Associate data with the current deserialization operation.
-     * @param data data to associate with this operation
      * @param notify destroy notify for {@code data}
      */
-    public void setTaskData(@Nullable java.lang.foreign.MemoryAddress data, @NotNull org.gtk.glib.DestroyNotify notify) {
+    public void setTaskData(org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gdk_content_deserializer_set_task_data.invokeExact(
                     handle(),
-                    (Addressable) data,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,7 +223,7 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_content_deserializer_get_type.invokeExact();
@@ -252,38 +232,40 @@ public class ContentDeserializer extends org.gtk.gobject.Object implements org.g
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ContentDeserializer.Builder} object constructs a {@link ContentDeserializer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ContentDeserializer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ContentDeserializer.Build} object constructs a {@link ContentDeserializer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ContentDeserializer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ContentDeserializer} using {@link ContentDeserializer#castFrom}.
+         * {@link ContentDeserializer}.
          * @return A new instance of {@code ContentDeserializer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ContentDeserializer construct() {
-            return ContentDeserializer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ContentDeserializer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ContentDeserializer build() {
+            return (ContentDeserializer) org.gtk.gobject.GObject.newWithProperties(
+                ContentDeserializer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

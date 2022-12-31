@@ -40,8 +40,10 @@ public class ImageView extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ImageView(Addressable address, Ownership ownership) {
+    protected ImageView(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ImageView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageView(input, ownership);
 }

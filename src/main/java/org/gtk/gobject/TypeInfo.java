@@ -19,25 +19,10 @@ import org.jetbrains.annotations.*;
 public class TypeInfo extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GTypeInfo";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("class_size"),
-        MemoryLayout.paddingLayout(48),
-        Interop.valueLayout.ADDRESS.withName("base_init"),
-        Interop.valueLayout.ADDRESS.withName("base_finalize"),
-        Interop.valueLayout.ADDRESS.withName("class_init"),
-        Interop.valueLayout.ADDRESS.withName("class_finalize"),
-        Interop.valueLayout.ADDRESS.withName("class_data"),
-        Interop.valueLayout.C_SHORT.withName("instance_size"),
-        Interop.valueLayout.C_SHORT.withName("n_preallocs"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("instance_init"),
-        Interop.valueLayout.ADDRESS.withName("value_table")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -45,7 +30,20 @@ public class TypeInfo extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("class_size"),
+            MemoryLayout.paddingLayout(48),
+            Interop.valueLayout.ADDRESS.withName("base_init"),
+            Interop.valueLayout.ADDRESS.withName("base_finalize"),
+            Interop.valueLayout.ADDRESS.withName("class_init"),
+            Interop.valueLayout.ADDRESS.withName("class_finalize"),
+            Interop.valueLayout.ADDRESS.withName("class_data"),
+            Interop.valueLayout.C_SHORT.withName("instance_size"),
+            Interop.valueLayout.C_SHORT.withName("n_preallocs"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("instance_init"),
+            Interop.valueLayout.ADDRESS.withName("value_table")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -65,7 +63,7 @@ public class TypeInfo extends Struct {
      * Get the value of the field {@code class_size}
      * @return The value of the field {@code class_size}
      */
-    public short classSize$get() {
+    public short getClassSize() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -76,7 +74,7 @@ public class TypeInfo extends Struct {
      * Change the value of the field {@code class_size}
      * @param classSize The new value of the field {@code class_size}
      */
-    public void classSize$set(short classSize) {
+    public void setClassSize(short classSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), classSize);
@@ -86,7 +84,7 @@ public class TypeInfo extends Struct {
      * Get the value of the field {@code base_init}
      * @return The value of the field {@code base_init}
      */
-    public org.gtk.gobject.BaseInitFunc baseInit$get() {
+    public org.gtk.gobject.BaseInitFunc getBaseInit() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("base_init"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -94,10 +92,20 @@ public class TypeInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code base_init}
+     * @param baseInit The new value of the field {@code base_init}
+     */
+    public void setBaseInit(org.gtk.gobject.BaseInitFunc baseInit) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("base_init"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseInit == null ? MemoryAddress.NULL : (Addressable) baseInit.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code base_finalize}
      * @return The value of the field {@code base_finalize}
      */
-    public org.gtk.gobject.BaseFinalizeFunc baseFinalize$get() {
+    public org.gtk.gobject.BaseFinalizeFunc getBaseFinalize() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("base_finalize"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -105,10 +113,20 @@ public class TypeInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code base_finalize}
+     * @param baseFinalize The new value of the field {@code base_finalize}
+     */
+    public void setBaseFinalize(org.gtk.gobject.BaseFinalizeFunc baseFinalize) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("base_finalize"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseFinalize == null ? MemoryAddress.NULL : (Addressable) baseFinalize.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code class_init}
      * @return The value of the field {@code class_init}
      */
-    public org.gtk.gobject.ClassInitFunc classInit$get() {
+    public org.gtk.gobject.ClassInitFunc getClassInit() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_init"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -116,10 +134,20 @@ public class TypeInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code class_init}
+     * @param classInit The new value of the field {@code class_init}
+     */
+    public void setClassInit(org.gtk.gobject.ClassInitFunc classInit) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("class_init"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (classInit == null ? MemoryAddress.NULL : (Addressable) classInit.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code class_finalize}
      * @return The value of the field {@code class_finalize}
      */
-    public org.gtk.gobject.ClassFinalizeFunc classFinalize$get() {
+    public org.gtk.gobject.ClassFinalizeFunc getClassFinalize() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_finalize"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -127,10 +155,20 @@ public class TypeInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code class_finalize}
+     * @param classFinalize The new value of the field {@code class_finalize}
+     */
+    public void setClassFinalize(org.gtk.gobject.ClassFinalizeFunc classFinalize) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("class_finalize"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (classFinalize == null ? MemoryAddress.NULL : (Addressable) classFinalize.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code class_data}
      * @return The value of the field {@code class_data}
      */
-    public java.lang.foreign.MemoryAddress classData$get() {
+    public java.lang.foreign.MemoryAddress getClassData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -141,17 +179,17 @@ public class TypeInfo extends Struct {
      * Change the value of the field {@code class_data}
      * @param classData The new value of the field {@code class_data}
      */
-    public void classData$set(java.lang.foreign.MemoryAddress classData) {
+    public void setClassData(java.lang.foreign.MemoryAddress classData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) classData);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (classData == null ? MemoryAddress.NULL : (Addressable) classData));
     }
     
     /**
      * Get the value of the field {@code instance_size}
      * @return The value of the field {@code instance_size}
      */
-    public short instanceSize$get() {
+    public short getInstanceSize() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -162,7 +200,7 @@ public class TypeInfo extends Struct {
      * Change the value of the field {@code instance_size}
      * @param instanceSize The new value of the field {@code instance_size}
      */
-    public void instanceSize$set(short instanceSize) {
+    public void setInstanceSize(short instanceSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
@@ -172,7 +210,7 @@ public class TypeInfo extends Struct {
      * Get the value of the field {@code n_preallocs}
      * @return The value of the field {@code n_preallocs}
      */
-    public short nPreallocs$get() {
+    public short getNPreallocs() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -183,7 +221,7 @@ public class TypeInfo extends Struct {
      * Change the value of the field {@code n_preallocs}
      * @param nPreallocs The new value of the field {@code n_preallocs}
      */
-    public void nPreallocs$set(short nPreallocs) {
+    public void setNPreallocs(short nPreallocs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPreallocs);
@@ -193,7 +231,7 @@ public class TypeInfo extends Struct {
      * Get the value of the field {@code instance_init}
      * @return The value of the field {@code instance_init}
      */
-    public org.gtk.gobject.InstanceInitFunc instanceInit$get() {
+    public org.gtk.gobject.InstanceInitFunc getInstanceInit() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("instance_init"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -201,24 +239,34 @@ public class TypeInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code instance_init}
+     * @param instanceInit The new value of the field {@code instance_init}
+     */
+    public void setInstanceInit(org.gtk.gobject.InstanceInitFunc instanceInit) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("instance_init"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (instanceInit == null ? MemoryAddress.NULL : (Addressable) instanceInit.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code value_table}
      * @return The value of the field {@code value_table}
      */
-    public org.gtk.gobject.TypeValueTable valueTable$get() {
+    public org.gtk.gobject.TypeValueTable getValueTable() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_table"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.TypeValueTable(RESULT, Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeValueTable.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code value_table}
      * @param valueTable The new value of the field {@code value_table}
      */
-    public void valueTable$set(org.gtk.gobject.TypeValueTable valueTable) {
+    public void setValueTable(org.gtk.gobject.TypeValueTable valueTable) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_table"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), valueTable.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueTable == null ? MemoryAddress.NULL : valueTable.handle()));
     }
     
     /**
@@ -226,35 +274,41 @@ public class TypeInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TypeInfo(Addressable address, Ownership ownership) {
+    protected TypeInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TypeInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeInfo(input, ownership);
+    
+    /**
+     * A {@link TypeInfo.Builder} object constructs a {@link TypeInfo} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TypeInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TypeInfo struct;
+        private final TypeInfo struct;
         
-         /**
-         * A {@link TypeInfo.Build} object constructs a {@link TypeInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TypeInfo.allocate();
         }
         
          /**
          * Finish building the {@link TypeInfo} struct.
          * @return A new instance of {@code TypeInfo} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TypeInfo construct() {
+        public TypeInfo build() {
             return struct;
         }
         
@@ -263,7 +317,7 @@ public class TypeInfo extends Struct {
          * @param classSize The value for the {@code classSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClassSize(short classSize) {
+        public Builder setClassSize(short classSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), classSize);
@@ -275,10 +329,10 @@ public class TypeInfo extends Struct {
          * @param baseInit The value for the {@code baseInit} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBaseInit(java.lang.foreign.MemoryAddress baseInit) {
+        public Builder setBaseInit(org.gtk.gobject.BaseInitFunc baseInit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("base_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseInit == null ? MemoryAddress.NULL : baseInit));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseInit == null ? MemoryAddress.NULL : (Addressable) baseInit.toCallback()));
             return this;
         }
         
@@ -287,10 +341,10 @@ public class TypeInfo extends Struct {
          * @param baseFinalize The value for the {@code baseFinalize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBaseFinalize(java.lang.foreign.MemoryAddress baseFinalize) {
+        public Builder setBaseFinalize(org.gtk.gobject.BaseFinalizeFunc baseFinalize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("base_finalize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseFinalize == null ? MemoryAddress.NULL : baseFinalize));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (baseFinalize == null ? MemoryAddress.NULL : (Addressable) baseFinalize.toCallback()));
             return this;
         }
         
@@ -304,10 +358,10 @@ public class TypeInfo extends Struct {
          * @param classInit The value for the {@code classInit} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClassInit(java.lang.foreign.MemoryAddress classInit) {
+        public Builder setClassInit(org.gtk.gobject.ClassInitFunc classInit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("class_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (classInit == null ? MemoryAddress.NULL : classInit));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (classInit == null ? MemoryAddress.NULL : (Addressable) classInit.toCallback()));
             return this;
         }
         
@@ -318,10 +372,10 @@ public class TypeInfo extends Struct {
          * @param classFinalize The value for the {@code classFinalize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClassFinalize(java.lang.foreign.MemoryAddress classFinalize) {
+        public Builder setClassFinalize(org.gtk.gobject.ClassFinalizeFunc classFinalize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("class_finalize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (classFinalize == null ? MemoryAddress.NULL : classFinalize));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (classFinalize == null ? MemoryAddress.NULL : (Addressable) classFinalize.toCallback()));
             return this;
         }
         
@@ -330,7 +384,7 @@ public class TypeInfo extends Struct {
          * @param classData The value for the {@code classData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClassData(java.lang.foreign.MemoryAddress classData) {
+        public Builder setClassData(java.lang.foreign.MemoryAddress classData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("class_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (classData == null ? MemoryAddress.NULL : (Addressable) classData));
@@ -342,7 +396,7 @@ public class TypeInfo extends Struct {
          * @param instanceSize The value for the {@code instanceSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInstanceSize(short instanceSize) {
+        public Builder setInstanceSize(short instanceSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
@@ -354,7 +408,7 @@ public class TypeInfo extends Struct {
          * @param nPreallocs The value for the {@code nPreallocs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPreallocs(short nPreallocs) {
+        public Builder setNPreallocs(short nPreallocs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_preallocs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPreallocs);
@@ -366,10 +420,10 @@ public class TypeInfo extends Struct {
          * @param instanceInit The value for the {@code instanceInit} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInstanceInit(java.lang.foreign.MemoryAddress instanceInit) {
+        public Builder setInstanceInit(org.gtk.gobject.InstanceInitFunc instanceInit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("instance_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (instanceInit == null ? MemoryAddress.NULL : instanceInit));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (instanceInit == null ? MemoryAddress.NULL : (Addressable) instanceInit.toCallback()));
             return this;
         }
         
@@ -379,7 +433,7 @@ public class TypeInfo extends Struct {
          * @param valueTable The value for the {@code valueTable} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueTable(org.gtk.gobject.TypeValueTable valueTable) {
+        public Builder setValueTable(org.gtk.gobject.TypeValueTable valueTable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_table"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueTable == null ? MemoryAddress.NULL : valueTable.handle()));

@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface FileProgressCallback {
-        void onFileProgressCallback(long currentNumBytes, long totalNumBytes);
+    void run(long currentNumBytes, long totalNumBytes);
+
+    @ApiStatus.Internal default void upcall(long currentNumBytes, long totalNumBytes, MemoryAddress userData) {
+        run(currentNumBytes, totalNumBytes);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FileProgressCallback.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

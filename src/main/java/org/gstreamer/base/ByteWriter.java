@@ -21,22 +21,20 @@ public class ByteWriter extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstByteWriter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.base.ByteReader.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.C_INT.withName("alloc_size"),
-        Interop.valueLayout.C_INT.withName("fixed"),
-        Interop.valueLayout.C_INT.withName("owned"),
-        MemoryLayout.paddingLayout(96),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.base.ByteReader.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.C_INT.withName("alloc_size"),
+            Interop.valueLayout.C_INT.withName("fixed"),
+            Interop.valueLayout.C_INT.withName("owned"),
+            MemoryLayout.paddingLayout(96),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,16 +54,26 @@ public class ByteWriter extends Struct {
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gstreamer.base.ByteReader parent$get() {
+    public org.gstreamer.base.ByteReader getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gstreamer.base.ByteReader(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.base.ByteReader.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent}
+     * @param parent The new value of the field {@code parent}
+     */
+    public void setParent(org.gstreamer.base.ByteReader parent) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
      * Get the value of the field {@code alloc_size}
      * @return The value of the field {@code alloc_size}
      */
-    public int allocSize$get() {
+    public int getAllocSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -76,7 +84,7 @@ public class ByteWriter extends Struct {
      * Change the value of the field {@code alloc_size}
      * @param allocSize The new value of the field {@code alloc_size}
      */
-    public void allocSize$set(int allocSize) {
+    public void setAllocSize(int allocSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocSize);
@@ -86,42 +94,42 @@ public class ByteWriter extends Struct {
      * Get the value of the field {@code fixed}
      * @return The value of the field {@code fixed}
      */
-    public boolean fixed$get() {
+    public boolean getFixed() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("fixed"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code fixed}
      * @param fixed The new value of the field {@code fixed}
      */
-    public void fixed$set(boolean fixed) {
+    public void setFixed(boolean fixed) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("fixed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), fixed ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(fixed, null).intValue());
     }
     
     /**
      * Get the value of the field {@code owned}
      * @return The value of the field {@code owned}
      */
-    public boolean owned$get() {
+    public boolean getOwned() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("owned"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code owned}
      * @param owned The new value of the field {@code owned}
      */
-    public void owned$set(boolean owned) {
+    public void setOwned(boolean owned) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("owned"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), owned ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(owned, null).intValue());
     }
     
     /**
@@ -129,10 +137,12 @@ public class ByteWriter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ByteWriter(Addressable address, Ownership ownership) {
+    protected ByteWriter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ByteWriter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ByteWriter(input, ownership);
     
     /**
      * Checks if enough free space from the current write cursor is
@@ -149,7 +159,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -168,7 +178,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -192,7 +202,7 @@ public class ByteWriter extends Struct {
      * @return the current data as buffer. gst_buffer_unref()
      *     after usage.
      */
-    public @NotNull org.gstreamer.gst.Buffer freeAndGetBuffer() {
+    public org.gstreamer.gst.Buffer freeAndGetBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_free_and_get_buffer.invokeExact(
@@ -201,7 +211,7 @@ public class ByteWriter extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -259,14 +269,13 @@ public class ByteWriter extends Struct {
      * @param size Size of {@code data} in bytes
      * @param initialized If {@code true} the complete data can be read from the beginning
      */
-    public void initWithData(@NotNull byte[] data, int size, boolean initialized) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void initWithData(byte[] data, int size, boolean initialized) {
         try {
             DowncallHandles.gst_byte_writer_init_with_data.invokeExact(
                     handle(),
                     Interop.allocateNativeArray(data, false),
                     size,
-                    initialized ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(initialized, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -282,7 +291,7 @@ public class ByteWriter extends Struct {
             DowncallHandles.gst_byte_writer_init_with_size.invokeExact(
                     handle(),
                     size,
-                    fixed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(fixed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,8 +304,7 @@ public class ByteWriter extends Struct {
      * @param size total size to copy. If -1, all data is copied
      * @return {@code true} if the data could be written
      */
-    public boolean putBuffer(@NotNull org.gstreamer.gst.Buffer buffer, long offset, long size) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public boolean putBuffer(org.gstreamer.gst.Buffer buffer, long offset, long size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_writer_put_buffer.invokeExact(
@@ -307,7 +315,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -316,8 +324,7 @@ public class ByteWriter extends Struct {
      * @param size Size of {@code data} in bytes
      * @return {@code true} if the value could be written
      */
-    public boolean putData(@NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean putData(byte[] data, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_writer_put_data.invokeExact(
@@ -327,7 +334,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -344,7 +351,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -361,7 +368,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -378,7 +385,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -395,7 +402,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -412,7 +419,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -429,7 +436,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -446,7 +453,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -463,7 +470,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -480,7 +487,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -497,7 +504,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -514,7 +521,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -531,7 +538,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -548,7 +555,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -556,8 +563,7 @@ public class ByteWriter extends Struct {
      * @param data UTF16 string to write
      * @return {@code true} if the value could be written
      */
-    public boolean putStringUtf16(@NotNull short[] data) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean putStringUtf16(short[] data) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_writer_put_string_utf16.invokeExact(
@@ -566,7 +572,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -574,8 +580,7 @@ public class ByteWriter extends Struct {
      * @param data UTF32 string to write
      * @return {@code true} if the value could be written
      */
-    public boolean putStringUtf32(@NotNull int[] data) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean putStringUtf32(int[] data) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_writer_put_string_utf32.invokeExact(
@@ -584,7 +589,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -592,17 +597,16 @@ public class ByteWriter extends Struct {
      * @param data UTF8 string to write
      * @return {@code true} if the value could be written
      */
-    public boolean putStringUtf8(@NotNull java.lang.String data) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean putStringUtf8(java.lang.String data) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_writer_put_string_utf8.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(data));
+                    Marshal.stringToAddress.marshal(data, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -619,7 +623,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -636,7 +640,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -653,7 +657,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -670,7 +674,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -687,7 +691,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -704,7 +708,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -721,7 +725,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -738,7 +742,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -755,7 +759,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -778,7 +782,7 @@ public class ByteWriter extends Struct {
      * @return the current data as buffer. gst_buffer_unref()
      *     after usage.
      */
-    public @NotNull org.gstreamer.gst.Buffer resetAndGetBuffer() {
+    public org.gstreamer.gst.Buffer resetAndGetBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_reset_and_get_buffer.invokeExact(
@@ -786,7 +790,7 @@ public class ByteWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -796,7 +800,7 @@ public class ByteWriter extends Struct {
      * @return the current data. g_free() after
      * usage.
      */
-    public @NotNull PointerByte resetAndGetData() {
+    public PointerByte resetAndGetData() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_reset_and_get_data.invokeExact(
@@ -813,14 +817,14 @@ public class ByteWriter extends Struct {
      * Free-function: gst_byte_writer_free
      * @return a new, empty {@link ByteWriter} instance
      */
-    public static @NotNull org.gstreamer.base.ByteWriter new_() {
+    public static org.gstreamer.base.ByteWriter new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.ByteWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -834,18 +838,17 @@ public class ByteWriter extends Struct {
      * @param initialized If {@code true} the complete data can be read from the beginning
      * @return a new {@link ByteWriter} instance
      */
-    public static @NotNull org.gstreamer.base.ByteWriter newWithData(PointerByte data, int size, boolean initialized) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.base.ByteWriter newWithData(PointerByte data, int size, boolean initialized) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_new_with_data.invokeExact(
                     data.handle(),
                     size,
-                    initialized ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(initialized, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.ByteWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -857,16 +860,16 @@ public class ByteWriter extends Struct {
      * @param fixed If {@code true} the data can't be reallocated
      * @return a new {@link ByteWriter} instance
      */
-    public static @NotNull org.gstreamer.base.ByteWriter newWithSize(int size, boolean fixed) {
+    public static org.gstreamer.base.ByteWriter newWithSize(int size, boolean fixed) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_new_with_size.invokeExact(
                     size,
-                    fixed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(fixed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.ByteWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -1123,31 +1126,35 @@ public class ByteWriter extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link ByteWriter.Builder} object constructs a {@link ByteWriter} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ByteWriter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ByteWriter struct;
+        private final ByteWriter struct;
         
-         /**
-         * A {@link ByteWriter.Build} object constructs a {@link ByteWriter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ByteWriter.allocate();
         }
         
          /**
          * Finish building the {@link ByteWriter} struct.
          * @return A new instance of {@code ByteWriter} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ByteWriter construct() {
+        public ByteWriter build() {
             return struct;
         }
         
@@ -1156,7 +1163,7 @@ public class ByteWriter extends Struct {
          * @param parent The value for the {@code parent} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gstreamer.base.ByteReader parent) {
+        public Builder setParent(org.gstreamer.base.ByteReader parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -1168,7 +1175,7 @@ public class ByteWriter extends Struct {
          * @param allocSize The value for the {@code allocSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllocSize(int allocSize) {
+        public Builder setAllocSize(int allocSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocSize);
@@ -1180,10 +1187,10 @@ public class ByteWriter extends Struct {
          * @param fixed The value for the {@code fixed} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFixed(boolean fixed) {
+        public Builder setFixed(boolean fixed) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("fixed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), fixed ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(fixed, null).intValue());
             return this;
         }
         
@@ -1192,14 +1199,14 @@ public class ByteWriter extends Struct {
          * @param owned The value for the {@code owned} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOwned(boolean owned) {
+        public Builder setOwned(boolean owned) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("owned"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), owned ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(owned, null).intValue());
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

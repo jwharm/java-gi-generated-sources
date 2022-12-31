@@ -40,8 +40,10 @@ public class FontOptions extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FontOptions(Addressable address, Ownership ownership) {
+    protected FontOptions(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FontOptions> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontOptions(input, ownership);
 }

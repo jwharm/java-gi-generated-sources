@@ -20,18 +20,16 @@ public class NetControlMessageMeta extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstNetControlMessageMeta";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
-        Interop.valueLayout.ADDRESS.withName("message")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
+            Interop.valueLayout.ADDRESS.withName("message")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,30 +49,40 @@ public class NetControlMessageMeta extends Struct {
      * Get the value of the field {@code meta}
      * @return The value of the field {@code meta}
      */
-    public org.gstreamer.gst.Meta meta$get() {
+    public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return new org.gstreamer.gst.Meta(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code meta}
+     * @param meta The new value of the field {@code meta}
+     */
+    public void setMeta(org.gstreamer.gst.Meta meta) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
     }
     
     /**
      * Get the value of the field {@code message}
      * @return The value of the field {@code message}
      */
-    public org.gtk.gio.SocketControlMessage message$get() {
+    public org.gtk.gio.SocketControlMessage getMessage() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("message"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gio.SocketControlMessage(RESULT, Ownership.UNKNOWN);
+        return (org.gtk.gio.SocketControlMessage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketControlMessage.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code message}
      * @param message The new value of the field {@code message}
      */
-    public void message$set(org.gtk.gio.SocketControlMessage message) {
+    public void setMessage(org.gtk.gio.SocketControlMessage message) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("message"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), message.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (message == null ? MemoryAddress.NULL : message.handle()));
     }
     
     /**
@@ -82,19 +90,21 @@ public class NetControlMessageMeta extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NetControlMessageMeta(Addressable address, Ownership ownership) {
+    protected NetControlMessageMeta(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo getInfo() {
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NetControlMessageMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetControlMessageMeta(input, ownership);
+    
+    public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_net_control_message_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -105,31 +115,35 @@ public class NetControlMessageMeta extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link NetControlMessageMeta.Builder} object constructs a {@link NetControlMessageMeta} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link NetControlMessageMeta.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private NetControlMessageMeta struct;
+        private final NetControlMessageMeta struct;
         
-         /**
-         * A {@link NetControlMessageMeta.Build} object constructs a {@link NetControlMessageMeta} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = NetControlMessageMeta.allocate();
         }
         
          /**
          * Finish building the {@link NetControlMessageMeta} struct.
          * @return A new instance of {@code NetControlMessageMeta} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NetControlMessageMeta construct() {
+        public NetControlMessageMeta build() {
             return struct;
         }
         
@@ -138,7 +152,7 @@ public class NetControlMessageMeta extends Struct {
          * @param meta The value for the {@code meta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMeta(org.gstreamer.gst.Meta meta) {
+        public Builder setMeta(org.gstreamer.gst.Meta meta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
@@ -150,7 +164,7 @@ public class NetControlMessageMeta extends Struct {
          * @param message The value for the {@code message} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMessage(org.gtk.gio.SocketControlMessage message) {
+        public Builder setMessage(org.gtk.gio.SocketControlMessage message) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("message"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (message == null ? MemoryAddress.NULL : message.handle()));

@@ -40,8 +40,10 @@ public class ExternalFenceFeatureFlags extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ExternalFenceFeatureFlags(Addressable address, Ownership ownership) {
+    protected ExternalFenceFeatureFlags(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ExternalFenceFeatureFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalFenceFeatureFlags(input, ownership);
 }

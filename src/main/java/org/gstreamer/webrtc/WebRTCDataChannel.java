@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class WebRTCDataChannel extends org.gtk.gobject.Object {
+public class WebRTCDataChannel extends org.gtk.gobject.GObject {
     
     static {
         GstWebRTC.javagi$ensureInitialized();
@@ -27,30 +27,12 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WebRTCDataChannel(Addressable address, Ownership ownership) {
+    protected WebRTCDataChannel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to WebRTCDataChannel if its GType is a (or inherits from) "GstWebRTCDataChannel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code WebRTCDataChannel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstWebRTCDataChannel", a ClassCastException will be thrown.
-     */
-    public static WebRTCDataChannel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), WebRTCDataChannel.getType())) {
-            return new WebRTCDataChannel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstWebRTCDataChannel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WebRTCDataChannel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCDataChannel(input, ownership);
     
     /**
      * Close the {@code channel}.
@@ -86,7 +68,7 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gst_webrtc_data_channel_send_string.invokeExact(
                     handle(),
-                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str)));
+                    (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,7 +78,7 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_webrtc_data_channel_get_type.invokeExact();
@@ -108,7 +90,18 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Close {
-        void signalReceived(WebRTCDataChannel sourceWebRTCDataChannel);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCDataChannel) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Close.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -119,16 +112,8 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     public Signal<WebRTCDataChannel.Close> onClose(WebRTCDataChannel.Close handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("close"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCDataChannel.Callbacks.class, "signalWebRTCDataChannelClose",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCDataChannel.Close>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("close"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,22 +121,25 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface OnBufferedAmountLow {
-        void signalReceived(WebRTCDataChannel sourceWebRTCDataChannel);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCDataChannel) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OnBufferedAmountLow.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCDataChannel.OnBufferedAmountLow> onOnBufferedAmountLow(WebRTCDataChannel.OnBufferedAmountLow handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("on-buffered-amount-low"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCDataChannel.Callbacks.class, "signalWebRTCDataChannelOnBufferedAmountLow",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCDataChannel.OnBufferedAmountLow>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("on-buffered-amount-low"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -159,22 +147,25 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface OnClose {
-        void signalReceived(WebRTCDataChannel sourceWebRTCDataChannel);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCDataChannel) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OnClose.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCDataChannel.OnClose> onOnClose(WebRTCDataChannel.OnClose handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("on-close"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCDataChannel.Callbacks.class, "signalWebRTCDataChannelOnClose",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCDataChannel.OnClose>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("on-close"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -182,22 +173,25 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface OnError {
-        void signalReceived(WebRTCDataChannel sourceWebRTCDataChannel, @NotNull org.gtk.glib.Error error);
+        void run(org.gtk.glib.Error error);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCDataChannel, MemoryAddress error) {
+            run(org.gtk.glib.Error.fromAddress.marshal(error, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OnError.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCDataChannel.OnError> onOnError(WebRTCDataChannel.OnError handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("on-error"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCDataChannel.Callbacks.class, "signalWebRTCDataChannelOnError",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCDataChannel.OnError>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("on-error"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,22 +199,25 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface OnMessageData {
-        void signalReceived(WebRTCDataChannel sourceWebRTCDataChannel, @Nullable org.gtk.glib.Bytes data);
+        void run(@Nullable org.gtk.glib.Bytes data);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCDataChannel, MemoryAddress data) {
+            run(org.gtk.glib.Bytes.fromAddress.marshal(data, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OnMessageData.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCDataChannel.OnMessageData> onOnMessageData(WebRTCDataChannel.OnMessageData handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("on-message-data"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCDataChannel.Callbacks.class, "signalWebRTCDataChannelOnMessageData",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCDataChannel.OnMessageData>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("on-message-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,22 +225,25 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface OnMessageString {
-        void signalReceived(WebRTCDataChannel sourceWebRTCDataChannel, @Nullable java.lang.String data);
+        void run(@Nullable java.lang.String data);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCDataChannel, MemoryAddress data) {
+            run(Marshal.addressToString.marshal(data, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OnMessageString.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCDataChannel.OnMessageString> onOnMessageString(WebRTCDataChannel.OnMessageString handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("on-message-string"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCDataChannel.Callbacks.class, "signalWebRTCDataChannelOnMessageString",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCDataChannel.OnMessageString>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("on-message-string"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -251,22 +251,25 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface OnOpen {
-        void signalReceived(WebRTCDataChannel sourceWebRTCDataChannel);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCDataChannel) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OnOpen.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCDataChannel.OnOpen> onOnOpen(WebRTCDataChannel.OnOpen handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("on-open"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCDataChannel.Callbacks.class, "signalWebRTCDataChannelOnOpen",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCDataChannel.OnOpen>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("on-open"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,22 +277,25 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface SendData {
-        void signalReceived(WebRTCDataChannel sourceWebRTCDataChannel, @Nullable org.gtk.glib.Bytes data);
+        void run(@Nullable org.gtk.glib.Bytes data);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCDataChannel, MemoryAddress data) {
+            run(org.gtk.glib.Bytes.fromAddress.marshal(data, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SendData.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCDataChannel.SendData> onSendData(WebRTCDataChannel.SendData handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("send-data"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCDataChannel.Callbacks.class, "signalWebRTCDataChannelSendData",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCDataChannel.SendData>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("send-data"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,122 +303,127 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface SendString {
-        void signalReceived(WebRTCDataChannel sourceWebRTCDataChannel, @Nullable java.lang.String data);
+        void run(@Nullable java.lang.String data);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCDataChannel, MemoryAddress data) {
+            run(Marshal.addressToString.marshal(data, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SendString.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCDataChannel.SendString> onSendString(WebRTCDataChannel.SendString handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("send-string"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCDataChannel.Callbacks.class, "signalWebRTCDataChannelSendString",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCDataChannel.SendString>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("send-string"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link WebRTCDataChannel.Builder} object constructs a {@link WebRTCDataChannel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link WebRTCDataChannel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link WebRTCDataChannel.Build} object constructs a {@link WebRTCDataChannel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link WebRTCDataChannel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link WebRTCDataChannel} using {@link WebRTCDataChannel#castFrom}.
+         * {@link WebRTCDataChannel}.
          * @return A new instance of {@code WebRTCDataChannel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public WebRTCDataChannel construct() {
-            return WebRTCDataChannel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    WebRTCDataChannel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public WebRTCDataChannel build() {
+            return (WebRTCDataChannel) org.gtk.gobject.GObject.newWithProperties(
+                WebRTCDataChannel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setBufferedAmount(long bufferedAmount) {
+        public Builder setBufferedAmount(long bufferedAmount) {
             names.add("buffered-amount");
             values.add(org.gtk.gobject.Value.create(bufferedAmount));
             return this;
         }
         
-        public Build setBufferedAmountLowThreshold(long bufferedAmountLowThreshold) {
+        public Builder setBufferedAmountLowThreshold(long bufferedAmountLowThreshold) {
             names.add("buffered-amount-low-threshold");
             values.add(org.gtk.gobject.Value.create(bufferedAmountLowThreshold));
             return this;
         }
         
-        public Build setId(int id) {
+        public Builder setId(int id) {
             names.add("id");
             values.add(org.gtk.gobject.Value.create(id));
             return this;
         }
         
-        public Build setLabel(java.lang.String label) {
+        public Builder setLabel(java.lang.String label) {
             names.add("label");
             values.add(org.gtk.gobject.Value.create(label));
             return this;
         }
         
-        public Build setMaxPacketLifetime(int maxPacketLifetime) {
+        public Builder setMaxPacketLifetime(int maxPacketLifetime) {
             names.add("max-packet-lifetime");
             values.add(org.gtk.gobject.Value.create(maxPacketLifetime));
             return this;
         }
         
-        public Build setMaxRetransmits(int maxRetransmits) {
+        public Builder setMaxRetransmits(int maxRetransmits) {
             names.add("max-retransmits");
             values.add(org.gtk.gobject.Value.create(maxRetransmits));
             return this;
         }
         
-        public Build setNegotiated(boolean negotiated) {
+        public Builder setNegotiated(boolean negotiated) {
             names.add("negotiated");
             values.add(org.gtk.gobject.Value.create(negotiated));
             return this;
         }
         
-        public Build setOrdered(boolean ordered) {
+        public Builder setOrdered(boolean ordered) {
             names.add("ordered");
             values.add(org.gtk.gobject.Value.create(ordered));
             return this;
         }
         
-        public Build setPriority(org.gstreamer.webrtc.WebRTCPriorityType priority) {
+        public Builder setPriority(org.gstreamer.webrtc.WebRTCPriorityType priority) {
             names.add("priority");
             values.add(org.gtk.gobject.Value.create(priority));
             return this;
         }
         
-        public Build setProtocol(java.lang.String protocol) {
+        public Builder setProtocol(java.lang.String protocol) {
             names.add("protocol");
             values.add(org.gtk.gobject.Value.create(protocol));
             return this;
         }
         
-        public Build setReadyState(org.gstreamer.webrtc.WebRTCDataChannelState readyState) {
+        public Builder setReadyState(org.gstreamer.webrtc.WebRTCDataChannelState readyState) {
             names.add("ready-state");
             values.add(org.gtk.gobject.Value.create(readyState));
             return this;
@@ -444,62 +455,5 @@ public class WebRTCDataChannel extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalWebRTCDataChannelClose(MemoryAddress sourceWebRTCDataChannel, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCDataChannel.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCDataChannel(sourceWebRTCDataChannel, Ownership.NONE));
-        }
-        
-        public static void signalWebRTCDataChannelOnBufferedAmountLow(MemoryAddress sourceWebRTCDataChannel, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCDataChannel.OnBufferedAmountLow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCDataChannel(sourceWebRTCDataChannel, Ownership.NONE));
-        }
-        
-        public static void signalWebRTCDataChannelOnClose(MemoryAddress sourceWebRTCDataChannel, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCDataChannel.OnClose) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCDataChannel(sourceWebRTCDataChannel, Ownership.NONE));
-        }
-        
-        public static void signalWebRTCDataChannelOnError(MemoryAddress sourceWebRTCDataChannel, MemoryAddress error, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCDataChannel.OnError) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCDataChannel(sourceWebRTCDataChannel, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
-        }
-        
-        public static void signalWebRTCDataChannelOnMessageData(MemoryAddress sourceWebRTCDataChannel, MemoryAddress data, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCDataChannel.OnMessageData) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCDataChannel(sourceWebRTCDataChannel, Ownership.NONE), new org.gtk.glib.Bytes(data, Ownership.NONE));
-        }
-        
-        public static void signalWebRTCDataChannelOnMessageString(MemoryAddress sourceWebRTCDataChannel, MemoryAddress data, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCDataChannel.OnMessageString) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCDataChannel(sourceWebRTCDataChannel, Ownership.NONE), Interop.getStringFrom(data));
-        }
-        
-        public static void signalWebRTCDataChannelOnOpen(MemoryAddress sourceWebRTCDataChannel, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCDataChannel.OnOpen) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCDataChannel(sourceWebRTCDataChannel, Ownership.NONE));
-        }
-        
-        public static void signalWebRTCDataChannelSendData(MemoryAddress sourceWebRTCDataChannel, MemoryAddress data, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCDataChannel.SendData) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCDataChannel(sourceWebRTCDataChannel, Ownership.NONE), new org.gtk.glib.Bytes(data, Ownership.NONE));
-        }
-        
-        public static void signalWebRTCDataChannelSendString(MemoryAddress sourceWebRTCDataChannel, MemoryAddress data, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCDataChannel.SendString) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCDataChannel(sourceWebRTCDataChannel, Ownership.NONE), Interop.getStringFrom(data));
-        }
     }
 }

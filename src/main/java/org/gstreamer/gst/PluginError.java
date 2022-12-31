@@ -47,7 +47,7 @@ public enum PluginError implements io.github.jwharm.javagi.Enumeration {
      * Get the error quark.
      * @return The error quark used in GError messages
      */
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_plugin_error_quark.invokeExact();

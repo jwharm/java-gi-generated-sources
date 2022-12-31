@@ -13,5 +13,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ValueTransform {
-        void onValueTransform(@NotNull org.gtk.gobject.Value srcValue, @NotNull org.gtk.gobject.Value destValue);
+    void run(org.gtk.gobject.Value srcValue, org.gtk.gobject.Value destValue);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress srcValue, MemoryAddress destValue) {
+        run(org.gtk.gobject.Value.fromAddress.marshal(srcValue, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(destValue, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueTransform.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

@@ -76,11 +76,15 @@ public class PrintCapabilities extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PrintCapabilities or(PrintCapabilities mask) {
-        return new PrintCapabilities(this.getValue() | mask.getValue());
+    public PrintCapabilities or(PrintCapabilities... masks) {
+        int value = this.getValue();
+        for (PrintCapabilities arg : masks) {
+            value |= arg.getValue();
+        }
+        return new PrintCapabilities(value);
     }
     
     /**
@@ -90,7 +94,8 @@ public class PrintCapabilities extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PrintCapabilities combined(PrintCapabilities mask, PrintCapabilities... masks) {
-        int value = mask.getValue();        for (PrintCapabilities arg : masks) {
+        int value = mask.getValue();
+        for (PrintCapabilities arg : masks) {
             value |= arg.getValue();
         }
         return new PrintCapabilities(value);

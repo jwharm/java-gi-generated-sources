@@ -73,11 +73,15 @@ public class AxisFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public AxisFlags or(AxisFlags mask) {
-        return new AxisFlags(this.getValue() | mask.getValue());
+    public AxisFlags or(AxisFlags... masks) {
+        int value = this.getValue();
+        for (AxisFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new AxisFlags(value);
     }
     
     /**
@@ -87,7 +91,8 @@ public class AxisFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static AxisFlags combined(AxisFlags mask, AxisFlags... masks) {
-        int value = mask.getValue();        for (AxisFlags arg : masks) {
+        int value = mask.getValue();
+        for (AxisFlags arg : masks) {
             value |= arg.getValue();
         }
         return new AxisFlags(value);

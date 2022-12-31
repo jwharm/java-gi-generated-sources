@@ -40,8 +40,10 @@ public class TracerFactoryClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TracerFactoryClass(Addressable address, Ownership ownership) {
+    protected TracerFactoryClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TracerFactoryClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TracerFactoryClass(input, ownership);
 }

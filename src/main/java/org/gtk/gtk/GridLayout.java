@@ -43,33 +43,15 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GridLayout(Addressable address, Ownership ownership) {
+    protected GridLayout(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to GridLayout if its GType is a (or inherits from) "GtkGridLayout".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GridLayout} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkGridLayout", a ClassCastException will be thrown.
-     */
-    public static GridLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GridLayout.getType())) {
-            return new GridLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGridLayout");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GridLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GridLayout(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_grid_layout_new.invokeExact();
         } catch (Throwable ERR) {
@@ -112,7 +94,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -140,7 +122,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
      * @param row a row index
      * @return the baseline position of {@code row}
      */
-    public @NotNull org.gtk.gtk.BaselinePosition getRowBaselinePosition(int row) {
+    public org.gtk.gtk.BaselinePosition getRowBaselinePosition(int row) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_grid_layout_get_row_baseline_position.invokeExact(
@@ -164,7 +146,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -208,7 +190,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
         try {
             DowncallHandles.gtk_grid_layout_set_column_homogeneous.invokeExact(
                     handle(),
-                    homogeneous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(homogeneous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,8 +216,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
      * @param row a row index
      * @param pos a {@code GtkBaselinePosition}
      */
-    public void setRowBaselinePosition(int row, @NotNull org.gtk.gtk.BaselinePosition pos) {
-        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+    public void setRowBaselinePosition(int row, org.gtk.gtk.BaselinePosition pos) {
         try {
             DowncallHandles.gtk_grid_layout_set_row_baseline_position.invokeExact(
                     handle(),
@@ -254,7 +235,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
         try {
             DowncallHandles.gtk_grid_layout_set_row_homogeneous.invokeExact(
                     handle(),
-                    homogeneous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(homogeneous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,7 +259,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_grid_layout_get_type.invokeExact();
@@ -287,38 +268,40 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GridLayout.Builder} object constructs a {@link GridLayout} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GridLayout.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.LayoutManager.Build {
+    public static class Builder extends org.gtk.gtk.LayoutManager.Builder {
         
-         /**
-         * A {@link GridLayout.Build} object constructs a {@link GridLayout} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GridLayout} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GridLayout} using {@link GridLayout#castFrom}.
+         * {@link GridLayout}.
          * @return A new instance of {@code GridLayout} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GridLayout construct() {
-            return GridLayout.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GridLayout.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GridLayout build() {
+            return (GridLayout) org.gtk.gobject.GObject.newWithProperties(
+                GridLayout.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -328,7 +311,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
          * @param baselineRow The value for the {@code baseline-row} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBaselineRow(int baselineRow) {
+        public Builder setBaselineRow(int baselineRow) {
             names.add("baseline-row");
             values.add(org.gtk.gobject.Value.create(baselineRow));
             return this;
@@ -339,7 +322,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
          * @param columnHomogeneous The value for the {@code column-homogeneous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColumnHomogeneous(boolean columnHomogeneous) {
+        public Builder setColumnHomogeneous(boolean columnHomogeneous) {
             names.add("column-homogeneous");
             values.add(org.gtk.gobject.Value.create(columnHomogeneous));
             return this;
@@ -350,7 +333,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
          * @param columnSpacing The value for the {@code column-spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColumnSpacing(int columnSpacing) {
+        public Builder setColumnSpacing(int columnSpacing) {
             names.add("column-spacing");
             values.add(org.gtk.gobject.Value.create(columnSpacing));
             return this;
@@ -361,7 +344,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
          * @param rowHomogeneous The value for the {@code row-homogeneous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRowHomogeneous(boolean rowHomogeneous) {
+        public Builder setRowHomogeneous(boolean rowHomogeneous) {
             names.add("row-homogeneous");
             values.add(org.gtk.gobject.Value.create(rowHomogeneous));
             return this;
@@ -372,7 +355,7 @@ public class GridLayout extends org.gtk.gtk.LayoutManager {
          * @param rowSpacing The value for the {@code row-spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRowSpacing(int rowSpacing) {
+        public Builder setRowSpacing(int rowSpacing) {
             names.add("row-spacing");
             values.add(org.gtk.gobject.Value.create(rowSpacing));
             return this;

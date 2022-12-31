@@ -40,8 +40,10 @@ public class SemaphoreCreateFlags extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SemaphoreCreateFlags(Addressable address, Ownership ownership) {
+    protected SemaphoreCreateFlags(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SemaphoreCreateFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SemaphoreCreateFlags(input, ownership);
 }

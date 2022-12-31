@@ -52,34 +52,15 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BuilderListItemFactory(Addressable address, Ownership ownership) {
+    protected BuilderListItemFactory(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to BuilderListItemFactory if its GType is a (or inherits from) "GtkBuilderListItemFactory".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BuilderListItemFactory} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkBuilderListItemFactory", a ClassCastException will be thrown.
-     */
-    public static BuilderListItemFactory castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BuilderListItemFactory.getType())) {
-            return new BuilderListItemFactory(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBuilderListItemFactory");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BuilderListItemFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuilderListItemFactory(input, ownership);
     
-    private static Addressable constructNewFromBytes(@Nullable org.gtk.gtk.BuilderScope scope, @NotNull org.gtk.glib.Bytes bytes) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromBytes(@Nullable org.gtk.gtk.BuilderScope scope, org.gtk.glib.Bytes bytes) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_new_from_bytes.invokeExact(
                     (Addressable) (scope == null ? MemoryAddress.NULL : scope.handle()),
@@ -97,17 +78,17 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
      * @param bytes the {@code GBytes} containing the ui file to instantiate
      * @return a new {@code GtkBuilderListItemFactory}
      */
-    public static BuilderListItemFactory newFromBytes(@Nullable org.gtk.gtk.BuilderScope scope, @NotNull org.gtk.glib.Bytes bytes) {
-        return new BuilderListItemFactory(constructNewFromBytes(scope, bytes), Ownership.FULL);
+    public static BuilderListItemFactory newFromBytes(@Nullable org.gtk.gtk.BuilderScope scope, org.gtk.glib.Bytes bytes) {
+        var RESULT = constructNewFromBytes(scope, bytes);
+        return (org.gtk.gtk.BuilderListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.BuilderListItemFactory.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromResource(@Nullable org.gtk.gtk.BuilderScope scope, @NotNull java.lang.String resourcePath) {
-        java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromResource(@Nullable org.gtk.gtk.BuilderScope scope, java.lang.String resourcePath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_new_from_resource.invokeExact(
                     (Addressable) (scope == null ? MemoryAddress.NULL : scope.handle()),
-                    Interop.allocateNativeString(resourcePath));
+                    Marshal.stringToAddress.marshal(resourcePath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,8 +102,9 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
      * @param resourcePath valid path to a resource that contains the data
      * @return a new {@code GtkBuilderListItemFactory}
      */
-    public static BuilderListItemFactory newFromResource(@Nullable org.gtk.gtk.BuilderScope scope, @NotNull java.lang.String resourcePath) {
-        return new BuilderListItemFactory(constructNewFromResource(scope, resourcePath), Ownership.FULL);
+    public static BuilderListItemFactory newFromResource(@Nullable org.gtk.gtk.BuilderScope scope, java.lang.String resourcePath) {
+        var RESULT = constructNewFromResource(scope, resourcePath);
+        return (org.gtk.gtk.BuilderListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.BuilderListItemFactory.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -130,7 +112,7 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
      * listitems.
      * @return The {@code GtkBuilder} data
      */
-    public @NotNull org.gtk.glib.Bytes getBytes() {
+    public org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_list_item_factory_get_bytes.invokeExact(
@@ -138,7 +120,7 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.NONE);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -153,7 +135,7 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -168,14 +150,14 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.BuilderScope.BuilderScopeImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.BuilderScope) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.BuilderScope.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_builder_list_item_factory_get_type.invokeExact();
@@ -184,38 +166,40 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BuilderListItemFactory.Builder} object constructs a {@link BuilderListItemFactory} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BuilderListItemFactory.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.ListItemFactory.Build {
+    public static class Builder extends org.gtk.gtk.ListItemFactory.Builder {
         
-         /**
-         * A {@link BuilderListItemFactory.Build} object constructs a {@link BuilderListItemFactory} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BuilderListItemFactory} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BuilderListItemFactory} using {@link BuilderListItemFactory#castFrom}.
+         * {@link BuilderListItemFactory}.
          * @return A new instance of {@code BuilderListItemFactory} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BuilderListItemFactory construct() {
-            return BuilderListItemFactory.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BuilderListItemFactory.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BuilderListItemFactory build() {
+            return (BuilderListItemFactory) org.gtk.gobject.GObject.newWithProperties(
+                BuilderListItemFactory.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -224,7 +208,7 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
          * @param bytes The value for the {@code bytes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBytes(org.gtk.glib.Bytes bytes) {
+        public Builder setBytes(org.gtk.glib.Bytes bytes) {
             names.add("bytes");
             values.add(org.gtk.gobject.Value.create(bytes));
             return this;
@@ -235,7 +219,7 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
          * @param resource The value for the {@code resource} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setResource(java.lang.String resource) {
+        public Builder setResource(java.lang.String resource) {
             names.add("resource");
             values.add(org.gtk.gobject.Value.create(resource));
             return this;
@@ -246,7 +230,7 @@ public class BuilderListItemFactory extends org.gtk.gtk.ListItemFactory {
          * @param scope The value for the {@code scope} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScope(org.gtk.gtk.BuilderScope scope) {
+        public Builder setScope(org.gtk.gtk.BuilderScope scope) {
             names.add("scope");
             values.add(org.gtk.gobject.Value.create(scope));
             return this;

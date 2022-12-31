@@ -19,21 +19,19 @@ public class Item extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoItem";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("offset"),
-        Interop.valueLayout.C_INT.withName("length"),
-        Interop.valueLayout.C_INT.withName("num_chars"),
-        MemoryLayout.paddingLayout(32),
-        org.pango.Analysis.getMemoryLayout().withName("analysis")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("offset"),
+            Interop.valueLayout.C_INT.withName("length"),
+            Interop.valueLayout.C_INT.withName("num_chars"),
+            MemoryLayout.paddingLayout(32),
+            org.pango.Analysis.getMemoryLayout().withName("analysis")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,7 +51,7 @@ public class Item extends Struct {
      * Get the value of the field {@code offset}
      * @return The value of the field {@code offset}
      */
-    public int offset$get() {
+    public int getOffset() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -64,7 +62,7 @@ public class Item extends Struct {
      * Change the value of the field {@code offset}
      * @param offset The new value of the field {@code offset}
      */
-    public void offset$set(int offset) {
+    public void setOffset(int offset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -74,7 +72,7 @@ public class Item extends Struct {
      * Get the value of the field {@code length}
      * @return The value of the field {@code length}
      */
-    public int length$get() {
+    public int getLength() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -85,7 +83,7 @@ public class Item extends Struct {
      * Change the value of the field {@code length}
      * @param length The new value of the field {@code length}
      */
-    public void length$set(int length) {
+    public void setLength(int length) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
@@ -95,7 +93,7 @@ public class Item extends Struct {
      * Get the value of the field {@code num_chars}
      * @return The value of the field {@code num_chars}
      */
-    public int numChars$get() {
+    public int getNumChars() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -106,7 +104,7 @@ public class Item extends Struct {
      * Change the value of the field {@code num_chars}
      * @param numChars The new value of the field {@code num_chars}
      */
-    public void numChars$set(int numChars) {
+    public void setNumChars(int numChars) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numChars);
@@ -116,9 +114,19 @@ public class Item extends Struct {
      * Get the value of the field {@code analysis}
      * @return The value of the field {@code analysis}
      */
-    public org.pango.Analysis analysis$get() {
+    public org.pango.Analysis getAnalysis() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("analysis"));
-        return new org.pango.Analysis(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Analysis.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code analysis}
+     * @param analysis The new value of the field {@code analysis}
+     */
+    public void setAnalysis(org.pango.Analysis analysis) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("analysis"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (analysis == null ? MemoryAddress.NULL : analysis.handle()));
     }
     
     /**
@@ -126,13 +134,15 @@ public class Item extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Item(Addressable address, Ownership ownership) {
+    protected Item(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Item> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Item(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_item_new.invokeExact();
         } catch (Throwable ERR) {
@@ -162,8 +172,7 @@ public class Item extends Struct {
      * the iter to each call.
      * @param iter a {@code PangoAttrIterator}
      */
-    public void applyAttrs(@NotNull org.pango.AttrIterator iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void applyAttrs(org.pango.AttrIterator iter) {
         try {
             DowncallHandles.pango_item_apply_attrs.invokeExact(
                     handle(),
@@ -185,7 +194,7 @@ public class Item extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Item(RESULT, Ownership.FULL);
+        return org.pango.Item.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -219,7 +228,7 @@ public class Item extends Struct {
      * @return new item representing text before {@code split_index}, which
      *   should be freed with {@link Item#free}.
      */
-    public @NotNull org.pango.Item split(int splitIndex, int splitOffset) {
+    public org.pango.Item split(int splitIndex, int splitOffset) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_item_split.invokeExact(
@@ -229,7 +238,7 @@ public class Item extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Item(RESULT, Ownership.FULL);
+        return org.pango.Item.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -264,31 +273,35 @@ public class Item extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Item.Builder} object constructs a {@link Item} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Item.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Item struct;
+        private final Item struct;
         
-         /**
-         * A {@link Item.Build} object constructs a {@link Item} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Item.allocate();
         }
         
          /**
          * Finish building the {@link Item} struct.
          * @return A new instance of {@code Item} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Item construct() {
+        public Item build() {
             return struct;
         }
         
@@ -297,7 +310,7 @@ public class Item extends Struct {
          * @param offset The value for the {@code offset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(int offset) {
+        public Builder setOffset(int offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -309,7 +322,7 @@ public class Item extends Struct {
          * @param length The value for the {@code length} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLength(int length) {
+        public Builder setLength(int length) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("length"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
@@ -321,7 +334,7 @@ public class Item extends Struct {
          * @param numChars The value for the {@code numChars} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumChars(int numChars) {
+        public Builder setNumChars(int numChars) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num_chars"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numChars);
@@ -333,7 +346,7 @@ public class Item extends Struct {
          * @param analysis The value for the {@code analysis} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAnalysis(org.pango.Analysis analysis) {
+        public Builder setAnalysis(org.pango.Analysis analysis) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("analysis"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (analysis == null ? MemoryAddress.NULL : analysis.handle()));

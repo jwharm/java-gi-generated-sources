@@ -33,18 +33,16 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
     
     private static final java.lang.String C_TYPE_NAME = "GUnixSocketAddress";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.SocketAddress.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.SocketAddress.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -52,37 +50,18 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public UnixSocketAddress(Addressable address, Ownership ownership) {
+    protected UnixSocketAddress(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to UnixSocketAddress if its GType is a (or inherits from) "GUnixSocketAddress".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code UnixSocketAddress} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GUnixSocketAddress", a ClassCastException will be thrown.
-     */
-    public static UnixSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), UnixSocketAddress.getType())) {
-            return new UnixSocketAddress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GUnixSocketAddress");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, UnixSocketAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UnixSocketAddress(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String path) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_new.invokeExact(
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,13 +75,12 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * use g_unix_socket_address_new_abstract().
      * @param path the socket path
      */
-    public UnixSocketAddress(@NotNull java.lang.String path) {
+    public UnixSocketAddress(java.lang.String path) {
         super(constructNew(path), Ownership.FULL);
     }
     
-    private static Addressable constructNewAbstract(@NotNull byte[] path, int pathLen) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewAbstract(byte[] path, int pathLen) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_new_abstract.invokeExact(
                     Interop.allocateNativeArray(path, false),
@@ -122,14 +100,13 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @deprecated Use g_unix_socket_address_new_with_type().
      */
     @Deprecated
-    public static UnixSocketAddress newAbstract(@NotNull byte[] path, int pathLen) {
-        return new UnixSocketAddress(constructNewAbstract(path, pathLen), Ownership.FULL);
+    public static UnixSocketAddress newAbstract(byte[] path, int pathLen) {
+        var RESULT = constructNewAbstract(path, pathLen);
+        return (org.gtk.gio.UnixSocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.UnixSocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWithType(@NotNull byte[] path, int pathLen, @NotNull org.gtk.gio.UnixSocketAddressType type) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithType(byte[] path, int pathLen, org.gtk.gio.UnixSocketAddressType type) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_new_with_type.invokeExact(
                     Interop.allocateNativeArray(path, false),
@@ -178,15 +155,16 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @param type a {@link UnixSocketAddressType}
      * @return a new {@link UnixSocketAddress}
      */
-    public static UnixSocketAddress newWithType(@NotNull byte[] path, int pathLen, @NotNull org.gtk.gio.UnixSocketAddressType type) {
-        return new UnixSocketAddress(constructNewWithType(path, pathLen, type), Ownership.FULL);
+    public static UnixSocketAddress newWithType(byte[] path, int pathLen, org.gtk.gio.UnixSocketAddressType type) {
+        var RESULT = constructNewWithType(path, pathLen, type);
+        return (org.gtk.gio.UnixSocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.UnixSocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Gets {@code address}'s type.
      * @return a {@link UnixSocketAddressType}
      */
-    public @NotNull org.gtk.gio.UnixSocketAddressType getAddressType() {
+    public org.gtk.gio.UnixSocketAddressType getAddressType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_socket_address_get_address_type.invokeExact(
@@ -211,7 +189,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -223,7 +201,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * of this string.
      * @return the path for {@code address}
      */
-    public @NotNull java.lang.String getPath() {
+    public java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_socket_address_get_path.invokeExact(
@@ -231,7 +209,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -255,7 +233,7 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_unix_socket_address_get_type.invokeExact();
@@ -276,40 +254,42 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link UnixSocketAddress.Builder} object constructs a {@link UnixSocketAddress} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link UnixSocketAddress.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.SocketAddress.Build {
+    public static class Builder extends org.gtk.gio.SocketAddress.Builder {
         
-         /**
-         * A {@link UnixSocketAddress.Build} object constructs a {@link UnixSocketAddress} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link UnixSocketAddress} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link UnixSocketAddress} using {@link UnixSocketAddress#castFrom}.
+         * {@link UnixSocketAddress}.
          * @return A new instance of {@code UnixSocketAddress} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public UnixSocketAddress construct() {
-            return UnixSocketAddress.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    UnixSocketAddress.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public UnixSocketAddress build() {
+            return (UnixSocketAddress) org.gtk.gobject.GObject.newWithProperties(
+                UnixSocketAddress.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -318,19 +298,19 @@ public class UnixSocketAddress extends org.gtk.gio.SocketAddress implements org.
          * @param abstract_ The value for the {@code abstract} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAbstract(boolean abstract_) {
+        public Builder setAbstract(boolean abstract_) {
             names.add("abstract");
             values.add(org.gtk.gobject.Value.create(abstract_));
             return this;
         }
         
-        public Build setAddressType(org.gtk.gio.UnixSocketAddressType addressType) {
+        public Builder setAddressType(org.gtk.gio.UnixSocketAddressType addressType) {
             names.add("address-type");
             values.add(org.gtk.gobject.Value.create(addressType));
             return this;
         }
         
-        public Build setPath(java.lang.String path) {
+        public Builder setPath(java.lang.String path) {
             names.add("path");
             values.add(org.gtk.gobject.Value.create(path));
             return this;

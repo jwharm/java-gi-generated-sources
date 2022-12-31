@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * a similar configuration.
  * @version 2.40
  */
-public class SubprocessLauncher extends org.gtk.gobject.Object {
+public class SubprocessLauncher extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -38,34 +38,15 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SubprocessLauncher(Addressable address, Ownership ownership) {
+    protected SubprocessLauncher(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SubprocessLauncher if its GType is a (or inherits from) "GSubprocessLauncher".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SubprocessLauncher} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSubprocessLauncher", a ClassCastException will be thrown.
-     */
-    public static SubprocessLauncher castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SubprocessLauncher.getType())) {
-            return new SubprocessLauncher(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSubprocessLauncher");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SubprocessLauncher> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SubprocessLauncher(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.SubprocessFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.SubprocessFlags flags) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_subprocess_launcher_new.invokeExact(
                     flags.getValue());
@@ -83,7 +64,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * and will be used as the environment that the process is launched in.
      * @param flags {@link SubprocessFlags}
      */
-    public SubprocessLauncher(@NotNull org.gtk.gio.SubprocessFlags flags) {
+    public SubprocessLauncher(org.gtk.gio.SubprocessFlags flags) {
         super(constructNew(flags), Ownership.FULL);
     }
     
@@ -118,17 +99,16 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * @return the value of the environment variable,
      *     {@code null} if unset
      */
-    public @Nullable java.lang.String getenv(@NotNull java.lang.String variable) {
-        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
+    public @Nullable java.lang.String getenv(java.lang.String variable) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_subprocess_launcher_getenv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(variable));
+                    Marshal.stringToAddress.marshal(variable, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -146,19 +126,15 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * <p>
      * Child setup functions are only available on UNIX.
      * @param childSetup a {@link org.gtk.glib.SpawnChildSetupFunc} to use as the child setup function
+     * @param destroyNotify a {@link org.gtk.glib.DestroyNotify} for {@code user_data}
      */
-    public void setChildSetup(@NotNull org.gtk.glib.SpawnChildSetupFunc childSetup) {
-        java.util.Objects.requireNonNull(childSetup, "Parameter 'childSetup' must not be null");
+    public void setChildSetup(org.gtk.glib.SpawnChildSetupFunc childSetup, org.gtk.glib.DestroyNotify destroyNotify) {
         try {
             DowncallHandles.g_subprocess_launcher_set_child_setup.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSpawnChildSetupFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(childSetup)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) childSetup.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyNotify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,12 +148,11 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * of the launching process at the time of launch.
      * @param cwd the cwd for launched processes
      */
-    public void setCwd(@NotNull java.lang.String cwd) {
-        java.util.Objects.requireNonNull(cwd, "Parameter 'cwd' must not be null");
+    public void setCwd(java.lang.String cwd) {
         try {
             DowncallHandles.g_subprocess_launcher_set_cwd.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(cwd));
+                    Marshal.stringToAddress.marshal(cwd, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,8 +180,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * On Windows, they should be in UTF-8.
      * @param env the replacement environment
      */
-    public void setEnviron(@NotNull java.lang.String[] env) {
-        java.util.Objects.requireNonNull(env, "Parameter 'env' must not be null");
+    public void setEnviron(java.lang.String[] env) {
         try {
             DowncallHandles.g_subprocess_launcher_set_environ.invokeExact(
                     handle(),
@@ -231,8 +205,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * g_subprocess_launcher_take_stdout_fd().
      * @param flags {@link SubprocessFlags}
      */
-    public void setFlags(@NotNull org.gtk.gio.SubprocessFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void setFlags(org.gtk.gio.SubprocessFlags flags) {
         try {
             DowncallHandles.g_subprocess_launcher_set_flags.invokeExact(
                     handle(),
@@ -263,7 +236,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_subprocess_launcher_set_stderr_file_path.invokeExact(
                     handle(),
-                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path)));
+                    (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -281,12 +254,11 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * <p>
      * This feature is only available on UNIX.
      */
-    public void setStdinFilePath(@NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void setStdinFilePath(java.lang.String path) {
         try {
             DowncallHandles.g_subprocess_launcher_set_stdin_file_path.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -310,7 +282,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_subprocess_launcher_set_stdout_file_path.invokeExact(
                     handle(),
-                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path)));
+                    (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -328,15 +300,13 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * @param value the new value for the variable
      * @param overwrite whether to change the variable if it already exists
      */
-    public void setenv(@NotNull java.lang.String variable, @NotNull java.lang.String value, boolean overwrite) {
-        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setenv(java.lang.String variable, java.lang.String value, boolean overwrite) {
         try {
             DowncallHandles.g_subprocess_launcher_setenv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(variable),
-                    Interop.allocateNativeString(value),
-                    overwrite ? 1 : 0);
+                    Marshal.stringToAddress.marshal(variable, null),
+                    Marshal.stringToAddress.marshal(value, null),
+                    Marshal.booleanToInteger.marshal(overwrite, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,19 +319,18 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * @param varargs Continued arguments, {@code null} terminated
      * @return A new {@link Subprocess}, or {@code null} on error (and {@code error} will be set)
      */
-    public @NotNull org.gtk.gio.Subprocess spawn(@NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String argv0, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(argv0, "Parameter 'argv0' must not be null");
+    public org.gtk.gio.Subprocess spawn(PointerProxy<org.gtk.glib.Error> error, java.lang.String argv0, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_subprocess_launcher_spawn.invokeExact(
                     handle(),
                     error.handle(),
-                    Interop.allocateNativeString(argv0),
+                    Marshal.stringToAddress.marshal(argv0, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Subprocess(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Subprocess) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Subprocess.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -370,8 +339,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * @return A new {@link Subprocess}, or {@code null} on error (and {@code error} will be set)
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gio.Subprocess spawnv(@NotNull java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
+    public org.gtk.gio.Subprocess spawnv(java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -385,7 +353,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Subprocess(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Subprocess) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Subprocess.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -514,12 +482,11 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * @param variable the environment variable to unset,
      *     must not contain '='
      */
-    public void unsetenv(@NotNull java.lang.String variable) {
-        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
+    public void unsetenv(java.lang.String variable) {
         try {
             DowncallHandles.g_subprocess_launcher_unsetenv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(variable));
+                    Marshal.stringToAddress.marshal(variable, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -529,7 +496,7 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_subprocess_launcher_get_type.invokeExact();
@@ -538,42 +505,44 @@ public class SubprocessLauncher extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SubprocessLauncher.Builder} object constructs a {@link SubprocessLauncher} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SubprocessLauncher.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SubprocessLauncher.Build} object constructs a {@link SubprocessLauncher} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SubprocessLauncher} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SubprocessLauncher} using {@link SubprocessLauncher#castFrom}.
+         * {@link SubprocessLauncher}.
          * @return A new instance of {@code SubprocessLauncher} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SubprocessLauncher construct() {
-            return SubprocessLauncher.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SubprocessLauncher.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SubprocessLauncher build() {
+            return (SubprocessLauncher) org.gtk.gobject.GObject.newWithProperties(
+                SubprocessLauncher.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setFlags(org.gtk.gio.SubprocessFlags flags) {
+        public Builder setFlags(org.gtk.gio.SubprocessFlags flags) {
             names.add("flags");
             values.add(org.gtk.gobject.Value.create(flags));
             return this;

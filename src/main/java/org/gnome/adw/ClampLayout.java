@@ -52,33 +52,15 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ClampLayout(Addressable address, Ownership ownership) {
+    protected ClampLayout(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ClampLayout if its GType is a (or inherits from) "AdwClampLayout".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ClampLayout} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwClampLayout", a ClassCastException will be thrown.
-     */
-    public static ClampLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ClampLayout.getType())) {
-            return new ClampLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwClampLayout");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ClampLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ClampLayout(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_clamp_layout_new.invokeExact();
         } catch (Throwable ERR) {
@@ -171,7 +153,7 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_clamp_layout_get_type.invokeExact();
@@ -180,38 +162,40 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ClampLayout.Builder} object constructs a {@link ClampLayout} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ClampLayout.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.LayoutManager.Build {
+    public static class Builder extends org.gtk.gtk.LayoutManager.Builder {
         
-         /**
-         * A {@link ClampLayout.Build} object constructs a {@link ClampLayout} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ClampLayout} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ClampLayout} using {@link ClampLayout#castFrom}.
+         * {@link ClampLayout}.
          * @return A new instance of {@code ClampLayout} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ClampLayout construct() {
-            return ClampLayout.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ClampLayout.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ClampLayout build() {
+            return (ClampLayout) org.gtk.gobject.GObject.newWithProperties(
+                ClampLayout.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -223,7 +207,7 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
          * @param maximumSize The value for the {@code maximum-size} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaximumSize(int maximumSize) {
+        public Builder setMaximumSize(int maximumSize) {
             names.add("maximum-size");
             values.add(org.gtk.gobject.Value.create(maximumSize));
             return this;
@@ -247,7 +231,7 @@ public class ClampLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gt
          * @param tighteningThreshold The value for the {@code tightening-threshold} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTighteningThreshold(int tighteningThreshold) {
+        public Builder setTighteningThreshold(int tighteningThreshold) {
             names.add("tightening-threshold");
             values.add(org.gtk.gobject.Value.create(tighteningThreshold));
             return this;

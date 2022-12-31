@@ -14,25 +14,8 @@ import org.jetbrains.annotations.*;
  */
 public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to TreeSortable if its GType is a (or inherits from) "GtkTreeSortable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TreeSortable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTreeSortable", a ClassCastException will be thrown.
-     */
-    public static TreeSortable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeSortable.getType())) {
-            return new TreeSortableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeSortable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeSortableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeSortableImpl(input, ownership);
     
     /**
      * Fills in {@code sort_column_id} and {@code order} with the current sort column and the
@@ -44,10 +27,8 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the sort column is not one of the special sort
      *   column ids.
      */
-    default boolean getSortColumnId(Out<Integer> sortColumnId, @NotNull Out<org.gtk.gtk.SortType> order) {
-        java.util.Objects.requireNonNull(sortColumnId, "Parameter 'sortColumnId' must not be null");
+    default boolean getSortColumnId(Out<Integer> sortColumnId, Out<org.gtk.gtk.SortType> order) {
         MemorySegment sortColumnIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
         MemorySegment orderPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -60,7 +41,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         }
         sortColumnId.set(sortColumnIdPOINTER.get(Interop.valueLayout.C_INT, 0));
         order.set(org.gtk.gtk.SortType.of(orderPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -77,7 +58,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -91,19 +72,15 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * default state. In this case, when the current sort column id of {@code sortable}
      * is {@code GTK_TREE_SORTABLE_DEFAULT_SORT_COLUMN_ID}, the model will be unsorted.
      * @param sortFunc The comparison function
+     * @param destroy Destroy notifier of {@code user_data}
      */
-    default void setDefaultSortFunc(@NotNull org.gtk.gtk.TreeIterCompareFunc sortFunc) {
-        java.util.Objects.requireNonNull(sortFunc, "Parameter 'sortFunc' must not be null");
+    default void setDefaultSortFunc(org.gtk.gtk.TreeIterCompareFunc sortFunc, @Nullable org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.gtk_tree_sortable_set_default_sort_func.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeIterCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(sortFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) sortFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,8 +101,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * @param sortColumnId the sort column id to set
      * @param order The sort order of the column
      */
-    default void setSortColumnId(int sortColumnId, @NotNull org.gtk.gtk.SortType order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    default void setSortColumnId(int sortColumnId, org.gtk.gtk.SortType order) {
         try {
             DowncallHandles.gtk_tree_sortable_set_sort_column_id.invokeExact(
                     handle(),
@@ -142,20 +118,16 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * the model will sort using this function.
      * @param sortColumnId the sort column id to set the function for
      * @param sortFunc The comparison function
+     * @param destroy Destroy notifier of {@code user_data}
      */
-    default void setSortFunc(int sortColumnId, @NotNull org.gtk.gtk.TreeIterCompareFunc sortFunc) {
-        java.util.Objects.requireNonNull(sortFunc, "Parameter 'sortFunc' must not be null");
+    default void setSortFunc(int sortColumnId, org.gtk.gtk.TreeIterCompareFunc sortFunc, @Nullable org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.gtk_tree_sortable_set_sort_func.invokeExact(
                     handle(),
                     sortColumnId,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeIterCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(sortFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) sortFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,7 +149,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_tree_sortable_get_type.invokeExact();
@@ -189,7 +161,18 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface SortColumnChanged {
-        void signalReceived(TreeSortable sourceTreeSortable);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeSortable) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SortColumnChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -202,16 +185,8 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
     public default Signal<TreeSortable.SortColumnChanged> onSortColumnChanged(TreeSortable.SortColumnChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("sort-column-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeSortable.Callbacks.class, "signalTreeSortableSortColumnChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TreeSortable.SortColumnChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("sort-column-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,17 +245,7 @@ public interface TreeSortable extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalTreeSortableSortColumnChanged(MemoryAddress sourceTreeSortable, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeSortable.SortColumnChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeSortable.TreeSortableImpl(sourceTreeSortable, Ownership.NONE));
-        }
-    }
-    
-    class TreeSortableImpl extends org.gtk.gobject.Object implements TreeSortable {
+    class TreeSortableImpl extends org.gtk.gobject.GObject implements TreeSortable {
         
         static {
             Gtk.javagi$ensureInitialized();

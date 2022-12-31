@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * useful in the case of important passwords. Or a derived class could
  * integrate with an application’s concept of undo/redo.
  */
-public class EntryBuffer extends org.gtk.gobject.Object {
+public class EntryBuffer extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -25,17 +25,15 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkEntryBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -43,36 +41,18 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EntryBuffer(Addressable address, Ownership ownership) {
+    protected EntryBuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EntryBuffer if its GType is a (or inherits from) "GtkEntryBuffer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EntryBuffer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkEntryBuffer", a ClassCastException will be thrown.
-     */
-    public static EntryBuffer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EntryBuffer.getType())) {
-            return new EntryBuffer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEntryBuffer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EntryBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EntryBuffer(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String initialChars, int nInitialChars) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String initialChars, int nInitialChars) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_buffer_new.invokeExact(
-                    (Addressable) (initialChars == null ? MemoryAddress.NULL : Interop.allocateNativeString(initialChars)),
+                    (Addressable) (initialChars == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(initialChars, null)),
                     nInitialChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -142,13 +122,12 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * @param chars text that was inserted
      * @param nChars number of characters inserted
      */
-    public void emitInsertedText(int position, @NotNull java.lang.String chars, int nChars) {
-        java.util.Objects.requireNonNull(chars, "Parameter 'chars' must not be null");
+    public void emitInsertedText(int position, java.lang.String chars, int nChars) {
         try {
             DowncallHandles.gtk_entry_buffer_emit_inserted_text.invokeExact(
                     handle(),
                     position,
-                    Interop.allocateNativeString(chars),
+                    Marshal.stringToAddress.marshal(chars, null),
                     nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -212,7 +191,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      *   string. This string points to internally allocated storage
      *   in the buffer and must not be freed, modified or stored.
      */
-    public @NotNull java.lang.String getText() {
+    public java.lang.String getText() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_buffer_get_text.invokeExact(
@@ -220,7 +199,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -238,14 +217,13 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * @param nChars the length of the text in characters, or -1
      * @return The number of characters actually inserted.
      */
-    public int insertText(int position, @NotNull java.lang.String chars, int nChars) {
-        java.util.Objects.requireNonNull(chars, "Parameter 'chars' must not be null");
+    public int insertText(int position, java.lang.String chars, int nChars) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_entry_buffer_insert_text.invokeExact(
                     handle(),
                     position,
-                    Interop.allocateNativeString(chars),
+                    Marshal.stringToAddress.marshal(chars, null),
                     nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -283,12 +261,11 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * @param chars the new text
      * @param nChars the number of characters in {@code text}, or -1
      */
-    public void setText(@NotNull java.lang.String chars, int nChars) {
-        java.util.Objects.requireNonNull(chars, "Parameter 'chars' must not be null");
+    public void setText(java.lang.String chars, int nChars) {
         try {
             DowncallHandles.gtk_entry_buffer_set_text.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(chars),
+                    Marshal.stringToAddress.marshal(chars, null),
                     nChars);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -299,7 +276,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_entry_buffer_get_type.invokeExact();
@@ -311,7 +288,18 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeletedText {
-        void signalReceived(EntryBuffer sourceEntryBuffer, int position, int nChars);
+        void run(int position, int nChars);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEntryBuffer, int position, int nChars) {
+            run(position, nChars);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeletedText.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -325,16 +313,8 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public Signal<EntryBuffer.DeletedText> onDeletedText(EntryBuffer.DeletedText handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("deleted-text"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryBuffer.Callbacks.class, "signalEntryBufferDeletedText",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EntryBuffer.DeletedText>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("deleted-text"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +322,18 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertedText {
-        void signalReceived(EntryBuffer sourceEntryBuffer, int position, @NotNull java.lang.String chars, int nChars);
+        void run(int position, java.lang.String chars, int nChars);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEntryBuffer, int position, MemoryAddress chars, int nChars) {
+            run(position, Marshal.addressToString.marshal(chars, null), nChars);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertedText.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -353,52 +344,46 @@ public class EntryBuffer extends org.gtk.gobject.Object {
     public Signal<EntryBuffer.InsertedText> onInsertedText(EntryBuffer.InsertedText handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("inserted-text"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryBuffer.Callbacks.class, "signalEntryBufferInsertedText",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EntryBuffer.InsertedText>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("inserted-text"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link EntryBuffer.Builder} object constructs a {@link EntryBuffer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EntryBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link EntryBuffer.Build} object constructs a {@link EntryBuffer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EntryBuffer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EntryBuffer} using {@link EntryBuffer#castFrom}.
+         * {@link EntryBuffer}.
          * @return A new instance of {@code EntryBuffer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EntryBuffer construct() {
-            return EntryBuffer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EntryBuffer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EntryBuffer build() {
+            return (EntryBuffer) org.gtk.gobject.GObject.newWithProperties(
+                EntryBuffer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -407,7 +392,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
          * @param length The value for the {@code length} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLength(int length) {
+        public Builder setLength(int length) {
             names.add("length");
             values.add(org.gtk.gobject.Value.create(length));
             return this;
@@ -418,7 +403,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
          * @param maxLength The value for the {@code max-length} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxLength(int maxLength) {
+        public Builder setMaxLength(int maxLength) {
             names.add("max-length");
             values.add(org.gtk.gobject.Value.create(maxLength));
             return this;
@@ -429,7 +414,7 @@ public class EntryBuffer extends org.gtk.gobject.Object {
          * @param text The value for the {@code text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             names.add("text");
             values.add(org.gtk.gobject.Value.create(text));
             return this;
@@ -509,20 +494,5 @@ public class EntryBuffer extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalEntryBufferDeletedText(MemoryAddress sourceEntryBuffer, int position, int nChars, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EntryBuffer.DeletedText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryBuffer(sourceEntryBuffer, Ownership.NONE), position, nChars);
-        }
-        
-        public static void signalEntryBufferInsertedText(MemoryAddress sourceEntryBuffer, int position, MemoryAddress chars, int nChars, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EntryBuffer.InsertedText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryBuffer(sourceEntryBuffer, Ownership.NONE), position, Interop.getStringFrom(chars), nChars);
-        }
     }
 }

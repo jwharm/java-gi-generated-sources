@@ -12,19 +12,10 @@ import org.jetbrains.annotations.*;
 public class EnumClass extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GEnumClass";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_type_class"),
-        Interop.valueLayout.C_INT.withName("minimum"),
-        Interop.valueLayout.C_INT.withName("maximum"),
-        Interop.valueLayout.C_INT.withName("n_values"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("values")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -32,7 +23,14 @@ public class EnumClass extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeClass.getMemoryLayout().withName("g_type_class"),
+            Interop.valueLayout.C_INT.withName("minimum"),
+            Interop.valueLayout.C_INT.withName("maximum"),
+            Interop.valueLayout.C_INT.withName("n_values"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("values")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,16 +50,26 @@ public class EnumClass extends Struct {
      * Get the value of the field {@code g_type_class}
      * @return The value of the field {@code g_type_class}
      */
-    public org.gtk.gobject.TypeClass gTypeClass$get() {
+    public org.gtk.gobject.TypeClass getGTypeClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_type_class"));
-        return new org.gtk.gobject.TypeClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code g_type_class}
+     * @param gTypeClass The new value of the field {@code g_type_class}
+     */
+    public void setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
     }
     
     /**
      * Get the value of the field {@code minimum}
      * @return The value of the field {@code minimum}
      */
-    public int minimum$get() {
+    public int getMinimum() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -72,7 +80,7 @@ public class EnumClass extends Struct {
      * Change the value of the field {@code minimum}
      * @param minimum The new value of the field {@code minimum}
      */
-    public void minimum$set(int minimum) {
+    public void setMinimum(int minimum) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimum);
@@ -82,7 +90,7 @@ public class EnumClass extends Struct {
      * Get the value of the field {@code maximum}
      * @return The value of the field {@code maximum}
      */
-    public int maximum$get() {
+    public int getMaximum() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -93,7 +101,7 @@ public class EnumClass extends Struct {
      * Change the value of the field {@code maximum}
      * @param maximum The new value of the field {@code maximum}
      */
-    public void maximum$set(int maximum) {
+    public void setMaximum(int maximum) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maximum);
@@ -103,7 +111,7 @@ public class EnumClass extends Struct {
      * Get the value of the field {@code n_values}
      * @return The value of the field {@code n_values}
      */
-    public int nValues$get() {
+    public int getNValues() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -114,7 +122,7 @@ public class EnumClass extends Struct {
      * Change the value of the field {@code n_values}
      * @param nValues The new value of the field {@code n_values}
      */
-    public void nValues$set(int nValues) {
+    public void setNValues(int nValues) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
@@ -124,21 +132,21 @@ public class EnumClass extends Struct {
      * Get the value of the field {@code values}
      * @return The value of the field {@code values}
      */
-    public org.gtk.gobject.EnumValue values$get() {
+    public org.gtk.gobject.EnumValue getValues() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("values"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gobject.EnumValue(RESULT, Ownership.UNKNOWN);
+        return org.gtk.gobject.EnumValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code values}
      * @param values The new value of the field {@code values}
      */
-    public void values$set(org.gtk.gobject.EnumValue values) {
+    public void setValues(org.gtk.gobject.EnumValue values) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("values"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), values.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));
     }
     
     /**
@@ -146,35 +154,41 @@ public class EnumClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EnumClass(Addressable address, Ownership ownership) {
+    protected EnumClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EnumClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EnumClass(input, ownership);
+    
+    /**
+     * A {@link EnumClass.Builder} object constructs a {@link EnumClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link EnumClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private EnumClass struct;
+        private final EnumClass struct;
         
-         /**
-         * A {@link EnumClass.Build} object constructs a {@link EnumClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = EnumClass.allocate();
         }
         
          /**
          * Finish building the {@link EnumClass} struct.
          * @return A new instance of {@code EnumClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EnumClass construct() {
+        public EnumClass build() {
             return struct;
         }
         
@@ -183,7 +197,7 @@ public class EnumClass extends Struct {
          * @param gTypeClass The value for the {@code gTypeClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
+        public Builder setGTypeClass(org.gtk.gobject.TypeClass gTypeClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_type_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gTypeClass == null ? MemoryAddress.NULL : gTypeClass.handle()));
@@ -195,7 +209,7 @@ public class EnumClass extends Struct {
          * @param minimum The value for the {@code minimum} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinimum(int minimum) {
+        public Builder setMinimum(int minimum) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("minimum"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minimum);
@@ -207,7 +221,7 @@ public class EnumClass extends Struct {
          * @param maximum The value for the {@code maximum} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaximum(int maximum) {
+        public Builder setMaximum(int maximum) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("maximum"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maximum);
@@ -219,7 +233,7 @@ public class EnumClass extends Struct {
          * @param nValues The value for the {@code nValues} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNValues(int nValues) {
+        public Builder setNValues(int nValues) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_values"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nValues);
@@ -232,7 +246,7 @@ public class EnumClass extends Struct {
          * @param values The value for the {@code values} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValues(org.gtk.gobject.EnumValue values) {
+        public Builder setValues(org.gtk.gobject.EnumValue values) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("values"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (values == null ? MemoryAddress.NULL : values.handle()));

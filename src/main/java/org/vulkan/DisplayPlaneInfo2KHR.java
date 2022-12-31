@@ -40,8 +40,10 @@ public class DisplayPlaneInfo2KHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DisplayPlaneInfo2KHR(Addressable address, Ownership ownership) {
+    protected DisplayPlaneInfo2KHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DisplayPlaneInfo2KHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayPlaneInfo2KHR(input, ownership);
 }

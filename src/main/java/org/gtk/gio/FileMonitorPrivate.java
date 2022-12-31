@@ -40,8 +40,10 @@ public class FileMonitorPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FileMonitorPrivate(Addressable address, Ownership ownership) {
+    protected FileMonitorPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FileMonitorPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileMonitorPrivate(input, ownership);
 }

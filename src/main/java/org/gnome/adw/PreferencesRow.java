@@ -25,17 +25,15 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
     
     private static final java.lang.String C_TYPE_NAME = "AdwPreferencesRow";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.ListBoxRow.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.ListBoxRow.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -43,40 +41,26 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * <p>
      * Because PreferencesRow is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PreferencesRow(Addressable address, Ownership ownership) {
+    protected PreferencesRow(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PreferencesRow if its GType is a (or inherits from) "AdwPreferencesRow".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PreferencesRow} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwPreferencesRow", a ClassCastException will be thrown.
-     */
-    public static PreferencesRow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PreferencesRow.getType())) {
-            return new PreferencesRow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwPreferencesRow");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PreferencesRow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PreferencesRow(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_preferences_row_new.invokeExact();
         } catch (Throwable ERR) {
@@ -96,7 +80,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * Gets the title of the preference represented by {@code self}.
      * @return the title
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_preferences_row_get_title.invokeExact(
@@ -104,7 +88,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -119,7 +103,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -134,7 +118,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -149,7 +133,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -159,12 +143,11 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * {@code PreferencesRow:use-markup} is set to {@code FALSE}.
      * @param title the title
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.adw_preferences_row_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +163,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         try {
             DowncallHandles.adw_preferences_row_set_title_selectable.invokeExact(
                     handle(),
-                    titleSelectable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(titleSelectable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,7 +181,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         try {
             DowncallHandles.adw_preferences_row_set_use_markup.invokeExact(
                     handle(),
-                    useMarkup ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useMarkup, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -212,7 +195,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         try {
             DowncallHandles.adw_preferences_row_set_use_underline.invokeExact(
                     handle(),
-                    useUnderline ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useUnderline, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,7 +205,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_preferences_row_get_type.invokeExact();
@@ -231,38 +214,40 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PreferencesRow.Builder} object constructs a {@link PreferencesRow} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PreferencesRow.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.ListBoxRow.Build {
+    public static class Builder extends org.gtk.gtk.ListBoxRow.Builder {
         
-         /**
-         * A {@link PreferencesRow.Build} object constructs a {@link PreferencesRow} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PreferencesRow} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PreferencesRow} using {@link PreferencesRow#castFrom}.
+         * {@link PreferencesRow}.
          * @return A new instance of {@code PreferencesRow} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PreferencesRow construct() {
-            return PreferencesRow.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PreferencesRow.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PreferencesRow build() {
+            return (PreferencesRow) org.gtk.gobject.GObject.newWithProperties(
+                PreferencesRow.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -274,7 +259,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -287,7 +272,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
          * @param titleSelectable The value for the {@code title-selectable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitleSelectable(boolean titleSelectable) {
+        public Builder setTitleSelectable(boolean titleSelectable) {
             names.add("title-selectable");
             values.add(org.gtk.gobject.Value.create(titleSelectable));
             return this;
@@ -302,7 +287,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
          * @param useMarkup The value for the {@code use-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseMarkup(boolean useMarkup) {
+        public Builder setUseMarkup(boolean useMarkup) {
             names.add("use-markup");
             values.add(org.gtk.gobject.Value.create(useMarkup));
             return this;
@@ -313,7 +298,7 @@ public class PreferencesRow extends org.gtk.gtk.ListBoxRow implements org.gtk.gt
          * @param useUnderline The value for the {@code use-underline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseUnderline(boolean useUnderline) {
+        public Builder setUseUnderline(boolean useUnderline) {
             names.add("use-underline");
             values.add(org.gtk.gobject.Value.create(useUnderline));
             return this;

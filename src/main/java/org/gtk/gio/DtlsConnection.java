@@ -29,25 +29,8 @@ import org.jetbrains.annotations.*;
  */
 public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to DtlsConnection if its GType is a (or inherits from) "GDtlsConnection".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DtlsConnection} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDtlsConnection", a ClassCastException will be thrown.
-     */
-    public static DtlsConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DtlsConnection.getType())) {
-            return new DtlsConnectionImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDtlsConnection");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DtlsConnectionImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DtlsConnectionImpl(input, ownership);
     
     /**
      * Close the DTLS connection. This is equivalent to calling
@@ -87,7 +70,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -103,12 +86,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,8 +101,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * case {@code error} will be set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean closeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean closeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -137,7 +115,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -148,9 +126,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if one of the signal handlers has returned
      *     {@code true} to accept {@code peer_cert}
      */
-    default boolean emitAcceptCertificate(@NotNull org.gtk.gio.TlsCertificate peerCert, @NotNull org.gtk.gio.TlsCertificateFlags errors) {
-        java.util.Objects.requireNonNull(peerCert, "Parameter 'peerCert' must not be null");
-        java.util.Objects.requireNonNull(errors, "Parameter 'errors' must not be null");
+    default boolean emitAcceptCertificate(org.gtk.gio.TlsCertificate peerCert, org.gtk.gio.TlsCertificateFlags errors) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dtls_connection_emit_accept_certificate.invokeExact(
@@ -160,7 +136,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -176,7 +152,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsCertificate(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -199,8 +175,22 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} on success, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean getChannelBindingData(@NotNull org.gtk.gio.TlsChannelBindingType type, @NotNull Out<byte[]> data) throws io.github.jwharm.javagi.GErrorException {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    default boolean getChannelBindingData(org.gtk.gio.TlsChannelBindingType type, byte[] data) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_dtls_connection_get_channel_binding_data.invokeExact(
+                    handle(),
+                    type.getValue(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
+                    (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -222,7 +212,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -238,7 +228,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsDatabase(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -255,7 +245,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsInteraction(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsInteraction.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -276,7 +266,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -293,7 +283,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsCertificate(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -302,7 +292,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * not set during the emission of {@link DtlsConnection}::accept-certificate.)
      * @return {@code conn}'s peer's certificate errors
      */
-    default @NotNull org.gtk.gio.TlsCertificateFlags getPeerCertificateErrors() {
+    default org.gtk.gio.TlsCertificateFlags getPeerCertificateErrors() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dtls_connection_get_peer_certificate_errors.invokeExact(
@@ -320,7 +310,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * that is not a recognized {@link TlsProtocolVersion}.
      * @return The current DTLS protocol version
      */
-    default @NotNull org.gtk.gio.TlsProtocolVersion getProtocolVersion() {
+    default org.gtk.gio.TlsProtocolVersion getProtocolVersion() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dtls_connection_get_protocol_version.invokeExact(
@@ -340,7 +330,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      *   from the TLS protocol in TLS 1.3.
      */
     @Deprecated
-    default @NotNull org.gtk.gio.TlsRehandshakeMode getRehandshakeMode() {
+    default org.gtk.gio.TlsRehandshakeMode getRehandshakeMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dtls_connection_get_rehandshake_mode.invokeExact(
@@ -365,7 +355,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -413,7 +403,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -429,12 +419,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -448,8 +434,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * case {@code error} will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean handshakeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean handshakeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -463,7 +448,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -511,8 +496,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * non-{@code null}.)
      * @param certificate the certificate to use for {@code conn}
      */
-    default void setCertificate(@NotNull org.gtk.gio.TlsCertificate certificate) {
-        java.util.Objects.requireNonNull(certificate, "Parameter 'certificate' must not be null");
+    default void setCertificate(org.gtk.gio.TlsCertificate certificate) {
         try {
             DowncallHandles.g_dtls_connection_set_certificate.invokeExact(
                     handle(),
@@ -576,8 +560,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      *   from the TLS protocol in TLS 1.3.
      */
     @Deprecated
-    default void setRehandshakeMode(@NotNull org.gtk.gio.TlsRehandshakeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    default void setRehandshakeMode(org.gtk.gio.TlsRehandshakeMode mode) {
         try {
             DowncallHandles.g_dtls_connection_set_rehandshake_mode.invokeExact(
                     handle(),
@@ -619,7 +602,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.g_dtls_connection_set_require_close_notify.invokeExact(
                     handle(),
-                    requireCloseNotify ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(requireCloseNotify, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -654,8 +637,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (int) DowncallHandles.g_dtls_connection_shutdown.invokeExact(
                     handle(),
-                    shutdownRead ? 1 : 0,
-                    shutdownWrite ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(shutdownRead, null).intValue(),
+                    Marshal.booleanToInteger.marshal(shutdownWrite, null).intValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -664,7 +647,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -680,16 +663,12 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.g_dtls_connection_shutdown_async.invokeExact(
                     handle(),
-                    shutdownRead ? 1 : 0,
-                    shutdownWrite ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(shutdownRead, null).intValue(),
+                    Marshal.booleanToInteger.marshal(shutdownWrite, null).intValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -703,8 +682,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
      * case {@code error} will be set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean shutdownFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean shutdownFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -718,14 +696,14 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dtls_connection_get_type.invokeExact();
@@ -737,7 +715,19 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface AcceptCertificate {
-        boolean signalReceived(DtlsConnection sourceDtlsConnection, @NotNull org.gtk.gio.TlsCertificate peerCert, @NotNull org.gtk.gio.TlsCertificateFlags errors);
+        boolean run(org.gtk.gio.TlsCertificate peerCert, org.gtk.gio.TlsCertificateFlags errors);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceDtlsConnection, MemoryAddress peerCert, int errors) {
+            var RESULT = run((org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(peerCert)), org.gtk.gio.TlsCertificate.fromAddress).marshal(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AcceptCertificate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -789,16 +779,8 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
     public default Signal<DtlsConnection.AcceptCertificate> onAcceptCertificate(DtlsConnection.AcceptCertificate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("accept-certificate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DtlsConnection.Callbacks.class, "signalDtlsConnectionAcceptCertificate",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DtlsConnection.AcceptCertificate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("accept-certificate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1004,17 +986,7 @@ public interface DtlsConnection extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static boolean signalDtlsConnectionAcceptCertificate(MemoryAddress sourceDtlsConnection, MemoryAddress peerCert, int errors, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DtlsConnection.AcceptCertificate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DtlsConnection.DtlsConnectionImpl(sourceDtlsConnection, Ownership.NONE), new org.gtk.gio.TlsCertificate(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
-        }
-    }
-    
-    class DtlsConnectionImpl extends org.gtk.gobject.Object implements DtlsConnection {
+    class DtlsConnectionImpl extends org.gtk.gobject.GObject implements DtlsConnection {
         
         static {
             Gio.javagi$ensureInitialized();

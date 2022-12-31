@@ -17,21 +17,19 @@ public class VideoCaptionMeta extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoCaptionMeta";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
-        Interop.valueLayout.C_INT.withName("caption_type"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.C_LONG.withName("size")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
+            Interop.valueLayout.C_INT.withName("caption_type"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.C_LONG.withName("size")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,16 +49,26 @@ public class VideoCaptionMeta extends Struct {
      * Get the value of the field {@code meta}
      * @return The value of the field {@code meta}
      */
-    public org.gstreamer.gst.Meta meta$get() {
+    public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return new org.gstreamer.gst.Meta(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code meta}
+     * @param meta The new value of the field {@code meta}
+     */
+    public void setMeta(org.gstreamer.gst.Meta meta) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
     }
     
     /**
      * Get the value of the field {@code caption_type}
      * @return The value of the field {@code caption_type}
      */
-    public org.gstreamer.video.VideoCaptionType captionType$get() {
+    public org.gstreamer.video.VideoCaptionType getCaptionType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("caption_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -71,17 +79,38 @@ public class VideoCaptionMeta extends Struct {
      * Change the value of the field {@code caption_type}
      * @param captionType The new value of the field {@code caption_type}
      */
-    public void captionType$set(org.gstreamer.video.VideoCaptionType captionType) {
+    public void setCaptionType(org.gstreamer.video.VideoCaptionType captionType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("caption_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), captionType.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (captionType == null ? MemoryAddress.NULL : captionType.getValue()));
+    }
+    
+    /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public PointerByte getData() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerByte(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void setData(byte[] data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
     }
     
     /**
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public long size$get() {
+    public long getSize() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -92,7 +121,7 @@ public class VideoCaptionMeta extends Struct {
      * Change the value of the field {@code size}
      * @param size The new value of the field {@code size}
      */
-    public void size$set(long size) {
+    public void setSize(long size) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -103,19 +132,21 @@ public class VideoCaptionMeta extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoCaptionMeta(Addressable address, Ownership ownership) {
+    protected VideoCaptionMeta(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo getInfo() {
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoCaptionMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoCaptionMeta(input, ownership);
+    
+    public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_caption_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -126,31 +157,35 @@ public class VideoCaptionMeta extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoCaptionMeta.Builder} object constructs a {@link VideoCaptionMeta} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoCaptionMeta.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoCaptionMeta struct;
+        private final VideoCaptionMeta struct;
         
-         /**
-         * A {@link VideoCaptionMeta.Build} object constructs a {@link VideoCaptionMeta} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoCaptionMeta.allocate();
         }
         
          /**
          * Finish building the {@link VideoCaptionMeta} struct.
          * @return A new instance of {@code VideoCaptionMeta} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoCaptionMeta construct() {
+        public VideoCaptionMeta build() {
             return struct;
         }
         
@@ -159,7 +194,7 @@ public class VideoCaptionMeta extends Struct {
          * @param meta The value for the {@code meta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMeta(org.gstreamer.gst.Meta meta) {
+        public Builder setMeta(org.gstreamer.gst.Meta meta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
@@ -171,7 +206,7 @@ public class VideoCaptionMeta extends Struct {
          * @param captionType The value for the {@code captionType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCaptionType(org.gstreamer.video.VideoCaptionType captionType) {
+        public Builder setCaptionType(org.gstreamer.video.VideoCaptionType captionType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("caption_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (captionType == null ? MemoryAddress.NULL : captionType.getValue()));
@@ -183,7 +218,7 @@ public class VideoCaptionMeta extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(byte[] data) {
+        public Builder setData(byte[] data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
@@ -195,7 +230,7 @@ public class VideoCaptionMeta extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(long size) {
+        public Builder setSize(long size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);

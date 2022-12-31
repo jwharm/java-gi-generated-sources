@@ -48,8 +48,7 @@ public enum WebRTCSDPType implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static @NotNull java.lang.String toString(@NotNull org.gstreamer.webrtc.WebRTCSDPType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String toString(org.gstreamer.webrtc.WebRTCSDPType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_webrtc_sdp_type_to_string.invokeExact(
@@ -57,7 +56,7 @@ public enum WebRTCSDPType implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

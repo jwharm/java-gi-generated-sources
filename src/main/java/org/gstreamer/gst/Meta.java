@@ -34,19 +34,17 @@ public class Meta extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMeta";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("info")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("info")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -66,7 +64,7 @@ public class Meta extends Struct {
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public org.gstreamer.gst.MetaFlags flags$get() {
+    public org.gstreamer.gst.MetaFlags getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -77,31 +75,31 @@ public class Meta extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(org.gstreamer.gst.MetaFlags flags) {
+    public void setFlags(org.gstreamer.gst.MetaFlags flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
     }
     
     /**
      * Get the value of the field {@code info}
      * @return The value of the field {@code info}
      */
-    public org.gstreamer.gst.MetaInfo info$get() {
+    public org.gstreamer.gst.MetaInfo getInfo_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("info"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code info}
      * @param info The new value of the field {@code info}
      */
-    public void info$set(org.gstreamer.gst.MetaInfo info) {
+    public void setInfo(org.gstreamer.gst.MetaInfo info) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), info.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
     }
     
     /**
@@ -109,10 +107,12 @@ public class Meta extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Meta(Addressable address, Ownership ownership) {
+    protected Meta(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Meta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Meta(input, ownership);
     
     /**
      * Meta sequence number compare function. Can be used as {@link org.gtk.glib.CompareFunc}
@@ -122,8 +122,7 @@ public class Meta extends Struct {
      *   have an equal sequence number, or a positive integer if {@code meta1} comes
      *   after {@code meta2}.
      */
-    public int compareSeqnum(@NotNull org.gstreamer.gst.Meta meta2) {
-        java.util.Objects.requireNonNull(meta2, "Parameter 'meta2' must not be null");
+    public int compareSeqnum(org.gstreamer.gst.Meta meta2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_meta_compare_seqnum.invokeExact(
@@ -149,8 +148,7 @@ public class Meta extends Struct {
         return RESULT;
     }
     
-    public static @NotNull PointerString apiTypeGetTags(@NotNull org.gtk.glib.Type api) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
+    public static PointerString apiTypeGetTags(org.gtk.glib.Type api) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_meta_api_type_get_tags.invokeExact(
@@ -167,9 +165,7 @@ public class Meta extends Struct {
      * @param tag the tag to check
      * @return {@code true} if {@code api} was registered with {@code tag}.
      */
-    public static boolean apiTypeHasTag(@NotNull org.gtk.glib.Type api, @NotNull org.gtk.glib.Quark tag) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static boolean apiTypeHasTag(org.gtk.glib.Type api, org.gtk.glib.Quark tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_meta_api_type_has_tag.invokeExact(
@@ -178,7 +174,7 @@ public class Meta extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -188,13 +184,11 @@ public class Meta extends Struct {
      * @param tags tags for {@code api}
      * @return a unique GType for {@code api}.
      */
-    public static @NotNull org.gtk.glib.Type apiTypeRegister(@NotNull java.lang.String api, @NotNull java.lang.String[] tags) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
-        java.util.Objects.requireNonNull(tags, "Parameter 'tags' must not be null");
+    public static org.gtk.glib.Type apiTypeRegister(java.lang.String api, java.lang.String[] tags) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_meta_api_type_register.invokeExact(
-                    Interop.allocateNativeString(api),
+                    Marshal.stringToAddress.marshal(api, null),
                     Interop.allocateNativeArray(tags, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -209,16 +203,15 @@ public class Meta extends Struct {
      * @return a {@link MetaInfo} with {@code impl}, or
      * {@code null} when no such metainfo exists.
      */
-    public static @Nullable org.gstreamer.gst.MetaInfo getInfo(@NotNull java.lang.String impl) {
-        java.util.Objects.requireNonNull(impl, "Parameter 'impl' must not be null");
+    public static @Nullable org.gstreamer.gst.MetaInfo getInfo(java.lang.String impl) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_meta_get_info.invokeExact(
-                    Interop.allocateNativeString(impl));
+                    Marshal.stringToAddress.marshal(impl, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -235,8 +228,20 @@ public class Meta extends Struct {
      * @return a {@link MetaInfo} that can be used to
      * access metadata.
      */
-    public static @NotNull org.gstreamer.gst.MetaInfo register(@NotNull org.gtk.glib.Type api, @NotNull java.lang.String impl, long size, @NotNull org.gstreamer.gst.MetaInitFunction initFunc, @NotNull org.gstreamer.gst.MetaFreeFunction freeFunc, @NotNull org.gstreamer.gst.MetaTransformFunction transformFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gstreamer.gst.MetaInfo register(org.gtk.glib.Type api, java.lang.String impl, long size, org.gstreamer.gst.MetaInitFunction initFunc, org.gstreamer.gst.MetaFreeFunction freeFunc, org.gstreamer.gst.MetaTransformFunction transformFunc) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gst_meta_register.invokeExact(
+                    api.getValue().longValue(),
+                    Marshal.stringToAddress.marshal(impl, null),
+                    size,
+                    (Addressable) initFunc.toCallback(),
+                    (Addressable) freeFunc.toCallback(),
+                    (Addressable) transformFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -256,28 +261,23 @@ public class Meta extends Struct {
      * @param name the name of the {@link Meta} implementation
      * @param tags tags for {@code api}
      * @param transformFunc a {@link MetaTransformFunction}
+     * @param destroyData {@link org.gtk.glib.DestroyNotify} for user_data
      * @return a {@link MetaInfo} that can be used to
      * access metadata.
      */
-    public static @NotNull org.gstreamer.gst.MetaInfo registerCustom(@NotNull java.lang.String name, @NotNull java.lang.String[] tags, @Nullable org.gstreamer.gst.CustomMetaTransformFunction transformFunc) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(tags, "Parameter 'tags' must not be null");
+    public static org.gstreamer.gst.MetaInfo registerCustom(java.lang.String name, java.lang.String[] tags, @Nullable org.gstreamer.gst.CustomMetaTransformFunction transformFunc, org.gtk.glib.DestroyNotify destroyData) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_meta_register_custom.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     Interop.allocateNativeArray(tags, false),
-                    (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbCustomMetaTransformFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (transformFunc == null ? MemoryAddress.NULL : Interop.registerCallback(transformFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) transformFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyData.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -330,31 +330,35 @@ public class Meta extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Meta.Builder} object constructs a {@link Meta} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Meta.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Meta struct;
+        private final Meta struct;
         
-         /**
-         * A {@link Meta.Build} object constructs a {@link Meta} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Meta.allocate();
         }
         
          /**
          * Finish building the {@link Meta} struct.
          * @return A new instance of {@code Meta} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Meta construct() {
+        public Meta build() {
             return struct;
         }
         
@@ -363,7 +367,7 @@ public class Meta extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gstreamer.gst.MetaFlags flags) {
+        public Builder setFlags(org.gstreamer.gst.MetaFlags flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
@@ -375,7 +379,7 @@ public class Meta extends Struct {
          * @param info The value for the {@code info} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInfo(org.gstreamer.gst.MetaInfo info) {
+        public Builder setInfo(org.gstreamer.gst.MetaInfo info) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));

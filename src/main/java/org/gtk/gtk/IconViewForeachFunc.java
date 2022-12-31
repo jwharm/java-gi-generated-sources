@@ -13,5 +13,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface IconViewForeachFunc {
-        void onIconViewForeachFunc(@NotNull org.gtk.gtk.IconView iconView, @NotNull org.gtk.gtk.TreePath path);
+    void run(org.gtk.gtk.IconView iconView, org.gtk.gtk.TreePath path);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress iconView, MemoryAddress path, MemoryAddress data) {
+        run((org.gtk.gtk.IconView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(iconView)), org.gtk.gtk.IconView.fromAddress).marshal(iconView, Ownership.NONE), org.gtk.gtk.TreePath.fromAddress.marshal(path, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IconViewForeachFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

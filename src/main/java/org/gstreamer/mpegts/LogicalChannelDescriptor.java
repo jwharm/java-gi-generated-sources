@@ -13,19 +13,17 @@ public class LogicalChannelDescriptor extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsLogicalChannelDescriptor";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("nb_channels"),
-        MemoryLayout.paddingLayout(4064),
-        MemoryLayout.sequenceLayout(64, org.gstreamer.mpegts.LogicalChannel.getMemoryLayout()).withName("channels")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("nb_channels"),
+            MemoryLayout.paddingLayout(4064),
+            MemoryLayout.sequenceLayout(64, org.gstreamer.mpegts.LogicalChannel.getMemoryLayout()).withName("channels")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,7 +43,7 @@ public class LogicalChannelDescriptor extends Struct {
      * Get the value of the field {@code nb_channels}
      * @return The value of the field {@code nb_channels}
      */
-    public int nbChannels$get() {
+    public int getNbChannels() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("nb_channels"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -56,10 +54,31 @@ public class LogicalChannelDescriptor extends Struct {
      * Change the value of the field {@code nb_channels}
      * @param nbChannels The new value of the field {@code nb_channels}
      */
-    public void nbChannels$set(int nbChannels) {
+    public void setNbChannels(int nbChannels) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("nb_channels"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nbChannels);
+    }
+    
+    /**
+     * Get the value of the field {@code channels}
+     * @return The value of the field {@code channels}
+     */
+    public org.gstreamer.mpegts.LogicalChannel[] getChannels() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("channels"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.LogicalChannel>(RESULT, org.gstreamer.mpegts.LogicalChannel.fromAddress).toArray((int) 64, org.gstreamer.mpegts.LogicalChannel.class);
+    }
+    
+    /**
+     * Change the value of the field {@code channels}
+     * @param channels The new value of the field {@code channels}
+     */
+    public void setChannels(org.gstreamer.mpegts.LogicalChannel[] channels) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("channels"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (channels == null ? MemoryAddress.NULL : Interop.allocateNativeArray(channels, org.gstreamer.mpegts.LogicalChannel.getMemoryLayout(), false)));
     }
     
     /**
@@ -67,46 +86,52 @@ public class LogicalChannelDescriptor extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LogicalChannelDescriptor(Addressable address, Ownership ownership) {
+    protected LogicalChannelDescriptor(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LogicalChannelDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LogicalChannelDescriptor(input, ownership);
+    
+    /**
+     * A {@link LogicalChannelDescriptor.Builder} object constructs a {@link LogicalChannelDescriptor} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link LogicalChannelDescriptor.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private LogicalChannelDescriptor struct;
+        private final LogicalChannelDescriptor struct;
         
-         /**
-         * A {@link LogicalChannelDescriptor.Build} object constructs a {@link LogicalChannelDescriptor} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = LogicalChannelDescriptor.allocate();
         }
         
          /**
          * Finish building the {@link LogicalChannelDescriptor} struct.
          * @return A new instance of {@code LogicalChannelDescriptor} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public LogicalChannelDescriptor construct() {
+        public LogicalChannelDescriptor build() {
             return struct;
         }
         
-        public Build setNbChannels(int nbChannels) {
+        public Builder setNbChannels(int nbChannels) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("nb_channels"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nbChannels);
             return this;
         }
         
-        public Build setChannels(org.gstreamer.mpegts.LogicalChannel[] channels) {
+        public Builder setChannels(org.gstreamer.mpegts.LogicalChannel[] channels) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("channels"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (channels == null ? MemoryAddress.NULL : Interop.allocateNativeArray(channels, org.gstreamer.mpegts.LogicalChannel.getMemoryLayout(), false)));

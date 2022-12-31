@@ -40,8 +40,10 @@ public class ImageResolve extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ImageResolve(Addressable address, Ownership ownership) {
+    protected ImageResolve(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ImageResolve> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageResolve(input, ownership);
 }

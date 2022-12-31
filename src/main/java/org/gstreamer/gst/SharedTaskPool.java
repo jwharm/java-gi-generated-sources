@@ -17,19 +17,17 @@ public class SharedTaskPool extends org.gstreamer.gst.TaskPool {
     
     private static final java.lang.String C_TYPE_NAME = "GstSharedTaskPool";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.TaskPool.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.TaskPool.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,40 +35,26 @@ public class SharedTaskPool extends org.gstreamer.gst.TaskPool {
      * <p>
      * Because SharedTaskPool is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SharedTaskPool(Addressable address, Ownership ownership) {
+    protected SharedTaskPool(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to SharedTaskPool if its GType is a (or inherits from) "GstSharedTaskPool".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SharedTaskPool} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstSharedTaskPool", a ClassCastException will be thrown.
-     */
-    public static SharedTaskPool castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SharedTaskPool.getType())) {
-            return new SharedTaskPool(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstSharedTaskPool");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SharedTaskPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SharedTaskPool(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_shared_task_pool_new.invokeExact();
         } catch (Throwable ERR) {
@@ -124,7 +108,7 @@ public class SharedTaskPool extends org.gstreamer.gst.TaskPool {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_shared_task_pool_get_type.invokeExact();
@@ -133,38 +117,40 @@ public class SharedTaskPool extends org.gstreamer.gst.TaskPool {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SharedTaskPool.Builder} object constructs a {@link SharedTaskPool} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SharedTaskPool.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.TaskPool.Build {
+    public static class Builder extends org.gstreamer.gst.TaskPool.Builder {
         
-         /**
-         * A {@link SharedTaskPool.Build} object constructs a {@link SharedTaskPool} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SharedTaskPool} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SharedTaskPool} using {@link SharedTaskPool#castFrom}.
+         * {@link SharedTaskPool}.
          * @return A new instance of {@code SharedTaskPool} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SharedTaskPool construct() {
-            return SharedTaskPool.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SharedTaskPool.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SharedTaskPool build() {
+            return (SharedTaskPool) org.gtk.gobject.GObject.newWithProperties(
+                SharedTaskPool.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

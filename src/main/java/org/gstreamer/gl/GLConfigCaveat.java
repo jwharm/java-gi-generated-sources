@@ -40,8 +40,7 @@ public enum GLConfigCaveat implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static @Nullable java.lang.String toString(@NotNull org.gstreamer.gl.GLConfigCaveat caveat) {
-        java.util.Objects.requireNonNull(caveat, "Parameter 'caveat' must not be null");
+    public static @Nullable java.lang.String toString(org.gstreamer.gl.GLConfigCaveat caveat) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_config_caveat_to_string.invokeExact(
@@ -49,7 +48,7 @@ public enum GLConfigCaveat implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

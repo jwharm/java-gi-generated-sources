@@ -36,18 +36,16 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
     
     private static final java.lang.String C_TYPE_NAME = "GFileIOStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.IOStream.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.IOStream.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -55,30 +53,12 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FileIOStream(Addressable address, Ownership ownership) {
+    protected FileIOStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FileIOStream if its GType is a (or inherits from) "GFileIOStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FileIOStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GFileIOStream", a ClassCastException will be thrown.
-     */
-    public static FileIOStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileIOStream.getType())) {
-            return new FileIOStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFileIOStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FileIOStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileIOStream(input, ownership);
     
     /**
      * Gets the entity tag for the file when it has been written.
@@ -94,7 +74,7 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -120,14 +100,13 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
      * @return a {@link FileInfo} for the {@code stream}, or {@code null} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gio.FileInfo queryInfo(@NotNull java.lang.String attributes, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
+    public org.gtk.gio.FileInfo queryInfo(java.lang.String attributes, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_io_stream_query_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attributes),
+                    Marshal.stringToAddress.marshal(attributes, null),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -136,7 +115,7 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInfo(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -151,20 +130,15 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback callback to call when the request is satisfied
      */
-    public void queryInfoAsync(@NotNull java.lang.String attributes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
+    public void queryInfoAsync(java.lang.String attributes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_io_stream_query_info_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attributes),
+                    Marshal.stringToAddress.marshal(attributes, null),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,8 +151,7 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
      * @return A {@link FileInfo} for the finished query.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gio.FileInfo queryInfoFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public org.gtk.gio.FileInfo queryInfoFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -192,14 +165,14 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInfo(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_file_io_stream_get_type.invokeExact();
@@ -208,38 +181,40 @@ public class FileIOStream extends org.gtk.gio.IOStream implements org.gtk.gio.Se
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link FileIOStream.Builder} object constructs a {@link FileIOStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FileIOStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.IOStream.Build {
+    public static class Builder extends org.gtk.gio.IOStream.Builder {
         
-         /**
-         * A {@link FileIOStream.Build} object constructs a {@link FileIOStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FileIOStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FileIOStream} using {@link FileIOStream#castFrom}.
+         * {@link FileIOStream}.
          * @return A new instance of {@code FileIOStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FileIOStream construct() {
-            return FileIOStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FileIOStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FileIOStream build() {
+            return (FileIOStream) org.gtk.gobject.GObject.newWithProperties(
+                FileIOStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

@@ -13,20 +13,18 @@ public class Simd4F extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_simd4f_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_FLOAT.withName("x"),
-        Interop.valueLayout.C_FLOAT.withName("y"),
-        Interop.valueLayout.C_FLOAT.withName("z"),
-        Interop.valueLayout.C_FLOAT.withName("w")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_FLOAT.withName("x"),
+            Interop.valueLayout.C_FLOAT.withName("y"),
+            Interop.valueLayout.C_FLOAT.withName("z"),
+            Interop.valueLayout.C_FLOAT.withName("w")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,60 +45,66 @@ public class Simd4F extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Simd4F(Addressable address, Ownership ownership) {
+    protected Simd4F(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Simd4F> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Simd4F(input, ownership);
+    
+    /**
+     * A {@link Simd4F.Builder} object constructs a {@link Simd4F} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Simd4F.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Simd4F struct;
+        private final Simd4F struct;
         
-         /**
-         * A {@link Simd4F.Build} object constructs a {@link Simd4F} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Simd4F.allocate();
         }
         
          /**
          * Finish building the {@link Simd4F} struct.
          * @return A new instance of {@code Simd4F} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Simd4F construct() {
+        public Simd4F build() {
             return struct;
         }
         
-        public Build setX(float x) {
+        public Builder setX(float x) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
             return this;
         }
         
-        public Build setY(float y) {
+        public Builder setY(float y) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
             return this;
         }
         
-        public Build setZ(float z) {
+        public Builder setZ(float z) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("z"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), z);
             return this;
         }
         
-        public Build setW(float w) {
+        public Builder setW(float w) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("w"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);

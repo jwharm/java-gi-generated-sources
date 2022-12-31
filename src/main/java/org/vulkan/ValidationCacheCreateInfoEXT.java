@@ -40,8 +40,10 @@ public class ValidationCacheCreateInfoEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ValidationCacheCreateInfoEXT(Addressable address, Ownership ownership) {
+    protected ValidationCacheCreateInfoEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ValidationCacheCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ValidationCacheCreateInfoEXT(input, ownership);
 }

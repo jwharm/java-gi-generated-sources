@@ -32,44 +32,29 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * <p>
      * Because ShortcutLabel is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ShortcutLabel(Addressable address, Ownership ownership) {
+    protected ShortcutLabel(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ShortcutLabel if its GType is a (or inherits from) "GtkShortcutLabel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ShortcutLabel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkShortcutLabel", a ClassCastException will be thrown.
-     */
-    public static ShortcutLabel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ShortcutLabel.getType())) {
-            return new ShortcutLabel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutLabel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ShortcutLabel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutLabel(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String accelerator) {
-        java.util.Objects.requireNonNull(accelerator, "Parameter 'accelerator' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String accelerator) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_label_new.invokeExact(
-                    Interop.allocateNativeString(accelerator));
+                    Marshal.stringToAddress.marshal(accelerator, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +65,7 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Creates a new {@code GtkShortcutLabel} with {@code accelerator} set.
      * @param accelerator the initial accelerator
      */
-    public ShortcutLabel(@NotNull java.lang.String accelerator) {
+    public ShortcutLabel(java.lang.String accelerator) {
         super(constructNew(accelerator), Ownership.NONE);
     }
     
@@ -96,7 +81,7 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -112,19 +97,18 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Sets the accelerator to be displayed by {@code self}.
      * @param accelerator the new accelerator
      */
-    public void setAccelerator(@NotNull java.lang.String accelerator) {
-        java.util.Objects.requireNonNull(accelerator, "Parameter 'accelerator' must not be null");
+    public void setAccelerator(java.lang.String accelerator) {
         try {
             DowncallHandles.gtk_shortcut_label_set_accelerator.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(accelerator));
+                    Marshal.stringToAddress.marshal(accelerator, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,12 +118,11 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Sets the text to be displayed by {@code self} when no accelerator is set.
      * @param disabledText the text to be displayed when no accelerator is set
      */
-    public void setDisabledText(@NotNull java.lang.String disabledText) {
-        java.util.Objects.requireNonNull(disabledText, "Parameter 'disabledText' must not be null");
+    public void setDisabledText(java.lang.String disabledText) {
         try {
             DowncallHandles.gtk_shortcut_label_set_disabled_text.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(disabledText));
+                    Marshal.stringToAddress.marshal(disabledText, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,7 +132,7 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_shortcut_label_get_type.invokeExact();
@@ -158,38 +141,40 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ShortcutLabel.Builder} object constructs a {@link ShortcutLabel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ShortcutLabel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link ShortcutLabel.Build} object constructs a {@link ShortcutLabel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ShortcutLabel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ShortcutLabel} using {@link ShortcutLabel#castFrom}.
+         * {@link ShortcutLabel}.
          * @return A new instance of {@code ShortcutLabel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ShortcutLabel construct() {
-            return ShortcutLabel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ShortcutLabel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ShortcutLabel build() {
+            return (ShortcutLabel) org.gtk.gobject.GObject.newWithProperties(
+                ShortcutLabel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -201,7 +186,7 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
          * @param accelerator The value for the {@code accelerator} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAccelerator(java.lang.String accelerator) {
+        public Builder setAccelerator(java.lang.String accelerator) {
             names.add("accelerator");
             values.add(org.gtk.gobject.Value.create(accelerator));
             return this;
@@ -212,7 +197,7 @@ public class ShortcutLabel extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
          * @param disabledText The value for the {@code disabled-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisabledText(java.lang.String disabledText) {
+        public Builder setDisabledText(java.lang.String disabledText) {
             names.add("disabled-text");
             values.add(org.gtk.gobject.Value.create(disabledText));
             return this;

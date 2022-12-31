@@ -18,21 +18,19 @@ public class VideoMasteringDisplayInfo extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoMasteringDisplayInfo";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(3, org.gstreamer.video.VideoMasteringDisplayInfoCoordinates.getMemoryLayout()).withName("display_primaries"),
-        org.gstreamer.video.VideoMasteringDisplayInfoCoordinates.getMemoryLayout().withName("white_point"),
-        Interop.valueLayout.C_INT.withName("max_display_mastering_luminance"),
-        Interop.valueLayout.C_INT.withName("min_display_mastering_luminance"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            MemoryLayout.sequenceLayout(3, org.gstreamer.video.VideoMasteringDisplayInfoCoordinates.getMemoryLayout()).withName("display_primaries"),
+            org.gstreamer.video.VideoMasteringDisplayInfoCoordinates.getMemoryLayout().withName("white_point"),
+            Interop.valueLayout.C_INT.withName("max_display_mastering_luminance"),
+            Interop.valueLayout.C_INT.withName("min_display_mastering_luminance"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,19 +47,50 @@ public class VideoMasteringDisplayInfo extends Struct {
     }
     
     /**
+     * Get the value of the field {@code display_primaries}
+     * @return The value of the field {@code display_primaries}
+     */
+    public org.gstreamer.video.VideoMasteringDisplayInfoCoordinates[] getDisplayPrimaries() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("display_primaries"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.video.VideoMasteringDisplayInfoCoordinates>(RESULT, org.gstreamer.video.VideoMasteringDisplayInfoCoordinates.fromAddress).toArray((int) 3, org.gstreamer.video.VideoMasteringDisplayInfoCoordinates.class);
+    }
+    
+    /**
+     * Change the value of the field {@code display_primaries}
+     * @param displayPrimaries The new value of the field {@code display_primaries}
+     */
+    public void setDisplayPrimaries(org.gstreamer.video.VideoMasteringDisplayInfoCoordinates[] displayPrimaries) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("display_primaries"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (displayPrimaries == null ? MemoryAddress.NULL : Interop.allocateNativeArray(displayPrimaries, org.gstreamer.video.VideoMasteringDisplayInfoCoordinates.getMemoryLayout(), false)));
+    }
+    
+    /**
      * Get the value of the field {@code white_point}
      * @return The value of the field {@code white_point}
      */
-    public org.gstreamer.video.VideoMasteringDisplayInfoCoordinates whitePoint$get() {
+    public org.gstreamer.video.VideoMasteringDisplayInfoCoordinates getWhitePoint() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("white_point"));
-        return new org.gstreamer.video.VideoMasteringDisplayInfoCoordinates(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoMasteringDisplayInfoCoordinates.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code white_point}
+     * @param whitePoint The new value of the field {@code white_point}
+     */
+    public void setWhitePoint(org.gstreamer.video.VideoMasteringDisplayInfoCoordinates whitePoint) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("white_point"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (whitePoint == null ? MemoryAddress.NULL : whitePoint.handle()));
     }
     
     /**
      * Get the value of the field {@code max_display_mastering_luminance}
      * @return The value of the field {@code max_display_mastering_luminance}
      */
-    public int maxDisplayMasteringLuminance$get() {
+    public int getMaxDisplayMasteringLuminance() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_display_mastering_luminance"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -72,7 +101,7 @@ public class VideoMasteringDisplayInfo extends Struct {
      * Change the value of the field {@code max_display_mastering_luminance}
      * @param maxDisplayMasteringLuminance The new value of the field {@code max_display_mastering_luminance}
      */
-    public void maxDisplayMasteringLuminance$set(int maxDisplayMasteringLuminance) {
+    public void setMaxDisplayMasteringLuminance(int maxDisplayMasteringLuminance) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_display_mastering_luminance"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxDisplayMasteringLuminance);
@@ -82,7 +111,7 @@ public class VideoMasteringDisplayInfo extends Struct {
      * Get the value of the field {@code min_display_mastering_luminance}
      * @return The value of the field {@code min_display_mastering_luminance}
      */
-    public int minDisplayMasteringLuminance$get() {
+    public int getMinDisplayMasteringLuminance() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("min_display_mastering_luminance"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -93,7 +122,7 @@ public class VideoMasteringDisplayInfo extends Struct {
      * Change the value of the field {@code min_display_mastering_luminance}
      * @param minDisplayMasteringLuminance The new value of the field {@code min_display_mastering_luminance}
      */
-    public void minDisplayMasteringLuminance$set(int minDisplayMasteringLuminance) {
+    public void setMinDisplayMasteringLuminance(int minDisplayMasteringLuminance) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("min_display_mastering_luminance"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minDisplayMasteringLuminance);
@@ -104,18 +133,19 @@ public class VideoMasteringDisplayInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoMasteringDisplayInfo(Addressable address, Ownership ownership) {
+    protected VideoMasteringDisplayInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoMasteringDisplayInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoMasteringDisplayInfo(input, ownership);
     
     /**
      * Set string representation of {@code minfo} to {@code caps}
      * @param caps a {@link org.gstreamer.gst.Caps}
      * @return {@code true} if {@code minfo} was successfully set to {@code caps}
      */
-    public boolean addToCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean addToCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_mastering_display_info_add_to_caps.invokeExact(
@@ -124,7 +154,7 @@ public class VideoMasteringDisplayInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -132,8 +162,7 @@ public class VideoMasteringDisplayInfo extends Struct {
      * @param caps a {@link org.gstreamer.gst.Caps}
      * @return {@code true} if {@code caps} has {@link VideoMasteringDisplayInfo} and could be parsed
      */
-    public boolean fromCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean fromCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_mastering_display_info_from_caps.invokeExact(
@@ -142,7 +171,7 @@ public class VideoMasteringDisplayInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -162,8 +191,7 @@ public class VideoMasteringDisplayInfo extends Struct {
      * @param other a {@link VideoMasteringDisplayInfo}
      * @return {@code true} if {@code minfo} and {@code other} are equal.
      */
-    public boolean isEqual(@NotNull org.gstreamer.video.VideoMasteringDisplayInfo other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public boolean isEqual(org.gstreamer.video.VideoMasteringDisplayInfo other) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_mastering_display_info_is_equal.invokeExact(
@@ -172,14 +200,14 @@ public class VideoMasteringDisplayInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Convert {@code minfo} to its string representation
      * @return a string representation of {@code minfo}
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_mastering_display_info_to_string.invokeExact(
@@ -187,7 +215,7 @@ public class VideoMasteringDisplayInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -196,18 +224,16 @@ public class VideoMasteringDisplayInfo extends Struct {
      * @param mastering a {@link org.gstreamer.gst.Structure} representing {@link VideoMasteringDisplayInfo}
      * @return {@code true} if {@code minfo} was filled with {@code mastering}
      */
-    public static boolean fromString(@NotNull org.gstreamer.video.VideoMasteringDisplayInfo minfo, @NotNull java.lang.String mastering) {
-        java.util.Objects.requireNonNull(minfo, "Parameter 'minfo' must not be null");
-        java.util.Objects.requireNonNull(mastering, "Parameter 'mastering' must not be null");
+    public static boolean fromString(org.gstreamer.video.VideoMasteringDisplayInfo minfo, java.lang.String mastering) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_mastering_display_info_from_string.invokeExact(
                     minfo.handle(),
-                    Interop.allocateNativeString(mastering));
+                    Marshal.stringToAddress.marshal(mastering, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -248,31 +274,35 @@ public class VideoMasteringDisplayInfo extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoMasteringDisplayInfo.Builder} object constructs a {@link VideoMasteringDisplayInfo} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoMasteringDisplayInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoMasteringDisplayInfo struct;
+        private final VideoMasteringDisplayInfo struct;
         
-         /**
-         * A {@link VideoMasteringDisplayInfo.Build} object constructs a {@link VideoMasteringDisplayInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoMasteringDisplayInfo.allocate();
         }
         
          /**
          * Finish building the {@link VideoMasteringDisplayInfo} struct.
          * @return A new instance of {@code VideoMasteringDisplayInfo} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoMasteringDisplayInfo construct() {
+        public VideoMasteringDisplayInfo build() {
             return struct;
         }
         
@@ -283,7 +313,7 @@ public class VideoMasteringDisplayInfo extends Struct {
          * @param displayPrimaries The value for the {@code displayPrimaries} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplayPrimaries(org.gstreamer.video.VideoMasteringDisplayInfoCoordinates[] displayPrimaries) {
+        public Builder setDisplayPrimaries(org.gstreamer.video.VideoMasteringDisplayInfoCoordinates[] displayPrimaries) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("display_primaries"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (displayPrimaries == null ? MemoryAddress.NULL : Interop.allocateNativeArray(displayPrimaries, org.gstreamer.video.VideoMasteringDisplayInfoCoordinates.getMemoryLayout(), false)));
@@ -296,7 +326,7 @@ public class VideoMasteringDisplayInfo extends Struct {
          * @param whitePoint The value for the {@code whitePoint} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWhitePoint(org.gstreamer.video.VideoMasteringDisplayInfoCoordinates whitePoint) {
+        public Builder setWhitePoint(org.gstreamer.video.VideoMasteringDisplayInfoCoordinates whitePoint) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("white_point"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (whitePoint == null ? MemoryAddress.NULL : whitePoint.handle()));
@@ -309,7 +339,7 @@ public class VideoMasteringDisplayInfo extends Struct {
          * @param maxDisplayMasteringLuminance The value for the {@code maxDisplayMasteringLuminance} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxDisplayMasteringLuminance(int maxDisplayMasteringLuminance) {
+        public Builder setMaxDisplayMasteringLuminance(int maxDisplayMasteringLuminance) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max_display_mastering_luminance"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxDisplayMasteringLuminance);
@@ -322,14 +352,14 @@ public class VideoMasteringDisplayInfo extends Struct {
          * @param minDisplayMasteringLuminance The value for the {@code minDisplayMasteringLuminance} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinDisplayMasteringLuminance(int minDisplayMasteringLuminance) {
+        public Builder setMinDisplayMasteringLuminance(int minDisplayMasteringLuminance) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("min_display_mastering_luminance"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minDisplayMasteringLuminance);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

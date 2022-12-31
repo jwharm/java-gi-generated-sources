@@ -40,8 +40,10 @@ public class AllocatorPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AllocatorPrivate(Addressable address, Ownership ownership) {
+    protected AllocatorPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AllocatorPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AllocatorPrivate(input, ownership);
 }

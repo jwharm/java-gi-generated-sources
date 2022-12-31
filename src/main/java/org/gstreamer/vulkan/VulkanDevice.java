@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class VulkanDevice extends org.gstreamer.gst.Object {
+public class VulkanDevice extends org.gstreamer.gst.GstObject {
     
     static {
         GstVulkan.javagi$ensureInitialized();
@@ -13,21 +13,19 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanDevice";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("instance"),
-        Interop.valueLayout.ADDRESS.withName("physical_device"),
-        org.vulkan.Device.getMemoryLayout().withName("device"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("instance"),
+            Interop.valueLayout.ADDRESS.withName("physical_device"),
+            org.vulkan.Device.getMemoryLayout().withName("device"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -35,41 +33,26 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
      * <p>
      * Because VulkanDevice is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanDevice(Addressable address, Ownership ownership) {
+    protected VulkanDevice(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VulkanDevice if its GType is a (or inherits from) "GstVulkanDevice".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VulkanDevice} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVulkanDevice", a ClassCastException will be thrown.
-     */
-    public static VulkanDevice castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VulkanDevice.getType())) {
-            return new VulkanDevice(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVulkanDevice");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanDevice> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDevice(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.vulkan.VulkanPhysicalDevice physicalDevice) {
-        java.util.Objects.requireNonNull(physicalDevice, "Parameter 'physicalDevice' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.vulkan.VulkanPhysicalDevice physicalDevice) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_device_new.invokeExact(
                     physicalDevice.handle());
@@ -79,13 +62,12 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public VulkanDevice(@NotNull org.gstreamer.vulkan.VulkanPhysicalDevice physicalDevice) {
+    public VulkanDevice(org.gstreamer.vulkan.VulkanPhysicalDevice physicalDevice) {
         super(constructNew(physicalDevice), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithIndex(@NotNull org.gstreamer.vulkan.VulkanInstance instance, int deviceIndex) {
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithIndex(org.gstreamer.vulkan.VulkanInstance instance, int deviceIndex) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_device_new_with_index.invokeExact(
                     instance.handle(),
@@ -96,11 +78,12 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public static VulkanDevice newWithIndex(@NotNull org.gstreamer.vulkan.VulkanInstance instance, int deviceIndex) {
-        return new VulkanDevice(constructNewWithIndex(instance, deviceIndex), Ownership.FULL);
+    public static VulkanDevice newWithIndex(org.gstreamer.vulkan.VulkanInstance instance, int deviceIndex) {
+        var RESULT = constructNewWithIndex(instance, deviceIndex);
+        return (org.gstreamer.vulkan.VulkanDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.vulkan.VulkanFence createFence() throws io.github.jwharm.javagi.GErrorException {
+    public org.gstreamer.vulkan.VulkanFence createFence() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -113,7 +96,7 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.vulkan.VulkanFence(RESULT, Ownership.FULL);
+        return org.gstreamer.vulkan.VulkanFence.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -122,17 +105,16 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
      * @param name extension name to enable
      * @return whether the Vulkan extension could be disabled.
      */
-    public boolean disableExtension(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean disableExtension(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_device_disable_extension.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -141,17 +123,16 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
      * @param name extension name to enable
      * @return whether the Vulkan extension could be enabled.
      */
-    public boolean enableExtension(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean enableExtension(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_device_enable_extension.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -160,17 +141,16 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
      * @param name layer name to enable
      * @return whether the Vulkan layer could be enabled.
      */
-    public boolean enableLayer(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean enableLayer(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_device_enable_layer.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -181,18 +161,14 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_vulkan_device_foreach_queue.invokeExact(
                     handle(),
-                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstVulkan.Callbacks.class, "cbVulkanDeviceForEachQueueFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public @NotNull org.gstreamer.vulkan.VulkanInstance getInstance() {
+    public org.gstreamer.vulkan.VulkanInstance getInstance() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_device_get_instance.invokeExact(
@@ -200,10 +176,10 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanInstance(RESULT, Ownership.FULL);
+        return (org.gstreamer.vulkan.VulkanInstance) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanInstance.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.vulkan.PhysicalDevice getPhysicalDevice() {
+    public org.vulkan.PhysicalDevice getPhysicalDevice() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_device_get_physical_device.invokeExact(
@@ -211,7 +187,7 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.vulkan.PhysicalDevice(RESULT, Ownership.UNKNOWN);
+        return org.vulkan.PhysicalDevice.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -219,20 +195,19 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
      * @param name name of the function to retrieve
      * @return the function pointer for {@code name} or {@code null}
      */
-    public @Nullable java.lang.foreign.MemoryAddress getProcAddress(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress getProcAddress(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_device_get_proc_address.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    public @NotNull org.gstreamer.vulkan.VulkanQueue getQueue(int queueFamily, int queueI) {
+    public org.gstreamer.vulkan.VulkanQueue getQueue(int queueFamily, int queueI) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_device_get_queue.invokeExact(
@@ -242,33 +217,31 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanQueue(RESULT, Ownership.FULL);
+        return (org.gstreamer.vulkan.VulkanQueue) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanQueue.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public boolean isExtensionEnabled(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean isExtensionEnabled(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_device_is_extension_enabled.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public boolean isLayerEnabled(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean isLayerEnabled(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_device_is_layer_enabled.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -289,14 +262,14 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_vulkan_device_get_type.invokeExact();
@@ -316,10 +289,7 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
      * @param device the {@link VulkanDevice}
      * @return whether {@code query} was responded to with {@code device}
      */
-    public static boolean handleContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Query query, @NotNull org.gstreamer.vulkan.VulkanDevice device) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public static boolean handleContextQuery(org.gstreamer.gst.Element element, org.gstreamer.gst.Query query, org.gstreamer.vulkan.VulkanDevice device) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_device_handle_context_query.invokeExact(
@@ -329,7 +299,7 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -339,9 +309,7 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
      * @param device a {@link VulkanDevice}
      * @return whether {@code device} contains a valid {@link VulkanDevice}
      */
-    public static boolean runContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull Out<org.gstreamer.vulkan.VulkanDevice> device) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public static boolean runContextQuery(org.gstreamer.gst.Element element, Out<org.gstreamer.vulkan.VulkanDevice> device) {
         MemorySegment devicePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -351,51 +319,53 @@ public class VulkanDevice extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        device.set(new org.gstreamer.vulkan.VulkanDevice(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        device.set((org.gstreamer.vulkan.VulkanDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link VulkanDevice.Builder} object constructs a {@link VulkanDevice} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VulkanDevice.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link VulkanDevice.Build} object constructs a {@link VulkanDevice} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanDevice} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VulkanDevice} using {@link VulkanDevice#castFrom}.
+         * {@link VulkanDevice}.
          * @return A new instance of {@code VulkanDevice} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanDevice construct() {
-            return VulkanDevice.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VulkanDevice.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VulkanDevice build() {
+            return (VulkanDevice) org.gtk.gobject.GObject.newWithProperties(
+                VulkanDevice.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setInstance(org.gstreamer.vulkan.VulkanInstance instance) {
+        public Builder setInstance(org.gstreamer.vulkan.VulkanInstance instance) {
             names.add("instance");
             values.add(org.gtk.gobject.Value.create(instance));
             return this;
         }
         
-        public Build setPhysicalDevice(org.gstreamer.vulkan.VulkanPhysicalDevice physicalDevice) {
+        public Builder setPhysicalDevice(org.gstreamer.vulkan.VulkanPhysicalDevice physicalDevice) {
             names.add("physical-device");
             values.add(org.gtk.gobject.Value.create(physicalDevice));
             return this;

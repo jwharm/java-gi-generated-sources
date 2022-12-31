@@ -40,8 +40,10 @@ public class Bitmap extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Bitmap(Addressable address, Ownership ownership) {
+    protected Bitmap(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Bitmap> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Bitmap(input, ownership);
 }

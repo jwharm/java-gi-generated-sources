@@ -30,35 +30,15 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ShadowNode(Addressable address, Ownership ownership) {
+    protected ShadowNode(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ShadowNode if its GType is a (or inherits from) "GskShadowNode".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ShadowNode} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GskShadowNode", a ClassCastException will be thrown.
-     */
-    public static ShadowNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ShadowNode.getType())) {
-            return new ShadowNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskShadowNode");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ShadowNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShadowNode(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.Shadow[] shadows, long nShadows) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(shadows, "Parameter 'shadows' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gsk.RenderNode child, org.gtk.gsk.Shadow[] shadows, long nShadows) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_shadow_node_new.invokeExact(
                     child.handle(),
@@ -77,7 +57,7 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
      * @param shadows The shadows to apply
      * @param nShadows number of entries in the {@code shadows} array
      */
-    public ShadowNode(@NotNull org.gtk.gsk.RenderNode child, @NotNull org.gtk.gsk.Shadow[] shadows, long nShadows) {
+    public ShadowNode(org.gtk.gsk.RenderNode child, org.gtk.gsk.Shadow[] shadows, long nShadows) {
         super(constructNew(child, shadows, nShadows), Ownership.FULL);
     }
     
@@ -85,7 +65,7 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
      * Retrieves the child {@code GskRenderNode} of the shadow {@code node}.
      * @return the child render node
      */
-    public @NotNull org.gtk.gsk.RenderNode getChild() {
+    public org.gtk.gsk.RenderNode getChild() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_shadow_node_get_child.invokeExact(
@@ -93,7 +73,7 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -116,7 +96,7 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
      * @param i the given index
      * @return the shadow data
      */
-    public @NotNull org.gtk.gsk.Shadow getShadow(long i) {
+    public org.gtk.gsk.Shadow getShadow(long i) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_shadow_node_get_shadow.invokeExact(
@@ -125,14 +105,14 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Shadow(RESULT, Ownership.NONE);
+        return org.gtk.gsk.Shadow.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gsk_shadow_node_get_type.invokeExact();
@@ -140,41 +120,6 @@ public class ShadowNode extends org.gtk.gsk.RenderNode {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Type(RESULT);
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends org.gtk.gsk.RenderNode.Build {
-        
-         /**
-         * A {@link ShadowNode.Build} object constructs a {@link ShadowNode} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link ShadowNode} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link ShadowNode} using {@link ShadowNode#castFrom}.
-         * @return A new instance of {@code ShadowNode} with the properties 
-         *         that were set in the Build object.
-         */
-        public ShadowNode construct() {
-            return ShadowNode.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ShadowNode.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
     }
     
     private static class DowncallHandles {

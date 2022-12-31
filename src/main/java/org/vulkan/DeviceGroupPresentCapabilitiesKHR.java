@@ -40,8 +40,10 @@ public class DeviceGroupPresentCapabilitiesKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DeviceGroupPresentCapabilitiesKHR(Addressable address, Ownership ownership) {
+    protected DeviceGroupPresentCapabilitiesKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DeviceGroupPresentCapabilitiesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupPresentCapabilitiesKHR(input, ownership);
 }

@@ -14,7 +14,15 @@ public final class Gst {
         System.loadLibrary("gstreamer-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * The allocator name for the default system memory allocator
@@ -360,8 +368,8 @@ public final class Gst {
      * gst_info_vasprintf(), gst_info_strdup_vprintf() and gst_info_strdup_printf()
      * to pretty-print the following types: {@link Caps}, {@link Structure},
      * {@link CapsFeatures}, {@link TagList}, {@link DateTime}, {@link Buffer}, {@link BufferList},
-     * {@link Message}, {@link Event}, {@link Query}, {@link Context}, {@link Pad}, {@link Object}. All
-     * {@link org.gtk.gobject.Object} types will be printed as typename plus pointer, and everything
+     * {@link Message}, {@link Event}, {@link Query}, {@link Context}, {@link Pad}, {@link GstObject}. All
+     * {@link org.gtk.gobject.GObject} types will be printed as typename plus pointer, and everything
      * else will simply be printed as pointer address.
      * <p>
      * This can only be used on types whose size is &gt;= sizeof(gpointer).
@@ -1071,26 +1079,19 @@ public final class Gst {
      * @param rSquared R-squared
      * @return {@code true} if the linear regression was successfully calculated
      */
-    public static boolean calculateLinearRegression(@NotNull org.gstreamer.gst.ClockTime xy, @NotNull org.gstreamer.gst.ClockTime temp, int n, @NotNull Out<org.gstreamer.gst.ClockTime> mNum, @NotNull Out<org.gstreamer.gst.ClockTime> mDenom, @NotNull Out<org.gstreamer.gst.ClockTime> b, @NotNull Out<org.gstreamer.gst.ClockTime> xbase, Out<Double> rSquared) {
-        java.util.Objects.requireNonNull(xy, "Parameter 'xy' must not be null");
-        PointerLong xyPOINTER = new PointerLong(xy.getValue());
-        java.util.Objects.requireNonNull(temp, "Parameter 'temp' must not be null");
-        PointerLong tempPOINTER = new PointerLong(temp.getValue());
-        java.util.Objects.requireNonNull(mNum, "Parameter 'mNum' must not be null");
+    public static boolean calculateLinearRegression(org.gstreamer.gst.ClockTime xy, org.gstreamer.gst.ClockTime temp, int n, org.gstreamer.gst.ClockTime mNum, org.gstreamer.gst.ClockTime mDenom, org.gstreamer.gst.ClockTime b, org.gstreamer.gst.ClockTime xbase, Out<Double> rSquared) {
+        MemorySegment xyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
+        MemorySegment tempPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment mNumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(mDenom, "Parameter 'mDenom' must not be null");
         MemorySegment mDenomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         MemorySegment bPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(xbase, "Parameter 'xbase' must not be null");
         MemorySegment xbasePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(rSquared, "Parameter 'rSquared' must not be null");
         MemorySegment rSquaredPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_calculate_linear_regression.invokeExact(
-                    new PointerLong(xy.getValue().longValue()).handle(),
-                    new PointerLong(temp.getValue().longValue()).handle(),
+                    (Addressable) xyPOINTER.address(),
+                    (Addressable) tempPOINTER.address(),
                     n,
                     (Addressable) mNumPOINTER.address(),
                     (Addressable) mDenomPOINTER.address(),
@@ -1100,14 +1101,14 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            xy.setValue(xyPOINTER.get());
-            temp.setValue(tempPOINTER.get());
-        mNum.set(new org.gstreamer.gst.ClockTime(mNumPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        mDenom.set(new org.gstreamer.gst.ClockTime(mDenomPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        b.set(new org.gstreamer.gst.ClockTime(bPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        xbase.set(new org.gstreamer.gst.ClockTime(xbasePOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        xy.setValue(xyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        temp.setValue(tempPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        mNum.setValue(mNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        mDenom.setValue(mDenomPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        b.setValue(bPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        xbase.setValue(xbasePOINTER.get(Interop.valueLayout.C_LONG, 0));
         rSquared.set(rSquaredPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1116,16 +1117,15 @@ public final class Gst {
      * @return a new {@link CapsFeatures} or
      *     {@code null} when the string could not be parsed.
      */
-    public static @Nullable org.gstreamer.gst.CapsFeatures capsFeaturesFromString(@NotNull java.lang.String features) {
-        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
+    public static @Nullable org.gstreamer.gst.CapsFeatures capsFeaturesFromString(java.lang.String features) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_from_string.invokeExact(
-                    Interop.allocateNativeString(features));
+                    Marshal.stringToAddress.marshal(features, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.CapsFeatures(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1136,16 +1136,15 @@ public final class Gst {
      * @param string a string to convert to {@link Caps}
      * @return a newly allocated {@link Caps}
      */
-    public static @Nullable org.gstreamer.gst.Caps capsFromString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static @Nullable org.gstreamer.gst.Caps capsFromString(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_from_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1161,8 +1160,7 @@ public final class Gst {
      * pointer casts.
      * @param objectPtr a pointer to a {@link MiniObject} reference
      */
-    public static void clearMiniObject(@NotNull PointerProxy<org.gstreamer.gst.MiniObject> objectPtr) {
-        java.util.Objects.requireNonNull(objectPtr, "Parameter 'objectPtr' must not be null");
+    public static void clearMiniObject(PointerProxy<org.gstreamer.gst.MiniObject> objectPtr) {
         try {
             DowncallHandles.gst_clear_mini_object.invokeExact(
                     objectPtr.handle());
@@ -1172,7 +1170,7 @@ public final class Gst {
     }
     
     /**
-     * Clears a reference to a {@link Object}.
+     * Clears a reference to a {@link GstObject}.
      * <p>
      * {@code object_ptr} must not be {@code null}.
      * <p>
@@ -1182,10 +1180,9 @@ public final class Gst {
      * <p>
      * A macro is also included that allows this function to be used without
      * pointer casts.
-     * @param objectPtr a pointer to a {@link Object} reference
+     * @param objectPtr a pointer to a {@link GstObject} reference
      */
-    public static void clearObject(@NotNull PointerProxy<org.gstreamer.gst.Object> objectPtr) {
-        java.util.Objects.requireNonNull(objectPtr, "Parameter 'objectPtr' must not be null");
+    public static void clearObject(PointerProxy<org.gstreamer.gst.GstObject> objectPtr) {
         try {
             DowncallHandles.gst_clear_object.invokeExact(
                     objectPtr.handle());
@@ -1207,8 +1204,7 @@ public final class Gst {
      * pointer casts.
      * @param structurePtr a pointer to a {@link Structure} reference
      */
-    public static void clearStructure(@NotNull PointerProxy<org.gstreamer.gst.Structure> structurePtr) {
-        java.util.Objects.requireNonNull(structurePtr, "Parameter 'structurePtr' must not be null");
+    public static void clearStructure(PointerProxy<org.gstreamer.gst.Structure> structurePtr) {
         try {
             DowncallHandles.gst_clear_structure.invokeExact(
                     structurePtr.handle());
@@ -1217,7 +1213,7 @@ public final class Gst {
         }
     }
     
-    public static @NotNull org.gtk.glib.Quark coreErrorQuark() {
+    public static org.gtk.glib.Quark coreErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_core_error_quark.invokeExact();
@@ -1231,18 +1227,14 @@ public final class Gst {
      * Adds the logging function to the list of logging functions.
      * Be sure to use {@code G_GNUC_NO_INSTRUMENT} on that function, it is needed.
      * @param func the function to use
+     * @param notify called when {@code user_data} is not used anymore
      */
-    public static void debugAddLogFunction(@NotNull org.gstreamer.gst.LogFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void debugAddLogFunction(org.gstreamer.gst.LogFunction func, org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_debug_add_log_function.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbLogFunction",
-                            MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1278,9 +1270,7 @@ public final class Gst {
      * @return a string containing the pipeline in graphviz
      * dot format.
      */
-    public static @NotNull java.lang.String debugBinToDotData(@NotNull org.gstreamer.gst.Bin bin, @NotNull org.gstreamer.gst.DebugGraphDetails details) {
-        java.util.Objects.requireNonNull(bin, "Parameter 'bin' must not be null");
-        java.util.Objects.requireNonNull(details, "Parameter 'details' must not be null");
+    public static java.lang.String debugBinToDotData(org.gstreamer.gst.Bin bin, org.gstreamer.gst.DebugGraphDetails details) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_debug_bin_to_dot_data.invokeExact(
@@ -1289,7 +1279,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1303,15 +1293,12 @@ public final class Gst {
      * @param details type of {@link DebugGraphDetails} to use
      * @param fileName output base filename (e.g. "myplayer")
      */
-    public static void debugBinToDotFile(@NotNull org.gstreamer.gst.Bin bin, @NotNull org.gstreamer.gst.DebugGraphDetails details, @NotNull java.lang.String fileName) {
-        java.util.Objects.requireNonNull(bin, "Parameter 'bin' must not be null");
-        java.util.Objects.requireNonNull(details, "Parameter 'details' must not be null");
-        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
+    public static void debugBinToDotFile(org.gstreamer.gst.Bin bin, org.gstreamer.gst.DebugGraphDetails details, java.lang.String fileName) {
         try {
             DowncallHandles.gst_debug_bin_to_dot_file.invokeExact(
                     bin.handle(),
                     details.getValue(),
-                    Interop.allocateNativeString(fileName));
+                    Marshal.stringToAddress.marshal(fileName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1324,15 +1311,12 @@ public final class Gst {
      * @param details type of {@link DebugGraphDetails} to use
      * @param fileName output base filename (e.g. "myplayer")
      */
-    public static void debugBinToDotFileWithTs(@NotNull org.gstreamer.gst.Bin bin, @NotNull org.gstreamer.gst.DebugGraphDetails details, @NotNull java.lang.String fileName) {
-        java.util.Objects.requireNonNull(bin, "Parameter 'bin' must not be null");
-        java.util.Objects.requireNonNull(details, "Parameter 'details' must not be null");
-        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
+    public static void debugBinToDotFileWithTs(org.gstreamer.gst.Bin bin, org.gstreamer.gst.DebugGraphDetails details, java.lang.String fileName) {
         try {
             DowncallHandles.gst_debug_bin_to_dot_file_with_ts.invokeExact(
                     bin.handle(),
                     details.getValue(),
-                    Interop.allocateNativeString(fileName));
+                    Marshal.stringToAddress.marshal(fileName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1346,7 +1330,7 @@ public final class Gst {
      * @return a string containing the color
      *     definition
      */
-    public static @NotNull java.lang.String debugConstructTermColor(int colorinfo) {
+    public static java.lang.String debugConstructTermColor(int colorinfo) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_debug_construct_term_color.invokeExact(
@@ -1354,7 +1338,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1384,21 +1368,21 @@ public final class Gst {
      * @return the list of
      *     debug categories
      */
-    public static @NotNull org.gtk.glib.SList debugGetAllCategories() {
+    public static org.gtk.glib.SList debugGetAllCategories() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_debug_get_all_categories.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
      * Changes the coloring mode for debug output.
      * @return see {@code GstDebugColorMode} for possible values.
      */
-    public static @NotNull org.gstreamer.gst.DebugColorMode debugGetColorMode() {
+    public static org.gstreamer.gst.DebugColorMode debugGetColorMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_debug_get_color_mode.invokeExact();
@@ -1412,7 +1396,7 @@ public final class Gst {
      * Returns the default threshold that is used for new categories.
      * @return the default threshold level
      */
-    public static @NotNull org.gstreamer.gst.DebugLevel debugGetDefaultThreshold() {
+    public static org.gstreamer.gst.DebugLevel debugGetDefaultThreshold() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_debug_get_default_threshold.invokeExact();
@@ -1422,8 +1406,7 @@ public final class Gst {
         return org.gstreamer.gst.DebugLevel.of(RESULT);
     }
     
-    public static @Nullable java.lang.String debugGetStackTrace(@NotNull org.gstreamer.gst.StackTraceFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static @Nullable java.lang.String debugGetStackTrace(org.gstreamer.gst.StackTraceFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_debug_get_stack_trace.invokeExact(
@@ -1431,7 +1414,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1445,7 +1428,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1459,7 +1442,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1467,8 +1450,7 @@ public final class Gst {
      * @param level the level to get the name for
      * @return the name
      */
-    public static @NotNull java.lang.String debugLevelGetName(@NotNull org.gstreamer.gst.DebugLevel level) {
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
+    public static java.lang.String debugLevelGetName(org.gstreamer.gst.DebugLevel level) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_debug_level_get_name.invokeExact(
@@ -1476,7 +1458,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1491,21 +1473,16 @@ public final class Gst {
      * @param format a printf style format string
      * @param varargs optional arguments for the format
      */
-    public static void debugLog(@NotNull org.gstreamer.gst.DebugCategory category, @NotNull org.gstreamer.gst.DebugLevel level, @NotNull java.lang.String file, @NotNull java.lang.String function, int line, @Nullable org.gtk.gobject.Object object, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(category, "Parameter 'category' must not be null");
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void debugLog(org.gstreamer.gst.DebugCategory category, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, @Nullable org.gtk.gobject.GObject object, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_debug_log.invokeExact(
                     category.handle(),
                     level.getValue(),
-                    Interop.allocateNativeString(file),
-                    Interop.allocateNativeString(function),
+                    Marshal.stringToAddress.marshal(file, null),
+                    Marshal.stringToAddress.marshal(function, null),
                     line,
                     (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1530,24 +1507,18 @@ public final class Gst {
      * @param object the object this message relates to,
      *     or {@code null} if none
      * @param message the actual message
-     * @param userData the FILE* to log to
      */
-    public static void debugLogDefault(@NotNull org.gstreamer.gst.DebugCategory category, @NotNull org.gstreamer.gst.DebugLevel level, @NotNull java.lang.String file, @NotNull java.lang.String function, int line, @Nullable org.gtk.gobject.Object object, @NotNull org.gstreamer.gst.DebugMessage message, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(category, "Parameter 'category' must not be null");
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public static void debugLogDefault(org.gstreamer.gst.DebugCategory category, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, @Nullable org.gtk.gobject.GObject object, org.gstreamer.gst.DebugMessage message) {
         try {
             DowncallHandles.gst_debug_log_default.invokeExact(
                     category.handle(),
                     level.getValue(),
-                    Interop.allocateNativeString(file),
-                    Interop.allocateNativeString(function),
+                    Marshal.stringToAddress.marshal(file, null),
+                    Marshal.stringToAddress.marshal(function, null),
                     line,
                     (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
                     message.handle(),
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1568,26 +1539,21 @@ public final class Gst {
      *     or {@code null} if none
      * @param message the actual message
      */
-    public static @NotNull java.lang.String debugLogGetLine(@NotNull org.gstreamer.gst.DebugCategory category, @NotNull org.gstreamer.gst.DebugLevel level, @NotNull java.lang.String file, @NotNull java.lang.String function, int line, @Nullable org.gtk.gobject.Object object, @NotNull org.gstreamer.gst.DebugMessage message) {
-        java.util.Objects.requireNonNull(category, "Parameter 'category' must not be null");
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public static java.lang.String debugLogGetLine(org.gstreamer.gst.DebugCategory category, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, @Nullable org.gtk.gobject.GObject object, org.gstreamer.gst.DebugMessage message) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_debug_log_get_line.invokeExact(
                     category.handle(),
                     level.getValue(),
-                    Interop.allocateNativeString(file),
-                    Interop.allocateNativeString(function),
+                    Marshal.stringToAddress.marshal(file, null),
+                    Marshal.stringToAddress.marshal(function, null),
                     line,
                     (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
                     message.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1601,21 +1567,16 @@ public final class Gst {
      *     or {@code null} if none
      * @param messageString a message string
      */
-    public static void debugLogLiteral(@NotNull org.gstreamer.gst.DebugCategory category, @NotNull org.gstreamer.gst.DebugLevel level, @NotNull java.lang.String file, @NotNull java.lang.String function, int line, @Nullable org.gtk.gobject.Object object, @NotNull java.lang.String messageString) {
-        java.util.Objects.requireNonNull(category, "Parameter 'category' must not be null");
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
-        java.util.Objects.requireNonNull(messageString, "Parameter 'messageString' must not be null");
+    public static void debugLogLiteral(org.gstreamer.gst.DebugCategory category, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, @Nullable org.gtk.gobject.GObject object, java.lang.String messageString) {
         try {
             DowncallHandles.gst_debug_log_literal.invokeExact(
                     category.handle(),
                     level.getValue(),
-                    Interop.allocateNativeString(file),
-                    Interop.allocateNativeString(function),
+                    Marshal.stringToAddress.marshal(file, null),
+                    Marshal.stringToAddress.marshal(function, null),
                     line,
                     (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
-                    Interop.allocateNativeString(messageString));
+                    Marshal.stringToAddress.marshal(messageString, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1633,22 +1594,16 @@ public final class Gst {
      * @param format a printf style format string
      * @param args optional arguments for the format
      */
-    public static void debugLogValist(@NotNull org.gstreamer.gst.DebugCategory category, @NotNull org.gstreamer.gst.DebugLevel level, @NotNull java.lang.String file, @NotNull java.lang.String function, int line, @Nullable org.gtk.gobject.Object object, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(category, "Parameter 'category' must not be null");
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static void debugLogValist(org.gstreamer.gst.DebugCategory category, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, @Nullable org.gtk.gobject.GObject object, java.lang.String format, VaList args) {
         try {
             DowncallHandles.gst_debug_log_valist.invokeExact(
                     category.handle(),
                     level.getValue(),
-                    Interop.allocateNativeString(file),
-                    Interop.allocateNativeString(function),
+                    Marshal.stringToAddress.marshal(file, null),
+                    Marshal.stringToAddress.marshal(function, null),
                     line,
                     (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1674,19 +1629,25 @@ public final class Gst {
      * @return How many instances of the function were removed
      */
     public static int debugRemoveLogFunction(@Nullable org.gstreamer.gst.LogFunction func) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_debug_remove_log_function.invokeExact(
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
      * Removes all registered instances of log functions with the given user data.
-     * @param data user data of the log function to remove
      * @return How many instances of the function were removed
      */
-    public static int debugRemoveLogFunctionByData(@Nullable java.lang.foreign.MemoryAddress data) {
+    public static int debugRemoveLogFunctionByData() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_debug_remove_log_function_by_data.invokeExact(
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1711,7 +1672,7 @@ public final class Gst {
      * @return NULL-terminated array of
      * strings with the debug output per thread
      */
-    public static @NotNull PointerString debugRingBufferLoggerGetLogs() {
+    public static PointerString debugRingBufferLoggerGetLogs() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_debug_ring_buffer_logger_get_logs.invokeExact();
@@ -1733,7 +1694,7 @@ public final class Gst {
     public static void debugSetActive(boolean active) {
         try {
             DowncallHandles.gst_debug_set_active.invokeExact(
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1745,8 +1706,7 @@ public final class Gst {
      * This function may be called before gst_init().
      * @param mode The coloring mode for debug output. See {@code GstDebugColorMode}.
      */
-    public static void debugSetColorMode(@NotNull org.gstreamer.gst.DebugColorMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static void debugSetColorMode(org.gstreamer.gst.DebugColorMode mode) {
         try {
             DowncallHandles.gst_debug_set_color_mode.invokeExact(
                     mode.getValue());
@@ -1762,11 +1722,10 @@ public final class Gst {
      * @param mode The coloring mode for debug output. One of the following:
      * "on", "auto", "off", "disable", "unix".
      */
-    public static void debugSetColorModeFromString(@NotNull java.lang.String mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static void debugSetColorModeFromString(java.lang.String mode) {
         try {
             DowncallHandles.gst_debug_set_color_mode_from_string.invokeExact(
-                    Interop.allocateNativeString(mode));
+                    Marshal.stringToAddress.marshal(mode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1783,7 +1742,7 @@ public final class Gst {
     public static void debugSetColored(boolean colored) {
         try {
             DowncallHandles.gst_debug_set_colored.invokeExact(
-                    colored ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(colored, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1796,8 +1755,7 @@ public final class Gst {
      * This function may be called before gst_init().
      * @param level level to set
      */
-    public static void debugSetDefaultThreshold(@NotNull org.gstreamer.gst.DebugLevel level) {
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
+    public static void debugSetDefaultThreshold(org.gstreamer.gst.DebugLevel level) {
         try {
             DowncallHandles.gst_debug_set_default_threshold.invokeExact(
                     level.getValue());
@@ -1812,12 +1770,10 @@ public final class Gst {
      * @param name name of the categories to set
      * @param level level to set them to
      */
-    public static void debugSetThresholdForName(@NotNull java.lang.String name, @NotNull org.gstreamer.gst.DebugLevel level) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
+    public static void debugSetThresholdForName(java.lang.String name, org.gstreamer.gst.DebugLevel level) {
         try {
             DowncallHandles.gst_debug_set_threshold_for_name.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     level.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1835,12 +1791,11 @@ public final class Gst {
      *     new thresholds
      * {@code false} if adding the threshold described by {@code list} to the one already set.
      */
-    public static void debugSetThresholdFromString(@NotNull java.lang.String list, boolean reset) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static void debugSetThresholdFromString(java.lang.String list, boolean reset) {
         try {
             DowncallHandles.gst_debug_set_threshold_from_string.invokeExact(
-                    Interop.allocateNativeString(list),
-                    reset ? 1 : 0);
+                    Marshal.stringToAddress.marshal(list, null),
+                    Marshal.booleanToInteger.marshal(reset, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1850,11 +1805,10 @@ public final class Gst {
      * Resets all categories with the given name back to the default level.
      * @param name name of the categories to set
      */
-    public static void debugUnsetThresholdForName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static void debugUnsetThresholdForName(java.lang.String name) {
         try {
             DowncallHandles.gst_debug_unset_threshold_for_name.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1881,11 +1835,9 @@ public final class Gst {
     /**
      * Registers a new {@link DynamicTypeFactory} in the registry
      * @param plugin The {@link Plugin} to register {@code dyn_type} for
-     * @param type The {@link org.gtk.gobject.Type} to register dynamically
+     * @param type The {@link org.gtk.glib.Type} to register dynamically
      */
-    public static boolean dynamicTypeRegister(@NotNull org.gstreamer.gst.Plugin plugin, @NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(plugin, "Parameter 'plugin' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static boolean dynamicTypeRegister(org.gstreamer.gst.Plugin plugin, org.gtk.glib.Type type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_dynamic_type_register.invokeExact(
@@ -1894,7 +1846,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1904,8 +1856,7 @@ public final class Gst {
      * @return a newly allocated string describing
      *     the error message (in UTF-8 encoding)
      */
-    public static @NotNull java.lang.String errorGetMessage(@NotNull org.gtk.glib.Quark domain, int code) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+    public static java.lang.String errorGetMessage(org.gtk.glib.Quark domain, int code) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_error_get_message.invokeExact(
@@ -1914,7 +1865,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1922,8 +1873,7 @@ public final class Gst {
      * @param type a {@link EventType}
      * @return a {@link EventTypeFlags}.
      */
-    public static @NotNull org.gstreamer.gst.EventTypeFlags eventTypeGetFlags(@NotNull org.gstreamer.gst.EventType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gstreamer.gst.EventTypeFlags eventTypeGetFlags(org.gstreamer.gst.EventType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_event_type_get_flags.invokeExact(
@@ -1939,8 +1889,7 @@ public final class Gst {
      * @param type the event type
      * @return a reference to the static name of the event.
      */
-    public static @NotNull java.lang.String eventTypeGetName(@NotNull org.gstreamer.gst.EventType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String eventTypeGetName(org.gstreamer.gst.EventType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_event_type_get_name.invokeExact(
@@ -1948,7 +1897,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1956,8 +1905,7 @@ public final class Gst {
      * @param type the event type
      * @return the quark associated with the event type
      */
-    public static @NotNull org.gtk.glib.Quark eventTypeToQuark(@NotNull org.gstreamer.gst.EventType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.glib.Quark eventTypeToQuark(org.gstreamer.gst.EventType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_event_type_to_quark.invokeExact(
@@ -1980,13 +1928,12 @@ public final class Gst {
      *   free the URI string with g_free() when no longer needed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String filenameToUri(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static java.lang.String filenameToUri(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_filename_to_uri.invokeExact(
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1994,7 +1941,7 @@ public final class Gst {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2002,8 +1949,7 @@ public final class Gst {
      * @param ret a {@link FlowReturn} to get the name of.
      * @return a static string with the name of the flow return.
      */
-    public static @NotNull java.lang.String flowGetName(@NotNull org.gstreamer.gst.FlowReturn ret) {
-        java.util.Objects.requireNonNull(ret, "Parameter 'ret' must not be null");
+    public static java.lang.String flowGetName(org.gstreamer.gst.FlowReturn ret) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_flow_get_name.invokeExact(
@@ -2011,7 +1957,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2020,8 +1966,7 @@ public final class Gst {
      * @return the quark associated with the flow return or 0 if an
      * invalid return was specified.
      */
-    public static @NotNull org.gtk.glib.Quark flowToQuark(@NotNull org.gstreamer.gst.FlowReturn ret) {
-        java.util.Objects.requireNonNull(ret, "Parameter 'ret' must not be null");
+    public static org.gtk.glib.Quark flowToQuark(org.gstreamer.gst.FlowReturn ret) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_flow_to_quark.invokeExact(
@@ -2038,12 +1983,11 @@ public final class Gst {
      * @return The format with {@code nick} or GST_FORMAT_UNDEFINED
      * if the format was not registered.
      */
-    public static @NotNull org.gstreamer.gst.Format formatGetByNick(@NotNull java.lang.String nick) {
-        java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
+    public static org.gstreamer.gst.Format formatGetByNick(java.lang.String nick) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_format_get_by_nick.invokeExact(
-                    Interop.allocateNativeString(nick));
+                    Marshal.stringToAddress.marshal(nick, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2058,8 +2002,7 @@ public final class Gst {
      * <p>
      * MT safe.
      */
-    public static @Nullable org.gstreamer.gst.FormatDefinition formatGetDetails(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static @Nullable org.gstreamer.gst.FormatDefinition formatGetDetails(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_format_get_details.invokeExact(
@@ -2067,7 +2010,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FormatDefinition(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.FormatDefinition.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2076,8 +2019,7 @@ public final class Gst {
      * @return a reference to the static name of the format
      * or {@code null} if the format is unknown.
      */
-    public static @Nullable java.lang.String formatGetName(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static @Nullable java.lang.String formatGetName(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_format_get_name.invokeExact(
@@ -2085,7 +2027,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2093,14 +2035,14 @@ public final class Gst {
      * only.
      * @return a GstIterator of {@link FormatDefinition}.
      */
-    public static @NotNull org.gstreamer.gst.Iterator formatIterateDefinitions() {
+    public static org.gstreamer.gst.Iterator formatIterateDefinitions() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_format_iterate_definitions.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2113,14 +2055,12 @@ public final class Gst {
      * <p>
      * MT safe.
      */
-    public static @NotNull org.gstreamer.gst.Format formatRegister(@NotNull java.lang.String nick, @NotNull java.lang.String description) {
-        java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
+    public static org.gstreamer.gst.Format formatRegister(java.lang.String nick, java.lang.String description) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_format_register.invokeExact(
-                    Interop.allocateNativeString(nick),
-                    Interop.allocateNativeString(description));
+                    Marshal.stringToAddress.marshal(nick, null),
+                    Marshal.stringToAddress.marshal(description, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2133,8 +2073,7 @@ public final class Gst {
      * @return the quark associated with the format or 0 if the format
      * is unknown.
      */
-    public static @NotNull org.gtk.glib.Quark formatToQuark(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gtk.glib.Quark formatToQuark(org.gstreamer.gst.Format format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_format_to_quark.invokeExact(
@@ -2151,9 +2090,7 @@ public final class Gst {
      * @param format the format to find
      * @return {@code true} if the format is found inside the array
      */
-    public static boolean formatsContains(@NotNull org.gstreamer.gst.Format[] formats, @NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(formats, "Parameter 'formats' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static boolean formatsContains(org.gstreamer.gst.Format[] formats, org.gstreamer.gst.Format format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_formats_contains.invokeExact(
@@ -2162,7 +2099,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2183,7 +2120,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2197,17 +2134,16 @@ public final class Gst {
      * @param varargs the printf arguments for {@code format}
      * @return a newly allocated null terminated string or {@code null} on any error
      */
-    public static @Nullable java.lang.String infoStrdupPrintf(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static @Nullable java.lang.String infoStrdupPrintf(java.lang.String format, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_info_strdup_printf.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2221,18 +2157,16 @@ public final class Gst {
      * @param args the va_list of printf arguments for {@code format}
      * @return a newly allocated null terminated string or {@code null} on any error
      */
-    public static @Nullable java.lang.String infoStrdupVprintf(@NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static @Nullable java.lang.String infoStrdupVprintf(java.lang.String format, VaList args) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_info_strdup_vprintf.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2250,21 +2184,18 @@ public final class Gst {
      * @param args the va_list of printf arguments for {@code format}
      * @return the length of the string allocated into {@code result} or -1 on any error
      */
-    public static int infoVasprintf(@NotNull Out<java.lang.String> result, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static int infoVasprintf(Out<java.lang.String> result, java.lang.String format, VaList args) {
         MemorySegment resultPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_info_vasprintf.invokeExact(
                     (Addressable) resultPOINTER.address(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        result.set(Interop.getStringFrom(resultPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        result.set(Marshal.addressToString.marshal(resultPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return RESULT;
     }
     
@@ -2304,7 +2235,7 @@ public final class Gst {
         java.lang.String[] argvARRAY = new java.lang.String[argc.get().intValue()];
         for (int I = 0; I < argc.get().intValue(); I++) {
             var OBJ = argvPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            argvARRAY[I] = Interop.getStringFrom(OBJ);
+            argvARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         argv.set(argvARRAY);
     }
@@ -2341,10 +2272,10 @@ public final class Gst {
         java.lang.String[] argvARRAY = new java.lang.String[argc.get().intValue()];
         for (int I = 0; I < argc.get().intValue(); I++) {
             var OBJ = argvPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            argvARRAY[I] = Interop.getStringFrom(OBJ);
+            argvARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         argv.set(argvARRAY);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2368,7 +2299,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.OptionGroup(RESULT, Ownership.FULL);
+        return org.gtk.glib.OptionGroup.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2383,7 +2314,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2398,10 +2329,10 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark libraryErrorQuark() {
+    public static org.gtk.glib.Quark libraryErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_library_error_quark.invokeExact();
@@ -2417,17 +2348,16 @@ public final class Gst {
      * @param name Name of the first field to set
      * @param varargs variable arguments in the same form as {@link Structure}
      */
-    public static @NotNull org.gstreamer.gst.Structure makeElementMessageDetails(@NotNull java.lang.String name, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gstreamer.gst.Structure makeElementMessageDetails(java.lang.String name, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_make_element_message_details.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2453,8 +2383,8 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (oldMessage != null) oldMessage.set(new org.gstreamer.gst.Message(oldMessagePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (oldMessage != null) oldMessage.set(org.gstreamer.gst.Message.fromAddress.marshal(oldMessagePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2462,8 +2392,7 @@ public final class Gst {
      * @param type the message type
      * @return a reference to the static name of the message.
      */
-    public static @NotNull java.lang.String messageTypeGetName(@NotNull org.gstreamer.gst.MessageType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String messageTypeGetName(org.gstreamer.gst.MessageType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_type_get_name.invokeExact(
@@ -2471,7 +2400,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2479,8 +2408,7 @@ public final class Gst {
      * @param type the message type
      * @return the quark associated with the message type
      */
-    public static @NotNull org.gtk.glib.Quark messageTypeToQuark(@NotNull org.gstreamer.gst.MessageType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.glib.Quark messageTypeToQuark(org.gstreamer.gst.MessageType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_message_type_to_quark.invokeExact(
@@ -2491,8 +2419,7 @@ public final class Gst {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull PointerString metaApiTypeGetTags(@NotNull org.gtk.glib.Type api) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
+    public static PointerString metaApiTypeGetTags(org.gtk.glib.Type api) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_meta_api_type_get_tags.invokeExact(
@@ -2509,9 +2436,7 @@ public final class Gst {
      * @param tag the tag to check
      * @return {@code true} if {@code api} was registered with {@code tag}.
      */
-    public static boolean metaApiTypeHasTag(@NotNull org.gtk.glib.Type api, @NotNull org.gtk.glib.Quark tag) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static boolean metaApiTypeHasTag(org.gtk.glib.Type api, org.gtk.glib.Quark tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_meta_api_type_has_tag.invokeExact(
@@ -2520,7 +2445,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2530,13 +2455,11 @@ public final class Gst {
      * @param tags tags for {@code api}
      * @return a unique GType for {@code api}.
      */
-    public static @NotNull org.gtk.glib.Type metaApiTypeRegister(@NotNull java.lang.String api, @NotNull java.lang.String[] tags) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
-        java.util.Objects.requireNonNull(tags, "Parameter 'tags' must not be null");
+    public static org.gtk.glib.Type metaApiTypeRegister(java.lang.String api, java.lang.String[] tags) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_meta_api_type_register.invokeExact(
-                    Interop.allocateNativeString(api),
+                    Marshal.stringToAddress.marshal(api, null),
                     Interop.allocateNativeArray(tags, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2551,16 +2474,15 @@ public final class Gst {
      * @return a {@link MetaInfo} with {@code impl}, or
      * {@code null} when no such metainfo exists.
      */
-    public static @Nullable org.gstreamer.gst.MetaInfo metaGetInfo(@NotNull java.lang.String impl) {
-        java.util.Objects.requireNonNull(impl, "Parameter 'impl' must not be null");
+    public static @Nullable org.gstreamer.gst.MetaInfo metaGetInfo(java.lang.String impl) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_meta_get_info.invokeExact(
-                    Interop.allocateNativeString(impl));
+                    Marshal.stringToAddress.marshal(impl, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2577,8 +2499,20 @@ public final class Gst {
      * @return a {@link MetaInfo} that can be used to
      * access metadata.
      */
-    public static @NotNull org.gstreamer.gst.MetaInfo metaRegister(@NotNull org.gtk.glib.Type api, @NotNull java.lang.String impl, long size, @NotNull org.gstreamer.gst.MetaInitFunction initFunc, @NotNull org.gstreamer.gst.MetaFreeFunction freeFunc, @NotNull org.gstreamer.gst.MetaTransformFunction transformFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gstreamer.gst.MetaInfo metaRegister(org.gtk.glib.Type api, java.lang.String impl, long size, org.gstreamer.gst.MetaInitFunction initFunc, org.gstreamer.gst.MetaFreeFunction freeFunc, org.gstreamer.gst.MetaTransformFunction transformFunc) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gst_meta_register.invokeExact(
+                    api.getValue().longValue(),
+                    Marshal.stringToAddress.marshal(impl, null),
+                    size,
+                    (Addressable) initFunc.toCallback(),
+                    (Addressable) freeFunc.toCallback(),
+                    (Addressable) transformFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2598,28 +2532,23 @@ public final class Gst {
      * @param name the name of the {@link Meta} implementation
      * @param tags tags for {@code api}
      * @param transformFunc a {@link MetaTransformFunction}
+     * @param destroyData {@link org.gtk.glib.DestroyNotify} for user_data
      * @return a {@link MetaInfo} that can be used to
      * access metadata.
      */
-    public static @NotNull org.gstreamer.gst.MetaInfo metaRegisterCustom(@NotNull java.lang.String name, @NotNull java.lang.String[] tags, @Nullable org.gstreamer.gst.CustomMetaTransformFunction transformFunc) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(tags, "Parameter 'tags' must not be null");
+    public static org.gstreamer.gst.MetaInfo metaRegisterCustom(java.lang.String name, java.lang.String[] tags, @Nullable org.gstreamer.gst.CustomMetaTransformFunction transformFunc, org.gtk.glib.DestroyNotify destroyData) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_meta_register_custom.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     Interop.allocateNativeArray(tags, false),
-                    (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbCustomMetaTransformFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (transformFunc == null ? MemoryAddress.NULL : Interop.registerCallback(transformFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (transformFunc == null ? MemoryAddress.NULL : (Addressable) transformFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyData.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2643,8 +2572,8 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (olddata != null) olddata.set(new org.gstreamer.gst.MiniObject(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (olddata != null) olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2654,8 +2583,7 @@ public final class Gst {
      *     be stolen
      * @return the {@link MiniObject} at {@code oldata}
      */
-    public static @Nullable org.gstreamer.gst.MiniObject miniObjectSteal(@NotNull Out<org.gstreamer.gst.MiniObject> olddata) {
-        java.util.Objects.requireNonNull(olddata, "Parameter 'olddata' must not be null");
+    public static @Nullable org.gstreamer.gst.MiniObject miniObjectSteal(Out<org.gstreamer.gst.MiniObject> olddata) {
         MemorySegment olddataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2664,8 +2592,8 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        olddata.set(new org.gstreamer.gst.MiniObject(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gstreamer.gst.MiniObject(RESULT, Ownership.FULL);
+        olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2680,10 +2608,8 @@ public final class Gst {
      * @param newdata pointer to new mini-object
      * @return {@code true} if {@code newdata} was different from {@code olddata}
      */
-    public static boolean miniObjectTake(@NotNull Out<org.gstreamer.gst.MiniObject> olddata, @NotNull org.gstreamer.gst.MiniObject newdata) {
-        java.util.Objects.requireNonNull(olddata, "Parameter 'olddata' must not be null");
+    public static boolean miniObjectTake(Out<org.gstreamer.gst.MiniObject> olddata, org.gstreamer.gst.MiniObject newdata) {
         MemorySegment olddataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(newdata, "Parameter 'newdata' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mini_object_take.invokeExact(
@@ -2692,8 +2618,8 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        olddata.set(new org.gstreamer.gst.MiniObject(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        olddata.set(org.gstreamer.gst.MiniObject.fromAddress.marshal(olddataPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2701,8 +2627,7 @@ public final class Gst {
      * @param mode the pad mode
      * @return short mnemonic for pad mode {@code mode}
      */
-    public static @NotNull java.lang.String padModeGetName(@NotNull org.gstreamer.gst.PadMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static java.lang.String padModeGetName(org.gstreamer.gst.PadMode mode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pad_mode_get_name.invokeExact(
@@ -2710,7 +2635,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2725,24 +2650,19 @@ public final class Gst {
      * @param flags flags for the property specified
      * @return a newly created parameter specification
      */
-    public static @NotNull org.gtk.gobject.ParamSpec paramSpecArray(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.gobject.ParamSpec elementSpec, @NotNull org.gtk.gobject.ParamFlags flags) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
-        java.util.Objects.requireNonNull(blurb, "Parameter 'blurb' must not be null");
-        java.util.Objects.requireNonNull(elementSpec, "Parameter 'elementSpec' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.gobject.ParamSpec paramSpecArray(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.ParamSpec elementSpec, org.gtk.gobject.ParamFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_param_spec_array.invokeExact(
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(nick),
-                    Interop.allocateNativeString(blurb),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(nick, null),
+                    Marshal.stringToAddress.marshal(blurb, null),
                     elementSpec.handle(),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2762,17 +2682,13 @@ public final class Gst {
      * @param flags flags for the property specified
      * @return a newly created parameter specification
      */
-    public static @Nullable org.gtk.gobject.ParamSpec paramSpecFraction(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, int minNum, int minDenom, int maxNum, int maxDenom, int defaultNum, int defaultDenom, @NotNull org.gtk.gobject.ParamFlags flags) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
-        java.util.Objects.requireNonNull(blurb, "Parameter 'blurb' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static @Nullable org.gtk.gobject.ParamSpec paramSpecFraction(java.lang.String name, java.lang.String nick, java.lang.String blurb, int minNum, int minDenom, int maxNum, int maxDenom, int defaultNum, int defaultDenom, org.gtk.gobject.ParamFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_param_spec_fraction.invokeExact(
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(nick),
-                    Interop.allocateNativeString(blurb),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(nick, null),
+                    Marshal.stringToAddress.marshal(blurb, null),
                     minNum,
                     minDenom,
                     maxNum,
@@ -2783,10 +2699,10 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gtk.glib.Type parentBufferMetaApiGetType() {
+    public static org.gtk.glib.Type parentBufferMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_parent_buffer_meta_api_get_type.invokeExact();
@@ -2800,14 +2716,14 @@ public final class Gst {
      * Gets the global {@link MetaInfo} describing  the {@link ParentBufferMeta} meta.
      * @return The {@link MetaInfo}
      */
-    public static @NotNull org.gstreamer.gst.MetaInfo parentBufferMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo parentBufferMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_parent_buffer_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2827,14 +2743,13 @@ public final class Gst {
      *   newly-created bin, or {@code null} if an error occurred.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.gst.Bin parseBinFromDescription(@NotNull java.lang.String binDescription, boolean ghostUnlinkedPads) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(binDescription, "Parameter 'binDescription' must not be null");
+    public static org.gstreamer.gst.Bin parseBinFromDescription(java.lang.String binDescription, boolean ghostUnlinkedPads) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_parse_bin_from_description.invokeExact(
-                    Interop.allocateNativeString(binDescription),
-                    ghostUnlinkedPads ? 1 : 0,
+                    Marshal.stringToAddress.marshal(binDescription, null),
+                    Marshal.booleanToInteger.marshal(ghostUnlinkedPads, null).intValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2842,7 +2757,7 @@ public final class Gst {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.gst.Bin(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Bin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bin.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2867,15 +2782,13 @@ public final class Gst {
      *   occurred.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.gst.Element parseBinFromDescriptionFull(@NotNull java.lang.String binDescription, boolean ghostUnlinkedPads, @Nullable org.gstreamer.gst.ParseContext context, @NotNull org.gstreamer.gst.ParseFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(binDescription, "Parameter 'binDescription' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gstreamer.gst.Element parseBinFromDescriptionFull(java.lang.String binDescription, boolean ghostUnlinkedPads, @Nullable org.gstreamer.gst.ParseContext context, org.gstreamer.gst.ParseFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_parse_bin_from_description_full.invokeExact(
-                    Interop.allocateNativeString(binDescription),
-                    ghostUnlinkedPads ? 1 : 0,
+                    Marshal.stringToAddress.marshal(binDescription, null),
+                    Marshal.booleanToInteger.marshal(ghostUnlinkedPads, null).intValue(),
                     (Addressable) (context == null ? MemoryAddress.NULL : context.handle()),
                     flags.getValue(),
                     (Addressable) GERROR);
@@ -2885,14 +2798,14 @@ public final class Gst {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the error quark used by the parsing subsystem.
      * @return the quark of the parse errors.
      */
-    public static @NotNull org.gtk.glib.Quark parseErrorQuark() {
+    public static org.gtk.glib.Quark parseErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_parse_error_quark.invokeExact();
@@ -2917,13 +2830,12 @@ public final class Gst {
      *   than is returned.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.gst.Element parseLaunch(@NotNull java.lang.String pipelineDescription) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(pipelineDescription, "Parameter 'pipelineDescription' must not be null");
+    public static org.gstreamer.gst.Element parseLaunch(java.lang.String pipelineDescription) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_parse_launch.invokeExact(
-                    Interop.allocateNativeString(pipelineDescription),
+                    Marshal.stringToAddress.marshal(pipelineDescription, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2931,7 +2843,7 @@ public final class Gst {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2953,14 +2865,12 @@ public final class Gst {
      *    which case they are put in a {@link Bin} instead).
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.gst.Element parseLaunchFull(@NotNull java.lang.String pipelineDescription, @Nullable org.gstreamer.gst.ParseContext context, @NotNull org.gstreamer.gst.ParseFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(pipelineDescription, "Parameter 'pipelineDescription' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gstreamer.gst.Element parseLaunchFull(java.lang.String pipelineDescription, @Nullable org.gstreamer.gst.ParseContext context, org.gstreamer.gst.ParseFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_parse_launch_full.invokeExact(
-                    Interop.allocateNativeString(pipelineDescription),
+                    Marshal.stringToAddress.marshal(pipelineDescription, null),
                     (Addressable) (context == null ? MemoryAddress.NULL : context.handle()),
                     flags.getValue(),
                     (Addressable) GERROR);
@@ -2970,7 +2880,7 @@ public final class Gst {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2982,8 +2892,7 @@ public final class Gst {
      * on failure.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.gst.Element parseLaunchv(@NotNull java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
+    public static org.gstreamer.gst.Element parseLaunchv(java.lang.String[] argv) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2996,7 +2905,7 @@ public final class Gst {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3014,9 +2923,7 @@ public final class Gst {
      *   on failure)
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.gst.Element parseLaunchvFull(@NotNull java.lang.String[] argv, @Nullable org.gstreamer.gst.ParseContext context, @NotNull org.gstreamer.gst.ParseFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gstreamer.gst.Element parseLaunchvFull(java.lang.String[] argv, @Nullable org.gstreamer.gst.ParseContext context, org.gstreamer.gst.ParseFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -3031,14 +2938,14 @@ public final class Gst {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the error quark.
      * @return The error quark used in GError messages
      */
-    public static @NotNull org.gtk.glib.Quark pluginErrorQuark() {
+    public static org.gtk.glib.Quark pluginErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_plugin_error_quark.invokeExact();
@@ -3062,11 +2969,11 @@ public final class Gst {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_poll_new.invokeExact(
-                    controllable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(controllable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Poll(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Poll.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3087,7 +2994,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Poll(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Poll.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3103,7 +3010,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3113,16 +3020,15 @@ public final class Gst {
      * @param appDir the application specific preset dir
      * @return {@code true} for success, {@code false} if the dir already has been set
      */
-    public static boolean presetSetAppDir(@NotNull java.lang.String appDir) {
-        java.util.Objects.requireNonNull(appDir, "Parameter 'appDir' must not be null");
+    public static boolean presetSetAppDir(java.lang.String appDir) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_preset_set_app_dir.invokeExact(
-                    Interop.allocateNativeString(appDir));
+                    Marshal.stringToAddress.marshal(appDir, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3142,11 +3048,10 @@ public final class Gst {
      * @param format a printf style format string
      * @param varargs the printf arguments for {@code format}
      */
-    public static void print(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void print(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_print.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3170,11 +3075,10 @@ public final class Gst {
      * @param format a printf style format string
      * @param varargs the printf arguments for {@code format}
      */
-    public static void printerr(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void printerr(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_printerr.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3198,11 +3102,10 @@ public final class Gst {
      * @param format a printf style format string
      * @param varargs the printf arguments for {@code format}
      */
-    public static void printerrln(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void printerrln(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_printerrln.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3226,11 +3129,10 @@ public final class Gst {
      * @param format a printf style format string
      * @param varargs the printf arguments for {@code format}
      */
-    public static void println(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void println(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_println.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3246,8 +3148,7 @@ public final class Gst {
      * the {@code system_identifiers} supported by the set of available decryptors, or
      * {@code null} if no matches were found.
      */
-    public static @Nullable PointerString protectionFilterSystemsByAvailableDecryptors(@NotNull java.lang.String[] systemIdentifiers) {
-        java.util.Objects.requireNonNull(systemIdentifiers, "Parameter 'systemIdentifiers' must not be null");
+    public static @Nullable PointerString protectionFilterSystemsByAvailableDecryptors(java.lang.String[] systemIdentifiers) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_protection_filter_systems_by_available_decryptors.invokeExact(
@@ -3258,7 +3159,7 @@ public final class Gst {
         return new PointerString(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Type protectionMetaApiGetType() {
+    public static org.gtk.glib.Type protectionMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_protection_meta_api_get_type.invokeExact();
@@ -3268,14 +3169,14 @@ public final class Gst {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo protectionMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo protectionMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_protection_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3290,8 +3191,7 @@ public final class Gst {
      * implements the protection system indicated by that system ID, or {@code null} if no
      * element has been found.
      */
-    public static @Nullable java.lang.String protectionSelectSystem(@NotNull java.lang.String[] systemIdentifiers) {
-        java.util.Objects.requireNonNull(systemIdentifiers, "Parameter 'systemIdentifiers' must not be null");
+    public static @Nullable java.lang.String protectionSelectSystem(java.lang.String[] systemIdentifiers) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_protection_select_system.invokeExact(
@@ -3299,7 +3199,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3307,8 +3207,7 @@ public final class Gst {
      * @param type a {@link QueryType}
      * @return a {@link QueryTypeFlags}.
      */
-    public static @NotNull org.gstreamer.gst.QueryTypeFlags queryTypeGetFlags(@NotNull org.gstreamer.gst.QueryType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gstreamer.gst.QueryTypeFlags queryTypeGetFlags(org.gstreamer.gst.QueryType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_type_get_flags.invokeExact(
@@ -3324,8 +3223,7 @@ public final class Gst {
      * @param type the query type
      * @return a reference to the static name of the query.
      */
-    public static @NotNull java.lang.String queryTypeGetName(@NotNull org.gstreamer.gst.QueryType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String queryTypeGetName(org.gstreamer.gst.QueryType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_type_get_name.invokeExact(
@@ -3333,7 +3231,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3341,8 +3239,7 @@ public final class Gst {
      * @param type the query type
      * @return the quark associated with the query type
      */
-    public static @NotNull org.gtk.glib.Quark queryTypeToQuark(@NotNull org.gstreamer.gst.QueryType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.glib.Quark queryTypeToQuark(org.gstreamer.gst.QueryType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_type_to_quark.invokeExact(
@@ -3353,7 +3250,7 @@ public final class Gst {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Type referenceTimestampMetaApiGetType() {
+    public static org.gtk.glib.Type referenceTimestampMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_reference_timestamp_meta_api_get_type.invokeExact();
@@ -3367,17 +3264,17 @@ public final class Gst {
      * Gets the global {@link MetaInfo} describing the {@link ReferenceTimestampMeta} meta.
      * @return The {@link MetaInfo}
      */
-    public static @NotNull org.gstreamer.gst.MetaInfo referenceTimestampMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo referenceTimestampMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_reference_timestamp_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.Quark resourceErrorQuark() {
+    public static org.gtk.glib.Quark resourceErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_resource_error_quark.invokeExact();
@@ -3404,7 +3301,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3415,7 +3312,7 @@ public final class Gst {
     public static void segtrapSetEnabled(boolean enabled) {
         try {
             DowncallHandles.gst_segtrap_set_enabled.invokeExact(
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3427,8 +3324,7 @@ public final class Gst {
      * @return a string with the name of the state
      *    result.
      */
-    public static @NotNull java.lang.String stateChangeGetName(@NotNull org.gstreamer.gst.StateChange transition) {
-        java.util.Objects.requireNonNull(transition, "Parameter 'transition' must not be null");
+    public static java.lang.String stateChangeGetName(org.gstreamer.gst.StateChange transition) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_state_change_get_name.invokeExact(
@@ -3436,10 +3332,10 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Type staticCapsGetType() {
+    public static org.gtk.glib.Type staticCapsGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_static_caps_get_type.invokeExact();
@@ -3449,7 +3345,7 @@ public final class Gst {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Type staticPadTemplateGetType() {
+    public static org.gtk.glib.Type staticPadTemplateGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_static_pad_template_get_type.invokeExact();
@@ -3459,7 +3355,7 @@ public final class Gst {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Quark streamErrorQuark() {
+    public static org.gtk.glib.Quark streamErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_stream_error_quark.invokeExact();
@@ -3474,8 +3370,7 @@ public final class Gst {
      * @param stype a {@link StreamType}
      * @return A string describing the stream type
      */
-    public static @NotNull java.lang.String streamTypeGetName(@NotNull org.gstreamer.gst.StreamType stype) {
-        java.util.Objects.requireNonNull(stype, "Parameter 'stype' must not be null");
+    public static java.lang.String streamTypeGetName(org.gstreamer.gst.StreamType stype) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_stream_type_get_name.invokeExact(
@@ -3483,7 +3378,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3510,9 +3405,9 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (oldstrPtr != null) oldstrPtr.set(new org.gstreamer.gst.Structure(oldstrPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (oldstrPtr != null) oldstrPtr.set(org.gstreamer.gst.Structure.fromAddress.marshal(oldstrPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         newstr.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3520,16 +3415,15 @@ public final class Gst {
      * @param tag name of the tag
      * @return {@code true} if the type is already registered
      */
-    public static boolean tagExists(@NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static boolean tagExists(java.lang.String tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_exists.invokeExact(
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3538,16 +3432,15 @@ public final class Gst {
      * @param tag the tag
      * @return the human-readable description of this tag
      */
-    public static @Nullable java.lang.String tagGetDescription(@NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static @Nullable java.lang.String tagGetDescription(java.lang.String tag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_description.invokeExact(
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3555,12 +3448,11 @@ public final class Gst {
      * @param tag the tag
      * @return the flag of this tag.
      */
-    public static @NotNull org.gstreamer.gst.TagFlag tagGetFlag(@NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static org.gstreamer.gst.TagFlag tagGetFlag(java.lang.String tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_get_flag.invokeExact(
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3573,29 +3465,27 @@ public final class Gst {
      * @param tag the tag
      * @return the human-readable name of this tag
      */
-    public static @Nullable java.lang.String tagGetNick(@NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static @Nullable java.lang.String tagGetNick(java.lang.String tag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_nick.invokeExact(
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
-     * Gets the {@link org.gtk.gobject.Type} used for this tag.
+     * Gets the {@link org.gtk.glib.Type} used for this tag.
      * @param tag the tag
-     * @return the {@link org.gtk.gobject.Type} of this tag
+     * @return the {@link org.gtk.glib.Type} of this tag
      */
-    public static @NotNull org.gtk.glib.Type tagGetType(@NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static org.gtk.glib.Type tagGetType(java.lang.String tag) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_tag_get_type.invokeExact(
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3608,16 +3498,15 @@ public final class Gst {
      * @param tag tag to check
      * @return {@code true}, if the given tag is fixed.
      */
-    public static boolean tagIsFixed(@NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static boolean tagIsFixed(java.lang.String tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_is_fixed.invokeExact(
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3631,20 +3520,17 @@ public final class Gst {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *          given list.
      */
-    public static boolean tagListCopyValue(@NotNull org.gtk.gobject.Value dest, @NotNull org.gstreamer.gst.TagList list, @NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static boolean tagListCopyValue(org.gtk.gobject.Value dest, org.gstreamer.gst.TagList list, java.lang.String tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_copy_value.invokeExact(
                     dest.handle(),
                     list.handle(),
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3654,9 +3540,7 @@ public final class Gst {
      * @param dest uninitialized GValue to store result in
      * @param src GValue to copy from
      */
-    public static void tagMergeStringsWithComma(@NotNull org.gtk.gobject.Value dest, @NotNull org.gtk.gobject.Value src) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static void tagMergeStringsWithComma(org.gtk.gobject.Value dest, org.gtk.gobject.Value src) {
         try {
             DowncallHandles.gst_tag_merge_strings_with_comma.invokeExact(
                     dest.handle(),
@@ -3672,9 +3556,7 @@ public final class Gst {
      * @param dest uninitialized GValue to store result in
      * @param src GValue to copy from
      */
-    public static void tagMergeUseFirst(@NotNull org.gtk.gobject.Value dest, @NotNull org.gtk.gobject.Value src) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static void tagMergeUseFirst(org.gtk.gobject.Value dest, org.gtk.gobject.Value src) {
         try {
             DowncallHandles.gst_tag_merge_use_first.invokeExact(
                     dest.handle(),
@@ -3713,8 +3595,18 @@ public final class Gst {
      * @param blurb a human-readable description about this tag
      * @param func function for merging multiple values of this tag, or {@code null}
      */
-    public static void tagRegister(@NotNull java.lang.String name, @NotNull org.gstreamer.gst.TagFlag flag, @NotNull org.gtk.glib.Type type, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @Nullable org.gstreamer.gst.TagMergeFunc func) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void tagRegister(java.lang.String name, org.gstreamer.gst.TagFlag flag, org.gtk.glib.Type type, java.lang.String nick, java.lang.String blurb, @Nullable org.gstreamer.gst.TagMergeFunc func) {
+        try {
+            DowncallHandles.gst_tag_register.invokeExact(
+                    Marshal.stringToAddress.marshal(name, null),
+                    flag.getValue(),
+                    type.getValue().longValue(),
+                    Marshal.stringToAddress.marshal(nick, null),
+                    Marshal.stringToAddress.marshal(blurb, null),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3731,8 +3623,18 @@ public final class Gst {
      * @param blurb a human-readable description for this tag (string constant)
      * @param func function for merging multiple values of this tag, or {@code null}
      */
-    public static void tagRegisterStatic(@NotNull java.lang.String name, @NotNull org.gstreamer.gst.TagFlag flag, @NotNull org.gtk.glib.Type type, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @Nullable org.gstreamer.gst.TagMergeFunc func) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void tagRegisterStatic(java.lang.String name, org.gstreamer.gst.TagFlag flag, org.gtk.glib.Type type, java.lang.String nick, java.lang.String blurb, @Nullable org.gstreamer.gst.TagMergeFunc func) {
+        try {
+            DowncallHandles.gst_tag_register_static.invokeExact(
+                    Marshal.stringToAddress.marshal(name, null),
+                    flag.getValue(),
+                    type.getValue().longValue(),
+                    Marshal.stringToAddress.marshal(nick, null),
+                    Marshal.stringToAddress.marshal(blurb, null),
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3742,8 +3644,7 @@ public final class Gst {
      *    only for debugging purpose and should not be displayed in a user
      *    interface.
      */
-    public static @NotNull java.lang.String tocEntryTypeGetNick(@NotNull org.gstreamer.gst.TocEntryType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String tocEntryTypeGetNick(org.gstreamer.gst.TocEntryType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_entry_type_get_nick.invokeExact(
@@ -3751,7 +3652,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3760,14 +3661,14 @@ public final class Gst {
      * @return A {@link org.gtk.glib.List} of
      * {@link Tracer} objects
      */
-    public static @NotNull org.gtk.glib.List tracingGetActiveTracers() {
+    public static org.gtk.glib.List tracingGetActiveTracers() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tracing_get_active_tracers.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3777,11 +3678,18 @@ public final class Gst {
      * @param detail the detailed hook
      * @param func the callback
      */
-    public static void tracingRegisterHook(@NotNull org.gstreamer.gst.Tracer tracer, @NotNull java.lang.String detail, @NotNull org.gtk.gobject.Callback func) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void tracingRegisterHook(org.gstreamer.gst.Tracer tracer, java.lang.String detail, org.gtk.gobject.Callback func) {
+        try {
+            DowncallHandles.gst_tracing_register_hook.invokeExact(
+                    tracer.handle(),
+                    Marshal.stringToAddress.marshal(detail, null),
+                    (Addressable) func.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
-    public static @NotNull org.gtk.glib.Type typeFindGetType() {
+    public static org.gtk.glib.Type typeFindGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_type_find_get_type.invokeExact();
@@ -3803,30 +3711,26 @@ public final class Gst {
      *     that could belong to this type
      * @param possibleCaps Optionally the caps that could be returned when typefinding
      *                 succeeds
+     * @param dataNotify a {@link org.gtk.glib.DestroyNotify} that will be called on {@code data} when the plugin
+     *        is unloaded.
      * @return {@code true} on success, {@code false} otherwise
      */
-    public static boolean typeFindRegister(@Nullable org.gstreamer.gst.Plugin plugin, @NotNull java.lang.String name, int rank, @NotNull org.gstreamer.gst.TypeFindFunction func, @Nullable java.lang.String extensions, @Nullable org.gstreamer.gst.Caps possibleCaps) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static boolean typeFindRegister(@Nullable org.gstreamer.gst.Plugin plugin, java.lang.String name, int rank, org.gstreamer.gst.TypeFindFunction func, @Nullable java.lang.String extensions, @Nullable org.gstreamer.gst.Caps possibleCaps, org.gtk.glib.DestroyNotify dataNotify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_type_find_register.invokeExact(
                     (Addressable) (plugin == null ? MemoryAddress.NULL : plugin.handle()),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     rank,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbTypeFindFunction",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (extensions == null ? MemoryAddress.NULL : Interop.allocateNativeString(extensions)),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (extensions == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(extensions, null)),
                     (Addressable) (possibleCaps == null ? MemoryAddress.NULL : possibleCaps.handle()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) dataNotify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3836,8 +3740,7 @@ public final class Gst {
      * @param flags What {@link PluginAPIFlags} the plugin was marked with
      * @return {@code true} if {@code type} is plugin API or {@code false} otherwise.
      */
-    public static boolean typeIsPluginApi(@NotNull org.gtk.glib.Type type, @Nullable Out<org.gstreamer.gst.PluginAPIFlags> flags) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static boolean typeIsPluginApi(org.gtk.glib.Type type, @Nullable Out<org.gstreamer.gst.PluginAPIFlags> flags) {
         MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -3848,7 +3751,7 @@ public final class Gst {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (flags != null) flags.set(new org.gstreamer.gst.PluginAPIFlags(flagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3865,9 +3768,7 @@ public final class Gst {
      * @param type a GType
      * @param flags a set of {@link PluginAPIFlags} to further inform cache generation.
      */
-    public static void typeMarkAsPluginApi(@NotNull org.gtk.glib.Type type, @NotNull org.gstreamer.gst.PluginAPIFlags flags) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static void typeMarkAsPluginApi(org.gtk.glib.Type type, org.gstreamer.gst.PluginAPIFlags flags) {
         try {
             DowncallHandles.gst_type_mark_as_plugin_api.invokeExact(
                     type.getValue().longValue(),
@@ -3904,7 +3805,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3918,21 +3819,19 @@ public final class Gst {
      * @deprecated Use GstURI instead.
      */
     @Deprecated
-    public static @NotNull java.lang.String uriConstruct(@NotNull java.lang.String protocol, @NotNull java.lang.String location) {
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
+    public static java.lang.String uriConstruct(java.lang.String protocol, java.lang.String location) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_construct.invokeExact(
-                    Interop.allocateNativeString(protocol),
-                    Interop.allocateNativeString(location));
+                    Marshal.stringToAddress.marshal(protocol, null),
+                    Marshal.stringToAddress.marshal(location, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark uriErrorQuark() {
+    public static org.gtk.glib.Quark uriErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_error_quark.invokeExact();
@@ -3948,16 +3847,15 @@ public final class Gst {
      * @param uri The URI string to parse.
      * @return A new {@link Uri} object, or NULL.
      */
-    public static @Nullable org.gstreamer.gst.Uri uriFromString(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable org.gstreamer.gst.Uri uriFromString(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Uri(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3977,16 +3875,15 @@ public final class Gst {
      * @param uri The URI string to parse.
      * @return A new {@link Uri} object, or NULL.
      */
-    public static @Nullable org.gstreamer.gst.Uri uriFromStringEscaped(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable org.gstreamer.gst.Uri uriFromStringEscaped(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_from_string_escaped.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Uri(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4001,16 +3898,15 @@ public final class Gst {
      *     {@code null} if the URI isn't valid. If the URI does not contain a location, an
      *     empty string is returned.
      */
-    public static @Nullable java.lang.String uriGetLocation(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable java.lang.String uriGetLocation(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_location.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4019,16 +3915,15 @@ public final class Gst {
      * @param uri A URI string
      * @return The protocol for this URI.
      */
-    public static @Nullable java.lang.String uriGetProtocol(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable java.lang.String uriGetProtocol(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_get_protocol.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4037,18 +3932,16 @@ public final class Gst {
      * @param protocol a protocol string (e.g. "http")
      * @return {@code true} if the protocol matches.
      */
-    public static boolean uriHasProtocol(@NotNull java.lang.String uri, @NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static boolean uriHasProtocol(java.lang.String uri, java.lang.String protocol) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_has_protocol.invokeExact(
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4057,16 +3950,15 @@ public final class Gst {
      * @param uri A URI string
      * @return {@code true} if the string is a valid URI
      */
-    public static boolean uriIsValid(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static boolean uriIsValid(java.lang.String uri) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_is_valid.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4077,18 +3969,16 @@ public final class Gst {
      * @return A string representing the percent-encoded join of
      *          the two URIs.
      */
-    public static @NotNull java.lang.String uriJoinStrings(@NotNull java.lang.String baseUri, @NotNull java.lang.String refUri) {
-        java.util.Objects.requireNonNull(baseUri, "Parameter 'baseUri' must not be null");
-        java.util.Objects.requireNonNull(refUri, "Parameter 'refUri' must not be null");
+    public static java.lang.String uriJoinStrings(java.lang.String baseUri, java.lang.String refUri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_uri_join_strings.invokeExact(
-                    Interop.allocateNativeString(baseUri),
-                    Interop.allocateNativeString(refUri));
+                    Marshal.stringToAddress.marshal(baseUri, null),
+                    Marshal.stringToAddress.marshal(refUri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4099,18 +3989,16 @@ public final class Gst {
      * @param protocol Protocol that should be checked for (e.g. "http" or "smb")
      * @return {@code true}
      */
-    public static boolean uriProtocolIsSupported(@NotNull org.gstreamer.gst.URIType type, @NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static boolean uriProtocolIsSupported(org.gstreamer.gst.URIType type, java.lang.String protocol) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_protocol_is_supported.invokeExact(
                     type.getValue(),
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4120,16 +4008,15 @@ public final class Gst {
      * @param protocol A string
      * @return {@code true} if the string is a valid protocol identifier, {@code false} otherwise.
      */
-    public static boolean uriProtocolIsValid(@NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static boolean uriProtocolIsValid(java.lang.String protocol) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_uri_protocol_is_valid.invokeExact(
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4148,23 +4035,17 @@ public final class Gst {
      * @return The address of the found
      * element or {@code null} if nothing was found
      */
-    public static @Nullable java.lang.foreign.MemoryAddress utilArrayBinarySearch(@Nullable java.lang.foreign.MemoryAddress array, int numElements, long elementSize, @NotNull org.gtk.glib.CompareDataFunc searchFunc, @NotNull org.gstreamer.gst.SearchMode mode) {
-        java.util.Objects.requireNonNull(searchFunc, "Parameter 'searchFunc' must not be null");
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress utilArrayBinarySearch(@Nullable java.lang.foreign.MemoryAddress array, int numElements, long elementSize, org.gtk.glib.CompareDataFunc searchFunc, org.gstreamer.gst.SearchMode mode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_util_array_binary_search.invokeExact(
                     (Addressable) (array == null ? MemoryAddress.NULL : (Addressable) array),
                     numElements,
                     elementSize,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
+                    (Addressable) searchFunc.toCallback(),
                     mode.getValue(),
-                    (Addressable) (Interop.registerCallback(searchFunc)),
-                    (Addressable) (Interop.registerCallback(searchFunc)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4179,9 +4060,7 @@ public final class Gst {
      * @param destD pointer to a {@code gint} to hold the result denominator
      */
     public static void utilDoubleToFraction(double src, Out<Integer> destN, Out<Integer> destD) {
-        java.util.Objects.requireNonNull(destN, "Parameter 'destN' must not be null");
         MemorySegment destNPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(destD, "Parameter 'destD' must not be null");
         MemorySegment destDPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_util_double_to_fraction.invokeExact(
@@ -4199,8 +4078,7 @@ public final class Gst {
      * Dumps the buffer memory into a hex representation. Useful for debugging.
      * @param buf a {@link Buffer} whose memory to dump
      */
-    public static void utilDumpBuffer(@NotNull org.gstreamer.gst.Buffer buf) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public static void utilDumpBuffer(org.gstreamer.gst.Buffer buf) {
         try {
             DowncallHandles.gst_util_dump_buffer.invokeExact(
                     buf.handle());
@@ -4214,8 +4092,7 @@ public final class Gst {
      * @param mem a pointer to the memory to dump
      * @param size the size of the memory block to dump
      */
-    public static void utilDumpMem(@NotNull byte[] mem, int size) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static void utilDumpMem(byte[] mem, int size) {
         try {
             DowncallHandles.gst_util_dump_mem.invokeExact(
                     Interop.allocateNativeArray(mem, false),
@@ -4237,9 +4114,7 @@ public final class Gst {
      * @return {@code false} on overflow, {@code true} otherwise.
      */
     public static boolean utilFractionAdd(int aN, int aD, int bN, int bD, Out<Integer> resN, Out<Integer> resD) {
-        java.util.Objects.requireNonNull(resN, "Parameter 'resN' must not be null");
         MemorySegment resNPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(resD, "Parameter 'resD' must not be null");
         MemorySegment resDPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -4255,7 +4130,7 @@ public final class Gst {
         }
         resN.set(resNPOINTER.get(Interop.valueLayout.C_INT, 0));
         resD.set(resDPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4293,9 +4168,7 @@ public final class Gst {
      * @return {@code false} on overflow, {@code true} otherwise.
      */
     public static boolean utilFractionMultiply(int aN, int aD, int bN, int bD, Out<Integer> resN, Out<Integer> resD) {
-        java.util.Objects.requireNonNull(resN, "Parameter 'resN' must not be null");
         MemorySegment resNPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(resD, "Parameter 'resD' must not be null");
         MemorySegment resDPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -4311,7 +4184,7 @@ public final class Gst {
         }
         resN.set(resNPOINTER.get(Interop.valueLayout.C_INT, 0));
         resD.set(resDPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4321,7 +4194,6 @@ public final class Gst {
      * @param dest pointer to a {@code gdouble} for the result
      */
     public static void utilFractionToDouble(int srcN, int srcD, Out<Double> dest) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
         MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gst_util_fraction_to_double.invokeExact(
@@ -4353,22 +4225,19 @@ public final class Gst {
      * @param name the name of the property to set
      * @param array a return {@link org.gtk.gobject.ValueArray}
      */
-    public static boolean utilGetObjectArray(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String name, @NotNull Out<org.gtk.gobject.ValueArray> array) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static boolean utilGetObjectArray(org.gtk.gobject.GObject object, java.lang.String name, Out<org.gtk.gobject.ValueArray> array) {
         MemorySegment arrayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_util_get_object_array.invokeExact(
                     object.handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     (Addressable) arrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        array.set(new org.gtk.gobject.ValueArray(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        array.set(org.gtk.gobject.ValueArray.fromAddress.marshal(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4376,7 +4245,7 @@ public final class Gst {
      * The timestamp should not be interpreted in any other way.
      * @return the timestamp
      */
-    public static @NotNull org.gstreamer.gst.ClockTime utilGetTimestamp() {
+    public static org.gstreamer.gst.ClockTime utilGetTimestamp() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_util_get_timestamp.invokeExact();
@@ -4509,15 +4378,12 @@ public final class Gst {
      * @param name the name of the argument to set
      * @param value the string value to set
      */
-    public static void utilSetObjectArg(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String name, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void utilSetObjectArg(org.gtk.gobject.GObject object, java.lang.String name, java.lang.String value) {
         try {
             DowncallHandles.gst_util_set_object_arg.invokeExact(
                     object.handle(),
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4531,20 +4397,17 @@ public final class Gst {
      * @param name the name of the property to set
      * @param array a {@link org.gtk.gobject.ValueArray} containing the values
      */
-    public static boolean utilSetObjectArray(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String name, @NotNull org.gtk.gobject.ValueArray array) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static boolean utilSetObjectArray(org.gtk.gobject.GObject object, java.lang.String name, org.gtk.gobject.ValueArray array) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_util_set_object_array.invokeExact(
                     object.handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     array.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4556,13 +4419,11 @@ public final class Gst {
      * @param value the value to set
      * @param valueStr the string to get the value from
      */
-    public static void utilSetValueFromString(@NotNull org.gtk.gobject.Value value, @NotNull java.lang.String valueStr) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(valueStr, "Parameter 'valueStr' must not be null");
+    public static void utilSetValueFromString(org.gtk.gobject.Value value, java.lang.String valueStr) {
         try {
             DowncallHandles.gst_util_set_value_from_string.invokeExact(
                     value.handle(),
-                    Interop.allocateNativeString(valueStr));
+                    Marshal.stringToAddress.marshal(valueStr, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4742,9 +4603,7 @@ public final class Gst {
      * @param value2 another value to compare
      * @return {@code true} if the values can be compared
      */
-    public static boolean valueCanCompare(@NotNull org.gtk.gobject.Value value1, @NotNull org.gtk.gobject.Value value2) {
-        java.util.Objects.requireNonNull(value1, "Parameter 'value1' must not be null");
-        java.util.Objects.requireNonNull(value2, "Parameter 'value2' must not be null");
+    public static boolean valueCanCompare(org.gtk.gobject.Value value1, org.gtk.gobject.Value value2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_can_compare.invokeExact(
@@ -4753,7 +4612,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4764,9 +4623,7 @@ public final class Gst {
      * @param value2 another value to intersect
      * @return {@code true} if the values can intersect
      */
-    public static boolean valueCanIntersect(@NotNull org.gtk.gobject.Value value1, @NotNull org.gtk.gobject.Value value2) {
-        java.util.Objects.requireNonNull(value1, "Parameter 'value1' must not be null");
-        java.util.Objects.requireNonNull(value2, "Parameter 'value2' must not be null");
+    public static boolean valueCanIntersect(org.gtk.gobject.Value value1, org.gtk.gobject.Value value2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_can_intersect.invokeExact(
@@ -4775,7 +4632,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4784,9 +4641,7 @@ public final class Gst {
      * @param subtrahend the value to subtract
      * @return {@code true} if a subtraction is possible
      */
-    public static boolean valueCanSubtract(@NotNull org.gtk.gobject.Value minuend, @NotNull org.gtk.gobject.Value subtrahend) {
-        java.util.Objects.requireNonNull(minuend, "Parameter 'minuend' must not be null");
-        java.util.Objects.requireNonNull(subtrahend, "Parameter 'subtrahend' must not be null");
+    public static boolean valueCanSubtract(org.gtk.gobject.Value minuend, org.gtk.gobject.Value subtrahend) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_can_subtract.invokeExact(
@@ -4795,7 +4650,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4811,9 +4666,7 @@ public final class Gst {
      * @return {@code true} if there is a function allowing the two values to
      * be unioned.
      */
-    public static boolean valueCanUnion(@NotNull org.gtk.gobject.Value value1, @NotNull org.gtk.gobject.Value value2) {
-        java.util.Objects.requireNonNull(value1, "Parameter 'value1' must not be null");
-        java.util.Objects.requireNonNull(value2, "Parameter 'value2' must not be null");
+    public static boolean valueCanUnion(org.gtk.gobject.Value value1, org.gtk.gobject.Value value2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_can_union.invokeExact(
@@ -4822,7 +4675,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4835,9 +4688,7 @@ public final class Gst {
      * @param value2 another value to compare
      * @return comparison result
      */
-    public static int valueCompare(@NotNull org.gtk.gobject.Value value1, @NotNull org.gtk.gobject.Value value2) {
-        java.util.Objects.requireNonNull(value1, "Parameter 'value1' must not be null");
-        java.util.Objects.requireNonNull(value2, "Parameter 'value2' must not be null");
+    public static int valueCompare(org.gtk.gobject.Value value1, org.gtk.gobject.Value value2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_compare.invokeExact(
@@ -4857,18 +4708,16 @@ public final class Gst {
      * @param src string to deserialize
      * @return {@code true} on success
      */
-    public static boolean valueDeserialize(@NotNull org.gtk.gobject.Value dest, @NotNull java.lang.String src) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static boolean valueDeserialize(org.gtk.gobject.Value dest, java.lang.String src) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_deserialize.invokeExact(
                     dest.handle(),
-                    Interop.allocateNativeString(src));
+                    Marshal.stringToAddress.marshal(src, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4881,19 +4730,17 @@ public final class Gst {
      * @param pspec the {@link org.gtk.gobject.ParamSpec} describing the expected value
      * @return {@code true} on success
      */
-    public static boolean valueDeserializeWithPspec(@NotNull org.gtk.gobject.Value dest, @NotNull java.lang.String src, @Nullable org.gtk.gobject.ParamSpec pspec) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static boolean valueDeserializeWithPspec(org.gtk.gobject.Value dest, java.lang.String src, @Nullable org.gtk.gobject.ParamSpec pspec) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_deserialize_with_pspec.invokeExact(
                     dest.handle(),
-                    Interop.allocateNativeString(src),
+                    Marshal.stringToAddress.marshal(src, null),
                     (Addressable) (pspec == null ? MemoryAddress.NULL : pspec.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4905,9 +4752,7 @@ public final class Gst {
      * @param src the {@link org.gtk.gobject.Value} to fixate
      * @return {@code true} if {@code dest} contains a fixated version of {@code src}.
      */
-    public static boolean valueFixate(@NotNull org.gtk.gobject.Value dest, @NotNull org.gtk.gobject.Value src) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static boolean valueFixate(org.gtk.gobject.Value dest, org.gtk.gobject.Value src) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_fixate.invokeExact(
@@ -4916,7 +4761,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4927,10 +4772,7 @@ public final class Gst {
      * @param factor2 a GValue initialized to {@code GST_TYPE_FRACTION}
      * @return {@code false} in case of an error (like integer overflow), {@code true} otherwise.
      */
-    public static boolean valueFractionMultiply(@NotNull org.gtk.gobject.Value product, @NotNull org.gtk.gobject.Value factor1, @NotNull org.gtk.gobject.Value factor2) {
-        java.util.Objects.requireNonNull(product, "Parameter 'product' must not be null");
-        java.util.Objects.requireNonNull(factor1, "Parameter 'factor1' must not be null");
-        java.util.Objects.requireNonNull(factor2, "Parameter 'factor2' must not be null");
+    public static boolean valueFractionMultiply(org.gtk.gobject.Value product, org.gtk.gobject.Value factor1, org.gtk.gobject.Value factor2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_fraction_multiply.invokeExact(
@@ -4940,7 +4782,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4950,10 +4792,7 @@ public final class Gst {
      * @param subtrahend a GValue initialized to {@code GST_TYPE_FRACTION}
      * @return {@code false} in case of an error (like integer overflow), {@code true} otherwise.
      */
-    public static boolean valueFractionSubtract(@NotNull org.gtk.gobject.Value dest, @NotNull org.gtk.gobject.Value minuend, @NotNull org.gtk.gobject.Value subtrahend) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(minuend, "Parameter 'minuend' must not be null");
-        java.util.Objects.requireNonNull(subtrahend, "Parameter 'subtrahend' must not be null");
+    public static boolean valueFractionSubtract(org.gtk.gobject.Value dest, org.gtk.gobject.Value minuend, org.gtk.gobject.Value subtrahend) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_fraction_subtract.invokeExact(
@@ -4963,7 +4802,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4971,8 +4810,7 @@ public final class Gst {
      * @param value a GValue initialized to {@code GST_TYPE_BITMASK}
      * @return the bitmask.
      */
-    public static long valueGetBitmask(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static long valueGetBitmask(org.gtk.gobject.Value value) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_value_get_bitmask.invokeExact(
@@ -4990,8 +4828,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_CAPS
      * @return the contents of {@code value}
      */
-    public static @NotNull org.gstreamer.gst.Caps valueGetCaps(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static org.gstreamer.gst.Caps valueGetCaps(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_value_get_caps.invokeExact(
@@ -4999,7 +4836,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5007,8 +4844,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_CAPS_FEATURES
      * @return the contents of {@code value}
      */
-    public static @NotNull org.gstreamer.gst.CapsFeatures valueGetCapsFeatures(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static org.gstreamer.gst.CapsFeatures valueGetCapsFeatures(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_value_get_caps_features.invokeExact(
@@ -5016,7 +4852,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.CapsFeatures(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5024,8 +4860,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_DOUBLE_RANGE
      * @return the maximum of the range
      */
-    public static double valueGetDoubleRangeMax(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static double valueGetDoubleRangeMax(org.gtk.gobject.Value value) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_value_get_double_range_max.invokeExact(
@@ -5041,8 +4876,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_DOUBLE_RANGE
      * @return the minimum of the range
      */
-    public static double valueGetDoubleRangeMin(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static double valueGetDoubleRangeMin(org.gtk.gobject.Value value) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_value_get_double_range_min.invokeExact(
@@ -5058,8 +4892,7 @@ public final class Gst {
      * @param value a GValue initialized to {@code GST_TYPE_FLAG_SET}
      * @return the flags field of the flagset instance.
      */
-    public static int valueGetFlagsetFlags(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static int valueGetFlagsetFlags(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_get_flagset_flags.invokeExact(
@@ -5075,8 +4908,7 @@ public final class Gst {
      * @param value a GValue initialized to {@code GST_TYPE_FLAG_SET}
      * @return the mask field of the flagset instance.
      */
-    public static int valueGetFlagsetMask(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static int valueGetFlagsetMask(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_get_flagset_mask.invokeExact(
@@ -5092,8 +4924,7 @@ public final class Gst {
      * @param value a GValue initialized to {@code GST_TYPE_FRACTION}
      * @return the denominator of the fraction.
      */
-    public static int valueGetFractionDenominator(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static int valueGetFractionDenominator(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_get_fraction_denominator.invokeExact(
@@ -5109,8 +4940,7 @@ public final class Gst {
      * @param value a GValue initialized to {@code GST_TYPE_FRACTION}
      * @return the numerator of the fraction.
      */
-    public static int valueGetFractionNumerator(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static int valueGetFractionNumerator(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_get_fraction_numerator.invokeExact(
@@ -5126,8 +4956,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_FRACTION_RANGE
      * @return the maximum of the range
      */
-    public static @Nullable org.gtk.gobject.Value valueGetFractionRangeMax(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static @Nullable org.gtk.gobject.Value valueGetFractionRangeMax(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_value_get_fraction_range_max.invokeExact(
@@ -5135,7 +4964,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5143,8 +4972,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_FRACTION_RANGE
      * @return the minimum of the range
      */
-    public static @Nullable org.gtk.gobject.Value valueGetFractionRangeMin(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static @Nullable org.gtk.gobject.Value valueGetFractionRangeMin(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_value_get_fraction_range_min.invokeExact(
@@ -5152,7 +4980,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5160,8 +4988,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_INT64_RANGE
      * @return the maximum of the range
      */
-    public static long valueGetInt64RangeMax(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static long valueGetInt64RangeMax(org.gtk.gobject.Value value) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_value_get_int64_range_max.invokeExact(
@@ -5177,8 +5004,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_INT64_RANGE
      * @return the minimum of the range
      */
-    public static long valueGetInt64RangeMin(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static long valueGetInt64RangeMin(org.gtk.gobject.Value value) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_value_get_int64_range_min.invokeExact(
@@ -5194,8 +5020,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_INT64_RANGE
      * @return the step of the range
      */
-    public static long valueGetInt64RangeStep(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static long valueGetInt64RangeStep(org.gtk.gobject.Value value) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_value_get_int64_range_step.invokeExact(
@@ -5211,8 +5036,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_INT_RANGE
      * @return the maximum of the range
      */
-    public static int valueGetIntRangeMax(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static int valueGetIntRangeMax(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_get_int_range_max.invokeExact(
@@ -5228,8 +5052,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_INT_RANGE
      * @return the minimum of the range
      */
-    public static int valueGetIntRangeMin(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static int valueGetIntRangeMin(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_get_int_range_min.invokeExact(
@@ -5245,8 +5068,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_INT_RANGE
      * @return the step of the range
      */
-    public static int valueGetIntRangeStep(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static int valueGetIntRangeStep(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_get_int_range_step.invokeExact(
@@ -5262,8 +5084,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_STRUCTURE
      * @return the contents of {@code value}
      */
-    public static @NotNull org.gstreamer.gst.Structure valueGetStructure(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static org.gstreamer.gst.Structure valueGetStructure(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_value_get_structure.invokeExact(
@@ -5271,7 +5092,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5280,9 +5101,7 @@ public final class Gst {
      * @param dest the target value
      * @param src the source value
      */
-    public static void valueInitAndCopy(@NotNull org.gtk.gobject.Value dest, @NotNull org.gtk.gobject.Value src) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static void valueInitAndCopy(org.gtk.gobject.Value dest, org.gtk.gobject.Value src) {
         try {
             DowncallHandles.gst_value_init_and_copy.invokeExact(
                     dest.handle(),
@@ -5304,21 +5123,18 @@ public final class Gst {
      * @param value2 another value to intersect
      * @return {@code true} if the intersection is non-empty
      */
-    public static boolean valueIntersect(@NotNull org.gtk.gobject.Value dest, @NotNull org.gtk.gobject.Value value1, @NotNull org.gtk.gobject.Value value2) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(value1, "Parameter 'value1' must not be null");
-        java.util.Objects.requireNonNull(value2, "Parameter 'value2' must not be null");
+    public static boolean valueIntersect(@Nullable org.gtk.gobject.Value dest, org.gtk.gobject.Value value1, org.gtk.gobject.Value value2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_intersect.invokeExact(
-                    dest.handle(),
+                    (Addressable) (dest == null ? MemoryAddress.NULL : dest.handle()),
                     value1.handle(),
                     value2.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         dest.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5329,8 +5145,7 @@ public final class Gst {
      * @param value the {@link org.gtk.gobject.Value} to check
      * @return true if the value is "fixed".
      */
-    public static boolean valueIsFixed(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static boolean valueIsFixed(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_is_fixed.invokeExact(
@@ -5338,7 +5153,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5347,9 +5162,7 @@ public final class Gst {
      * @param value2 a {@link org.gtk.gobject.Value}
      * @return {@code true} is {@code value1} is a subset of {@code value2}
      */
-    public static boolean valueIsSubset(@NotNull org.gtk.gobject.Value value1, @NotNull org.gtk.gobject.Value value2) {
-        java.util.Objects.requireNonNull(value1, "Parameter 'value1' must not be null");
-        java.util.Objects.requireNonNull(value2, "Parameter 'value2' must not be null");
+    public static boolean valueIsSubset(org.gtk.gobject.Value value1, org.gtk.gobject.Value value2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_is_subset.invokeExact(
@@ -5358,7 +5171,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5366,8 +5179,7 @@ public final class Gst {
      * type. Each type can only be added once.
      * @param table structure containing functions to register
      */
-    public static void valueRegister(@NotNull org.gstreamer.gst.ValueTable table) {
-        java.util.Objects.requireNonNull(table, "Parameter 'table' must not be null");
+    public static void valueRegister(org.gstreamer.gst.ValueTable table) {
         try {
             DowncallHandles.gst_value_register.invokeExact(
                     table.handle());
@@ -5385,8 +5197,7 @@ public final class Gst {
      * @return the serialization for {@code value}
      * or {@code null} if none exists
      */
-    public static @Nullable java.lang.String valueSerialize(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static @Nullable java.lang.String valueSerialize(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_value_serialize.invokeExact(
@@ -5394,7 +5205,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5402,8 +5213,7 @@ public final class Gst {
      * @param value a GValue initialized to {@code GST_TYPE_BITMASK}
      * @param bitmask the bitmask
      */
-    public static void valueSetBitmask(@NotNull org.gtk.gobject.Value value, long bitmask) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueSetBitmask(org.gtk.gobject.Value value, long bitmask) {
         try {
             DowncallHandles.gst_value_set_bitmask.invokeExact(
                     value.handle(),
@@ -5419,9 +5229,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_CAPS
      * @param caps the caps to set the value to
      */
-    public static void valueSetCaps(@NotNull org.gtk.gobject.Value value, @NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static void valueSetCaps(org.gtk.gobject.Value value, org.gstreamer.gst.Caps caps) {
         try {
             DowncallHandles.gst_value_set_caps.invokeExact(
                     value.handle(),
@@ -5436,9 +5244,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_CAPS_FEATURES
      * @param features the features to set the value to
      */
-    public static void valueSetCapsFeatures(@NotNull org.gtk.gobject.Value value, @NotNull org.gstreamer.gst.CapsFeatures features) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
+    public static void valueSetCapsFeatures(org.gtk.gobject.Value value, org.gstreamer.gst.CapsFeatures features) {
         try {
             DowncallHandles.gst_value_set_caps_features.invokeExact(
                     value.handle(),
@@ -5454,8 +5260,7 @@ public final class Gst {
      * @param start the start of the range
      * @param end the end of the range
      */
-    public static void valueSetDoubleRange(@NotNull org.gtk.gobject.Value value, double start, double end) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueSetDoubleRange(org.gtk.gobject.Value value, double start, double end) {
         try {
             DowncallHandles.gst_value_set_double_range.invokeExact(
                     value.handle(),
@@ -5474,8 +5279,7 @@ public final class Gst {
      * @param flags The value of the flags set or unset
      * @param mask The mask indicate which flags bits must match for comparisons
      */
-    public static void valueSetFlagset(@NotNull org.gtk.gobject.Value value, int flags, int mask) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueSetFlagset(org.gtk.gobject.Value value, int flags, int mask) {
         try {
             DowncallHandles.gst_value_set_flagset.invokeExact(
                     value.handle(),
@@ -5494,8 +5298,7 @@ public final class Gst {
      * @param numerator the numerator of the fraction
      * @param denominator the denominator of the fraction
      */
-    public static void valueSetFraction(@NotNull org.gtk.gobject.Value value, int numerator, int denominator) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueSetFraction(org.gtk.gobject.Value value, int numerator, int denominator) {
         try {
             DowncallHandles.gst_value_set_fraction.invokeExact(
                     value.handle(),
@@ -5512,10 +5315,7 @@ public final class Gst {
      * @param start the start of the range (a GST_TYPE_FRACTION GValue)
      * @param end the end of the range (a GST_TYPE_FRACTION GValue)
      */
-    public static void valueSetFractionRange(@NotNull org.gtk.gobject.Value value, @NotNull org.gtk.gobject.Value start, @NotNull org.gtk.gobject.Value end) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public static void valueSetFractionRange(org.gtk.gobject.Value value, org.gtk.gobject.Value start, org.gtk.gobject.Value end) {
         try {
             DowncallHandles.gst_value_set_fraction_range.invokeExact(
                     value.handle(),
@@ -5535,8 +5335,7 @@ public final class Gst {
      * @param numeratorEnd the numerator end of the range
      * @param denominatorEnd the denominator end of the range
      */
-    public static void valueSetFractionRangeFull(@NotNull org.gtk.gobject.Value value, int numeratorStart, int denominatorStart, int numeratorEnd, int denominatorEnd) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueSetFractionRangeFull(org.gtk.gobject.Value value, int numeratorStart, int denominatorStart, int numeratorEnd, int denominatorEnd) {
         try {
             DowncallHandles.gst_value_set_fraction_range_full.invokeExact(
                     value.handle(),
@@ -5555,8 +5354,7 @@ public final class Gst {
      * @param start the start of the range
      * @param end the end of the range
      */
-    public static void valueSetInt64Range(@NotNull org.gtk.gobject.Value value, long start, long end) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueSetInt64Range(org.gtk.gobject.Value value, long start, long end) {
         try {
             DowncallHandles.gst_value_set_int64_range.invokeExact(
                     value.handle(),
@@ -5574,8 +5372,7 @@ public final class Gst {
      * @param end the end of the range
      * @param step the step of the range
      */
-    public static void valueSetInt64RangeStep(@NotNull org.gtk.gobject.Value value, long start, long end, long step) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueSetInt64RangeStep(org.gtk.gobject.Value value, long start, long end, long step) {
         try {
             DowncallHandles.gst_value_set_int64_range_step.invokeExact(
                     value.handle(),
@@ -5593,8 +5390,7 @@ public final class Gst {
      * @param start the start of the range
      * @param end the end of the range
      */
-    public static void valueSetIntRange(@NotNull org.gtk.gobject.Value value, int start, int end) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueSetIntRange(org.gtk.gobject.Value value, int start, int end) {
         try {
             DowncallHandles.gst_value_set_int_range.invokeExact(
                     value.handle(),
@@ -5612,8 +5408,7 @@ public final class Gst {
      * @param end the end of the range
      * @param step the step of the range
      */
-    public static void valueSetIntRangeStep(@NotNull org.gtk.gobject.Value value, int start, int end, int step) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueSetIntRangeStep(org.gtk.gobject.Value value, int start, int end, int step) {
         try {
             DowncallHandles.gst_value_set_int_range_step.invokeExact(
                     value.handle(),
@@ -5630,9 +5425,7 @@ public final class Gst {
      * @param value a GValue initialized to GST_TYPE_STRUCTURE
      * @param structure the structure to set the value to
      */
-    public static void valueSetStructure(@NotNull org.gtk.gobject.Value value, @NotNull org.gstreamer.gst.Structure structure) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public static void valueSetStructure(org.gtk.gobject.Value value, org.gstreamer.gst.Structure structure) {
         try {
             DowncallHandles.gst_value_set_structure.invokeExact(
                     value.handle(),
@@ -5653,20 +5446,17 @@ public final class Gst {
      * @param subtrahend the value to subtract
      * @return {@code true} if the subtraction is not empty
      */
-    public static boolean valueSubtract(@NotNull org.gtk.gobject.Value dest, @NotNull org.gtk.gobject.Value minuend, @NotNull org.gtk.gobject.Value subtrahend) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(minuend, "Parameter 'minuend' must not be null");
-        java.util.Objects.requireNonNull(subtrahend, "Parameter 'subtrahend' must not be null");
+    public static boolean valueSubtract(@Nullable org.gtk.gobject.Value dest, org.gtk.gobject.Value minuend, org.gtk.gobject.Value subtrahend) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_subtract.invokeExact(
-                    dest.handle(),
+                    (Addressable) (dest == null ? MemoryAddress.NULL : dest.handle()),
                     minuend.handle(),
                     subtrahend.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5676,10 +5466,7 @@ public final class Gst {
      * @param value2 another value to union
      * @return {@code true} if the union succeeded.
      */
-    public static boolean valueUnion(@NotNull org.gtk.gobject.Value dest, @NotNull org.gtk.gobject.Value value1, @NotNull org.gtk.gobject.Value value2) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(value1, "Parameter 'value1' must not be null");
-        java.util.Objects.requireNonNull(value2, "Parameter 'value2' must not be null");
+    public static boolean valueUnion(org.gtk.gobject.Value dest, org.gtk.gobject.Value value1, org.gtk.gobject.Value value2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_value_union.invokeExact(
@@ -5689,7 +5476,7 @@ public final class Gst {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5700,13 +5487,9 @@ public final class Gst {
      * @param nano pointer to a guint to store the nano version number
      */
     public static void version(Out<Integer> major, Out<Integer> minor, Out<Integer> micro, Out<Integer> nano) {
-        java.util.Objects.requireNonNull(major, "Parameter 'major' must not be null");
         MemorySegment majorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minor, "Parameter 'minor' must not be null");
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(micro, "Parameter 'micro' must not be null");
         MemorySegment microPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(nano, "Parameter 'nano' must not be null");
         MemorySegment nanoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_version.invokeExact(
@@ -5729,14 +5512,14 @@ public final class Gst {
      * @return a newly allocated string describing this version
      *     of GStreamer.
      */
-    public static @NotNull java.lang.String versionString() {
+    public static java.lang.String versionString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_version_string.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
@@ -7094,210 +6877,5 @@ public final class Gst {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static int cbCapsForeachFunc(MemoryAddress features, MemoryAddress structure, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CapsForeachFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCapsForeachFunc(new org.gstreamer.gst.CapsFeatures(features, Ownership.NONE), new org.gstreamer.gst.Structure(structure, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbPadProbeCallback(MemoryAddress pad, MemoryAddress info, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PadProbeCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPadProbeCallback(new org.gstreamer.gst.Pad(pad, Ownership.NONE), new org.gstreamer.gst.PadProbeInfo(info, Ownership.NONE));
-            return RESULT.getValue();
-        }
-        
-        public static void cbTaskFunction(MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TaskFunction) Interop.signalRegistry.get(HASH);
-            HANDLER.onTaskFunction();
-        }
-        
-        public static int cbBusFunc(MemoryAddress bus, MemoryAddress message, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (BusFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onBusFunc(new org.gstreamer.gst.Bus(bus, Ownership.NONE), new org.gstreamer.gst.Message(message, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbStructureForeachFunc(int fieldId, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (StructureForeachFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onStructureForeachFunc(new org.gtk.glib.Quark(fieldId), new org.gtk.gobject.Value(value, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbElementCallAsyncFunc(MemoryAddress element, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ElementCallAsyncFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onElementCallAsyncFunc(new org.gstreamer.gst.Element(element, Ownership.NONE));
-        }
-        
-        public static int cbPluginFilter(MemoryAddress plugin, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PluginFilter) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPluginFilter(new org.gstreamer.gst.Plugin(plugin, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbPluginFeatureFilter(MemoryAddress feature, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PluginFeatureFilter) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPluginFeatureFilter(new org.gstreamer.gst.PluginFeature(feature, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbLogFunction(MemoryAddress category, int level, MemoryAddress file, MemoryAddress function, int line, MemoryAddress object, MemoryAddress message, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (LogFunction) Interop.signalRegistry.get(HASH);
-            HANDLER.onLogFunction(new org.gstreamer.gst.DebugCategory(category, Ownership.NONE), org.gstreamer.gst.DebugLevel.of(level), Interop.getStringFrom(file), Interop.getStringFrom(function), line, new org.gtk.gobject.Object(object, Ownership.NONE), new org.gstreamer.gst.DebugMessage(message, Ownership.NONE));
-        }
-        
-        public static int cbBufferForeachMetaFunc(MemoryAddress buffer, MemoryAddress meta, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (BufferForeachMetaFunc) Interop.signalRegistry.get(HASH);
-        var metaOUT = new Out<PointerProxy<org.gstreamer.gst.Meta>>(new PointerProxy<org.gstreamer.gst.Meta>(meta, org.gstreamer.gst.Meta.class));
-            var RESULT = HANDLER.onBufferForeachMetaFunc(new org.gstreamer.gst.Buffer(buffer, Ownership.NONE), metaOUT);
-            meta.set(Interop.valueLayout.ADDRESS, 0, metaOUT.get().handle());
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbPadForwardFunction(MemoryAddress pad, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PadForwardFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPadForwardFunction(new org.gstreamer.gst.Pad(pad, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbClockCallback(MemoryAddress clock, long time, java.lang.foreign.MemoryAddress id, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ClockCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onClockCallback(new org.gstreamer.gst.Clock(clock, Ownership.NONE), new org.gstreamer.gst.ClockTime(time), new org.gstreamer.gst.ClockID(id));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbPluginInitFullFunc(MemoryAddress plugin, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PluginInitFullFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPluginInitFullFunc(new org.gstreamer.gst.Plugin(plugin, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbIteratorForeachFunction(MemoryAddress item, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IteratorForeachFunction) Interop.signalRegistry.get(HASH);
-            HANDLER.onIteratorForeachFunction(new org.gtk.gobject.Value(item, Ownership.NONE));
-        }
-        
-        public static int cbElementForeachPadFunc(MemoryAddress element, MemoryAddress pad, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ElementForeachPadFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onElementForeachPadFunc(new org.gstreamer.gst.Element(element, Ownership.NONE), new org.gstreamer.gst.Pad(pad, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbIteratorFoldFunction(MemoryAddress item, MemoryAddress ret, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IteratorFoldFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onIteratorFoldFunction(new org.gtk.gobject.Value(item, Ownership.NONE), new org.gtk.gobject.Value(ret, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbMiniObjectNotify(MemoryAddress userData, MemoryAddress obj) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MiniObjectNotify) Interop.signalRegistry.get(HASH);
-            HANDLER.onMiniObjectNotify(new org.gstreamer.gst.MiniObject(obj, Ownership.NONE));
-        }
-        
-        public static int cbCapsFilterMapFunc(MemoryAddress features, MemoryAddress structure, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CapsFilterMapFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCapsFilterMapFunc(new org.gstreamer.gst.CapsFeatures(features, Ownership.NONE), new org.gstreamer.gst.Structure(structure, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbTypeFindFunction(MemoryAddress find, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TypeFindFunction) Interop.signalRegistry.get(HASH);
-            HANDLER.onTypeFindFunction(new org.gstreamer.gst.TypeFind(find, Ownership.NONE));
-        }
-        
-        public static int cbBusSyncHandler(MemoryAddress bus, MemoryAddress message, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (BusSyncHandler) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onBusSyncHandler(new org.gstreamer.gst.Bus(bus, Ownership.NONE), new org.gstreamer.gst.Message(message, Ownership.NONE));
-            return RESULT.getValue();
-        }
-        
-        public static int cbCapsMapFunc(MemoryAddress features, MemoryAddress structure, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CapsMapFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCapsMapFunc(new org.gstreamer.gst.CapsFeatures(features, Ownership.NONE), new org.gstreamer.gst.Structure(structure, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbCustomMetaTransformFunction(MemoryAddress transbuf, MemoryAddress meta, MemoryAddress buffer, int type, MemoryAddress data, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CustomMetaTransformFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCustomMetaTransformFunction(new org.gstreamer.gst.Buffer(transbuf, Ownership.NONE), new org.gstreamer.gst.CustomMeta(meta, Ownership.NONE), new org.gstreamer.gst.Buffer(buffer, Ownership.NONE), new org.gtk.glib.Quark(type));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbBufferListFunc(MemoryAddress buffer, int idx, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (BufferListFunc) Interop.signalRegistry.get(HASH);
-        var bufferOUT = new Out<PointerProxy<org.gstreamer.gst.Buffer>>(new PointerProxy<org.gstreamer.gst.Buffer>(buffer, org.gstreamer.gst.Buffer.class));
-            var RESULT = HANDLER.onBufferListFunc(bufferOUT, idx);
-            buffer.set(Interop.valueLayout.ADDRESS, 0, bufferOUT.get().handle());
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbTaskThreadFunc(MemoryAddress task, MemoryAddress thread, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TaskThreadFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTaskThreadFunc(new org.gstreamer.gst.Task(task, Ownership.NONE), new org.gtk.glib.Thread(thread, Ownership.NONE));
-        }
-        
-        public static int cbStructureFilterMapFunc(int fieldId, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (StructureFilterMapFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onStructureFilterMapFunc(new org.gtk.glib.Quark(fieldId), new org.gtk.gobject.Value(value, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbTagForeachFunc(MemoryAddress list, MemoryAddress tag, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TagForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTagForeachFunc(new org.gstreamer.gst.TagList(list, Ownership.NONE), Interop.getStringFrom(tag));
-        }
-        
-        public static int cbStructureMapFunc(int fieldId, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (StructureMapFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onStructureMapFunc(new org.gtk.glib.Quark(fieldId), new org.gtk.gobject.Value(value, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbPadStickyEventsForeachFunction(MemoryAddress pad, MemoryAddress event, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PadStickyEventsForeachFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPadStickyEventsForeachFunction(new org.gstreamer.gst.Pad(pad, Ownership.NONE), new PointerProxy<org.gstreamer.gst.Event>(event, org.gstreamer.gst.Event.class));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbPromiseChangeFunc(MemoryAddress promise, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PromiseChangeFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPromiseChangeFunc(new org.gstreamer.gst.Promise(promise, Ownership.NONE));
-        }
-        
-        public static int cbMetaTransformFunction(MemoryAddress transbuf, MemoryAddress meta, MemoryAddress buffer, int type, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MetaTransformFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onMetaTransformFunction(new org.gstreamer.gst.Buffer(transbuf, Ownership.NONE), new org.gstreamer.gst.Meta(meta, Ownership.NONE), new org.gstreamer.gst.Buffer(buffer, Ownership.NONE), new org.gtk.glib.Quark(type));
-            return RESULT ? 1 : 0;
-        }
     }
 }

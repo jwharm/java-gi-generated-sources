@@ -47,7 +47,7 @@ import org.jetbrains.annotations.*;
  *   g_error ("Unsupported GDK backend");
  * }</pre>
  */
-public class DisplayManager extends org.gtk.gobject.Object {
+public class DisplayManager extends org.gtk.gobject.GObject {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -69,30 +69,12 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DisplayManager(Addressable address, Ownership ownership) {
+    protected DisplayManager(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DisplayManager if its GType is a (or inherits from) "GdkDisplayManager".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DisplayManager} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkDisplayManager", a ClassCastException will be thrown.
-     */
-    public static DisplayManager castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DisplayManager.getType())) {
-            return new DisplayManager(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkDisplayManager");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DisplayManager> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayManager(input, ownership);
     
     /**
      * Gets the default {@code GdkDisplay}.
@@ -106,7 +88,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -114,7 +96,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * @return a newly
      *   allocated {@code GSList} of {@code GdkDisplay} objects
      */
-    public @NotNull org.gtk.glib.SList listDisplays() {
+    public org.gtk.glib.SList listDisplays() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_display_manager_list_displays.invokeExact(
@@ -122,7 +104,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -131,25 +113,23 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * @return a {@code GdkDisplay}, or {@code null}
      *   if the display could not be opened
      */
-    public @Nullable org.gtk.gdk.Display openDisplay(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gtk.gdk.Display openDisplay(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_display_manager_open_display.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Sets {@code display} as the default display.
      * @param display a {@code GdkDisplay}
      */
-    public void setDefaultDisplay(@NotNull org.gtk.gdk.Display display) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public void setDefaultDisplay(org.gtk.gdk.Display display) {
         try {
             DowncallHandles.gdk_display_manager_set_default_display.invokeExact(
                     handle(),
@@ -163,7 +143,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_display_manager_get_type.invokeExact();
@@ -185,19 +165,30 @@ public class DisplayManager extends org.gtk.gobject.Object {
      * backends wil be used.
      * @return The global {@code GdkDisplayManager} singleton
      */
-    public static @NotNull org.gtk.gdk.DisplayManager get() {
+    public static org.gtk.gdk.DisplayManager get() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_display_manager_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.DisplayManager(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.DisplayManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.DisplayManager.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     @FunctionalInterface
     public interface DisplayOpened {
-        void signalReceived(DisplayManager sourceDisplayManager, @NotNull org.gtk.gdk.Display display);
+        void run(org.gtk.gdk.Display display);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDisplayManager, MemoryAddress display) {
+            run((org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(display)), org.gtk.gdk.Display.fromAddress).marshal(display, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DisplayOpened.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -208,52 +199,46 @@ public class DisplayManager extends org.gtk.gobject.Object {
     public Signal<DisplayManager.DisplayOpened> onDisplayOpened(DisplayManager.DisplayOpened handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("display-opened"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DisplayManager.Callbacks.class, "signalDisplayManagerDisplayOpened",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DisplayManager.DisplayOpened>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("display-opened"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DisplayManager.Builder} object constructs a {@link DisplayManager} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DisplayManager.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DisplayManager.Build} object constructs a {@link DisplayManager} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DisplayManager} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DisplayManager} using {@link DisplayManager#castFrom}.
+         * {@link DisplayManager}.
          * @return A new instance of {@code DisplayManager} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DisplayManager construct() {
-            return DisplayManager.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DisplayManager.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DisplayManager build() {
+            return (DisplayManager) org.gtk.gobject.GObject.newWithProperties(
+                DisplayManager.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -262,7 +247,7 @@ public class DisplayManager extends org.gtk.gobject.Object {
          * @param defaultDisplay The value for the {@code default-display} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefaultDisplay(org.gtk.gdk.Display defaultDisplay) {
+        public Builder setDefaultDisplay(org.gtk.gdk.Display defaultDisplay) {
             names.add("default-display");
             values.add(org.gtk.gobject.Value.create(defaultDisplay));
             return this;
@@ -306,14 +291,5 @@ public class DisplayManager extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalDisplayManagerDisplayOpened(MemoryAddress sourceDisplayManager, MemoryAddress display, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DisplayManager.DisplayOpened) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DisplayManager(sourceDisplayManager, Ownership.NONE), new org.gtk.gdk.Display(display, Ownership.NONE));
-        }
     }
 }

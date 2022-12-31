@@ -11,14 +11,10 @@ import org.jetbrains.annotations.*;
 public class TypeClass extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GTypeClass";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("g_type")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -26,7 +22,9 @@ public class TypeClass extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("g_type")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,10 +45,12 @@ public class TypeClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TypeClass(Addressable address, Ownership ownership) {
+    protected TypeClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TypeClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeClass(input, ownership);
     
     /**
      * Registers a private structure for an instantiatable type.
@@ -151,8 +151,7 @@ public class TypeClass extends Struct {
         return RESULT;
     }
     
-    public @Nullable java.lang.foreign.MemoryAddress getPrivate(@NotNull org.gtk.glib.Type privateType) {
-        java.util.Objects.requireNonNull(privateType, "Parameter 'privateType' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress getPrivate(org.gtk.glib.Type privateType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_class_get_private.invokeExact(
@@ -176,7 +175,7 @@ public class TypeClass extends Struct {
      * @return the parent class
      *     of {@code g_class}
      */
-    public @NotNull org.gtk.gobject.TypeClass peekParent() {
+    public org.gtk.gobject.TypeClass peekParent() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_parent.invokeExact(
@@ -184,7 +183,7 @@ public class TypeClass extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -218,7 +217,6 @@ public class TypeClass extends Struct {
     }
     
     public static void adjustPrivateOffset(@Nullable java.lang.foreign.MemoryAddress gClass, PointerInteger privateSizeOrOffset) {
-        java.util.Objects.requireNonNull(privateSizeOrOffset, "Parameter 'privateSizeOrOffset' must not be null");
         try {
             DowncallHandles.g_type_class_adjust_private_offset.invokeExact(
                     (Addressable) (gClass == null ? MemoryAddress.NULL : (Addressable) gClass),
@@ -239,8 +237,7 @@ public class TypeClass extends Struct {
      *     structure for the given type ID or {@code null} if the class does not
      *     currently exist
      */
-    public static @NotNull org.gtk.gobject.TypeClass peek(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.gobject.TypeClass peek(org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek.invokeExact(
@@ -248,7 +245,7 @@ public class TypeClass extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -259,8 +256,7 @@ public class TypeClass extends Struct {
      *     structure for the given type ID or {@code null} if the class does not
      *     currently exist or is dynamically loaded
      */
-    public static @NotNull org.gtk.gobject.TypeClass peekStatic(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.gobject.TypeClass peekStatic(org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_class_peek_static.invokeExact(
@@ -268,7 +264,7 @@ public class TypeClass extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -279,8 +275,7 @@ public class TypeClass extends Struct {
      * @return the {@link TypeClass}
      *     structure for the given type ID
      */
-    public static @NotNull org.gtk.gobject.TypeClass ref(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.gobject.TypeClass ref(org.gtk.glib.Type type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_class_ref.invokeExact(
@@ -288,7 +283,7 @@ public class TypeClass extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -353,35 +348,39 @@ public class TypeClass extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TypeClass.Builder} object constructs a {@link TypeClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TypeClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TypeClass struct;
+        private final TypeClass struct;
         
-         /**
-         * A {@link TypeClass.Build} object constructs a {@link TypeClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TypeClass.allocate();
         }
         
          /**
          * Finish building the {@link TypeClass} struct.
          * @return A new instance of {@code TypeClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TypeClass construct() {
+        public TypeClass build() {
             return struct;
         }
         
-        public Build setGType(org.gtk.glib.Type gType) {
+        public Builder setGType(org.gtk.glib.Type gType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gType == null ? MemoryAddress.NULL : gType.getValue().longValue()));

@@ -28,25 +28,8 @@ import org.jetbrains.annotations.*;
  */
 public interface AppChooser extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to AppChooser if its GType is a (or inherits from) "GtkAppChooser".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AppChooser} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkAppChooser", a ClassCastException will be thrown.
-     */
-    public static AppChooser castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AppChooser.getType())) {
-            return new AppChooserImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAppChooser");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AppChooserImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppChooserImpl(input, ownership);
     
     /**
      * Returns the currently selected application.
@@ -61,7 +44,7 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.AppInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -69,7 +52,7 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
      * shows applications.
      * @return the content type of {@code self}. Free with g_free()
      */
-    default @NotNull java.lang.String getContentType() {
+    default java.lang.String getContentType() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_get_content_type.invokeExact(
@@ -77,7 +60,7 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -96,7 +79,7 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_app_chooser_get_type.invokeExact();
@@ -138,7 +121,7 @@ public interface AppChooser extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class AppChooserImpl extends org.gtk.gobject.Object implements AppChooser {
+    class AppChooserImpl extends org.gtk.gobject.GObject implements AppChooser {
         
         static {
             Gtk.javagi$ensureInitialized();

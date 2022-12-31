@@ -74,13 +74,15 @@ public class ContentFormats extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ContentFormats(Addressable address, Ownership ownership) {
+    protected ContentFormats(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable java.lang.String[] mimeTypes, int nMimeTypes) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ContentFormats> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ContentFormats(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String[] mimeTypes, int nMimeTypes) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_new.invokeExact(
                     (Addressable) (mimeTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mimeTypes, false)),
@@ -105,9 +107,8 @@ public class ContentFormats extends Struct {
         super(constructNew(mimeTypes, nMimeTypes), Ownership.FULL);
     }
     
-    private static Addressable constructNewForGtype(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForGtype(org.gtk.glib.Type type) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_new_for_gtype.invokeExact(
                     type.getValue().longValue());
@@ -122,8 +123,9 @@ public class ContentFormats extends Struct {
      * @param type a {@code GType}
      * @return a new {@code GdkContentFormats}
      */
-    public static ContentFormats newForGtype(@NotNull org.gtk.glib.Type type) {
-        return new ContentFormats(constructNewForGtype(type), Ownership.FULL);
+    public static ContentFormats newForGtype(org.gtk.glib.Type type) {
+        var RESULT = constructNewForGtype(type);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -131,8 +133,7 @@ public class ContentFormats extends Struct {
      * @param type the {@code GType} to search for
      * @return {@code true} if the {@code GType} was found
      */
-    public boolean containGtype(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public boolean containGtype(org.gtk.glib.Type type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_content_formats_contain_gtype.invokeExact(
@@ -141,7 +142,7 @@ public class ContentFormats extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -149,17 +150,16 @@ public class ContentFormats extends Struct {
      * @param mimeType the mime type to search for
      * @return {@code true} if the mime_type was found
      */
-    public boolean containMimeType(@NotNull java.lang.String mimeType) {
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
+    public boolean containMimeType(java.lang.String mimeType) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_content_formats_contain_mime_type.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(mimeType));
+                    Marshal.stringToAddress.marshal(mimeType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,17 +172,16 @@ public class ContentFormats extends Struct {
      * @return {@code G_TYPE_INVALID}-terminated array of types included in {@code formats}
      */
     public @Nullable org.gtk.glib.Type[] getGtypes(Out<Long> nGtypes) {
-        java.util.Objects.requireNonNull(nGtypes, "Parameter 'nGtypes' must not be null");
         MemorySegment nGtypesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_gtypes.invokeExact(
                     handle(),
-                    (Addressable) nGtypesPOINTER.address());
+                    (Addressable) (nGtypes == null ? MemoryAddress.NULL : (Addressable) nGtypesPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nGtypes.set(nGtypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (nGtypes != null) nGtypes.set(nGtypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
         org.gtk.glib.Type[] resultARRAY = new org.gtk.glib.Type[nGtypes.get().intValue()];
         for (int I = 0; I < nGtypes.get().intValue(); I++) {
@@ -203,22 +202,21 @@ public class ContentFormats extends Struct {
      *   in {@code formats}
      */
     public @Nullable java.lang.String[] getMimeTypes(Out<Long> nMimeTypes) {
-        java.util.Objects.requireNonNull(nMimeTypes, "Parameter 'nMimeTypes' must not be null");
         MemorySegment nMimeTypesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_get_mime_types.invokeExact(
                     handle(),
-                    (Addressable) nMimeTypesPOINTER.address());
+                    (Addressable) (nMimeTypes == null ? MemoryAddress.NULL : (Addressable) nMimeTypesPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nMimeTypes.set(nMimeTypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (nMimeTypes != null) nMimeTypes.set(nMimeTypesPOINTER.get(Interop.valueLayout.C_LONG, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
         java.lang.String[] resultARRAY = new java.lang.String[nMimeTypes.get().intValue()];
         for (int I = 0; I < nMimeTypes.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -228,8 +226,7 @@ public class ContentFormats extends Struct {
      * @param second the {@code GdkContentFormats} to intersect with
      * @return {@code true} if a matching format was found.
      */
-    public boolean match(@NotNull org.gtk.gdk.ContentFormats second) {
-        java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
+    public boolean match(org.gtk.gdk.ContentFormats second) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_content_formats_match.invokeExact(
@@ -238,7 +235,7 @@ public class ContentFormats extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -249,8 +246,7 @@ public class ContentFormats extends Struct {
      * @param second the {@code GdkContentFormats} to intersect with
      * @return The first common {@code GType} or {@code G_TYPE_INVALID} if none.
      */
-    public @NotNull org.gtk.glib.Type matchGtype(@NotNull org.gtk.gdk.ContentFormats second) {
-        java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
+    public org.gtk.glib.Type matchGtype(org.gtk.gdk.ContentFormats second) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_content_formats_match_gtype.invokeExact(
@@ -270,8 +266,7 @@ public class ContentFormats extends Struct {
      * @param second the {@code GdkContentFormats} to intersect with
      * @return The first common mime type or {@code null} if none
      */
-    public @Nullable java.lang.String matchMimeType(@NotNull org.gtk.gdk.ContentFormats second) {
-        java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
+    public @Nullable java.lang.String matchMimeType(org.gtk.gdk.ContentFormats second) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_match_mime_type.invokeExact(
@@ -280,7 +275,7 @@ public class ContentFormats extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -290,8 +285,7 @@ public class ContentFormats extends Struct {
      * {@link ContentFormats#parse}.
      * @param string a {@code GString} to print into
      */
-    public void print(@NotNull org.gtk.glib.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public void print(org.gtk.glib.GString string) {
         try {
             DowncallHandles.gdk_content_formats_print.invokeExact(
                     handle(),
@@ -305,7 +299,7 @@ public class ContentFormats extends Struct {
      * Increases the reference count of a {@code GdkContentFormats} by one.
      * @return the passed in {@code GdkContentFormats}.
      */
-    public @NotNull org.gtk.gdk.ContentFormats ref() {
+    public org.gtk.gdk.ContentFormats ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_ref.invokeExact(
@@ -313,7 +307,7 @@ public class ContentFormats extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -325,7 +319,7 @@ public class ContentFormats extends Struct {
      * to help when debugging.
      * @return a new string
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_to_string.invokeExact(
@@ -333,7 +327,7 @@ public class ContentFormats extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -342,8 +336,7 @@ public class ContentFormats extends Struct {
      * @param second the {@code GdkContentFormats} to merge from
      * @return a new {@code GdkContentFormats}
      */
-    public @NotNull org.gtk.gdk.ContentFormats union(@NotNull org.gtk.gdk.ContentFormats second) {
-        java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
+    public org.gtk.gdk.ContentFormats union(org.gtk.gdk.ContentFormats second) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union.invokeExact(
@@ -353,7 +346,7 @@ public class ContentFormats extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -361,7 +354,7 @@ public class ContentFormats extends Struct {
      * registered.
      * @return a new {@code GdkContentFormats}
      */
-    public @NotNull org.gtk.gdk.ContentFormats unionDeserializeGtypes() {
+    public org.gtk.gdk.ContentFormats unionDeserializeGtypes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_gtypes.invokeExact(
@@ -370,7 +363,7 @@ public class ContentFormats extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -378,7 +371,7 @@ public class ContentFormats extends Struct {
      * registered.
      * @return a new {@code GdkContentFormats}
      */
-    public @NotNull org.gtk.gdk.ContentFormats unionDeserializeMimeTypes() {
+    public org.gtk.gdk.ContentFormats unionDeserializeMimeTypes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_deserialize_mime_types.invokeExact(
@@ -387,7 +380,7 @@ public class ContentFormats extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -395,7 +388,7 @@ public class ContentFormats extends Struct {
      * registered.
      * @return a new {@code GdkContentFormats}
      */
-    public @NotNull org.gtk.gdk.ContentFormats unionSerializeGtypes() {
+    public org.gtk.gdk.ContentFormats unionSerializeGtypes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_gtypes.invokeExact(
@@ -404,7 +397,7 @@ public class ContentFormats extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -412,7 +405,7 @@ public class ContentFormats extends Struct {
      * registered.
      * @return a new {@code GdkContentFormats}
      */
-    public @NotNull org.gtk.gdk.ContentFormats unionSerializeMimeTypes() {
+    public org.gtk.gdk.ContentFormats unionSerializeMimeTypes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_union_serialize_mime_types.invokeExact(
@@ -421,7 +414,7 @@ public class ContentFormats extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -450,16 +443,15 @@ public class ContentFormats extends Struct {
      * @param string the string to parse
      * @return the content formats if {@code string} is valid
      */
-    public static @Nullable org.gtk.gdk.ContentFormats parse(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static @Nullable org.gtk.gdk.ContentFormats parse(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_parse.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

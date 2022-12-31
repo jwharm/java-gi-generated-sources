@@ -40,8 +40,10 @@ public class MemoryDedicatedAllocateInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MemoryDedicatedAllocateInfo(Addressable address, Ownership ownership) {
+    protected MemoryDedicatedAllocateInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MemoryDedicatedAllocateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryDedicatedAllocateInfo(input, ownership);
 }

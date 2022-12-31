@@ -39,7 +39,7 @@ import org.jetbrains.annotations.*;
  * easier to support cursors. If none of the provided cursors can be supported,
  * the default cursor will be the ultimate fallback.
  */
-public class Cursor extends org.gtk.gobject.Object {
+public class Cursor extends org.gtk.gobject.GObject {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -61,37 +61,18 @@ public class Cursor extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Cursor(Addressable address, Ownership ownership) {
+    protected Cursor(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Cursor if its GType is a (or inherits from) "GdkCursor".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Cursor} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkCursor", a ClassCastException will be thrown.
-     */
-    public static Cursor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Cursor.getType())) {
-            return new Cursor(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkCursor");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Cursor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Cursor(input, ownership);
     
-    private static Addressable constructNewFromName(@NotNull java.lang.String name, @Nullable org.gtk.gdk.Cursor fallback) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromName(java.lang.String name, @Nullable org.gtk.gdk.Cursor fallback) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_new_from_name.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     (Addressable) (fallback == null ? MemoryAddress.NULL : fallback.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -123,13 +104,13 @@ public class Cursor extends org.gtk.gobject.Object {
      * @return a new {@code GdkCursor}, or {@code null} if there is no
      *   cursor with the given name
      */
-    public static Cursor newFromName(@NotNull java.lang.String name, @Nullable org.gtk.gdk.Cursor fallback) {
-        return new Cursor(constructNewFromName(name, fallback), Ownership.FULL);
+    public static Cursor newFromName(java.lang.String name, @Nullable org.gtk.gdk.Cursor fallback) {
+        var RESULT = constructNewFromName(name, fallback);
+        return (org.gtk.gdk.Cursor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromTexture(@NotNull org.gtk.gdk.Texture texture, int hotspotX, int hotspotY, @Nullable org.gtk.gdk.Cursor fallback) {
-        java.util.Objects.requireNonNull(texture, "Parameter 'texture' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromTexture(org.gtk.gdk.Texture texture, int hotspotX, int hotspotY, @Nullable org.gtk.gdk.Cursor fallback) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_cursor_new_from_texture.invokeExact(
                     texture.handle(),
@@ -151,8 +132,9 @@ public class Cursor extends org.gtk.gobject.Object {
      *   this one cannot be supported
      * @return a new {@code GdkCursor}
      */
-    public static Cursor newFromTexture(@NotNull org.gtk.gdk.Texture texture, int hotspotX, int hotspotY, @Nullable org.gtk.gdk.Cursor fallback) {
-        return new Cursor(constructNewFromTexture(texture, hotspotX, hotspotY, fallback), Ownership.FULL);
+    public static Cursor newFromTexture(org.gtk.gdk.Texture texture, int hotspotX, int hotspotY, @Nullable org.gtk.gdk.Cursor fallback) {
+        var RESULT = constructNewFromTexture(texture, hotspotX, hotspotY, fallback);
+        return (org.gtk.gdk.Cursor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -174,7 +156,7 @@ public class Cursor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Cursor(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Cursor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -234,7 +216,7 @@ public class Cursor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -252,14 +234,14 @@ public class Cursor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Texture(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_cursor_get_type.invokeExact();
@@ -268,38 +250,40 @@ public class Cursor extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Cursor.Builder} object constructs a {@link Cursor} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Cursor.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Cursor.Build} object constructs a {@link Cursor} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Cursor} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Cursor} using {@link Cursor#castFrom}.
+         * {@link Cursor}.
          * @return A new instance of {@code Cursor} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Cursor construct() {
-            return Cursor.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Cursor.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Cursor build() {
+            return (Cursor) org.gtk.gobject.GObject.newWithProperties(
+                Cursor.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -308,7 +292,7 @@ public class Cursor extends org.gtk.gobject.Object {
          * @param fallback The value for the {@code fallback} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFallback(org.gtk.gdk.Cursor fallback) {
+        public Builder setFallback(org.gtk.gdk.Cursor fallback) {
             names.add("fallback");
             values.add(org.gtk.gobject.Value.create(fallback));
             return this;
@@ -319,7 +303,7 @@ public class Cursor extends org.gtk.gobject.Object {
          * @param hotspotX The value for the {@code hotspot-x} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHotspotX(int hotspotX) {
+        public Builder setHotspotX(int hotspotX) {
             names.add("hotspot-x");
             values.add(org.gtk.gobject.Value.create(hotspotX));
             return this;
@@ -330,7 +314,7 @@ public class Cursor extends org.gtk.gobject.Object {
          * @param hotspotY The value for the {@code hotspot-y} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHotspotY(int hotspotY) {
+        public Builder setHotspotY(int hotspotY) {
             names.add("hotspot-y");
             values.add(org.gtk.gobject.Value.create(hotspotY));
             return this;
@@ -343,7 +327,7 @@ public class Cursor extends org.gtk.gobject.Object {
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
@@ -356,7 +340,7 @@ public class Cursor extends org.gtk.gobject.Object {
          * @param texture The value for the {@code texture} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTexture(org.gtk.gdk.Texture texture) {
+        public Builder setTexture(org.gtk.gdk.Texture texture) {
             names.add("texture");
             values.add(org.gtk.gobject.Value.create(texture));
             return this;

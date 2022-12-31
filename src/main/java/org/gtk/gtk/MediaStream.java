@@ -24,7 +24,7 @@ import org.jetbrains.annotations.*;
  * {@link MediaStream#error},
  * {@link MediaStream#errorValist}.
  */
-public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable {
+public class MediaStream extends org.gtk.gobject.GObject implements org.gtk.gdk.Paintable {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -32,17 +32,15 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
     
     private static final java.lang.String C_TYPE_NAME = "GtkMediaStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -50,30 +48,12 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MediaStream(Addressable address, Ownership ownership) {
+    protected MediaStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to MediaStream if its GType is a (or inherits from) "GtkMediaStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MediaStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkMediaStream", a ClassCastException will be thrown.
-     */
-    public static MediaStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MediaStream.getType())) {
-            return new MediaStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMediaStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MediaStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MediaStream(input, ownership);
     
     /**
      * Pauses the media stream and marks it as ended.
@@ -104,15 +84,13 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * @param format printf()-style format for error message
      * @param varargs parameters for message format
      */
-    public void error(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void error(org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_media_stream_error.invokeExact(
                     handle(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -129,16 +107,13 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * @param format printf()-style format for error message
      * @param args {@code va_list} of parameters for the message format
      */
-    public void errorValist(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public void errorValist(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList args) {
         try {
             DowncallHandles.gtk_media_stream_error_valist.invokeExact(
                     handle(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -160,8 +135,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * {@link MediaStream#unprepared}.
      * @param error the {@code GError} to set
      */
-    public void gerror(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public void gerror(org.gtk.glib.Error error) {
         try {
             DowncallHandles.gtk_media_stream_gerror.invokeExact(
                     handle(),
@@ -201,7 +175,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -230,7 +204,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Error(RESULT, Ownership.NONE);
+        return org.gtk.glib.Error.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -247,7 +221,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -264,7 +238,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -279,7 +253,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -326,7 +300,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -341,7 +315,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -358,7 +332,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -381,7 +355,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -396,7 +370,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -440,9 +414,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         try {
             DowncallHandles.gtk_media_stream_prepared.invokeExact(
                     handle(),
-                    hasAudio ? 1 : 0,
-                    hasVideo ? 1 : 0,
-                    seekable ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(hasAudio, null).intValue(),
+                    Marshal.booleanToInteger.marshal(hasVideo, null).intValue(),
+                    Marshal.booleanToInteger.marshal(seekable, null).intValue(),
                     duration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -468,8 +442,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * It is not required to call this function to make a media stream work.
      * @param surface a {@code GdkSurface}
      */
-    public void realize(@NotNull org.gtk.gdk.Surface surface) {
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
+    public void realize(org.gtk.gdk.Surface surface) {
         try {
             DowncallHandles.gtk_media_stream_realize.invokeExact(
                     handle(),
@@ -554,7 +527,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         try {
             DowncallHandles.gtk_media_stream_set_loop.invokeExact(
                     handle(),
-                    loop ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(loop, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -575,7 +548,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         try {
             DowncallHandles.gtk_media_stream_set_muted.invokeExact(
                     handle(),
-                    muted ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(muted, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -589,7 +562,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         try {
             DowncallHandles.gtk_media_stream_set_playing.invokeExact(
                     handle(),
-                    playing ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(playing, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -656,9 +629,9 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         try {
             DowncallHandles.gtk_media_stream_stream_prepared.invokeExact(
                     handle(),
-                    hasAudio ? 1 : 0,
-                    hasVideo ? 1 : 0,
-                    seekable ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(hasAudio, null).intValue(),
+                    Marshal.booleanToInteger.marshal(hasVideo, null).intValue(),
+                    Marshal.booleanToInteger.marshal(seekable, null).intValue(),
                     duration);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -702,8 +675,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * allocated from {@code surface}.
      * @param surface the {@code GdkSurface} the stream was realized with
      */
-    public void unrealize(@NotNull org.gtk.gdk.Surface surface) {
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
+    public void unrealize(org.gtk.gdk.Surface surface) {
         try {
             DowncallHandles.gtk_media_stream_unrealize.invokeExact(
                     handle(),
@@ -737,7 +709,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_media_stream_get_type.invokeExact();
@@ -746,38 +718,40 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link MediaStream.Builder} object constructs a {@link MediaStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MediaStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link MediaStream.Build} object constructs a {@link MediaStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MediaStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MediaStream} using {@link MediaStream#castFrom}.
+         * {@link MediaStream}.
          * @return A new instance of {@code MediaStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MediaStream construct() {
-            return MediaStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MediaStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MediaStream build() {
+            return (MediaStream) org.gtk.gobject.GObject.newWithProperties(
+                MediaStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -786,7 +760,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param duration The value for the {@code duration} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDuration(long duration) {
+        public Builder setDuration(long duration) {
             names.add("duration");
             values.add(org.gtk.gobject.Value.create(duration));
             return this;
@@ -797,7 +771,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param ended The value for the {@code ended} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnded(boolean ended) {
+        public Builder setEnded(boolean ended) {
             names.add("ended");
             values.add(org.gtk.gobject.Value.create(ended));
             return this;
@@ -809,7 +783,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param error The value for the {@code error} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setError(org.gtk.glib.Error error) {
+        public Builder setError(org.gtk.glib.Error error) {
             names.add("error");
             values.add(org.gtk.gobject.Value.create(error));
             return this;
@@ -820,7 +794,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param hasAudio The value for the {@code has-audio} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasAudio(boolean hasAudio) {
+        public Builder setHasAudio(boolean hasAudio) {
             names.add("has-audio");
             values.add(org.gtk.gobject.Value.create(hasAudio));
             return this;
@@ -831,7 +805,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param hasVideo The value for the {@code has-video} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasVideo(boolean hasVideo) {
+        public Builder setHasVideo(boolean hasVideo) {
             names.add("has-video");
             values.add(org.gtk.gobject.Value.create(hasVideo));
             return this;
@@ -842,7 +816,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param loop The value for the {@code loop} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoop(boolean loop) {
+        public Builder setLoop(boolean loop) {
             names.add("loop");
             values.add(org.gtk.gobject.Value.create(loop));
             return this;
@@ -853,7 +827,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param muted The value for the {@code muted} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMuted(boolean muted) {
+        public Builder setMuted(boolean muted) {
             names.add("muted");
             values.add(org.gtk.gobject.Value.create(muted));
             return this;
@@ -864,7 +838,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param playing The value for the {@code playing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlaying(boolean playing) {
+        public Builder setPlaying(boolean playing) {
             names.add("playing");
             values.add(org.gtk.gobject.Value.create(playing));
             return this;
@@ -876,7 +850,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param prepared The value for the {@code prepared} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrepared(boolean prepared) {
+        public Builder setPrepared(boolean prepared) {
             names.add("prepared");
             values.add(org.gtk.gobject.Value.create(prepared));
             return this;
@@ -887,7 +861,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param seekable The value for the {@code seekable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSeekable(boolean seekable) {
+        public Builder setSeekable(boolean seekable) {
             names.add("seekable");
             values.add(org.gtk.gobject.Value.create(seekable));
             return this;
@@ -898,7 +872,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param seeking The value for the {@code seeking} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSeeking(boolean seeking) {
+        public Builder setSeeking(boolean seeking) {
             names.add("seeking");
             values.add(org.gtk.gobject.Value.create(seeking));
             return this;
@@ -909,7 +883,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param timestamp The value for the {@code timestamp} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTimestamp(long timestamp) {
+        public Builder setTimestamp(long timestamp) {
             names.add("timestamp");
             values.add(org.gtk.gobject.Value.create(timestamp));
             return this;
@@ -920,7 +894,7 @@ public class MediaStream extends org.gtk.gobject.Object implements org.gtk.gdk.P
          * @param volume The value for the {@code volume} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVolume(double volume) {
+        public Builder setVolume(double volume) {
             names.add("volume");
             values.add(org.gtk.gobject.Value.create(volume));
             return this;

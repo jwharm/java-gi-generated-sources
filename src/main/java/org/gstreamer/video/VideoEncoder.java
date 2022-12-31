@@ -69,24 +69,22 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoEncoder";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
-        Interop.valueLayout.ADDRESS.withName("sinkpad"),
-        Interop.valueLayout.ADDRESS.withName("srcpad"),
-        org.gtk.glib.RecMutex.getMemoryLayout().withName("stream_lock"),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("input_segment"),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("output_segment"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
+            Interop.valueLayout.ADDRESS.withName("sinkpad"),
+            Interop.valueLayout.ADDRESS.withName("srcpad"),
+            org.gtk.glib.RecMutex.getMemoryLayout().withName("stream_lock"),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("input_segment"),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("output_segment"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -94,37 +92,23 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * <p>
      * Because VideoEncoder is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoEncoder(Addressable address, Ownership ownership) {
+    protected VideoEncoder(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VideoEncoder if its GType is a (or inherits from) "GstVideoEncoder".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VideoEncoder} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVideoEncoder", a ClassCastException will be thrown.
-     */
-    public static VideoEncoder castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VideoEncoder.getType())) {
-            return new VideoEncoder(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVideoEncoder");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoEncoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoEncoder(input, ownership);
     
     /**
      * Helper function that allocates a buffer to hold an encoded video frame
@@ -132,7 +116,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param size size of the buffer
      * @return allocated buffer
      */
-    public @NotNull org.gstreamer.gst.Buffer allocateOutputBuffer(long size) {
+    public org.gstreamer.gst.Buffer allocateOutputBuffer(long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_encoder_allocate_output_buffer.invokeExact(
@@ -141,7 +125,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -155,8 +139,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param size size of the buffer
      * @return {@link org.gstreamer.gst.FlowReturn#OK} if an output buffer could be allocated
      */
-    public @NotNull org.gstreamer.gst.FlowReturn allocateOutputFrame(@NotNull org.gstreamer.video.VideoCodecFrame frame, long size) {
-        java.util.Objects.requireNonNull(frame, "Parameter 'frame' must not be null");
+    public org.gstreamer.gst.FlowReturn allocateOutputFrame(org.gstreamer.video.VideoCodecFrame frame, long size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_encoder_allocate_output_frame.invokeExact(
@@ -182,8 +165,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param frame an encoded {@link VideoCodecFrame}
      * @return a {@link org.gstreamer.gst.FlowReturn} resulting from sending data downstream
      */
-    public @NotNull org.gstreamer.gst.FlowReturn finishFrame(@NotNull org.gstreamer.video.VideoCodecFrame frame) {
-        java.util.Objects.requireNonNull(frame, "Parameter 'frame' must not be null");
+    public org.gstreamer.gst.FlowReturn finishFrame(org.gstreamer.video.VideoCodecFrame frame) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_encoder_finish_frame.invokeExact(
@@ -209,8 +191,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param frame a {@link VideoCodecFrame} being encoded
      * @return a {@link org.gstreamer.gst.FlowReturn} resulting from pushing the buffer downstream.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn finishSubframe(@NotNull org.gstreamer.video.VideoCodecFrame frame) {
-        java.util.Objects.requireNonNull(frame, "Parameter 'frame' must not be null");
+    public org.gstreamer.gst.FlowReturn finishSubframe(org.gstreamer.video.VideoCodecFrame frame) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_encoder_finish_subframe.invokeExact(
@@ -232,19 +213,17 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param params the
      * {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
-    public void getAllocator(@NotNull Out<org.gstreamer.gst.Allocator> allocator, @NotNull org.gstreamer.gst.AllocationParams params) {
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
+    public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
         MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         try {
             DowncallHandles.gst_video_encoder_get_allocator.invokeExact(
                     handle(),
-                    (Addressable) allocatorPOINTER.address(),
-                    params.handle());
+                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        allocator.set(new org.gstreamer.gst.Allocator(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         params.yieldOwnership();
     }
     
@@ -253,7 +232,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param frameNumber system_frame_number of a frame
      * @return pending unfinished {@link VideoCodecFrame} identified by {@code frame_number}.
      */
-    public @NotNull org.gstreamer.video.VideoCodecFrame getFrame(int frameNumber) {
+    public org.gstreamer.video.VideoCodecFrame getFrame(int frameNumber) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_encoder_get_frame.invokeExact(
@@ -262,14 +241,14 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoCodecFrame(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get all pending unfinished {@link VideoCodecFrame}
      * @return pending unfinished {@link VideoCodecFrame}.
      */
-    public @NotNull org.gtk.glib.List getFrames() {
+    public org.gtk.glib.List getFrames() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_encoder_get_frames.invokeExact(
@@ -277,7 +256,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -288,21 +267,19 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param maxLatency address of variable in which to store the
      *     configured maximum latency, or {@code null}
      */
-    public void getLatency(@NotNull Out<org.gstreamer.gst.ClockTime> minLatency, @NotNull Out<org.gstreamer.gst.ClockTime> maxLatency) {
-        java.util.Objects.requireNonNull(minLatency, "Parameter 'minLatency' must not be null");
+    public void getLatency(@Nullable org.gstreamer.gst.ClockTime minLatency, @Nullable org.gstreamer.gst.ClockTime maxLatency) {
         MemorySegment minLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(maxLatency, "Parameter 'maxLatency' must not be null");
         MemorySegment maxLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_video_encoder_get_latency.invokeExact(
                     handle(),
-                    (Addressable) minLatencyPOINTER.address(),
-                    (Addressable) maxLatencyPOINTER.address());
+                    (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
+                    (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minLatency.set(new org.gstreamer.gst.ClockTime(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        maxLatency.set(new org.gstreamer.gst.ClockTime(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -316,8 +293,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param frame a {@link VideoCodecFrame}
      * @return max decoding time.
      */
-    public @NotNull org.gstreamer.gst.ClockTimeDiff getMaxEncodeTime(@NotNull org.gstreamer.video.VideoCodecFrame frame) {
-        java.util.Objects.requireNonNull(frame, "Parameter 'frame' must not be null");
+    public org.gstreamer.gst.ClockTimeDiff getMaxEncodeTime(org.gstreamer.video.VideoCodecFrame frame) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_encoder_get_max_encode_time.invokeExact(
@@ -334,7 +310,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * for more details.
      * @return the minimum force-keyunit interval
      */
-    public @NotNull org.gstreamer.gst.ClockTime getMinForceKeyUnitInterval() {
+    public org.gstreamer.gst.ClockTime getMinForceKeyUnitInterval() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_encoder_get_min_force_key_unit_interval.invokeExact(
@@ -349,7 +325,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * Get the oldest unfinished pending {@link VideoCodecFrame}
      * @return oldest unfinished pending {@link VideoCodecFrame}
      */
-    public @NotNull org.gstreamer.video.VideoCodecFrame getOldestFrame() {
+    public org.gstreamer.video.VideoCodecFrame getOldestFrame() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_encoder_get_oldest_frame.invokeExact(
@@ -357,14 +333,14 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoCodecFrame(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the current {@link VideoCodecState}
      * @return {@link VideoCodecState} describing format of video data.
      */
-    public @NotNull org.gstreamer.video.VideoCodecState getOutputState() {
+    public org.gstreamer.video.VideoCodecState getOutputState() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_encoder_get_output_state.invokeExact(
@@ -372,7 +348,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoCodecState(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoCodecState.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -388,7 +364,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -404,8 +380,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      *     previously-set tags
      * @param mode the {@link org.gstreamer.gst.TagMergeMode} to use, usually {@code GST_TAG_MERGE_REPLACE}
      */
-    public void mergeTags(@Nullable org.gstreamer.gst.TagList tags, @NotNull org.gstreamer.gst.TagMergeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void mergeTags(@Nullable org.gstreamer.gst.TagList tags, org.gstreamer.gst.TagMergeMode mode) {
         try {
             DowncallHandles.gst_video_encoder_merge_tags.invokeExact(
                     handle(),
@@ -430,7 +405,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -441,7 +416,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param filter filter caps
      * @return a {@link org.gstreamer.gst.Caps} owned by caller
      */
-    public @NotNull org.gstreamer.gst.Caps proxyGetcaps(@Nullable org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.gst.Caps filter) {
+    public org.gstreamer.gst.Caps proxyGetcaps(@Nullable org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.gst.Caps filter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_encoder_proxy_getcaps.invokeExact(
@@ -451,15 +426,14 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Set the codec headers to be sent downstream whenever requested.
      * @param headers a list of {@link org.gstreamer.gst.Buffer} containing the codec header
      */
-    public void setHeaders(@NotNull org.gtk.glib.List headers) {
-        java.util.Objects.requireNonNull(headers, "Parameter 'headers' must not be null");
+    public void setHeaders(org.gtk.glib.List headers) {
         try {
             DowncallHandles.gst_video_encoder_set_headers.invokeExact(
                     handle(),
@@ -475,9 +449,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param minLatency minimum latency
      * @param maxLatency maximum latency
      */
-    public void setLatency(@NotNull org.gstreamer.gst.ClockTime minLatency, @NotNull org.gstreamer.gst.ClockTime maxLatency) {
-        java.util.Objects.requireNonNull(minLatency, "Parameter 'minLatency' must not be null");
-        java.util.Objects.requireNonNull(maxLatency, "Parameter 'maxLatency' must not be null");
+    public void setLatency(org.gstreamer.gst.ClockTime minLatency, org.gstreamer.gst.ClockTime maxLatency) {
         try {
             DowncallHandles.gst_video_encoder_set_latency.invokeExact(
                     handle(),
@@ -494,8 +466,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * {@code GST_CLOCK_TIME_NONE} causes force-keyunit events to be ignored.
      * @param interval minimum interval
      */
-    public void setMinForceKeyUnitInterval(@NotNull org.gstreamer.gst.ClockTime interval) {
-        java.util.Objects.requireNonNull(interval, "Parameter 'interval' must not be null");
+    public void setMinForceKeyUnitInterval(org.gstreamer.gst.ClockTime interval) {
         try {
             DowncallHandles.gst_video_encoder_set_min_force_key_unit_interval.invokeExact(
                     handle(),
@@ -512,8 +483,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * is enough time to accommodate first DTS, which may be less than first PTS
      * @param minPts minimal PTS that will be passed to handle_frame
      */
-    public void setMinPts(@NotNull org.gstreamer.gst.ClockTime minPts) {
-        java.util.Objects.requireNonNull(minPts, "Parameter 'minPts' must not be null");
+    public void setMinPts(org.gstreamer.gst.ClockTime minPts) {
         try {
             DowncallHandles.gst_video_encoder_set_min_pts.invokeExact(
                     handle(),
@@ -546,8 +516,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * @param reference An optional reference {@code GstVideoCodecState}
      * @return the newly configured output state.
      */
-    public @NotNull org.gstreamer.video.VideoCodecState setOutputState(@NotNull org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.video.VideoCodecState reference) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public org.gstreamer.video.VideoCodecState setOutputState(org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.video.VideoCodecState reference) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_encoder_set_output_state.invokeExact(
@@ -558,7 +527,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         caps.yieldOwnership();
-        return new org.gstreamer.video.VideoCodecState(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoCodecState.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -569,7 +538,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         try {
             DowncallHandles.gst_video_encoder_set_qos_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -579,7 +548,7 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_encoder_get_type.invokeExact();
@@ -588,38 +557,40 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link VideoEncoder.Builder} object constructs a {@link VideoEncoder} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VideoEncoder.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Element.Build {
+    public static class Builder extends org.gstreamer.gst.Element.Builder {
         
-         /**
-         * A {@link VideoEncoder.Build} object constructs a {@link VideoEncoder} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VideoEncoder} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VideoEncoder} using {@link VideoEncoder#castFrom}.
+         * {@link VideoEncoder}.
          * @return A new instance of {@code VideoEncoder} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoEncoder construct() {
-            return VideoEncoder.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VideoEncoder.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VideoEncoder build() {
+            return (VideoEncoder) org.gtk.gobject.GObject.newWithProperties(
+                VideoEncoder.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -629,13 +600,13 @@ public class VideoEncoder extends org.gstreamer.gst.Element implements org.gstre
          * @param minForceKeyUnitInterval The value for the {@code min-force-key-unit-interval} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinForceKeyUnitInterval(long minForceKeyUnitInterval) {
+        public Builder setMinForceKeyUnitInterval(long minForceKeyUnitInterval) {
             names.add("min-force-key-unit-interval");
             values.add(org.gtk.gobject.Value.create(minForceKeyUnitInterval));
             return this;
         }
         
-        public Build setQos(boolean qos) {
+        public Builder setQos(boolean qos) {
             names.add("qos");
             values.add(org.gtk.gobject.Value.create(qos));
             return this;

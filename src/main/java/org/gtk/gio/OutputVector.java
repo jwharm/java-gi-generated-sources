@@ -20,18 +20,16 @@ public class OutputVector extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GOutputVector";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("buffer"),
-        Interop.valueLayout.C_LONG.withName("size")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("buffer"),
+            Interop.valueLayout.C_LONG.withName("size")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class OutputVector extends Struct {
      * Get the value of the field {@code buffer}
      * @return The value of the field {@code buffer}
      */
-    public java.lang.foreign.MemoryAddress buffer$get() {
+    public java.lang.foreign.MemoryAddress getBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,17 +60,17 @@ public class OutputVector extends Struct {
      * Change the value of the field {@code buffer}
      * @param buffer The new value of the field {@code buffer}
      */
-    public void buffer$set(java.lang.foreign.MemoryAddress buffer) {
+    public void setBuffer(java.lang.foreign.MemoryAddress buffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) buffer);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : (Addressable) buffer));
     }
     
     /**
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public long size$get() {
+    public long getSize() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,7 +81,7 @@ public class OutputVector extends Struct {
      * Change the value of the field {@code size}
      * @param size The new value of the field {@code size}
      */
-    public void size$set(long size) {
+    public void setSize(long size) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -94,35 +92,41 @@ public class OutputVector extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public OutputVector(Addressable address, Ownership ownership) {
+    protected OutputVector(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, OutputVector> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OutputVector(input, ownership);
+    
+    /**
+     * A {@link OutputVector.Builder} object constructs a {@link OutputVector} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link OutputVector.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private OutputVector struct;
+        private final OutputVector struct;
         
-         /**
-         * A {@link OutputVector.Build} object constructs a {@link OutputVector} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = OutputVector.allocate();
         }
         
          /**
          * Finish building the {@link OutputVector} struct.
          * @return A new instance of {@code OutputVector} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public OutputVector construct() {
+        public OutputVector build() {
             return struct;
         }
         
@@ -131,7 +135,7 @@ public class OutputVector extends Struct {
          * @param buffer The value for the {@code buffer} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBuffer(java.lang.foreign.MemoryAddress buffer) {
+        public Builder setBuffer(java.lang.foreign.MemoryAddress buffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : (Addressable) buffer));
@@ -143,7 +147,7 @@ public class OutputVector extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(long size) {
+        public Builder setSize(long size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);

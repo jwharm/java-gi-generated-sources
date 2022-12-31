@@ -40,8 +40,10 @@ public class ExternalSemaphoreHandleTypeFlagBits extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ExternalSemaphoreHandleTypeFlagBits(Addressable address, Ownership ownership) {
+    protected ExternalSemaphoreHandleTypeFlagBits(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ExternalSemaphoreHandleTypeFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalSemaphoreHandleTypeFlagBits(input, ownership);
 }

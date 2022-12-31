@@ -29,18 +29,16 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
     
     private static final java.lang.String C_TYPE_NAME = "GBufferedInputStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.FilterInputStream.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.FilterInputStream.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -48,34 +46,15 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BufferedInputStream(Addressable address, Ownership ownership) {
+    protected BufferedInputStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to BufferedInputStream if its GType is a (or inherits from) "GBufferedInputStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BufferedInputStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GBufferedInputStream", a ClassCastException will be thrown.
-     */
-    public static BufferedInputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BufferedInputStream.getType())) {
-            return new BufferedInputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GBufferedInputStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BufferedInputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferedInputStream(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.InputStream baseStream) {
-        java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.InputStream baseStream) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_buffered_input_stream_new.invokeExact(
                     baseStream.handle());
@@ -90,13 +69,12 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * a buffer set to the default size (4 kilobytes).
      * @param baseStream a {@link InputStream}
      */
-    public BufferedInputStream(@NotNull org.gtk.gio.InputStream baseStream) {
+    public BufferedInputStream(org.gtk.gio.InputStream baseStream) {
         super(constructNew(baseStream), Ownership.FULL);
     }
     
-    private static Addressable constructNewSized(@NotNull org.gtk.gio.InputStream baseStream, long size) {
-        java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSized(org.gtk.gio.InputStream baseStream, long size) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_buffered_input_stream_new_sized.invokeExact(
                     baseStream.handle(),
@@ -114,8 +92,9 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @param size a {@code gsize}
      * @return a {@link InputStream}.
      */
-    public static BufferedInputStream newSized(@NotNull org.gtk.gio.InputStream baseStream, long size) {
-        return new BufferedInputStream(constructNewSized(baseStream, size), Ownership.FULL);
+    public static BufferedInputStream newSized(org.gtk.gio.InputStream baseStream, long size) {
+        var RESULT = constructNewSized(baseStream, size);
+        return (org.gtk.gio.BufferedInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.BufferedInputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -186,12 +165,8 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
                     count,
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,8 +178,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @return a {@code gssize} of the read stream, or {@code -1} on an error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long fillFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public long fillFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
@@ -260,8 +234,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @param count a {@code gsize}
      * @return a {@code gsize} of the number of bytes peeked, or -1 on error.
      */
-    public long peek(@NotNull byte[] buffer, long offset, long count) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public long peek(byte[] buffer, long offset, long count) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_buffered_input_stream_peek.invokeExact(
@@ -282,8 +255,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * @param count a {@code gsize} to get the number of bytes available in the buffer
      * @return read-only buffer
      */
-    public @NotNull byte[] peekBuffer(Out<Long> count) {
-        java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
+    public byte[] peekBuffer(Out<Long> count) {
         MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
@@ -352,7 +324,7 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_buffered_input_stream_get_type.invokeExact();
@@ -361,42 +333,44 @@ public class BufferedInputStream extends org.gtk.gio.FilterInputStream implement
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BufferedInputStream.Builder} object constructs a {@link BufferedInputStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BufferedInputStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.FilterInputStream.Build {
+    public static class Builder extends org.gtk.gio.FilterInputStream.Builder {
         
-         /**
-         * A {@link BufferedInputStream.Build} object constructs a {@link BufferedInputStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BufferedInputStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BufferedInputStream} using {@link BufferedInputStream#castFrom}.
+         * {@link BufferedInputStream}.
          * @return A new instance of {@code BufferedInputStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BufferedInputStream construct() {
-            return BufferedInputStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BufferedInputStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BufferedInputStream build() {
+            return (BufferedInputStream) org.gtk.gobject.GObject.newWithProperties(
+                BufferedInputStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setBufferSize(int bufferSize) {
+        public Builder setBufferSize(int bufferSize) {
             names.add("buffer-size");
             values.add(org.gtk.gobject.Value.create(bufferSize));
             return this;

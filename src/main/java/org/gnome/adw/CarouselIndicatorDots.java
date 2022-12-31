@@ -47,40 +47,26 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
      * <p>
      * Because CarouselIndicatorDots is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CarouselIndicatorDots(Addressable address, Ownership ownership) {
+    protected CarouselIndicatorDots(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to CarouselIndicatorDots if its GType is a (or inherits from) "AdwCarouselIndicatorDots".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CarouselIndicatorDots} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwCarouselIndicatorDots", a ClassCastException will be thrown.
-     */
-    public static CarouselIndicatorDots castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CarouselIndicatorDots.getType())) {
-            return new CarouselIndicatorDots(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwCarouselIndicatorDots");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CarouselIndicatorDots> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CarouselIndicatorDots(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_carousel_indicator_dots_new.invokeExact();
         } catch (Throwable ERR) {
@@ -108,7 +94,7 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.Carousel(RESULT, Ownership.NONE);
+        return (org.gnome.adw.Carousel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.Carousel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -129,7 +115,7 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_carousel_indicator_dots_get_type.invokeExact();
@@ -138,38 +124,40 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link CarouselIndicatorDots.Builder} object constructs a {@link CarouselIndicatorDots} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CarouselIndicatorDots.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link CarouselIndicatorDots.Build} object constructs a {@link CarouselIndicatorDots} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CarouselIndicatorDots} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CarouselIndicatorDots} using {@link CarouselIndicatorDots#castFrom}.
+         * {@link CarouselIndicatorDots}.
          * @return A new instance of {@code CarouselIndicatorDots} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CarouselIndicatorDots construct() {
-            return CarouselIndicatorDots.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CarouselIndicatorDots.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CarouselIndicatorDots build() {
+            return (CarouselIndicatorDots) org.gtk.gobject.GObject.newWithProperties(
+                CarouselIndicatorDots.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -178,7 +166,7 @@ public class CarouselIndicatorDots extends org.gtk.gtk.Widget implements org.gtk
          * @param carousel The value for the {@code carousel} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCarousel(org.gnome.adw.Carousel carousel) {
+        public Builder setCarousel(org.gnome.adw.Carousel carousel) {
             names.add("carousel");
             values.add(org.gtk.gobject.Value.create(carousel));
             return this;

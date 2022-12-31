@@ -10,5 +10,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TypePluginCompleteTypeInfo {
-        void onTypePluginCompleteTypeInfo(@NotNull org.gtk.gobject.TypePlugin plugin, @NotNull org.gtk.glib.Type gType, @NotNull org.gtk.gobject.TypeInfo info, @NotNull org.gtk.gobject.TypeValueTable valueTable);
+    void run(org.gtk.gobject.TypePlugin plugin, org.gtk.glib.Type gType, org.gtk.gobject.TypeInfo info, org.gtk.gobject.TypeValueTable valueTable);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress plugin, long gType, MemoryAddress info, MemoryAddress valueTable) {
+        run((org.gtk.gobject.TypePlugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(plugin)), org.gtk.gobject.TypePlugin.fromAddress).marshal(plugin, Ownership.NONE), new org.gtk.glib.Type(gType), org.gtk.gobject.TypeInfo.fromAddress.marshal(info, Ownership.NONE), org.gtk.gobject.TypeValueTable.fromAddress.marshal(valueTable, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TypePluginCompleteTypeInfo.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

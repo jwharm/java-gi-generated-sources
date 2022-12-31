@@ -131,16 +131,18 @@ public class SettingsSchema extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SettingsSchema(Addressable address, Ownership ownership) {
+    protected SettingsSchema(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SettingsSchema> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SettingsSchema(input, ownership);
     
     /**
      * Get the ID of {@code schema}.
      * @return the ID
      */
-    public @NotNull java.lang.String getId() {
+    public java.lang.String getId() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_id.invokeExact(
@@ -148,7 +150,7 @@ public class SettingsSchema extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -159,17 +161,16 @@ public class SettingsSchema extends Struct {
      * @param name the name of a key
      * @return the {@link SettingsSchemaKey} for {@code name}
      */
-    public @NotNull org.gtk.gio.SettingsSchemaKey getKey(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public org.gtk.gio.SettingsSchemaKey getKey(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_get_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchemaKey(RESULT, Ownership.FULL);
+        return org.gtk.gio.SettingsSchemaKey.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -192,7 +193,7 @@ public class SettingsSchema extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -200,17 +201,16 @@ public class SettingsSchema extends Struct {
      * @param name the name of a key
      * @return {@code true} if such a key exists
      */
-    public boolean hasKey(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean hasKey(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_schema_has_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -221,7 +221,7 @@ public class SettingsSchema extends Struct {
      * @return a list of
      *    the children on {@code settings}, in no defined order
      */
-    public @NotNull PointerString listChildren() {
+    public PointerString listChildren() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_children.invokeExact(
@@ -241,7 +241,7 @@ public class SettingsSchema extends Struct {
      * @return a list
      *   of the keys on {@code schema}, in no defined order
      */
-    public @NotNull PointerString listKeys() {
+    public PointerString listKeys() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_list_keys.invokeExact(
@@ -256,7 +256,7 @@ public class SettingsSchema extends Struct {
      * Increase the reference count of {@code schema}, returning a new reference.
      * @return a new reference to {@code schema}
      */
-    public @NotNull org.gtk.gio.SettingsSchema ref() {
+    public org.gtk.gio.SettingsSchema ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_ref.invokeExact(
@@ -264,7 +264,7 @@ public class SettingsSchema extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchema(RESULT, Ownership.FULL);
+        return org.gtk.gio.SettingsSchema.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

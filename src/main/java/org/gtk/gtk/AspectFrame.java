@@ -36,46 +36,32 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Because AspectFrame is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AspectFrame(Addressable address, Ownership ownership) {
+    protected AspectFrame(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AspectFrame if its GType is a (or inherits from) "GtkAspectFrame".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AspectFrame} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkAspectFrame", a ClassCastException will be thrown.
-     */
-    public static AspectFrame castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AspectFrame.getType())) {
-            return new AspectFrame(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAspectFrame");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AspectFrame> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AspectFrame(input, ownership);
     
-    private static Addressable constructNew(float xalign, float yalign, float ratio, boolean obeyChild) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(float xalign, float yalign, float ratio, boolean obeyChild) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_aspect_frame_new.invokeExact(
                     xalign,
                     yalign,
                     ratio,
-                    obeyChild ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(obeyChild, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +94,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -124,7 +110,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -199,7 +185,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_aspect_frame_set_obey_child.invokeExact(
                     handle(),
-                    obeyChild ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(obeyChild, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +239,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_aspect_frame_get_type.invokeExact();
@@ -262,38 +248,40 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link AspectFrame.Builder} object constructs a {@link AspectFrame} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AspectFrame.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link AspectFrame.Build} object constructs a {@link AspectFrame} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AspectFrame} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AspectFrame} using {@link AspectFrame#castFrom}.
+         * {@link AspectFrame}.
          * @return A new instance of {@code AspectFrame} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AspectFrame construct() {
-            return AspectFrame.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AspectFrame.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AspectFrame build() {
+            return (AspectFrame) org.gtk.gobject.GObject.newWithProperties(
+                AspectFrame.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -302,7 +290,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -313,7 +301,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param obeyChild The value for the {@code obey-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setObeyChild(boolean obeyChild) {
+        public Builder setObeyChild(boolean obeyChild) {
             names.add("obey-child");
             values.add(org.gtk.gobject.Value.create(obeyChild));
             return this;
@@ -327,7 +315,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param ratio The value for the {@code ratio} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRatio(float ratio) {
+        public Builder setRatio(float ratio) {
             names.add("ratio");
             values.add(org.gtk.gobject.Value.create(ratio));
             return this;
@@ -338,7 +326,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param xalign The value for the {@code xalign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setXalign(float xalign) {
+        public Builder setXalign(float xalign) {
             names.add("xalign");
             values.add(org.gtk.gobject.Value.create(xalign));
             return this;
@@ -349,7 +337,7 @@ public class AspectFrame extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param yalign The value for the {@code yalign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYalign(float yalign) {
+        public Builder setYalign(float yalign) {
             names.add("yalign");
             values.add(org.gtk.gobject.Value.create(yalign));
             return this;

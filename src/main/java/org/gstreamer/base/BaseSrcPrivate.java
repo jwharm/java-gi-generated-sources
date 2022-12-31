@@ -40,8 +40,10 @@ public class BaseSrcPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BaseSrcPrivate(Addressable address, Ownership ownership) {
+    protected BaseSrcPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BaseSrcPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseSrcPrivate(input, ownership);
 }

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * The {@link NetTimeProvider} typically wraps the clock used by a {@link org.gstreamer.gst.Pipeline}.
  */
-public class NetTimeProvider extends org.gstreamer.gst.Object implements org.gtk.gio.Initable {
+public class NetTimeProvider extends org.gstreamer.gst.GstObject implements org.gtk.gio.Initable {
     
     static {
         GstNet.javagi$ensureInitialized();
@@ -24,19 +24,17 @@ public class NetTimeProvider extends org.gstreamer.gst.Object implements org.gtk
     
     private static final java.lang.String C_TYPE_NAME = "GstNetTimeProvider";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -44,45 +42,30 @@ public class NetTimeProvider extends org.gstreamer.gst.Object implements org.gtk
      * <p>
      * Because NetTimeProvider is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NetTimeProvider(Addressable address, Ownership ownership) {
+    protected NetTimeProvider(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to NetTimeProvider if its GType is a (or inherits from) "GstNetTimeProvider".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code NetTimeProvider} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstNetTimeProvider", a ClassCastException will be thrown.
-     */
-    public static NetTimeProvider castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), NetTimeProvider.getType())) {
-            return new NetTimeProvider(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstNetTimeProvider");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NetTimeProvider> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetTimeProvider(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gst.Clock clock, @Nullable java.lang.String address, int port) {
-        java.util.Objects.requireNonNull(clock, "Parameter 'clock' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.gst.Clock clock, @Nullable java.lang.String address, int port) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_net_time_provider_new.invokeExact(
                     clock.handle(),
-                    (Addressable) (address == null ? MemoryAddress.NULL : Interop.allocateNativeString(address)),
+                    (Addressable) (address == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(address, null)),
                     port);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -97,7 +80,7 @@ public class NetTimeProvider extends org.gstreamer.gst.Object implements org.gtk
      *           (xxx.xxx.xxx.xxx), IPv6 address, or NULL to bind to all addresses
      * @param port a port to bind on, or 0 to let the kernel choose
      */
-    public NetTimeProvider(@NotNull org.gstreamer.gst.Clock clock, @Nullable java.lang.String address, int port) {
+    public NetTimeProvider(org.gstreamer.gst.Clock clock, @Nullable java.lang.String address, int port) {
         super(constructNew(clock, address, port), Ownership.FULL);
     }
     
@@ -105,7 +88,7 @@ public class NetTimeProvider extends org.gstreamer.gst.Object implements org.gtk
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_net_time_provider_get_type.invokeExact();
@@ -114,66 +97,68 @@ public class NetTimeProvider extends org.gstreamer.gst.Object implements org.gtk
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link NetTimeProvider.Builder} object constructs a {@link NetTimeProvider} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link NetTimeProvider.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link NetTimeProvider.Build} object constructs a {@link NetTimeProvider} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link NetTimeProvider} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link NetTimeProvider} using {@link NetTimeProvider#castFrom}.
+         * {@link NetTimeProvider}.
          * @return A new instance of {@code NetTimeProvider} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NetTimeProvider construct() {
-            return NetTimeProvider.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    NetTimeProvider.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public NetTimeProvider build() {
+            return (NetTimeProvider) org.gtk.gobject.GObject.newWithProperties(
+                NetTimeProvider.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setActive(boolean active) {
+        public Builder setActive(boolean active) {
             names.add("active");
             values.add(org.gtk.gobject.Value.create(active));
             return this;
         }
         
-        public Build setAddress(java.lang.String address) {
+        public Builder setAddress(java.lang.String address) {
             names.add("address");
             values.add(org.gtk.gobject.Value.create(address));
             return this;
         }
         
-        public Build setClock(org.gstreamer.gst.Clock clock) {
+        public Builder setClock(org.gstreamer.gst.Clock clock) {
             names.add("clock");
             values.add(org.gtk.gobject.Value.create(clock));
             return this;
         }
         
-        public Build setPort(int port) {
+        public Builder setPort(int port) {
             names.add("port");
             values.add(org.gtk.gobject.Value.create(port));
             return this;
         }
         
-        public Build setQosDscp(int qosDscp) {
+        public Builder setQosDscp(int qosDscp) {
             names.add("qos-dscp");
             values.add(org.gtk.gobject.Value.create(qosDscp));
             return this;

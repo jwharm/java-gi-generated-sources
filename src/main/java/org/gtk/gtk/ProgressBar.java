@@ -73,40 +73,26 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Because ProgressBar is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ProgressBar(Addressable address, Ownership ownership) {
+    protected ProgressBar(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ProgressBar if its GType is a (or inherits from) "GtkProgressBar".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ProgressBar} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkProgressBar", a ClassCastException will be thrown.
-     */
-    public static ProgressBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ProgressBar.getType())) {
-            return new ProgressBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkProgressBar");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ProgressBar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProgressBar(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_progress_bar_new.invokeExact();
         } catch (Throwable ERR) {
@@ -128,7 +114,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * See {@link ProgressBar#setEllipsize}.
      * @return {@code PangoEllipsizeMode}
      */
-    public @NotNull org.pango.EllipsizeMode getEllipsize() {
+    public org.pango.EllipsizeMode getEllipsize() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_progress_bar_get_ellipsize.invokeExact(
@@ -166,7 +152,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -200,7 +186,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -218,7 +204,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -245,8 +231,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * to render the entire string.
      * @param mode a {@code PangoEllipsizeMode}
      */
-    public void setEllipsize(@NotNull org.pango.EllipsizeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setEllipsize(org.pango.EllipsizeMode mode) {
         try {
             DowncallHandles.gtk_progress_bar_set_ellipsize.invokeExact(
                     handle(),
@@ -284,7 +269,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_progress_bar_set_inverted.invokeExact(
                     handle(),
-                    inverted ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(inverted, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,7 +309,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_progress_bar_set_show_text.invokeExact(
                     handle(),
-                    showText ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showText, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,7 +333,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_progress_bar_set_text.invokeExact(
                     handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -358,7 +343,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_progress_bar_get_type.invokeExact();
@@ -367,38 +352,40 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ProgressBar.Builder} object constructs a {@link ProgressBar} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ProgressBar.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link ProgressBar.Build} object constructs a {@link ProgressBar} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ProgressBar} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ProgressBar} using {@link ProgressBar#castFrom}.
+         * {@link ProgressBar}.
          * @return A new instance of {@code ProgressBar} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ProgressBar construct() {
-            return ProgressBar.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ProgressBar.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ProgressBar build() {
+            return (ProgressBar) org.gtk.gobject.GObject.newWithProperties(
+                ProgressBar.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -415,7 +402,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param ellipsize The value for the {@code ellipsize} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEllipsize(org.pango.EllipsizeMode ellipsize) {
+        public Builder setEllipsize(org.pango.EllipsizeMode ellipsize) {
             names.add("ellipsize");
             values.add(org.gtk.gobject.Value.create(ellipsize));
             return this;
@@ -426,7 +413,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param fraction The value for the {@code fraction} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFraction(double fraction) {
+        public Builder setFraction(double fraction) {
             names.add("fraction");
             values.add(org.gtk.gobject.Value.create(fraction));
             return this;
@@ -437,7 +424,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param inverted The value for the {@code inverted} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInverted(boolean inverted) {
+        public Builder setInverted(boolean inverted) {
             names.add("inverted");
             values.add(org.gtk.gobject.Value.create(inverted));
             return this;
@@ -448,7 +435,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param pulseStep The value for the {@code pulse-step} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPulseStep(double pulseStep) {
+        public Builder setPulseStep(double pulseStep) {
             names.add("pulse-step");
             values.add(org.gtk.gobject.Value.create(pulseStep));
             return this;
@@ -468,7 +455,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param showText The value for the {@code show-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowText(boolean showText) {
+        public Builder setShowText(boolean showText) {
             names.add("show-text");
             values.add(org.gtk.gobject.Value.create(showText));
             return this;
@@ -479,7 +466,7 @@ public class ProgressBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param text The value for the {@code text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             names.add("text");
             values.add(org.gtk.gobject.Value.create(text));
             return this;

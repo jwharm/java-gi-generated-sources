@@ -17,5 +17,19 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface UnicodeDecomposeCompatibilityFuncT {
-        int onUnicodeDecomposeCompatibilityFuncT(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT u, @NotNull org.harfbuzz.CodepointT decomposed, @Nullable java.lang.foreign.MemoryAddress userData);
+    int run(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT u, org.harfbuzz.CodepointT decomposed, @Nullable java.lang.foreign.MemoryAddress userData);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress ufuncs, int u, MemoryAddress decomposed, MemoryAddress userData) {
+        org.harfbuzz.CodepointT decomposedALIAS = new org.harfbuzz.CodepointT(decomposed.get(Interop.valueLayout.C_INT, 0));
+        var RESULT = run(org.harfbuzz.UnicodeFuncsT.fromAddress.marshal(ufuncs, Ownership.NONE), new org.harfbuzz.CodepointT(u), decomposedALIAS, userData);
+        decomposed.set(Interop.valueLayout.C_INT, 0, decomposedALIAS.getValue());
+        return RESULT;
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnicodeDecomposeCompatibilityFuncT.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

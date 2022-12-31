@@ -14,7 +14,15 @@ public final class GstSdp {
         System.loadLibrary("gstsdp-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * The supported MIKEY version 1.
@@ -58,20 +66,17 @@ public final class GstSdp {
      * @param addr an address
      * @return TRUE when {@code addr} is multicast.
      */
-    public static boolean sdpAddressIsMulticast(@NotNull java.lang.String nettype, @NotNull java.lang.String addrtype, @NotNull java.lang.String addr) {
-        java.util.Objects.requireNonNull(nettype, "Parameter 'nettype' must not be null");
-        java.util.Objects.requireNonNull(addrtype, "Parameter 'addrtype' must not be null");
-        java.util.Objects.requireNonNull(addr, "Parameter 'addr' must not be null");
+    public static boolean sdpAddressIsMulticast(java.lang.String nettype, java.lang.String addrtype, java.lang.String addr) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_address_is_multicast.invokeExact(
-                    Interop.allocateNativeString(nettype),
-                    Interop.allocateNativeString(addrtype),
-                    Interop.allocateNativeString(addr));
+                    Marshal.stringToAddress.marshal(nettype, null),
+                    Marshal.stringToAddress.marshal(addrtype, null),
+                    Marshal.stringToAddress.marshal(addr, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -80,18 +85,16 @@ public final class GstSdp {
      * @param base64 a {@code gchar} base64-encoded key data
      * @return a {@code gchar} key-mgmt data,
      */
-    public static @NotNull java.lang.String sdpMakeKeymgmt(@NotNull java.lang.String uri, @NotNull java.lang.String base64) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(base64, "Parameter 'base64' must not be null");
+    public static java.lang.String sdpMakeKeymgmt(java.lang.String uri, java.lang.String base64) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_make_keymgmt.invokeExact(
-                    Interop.allocateNativeString(uri),
-                    Interop.allocateNativeString(base64));
+                    Marshal.stringToAddress.marshal(uri, null),
+                    Marshal.stringToAddress.marshal(base64, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -99,8 +102,7 @@ public final class GstSdp {
      * @param media pointer to new {@link SDPMedia}
      * @return a {@link SDPResult}.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult sdpMediaNew(@NotNull Out<org.gstreamer.sdp.SDPMedia> media) {
-        java.util.Objects.requireNonNull(media, "Parameter 'media' must not be null");
+    public static org.gstreamer.sdp.SDPResult sdpMediaNew(Out<org.gstreamer.sdp.SDPMedia> media) {
         MemorySegment mediaPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -109,7 +111,7 @@ public final class GstSdp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        media.set(new org.gstreamer.sdp.SDPMedia(mediaPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        media.set(org.gstreamer.sdp.SDPMedia.fromAddress.marshal(mediaPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -129,9 +131,7 @@ public final class GstSdp {
      * @param media a {@link SDPMedia}
      * @return a {@link SDPResult}.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult sdpMediaSetMediaFromCaps(@NotNull org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.sdp.SDPMedia media) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(media, "Parameter 'media' must not be null");
+    public static org.gstreamer.sdp.SDPResult sdpMediaSetMediaFromCaps(org.gstreamer.gst.Caps caps, org.gstreamer.sdp.SDPMedia media) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_set_media_from_caps.invokeExact(
@@ -153,18 +153,16 @@ public final class GstSdp {
      * @param msg the {@link SDPMessage}
      * @return a uri for {@code msg}.
      */
-    public static @NotNull java.lang.String sdpMessageAsUri(@NotNull java.lang.String scheme, @NotNull org.gstreamer.sdp.SDPMessage msg) {
-        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static java.lang.String sdpMessageAsUri(java.lang.String scheme, org.gstreamer.sdp.SDPMessage msg) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_message_as_uri.invokeExact(
-                    Interop.allocateNativeString(scheme),
+                    Marshal.stringToAddress.marshal(scheme, null),
                     msg.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -172,8 +170,7 @@ public final class GstSdp {
      * @param msg pointer to new {@link SDPMessage}
      * @return a {@link SDPResult}.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult sdpMessageNew(@NotNull Out<org.gstreamer.sdp.SDPMessage> msg) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.sdp.SDPResult sdpMessageNew(Out<org.gstreamer.sdp.SDPMessage> msg) {
         MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -182,7 +179,7 @@ public final class GstSdp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        msg.set(new org.gstreamer.sdp.SDPMessage(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        msg.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -192,19 +189,17 @@ public final class GstSdp {
      * @param msg pointer to new {@link SDPMessage}
      * @return a {@link SDPResult}.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult sdpMessageNewFromText(@NotNull java.lang.String text, @NotNull Out<org.gstreamer.sdp.SDPMessage> msg) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.sdp.SDPResult sdpMessageNewFromText(java.lang.String text, Out<org.gstreamer.sdp.SDPMessage> msg) {
         MemorySegment msgPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_new_from_text.invokeExact(
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     (Addressable) msgPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        msg.set(new org.gstreamer.sdp.SDPMessage(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        msg.set(org.gstreamer.sdp.SDPMessage.fromAddress.marshal(msgPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -216,9 +211,7 @@ public final class GstSdp {
      * @param msg the result {@link SDPMessage}
      * @return {@code GST_SDP_OK} on success.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult sdpMessageParseBuffer(@NotNull byte[] data, int size, @NotNull org.gstreamer.sdp.SDPMessage msg) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.sdp.SDPResult sdpMessageParseBuffer(byte[] data, int size, org.gstreamer.sdp.SDPMessage msg) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_parse_buffer.invokeExact(
@@ -245,13 +238,11 @@ public final class GstSdp {
      * @param msg the result {@link SDPMessage}
      * @return {@code GST_SDP_OK} on success.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult sdpMessageParseUri(@NotNull java.lang.String uri, @NotNull org.gstreamer.sdp.SDPMessage msg) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static org.gstreamer.sdp.SDPResult sdpMessageParseUri(java.lang.String uri, org.gstreamer.sdp.SDPMessage msg) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_message_parse_uri.invokeExact(
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     msg.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);

@@ -13,5 +13,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PrinterFunc {
-        boolean onPrinterFunc(@NotNull org.gtk.gtk.Printer printer);
+    boolean run(org.gtk.gtk.Printer printer);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress printer, MemoryAddress data) {
+        var RESULT = run((org.gtk.gtk.Printer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(printer)), org.gtk.gtk.Printer.fromAddress).marshal(printer, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PrinterFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

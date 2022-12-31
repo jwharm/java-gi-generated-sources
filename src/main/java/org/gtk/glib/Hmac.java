@@ -46,10 +46,12 @@ public class Hmac extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Hmac(Addressable address, Ownership ownership) {
+    protected Hmac(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Hmac> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Hmac(input, ownership);
     
     /**
      * Copies a {@link Hmac}. If {@code hmac} has been closed, by calling
@@ -58,7 +60,7 @@ public class Hmac extends Struct {
      * @return the copy of the passed {@link Hmac}. Use g_hmac_unref()
      *   when finished using it.
      */
-    public @NotNull org.gtk.glib.Hmac copy() {
+    public org.gtk.glib.Hmac copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hmac_copy.invokeExact(
@@ -66,7 +68,7 @@ public class Hmac extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hmac(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hmac.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -79,9 +81,7 @@ public class Hmac extends Struct {
      * @param digestLen an inout parameter. The caller initializes it to the
      *   size of {@code buffer}. After the call it contains the length of the digest
      */
-    public void getDigest(@NotNull byte[] buffer, Out<Long> digestLen) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(digestLen, "Parameter 'digestLen' must not be null");
+    public void getDigest(byte[] buffer, Out<Long> digestLen) {
         MemorySegment digestLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.g_hmac_get_digest.invokeExact(
@@ -105,7 +105,7 @@ public class Hmac extends Struct {
      *   returned string is owned by the HMAC and should not be modified
      *   or freed.
      */
-    public @NotNull java.lang.String getString() {
+    public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hmac_get_string.invokeExact(
@@ -113,7 +113,7 @@ public class Hmac extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -122,7 +122,7 @@ public class Hmac extends Struct {
      * This function is MT-safe and may be called from any thread.
      * @return the passed in {@link Hmac}.
      */
-    public @NotNull org.gtk.glib.Hmac ref() {
+    public org.gtk.glib.Hmac ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hmac_ref.invokeExact(
@@ -130,7 +130,7 @@ public class Hmac extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hmac(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hmac.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -158,8 +158,7 @@ public class Hmac extends Struct {
      * @param data buffer used to compute the checksum
      * @param length size of the buffer, or -1 if it is a nul-terminated string
      */
-    public void update(@NotNull byte[] data, long length) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void update(byte[] data, long length) {
         try {
             DowncallHandles.g_hmac_update.invokeExact(
                     handle(),
@@ -193,9 +192,7 @@ public class Hmac extends Struct {
      * @return the newly created {@link Hmac}, or {@code null}.
      *   Use g_hmac_unref() to free the memory allocated by it.
      */
-    public static @NotNull org.gtk.glib.Hmac new_(@NotNull org.gtk.glib.ChecksumType digestType, @NotNull byte[] key, long keyLen) {
-        java.util.Objects.requireNonNull(digestType, "Parameter 'digestType' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static org.gtk.glib.Hmac new_(org.gtk.glib.ChecksumType digestType, byte[] key, long keyLen) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hmac_new.invokeExact(
@@ -205,7 +202,7 @@ public class Hmac extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hmac(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hmac.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

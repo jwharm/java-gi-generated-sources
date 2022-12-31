@@ -20,18 +20,16 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
     
     private static final java.lang.String C_TYPE_NAME = "GConverterInputStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.FilterInputStream.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.FilterInputStream.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -39,35 +37,15 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ConverterInputStream(Addressable address, Ownership ownership) {
+    protected ConverterInputStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ConverterInputStream if its GType is a (or inherits from) "GConverterInputStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ConverterInputStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GConverterInputStream", a ClassCastException will be thrown.
-     */
-    public static ConverterInputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ConverterInputStream.getType())) {
-            return new ConverterInputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GConverterInputStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ConverterInputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConverterInputStream(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.InputStream baseStream, @NotNull org.gtk.gio.Converter converter) {
-        java.util.Objects.requireNonNull(baseStream, "Parameter 'baseStream' must not be null");
-        java.util.Objects.requireNonNull(converter, "Parameter 'converter' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.InputStream baseStream, org.gtk.gio.Converter converter) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_converter_input_stream_new.invokeExact(
                     baseStream.handle(),
@@ -83,7 +61,7 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
      * @param baseStream a {@link InputStream}
      * @param converter a {@link Converter}
      */
-    public ConverterInputStream(@NotNull org.gtk.gio.InputStream baseStream, @NotNull org.gtk.gio.Converter converter) {
+    public ConverterInputStream(org.gtk.gio.InputStream baseStream, org.gtk.gio.Converter converter) {
         super(constructNew(baseStream, converter), Ownership.FULL);
     }
     
@@ -91,7 +69,7 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
      * Gets the {@link Converter} that is used by {@code converter_stream}.
      * @return the converter of the converter input stream
      */
-    public @NotNull org.gtk.gio.Converter getConverter() {
+    public org.gtk.gio.Converter getConverter() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_converter_input_stream_get_converter.invokeExact(
@@ -99,14 +77,14 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Converter.ConverterImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Converter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Converter.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_converter_input_stream_get_type.invokeExact();
@@ -115,42 +93,44 @@ public class ConverterInputStream extends org.gtk.gio.FilterInputStream implemen
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ConverterInputStream.Builder} object constructs a {@link ConverterInputStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ConverterInputStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.FilterInputStream.Build {
+    public static class Builder extends org.gtk.gio.FilterInputStream.Builder {
         
-         /**
-         * A {@link ConverterInputStream.Build} object constructs a {@link ConverterInputStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ConverterInputStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ConverterInputStream} using {@link ConverterInputStream#castFrom}.
+         * {@link ConverterInputStream}.
          * @return A new instance of {@code ConverterInputStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ConverterInputStream construct() {
-            return ConverterInputStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ConverterInputStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ConverterInputStream build() {
+            return (ConverterInputStream) org.gtk.gobject.GObject.newWithProperties(
+                ConverterInputStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setConverter(org.gtk.gio.Converter converter) {
+        public Builder setConverter(org.gtk.gio.Converter converter) {
             names.add("converter");
             values.add(org.gtk.gobject.Value.create(converter));
             return this;

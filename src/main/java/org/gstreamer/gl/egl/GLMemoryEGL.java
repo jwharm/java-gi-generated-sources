@@ -17,19 +17,17 @@ public class GLMemoryEGL extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLMemoryEGL";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gl.GLMemory.getMemoryLayout().withName("mem"),
-        Interop.valueLayout.ADDRESS.withName("image"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gl.GLMemory.getMemoryLayout().withName("mem"),
+            Interop.valueLayout.ADDRESS.withName("image"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,10 +48,12 @@ public class GLMemoryEGL extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLMemoryEGL(Addressable address, Ownership ownership) {
+    protected GLMemoryEGL(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLMemoryEGL> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryEGL(input, ownership);
     
     public @Nullable java.lang.foreign.MemoryAddress getDisplay() {
         MemoryAddress RESULT;
@@ -109,49 +109,53 @@ public class GLMemoryEGL extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLMemoryEGL.Builder} object constructs a {@link GLMemoryEGL} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLMemoryEGL.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLMemoryEGL struct;
+        private final GLMemoryEGL struct;
         
-         /**
-         * A {@link GLMemoryEGL.Build} object constructs a {@link GLMemoryEGL} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLMemoryEGL.allocate();
         }
         
          /**
          * Finish building the {@link GLMemoryEGL} struct.
          * @return A new instance of {@code GLMemoryEGL} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLMemoryEGL construct() {
+        public GLMemoryEGL build() {
             return struct;
         }
         
-        public Build setMem(org.gstreamer.gl.GLMemory mem) {
+        public Builder setMem(org.gstreamer.gl.GLMemory mem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mem"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
             return this;
         }
         
-        public Build setImage(org.gstreamer.gl.egl.EGLImage image) {
+        public Builder setImage(org.gstreamer.gl.egl.EGLImage image) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("image"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (image == null ? MemoryAddress.NULL : image.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

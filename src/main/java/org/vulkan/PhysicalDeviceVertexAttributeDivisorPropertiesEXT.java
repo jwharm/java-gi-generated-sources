@@ -40,8 +40,10 @@ public class PhysicalDeviceVertexAttributeDivisorPropertiesEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceVertexAttributeDivisorPropertiesEXT(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceVertexAttributeDivisorPropertiesEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceVertexAttributeDivisorPropertiesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceVertexAttributeDivisorPropertiesEXT(input, ownership);
 }

@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * The font faces in a family share a common design, but differ in
  * slant, weight, width or other aspects.
  */
-public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class FontFamily extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -20,17 +20,15 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
     
     private static final java.lang.String C_TYPE_NAME = "PangoFontFamily";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -38,30 +36,12 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FontFamily(Addressable address, Ownership ownership) {
+    protected FontFamily(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FontFamily if its GType is a (or inherits from) "PangoFontFamily".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FontFamily} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "PangoFontFamily", a ClassCastException will be thrown.
-     */
-    public static FontFamily castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontFamily.getType())) {
-            return new FontFamily(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoFontFamily");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FontFamily> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontFamily(input, ownership);
     
     /**
      * Gets the {@code PangoFontFace} of {@code family} with the given name.
@@ -76,11 +56,11 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_family_get_face.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontFace(RESULT, Ownership.NONE);
+        return (org.pango.FontFace) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontFace.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -92,7 +72,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * @return the name of the family. This string is owned
      *   by the family object and must not be modified or freed.
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_family_get_name.invokeExact(
@@ -100,7 +80,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -128,7 +108,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -147,7 +127,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -166,15 +146,13 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      *   longer needed.
      * @param nFaces location to store number of elements in {@code faces}.
      */
-    public void listFaces(@NotNull Out<org.pango.FontFace[]> faces, Out<Integer> nFaces) {
-        java.util.Objects.requireNonNull(faces, "Parameter 'faces' must not be null");
+    public void listFaces(@Nullable Out<org.pango.FontFace[]> faces, Out<Integer> nFaces) {
         MemorySegment facesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(nFaces, "Parameter 'nFaces' must not be null");
         MemorySegment nFacesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_font_family_list_faces.invokeExact(
                     handle(),
-                    (Addressable) facesPOINTER.address(),
+                    (Addressable) (faces == null ? MemoryAddress.NULL : (Addressable) facesPOINTER.address()),
                     (Addressable) nFacesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -183,7 +161,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         org.pango.FontFace[] facesARRAY = new org.pango.FontFace[nFaces.get().intValue()];
         for (int I = 0; I < nFaces.get().intValue(); I++) {
             var OBJ = facesPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            facesARRAY[I] = new org.pango.FontFace(OBJ, Ownership.CONTAINER);
+            facesARRAY[I] = (org.pango.FontFace) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(OBJ)), org.pango.FontFace.fromAddress).marshal(OBJ, Ownership.CONTAINER);
         }
         faces.set(facesARRAY);
     }
@@ -192,7 +170,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.pango_font_family_get_type.invokeExact();
@@ -201,38 +179,40 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link FontFamily.Builder} object constructs a {@link FontFamily} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FontFamily.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link FontFamily.Build} object constructs a {@link FontFamily} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FontFamily} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FontFamily} using {@link FontFamily#castFrom}.
+         * {@link FontFamily}.
          * @return A new instance of {@code FontFamily} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FontFamily construct() {
-            return FontFamily.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FontFamily.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FontFamily build() {
+            return (FontFamily) org.gtk.gobject.GObject.newWithProperties(
+                FontFamily.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -241,7 +221,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -252,7 +232,7 @@ public class FontFamily extends org.gtk.gobject.Object implements org.gtk.gio.Li
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;

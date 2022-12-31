@@ -76,20 +76,18 @@ public class Aggregator extends org.gstreamer.gst.Element {
     
     private static final java.lang.String C_TYPE_NAME = "GstAggregator";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Element.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("srcpad"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Element.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("srcpad"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -97,37 +95,23 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * <p>
      * Because Aggregator is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Aggregator(Addressable address, Ownership ownership) {
+    protected Aggregator(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Aggregator if its GType is a (or inherits from) "GstAggregator".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Aggregator} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAggregator", a ClassCastException will be thrown.
-     */
-    public static Aggregator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Aggregator.getType())) {
-            return new Aggregator(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAggregator");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Aggregator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Aggregator(input, ownership);
     
     /**
      * This method will push the provided output buffer downstream. If needed,
@@ -135,8 +119,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * sent before pushing the buffer.
      * @param buffer the {@link org.gstreamer.gst.Buffer} to push.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn finishBuffer(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.gst.FlowReturn finishBuffer(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_aggregator_finish_buffer.invokeExact(
@@ -155,8 +138,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * sent before pushing the buffer.
      * @param bufferlist the {@link org.gstreamer.gst.BufferList} to push.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn finishBufferList(@NotNull org.gstreamer.gst.BufferList bufferlist) {
-        java.util.Objects.requireNonNull(bufferlist, "Parameter 'bufferlist' must not be null");
+    public org.gstreamer.gst.FlowReturn finishBufferList(org.gstreamer.gst.BufferList bufferlist) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_aggregator_finish_buffer_list.invokeExact(
@@ -179,18 +161,17 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * @param params the
      * {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
-    public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @NotNull org.gstreamer.gst.AllocationParams params) {
+    public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
         MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         try {
             DowncallHandles.gst_aggregator_get_allocator.invokeExact(
                     handle(),
                     (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    params.handle());
+                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (allocator != null) allocator.set(new org.gstreamer.gst.Allocator(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     public @Nullable org.gstreamer.gst.BufferPool getBufferPool() {
@@ -201,7 +182,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.BufferPool(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     public boolean getIgnoreInactivePads() {
@@ -212,7 +193,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -223,7 +204,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * Typically only called by subclasses.
      * @return The latency or {@code GST_CLOCK_TIME_NONE} if the element does not sync
      */
-    public @NotNull org.gstreamer.gst.ClockTime getLatency() {
+    public org.gstreamer.gst.ClockTime getLatency() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_aggregator_get_latency.invokeExact(
@@ -248,7 +229,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -261,8 +242,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      *   and documented on a subclass basis. The buffers held by the sample are
      *   not writable.
      */
-    public @Nullable org.gstreamer.gst.Sample peekNextSample(@NotNull org.gstreamer.base.AggregatorPad pad) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public @Nullable org.gstreamer.gst.Sample peekNextSample(org.gstreamer.base.AggregatorPad pad) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_aggregator_peek_next_sample.invokeExact(
@@ -271,7 +251,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Sample(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -291,10 +271,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * @param duration The duration of the next output buffer
      * @param info a {@link org.gstreamer.gst.Structure} containing additional information
      */
-    public void selectedSamples(@NotNull org.gstreamer.gst.ClockTime pts, @NotNull org.gstreamer.gst.ClockTime dts, @NotNull org.gstreamer.gst.ClockTime duration, @Nullable org.gstreamer.gst.Structure info) {
-        java.util.Objects.requireNonNull(pts, "Parameter 'pts' must not be null");
-        java.util.Objects.requireNonNull(dts, "Parameter 'dts' must not be null");
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
+    public void selectedSamples(org.gstreamer.gst.ClockTime pts, org.gstreamer.gst.ClockTime dts, org.gstreamer.gst.ClockTime duration, @Nullable org.gstreamer.gst.Structure info) {
         try {
             DowncallHandles.gst_aggregator_selected_samples.invokeExact(
                     handle(),
@@ -320,7 +297,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_aggregator_set_ignore_inactive_pads.invokeExact(
                     handle(),
-                    ignore ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(ignore, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,9 +310,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * @param minLatency minimum latency
      * @param maxLatency maximum latency
      */
-    public void setLatency(@NotNull org.gstreamer.gst.ClockTime minLatency, @NotNull org.gstreamer.gst.ClockTime maxLatency) {
-        java.util.Objects.requireNonNull(minLatency, "Parameter 'minLatency' must not be null");
-        java.util.Objects.requireNonNull(maxLatency, "Parameter 'maxLatency' must not be null");
+    public void setLatency(org.gstreamer.gst.ClockTime minLatency, org.gstreamer.gst.ClockTime maxLatency) {
         try {
             DowncallHandles.gst_aggregator_set_latency.invokeExact(
                     handle(),
@@ -350,8 +325,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * Sets the caps to be used on the src pad.
      * @param caps The {@link org.gstreamer.gst.Caps} to set on the src pad.
      */
-    public void setSrcCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void setSrcCaps(org.gstreamer.gst.Caps caps) {
         try {
             DowncallHandles.gst_aggregator_set_src_caps.invokeExact(
                     handle(),
@@ -370,7 +344,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * and you have a dead line based aggregator subclass.
      * @return The running time based on the position
      */
-    public @NotNull org.gstreamer.gst.ClockTime simpleGetNextTime() {
+    public org.gstreamer.gst.ClockTime simpleGetNextTime() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_aggregator_simple_get_next_time.invokeExact(
@@ -389,8 +363,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * Subclasses MUST call this before gst_aggregator_selected_samples(),
      * if it is used at all.
      */
-    public void updateSegment(@NotNull org.gstreamer.gst.Segment segment) {
-        java.util.Objects.requireNonNull(segment, "Parameter 'segment' must not be null");
+    public void updateSegment(org.gstreamer.gst.Segment segment) {
         try {
             DowncallHandles.gst_aggregator_update_segment.invokeExact(
                     handle(),
@@ -404,7 +377,7 @@ public class Aggregator extends org.gstreamer.gst.Element {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_aggregator_get_type.invokeExact();
@@ -416,7 +389,18 @@ public class Aggregator extends org.gstreamer.gst.Element {
     
     @FunctionalInterface
     public interface SamplesSelected {
-        void signalReceived(Aggregator sourceAggregator, @NotNull org.gstreamer.gst.Segment segment, long pts, long dts, long duration, @Nullable org.gstreamer.gst.Structure info);
+        void run(org.gstreamer.gst.Segment segment, long pts, long dts, long duration, @Nullable org.gstreamer.gst.Structure info);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAggregator, MemoryAddress segment, long pts, long dts, long duration, MemoryAddress info) {
+            run(org.gstreamer.gst.Segment.fromAddress.marshal(segment, Ownership.NONE), pts, dts, duration, org.gstreamer.gst.Structure.fromAddress.marshal(info, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SamplesSelected.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -429,52 +413,46 @@ public class Aggregator extends org.gstreamer.gst.Element {
     public Signal<Aggregator.SamplesSelected> onSamplesSelected(Aggregator.SamplesSelected handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("samples-selected"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Aggregator.Callbacks.class, "signalAggregatorSamplesSelected",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, long.class, long.class, long.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Aggregator.SamplesSelected>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("samples-selected"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Aggregator.Builder} object constructs a {@link Aggregator} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Aggregator.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Element.Build {
+    public static class Builder extends org.gstreamer.gst.Element.Builder {
         
-         /**
-         * A {@link Aggregator.Build} object constructs a {@link Aggregator} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Aggregator} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Aggregator} using {@link Aggregator#castFrom}.
+         * {@link Aggregator}.
          * @return A new instance of {@code Aggregator} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Aggregator construct() {
-            return Aggregator.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Aggregator.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Aggregator build() {
+            return (Aggregator) org.gtk.gobject.GObject.newWithProperties(
+                Aggregator.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -483,13 +461,13 @@ public class Aggregator extends org.gstreamer.gst.Element {
          * @param emitSignals The value for the {@code emit-signals} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEmitSignals(boolean emitSignals) {
+        public Builder setEmitSignals(boolean emitSignals) {
             names.add("emit-signals");
             values.add(org.gtk.gobject.Value.create(emitSignals));
             return this;
         }
         
-        public Build setLatency(long latency) {
+        public Builder setLatency(long latency) {
             names.add("latency");
             values.add(org.gtk.gobject.Value.create(latency));
             return this;
@@ -504,19 +482,19 @@ public class Aggregator extends org.gstreamer.gst.Element {
          * @param minUpstreamLatency The value for the {@code min-upstream-latency} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinUpstreamLatency(long minUpstreamLatency) {
+        public Builder setMinUpstreamLatency(long minUpstreamLatency) {
             names.add("min-upstream-latency");
             values.add(org.gtk.gobject.Value.create(minUpstreamLatency));
             return this;
         }
         
-        public Build setStartTime(long startTime) {
+        public Builder setStartTime(long startTime) {
             names.add("start-time");
             values.add(org.gtk.gobject.Value.create(startTime));
             return this;
         }
         
-        public Build setStartTimeSelection(org.gstreamer.base.AggregatorStartTimeSelection startTimeSelection) {
+        public Builder setStartTimeSelection(org.gstreamer.base.AggregatorStartTimeSelection startTimeSelection) {
             names.add("start-time-selection");
             values.add(org.gtk.gobject.Value.create(startTimeSelection));
             return this;
@@ -614,14 +592,5 @@ public class Aggregator extends org.gstreamer.gst.Element {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalAggregatorSamplesSelected(MemoryAddress sourceAggregator, MemoryAddress segment, long pts, long dts, long duration, MemoryAddress info, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Aggregator.SamplesSelected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Aggregator(sourceAggregator, Ownership.NONE), new org.gstreamer.gst.Segment(segment, Ownership.NONE), pts, dts, duration, new org.gstreamer.gst.Structure(info, Ownership.NONE));
-        }
     }
 }

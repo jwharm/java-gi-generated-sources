@@ -13,18 +13,16 @@ public class NativeVolumeMonitorClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GNativeVolumeMonitorClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.VolumeMonitorClass.getMemoryLayout().withName("parent_class"),
-        Interop.valueLayout.ADDRESS.withName("get_mount_for_mount_path")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.VolumeMonitorClass.getMemoryLayout().withName("parent_class"),
+            Interop.valueLayout.ADDRESS.withName("get_mount_for_mount_path")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,9 +42,46 @@ public class NativeVolumeMonitorClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gio.VolumeMonitorClass parentClass$get() {
+    public org.gtk.gio.VolumeMonitorClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gio.VolumeMonitorClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gio.VolumeMonitorClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gtk.gio.VolumeMonitorClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface GetMountForMountPathCallback {
+        org.gtk.gio.Mount run(java.lang.String mountPath, org.gtk.gio.Cancellable cancellable);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress mountPath, MemoryAddress cancellable) {
+            var RESULT = run(Marshal.addressToString.marshal(mountPath, null), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetMountForMountPathCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_mount_for_mount_path}
+     * @param getMountForMountPath The new value of the field {@code get_mount_for_mount_path}
+     */
+    public void setGetMountForMountPath(GetMountForMountPathCallback getMountForMountPath) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_mount_path"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMountForMountPath == null ? MemoryAddress.NULL : getMountForMountPath.toCallback()));
     }
     
     /**
@@ -54,49 +89,55 @@ public class NativeVolumeMonitorClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NativeVolumeMonitorClass(Addressable address, Ownership ownership) {
+    protected NativeVolumeMonitorClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NativeVolumeMonitorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NativeVolumeMonitorClass(input, ownership);
+    
+    /**
+     * A {@link NativeVolumeMonitorClass.Builder} object constructs a {@link NativeVolumeMonitorClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link NativeVolumeMonitorClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private NativeVolumeMonitorClass struct;
+        private final NativeVolumeMonitorClass struct;
         
-         /**
-         * A {@link NativeVolumeMonitorClass.Build} object constructs a {@link NativeVolumeMonitorClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = NativeVolumeMonitorClass.allocate();
         }
         
          /**
          * Finish building the {@link NativeVolumeMonitorClass} struct.
          * @return A new instance of {@code NativeVolumeMonitorClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NativeVolumeMonitorClass construct() {
+        public NativeVolumeMonitorClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gio.VolumeMonitorClass parentClass) {
+        public Builder setParentClass(org.gtk.gio.VolumeMonitorClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setGetMountForMountPath(java.lang.foreign.MemoryAddress getMountForMountPath) {
+        public Builder setGetMountForMountPath(GetMountForMountPathCallback getMountForMountPath) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_mount_for_mount_path"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMountForMountPath == null ? MemoryAddress.NULL : getMountForMountPath));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getMountForMountPath == null ? MemoryAddress.NULL : getMountForMountPath.toCallback()));
             return this;
         }
     }

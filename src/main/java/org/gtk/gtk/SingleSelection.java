@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * stays selected. In particular, this means that changing the sort order of an
  * underlying sort model will preserve the selection.
  */
-public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, org.gtk.gtk.SelectionModel {
+public class SingleSelection extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel, org.gtk.gtk.SelectionModel {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -36,33 +36,15 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SingleSelection(Addressable address, Ownership ownership) {
+    protected SingleSelection(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SingleSelection if its GType is a (or inherits from) "GtkSingleSelection".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SingleSelection} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSingleSelection", a ClassCastException will be thrown.
-     */
-    public static SingleSelection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SingleSelection.getType())) {
-            return new SingleSelection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSingleSelection");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SingleSelection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SingleSelection(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_single_selection_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
@@ -94,7 +76,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -110,7 +92,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -125,7 +107,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -151,7 +133,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * If no item is selected, {@code null} is returned.
      * @return The selected item
      */
-    public @Nullable org.gtk.gobject.Object getSelectedItem() {
+    public @Nullable org.gtk.gobject.GObject getSelectedItem() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_single_selection_get_selected_item.invokeExact(
@@ -159,7 +141,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -174,7 +156,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         try {
             DowncallHandles.gtk_single_selection_set_autoselect.invokeExact(
                     handle(),
-                    autoselect ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(autoselect, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,7 +175,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         try {
             DowncallHandles.gtk_single_selection_set_can_unselect.invokeExact(
                     handle(),
-                    canUnselect ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(canUnselect, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +222,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_single_selection_get_type.invokeExact();
@@ -249,38 +231,40 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SingleSelection.Builder} object constructs a {@link SingleSelection} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SingleSelection.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SingleSelection.Build} object constructs a {@link SingleSelection} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SingleSelection} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SingleSelection} using {@link SingleSelection#castFrom}.
+         * {@link SingleSelection}.
          * @return A new instance of {@code SingleSelection} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SingleSelection construct() {
-            return SingleSelection.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SingleSelection.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SingleSelection build() {
+            return (SingleSelection) org.gtk.gobject.GObject.newWithProperties(
+                SingleSelection.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -289,7 +273,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
          * @param autoselect The value for the {@code autoselect} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAutoselect(boolean autoselect) {
+        public Builder setAutoselect(boolean autoselect) {
             names.add("autoselect");
             values.add(org.gtk.gobject.Value.create(autoselect));
             return this;
@@ -300,7 +284,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
          * @param canUnselect The value for the {@code can-unselect} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanUnselect(boolean canUnselect) {
+        public Builder setCanUnselect(boolean canUnselect) {
             names.add("can-unselect");
             values.add(org.gtk.gobject.Value.create(canUnselect));
             return this;
@@ -311,7 +295,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -322,7 +306,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gio.ListModel model) {
+        public Builder setModel(org.gtk.gio.ListModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -333,7 +317,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;
@@ -344,7 +328,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
          * @param selected The value for the {@code selected} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelected(int selected) {
+        public Builder setSelected(int selected) {
             names.add("selected");
             values.add(org.gtk.gobject.Value.create(selected));
             return this;
@@ -355,7 +339,7 @@ public class SingleSelection extends org.gtk.gobject.Object implements org.gtk.g
          * @param selectedItem The value for the {@code selected-item} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelectedItem(org.gtk.gobject.Object selectedItem) {
+        public Builder setSelectedItem(org.gtk.gobject.GObject selectedItem) {
             names.add("selected-item");
             values.add(org.gtk.gobject.Value.create(selectedItem));
             return this;

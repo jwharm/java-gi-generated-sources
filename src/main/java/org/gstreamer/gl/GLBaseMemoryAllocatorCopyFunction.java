@@ -11,5 +11,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface GLBaseMemoryAllocatorCopyFunction {
-        org.gstreamer.gl.GLBaseMemory onGLBaseMemoryAllocatorCopyFunction(@NotNull org.gstreamer.gl.GLBaseMemory mem, long offset, long size);
+    org.gstreamer.gl.GLBaseMemory run(org.gstreamer.gl.GLBaseMemory mem, long offset, long size);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress mem, long offset, long size) {
+        var RESULT = run(org.gstreamer.gl.GLBaseMemory.fromAddress.marshal(mem, Ownership.NONE), offset, size);
+        return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GLBaseMemoryAllocatorCopyFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

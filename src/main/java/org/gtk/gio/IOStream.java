@@ -54,7 +54,7 @@ import org.jetbrains.annotations.*;
  * stream in (though they are guaranteed not to crash).
  * @version 2.22
  */
-public class IOStream extends org.gtk.gobject.Object {
+public class IOStream extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -62,18 +62,16 @@ public class IOStream extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GIOStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -81,30 +79,12 @@ public class IOStream extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IOStream(Addressable address, Ownership ownership) {
+    protected IOStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to IOStream if its GType is a (or inherits from) "GIOStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code IOStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GIOStream", a ClassCastException will be thrown.
-     */
-    public static IOStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IOStream.getType())) {
-            return new IOStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GIOStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IOStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOStream(input, ownership);
     
     /**
      * Clears the pending flag on {@code stream}.
@@ -170,7 +150,7 @@ public class IOStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -194,12 +174,8 @@ public class IOStream extends org.gtk.gobject.Object {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -211,8 +187,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * @return {@code true} if stream was successfully closed, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean closeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean closeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -226,7 +201,7 @@ public class IOStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -235,7 +210,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * @return a {@link InputStream}, owned by the {@link IOStream}.
      * Do not free.
      */
-    public @NotNull org.gtk.gio.InputStream getInputStream() {
+    public org.gtk.gio.InputStream getInputStream() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_stream_get_input_stream.invokeExact(
@@ -243,7 +218,7 @@ public class IOStream extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InputStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -252,7 +227,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * @return a {@link OutputStream}, owned by the {@link IOStream}.
      * Do not free.
      */
-    public @NotNull org.gtk.gio.OutputStream getOutputStream() {
+    public org.gtk.gio.OutputStream getOutputStream() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_stream_get_output_stream.invokeExact(
@@ -260,7 +235,7 @@ public class IOStream extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.OutputStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.OutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.OutputStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -275,7 +250,7 @@ public class IOStream extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,7 +265,7 @@ public class IOStream extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -313,7 +288,7 @@ public class IOStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -330,9 +305,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback a {@link AsyncReadyCallback}.
      */
-    public void spliceAsync(@NotNull org.gtk.gio.IOStream stream2, @NotNull org.gtk.gio.IOStreamSpliceFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(stream2, "Parameter 'stream2' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void spliceAsync(org.gtk.gio.IOStream stream2, org.gtk.gio.IOStreamSpliceFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_io_stream_splice_async.invokeExact(
                     handle(),
@@ -340,12 +313,8 @@ public class IOStream extends org.gtk.gobject.Object {
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -355,7 +324,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_io_stream_get_type.invokeExact();
@@ -371,8 +340,7 @@ public class IOStream extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean spliceFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static boolean spliceFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -385,56 +353,58 @@ public class IOStream extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link IOStream.Builder} object constructs a {@link IOStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link IOStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link IOStream.Build} object constructs a {@link IOStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link IOStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link IOStream} using {@link IOStream#castFrom}.
+         * {@link IOStream}.
          * @return A new instance of {@code IOStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public IOStream construct() {
-            return IOStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    IOStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public IOStream build() {
+            return (IOStream) org.gtk.gobject.GObject.newWithProperties(
+                IOStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setClosed(boolean closed) {
+        public Builder setClosed(boolean closed) {
             names.add("closed");
             values.add(org.gtk.gobject.Value.create(closed));
             return this;
         }
         
-        public Build setInputStream(org.gtk.gio.InputStream inputStream) {
+        public Builder setInputStream(org.gtk.gio.InputStream inputStream) {
             names.add("input-stream");
             values.add(org.gtk.gobject.Value.create(inputStream));
             return this;
         }
         
-        public Build setOutputStream(org.gtk.gio.OutputStream outputStream) {
+        public Builder setOutputStream(org.gtk.gio.OutputStream outputStream) {
             names.add("output-stream");
             values.add(org.gtk.gobject.Value.create(outputStream));
             return this;

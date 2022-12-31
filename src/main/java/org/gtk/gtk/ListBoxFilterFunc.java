@@ -11,5 +11,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ListBoxFilterFunc {
-        boolean onListBoxFilterFunc(@NotNull org.gtk.gtk.ListBoxRow row);
+    boolean run(org.gtk.gtk.ListBoxRow row);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress row, MemoryAddress userData) {
+        var RESULT = run((org.gtk.gtk.ListBoxRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(row)), org.gtk.gtk.ListBoxRow.fromAddress).marshal(row, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ListBoxFilterFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

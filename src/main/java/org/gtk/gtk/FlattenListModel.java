@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * {@code GtkFlattenListModel} takes a list model containing list models,
  *  and flattens it into a single model.
  */
-public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class FlattenListModel extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -33,33 +33,15 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FlattenListModel(Addressable address, Ownership ownership) {
+    protected FlattenListModel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FlattenListModel if its GType is a (or inherits from) "GtkFlattenListModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FlattenListModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkFlattenListModel", a ClassCastException will be thrown.
-     */
-    public static FlattenListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FlattenListModel.getType())) {
-            return new FlattenListModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFlattenListModel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FlattenListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FlattenListModel(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_flatten_list_model_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
@@ -90,7 +72,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -107,7 +89,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -128,7 +110,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_flatten_list_model_get_type.invokeExact();
@@ -137,38 +119,40 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link FlattenListModel.Builder} object constructs a {@link FlattenListModel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FlattenListModel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link FlattenListModel.Build} object constructs a {@link FlattenListModel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FlattenListModel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FlattenListModel} using {@link FlattenListModel#castFrom}.
+         * {@link FlattenListModel}.
          * @return A new instance of {@code FlattenListModel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FlattenListModel construct() {
-            return FlattenListModel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FlattenListModel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FlattenListModel build() {
+            return (FlattenListModel) org.gtk.gobject.GObject.newWithProperties(
+                FlattenListModel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -177,7 +161,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -188,7 +172,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gio.ListModel model) {
+        public Builder setModel(org.gtk.gio.ListModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -199,7 +183,7 @@ public class FlattenListModel extends org.gtk.gobject.Object implements org.gtk.
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;

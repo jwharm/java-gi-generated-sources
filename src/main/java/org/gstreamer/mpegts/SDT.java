@@ -16,22 +16,20 @@ public class SDT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsSDT";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("original_network_id"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.C_INT.withName("actual_ts"),
-        Interop.valueLayout.C_SHORT.withName("transport_stream_id"),
-        MemoryLayout.paddingLayout(48),
-        Interop.valueLayout.ADDRESS.withName("services")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("original_network_id"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.C_INT.withName("actual_ts"),
+            Interop.valueLayout.C_SHORT.withName("transport_stream_id"),
+            MemoryLayout.paddingLayout(48),
+            Interop.valueLayout.ADDRESS.withName("services")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class SDT extends Struct {
      * Get the value of the field {@code original_network_id}
      * @return The value of the field {@code original_network_id}
      */
-    public short originalNetworkId$get() {
+    public short getOriginalNetworkId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,7 +60,7 @@ public class SDT extends Struct {
      * Change the value of the field {@code original_network_id}
      * @param originalNetworkId The new value of the field {@code original_network_id}
      */
-    public void originalNetworkId$set(short originalNetworkId) {
+    public void setOriginalNetworkId(short originalNetworkId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
@@ -72,28 +70,28 @@ public class SDT extends Struct {
      * Get the value of the field {@code actual_ts}
      * @return The value of the field {@code actual_ts}
      */
-    public boolean actualTs$get() {
+    public boolean getActualTs() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("actual_ts"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code actual_ts}
      * @param actualTs The new value of the field {@code actual_ts}
      */
-    public void actualTs$set(boolean actualTs) {
+    public void setActualTs(boolean actualTs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("actual_ts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), actualTs ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualTs, null).intValue());
     }
     
     /**
      * Get the value of the field {@code transport_stream_id}
      * @return The value of the field {@code transport_stream_id}
      */
-    public short transportStreamId$get() {
+    public short getTransportStreamId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,10 +102,31 @@ public class SDT extends Struct {
      * Change the value of the field {@code transport_stream_id}
      * @param transportStreamId The new value of the field {@code transport_stream_id}
      */
-    public void transportStreamId$set(short transportStreamId) {
+    public void setTransportStreamId(short transportStreamId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
+    }
+    
+    /**
+     * Get the value of the field {@code services}
+     * @return The value of the field {@code services}
+     */
+    public PointerProxy<org.gstreamer.mpegts.SDTService> getServices() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("services"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.SDTService>(RESULT, org.gstreamer.mpegts.SDTService.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code services}
+     * @param services The new value of the field {@code services}
+     */
+    public void setServices(org.gstreamer.mpegts.SDTService[] services) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("services"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (services == null ? MemoryAddress.NULL : Interop.allocateNativeArray(services, org.gstreamer.mpegts.SDTService.getMemoryLayout(), false)));
     }
     
     /**
@@ -115,13 +134,15 @@ public class SDT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SDT(Addressable address, Ownership ownership) {
+    protected SDT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SDT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDT(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_sdt_new.invokeExact();
         } catch (Throwable ERR) {
@@ -145,31 +166,35 @@ public class SDT extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link SDT.Builder} object constructs a {@link SDT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SDT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SDT struct;
+        private final SDT struct;
         
-         /**
-         * A {@link SDT.Build} object constructs a {@link SDT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SDT.allocate();
         }
         
          /**
          * Finish building the {@link SDT} struct.
          * @return A new instance of {@code SDT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SDT construct() {
+        public SDT build() {
             return struct;
         }
         
@@ -178,7 +203,7 @@ public class SDT extends Struct {
          * @param originalNetworkId The value for the {@code originalNetworkId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOriginalNetworkId(short originalNetworkId) {
+        public Builder setOriginalNetworkId(short originalNetworkId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
@@ -190,10 +215,10 @@ public class SDT extends Struct {
          * @param actualTs The value for the {@code actualTs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActualTs(boolean actualTs) {
+        public Builder setActualTs(boolean actualTs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("actual_ts"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), actualTs ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualTs, null).intValue());
             return this;
         }
         
@@ -202,7 +227,7 @@ public class SDT extends Struct {
          * @param transportStreamId The value for the {@code transportStreamId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTransportStreamId(short transportStreamId) {
+        public Builder setTransportStreamId(short transportStreamId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
@@ -214,7 +239,7 @@ public class SDT extends Struct {
          * @param services The value for the {@code services} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setServices(org.gstreamer.mpegts.SDTService[] services) {
+        public Builder setServices(org.gstreamer.mpegts.SDTService[] services) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("services"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (services == null ? MemoryAddress.NULL : Interop.allocateNativeArray(services, org.gstreamer.mpegts.SDTService.getMemoryLayout(), false)));

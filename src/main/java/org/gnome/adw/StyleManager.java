@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * appearance, as well as whether a system-wide color scheme preference exists.
  * @version 1.0
  */
-public class StyleManager extends org.gtk.gobject.Object {
+public class StyleManager extends org.gtk.gobject.GObject {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -38,36 +38,18 @@ public class StyleManager extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StyleManager(Addressable address, Ownership ownership) {
+    protected StyleManager(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to StyleManager if its GType is a (or inherits from) "AdwStyleManager".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code StyleManager} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwStyleManager", a ClassCastException will be thrown.
-     */
-    public static StyleManager castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StyleManager.getType())) {
-            return new StyleManager(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwStyleManager");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StyleManager> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StyleManager(input, ownership);
     
     /**
      * Gets the requested application color scheme.
      * @return the color scheme
      */
-    public @NotNull org.gnome.adw.ColorScheme getColorScheme() {
+    public org.gnome.adw.ColorScheme getColorScheme() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_style_manager_get_color_scheme.invokeExact(
@@ -93,7 +75,7 @@ public class StyleManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -103,7 +85,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      * {@code StyleManager.StyleManager#getDefault}.
      * @return (nullable): the display
      */
-    public @NotNull org.gtk.gdk.Display getDisplay() {
+    public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_display.invokeExact(
@@ -111,7 +93,7 @@ public class StyleManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -128,7 +110,7 @@ public class StyleManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -147,7 +129,7 @@ public class StyleManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -184,8 +166,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      * preference.
      * @param colorScheme the color scheme
      */
-    public void setColorScheme(@NotNull org.gnome.adw.ColorScheme colorScheme) {
-        java.util.Objects.requireNonNull(colorScheme, "Parameter 'colorScheme' must not be null");
+    public void setColorScheme(org.gnome.adw.ColorScheme colorScheme) {
         try {
             DowncallHandles.adw_style_manager_set_color_scheme.invokeExact(
                     handle(),
@@ -199,7 +180,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_style_manager_get_type.invokeExact();
@@ -218,14 +199,14 @@ public class StyleManager extends org.gtk.gobject.Object {
      * See {@code StyleManager.StyleManager#getForDisplay}.
      * @return the default style manager
      */
-    public static @NotNull org.gnome.adw.StyleManager getDefault() {
+    public static org.gnome.adw.StyleManager getDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.StyleManager(RESULT, Ownership.NONE);
+        return (org.gnome.adw.StyleManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.StyleManager.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -238,8 +219,7 @@ public class StyleManager extends org.gtk.gobject.Object {
      * @param display a {@code GdkDisplay}
      * @return the style manager for {@code display}
      */
-    public static @NotNull org.gnome.adw.StyleManager getForDisplay(@NotNull org.gtk.gdk.Display display) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public static org.gnome.adw.StyleManager getForDisplay(org.gtk.gdk.Display display) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_style_manager_get_for_display.invokeExact(
@@ -247,40 +227,42 @@ public class StyleManager extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.StyleManager(RESULT, Ownership.NONE);
+        return (org.gnome.adw.StyleManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.StyleManager.fromAddress).marshal(RESULT, Ownership.NONE);
     }
-
+    
+    /**
+     * A {@link StyleManager.Builder} object constructs a {@link StyleManager} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link StyleManager.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link StyleManager.Build} object constructs a {@link StyleManager} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link StyleManager} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link StyleManager} using {@link StyleManager#castFrom}.
+         * {@link StyleManager}.
          * @return A new instance of {@code StyleManager} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public StyleManager construct() {
-            return StyleManager.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    StyleManager.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public StyleManager build() {
+            return (StyleManager) org.gtk.gobject.GObject.newWithProperties(
+                StyleManager.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -319,7 +301,7 @@ public class StyleManager extends org.gtk.gobject.Object {
          * @param colorScheme The value for the {@code color-scheme} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColorScheme(org.gnome.adw.ColorScheme colorScheme) {
+        public Builder setColorScheme(org.gnome.adw.ColorScheme colorScheme) {
             names.add("color-scheme");
             values.add(org.gtk.gobject.Value.create(colorScheme));
             return this;
@@ -333,7 +315,7 @@ public class StyleManager extends org.gtk.gobject.Object {
          * @param dark The value for the {@code dark} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDark(boolean dark) {
+        public Builder setDark(boolean dark) {
             names.add("dark");
             values.add(org.gtk.gobject.Value.create(dark));
             return this;
@@ -347,7 +329,7 @@ public class StyleManager extends org.gtk.gobject.Object {
          * @param display The value for the {@code display} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplay(org.gtk.gdk.Display display) {
+        public Builder setDisplay(org.gtk.gdk.Display display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;
@@ -360,7 +342,7 @@ public class StyleManager extends org.gtk.gobject.Object {
          * @param highContrast The value for the {@code high-contrast} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHighContrast(boolean highContrast) {
+        public Builder setHighContrast(boolean highContrast) {
             names.add("high-contrast");
             values.add(org.gtk.gobject.Value.create(highContrast));
             return this;
@@ -377,7 +359,7 @@ public class StyleManager extends org.gtk.gobject.Object {
          * @param systemSupportsColorSchemes The value for the {@code system-supports-color-schemes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSystemSupportsColorSchemes(boolean systemSupportsColorSchemes) {
+        public Builder setSystemSupportsColorSchemes(boolean systemSupportsColorSchemes) {
             names.add("system-supports-color-schemes");
             values.add(org.gtk.gobject.Value.create(systemSupportsColorSchemes));
             return this;

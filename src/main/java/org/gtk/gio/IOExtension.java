@@ -44,10 +44,12 @@ public class IOExtension extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IOExtension(Addressable address, Ownership ownership) {
+    protected IOExtension(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IOExtension> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOExtension(input, ownership);
     
     /**
      * Gets the name under which {@code extension} was registered.
@@ -56,7 +58,7 @@ public class IOExtension extends Struct {
      * for multiple extension points, under different names.
      * @return the name of {@code extension}.
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_extension_get_name.invokeExact(
@@ -64,7 +66,7 @@ public class IOExtension extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -86,7 +88,7 @@ public class IOExtension extends Struct {
      * Gets the type associated with {@code extension}.
      * @return the type of {@code extension}
      */
-    public @NotNull org.gtk.glib.Type getType() {
+    public org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_io_extension_get_type.invokeExact(
@@ -102,7 +104,7 @@ public class IOExtension extends Struct {
      * associated with {@code extension}.
      * @return the {@link org.gtk.gobject.TypeClass} for the type of {@code extension}
      */
-    public @NotNull org.gtk.gobject.TypeClass refClass() {
+    public org.gtk.gobject.TypeClass refClass() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_extension_ref_class.invokeExact(
@@ -110,7 +112,7 @@ public class IOExtension extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeClass(RESULT, Ownership.FULL);
+        return org.gtk.gobject.TypeClass.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

@@ -40,8 +40,10 @@ public class ConservativeRasterizationModeEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ConservativeRasterizationModeEXT(Addressable address, Ownership ownership) {
+    protected ConservativeRasterizationModeEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ConservativeRasterizationModeEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConservativeRasterizationModeEXT(input, ownership);
 }

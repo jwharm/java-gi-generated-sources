@@ -30,7 +30,7 @@ public enum VulkanError implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_error_quark.invokeExact();
@@ -49,22 +49,20 @@ public enum VulkanError implements io.github.jwharm.javagi.Enumeration {
      * @param varargs arguments for {@code format}
      * @return {@code result} for easy chaining
      */
-    public static @NotNull org.vulkan.Result toGError(@NotNull org.vulkan.Result result, @NotNull Out<org.gtk.glib.Error> error, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static org.vulkan.Result toGError(org.vulkan.Result result, @Nullable Out<org.gtk.glib.Error> error, java.lang.String format, java.lang.Object... varargs) {
         MemorySegment errorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_error_to_g_error.invokeExact(
                     result.handle(),
                     (Addressable) errorPOINTER.address(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        error.set(new org.gtk.glib.Error(errorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.vulkan.Result(RESULT, Ownership.UNKNOWN);
+        error.set(org.gtk.glib.Error.fromAddress.marshal(errorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return org.vulkan.Result.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

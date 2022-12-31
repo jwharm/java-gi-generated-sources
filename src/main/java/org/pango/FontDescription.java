@@ -48,13 +48,15 @@ public class FontDescription extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FontDescription(Addressable address, Ownership ownership) {
+    protected FontDescription(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FontDescription> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontDescription(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_description_new.invokeExact();
         } catch (Throwable ERR) {
@@ -86,8 +88,7 @@ public class FontDescription extends Struct {
      * @param newMatch a {@code PangoFontDescription}
      * @return {@code true} if {@code new_match} is a better match
      */
-    public boolean betterMatch(@Nullable org.pango.FontDescription oldMatch, @NotNull org.pango.FontDescription newMatch) {
-        java.util.Objects.requireNonNull(newMatch, "Parameter 'newMatch' must not be null");
+    public boolean betterMatch(@Nullable org.pango.FontDescription oldMatch, org.pango.FontDescription newMatch) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_font_description_better_match.invokeExact(
@@ -97,7 +98,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -114,7 +115,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontDescription(RESULT, Ownership.FULL);
+        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -137,7 +138,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontDescription(RESULT, Ownership.FULL);
+        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -151,8 +152,7 @@ public class FontDescription extends Struct {
      * @return {@code true} if the two font descriptions are identical,
      *   {@code false} otherwise.
      */
-    public boolean equal(@NotNull org.pango.FontDescription desc2) {
-        java.util.Objects.requireNonNull(desc2, "Parameter 'desc2' must not be null");
+    public boolean equal(org.pango.FontDescription desc2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_font_description_equal.invokeExact(
@@ -161,7 +161,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -192,7 +192,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -203,7 +203,7 @@ public class FontDescription extends Struct {
      *   Use {@link FontDescription#getSetFields} to find out
      *   if the field was explicitly set or not.
      */
-    public @NotNull org.pango.Gravity getGravity() {
+    public org.pango.Gravity getGravity() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_font_description_get_gravity.invokeExact(
@@ -219,7 +219,7 @@ public class FontDescription extends Struct {
      * @return a bitmask with bits set corresponding to the
      *   fields in {@code desc} that have been set.
      */
-    public @NotNull org.pango.FontMask getSetFields() {
+    public org.pango.FontMask getSetFields() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_font_description_get_set_fields.invokeExact(
@@ -272,7 +272,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -283,7 +283,7 @@ public class FontDescription extends Struct {
      *   Use {@link FontDescription#getSetFields} to find
      *   out if the field was explicitly set or not.
      */
-    public @NotNull org.pango.Stretch getStretch() {
+    public org.pango.Stretch getStretch() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_font_description_get_stretch.invokeExact(
@@ -302,7 +302,7 @@ public class FontDescription extends Struct {
      *   Use {@link FontDescription#getSetFields} to
      *   find out if the field was explicitly set or not.
      */
-    public @NotNull org.pango.Style getStyle() {
+    public org.pango.Style getStyle() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_font_description_get_style.invokeExact(
@@ -321,7 +321,7 @@ public class FontDescription extends Struct {
      *   Use {@link FontDescription#getSetFields} to find
      *   out if the field was explicitly set or not.
      */
-    public @NotNull org.pango.Variant getVariant() {
+    public org.pango.Variant getVariant() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_font_description_get_variant.invokeExact(
@@ -348,7 +348,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -359,7 +359,7 @@ public class FontDescription extends Struct {
      *   Use {@link FontDescription#getSetFields} to find
      *   out if the field was explicitly set or not.
      */
-    public @NotNull org.pango.Weight getWeight() {
+    public org.pango.Weight getWeight() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_font_description_get_weight.invokeExact(
@@ -408,7 +408,7 @@ public class FontDescription extends Struct {
             DowncallHandles.pango_font_description_merge.invokeExact(
                     handle(),
                     (Addressable) (descToMerge == null ? MemoryAddress.NULL : descToMerge.handle()),
-                    replaceExisting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(replaceExisting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,13 +427,12 @@ public class FontDescription extends Struct {
      *   corresponding values from {@code desc_to_merge}, even if they
      *   are already exist.
      */
-    public void mergeStatic(@NotNull org.pango.FontDescription descToMerge, boolean replaceExisting) {
-        java.util.Objects.requireNonNull(descToMerge, "Parameter 'descToMerge' must not be null");
+    public void mergeStatic(org.pango.FontDescription descToMerge, boolean replaceExisting) {
         try {
             DowncallHandles.pango_font_description_merge_static.invokeExact(
                     handle(),
                     descToMerge.handle(),
-                    replaceExisting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(replaceExisting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -468,12 +467,11 @@ public class FontDescription extends Struct {
      * separated list of family names for this field.
      * @param family a string representing the family name.
      */
-    public void setFamily(@NotNull java.lang.String family) {
-        java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
+    public void setFamily(java.lang.String family) {
         try {
             DowncallHandles.pango_font_description_set_family.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(family));
+                    Marshal.stringToAddress.marshal(family, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -489,12 +487,11 @@ public class FontDescription extends Struct {
      * string such as a C string literal, or if {@code desc} is only needed temporarily.
      * @param family a string representing the family name
      */
-    public void setFamilyStatic(@NotNull java.lang.String family) {
-        java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
+    public void setFamilyStatic(java.lang.String family) {
         try {
             DowncallHandles.pango_font_description_set_family_static.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(family));
+                    Marshal.stringToAddress.marshal(family, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -512,8 +509,7 @@ public class FontDescription extends Struct {
      * be set on a {@code PangoContext}.
      * @param gravity the gravity for the font description.
      */
-    public void setGravity(@NotNull org.pango.Gravity gravity) {
-        java.util.Objects.requireNonNull(gravity, "Parameter 'gravity' must not be null");
+    public void setGravity(org.pango.Gravity gravity) {
         try {
             DowncallHandles.pango_font_description_set_gravity.invokeExact(
                     handle(),
@@ -554,8 +550,7 @@ public class FontDescription extends Struct {
      * wide the font should be.
      * @param stretch the stretch for the font description
      */
-    public void setStretch(@NotNull org.pango.Stretch stretch) {
-        java.util.Objects.requireNonNull(stretch, "Parameter 'stretch' must not be null");
+    public void setStretch(org.pango.Stretch stretch) {
         try {
             DowncallHandles.pango_font_description_set_stretch.invokeExact(
                     handle(),
@@ -578,8 +573,7 @@ public class FontDescription extends Struct {
      * match is not found.
      * @param style the style for the font description
      */
-    public void setStyle(@NotNull org.pango.Style style) {
-        java.util.Objects.requireNonNull(style, "Parameter 'style' must not be null");
+    public void setStyle(org.pango.Style style) {
         try {
             DowncallHandles.pango_font_description_set_style.invokeExact(
                     handle(),
@@ -596,8 +590,7 @@ public class FontDescription extends Struct {
      * or {@link Variant#SMALL_CAPS}.
      * @param variant the variant type for the font description.
      */
-    public void setVariant(@NotNull org.pango.Variant variant) {
-        java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
+    public void setVariant(org.pango.Variant variant) {
         try {
             DowncallHandles.pango_font_description_set_variant.invokeExact(
                     handle(),
@@ -630,7 +623,7 @@ public class FontDescription extends Struct {
         try {
             DowncallHandles.pango_font_description_set_variations.invokeExact(
                     handle(),
-                    (Addressable) (variations == null ? MemoryAddress.NULL : Interop.allocateNativeString(variations)));
+                    (Addressable) (variations == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(variations, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -647,12 +640,11 @@ public class FontDescription extends Struct {
      * or if {@code desc} is only needed temporarily.
      * @param variations a string representing the variations
      */
-    public void setVariationsStatic(@NotNull java.lang.String variations) {
-        java.util.Objects.requireNonNull(variations, "Parameter 'variations' must not be null");
+    public void setVariationsStatic(java.lang.String variations) {
         try {
             DowncallHandles.pango_font_description_set_variations_static.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(variations));
+                    Marshal.stringToAddress.marshal(variations, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -667,8 +659,7 @@ public class FontDescription extends Struct {
      * intermediate numeric values are possible.
      * @param weight the weight for the font description.
      */
-    public void setWeight(@NotNull org.pango.Weight weight) {
-        java.util.Objects.requireNonNull(weight, "Parameter 'weight' must not be null");
+    public void setWeight(org.pango.Weight weight) {
         try {
             DowncallHandles.pango_font_description_set_weight.invokeExact(
                     handle(),
@@ -695,7 +686,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -707,7 +698,7 @@ public class FontDescription extends Struct {
      * the last word of the list is a valid style option.
      * @return a new string that must be freed with g_free().
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_description_to_string.invokeExact(
@@ -715,7 +706,7 @@ public class FontDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -724,8 +715,7 @@ public class FontDescription extends Struct {
      * The unset fields will get back to their default values.
      * @param toUnset bitmask of fields in the {@code desc} to unset.
      */
-    public void unsetFields(@NotNull org.pango.FontMask toUnset) {
-        java.util.Objects.requireNonNull(toUnset, "Parameter 'toUnset' must not be null");
+    public void unsetFields(org.pango.FontMask toUnset) {
         try {
             DowncallHandles.pango_font_description_unset_fields.invokeExact(
                     handle(),
@@ -783,16 +773,15 @@ public class FontDescription extends Struct {
      * @param str string representation of a font description.
      * @return a new {@code PangoFontDescription}.
      */
-    public static @NotNull org.pango.FontDescription fromString(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static org.pango.FontDescription fromString(java.lang.String str) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_description_from_string.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontDescription(RESULT, Ownership.FULL);
+        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

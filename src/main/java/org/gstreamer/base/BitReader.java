@@ -18,22 +18,20 @@ public class BitReader extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstBitReader";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.C_INT.withName("size"),
-        Interop.valueLayout.C_INT.withName("byte"),
-        Interop.valueLayout.C_INT.withName("bit"),
-        MemoryLayout.paddingLayout(96),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.C_INT.withName("size"),
+            Interop.valueLayout.C_INT.withName("byte"),
+            Interop.valueLayout.C_INT.withName("bit"),
+            MemoryLayout.paddingLayout(96),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,10 +48,31 @@ public class BitReader extends Struct {
     }
     
     /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public PointerByte getData() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerByte(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void setData(byte[] data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+    }
+    
+    /**
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public int size$get() {
+    public int getSize_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -64,7 +83,7 @@ public class BitReader extends Struct {
      * Change the value of the field {@code size}
      * @param size The new value of the field {@code size}
      */
-    public void size$set(int size) {
+    public void setSize(int size) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -74,7 +93,7 @@ public class BitReader extends Struct {
      * Get the value of the field {@code byte}
      * @return The value of the field {@code byte}
      */
-    public int byte_$get() {
+    public int getByte() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("byte"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -85,7 +104,7 @@ public class BitReader extends Struct {
      * Change the value of the field {@code byte}
      * @param byte_ The new value of the field {@code byte}
      */
-    public void byte_$set(int byte_) {
+    public void setByte(int byte_) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("byte"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), byte_);
@@ -95,7 +114,7 @@ public class BitReader extends Struct {
      * Get the value of the field {@code bit}
      * @return The value of the field {@code bit}
      */
-    public int bit$get() {
+    public int getBit() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bit"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -106,7 +125,7 @@ public class BitReader extends Struct {
      * Change the value of the field {@code bit}
      * @param bit The new value of the field {@code bit}
      */
-    public void bit$set(int bit) {
+    public void setBit(int bit) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bit"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bit);
@@ -117,10 +136,12 @@ public class BitReader extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BitReader(Addressable address, Ownership ownership) {
+    protected BitReader(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BitReader> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BitReader(input, ownership);
     
     /**
      * Frees a {@link BitReader} instance, which was previously allocated by
@@ -143,7 +164,6 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getBitsUint16(Out<Short> val, int nbits) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -155,7 +175,7 @@ public class BitReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -165,7 +185,6 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getBitsUint32(Out<Integer> val, int nbits) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -177,7 +196,7 @@ public class BitReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -187,7 +206,6 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getBitsUint64(Out<Long> val, int nbits) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -199,7 +217,7 @@ public class BitReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -209,7 +227,6 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getBitsUint8(Out<Byte> val, int nbits) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -221,7 +238,7 @@ public class BitReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -275,8 +292,7 @@ public class BitReader extends Struct {
      * @param data data from which the bit reader should read
      * @param size Size of {@code data} in bytes
      */
-    public void init(@NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void init(byte[] data, int size) {
         try {
             DowncallHandles.gst_bit_reader_init.invokeExact(
                     handle(),
@@ -294,7 +310,6 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekBitsUint16(Out<Short> val, int nbits) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -306,7 +321,7 @@ public class BitReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -316,7 +331,6 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekBitsUint32(Out<Integer> val, int nbits) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -328,7 +342,7 @@ public class BitReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -338,7 +352,6 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekBitsUint64(Out<Long> val, int nbits) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -350,7 +363,7 @@ public class BitReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -360,7 +373,6 @@ public class BitReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekBitsUint8(Out<Byte> val, int nbits) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -372,7 +384,7 @@ public class BitReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -390,7 +402,7 @@ public class BitReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -407,7 +419,7 @@ public class BitReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -422,7 +434,7 @@ public class BitReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -434,8 +446,7 @@ public class BitReader extends Struct {
      * @param size Size of {@code data} in bytes
      * @return a new {@link BitReader} instance
      */
-    public static @NotNull org.gstreamer.base.BitReader new_(@NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.base.BitReader new_(byte[] data, int size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_reader_new.invokeExact(
@@ -444,7 +455,7 @@ public class BitReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.BitReader(RESULT, Ownership.FULL);
+        return org.gstreamer.base.BitReader.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -551,31 +562,35 @@ public class BitReader extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link BitReader.Builder} object constructs a {@link BitReader} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link BitReader.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private BitReader struct;
+        private final BitReader struct;
         
-         /**
-         * A {@link BitReader.Build} object constructs a {@link BitReader} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = BitReader.allocate();
         }
         
          /**
          * Finish building the {@link BitReader} struct.
          * @return A new instance of {@code BitReader} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BitReader construct() {
+        public BitReader build() {
             return struct;
         }
         
@@ -585,7 +600,7 @@ public class BitReader extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(byte[] data) {
+        public Builder setData(byte[] data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
@@ -597,7 +612,7 @@ public class BitReader extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(int size) {
+        public Builder setSize(int size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -609,7 +624,7 @@ public class BitReader extends Struct {
          * @param byte_ The value for the {@code byte_} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setByte(int byte_) {
+        public Builder setByte(int byte_) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("byte"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), byte_);
@@ -621,14 +636,14 @@ public class BitReader extends Struct {
          * @param bit The value for the {@code bit} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBit(int bit) {
+        public Builder setBit(int bit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bit"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bit);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

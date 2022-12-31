@@ -46,7 +46,7 @@ public enum LayoutDeserializeError implements io.github.jwharm.javagi.Enumeratio
         };
     }
     
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_layout_deserialize_error_quark.invokeExact();

@@ -36,7 +36,7 @@ import org.jetbrains.annotations.*;
  * To track errors while loading CSS, connect to the
  * {@code Gtk.CssProvider::parsing-error} signal.
  */
-public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.StyleProvider {
+public class CssProvider extends org.gtk.gobject.GObject implements org.gtk.gtk.StyleProvider {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -44,17 +44,15 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     
     private static final java.lang.String C_TYPE_NAME = "GtkCssProvider";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -62,33 +60,15 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CssProvider(Addressable address, Ownership ownership) {
+    protected CssProvider(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to CssProvider if its GType is a (or inherits from) "GtkCssProvider".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CssProvider} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCssProvider", a ClassCastException will be thrown.
-     */
-    public static CssProvider castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CssProvider.getType())) {
-            return new CssProvider(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCssProvider");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CssProvider> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CssProvider(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_css_provider_new.invokeExact();
         } catch (Throwable ERR) {
@@ -113,8 +93,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      *   {@code length} is not -1, the code will assume it is not NUL terminated and will
      *   potentially do a copy.
      */
-    public void loadFromData(@NotNull byte[] data, long length) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void loadFromData(byte[] data, long length) {
         try {
             DowncallHandles.gtk_css_provider_load_from_data.invokeExact(
                     handle(),
@@ -131,8 +110,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * This clears any previously loaded information.
      * @param file {@code GFile} pointing to a file to load
      */
-    public void loadFromFile(@NotNull org.gtk.gio.File file) {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
+    public void loadFromFile(org.gtk.gio.File file) {
         try {
             DowncallHandles.gtk_css_provider_load_from_file.invokeExact(
                     handle(),
@@ -148,12 +126,11 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * This clears any previously loaded information.
      * @param path the path of a filename to load, in the GLib filename encoding
      */
-    public void loadFromPath(@NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void loadFromPath(java.lang.String path) {
         try {
             DowncallHandles.gtk_css_provider_load_from_path.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,12 +143,11 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * This clears any previously loaded information.
      * @param resourcePath a {@code GResource} resource path
      */
-    public void loadFromResource(@NotNull java.lang.String resourcePath) {
-        java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
+    public void loadFromResource(java.lang.String resourcePath) {
         try {
             DowncallHandles.gtk_css_provider_load_from_resource.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(resourcePath));
+                    Marshal.stringToAddress.marshal(resourcePath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,13 +163,12 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * @param variant variant to load, for example, "dark", or
      *   {@code null} for the default
      */
-    public void loadNamed(@NotNull java.lang.String name, @Nullable java.lang.String variant) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void loadNamed(java.lang.String name, @Nullable java.lang.String variant) {
         try {
             DowncallHandles.gtk_css_provider_load_named.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
-                    (Addressable) (variant == null ? MemoryAddress.NULL : Interop.allocateNativeString(variant)));
+                    Marshal.stringToAddress.marshal(name, null),
+                    (Addressable) (variant == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(variant, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +184,7 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
      * of this {@code provider}.
      * @return a new string representing the {@code provider}.
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_css_provider_to_string.invokeExact(
@@ -217,14 +192,14 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_css_provider_get_type.invokeExact();
@@ -236,7 +211,18 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     
     @FunctionalInterface
     public interface ParsingError {
-        void signalReceived(CssProvider sourceCssProvider, @NotNull org.gtk.gtk.CssSection section, @NotNull org.gtk.glib.Error error);
+        void run(org.gtk.gtk.CssSection section, org.gtk.glib.Error error);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceCssProvider, MemoryAddress section, MemoryAddress error) {
+            run(org.gtk.gtk.CssSection.fromAddress.marshal(section, Ownership.NONE), org.gtk.glib.Error.fromAddress.marshal(error, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ParsingError.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -259,52 +245,46 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
     public Signal<CssProvider.ParsingError> onParsingError(CssProvider.ParsingError handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("parsing-error"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CssProvider.Callbacks.class, "signalCssProviderParsingError",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<CssProvider.ParsingError>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("parsing-error"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link CssProvider.Builder} object constructs a {@link CssProvider} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CssProvider.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link CssProvider.Build} object constructs a {@link CssProvider} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CssProvider} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CssProvider} using {@link CssProvider#castFrom}.
+         * {@link CssProvider}.
          * @return A new instance of {@code CssProvider} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CssProvider construct() {
-            return CssProvider.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CssProvider.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CssProvider build() {
+            return (CssProvider) org.gtk.gobject.GObject.newWithProperties(
+                CssProvider.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -358,14 +338,5 @@ public class CssProvider extends org.gtk.gobject.Object implements org.gtk.gtk.S
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalCssProviderParsingError(MemoryAddress sourceCssProvider, MemoryAddress section, MemoryAddress error, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CssProvider.ParsingError) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CssProvider(sourceCssProvider, Ownership.NONE), new org.gtk.gtk.CssSection(section, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
-        }
     }
 }

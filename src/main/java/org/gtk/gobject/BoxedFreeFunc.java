@@ -11,5 +11,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface BoxedFreeFunc {
-        void onBoxedFreeFunc(@NotNull java.lang.foreign.MemoryAddress boxed);
+    void run(java.lang.foreign.MemoryAddress boxed);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress boxed) {
+        run(boxed);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BoxedFreeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

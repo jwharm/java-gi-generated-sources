@@ -14,7 +14,15 @@ public final class Gtk {
         System.loadLibrary("gtk-4");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * An undefined value. The accessible attribute is either unset, or its
@@ -294,7 +302,7 @@ public final class Gtk {
      * for {@link org.gtk.gdk.ModifierType#LOCK_MASK}.
      * @return the modifier mask for accelerators
      */
-    public static @NotNull org.gtk.gdk.ModifierType acceleratorGetDefaultModMask() {
+    public static org.gtk.gdk.ModifierType acceleratorGetDefaultModMask() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_accelerator_get_default_mod_mask.invokeExact();
@@ -311,8 +319,7 @@ public final class Gtk {
      * @param acceleratorMods accelerator modifier mask
      * @return a newly-allocated string representing the accelerator
      */
-    public static @NotNull java.lang.String acceleratorGetLabel(int acceleratorKey, @NotNull org.gtk.gdk.ModifierType acceleratorMods) {
-        java.util.Objects.requireNonNull(acceleratorMods, "Parameter 'acceleratorMods' must not be null");
+    public static java.lang.String acceleratorGetLabel(int acceleratorKey, org.gtk.gdk.ModifierType acceleratorMods) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_accelerator_get_label.invokeExact(
@@ -321,7 +328,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -340,8 +347,7 @@ public final class Gtk {
      * @param acceleratorMods accelerator modifier mask
      * @return a newly-allocated string representing the accelerator
      */
-    public static @NotNull java.lang.String acceleratorGetLabelWithKeycode(@Nullable org.gtk.gdk.Display display, int acceleratorKey, int keycode, @NotNull org.gtk.gdk.ModifierType acceleratorMods) {
-        java.util.Objects.requireNonNull(acceleratorMods, "Parameter 'acceleratorMods' must not be null");
+    public static java.lang.String acceleratorGetLabelWithKeycode(@Nullable org.gtk.gdk.Display display, int acceleratorKey, int keycode, org.gtk.gdk.ModifierType acceleratorMods) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_accelerator_get_label_with_keycode.invokeExact(
@@ -352,7 +358,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -368,8 +374,7 @@ public final class Gtk {
      * @param acceleratorMods accelerator modifier mask
      * @return a newly-allocated accelerator name
      */
-    public static @NotNull java.lang.String acceleratorName(int acceleratorKey, @NotNull org.gtk.gdk.ModifierType acceleratorMods) {
-        java.util.Objects.requireNonNull(acceleratorMods, "Parameter 'acceleratorMods' must not be null");
+    public static java.lang.String acceleratorName(int acceleratorKey, org.gtk.gdk.ModifierType acceleratorMods) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_accelerator_name.invokeExact(
@@ -378,7 +383,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -394,8 +399,7 @@ public final class Gtk {
      * @param acceleratorMods accelerator modifier mask
      * @return a newly allocated accelerator name.
      */
-    public static @NotNull java.lang.String acceleratorNameWithKeycode(@Nullable org.gtk.gdk.Display display, int acceleratorKey, int keycode, @NotNull org.gtk.gdk.ModifierType acceleratorMods) {
-        java.util.Objects.requireNonNull(acceleratorMods, "Parameter 'acceleratorMods' must not be null");
+    public static java.lang.String acceleratorNameWithKeycode(@Nullable org.gtk.gdk.Display display, int acceleratorKey, int keycode, org.gtk.gdk.ModifierType acceleratorMods) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_accelerator_name_with_keycode.invokeExact(
@@ -406,7 +410,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -439,24 +443,21 @@ public final class Gtk {
      * @param acceleratorMods return location for accelerator
      *   modifier mask
      */
-    public static boolean acceleratorParse(@NotNull java.lang.String accelerator, Out<Integer> acceleratorKey, @NotNull Out<org.gtk.gdk.ModifierType> acceleratorMods) {
-        java.util.Objects.requireNonNull(accelerator, "Parameter 'accelerator' must not be null");
-        java.util.Objects.requireNonNull(acceleratorKey, "Parameter 'acceleratorKey' must not be null");
+    public static boolean acceleratorParse(java.lang.String accelerator, Out<Integer> acceleratorKey, @Nullable Out<org.gtk.gdk.ModifierType> acceleratorMods) {
         MemorySegment acceleratorKeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(acceleratorMods, "Parameter 'acceleratorMods' must not be null");
         MemorySegment acceleratorModsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_accelerator_parse.invokeExact(
-                    Interop.allocateNativeString(accelerator),
-                    (Addressable) acceleratorKeyPOINTER.address(),
-                    (Addressable) acceleratorModsPOINTER.address());
+                    Marshal.stringToAddress.marshal(accelerator, null),
+                    (Addressable) (acceleratorKey == null ? MemoryAddress.NULL : (Addressable) acceleratorKeyPOINTER.address()),
+                    (Addressable) (acceleratorMods == null ? MemoryAddress.NULL : (Addressable) acceleratorModsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        acceleratorKey.set(acceleratorKeyPOINTER.get(Interop.valueLayout.C_INT, 0));
-        acceleratorMods.set(new org.gtk.gdk.ModifierType(acceleratorModsPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        if (acceleratorKey != null) acceleratorKey.set(acceleratorKeyPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (acceleratorMods != null) acceleratorMods.set(new org.gtk.gdk.ModifierType(acceleratorModsPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -482,8 +483,23 @@ public final class Gtk {
      *   modifier mask
      * @return {@code true} if parsing succeeded
      */
-    public static boolean acceleratorParseWithKeycode(@NotNull java.lang.String accelerator, @Nullable org.gtk.gdk.Display display, Out<Integer> acceleratorKey, @NotNull Out<int[]> acceleratorCodes, @NotNull Out<org.gtk.gdk.ModifierType> acceleratorMods) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static boolean acceleratorParseWithKeycode(java.lang.String accelerator, @Nullable org.gtk.gdk.Display display, Out<Integer> acceleratorKey, int[] acceleratorCodes, @Nullable Out<org.gtk.gdk.ModifierType> acceleratorMods) {
+        MemorySegment acceleratorKeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment acceleratorModsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gtk_accelerator_parse_with_keycode.invokeExact(
+                    Marshal.stringToAddress.marshal(accelerator, null),
+                    (Addressable) (display == null ? MemoryAddress.NULL : display.handle()),
+                    (Addressable) (acceleratorKey == null ? MemoryAddress.NULL : (Addressable) acceleratorKeyPOINTER.address()),
+                    (Addressable) (acceleratorCodes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(acceleratorCodes, false)),
+                    (Addressable) (acceleratorMods == null ? MemoryAddress.NULL : (Addressable) acceleratorModsPOINTER.address()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (acceleratorKey != null) acceleratorKey.set(acceleratorKeyPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (acceleratorMods != null) acceleratorMods.set(new org.gtk.gdk.ModifierType(acceleratorModsPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -497,8 +513,7 @@ public final class Gtk {
      * @param modifiers modifier mask
      * @return {@code true} if the accelerator is valid
      */
-    public static boolean acceleratorValid(int keyval, @NotNull org.gtk.gdk.ModifierType modifiers) {
-        java.util.Objects.requireNonNull(modifiers, "Parameter 'modifiers' must not be null");
+    public static boolean acceleratorValid(int keyval, org.gtk.gdk.ModifierType modifiers) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_accelerator_valid.invokeExact(
@@ -507,12 +522,10 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static void accessiblePropertyInitValue(@NotNull org.gtk.gtk.AccessibleProperty property, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void accessiblePropertyInitValue(org.gtk.gtk.AccessibleProperty property, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gtk_accessible_property_init_value.invokeExact(
                     property.getValue(),
@@ -522,9 +535,7 @@ public final class Gtk {
         }
     }
     
-    public static void accessibleRelationInitValue(@NotNull org.gtk.gtk.AccessibleRelation relation, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void accessibleRelationInitValue(org.gtk.gtk.AccessibleRelation relation, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gtk_accessible_relation_init_value.invokeExact(
                     relation.getValue(),
@@ -534,9 +545,7 @@ public final class Gtk {
         }
     }
     
-    public static void accessibleStateInitValue(@NotNull org.gtk.gtk.AccessibleState state, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void accessibleStateInitValue(org.gtk.gtk.AccessibleState state, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gtk_accessible_state_init_value.invokeExact(
                     state.getValue(),
@@ -557,10 +566,7 @@ public final class Gtk {
      * @param value Set to the found value in {@code set}
      * @return {@code true} if a value was found.
      */
-    public static boolean bitsetIterInitAt(@NotNull org.gtk.gtk.BitsetIter iter, @NotNull org.gtk.gtk.Bitset set, int target, Out<Integer> value) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static boolean bitsetIterInitAt(org.gtk.gtk.BitsetIter iter, org.gtk.gtk.Bitset set, int target, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -568,12 +574,12 @@ public final class Gtk {
                     iter.handle(),
                     set.handle(),
                     target,
-                    (Addressable) valuePOINTER.address());
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -586,22 +592,19 @@ public final class Gtk {
      * @param value Set to the first value in {@code set}
      * @return {@code true} if {@code set} isn't empty.
      */
-    public static boolean bitsetIterInitFirst(@NotNull org.gtk.gtk.BitsetIter iter, @NotNull org.gtk.gtk.Bitset set, Out<Integer> value) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static boolean bitsetIterInitFirst(org.gtk.gtk.BitsetIter iter, org.gtk.gtk.Bitset set, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_bitset_iter_init_first.invokeExact(
                     iter.handle(),
                     set.handle(),
-                    (Addressable) valuePOINTER.address());
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -614,25 +617,22 @@ public final class Gtk {
      * @param value Set to the last value in {@code set}
      * @return {@code true} if {@code set} isn't empty.
      */
-    public static boolean bitsetIterInitLast(@NotNull org.gtk.gtk.BitsetIter iter, @NotNull org.gtk.gtk.Bitset set, Out<Integer> value) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static boolean bitsetIterInitLast(org.gtk.gtk.BitsetIter iter, org.gtk.gtk.Bitset set, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_bitset_iter_init_last.invokeExact(
                     iter.handle(),
                     set.handle(),
-                    (Addressable) valuePOINTER.address());
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark builderErrorQuark() {
+    public static org.gtk.glib.Quark builderErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_error_quark.invokeExact();
@@ -684,10 +684,10 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark constraintVflParserErrorQuark() {
+    public static org.gtk.glib.Quark constraintVflParserErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_constraint_vfl_parser_error_quark.invokeExact();
@@ -697,7 +697,7 @@ public final class Gtk {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Quark cssParserErrorQuark() {
+    public static org.gtk.glib.Quark cssParserErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_css_parser_error_quark.invokeExact();
@@ -707,7 +707,7 @@ public final class Gtk {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Quark cssParserWarningQuark() {
+    public static org.gtk.glib.Quark cssParserWarningQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_css_parser_warning_quark.invokeExact();
@@ -750,8 +750,7 @@ public final class Gtk {
      * @return The remainder of {@code extra_space} after redistributing space
      * to {@code sizes}.
      */
-    public static int distributeNaturalAllocation(int extraSpace, int nRequestedSizes, @NotNull org.gtk.gtk.RequestedSize[] sizes) {
-        java.util.Objects.requireNonNull(sizes, "Parameter 'sizes' must not be null");
+    public static int distributeNaturalAllocation(int extraSpace, int nRequestedSizes, org.gtk.gtk.RequestedSize[] sizes) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_distribute_natural_allocation.invokeExact(
@@ -776,10 +775,7 @@ public final class Gtk {
      * @param pspec the {@code GParamSpec} for the property
      * @return {@code true} if the property was found
      */
-    public static boolean editableDelegateGetProperty(@NotNull org.gtk.gobject.Object object, int propId, @NotNull org.gtk.gobject.Value value, @NotNull org.gtk.gobject.ParamSpec pspec) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
+    public static boolean editableDelegateGetProperty(org.gtk.gobject.GObject object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_editable_delegate_get_property.invokeExact(
@@ -790,7 +786,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -805,10 +801,7 @@ public final class Gtk {
      * @param pspec the {@code GParamSpec} for the property
      * @return {@code true} if the property was found
      */
-    public static boolean editableDelegateSetProperty(@NotNull org.gtk.gobject.Object object, int propId, @NotNull org.gtk.gobject.Value value, @NotNull org.gtk.gobject.ParamSpec pspec) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
+    public static boolean editableDelegateSetProperty(org.gtk.gobject.GObject object, int propId, org.gtk.gobject.Value value, org.gtk.gobject.ParamSpec pspec) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_editable_delegate_set_property.invokeExact(
@@ -819,7 +812,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -842,8 +835,7 @@ public final class Gtk {
      * @param firstProp property ID to use for the first property
      * @return the number of properties that were installed
      */
-    public static int editableInstallProperties(@NotNull org.gtk.gobject.ObjectClass objectClass, int firstProp) {
-        java.util.Objects.requireNonNull(objectClass, "Parameter 'objectClass' must not be null");
+    public static int editableInstallProperties(org.gtk.gobject.ObjectClass objectClass, int firstProp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_editable_install_properties.invokeExact(
@@ -860,21 +852,17 @@ public final class Gtk {
      * <p>
      * If {@code func} returns {@code true}, the enumeration is stopped.
      * @param func a function to call for each printer
+     * @param destroy function to call if {@code data} is no longer needed
      * @param wait_ if {@code true}, wait in a recursive mainloop until
      *    all printers are enumerated; otherwise return early
      */
-    public static void enumeratePrinters(@NotNull org.gtk.gtk.PrinterFunc func, boolean wait_) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void enumeratePrinters(org.gtk.gtk.PrinterFunc func, org.gtk.glib.DestroyNotify destroy, boolean wait_) {
         try {
             DowncallHandles.gtk_enumerate_printers.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbPrinterFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol(),
-                    wait_ ? 1 : 0);
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroy.toCallback(),
+                    Marshal.booleanToInteger.marshal(wait_, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -884,7 +872,7 @@ public final class Gtk {
      * Registers an error quark for {@code GtkFileChooser} errors.
      * @return The error quark used for {@code GtkFileChooser} errors.
      */
-    public static @NotNull org.gtk.glib.Quark fileChooserErrorQuark() {
+    public static org.gtk.glib.Quark fileChooserErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_file_chooser_error_quark.invokeExact();
@@ -917,7 +905,7 @@ public final class Gtk {
      * to adjust their debug output based on GTK debug flags.
      * @return the GTK debug flags.
      */
-    public static @NotNull org.gtk.gtk.DebugFlags getDebugFlags() {
+    public static org.gtk.gtk.DebugFlags getDebugFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_get_debug_flags.invokeExact();
@@ -944,14 +932,14 @@ public final class Gtk {
      * @return the default language as a
      *   {@code PangoLanguage}
      */
-    public static @NotNull org.pango.Language getDefaultLanguage() {
+    public static org.pango.Language getDefaultLanguage() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_get_default_language.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(RESULT, Ownership.NONE);
+        return org.pango.Language.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -999,7 +987,7 @@ public final class Gtk {
      * }</pre>
      * @return the {@code GtkTextDirection} of the current locale
      */
-    public static @NotNull org.gtk.gtk.TextDirection getLocaleDirection() {
+    public static org.gtk.gtk.TextDirection getLocaleDirection() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_get_locale_direction.invokeExact();
@@ -1085,11 +1073,8 @@ public final class Gtk {
      * @param b Return value for the blue component
      */
     public static void hsvToRgb(float h, float s, float v, Out<Float> r, Out<Float> g, Out<Float> b) {
-        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
         MemorySegment rPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(g, "Parameter 'g' must not be null");
         MemorySegment gPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         MemorySegment bPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.gtk_hsv_to_rgb.invokeExact(
@@ -1107,7 +1092,7 @@ public final class Gtk {
         b.set(bPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
-    public static @NotNull org.gtk.glib.Quark iconThemeErrorQuark() {
+    public static org.gtk.glib.Quark iconThemeErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_icon_theme_error_quark.invokeExact();
@@ -1164,7 +1149,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1179,7 +1164,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1187,8 +1172,7 @@ public final class Gtk {
      * @param surface a {@code GdkSurface}
      * @return the {@code GtkNative} that is associated with {@code surface}
      */
-    public static @Nullable org.gtk.gtk.Native nativeGetForSurface(@NotNull org.gtk.gdk.Surface surface) {
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
+    public static @Nullable org.gtk.gtk.Native nativeGetForSurface(org.gtk.gdk.Surface surface) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_native_get_for_surface.invokeExact(
@@ -1196,7 +1180,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Native.NativeImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Native) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Native.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1205,7 +1189,7 @@ public final class Gtk {
      * @param cmpfuncResult Result of a comparison function
      * @return the corresponding {@code GtkOrdering}
      */
-    public static @NotNull org.gtk.gtk.Ordering orderingFromCmpfunc(int cmpfuncResult) {
+    public static org.gtk.gtk.Ordering orderingFromCmpfunc(int cmpfuncResult) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_ordering_from_cmpfunc.invokeExact(
@@ -1222,14 +1206,14 @@ public final class Gtk {
      * @return the name of the default paper size. The string
      * is owned by GTK and should not be modified.
      */
-    public static @NotNull java.lang.String paperSizeGetDefault() {
+    public static java.lang.String paperSizeGetDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1239,15 +1223,15 @@ public final class Gtk {
      * @return a newly allocated list of newly
      *    allocated {@code GtkPaperSize} objects
      */
-    public static @NotNull org.gtk.glib.List paperSizeGetPaperSizes(boolean includeCustom) {
+    public static org.gtk.glib.List paperSizeGetPaperSizes(boolean includeCustom) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_paper_sizes.invokeExact(
-                    includeCustom ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(includeCustom, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1260,29 +1244,25 @@ public final class Gtk {
      * @param flags flags for the property
      * @return a newly created property specification
      */
-    public static @NotNull org.gtk.gobject.ParamSpec paramSpecExpression(@NotNull java.lang.String name, @NotNull java.lang.String nick, @NotNull java.lang.String blurb, @NotNull org.gtk.gobject.ParamFlags flags) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
-        java.util.Objects.requireNonNull(blurb, "Parameter 'blurb' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.gobject.ParamSpec paramSpecExpression(java.lang.String name, java.lang.String nick, java.lang.String blurb, org.gtk.gobject.ParamFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_param_spec_expression.invokeExact(
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(nick),
-                    Interop.allocateNativeString(blurb),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(nick, null),
+                    Marshal.stringToAddress.marshal(blurb, null),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Registers an error quark for {@code GtkPrintOperation} if necessary.
      * @return The error quark used for {@code GtkPrintOperation} errors.
      */
-    public static @NotNull org.gtk.glib.Quark printErrorQuark() {
+    public static org.gtk.glib.Quark printErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_error_quark.invokeExact();
@@ -1306,8 +1286,7 @@ public final class Gtk {
      * @param settings a {@code GtkPrintSettings}
      * @return a new {@code GtkPageSetup}
      */
-    public static @NotNull org.gtk.gtk.PageSetup printRunPageSetupDialog(@Nullable org.gtk.gtk.Window parent, @Nullable org.gtk.gtk.PageSetup pageSetup, @NotNull org.gtk.gtk.PrintSettings settings) {
-        java.util.Objects.requireNonNull(settings, "Parameter 'settings' must not be null");
+    public static org.gtk.gtk.PageSetup printRunPageSetupDialog(@Nullable org.gtk.gtk.Window parent, @Nullable org.gtk.gtk.PageSetup pageSetup, org.gtk.gtk.PrintSettings settings) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_run_page_setup_dialog.invokeExact(
@@ -1317,7 +1296,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageSetup(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1332,26 +1311,20 @@ public final class Gtk {
      * @param doneCb a function to call when the user saves
      *    the modified page setup
      */
-    public static void printRunPageSetupDialogAsync(@Nullable org.gtk.gtk.Window parent, @Nullable org.gtk.gtk.PageSetup pageSetup, @NotNull org.gtk.gtk.PrintSettings settings, @NotNull org.gtk.gtk.PageSetupDoneFunc doneCb) {
-        java.util.Objects.requireNonNull(settings, "Parameter 'settings' must not be null");
-        java.util.Objects.requireNonNull(doneCb, "Parameter 'doneCb' must not be null");
+    public static void printRunPageSetupDialogAsync(@Nullable org.gtk.gtk.Window parent, @Nullable org.gtk.gtk.PageSetup pageSetup, org.gtk.gtk.PrintSettings settings, org.gtk.gtk.PageSetupDoneFunc doneCb) {
         try {
             DowncallHandles.gtk_print_run_page_setup_dialog_async.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     (Addressable) (pageSetup == null ? MemoryAddress.NULL : pageSetup.handle()),
                     settings.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbPageSetupDoneFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(doneCb)));
+                    (Addressable) doneCb.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static @NotNull org.gtk.glib.Quark recentManagerErrorQuark() {
+    public static org.gtk.glib.Quark recentManagerErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_recent_manager_error_quark.invokeExact();
@@ -1372,9 +1345,7 @@ public final class Gtk {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public static void renderActivity(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderActivity(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_render_activity.invokeExact(
                     context.handle(),
@@ -1401,9 +1372,7 @@ public final class Gtk {
      * @param y Y origin of the render area
      * @param size square side for render area
      */
-    public static void renderArrow(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double angle, double x, double y, double size) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderArrow(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double angle, double x, double y, double size) {
         try {
             DowncallHandles.gtk_render_arrow.invokeExact(
                     context.handle(),
@@ -1431,9 +1400,7 @@ public final class Gtk {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public static void renderBackground(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderBackground(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_render_background.invokeExact(
                     context.handle(),
@@ -1464,9 +1431,7 @@ public final class Gtk {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public static void renderCheck(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderCheck(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_render_check.invokeExact(
                     context.handle(),
@@ -1495,9 +1460,7 @@ public final class Gtk {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public static void renderExpander(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderExpander(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_render_expander.invokeExact(
                     context.handle(),
@@ -1524,9 +1487,7 @@ public final class Gtk {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public static void renderFocus(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderFocus(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_render_focus.invokeExact(
                     context.handle(),
@@ -1554,9 +1515,7 @@ public final class Gtk {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public static void renderFrame(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderFrame(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_render_frame.invokeExact(
                     context.handle(),
@@ -1584,9 +1543,7 @@ public final class Gtk {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public static void renderHandle(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderHandle(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_render_handle.invokeExact(
                     context.handle(),
@@ -1612,10 +1569,7 @@ public final class Gtk {
      * @param x X position for the {@code texture}
      * @param y Y position for the {@code texture}
      */
-    public static void renderIcon(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, @NotNull org.gtk.gdk.Texture texture, double x, double y) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(texture, "Parameter 'texture' must not be null");
+    public static void renderIcon(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, org.gtk.gdk.Texture texture, double x, double y) {
         try {
             DowncallHandles.gtk_render_icon.invokeExact(
                     context.handle(),
@@ -1636,10 +1590,7 @@ public final class Gtk {
      * @param y Y origin
      * @param layout the {@code PangoLayout} to render
      */
-    public static void renderLayout(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x, double y, @NotNull org.pango.Layout layout) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    public static void renderLayout(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x, double y, org.pango.Layout layout) {
         try {
             DowncallHandles.gtk_render_layout.invokeExact(
                     context.handle(),
@@ -1661,9 +1612,7 @@ public final class Gtk {
      * @param x1 X coordinate for the end of the line
      * @param y1 Y coordinate for the end of the line
      */
-    public static void renderLine(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x0, double y0, double x1, double y1) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderLine(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x0, double y0, double x1, double y1) {
         try {
             DowncallHandles.gtk_render_line.invokeExact(
                     context.handle(),
@@ -1692,9 +1641,7 @@ public final class Gtk {
      * @param width rectangle width
      * @param height rectangle height
      */
-    public static void renderOption(@NotNull org.gtk.gtk.StyleContext context, @NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void renderOption(org.gtk.gtk.StyleContext context, org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.gtk_render_option.invokeExact(
                     context.handle(),
@@ -1721,11 +1668,8 @@ public final class Gtk {
      * @param v Return value for the value component
      */
     public static void rgbToHsv(float r, float g, float b, Out<Float> h, Out<Float> s, Out<Float> v) {
-        java.util.Objects.requireNonNull(h, "Parameter 'h' must not be null");
         MemorySegment hPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
         MemorySegment sPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
         MemorySegment vPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.gtk_rgb_to_hsv.invokeExact(
@@ -1747,8 +1691,7 @@ public final class Gtk {
      * Sets the GTK debug flags.
      * @param flags the debug flags to set
      */
-    public static void setDebugFlags(@NotNull org.gtk.gtk.DebugFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static void setDebugFlags(org.gtk.gtk.DebugFlags flags) {
         try {
             DowncallHandles.gtk_set_debug_flags.invokeExact(
                     flags.getValue());
@@ -1767,12 +1710,11 @@ public final class Gtk {
      * @param varargs value of first property, followed by more pairs of property
      *   name and value, {@code NULL}-terminated
      */
-    public static void showAboutDialog(@Nullable org.gtk.gtk.Window parent, @NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+    public static void showAboutDialog(@Nullable org.gtk.gtk.Window parent, java.lang.String firstPropertyName, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_show_about_dialog.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    Interop.allocateNativeString(firstPropertyName),
+                    Marshal.stringToAddress.marshal(firstPropertyName, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1786,12 +1728,11 @@ public final class Gtk {
      * @param uri the uri to show
      * @param timestamp timestamp from the event that triggered this call, or {@code GDK_CURRENT_TIME}
      */
-    public static void showUri(@Nullable org.gtk.gtk.Window parent, @NotNull java.lang.String uri, int timestamp) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static void showUri(@Nullable org.gtk.gtk.Window parent, java.lang.String uri, int timestamp) {
         try {
             DowncallHandles.gtk_show_uri.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     timestamp);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1813,20 +1754,15 @@ public final class Gtk {
      * @param cancellable a {@code GCancellable} to cancel the launch
      * @param callback a callback to call when the action is complete
      */
-    public static void showUriFull(@Nullable org.gtk.gtk.Window parent, @NotNull java.lang.String uri, int timestamp, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static void showUriFull(@Nullable org.gtk.gtk.Window parent, java.lang.String uri, int timestamp, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.gtk_show_uri_full.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     timestamp,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1841,9 +1777,7 @@ public final class Gtk {
      *   Otherwise, {@code false} is returned and {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean showUriFullFinish(@NotNull org.gtk.gtk.Window parent, @NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static boolean showUriFullFinish(org.gtk.gtk.Window parent, org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -1857,24 +1791,17 @@ public final class Gtk {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static void testAccessibleAssertionMessageRole(@NotNull java.lang.String domain, @NotNull java.lang.String file, int line, @NotNull java.lang.String func, @NotNull java.lang.String expr, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleRole expectedRole, @NotNull org.gtk.gtk.AccessibleRole actualRole) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        java.util.Objects.requireNonNull(expr, "Parameter 'expr' must not be null");
-        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
-        java.util.Objects.requireNonNull(expectedRole, "Parameter 'expectedRole' must not be null");
-        java.util.Objects.requireNonNull(actualRole, "Parameter 'actualRole' must not be null");
+    public static void testAccessibleAssertionMessageRole(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, org.gtk.gtk.Accessible accessible, org.gtk.gtk.AccessibleRole expectedRole, org.gtk.gtk.AccessibleRole actualRole) {
         try {
             DowncallHandles.gtk_test_accessible_assertion_message_role.invokeExact(
-                    Interop.allocateNativeString(domain),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(domain, null),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(func),
-                    Interop.allocateNativeString(expr),
+                    Marshal.stringToAddress.marshal(func, null),
+                    Marshal.stringToAddress.marshal(expr, null),
                     accessible.handle(),
                     expectedRole.getValue(),
                     actualRole.getValue());
@@ -1891,9 +1818,7 @@ public final class Gtk {
      * @param varargs the expected value of {@code property}
      * @return the value of the accessible property
      */
-    public static @NotNull java.lang.String testAccessibleCheckProperty(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleProperty property, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+    public static java.lang.String testAccessibleCheckProperty(org.gtk.gtk.Accessible accessible, org.gtk.gtk.AccessibleProperty property, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_test_accessible_check_property.invokeExact(
@@ -1903,7 +1828,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1914,9 +1839,7 @@ public final class Gtk {
      * @param varargs the expected value of {@code relation}
      * @return the value of the accessible relation
      */
-    public static @NotNull java.lang.String testAccessibleCheckRelation(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleRelation relation, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
-        java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
+    public static java.lang.String testAccessibleCheckRelation(org.gtk.gtk.Accessible accessible, org.gtk.gtk.AccessibleRelation relation, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_test_accessible_check_relation.invokeExact(
@@ -1926,7 +1849,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1937,9 +1860,7 @@ public final class Gtk {
      * @param varargs the expected value of {@code state}
      * @return the value of the accessible state
      */
-    public static @NotNull java.lang.String testAccessibleCheckState(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleState state, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public static java.lang.String testAccessibleCheckState(org.gtk.gtk.Accessible accessible, org.gtk.gtk.AccessibleState state, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_test_accessible_check_state.invokeExact(
@@ -1949,7 +1870,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1958,9 +1879,7 @@ public final class Gtk {
      * @param property a {@code GtkAccessibleProperty}
      * @return {@code true} if the {@code property} is set in the {@code accessible}
      */
-    public static boolean testAccessibleHasProperty(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleProperty property) {
-        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+    public static boolean testAccessibleHasProperty(org.gtk.gtk.Accessible accessible, org.gtk.gtk.AccessibleProperty property) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_test_accessible_has_property.invokeExact(
@@ -1969,7 +1888,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1978,9 +1897,7 @@ public final class Gtk {
      * @param relation a {@code GtkAccessibleRelation}
      * @return {@code true} if the {@code relation} is set in the {@code accessible}
      */
-    public static boolean testAccessibleHasRelation(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleRelation relation) {
-        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
-        java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
+    public static boolean testAccessibleHasRelation(org.gtk.gtk.Accessible accessible, org.gtk.gtk.AccessibleRelation relation) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_test_accessible_has_relation.invokeExact(
@@ -1989,7 +1906,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1999,9 +1916,7 @@ public final class Gtk {
      * @param role a {@code GtkAccessibleRole}
      * @return {@code true} if the role matches
      */
-    public static boolean testAccessibleHasRole(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleRole role) {
-        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
-        java.util.Objects.requireNonNull(role, "Parameter 'role' must not be null");
+    public static boolean testAccessibleHasRole(org.gtk.gtk.Accessible accessible, org.gtk.gtk.AccessibleRole role) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_test_accessible_has_role.invokeExact(
@@ -2010,7 +1925,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2019,9 +1934,7 @@ public final class Gtk {
      * @param state a {@code GtkAccessibleState}
      * @return {@code true} if the {@code state} is set in the {@code accessible}
      */
-    public static boolean testAccessibleHasState(@NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gtk.AccessibleState state) {
-        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public static boolean testAccessibleHasState(org.gtk.gtk.Accessible accessible, org.gtk.gtk.AccessibleState state) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_test_accessible_has_state.invokeExact(
@@ -2030,7 +1943,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2050,10 +1963,8 @@ public final class Gtk {
      *   or gtk_init() are stripped before return.
      * @param varargs currently unused
      */
-    public static void testInit(Out<Integer> argcp, @NotNull Out<java.lang.String[]> argvp, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(argcp, "Parameter 'argcp' must not be null");
+    public static void testInit(Out<Integer> argcp, Out<java.lang.String[]> argvp, java.lang.Object... varargs) {
         MemorySegment argcpPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(argvp, "Parameter 'argvp' must not be null");
         MemorySegment argvpPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gtk_test_init.invokeExact(
@@ -2067,7 +1978,7 @@ public final class Gtk {
         java.lang.String[] argvpARRAY = new java.lang.String[argcp.get().intValue()];
         for (int I = 0; I < argcp.get().intValue(); I++) {
             var OBJ = argvpPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            argvpARRAY[I] = Interop.getStringFrom(OBJ);
+            argvpARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         argvp.set(argvpARRAY);
     }
@@ -2078,8 +1989,7 @@ public final class Gtk {
      * @param nTypes location to store number of types
      * @return 0-terminated array of type ids
      */
-    public static @NotNull org.gtk.glib.Type[] testListAllTypes(Out<Integer> nTypes) {
-        java.util.Objects.requireNonNull(nTypes, "Parameter 'nTypes' must not be null");
+    public static org.gtk.glib.Type[] testListAllTypes(Out<Integer> nTypes) {
         MemorySegment nTypesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -2122,8 +2032,7 @@ public final class Gtk {
      * server.
      * @param widget the widget to wait for
      */
-    public static void testWidgetWaitForDraw(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public static void testWidgetWaitForDraw(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.gtk_test_widget_wait_for_draw.invokeExact(
                     widget.handle());
@@ -2138,9 +2047,7 @@ public final class Gtk {
      * @param path a row in {@code tree_model}
      * @return a new {@code GdkContentProvider}
      */
-    public static @NotNull org.gtk.gdk.ContentProvider treeCreateRowDragContent(@NotNull org.gtk.gtk.TreeModel treeModel, @NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(treeModel, "Parameter 'treeModel' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static org.gtk.gdk.ContentProvider treeCreateRowDragContent(org.gtk.gtk.TreeModel treeModel, org.gtk.gtk.TreePath path) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_create_row_drag_content.invokeExact(
@@ -2149,7 +2056,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentProvider(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2163,8 +2070,7 @@ public final class Gtk {
      * @return {@code true} if {@code selection_data} had target type {@code GTK_TYPE_TREE_ROW_DATA}
      *  is otherwise valid
      */
-    public static boolean treeGetRowDragData(@NotNull org.gtk.gobject.Value value, @Nullable Out<org.gtk.gtk.TreeModel> treeModel, @Nullable Out<org.gtk.gtk.TreePath> path) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static boolean treeGetRowDragData(org.gtk.gobject.Value value, @Nullable Out<org.gtk.gtk.TreeModel> treeModel, @Nullable Out<org.gtk.gtk.TreePath> path) {
         MemorySegment treeModelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -2176,9 +2082,9 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (treeModel != null) treeModel.set(new org.gtk.gtk.TreeModel.TreeModelImpl(treeModelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        if (path != null) path.set(new org.gtk.gtk.TreePath(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (treeModel != null) treeModel.set((org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeModelPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.TreeModel.fromAddress).marshal(treeModelPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (path != null) path.set(org.gtk.gtk.TreePath.fromAddress.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2188,9 +2094,7 @@ public final class Gtk {
      * @param proxy a {@code GObject}
      * @param path the path position that was deleted
      */
-    public static void treeRowReferenceDeleted(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static void treeRowReferenceDeleted(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreePath path) {
         try {
             DowncallHandles.gtk_tree_row_reference_deleted.invokeExact(
                     proxy.handle(),
@@ -2207,9 +2111,7 @@ public final class Gtk {
      * @param proxy a {@code GObject}
      * @param path the row position that was inserted
      */
-    public static void treeRowReferenceInserted(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static void treeRowReferenceInserted(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreePath path) {
         try {
             DowncallHandles.gtk_tree_row_reference_inserted.invokeExact(
                     proxy.handle(),
@@ -2228,11 +2130,7 @@ public final class Gtk {
      * @param iter the iter pointing to the parent of the reordered
      * @param newOrder the new order of rows
      */
-    public static void treeRowReferenceReordered(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter, @NotNull int[] newOrder) {
-        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
+    public static void treeRowReferenceReordered(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreePath path, org.gtk.gtk.TreeIter iter, int[] newOrder) {
         try {
             DowncallHandles.gtk_tree_row_reference_reordered.invokeExact(
                     proxy.handle(),
@@ -2250,8 +2148,7 @@ public final class Gtk {
      * @param value a {@code GValue} initialized with type {@code GTK_TYPE_EXPRESSION}
      * @return a {@code GtkExpression}
      */
-    public static @Nullable org.gtk.gtk.Expression valueDupExpression(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static @Nullable org.gtk.gtk.Expression valueDupExpression(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_value_dup_expression.invokeExact(
@@ -2259,7 +2156,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2267,8 +2164,7 @@ public final class Gtk {
      * @param value a {@code GValue} initialized with type {@code GTK_TYPE_EXPRESSION}
      * @return a {@code GtkExpression}
      */
-    public static @Nullable org.gtk.gtk.Expression valueGetExpression(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static @Nullable org.gtk.gtk.Expression valueGetExpression(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_value_get_expression.invokeExact(
@@ -2276,7 +2172,7 @@ public final class Gtk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2286,9 +2182,7 @@ public final class Gtk {
      * @param value a {@code GValue} initialized with type {@code GTK_TYPE_EXPRESSION}
      * @param expression a {@code GtkExpression}
      */
-    public static void valueSetExpression(@NotNull org.gtk.gobject.Value value, @NotNull org.gtk.gtk.Expression expression) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(expression, "Parameter 'expression' must not be null");
+    public static void valueSetExpression(org.gtk.gobject.Value value, org.gtk.gtk.Expression expression) {
         try {
             DowncallHandles.gtk_value_set_expression.invokeExact(
                     value.handle(),
@@ -2305,8 +2199,7 @@ public final class Gtk {
      * @param value a {@code GValue} initialized with type {@code GTK_TYPE_EXPRESSION}
      * @param expression a {@code GtkExpression}
      */
-    public static void valueTakeExpression(@NotNull org.gtk.gobject.Value value, @Nullable org.gtk.gtk.Expression expression) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void valueTakeExpression(org.gtk.gobject.Value value, @Nullable org.gtk.gtk.Expression expression) {
         try {
             DowncallHandles.gtk_value_take_expression.invokeExact(
                     value.handle(),
@@ -2844,283 +2737,5 @@ public final class Gtk {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static int cbAssistantPageFunc(int currentPage, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AssistantPageFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onAssistantPageFunc(currentPage);
-            return RESULT;
-        }
-        
-        public static int cbEntryCompletionMatchFunc(MemoryAddress completion, MemoryAddress key, MemoryAddress iter, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EntryCompletionMatchFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onEntryCompletionMatchFunc(new org.gtk.gtk.EntryCompletion(completion, Ownership.NONE), Interop.getStringFrom(key), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbMenuButtonCreatePopupFunc(MemoryAddress menuButton, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MenuButtonCreatePopupFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onMenuButtonCreatePopupFunc(new org.gtk.gtk.MenuButton(menuButton, Ownership.NONE));
-        }
-        
-        public static void cbExpressionNotify(MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ExpressionNotify) Interop.signalRegistry.get(HASH);
-            HANDLER.onExpressionNotify();
-        }
-        
-        public static Addressable cbFlowBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FlowBoxCreateWidgetFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFlowBoxCreateWidgetFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
-            return RESULT.handle();
-        }
-        
-        public static void cbFlowBoxForeachFunc(MemoryAddress box, MemoryAddress child, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FlowBoxForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onFlowBoxForeachFunc(new org.gtk.gtk.FlowBox(box, Ownership.NONE), new org.gtk.gtk.FlowBoxChild(child, Ownership.NONE));
-        }
-        
-        public static Addressable cbScaleFormatValueFunc(MemoryAddress scale, double value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ScaleFormatValueFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onScaleFormatValueFunc(new org.gtk.gtk.Scale(scale, Ownership.NONE), value);
-            return Interop.allocateNativeString(RESULT);
-        }
-        
-        public static int cbCellCallback(MemoryAddress renderer, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CellCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCellCallback(new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbListBoxFilterFunc(MemoryAddress row, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ListBoxFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onListBoxFilterFunc(new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbListBoxSortFunc(MemoryAddress row1, MemoryAddress row2, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ListBoxSortFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onListBoxSortFunc(new org.gtk.gtk.ListBoxRow(row1, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row2, Ownership.NONE));
-            return RESULT;
-        }
-        
-        public static void cbCellLayoutDataFunc(MemoryAddress cellLayout, MemoryAddress cell, MemoryAddress treeModel, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CellLayoutDataFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onCellLayoutDataFunc(new org.gtk.gtk.CellLayout.CellLayoutImpl(cellLayout, Ownership.NONE), new org.gtk.gtk.CellRenderer(cell, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(treeModel, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-        }
-        
-        public static void cbListBoxForeachFunc(MemoryAddress box, MemoryAddress row, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ListBoxForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onListBoxForeachFunc(new org.gtk.gtk.ListBox(box, Ownership.NONE), new org.gtk.gtk.ListBoxRow(row, Ownership.NONE));
-        }
-        
-        public static Addressable cbListBoxCreateWidgetFunc(MemoryAddress item, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ListBoxCreateWidgetFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onListBoxCreateWidgetFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
-            return RESULT.handle();
-        }
-        
-        public static void cbTreeViewMappingFunc(MemoryAddress treeView, MemoryAddress path, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeViewMappingFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTreeViewMappingFunc(new org.gtk.gtk.TreeView(treeView, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
-        }
-        
-        public static int cbTreeViewColumnDropFunc(MemoryAddress treeView, MemoryAddress column, MemoryAddress prevColumn, MemoryAddress nextColumn, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeViewColumnDropFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeViewColumnDropFunc(new org.gtk.gtk.TreeView(treeView, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(column, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(prevColumn, Ownership.NONE), new org.gtk.gtk.TreeViewColumn(nextColumn, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbTreeSelectionForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeSelectionForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTreeSelectionForeachFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-        }
-        
-        public static int cbFlowBoxSortFunc(MemoryAddress child1, MemoryAddress child2, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FlowBoxSortFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFlowBoxSortFunc(new org.gtk.gtk.FlowBoxChild(child1, Ownership.NONE), new org.gtk.gtk.FlowBoxChild(child2, Ownership.NONE));
-            return RESULT;
-        }
-        
-        public static int cbFontFilterFunc(MemoryAddress family, MemoryAddress face, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FontFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFontFilterFunc(new org.pango.FontFamily(family, Ownership.NONE), new org.pango.FontFace(face, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbTreeModelForeachFunc(MemoryAddress model, MemoryAddress path, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeModelForeachFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeModelForeachFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbTextTagTableForeach(MemoryAddress tag, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextTagTableForeach) Interop.signalRegistry.get(HASH);
-            HANDLER.onTextTagTableForeach(new org.gtk.gtk.TextTag(tag, Ownership.NONE));
-        }
-        
-        public static void cbPrintSettingsFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintSettingsFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPrintSettingsFunc(Interop.getStringFrom(key), Interop.getStringFrom(value));
-        }
-        
-        public static void cbTreeModelFilterModifyFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress value, int column, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeModelFilterModifyFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTreeModelFilterModifyFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE), new org.gtk.gobject.Value(value, Ownership.NONE), column);
-        }
-        
-        public static int cbTreeViewSearchEqualFunc(MemoryAddress model, int column, MemoryAddress key, MemoryAddress iter, MemoryAddress searchData) {
-            int HASH = searchData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeViewSearchEqualFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeViewSearchEqualFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), column, Interop.getStringFrom(key), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbTreeCellDataFunc(MemoryAddress treeColumn, MemoryAddress cell, MemoryAddress treeModel, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeCellDataFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTreeCellDataFunc(new org.gtk.gtk.TreeViewColumn(treeColumn, Ownership.NONE), new org.gtk.gtk.CellRenderer(cell, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(treeModel, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-        }
-        
-        public static int cbTreeModelFilterVisibleFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeModelFilterVisibleFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeModelFilterVisibleFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbTextCharPredicate(int ch, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextCharPredicate) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTextCharPredicate(ch);
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbPageSetupDoneFunc(MemoryAddress pageSetup, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PageSetupDoneFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPageSetupDoneFunc(new org.gtk.gtk.PageSetup(pageSetup, Ownership.NONE));
-        }
-        
-        public static void cbIconViewForeachFunc(MemoryAddress iconView, MemoryAddress path, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IconViewForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onIconViewForeachFunc(new org.gtk.gtk.IconView(iconView, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE));
-        }
-        
-        public static Addressable cbMapListModelMapFunc(MemoryAddress item, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MapListModelMapFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onMapListModelMapFunc(new org.gtk.gobject.Object(item, Ownership.FULL));
-            return RESULT.handle();
-        }
-        
-        public static int cbFlowBoxFilterFunc(MemoryAddress child, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FlowBoxFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onFlowBoxFilterFunc(new org.gtk.gtk.FlowBoxChild(child, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbCustomFilterFunc(MemoryAddress item, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CustomFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCustomFilterFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbPrintJobCompleteFunc(MemoryAddress printJob, MemoryAddress userData, MemoryAddress error) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintJobCompleteFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPrintJobCompleteFunc(new org.gtk.gtk.PrintJob(printJob, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
-        }
-        
-        public static Addressable cbTreeListModelCreateModelFunc(MemoryAddress item, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeListModelCreateModelFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeListModelCreateModelFunc(new org.gtk.gobject.Object(item, Ownership.NONE));
-            return RESULT.handle();
-        }
-        
-        public static int cbTreeSelectionFunc(MemoryAddress selection, MemoryAddress model, MemoryAddress path, int pathCurrentlySelected, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeSelectionFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeSelectionFunc(new org.gtk.gtk.TreeSelection(selection, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreePath(path, Ownership.NONE), pathCurrentlySelected != 0);
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbDrawingAreaDrawFunc(MemoryAddress drawingArea, MemoryAddress cr, int width, int height, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DrawingAreaDrawFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onDrawingAreaDrawFunc(new org.gtk.gtk.DrawingArea(drawingArea, Ownership.NONE), new org.cairographics.Context(cr, Ownership.NONE), width, height);
-        }
-        
-        public static int cbShortcutFunc(MemoryAddress widget, MemoryAddress args, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ShortcutFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onShortcutFunc(new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.glib.Variant(args, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbListBoxUpdateHeaderFunc(MemoryAddress row, MemoryAddress before, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ListBoxUpdateHeaderFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onListBoxUpdateHeaderFunc(new org.gtk.gtk.ListBoxRow(row, Ownership.NONE), new org.gtk.gtk.ListBoxRow(before, Ownership.NONE));
-        }
-        
-        public static int cbTreeIterCompareFunc(MemoryAddress model, MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeIterCompareFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeIterCompareFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(a, Ownership.NONE), new org.gtk.gtk.TreeIter(b, Ownership.NONE));
-            return RESULT;
-        }
-        
-        public static int cbCellAllocCallback(MemoryAddress renderer, MemoryAddress cellArea, MemoryAddress cellBackground, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CellAllocCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCellAllocCallback(new org.gtk.gtk.CellRenderer(renderer, Ownership.NONE), new org.gtk.gdk.Rectangle(cellArea, Ownership.NONE), new org.gtk.gdk.Rectangle(cellBackground, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbTickCallback(MemoryAddress widget, MemoryAddress frameClock, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TickCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTickCallback(new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gdk.FrameClock(frameClock, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbPrinterFunc(MemoryAddress printer, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrinterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPrinterFunc(new org.gtk.gtk.Printer(printer, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbTreeViewRowSeparatorFunc(MemoryAddress model, MemoryAddress iter, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeViewRowSeparatorFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTreeViewRowSeparatorFunc(new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
     }
 }

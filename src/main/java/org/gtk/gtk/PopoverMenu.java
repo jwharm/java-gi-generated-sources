@@ -130,40 +130,26 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * <p>
      * Because PopoverMenu is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PopoverMenu(Addressable address, Ownership ownership) {
+    protected PopoverMenu(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PopoverMenu if its GType is a (or inherits from) "GtkPopoverMenu".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PopoverMenu} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPopoverMenu", a ClassCastException will be thrown.
-     */
-    public static PopoverMenu castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PopoverMenu.getType())) {
-            return new PopoverMenu(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPopoverMenu");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PopoverMenu> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PopoverMenu(input, ownership);
     
-    private static Addressable constructNewFromModel(@Nullable org.gtk.gio.MenuModel model) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromModel(@Nullable org.gtk.gio.MenuModel model) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_popover_menu_new_from_model.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
@@ -191,13 +177,12 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * @return the new {@code GtkPopoverMenu}
      */
     public static PopoverMenu newFromModel(@Nullable org.gtk.gio.MenuModel model) {
-        return new PopoverMenu(constructNewFromModel(model), Ownership.NONE);
+        var RESULT = constructNewFromModel(model);
+        return (org.gtk.gtk.PopoverMenu) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PopoverMenu.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewFromModelFull(@NotNull org.gtk.gio.MenuModel model, @NotNull org.gtk.gtk.PopoverMenuFlags flags) {
-        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromModelFull(org.gtk.gio.MenuModel model, org.gtk.gtk.PopoverMenuFlags flags) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_popover_menu_new_from_model_full.invokeExact(
                     model.handle(),
@@ -224,8 +209,9 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * @param flags flags that affect how the menu is created
      * @return the new {@code GtkPopoverMenu}
      */
-    public static PopoverMenu newFromModelFull(@NotNull org.gtk.gio.MenuModel model, @NotNull org.gtk.gtk.PopoverMenuFlags flags) {
-        return new PopoverMenu(constructNewFromModelFull(model, flags), Ownership.NONE);
+    public static PopoverMenu newFromModelFull(org.gtk.gio.MenuModel model, org.gtk.gtk.PopoverMenuFlags flags) {
+        var RESULT = constructNewFromModelFull(model, flags);
+        return (org.gtk.gtk.PopoverMenu) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PopoverMenu.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -237,19 +223,17 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * @param id the ID to insert {@code child} at
      * @return {@code true} if {@code id} was found and the widget added
      */
-    public boolean addChild(@NotNull org.gtk.gtk.Widget child, @NotNull java.lang.String id) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public boolean addChild(org.gtk.gtk.Widget child, java.lang.String id) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_popover_menu_add_child.invokeExact(
                     handle(),
                     child.handle(),
-                    Interop.allocateNativeString(id));
+                    Marshal.stringToAddress.marshal(id, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -264,7 +248,7 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -273,8 +257,7 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * @param child the {@code GtkWidget} to remove
      * @return {@code true} if the widget was removed
      */
-    public boolean removeChild(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public boolean removeChild(org.gtk.gtk.Widget child) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_popover_menu_remove_child.invokeExact(
@@ -283,7 +266,7 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -308,7 +291,7 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_popover_menu_get_type.invokeExact();
@@ -317,38 +300,40 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PopoverMenu.Builder} object constructs a {@link PopoverMenu} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PopoverMenu.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Popover.Build {
+    public static class Builder extends org.gtk.gtk.Popover.Builder {
         
-         /**
-         * A {@link PopoverMenu.Build} object constructs a {@link PopoverMenu} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PopoverMenu} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PopoverMenu} using {@link PopoverMenu#castFrom}.
+         * {@link PopoverMenu}.
          * @return A new instance of {@code PopoverMenu} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PopoverMenu construct() {
-            return PopoverMenu.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PopoverMenu.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PopoverMenu build() {
+            return (PopoverMenu) org.gtk.gobject.GObject.newWithProperties(
+                PopoverMenu.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -357,7 +342,7 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
          * @param menuModel The value for the {@code menu-model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMenuModel(org.gtk.gio.MenuModel menuModel) {
+        public Builder setMenuModel(org.gtk.gio.MenuModel menuModel) {
             names.add("menu-model");
             values.add(org.gtk.gobject.Value.create(menuModel));
             return this;
@@ -368,7 +353,7 @@ public class PopoverMenu extends org.gtk.gtk.Popover implements org.gtk.gtk.Acce
          * @param visibleSubmenu The value for the {@code visible-submenu} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisibleSubmenu(java.lang.String visibleSubmenu) {
+        public Builder setVisibleSubmenu(java.lang.String visibleSubmenu) {
             names.add("visible-submenu");
             values.add(org.gtk.gobject.Value.create(visibleSubmenu));
             return this;

@@ -17,18 +17,16 @@ public class FileAttributeInfoList extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GFileAttributeInfoList";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("infos"),
-        Interop.valueLayout.C_INT.withName("n_infos")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("infos"),
+            Interop.valueLayout.C_INT.withName("n_infos")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,28 +46,28 @@ public class FileAttributeInfoList extends Struct {
      * Get the value of the field {@code infos}
      * @return The value of the field {@code infos}
      */
-    public org.gtk.gio.FileAttributeInfo infos$get() {
+    public org.gtk.gio.FileAttributeInfo getInfos() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("infos"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gio.FileAttributeInfo(RESULT, Ownership.UNKNOWN);
+        return org.gtk.gio.FileAttributeInfo.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code infos}
      * @param infos The new value of the field {@code infos}
      */
-    public void infos$set(org.gtk.gio.FileAttributeInfo infos) {
+    public void setInfos(org.gtk.gio.FileAttributeInfo infos) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("infos"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), infos.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (infos == null ? MemoryAddress.NULL : infos.handle()));
     }
     
     /**
      * Get the value of the field {@code n_infos}
      * @return The value of the field {@code n_infos}
      */
-    public int nInfos$get() {
+    public int getNInfos() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class FileAttributeInfoList extends Struct {
      * Change the value of the field {@code n_infos}
      * @param nInfos The new value of the field {@code n_infos}
      */
-    public void nInfos$set(int nInfos) {
+    public void setNInfos(int nInfos) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nInfos);
@@ -91,13 +89,15 @@ public class FileAttributeInfoList extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FileAttributeInfoList(Addressable address, Ownership ownership) {
+    protected FileAttributeInfoList(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FileAttributeInfoList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileAttributeInfoList(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_new.invokeExact();
         } catch (Throwable ERR) {
@@ -120,14 +120,11 @@ public class FileAttributeInfoList extends Struct {
      * @param type the {@link FileAttributeType} for the attribute.
      * @param flags {@link FileAttributeInfoFlags} for the attribute.
      */
-    public void add(@NotNull java.lang.String name, @NotNull org.gtk.gio.FileAttributeType type, @NotNull org.gtk.gio.FileAttributeInfoFlags flags) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void add(java.lang.String name, org.gtk.gio.FileAttributeType type, org.gtk.gio.FileAttributeInfoFlags flags) {
         try {
             DowncallHandles.g_file_attribute_info_list_add.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     type.getValue(),
                     flags.getValue());
         } catch (Throwable ERR) {
@@ -139,7 +136,7 @@ public class FileAttributeInfoList extends Struct {
      * Makes a duplicate of a file attribute info list.
      * @return a copy of the given {@code list}.
      */
-    public @NotNull org.gtk.gio.FileAttributeInfoList dup() {
+    public org.gtk.gio.FileAttributeInfoList dup() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_dup.invokeExact(
@@ -147,7 +144,7 @@ public class FileAttributeInfoList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeInfoList(RESULT, Ownership.FULL);
+        return org.gtk.gio.FileAttributeInfoList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -156,24 +153,23 @@ public class FileAttributeInfoList extends Struct {
      * @return a {@link FileAttributeInfo} for the {@code name}, or {@code null} if an
      * attribute isn't found.
      */
-    public @NotNull org.gtk.gio.FileAttributeInfo lookup(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public org.gtk.gio.FileAttributeInfo lookup(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_lookup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeInfo(RESULT, Ownership.NONE);
+        return org.gtk.gio.FileAttributeInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * References a file attribute info list.
      * @return {@link FileAttributeInfoList} or {@code null} on error.
      */
-    public @NotNull org.gtk.gio.FileAttributeInfoList ref() {
+    public org.gtk.gio.FileAttributeInfoList ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_info_list_ref.invokeExact(
@@ -181,7 +177,7 @@ public class FileAttributeInfoList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeInfoList(RESULT, Ownership.FULL);
+        return org.gtk.gio.FileAttributeInfoList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -235,31 +231,35 @@ public class FileAttributeInfoList extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link FileAttributeInfoList.Builder} object constructs a {@link FileAttributeInfoList} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link FileAttributeInfoList.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private FileAttributeInfoList struct;
+        private final FileAttributeInfoList struct;
         
-         /**
-         * A {@link FileAttributeInfoList.Build} object constructs a {@link FileAttributeInfoList} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = FileAttributeInfoList.allocate();
         }
         
          /**
          * Finish building the {@link FileAttributeInfoList} struct.
          * @return A new instance of {@code FileAttributeInfoList} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FileAttributeInfoList construct() {
+        public FileAttributeInfoList build() {
             return struct;
         }
         
@@ -268,7 +268,7 @@ public class FileAttributeInfoList extends Struct {
          * @param infos The value for the {@code infos} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInfos(org.gtk.gio.FileAttributeInfo infos) {
+        public Builder setInfos(org.gtk.gio.FileAttributeInfo infos) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("infos"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (infos == null ? MemoryAddress.NULL : infos.handle()));
@@ -280,7 +280,7 @@ public class FileAttributeInfoList extends Struct {
          * @param nInfos The value for the {@code nInfos} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNInfos(int nInfos) {
+        public Builder setNInfos(int nInfos) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_infos"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nInfos);

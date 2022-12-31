@@ -25,18 +25,16 @@ public class RTCPBuffer extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTCPBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("buffer"),
-        org.gstreamer.gst.MapInfo.getMemoryLayout().withName("map")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("buffer"),
+            org.gstreamer.gst.MapInfo.getMemoryLayout().withName("map")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,30 +54,40 @@ public class RTCPBuffer extends Struct {
      * Get the value of the field {@code buffer}
      * @return The value of the field {@code buffer}
      */
-    public org.gstreamer.gst.Buffer buffer$get() {
+    public org.gstreamer.gst.Buffer getBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code buffer}
      * @param buffer The new value of the field {@code buffer}
      */
-    public void buffer$set(org.gstreamer.gst.Buffer buffer) {
+    public void setBuffer(org.gstreamer.gst.Buffer buffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), buffer.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
     }
     
     /**
      * Get the value of the field {@code map}
      * @return The value of the field {@code map}
      */
-    public org.gstreamer.gst.MapInfo map$get() {
+    public org.gstreamer.gst.MapInfo getMap() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("map"));
-        return new org.gstreamer.gst.MapInfo(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MapInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code map}
+     * @param map The new value of the field {@code map}
+     */
+    public void setMap(org.gstreamer.gst.MapInfo map) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("map"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : map.handle()));
     }
     
     /**
@@ -87,10 +95,12 @@ public class RTCPBuffer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTCPBuffer(Addressable address, Ownership ownership) {
+    protected RTCPBuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTCPBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTCPBuffer(input, ownership);
     
     /**
      * Add a new packet of {@code type} to {@code rtcp}. {@code packet} will point to the newly created
@@ -100,9 +110,7 @@ public class RTCPBuffer extends Struct {
      * @return {@code true} if the packet could be created. This function returns {@code false}
      * if the max mtu is exceeded for the buffer.
      */
-    public boolean addPacket(@NotNull org.gstreamer.rtp.RTCPType type, @NotNull org.gstreamer.rtp.RTCPPacket packet) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(packet, "Parameter 'packet' must not be null");
+    public boolean addPacket(org.gstreamer.rtp.RTCPType type, org.gstreamer.rtp.RTCPPacket packet) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_add_packet.invokeExact(
@@ -112,7 +120,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -121,8 +129,7 @@ public class RTCPBuffer extends Struct {
      * @param packet a {@link RTCPPacket}
      * @return TRUE if the packet existed in {@code rtcp}.
      */
-    public boolean getFirstPacket(@NotNull org.gstreamer.rtp.RTCPPacket packet) {
-        java.util.Objects.requireNonNull(packet, "Parameter 'packet' must not be null");
+    public boolean getFirstPacket(org.gstreamer.rtp.RTCPPacket packet) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_get_first_packet.invokeExact(
@@ -131,7 +138,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -164,7 +171,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -174,10 +181,7 @@ public class RTCPBuffer extends Struct {
      * @param flags flags for the mapping
      * @param rtcp resulting {@link RTCPBuffer}
      */
-    public static boolean map(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.MapFlags flags, @NotNull org.gstreamer.rtp.RTCPBuffer rtcp) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(rtcp, "Parameter 'rtcp' must not be null");
+    public static boolean map(org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.MapFlags flags, org.gstreamer.rtp.RTCPBuffer rtcp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_map.invokeExact(
@@ -187,7 +191,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -196,7 +200,7 @@ public class RTCPBuffer extends Struct {
      * @param mtu the maximum mtu size.
      * @return A newly allocated buffer.
      */
-    public static @NotNull org.gstreamer.gst.Buffer new_(int mtu) {
+    public static org.gstreamer.gst.Buffer new_(int mtu) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new.invokeExact(
@@ -204,7 +208,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -215,8 +219,7 @@ public class RTCPBuffer extends Struct {
      * @param len the length of data
      * @return A newly allocated buffer with a copy of {@code data} and of size {@code len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer newCopyData(@NotNull byte[] data, int len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.gst.Buffer newCopyData(byte[] data, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new_copy_data.invokeExact(
@@ -225,7 +228,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -236,8 +239,7 @@ public class RTCPBuffer extends Struct {
      * @param len the length of data
      * @return A newly allocated buffer with {@code data} and of size {@code len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer newTakeData(@NotNull byte[] data, int len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.gst.Buffer newTakeData(byte[] data, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new_take_data.invokeExact(
@@ -246,7 +248,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -255,8 +257,7 @@ public class RTCPBuffer extends Struct {
      * @param buffer the buffer to validate
      * @return TRUE if {@code buffer} is a valid RTCP packet.
      */
-    public static boolean validate(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static boolean validate(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate.invokeExact(
@@ -264,7 +265,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -276,8 +277,7 @@ public class RTCPBuffer extends Struct {
      * @param len the length of {@code data} to validate
      * @return TRUE if the data points to a valid RTCP packet.
      */
-    public static boolean validateData(@NotNull byte[] data, int len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static boolean validateData(byte[] data, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_data.invokeExact(
@@ -286,7 +286,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -301,8 +301,7 @@ public class RTCPBuffer extends Struct {
      * @param len the length of {@code data} to validate
      * @return TRUE if the data points to a valid RTCP packet.
      */
-    public static boolean validateDataReduced(@NotNull byte[] data, int len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static boolean validateDataReduced(byte[] data, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_data_reduced.invokeExact(
@@ -311,7 +310,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -320,8 +319,7 @@ public class RTCPBuffer extends Struct {
      * @param buffer the buffer to validate
      * @return TRUE if {@code buffer} is a valid RTCP packet.
      */
-    public static boolean validateReduced(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static boolean validateReduced(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_reduced.invokeExact(
@@ -329,7 +327,7 @@ public class RTCPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -406,42 +404,46 @@ public class RTCPBuffer extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RTCPBuffer.Builder} object constructs a {@link RTCPBuffer} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RTCPBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RTCPBuffer struct;
+        private final RTCPBuffer struct;
         
-         /**
-         * A {@link RTCPBuffer.Build} object constructs a {@link RTCPBuffer} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RTCPBuffer.allocate();
         }
         
          /**
          * Finish building the {@link RTCPBuffer} struct.
          * @return A new instance of {@code RTCPBuffer} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTCPBuffer construct() {
+        public RTCPBuffer build() {
             return struct;
         }
         
-        public Build setBuffer(org.gstreamer.gst.Buffer buffer) {
+        public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
             return this;
         }
         
-        public Build setMap(org.gstreamer.gst.MapInfo map) {
+        public Builder setMap(org.gstreamer.gst.MapInfo map) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : map.handle()));

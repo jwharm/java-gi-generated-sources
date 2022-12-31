@@ -45,40 +45,26 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * <p>
      * Because FontButton is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FontButton(Addressable address, Ownership ownership) {
+    protected FontButton(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to FontButton if its GType is a (or inherits from) "GtkFontButton".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FontButton} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkFontButton", a ClassCastException will be thrown.
-     */
-    public static FontButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontButton.getType())) {
-            return new FontButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFontButton");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FontButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontButton(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_font_button_new.invokeExact();
         } catch (Throwable ERR) {
@@ -94,12 +80,11 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithFont(@NotNull java.lang.String fontname) {
-        java.util.Objects.requireNonNull(fontname, "Parameter 'fontname' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithFont(java.lang.String fontname) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_font_button_new_with_font.invokeExact(
-                    Interop.allocateNativeString(fontname));
+                    Marshal.stringToAddress.marshal(fontname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -111,8 +96,9 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param fontname Name of font to display in font chooser dialog
      * @return a new font picker widget.
      */
-    public static FontButton newWithFont(@NotNull java.lang.String fontname) {
-        return new FontButton(constructNewWithFont(fontname), Ownership.NONE);
+    public static FontButton newWithFont(java.lang.String fontname) {
+        var RESULT = constructNewWithFont(fontname);
+        return (org.gtk.gtk.FontButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.FontButton.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -127,7 +113,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -135,7 +121,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @return an internal copy of the title string
      *   which must not be freed.
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_font_button_get_title.invokeExact(
@@ -143,7 +129,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -158,7 +144,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -173,7 +159,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -184,7 +170,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_font_button_set_modal.invokeExact(
                     handle(),
-                    modal ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(modal, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -194,12 +180,11 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Sets the title for the font chooser dialog.
      * @param title a string containing the font chooser dialog title
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.gtk_font_button_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -214,7 +199,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_font_button_set_use_font.invokeExact(
                     handle(),
-                    useFont ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useFont, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +215,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_font_button_set_use_size.invokeExact(
                     handle(),
-                    useSize ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useSize, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +225,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_font_button_get_type.invokeExact();
@@ -252,7 +237,18 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(FontButton sourceFontButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceFontButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -266,16 +262,8 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public Signal<FontButton.Activate> onActivate(FontButton.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FontButton.Callbacks.class, "signalFontButtonActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<FontButton.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,7 +271,18 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface FontSet {
-        void signalReceived(FontButton sourceFontButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceFontButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FontSet.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -301,52 +300,46 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public Signal<FontButton.FontSet> onFontSet(FontButton.FontSet handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("font-set"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FontButton.Callbacks.class, "signalFontButtonFontSet",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<FontButton.FontSet>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("font-set"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link FontButton.Builder} object constructs a {@link FontButton} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FontButton.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link FontButton.Build} object constructs a {@link FontButton} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FontButton} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FontButton} using {@link FontButton#castFrom}.
+         * {@link FontButton}.
          * @return A new instance of {@code FontButton} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FontButton construct() {
-            return FontButton.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FontButton.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FontButton build() {
+            return (FontButton) org.gtk.gobject.GObject.newWithProperties(
+                FontButton.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -355,7 +348,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param modal The value for the {@code modal} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModal(boolean modal) {
+        public Builder setModal(boolean modal) {
             names.add("modal");
             values.add(org.gtk.gobject.Value.create(modal));
             return this;
@@ -366,7 +359,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -377,7 +370,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param useFont The value for the {@code use-font} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseFont(boolean useFont) {
+        public Builder setUseFont(boolean useFont) {
             names.add("use-font");
             values.add(org.gtk.gobject.Value.create(useFont));
             return this;
@@ -388,7 +381,7 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param useSize The value for the {@code use-size} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseSize(boolean useSize) {
+        public Builder setUseSize(boolean useSize) {
             names.add("use-size");
             values.add(org.gtk.gobject.Value.create(useSize));
             return this;
@@ -462,20 +455,5 @@ public class FontButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalFontButtonActivate(MemoryAddress sourceFontButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FontButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FontButton(sourceFontButton, Ownership.NONE));
-        }
-        
-        public static void signalFontButtonFontSet(MemoryAddress sourceFontButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FontButton.FontSet) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FontButton(sourceFontButton, Ownership.NONE));
-        }
     }
 }

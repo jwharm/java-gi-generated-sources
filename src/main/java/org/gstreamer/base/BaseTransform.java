@@ -114,25 +114,23 @@ public class BaseTransform extends org.gstreamer.gst.Element {
     
     private static final java.lang.String C_TYPE_NAME = "GstBaseTransform";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
-        Interop.valueLayout.ADDRESS.withName("sinkpad"),
-        Interop.valueLayout.ADDRESS.withName("srcpad"),
-        Interop.valueLayout.C_INT.withName("have_segment"),
-        MemoryLayout.paddingLayout(32),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
-        Interop.valueLayout.ADDRESS.withName("queued_buf"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(19, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
+            Interop.valueLayout.ADDRESS.withName("sinkpad"),
+            Interop.valueLayout.ADDRESS.withName("srcpad"),
+            Interop.valueLayout.C_INT.withName("have_segment"),
+            MemoryLayout.paddingLayout(32),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
+            Interop.valueLayout.ADDRESS.withName("queued_buf"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(19, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -140,37 +138,23 @@ public class BaseTransform extends org.gstreamer.gst.Element {
      * <p>
      * Because BaseTransform is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BaseTransform(Addressable address, Ownership ownership) {
+    protected BaseTransform(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to BaseTransform if its GType is a (or inherits from) "GstBaseTransform".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BaseTransform} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstBaseTransform", a ClassCastException will be thrown.
-     */
-    public static BaseTransform castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BaseTransform.getType())) {
-            return new BaseTransform(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstBaseTransform");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BaseTransform> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseTransform(input, ownership);
     
     /**
      * Lets {@link BaseTransform} sub-classes know the memory {@code allocator}
@@ -181,18 +165,17 @@ public class BaseTransform extends org.gstreamer.gst.Element {
      * used
      * @param params the {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
-    public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @NotNull org.gstreamer.gst.AllocationParams params) {
+    public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
         MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         try {
             DowncallHandles.gst_base_transform_get_allocator.invokeExact(
                     handle(),
                     (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    params.handle());
+                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (allocator != null) allocator.set(new org.gstreamer.gst.Allocator(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     public @Nullable org.gstreamer.gst.BufferPool getBufferPool() {
@@ -203,7 +186,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.BufferPool(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -220,7 +203,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -237,7 +220,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -254,7 +237,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -282,7 +265,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -328,7 +311,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_transform_set_gap_aware.invokeExact(
                     handle(),
-                    gapAware ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(gapAware, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -349,7 +332,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_transform_set_in_place.invokeExact(
                     handle(),
-                    inPlace ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(inPlace, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -369,7 +352,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_transform_set_passthrough.invokeExact(
                     handle(),
-                    passthrough ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(passthrough, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -393,7 +376,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_transform_set_prefer_passthrough.invokeExact(
                     handle(),
-                    preferPassthrough ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(preferPassthrough, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -409,7 +392,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_transform_set_qos_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -426,9 +409,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
      * @param timestamp the timestamp of the buffer generating the QoS expressed in
      * running_time.
      */
-    public void updateQos(double proportion, @NotNull org.gstreamer.gst.ClockTimeDiff diff, @NotNull org.gstreamer.gst.ClockTime timestamp) {
-        java.util.Objects.requireNonNull(diff, "Parameter 'diff' must not be null");
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
+    public void updateQos(double proportion, org.gstreamer.gst.ClockTimeDiff diff, org.gstreamer.gst.ClockTime timestamp) {
         try {
             DowncallHandles.gst_base_transform_update_qos.invokeExact(
                     handle(),
@@ -450,8 +431,7 @@ public class BaseTransform extends org.gstreamer.gst.Element {
      * downstream
      * @return {@code true} if the caps could be sent downstream {@code false} otherwise
      */
-    public boolean updateSrcCaps(@NotNull org.gstreamer.gst.Caps updatedCaps) {
-        java.util.Objects.requireNonNull(updatedCaps, "Parameter 'updatedCaps' must not be null");
+    public boolean updateSrcCaps(org.gstreamer.gst.Caps updatedCaps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_transform_update_src_caps.invokeExact(
@@ -460,14 +440,14 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_base_transform_get_type.invokeExact();
@@ -476,42 +456,44 @@ public class BaseTransform extends org.gstreamer.gst.Element {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BaseTransform.Builder} object constructs a {@link BaseTransform} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BaseTransform.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Element.Build {
+    public static class Builder extends org.gstreamer.gst.Element.Builder {
         
-         /**
-         * A {@link BaseTransform.Build} object constructs a {@link BaseTransform} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BaseTransform} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BaseTransform} using {@link BaseTransform#castFrom}.
+         * {@link BaseTransform}.
          * @return A new instance of {@code BaseTransform} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BaseTransform construct() {
-            return BaseTransform.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BaseTransform.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BaseTransform build() {
+            return (BaseTransform) org.gtk.gobject.GObject.newWithProperties(
+                BaseTransform.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setQos(boolean qos) {
+        public Builder setQos(boolean qos) {
             names.add("qos");
             values.add(org.gtk.gobject.Value.create(qos));
             return this;

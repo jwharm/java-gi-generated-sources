@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface SourceDisposeFunc {
-        void onSourceDisposeFunc(@NotNull org.gtk.glib.Source source);
+    void run(org.gtk.glib.Source source);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress source) {
+        run(org.gtk.glib.Source.fromAddress.marshal(source, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SourceDisposeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

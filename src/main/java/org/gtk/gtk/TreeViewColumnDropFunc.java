@@ -17,5 +17,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeViewColumnDropFunc {
-        boolean onTreeViewColumnDropFunc(@NotNull org.gtk.gtk.TreeView treeView, @NotNull org.gtk.gtk.TreeViewColumn column, @NotNull org.gtk.gtk.TreeViewColumn prevColumn, @NotNull org.gtk.gtk.TreeViewColumn nextColumn);
+    boolean run(org.gtk.gtk.TreeView treeView, org.gtk.gtk.TreeViewColumn column, org.gtk.gtk.TreeViewColumn prevColumn, org.gtk.gtk.TreeViewColumn nextColumn);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress treeView, MemoryAddress column, MemoryAddress prevColumn, MemoryAddress nextColumn, MemoryAddress data) {
+        var RESULT = run((org.gtk.gtk.TreeView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(treeView)), org.gtk.gtk.TreeView.fromAddress).marshal(treeView, Ownership.NONE), (org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(column)), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(column, Ownership.NONE), (org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(prevColumn)), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(prevColumn, Ownership.NONE), (org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(nextColumn)), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(nextColumn, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TreeViewColumnDropFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

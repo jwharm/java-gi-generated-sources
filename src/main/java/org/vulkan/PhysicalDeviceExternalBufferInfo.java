@@ -40,8 +40,10 @@ public class PhysicalDeviceExternalBufferInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceExternalBufferInfo(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceExternalBufferInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceExternalBufferInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceExternalBufferInfo(input, ownership);
 }

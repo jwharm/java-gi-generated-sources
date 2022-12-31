@@ -26,20 +26,18 @@ public class ReferenceTimestampMeta extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstReferenceTimestampMeta";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Meta.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("reference"),
-        Interop.valueLayout.C_LONG.withName("timestamp"),
-        Interop.valueLayout.C_LONG.withName("duration")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Meta.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("reference"),
+            Interop.valueLayout.C_LONG.withName("timestamp"),
+            Interop.valueLayout.C_LONG.withName("duration")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -59,37 +57,47 @@ public class ReferenceTimestampMeta extends Struct {
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gstreamer.gst.Meta parent$get() {
+    public org.gstreamer.gst.Meta getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gstreamer.gst.Meta(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent}
+     * @param parent The new value of the field {@code parent}
+     */
+    public void setParent(org.gstreamer.gst.Meta parent) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
      * Get the value of the field {@code reference}
      * @return The value of the field {@code reference}
      */
-    public org.gstreamer.gst.Caps reference$get() {
+    public org.gstreamer.gst.Caps getReference() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("reference"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code reference}
      * @param reference The new value of the field {@code reference}
      */
-    public void reference$set(org.gstreamer.gst.Caps reference) {
+    public void setReference(org.gstreamer.gst.Caps reference) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("reference"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), reference.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reference == null ? MemoryAddress.NULL : reference.handle()));
     }
     
     /**
      * Get the value of the field {@code timestamp}
      * @return The value of the field {@code timestamp}
      */
-    public org.gstreamer.gst.ClockTime timestamp$get() {
+    public org.gstreamer.gst.ClockTime getTimestamp() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -100,17 +108,17 @@ public class ReferenceTimestampMeta extends Struct {
      * Change the value of the field {@code timestamp}
      * @param timestamp The new value of the field {@code timestamp}
      */
-    public void timestamp$set(org.gstreamer.gst.ClockTime timestamp) {
+    public void setTimestamp(org.gstreamer.gst.ClockTime timestamp) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), timestamp.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code duration}
      * @return The value of the field {@code duration}
      */
-    public org.gstreamer.gst.ClockTime duration$get() {
+    public org.gstreamer.gst.ClockTime getDuration() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -121,10 +129,10 @@ public class ReferenceTimestampMeta extends Struct {
      * Change the value of the field {@code duration}
      * @param duration The new value of the field {@code duration}
      */
-    public void duration$set(org.gstreamer.gst.ClockTime duration) {
+    public void setDuration(org.gstreamer.gst.ClockTime duration) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
     }
     
     /**
@@ -132,23 +140,25 @@ public class ReferenceTimestampMeta extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ReferenceTimestampMeta(Addressable address, Ownership ownership) {
+    protected ReferenceTimestampMeta(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ReferenceTimestampMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ReferenceTimestampMeta(input, ownership);
     
     /**
      * Gets the global {@link MetaInfo} describing the {@link ReferenceTimestampMeta} meta.
      * @return The {@link MetaInfo}
      */
-    public static @NotNull org.gstreamer.gst.MetaInfo getInfo() {
+    public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_reference_timestamp_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -159,31 +169,35 @@ public class ReferenceTimestampMeta extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link ReferenceTimestampMeta.Builder} object constructs a {@link ReferenceTimestampMeta} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ReferenceTimestampMeta.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ReferenceTimestampMeta struct;
+        private final ReferenceTimestampMeta struct;
         
-         /**
-         * A {@link ReferenceTimestampMeta.Build} object constructs a {@link ReferenceTimestampMeta} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ReferenceTimestampMeta.allocate();
         }
         
          /**
          * Finish building the {@link ReferenceTimestampMeta} struct.
          * @return A new instance of {@code ReferenceTimestampMeta} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ReferenceTimestampMeta construct() {
+        public ReferenceTimestampMeta build() {
             return struct;
         }
         
@@ -192,7 +206,7 @@ public class ReferenceTimestampMeta extends Struct {
          * @param parent The value for the {@code parent} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gstreamer.gst.Meta parent) {
+        public Builder setParent(org.gstreamer.gst.Meta parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -204,7 +218,7 @@ public class ReferenceTimestampMeta extends Struct {
          * @param reference The value for the {@code reference} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReference(org.gstreamer.gst.Caps reference) {
+        public Builder setReference(org.gstreamer.gst.Caps reference) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("reference"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reference == null ? MemoryAddress.NULL : reference.handle()));
@@ -216,7 +230,7 @@ public class ReferenceTimestampMeta extends Struct {
          * @param timestamp The value for the {@code timestamp} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTimestamp(org.gstreamer.gst.ClockTime timestamp) {
+        public Builder setTimestamp(org.gstreamer.gst.ClockTime timestamp) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (timestamp == null ? MemoryAddress.NULL : timestamp.getValue().longValue()));
@@ -228,7 +242,7 @@ public class ReferenceTimestampMeta extends Struct {
          * @param duration The value for the {@code duration} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDuration(org.gstreamer.gst.ClockTime duration) {
+        public Builder setDuration(org.gstreamer.gst.ClockTime duration) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("duration"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));

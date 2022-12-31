@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleFillVtableFunc {
-        void onPixbufModuleFillVtableFunc(@NotNull org.gtk.gdkpixbuf.PixbufModule module);
+    void run(org.gtk.gdkpixbuf.PixbufModule module);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress module) {
+        run(org.gtk.gdkpixbuf.PixbufModule.fromAddress.marshal(module, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PixbufModuleFillVtableFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

@@ -40,8 +40,10 @@ public class PrintOperationPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PrintOperationPrivate(Addressable address, Ownership ownership) {
+    protected PrintOperationPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PrintOperationPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintOperationPrivate(input, ownership);
 }

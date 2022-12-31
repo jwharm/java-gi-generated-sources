@@ -62,40 +62,26 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * <p>
      * Because GridView is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GridView(Addressable address, Ownership ownership) {
+    protected GridView(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GridView if its GType is a (or inherits from) "GtkGridView".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GridView} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkGridView", a ClassCastException will be thrown.
-     */
-    public static GridView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GridView.getType())) {
-            return new GridView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGridView");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GridView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GridView(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.SelectionModel model, @Nullable org.gtk.gtk.ListItemFactory factory) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_grid_view_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()),
@@ -137,7 +123,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -152,7 +138,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ListItemFactory(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListItemFactory.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -197,7 +183,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -213,7 +199,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -224,7 +210,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_grid_view_set_enable_rubberband.invokeExact(
                     handle(),
-                    enableRubberband ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enableRubberband, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,7 +293,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_grid_view_set_single_click_activate.invokeExact(
                     handle(),
-                    singleClickActivate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(singleClickActivate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -317,7 +303,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_grid_view_get_type.invokeExact();
@@ -329,7 +315,18 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(GridView sourceGridView, int position);
+        void run(int position);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceGridView, int position) {
+            run(position);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -345,52 +342,46 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
     public Signal<GridView.Activate> onActivate(GridView.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GridView.Callbacks.class, "signalGridViewActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<GridView.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link GridView.Builder} object constructs a {@link GridView} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GridView.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.ListBase.Build {
+    public static class Builder extends org.gtk.gtk.ListBase.Builder {
         
-         /**
-         * A {@link GridView.Build} object constructs a {@link GridView} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GridView} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GridView} using {@link GridView#castFrom}.
+         * {@link GridView}.
          * @return A new instance of {@code GridView} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GridView construct() {
-            return GridView.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GridView.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GridView build() {
+            return (GridView) org.gtk.gobject.GObject.newWithProperties(
+                GridView.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -399,7 +390,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
          * @param enableRubberband The value for the {@code enable-rubberband} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnableRubberband(boolean enableRubberband) {
+        public Builder setEnableRubberband(boolean enableRubberband) {
             names.add("enable-rubberband");
             values.add(org.gtk.gobject.Value.create(enableRubberband));
             return this;
@@ -410,7 +401,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
          * @param factory The value for the {@code factory} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFactory(org.gtk.gtk.ListItemFactory factory) {
+        public Builder setFactory(org.gtk.gtk.ListItemFactory factory) {
             names.add("factory");
             values.add(org.gtk.gobject.Value.create(factory));
             return this;
@@ -424,7 +415,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
          * @param maxColumns The value for the {@code max-columns} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxColumns(int maxColumns) {
+        public Builder setMaxColumns(int maxColumns) {
             names.add("max-columns");
             values.add(org.gtk.gobject.Value.create(maxColumns));
             return this;
@@ -435,7 +426,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
          * @param minColumns The value for the {@code min-columns} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinColumns(int minColumns) {
+        public Builder setMinColumns(int minColumns) {
             names.add("min-columns");
             values.add(org.gtk.gobject.Value.create(minColumns));
             return this;
@@ -446,7 +437,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gtk.SelectionModel model) {
+        public Builder setModel(org.gtk.gtk.SelectionModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -457,7 +448,7 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
          * @param singleClickActivate The value for the {@code single-click-activate} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSingleClickActivate(boolean singleClickActivate) {
+        public Builder setSingleClickActivate(boolean singleClickActivate) {
             names.add("single-click-activate");
             values.add(org.gtk.gobject.Value.create(singleClickActivate));
             return this;
@@ -549,14 +540,5 @@ public class GridView extends org.gtk.gtk.ListBase implements org.gtk.gtk.Access
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalGridViewActivate(MemoryAddress sourceGridView, int position, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GridView.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GridView(sourceGridView, Ownership.NONE), position);
-        }
     }
 }

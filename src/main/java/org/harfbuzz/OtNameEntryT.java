@@ -17,20 +17,18 @@ public class OtNameEntryT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "hb_ot_name_entry_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("name_id"),
-        MemoryLayout.paddingLayout(32),
-        org.harfbuzz.VarIntT.getMemoryLayout().withName("var"),
-        org.harfbuzz.LanguageT.getMemoryLayout().withName("language")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("name_id"),
+            MemoryLayout.paddingLayout(32),
+            org.harfbuzz.VarIntT.getMemoryLayout().withName("var"),
+            org.harfbuzz.LanguageT.getMemoryLayout().withName("language")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class OtNameEntryT extends Struct {
      * Get the value of the field {@code name_id}
      * @return The value of the field {@code name_id}
      */
-    public org.harfbuzz.OtNameIdT nameId$get() {
+    public org.harfbuzz.OtNameIdT getNameId() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -61,10 +59,10 @@ public class OtNameEntryT extends Struct {
      * Change the value of the field {@code name_id}
      * @param nameId The new value of the field {@code name_id}
      */
-    public void nameId$set(org.harfbuzz.OtNameIdT nameId) {
+    public void setNameId(org.harfbuzz.OtNameIdT nameId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nameId.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameId == null ? MemoryAddress.NULL : nameId.getValue().intValue()));
     }
     
     /**
@@ -72,35 +70,41 @@ public class OtNameEntryT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public OtNameEntryT(Addressable address, Ownership ownership) {
+    protected OtNameEntryT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, OtNameEntryT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OtNameEntryT(input, ownership);
+    
+    /**
+     * A {@link OtNameEntryT.Builder} object constructs a {@link OtNameEntryT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link OtNameEntryT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private OtNameEntryT struct;
+        private final OtNameEntryT struct;
         
-         /**
-         * A {@link OtNameEntryT.Build} object constructs a {@link OtNameEntryT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = OtNameEntryT.allocate();
         }
         
          /**
          * Finish building the {@link OtNameEntryT} struct.
          * @return A new instance of {@code OtNameEntryT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public OtNameEntryT construct() {
+        public OtNameEntryT build() {
             return struct;
         }
         
@@ -109,14 +113,14 @@ public class OtNameEntryT extends Struct {
          * @param nameId The value for the {@code nameId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNameId(org.harfbuzz.OtNameIdT nameId) {
+        public Builder setNameId(org.harfbuzz.OtNameIdT nameId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nameId == null ? MemoryAddress.NULL : nameId.getValue().intValue()));
             return this;
         }
         
-        public Build setVar(org.harfbuzz.VarIntT var) {
+        public Builder setVar(org.harfbuzz.VarIntT var) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("var"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (var == null ? MemoryAddress.NULL : var.handle()));
@@ -128,7 +132,7 @@ public class OtNameEntryT extends Struct {
          * @param language The value for the {@code language} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLanguage(org.harfbuzz.LanguageT language) {
+        public Builder setLanguage(org.harfbuzz.LanguageT language) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("language"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (language == null ? MemoryAddress.NULL : language.handle()));

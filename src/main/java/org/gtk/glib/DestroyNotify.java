@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface DestroyNotify {
-        void onDestroyNotify();
+    void run();
+
+    @ApiStatus.Internal default void upcall(MemoryAddress data) {
+        run();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DestroyNotify.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

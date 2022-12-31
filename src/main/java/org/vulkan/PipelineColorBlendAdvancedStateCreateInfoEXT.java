@@ -40,8 +40,10 @@ public class PipelineColorBlendAdvancedStateCreateInfoEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PipelineColorBlendAdvancedStateCreateInfoEXT(Addressable address, Ownership ownership) {
+    protected PipelineColorBlendAdvancedStateCreateInfoEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PipelineColorBlendAdvancedStateCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineColorBlendAdvancedStateCreateInfoEXT(input, ownership);
 }

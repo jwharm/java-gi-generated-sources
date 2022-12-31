@@ -61,11 +61,15 @@ public class DBusProxyFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusProxyFlags or(DBusProxyFlags mask) {
-        return new DBusProxyFlags(this.getValue() | mask.getValue());
+    public DBusProxyFlags or(DBusProxyFlags... masks) {
+        int value = this.getValue();
+        for (DBusProxyFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DBusProxyFlags(value);
     }
     
     /**
@@ -75,7 +79,8 @@ public class DBusProxyFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusProxyFlags combined(DBusProxyFlags mask, DBusProxyFlags... masks) {
-        int value = mask.getValue();        for (DBusProxyFlags arg : masks) {
+        int value = mask.getValue();
+        for (DBusProxyFlags arg : masks) {
             value |= arg.getValue();
         }
         return new DBusProxyFlags(value);

@@ -26,22 +26,20 @@ public class Date extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GDate";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("julian_days"),
-        Interop.valueLayout.C_INT.withName("julian"),
-        Interop.valueLayout.C_INT.withName("dmy"),
-        Interop.valueLayout.C_INT.withName("day"),
-        Interop.valueLayout.C_INT.withName("month"),
-        Interop.valueLayout.C_INT.withName("year")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("julian_days"),
+            Interop.valueLayout.C_INT.withName("julian"),
+            Interop.valueLayout.C_INT.withName("dmy"),
+            Interop.valueLayout.C_INT.withName("day"),
+            Interop.valueLayout.C_INT.withName("month"),
+            Interop.valueLayout.C_INT.withName("year")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -61,7 +59,7 @@ public class Date extends Struct {
      * Get the value of the field {@code julian_days}
      * @return The value of the field {@code julian_days}
      */
-    public int julianDays$get() {
+    public int getJulianDays() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -72,7 +70,7 @@ public class Date extends Struct {
      * Change the value of the field {@code julian_days}
      * @param julianDays The new value of the field {@code julian_days}
      */
-    public void julianDays$set(int julianDays) {
+    public void setJulianDays(int julianDays) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), julianDays);
@@ -82,7 +80,7 @@ public class Date extends Struct {
      * Get the value of the field {@code julian}
      * @return The value of the field {@code julian}
      */
-    public int julian$get() {
+    public int getJulian_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("julian"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -93,7 +91,7 @@ public class Date extends Struct {
      * Change the value of the field {@code julian}
      * @param julian The new value of the field {@code julian}
      */
-    public void julian$set(int julian) {
+    public void setJulian_(int julian) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("julian"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian);
@@ -103,7 +101,7 @@ public class Date extends Struct {
      * Get the value of the field {@code dmy}
      * @return The value of the field {@code dmy}
      */
-    public int dmy$get() {
+    public int getDmy() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -114,7 +112,7 @@ public class Date extends Struct {
      * Change the value of the field {@code dmy}
      * @param dmy The new value of the field {@code dmy}
      */
-    public void dmy$set(int dmy) {
+    public void setDmy_(int dmy) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dmy);
@@ -124,7 +122,7 @@ public class Date extends Struct {
      * Get the value of the field {@code day}
      * @return The value of the field {@code day}
      */
-    public int day$get() {
+    public int getDay_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("day"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -135,7 +133,7 @@ public class Date extends Struct {
      * Change the value of the field {@code day}
      * @param day The new value of the field {@code day}
      */
-    public void day$set(int day) {
+    public void setDay_(int day) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("day"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);
@@ -145,7 +143,7 @@ public class Date extends Struct {
      * Get the value of the field {@code month}
      * @return The value of the field {@code month}
      */
-    public int month$get() {
+    public int getMonth_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("month"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -156,7 +154,7 @@ public class Date extends Struct {
      * Change the value of the field {@code month}
      * @param month The new value of the field {@code month}
      */
-    public void month$set(int month) {
+    public void setMonth_(int month) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("month"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
@@ -166,7 +164,7 @@ public class Date extends Struct {
      * Get the value of the field {@code year}
      * @return The value of the field {@code year}
      */
-    public int year$get() {
+    public int getYear_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("year"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -177,7 +175,7 @@ public class Date extends Struct {
      * Change the value of the field {@code year}
      * @param year The new value of the field {@code year}
      */
-    public void year$set(int year) {
+    public void setYear_(int year) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("year"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);
@@ -188,13 +186,15 @@ public class Date extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Date(Addressable address, Ownership ownership) {
+    protected Date(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Date> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Date(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_new.invokeExact();
         } catch (Throwable ERR) {
@@ -213,11 +213,8 @@ public class Date extends Struct {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewDmy(@NotNull org.gtk.glib.DateDay day, @NotNull org.gtk.glib.DateMonth month, @NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewDmy(org.gtk.glib.DateDay day, org.gtk.glib.DateMonth month, org.gtk.glib.DateYear year) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_new_dmy.invokeExact(
                     day.getValue().byteValue(),
@@ -241,12 +238,13 @@ public class Date extends Struct {
      * @return a newly-allocated {@link Date}
      *   initialized with {@code day}, {@code month}, and {@code year}
      */
-    public static Date newDmy(@NotNull org.gtk.glib.DateDay day, @NotNull org.gtk.glib.DateMonth month, @NotNull org.gtk.glib.DateYear year) {
-        return new Date(constructNewDmy(day, month, year), Ownership.FULL);
+    public static Date newDmy(org.gtk.glib.DateDay day, org.gtk.glib.DateMonth month, org.gtk.glib.DateYear year) {
+        var RESULT = constructNewDmy(day, month, year);
+        return org.gtk.glib.Date.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewJulian(int julianDay) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewJulian(int julianDay) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_new_julian.invokeExact(
                     julianDay);
@@ -267,7 +265,8 @@ public class Date extends Struct {
      *   with {@code julian_day}
      */
     public static Date newJulian(int julianDay) {
-        return new Date(constructNewJulian(julianDay), Ownership.FULL);
+        var RESULT = constructNewJulian(julianDay);
+        return org.gtk.glib.Date.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -330,9 +329,7 @@ public class Date extends Struct {
      * @param minDate minimum accepted value for {@code date}
      * @param maxDate maximum accepted value for {@code date}
      */
-    public void clamp(@NotNull org.gtk.glib.Date minDate, @NotNull org.gtk.glib.Date maxDate) {
-        java.util.Objects.requireNonNull(minDate, "Parameter 'minDate' must not be null");
-        java.util.Objects.requireNonNull(maxDate, "Parameter 'maxDate' must not be null");
+    public void clamp(org.gtk.glib.Date minDate, org.gtk.glib.Date maxDate) {
         try {
             DowncallHandles.g_date_clamp.invokeExact(
                     handle(),
@@ -367,8 +364,7 @@ public class Date extends Struct {
      * @return 0 for equal, less than zero if {@code lhs} is less than {@code rhs},
      *     greater than zero if {@code lhs} is greater than {@code rhs}
      */
-    public int compare(@NotNull org.gtk.glib.Date rhs) {
-        java.util.Objects.requireNonNull(rhs, "Parameter 'rhs' must not be null");
+    public int compare(org.gtk.glib.Date rhs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_compare.invokeExact(
@@ -386,7 +382,7 @@ public class Date extends Struct {
      * as is into the new object.
      * @return a newly-allocated {@link Date} initialized from {@code date}
      */
-    public @NotNull org.gtk.glib.Date copy() {
+    public org.gtk.glib.Date copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_copy.invokeExact(
@@ -394,7 +390,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Date(RESULT, Ownership.FULL);
+        return org.gtk.glib.Date.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -404,8 +400,7 @@ public class Date extends Struct {
      * @param date2 the second date
      * @return the number of days between {@code date1} and {@code date2}
      */
-    public int daysBetween(@NotNull org.gtk.glib.Date date2) {
-        java.util.Objects.requireNonNull(date2, "Parameter 'date2' must not be null");
+    public int daysBetween(org.gtk.glib.Date date2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_days_between.invokeExact(
@@ -433,7 +428,7 @@ public class Date extends Struct {
      * Returns the day of the month. The date must be valid.
      * @return day of the month
      */
-    public @NotNull org.gtk.glib.DateDay getDay() {
+    public org.gtk.glib.DateDay getDay() {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.g_date_get_day.invokeExact(
@@ -515,7 +510,7 @@ public class Date extends Struct {
      * Returns the month of the year. The date must be valid.
      * @return month of the year as a {@link DateMonth}
      */
-    public @NotNull org.gtk.glib.DateMonth getMonth() {
+    public org.gtk.glib.DateMonth getMonth() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_get_month.invokeExact(
@@ -547,7 +542,7 @@ public class Date extends Struct {
      * Returns the day of the week for a {@link Date}. The date must be valid.
      * @return day of the week as a {@link DateWeekday}.
      */
-    public @NotNull org.gtk.glib.DateWeekday getWeekday() {
+    public org.gtk.glib.DateWeekday getWeekday() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_get_weekday.invokeExact(
@@ -562,7 +557,7 @@ public class Date extends Struct {
      * Returns the year of a {@link Date}. The date must be valid.
      * @return year in which the date falls
      */
-    public @NotNull org.gtk.glib.DateYear getYear() {
+    public org.gtk.glib.DateYear getYear() {
         short RESULT;
         try {
             RESULT = (short) DowncallHandles.g_date_get_year.invokeExact(
@@ -586,7 +581,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -602,7 +597,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -610,8 +605,7 @@ public class Date extends Struct {
      * and swap the values if this is not the case.
      * @param date2 the second date
      */
-    public void order(@NotNull org.gtk.glib.Date date2) {
-        java.util.Objects.requireNonNull(date2, "Parameter 'date2' must not be null");
+    public void order(org.gtk.glib.Date date2) {
         try {
             DowncallHandles.g_date_order.invokeExact(
                     handle(),
@@ -626,8 +620,7 @@ public class Date extends Struct {
      * day-month-year triplet is invalid, the date will be invalid.
      * @param day day to set
      */
-    public void setDay(@NotNull org.gtk.glib.DateDay day) {
-        java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
+    public void setDay(org.gtk.glib.DateDay day) {
         try {
             DowncallHandles.g_date_set_day.invokeExact(
                     handle(),
@@ -646,10 +639,7 @@ public class Date extends Struct {
      * @param month month
      * @param y year
      */
-    public void setDmy(@NotNull org.gtk.glib.DateDay day, @NotNull org.gtk.glib.DateMonth month, @NotNull org.gtk.glib.DateYear y) {
-        java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
+    public void setDmy(org.gtk.glib.DateDay day, org.gtk.glib.DateMonth month, org.gtk.glib.DateYear y) {
         try {
             DowncallHandles.g_date_set_dmy.invokeExact(
                     handle(),
@@ -680,8 +670,7 @@ public class Date extends Struct {
      * day-month-year triplet is invalid, the date will be invalid.
      * @param month month to set
      */
-    public void setMonth(@NotNull org.gtk.glib.DateMonth month) {
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
+    public void setMonth(org.gtk.glib.DateMonth month) {
         try {
             DowncallHandles.g_date_set_month.invokeExact(
                     handle(),
@@ -705,12 +694,11 @@ public class Date extends Struct {
      * capacity).
      * @param str string to parse
      */
-    public void setParse(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void setParse(java.lang.String str) {
         try {
             DowncallHandles.g_date_set_parse.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -723,8 +711,7 @@ public class Date extends Struct {
      * @deprecated Use g_date_set_time_t() instead.
      */
     @Deprecated
-    public void setTime(@NotNull org.gtk.glib.Time time) {
-        java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
+    public void setTime(org.gtk.glib.Time time) {
         try {
             DowncallHandles.g_date_set_time.invokeExact(
                     handle(),
@@ -769,8 +756,7 @@ public class Date extends Struct {
      *    instead.
      */
     @Deprecated
-    public void setTimeVal(@NotNull org.gtk.glib.TimeVal timeval) {
-        java.util.Objects.requireNonNull(timeval, "Parameter 'timeval' must not be null");
+    public void setTimeVal(org.gtk.glib.TimeVal timeval) {
         try {
             DowncallHandles.g_date_set_time_val.invokeExact(
                     handle(),
@@ -785,8 +771,7 @@ public class Date extends Struct {
      * triplet is invalid, the date will be invalid.
      * @param year year to set
      */
-    public void setYear(@NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public void setYear(org.gtk.glib.DateYear year) {
         try {
             DowncallHandles.g_date_set_year.invokeExact(
                     handle(),
@@ -852,8 +837,7 @@ public class Date extends Struct {
      * Initializes the non-date parts with something safe but meaningless.
      * @param tm struct tm to fill
      */
-    public void toStructTm(@NotNull java.lang.foreign.MemoryAddress tm) {
-        java.util.Objects.requireNonNull(tm, "Parameter 'tm' must not be null");
+    public void toStructTm(java.lang.foreign.MemoryAddress tm) {
         try {
             DowncallHandles.g_date_to_struct_tm.invokeExact(
                     handle(),
@@ -877,7 +861,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -887,9 +871,7 @@ public class Date extends Struct {
      * @param year year
      * @return number of days in {@code month} during the {@code year}
      */
-    public static byte getDaysInMonth(@NotNull org.gtk.glib.DateMonth month, @NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static byte getDaysInMonth(org.gtk.glib.DateMonth month, org.gtk.glib.DateYear year) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.g_date_get_days_in_month.invokeExact(
@@ -912,8 +894,7 @@ public class Date extends Struct {
      * @param year a year
      * @return number of Mondays in the year
      */
-    public static byte getMondayWeeksInYear(@NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static byte getMondayWeeksInYear(org.gtk.glib.DateYear year) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.g_date_get_monday_weeks_in_year.invokeExact(
@@ -935,8 +916,7 @@ public class Date extends Struct {
      * @param year year to count weeks in
      * @return the number of weeks in {@code year}
      */
-    public static byte getSundayWeeksInYear(@NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static byte getSundayWeeksInYear(org.gtk.glib.DateYear year) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.g_date_get_sunday_weeks_in_year.invokeExact(
@@ -957,8 +937,7 @@ public class Date extends Struct {
      * @param year year to check
      * @return {@code true} if the year is a leap year
      */
-    public static boolean isLeapYear(@NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static boolean isLeapYear(org.gtk.glib.DateYear year) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_is_leap_year.invokeExact(
@@ -966,7 +945,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -989,16 +968,13 @@ public class Date extends Struct {
      * @param date valid {@link Date}
      * @return number of characters written to the buffer, or 0 the buffer was too small
      */
-    public static long strftime(@NotNull java.lang.String s, long slen, @NotNull java.lang.String format, @NotNull org.gtk.glib.Date date) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(date, "Parameter 'date' must not be null");
+    public static long strftime(java.lang.String s, long slen, java.lang.String format, org.gtk.glib.Date date) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_date_strftime.invokeExact(
-                    Interop.allocateNativeString(s),
+                    Marshal.stringToAddress.marshal(s, null),
                     slen,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     date.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1012,8 +988,7 @@ public class Date extends Struct {
      * @param day day to check
      * @return {@code true} if the day is valid
      */
-    public static boolean validDay(@NotNull org.gtk.glib.DateDay day) {
-        java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
+    public static boolean validDay(org.gtk.glib.DateDay day) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_day.invokeExact(
@@ -1021,7 +996,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1033,10 +1008,7 @@ public class Date extends Struct {
      * @param year year
      * @return {@code true} if the date is a valid one
      */
-    public static boolean validDmy(@NotNull org.gtk.glib.DateDay day, @NotNull org.gtk.glib.DateMonth month, @NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static boolean validDmy(org.gtk.glib.DateDay day, org.gtk.glib.DateMonth month, org.gtk.glib.DateYear year) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_dmy.invokeExact(
@@ -1046,7 +1018,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1063,7 +1035,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1072,8 +1044,7 @@ public class Date extends Struct {
      * @param month month
      * @return {@code true} if the month is valid
      */
-    public static boolean validMonth(@NotNull org.gtk.glib.DateMonth month) {
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
+    public static boolean validMonth(org.gtk.glib.DateMonth month) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_month.invokeExact(
@@ -1081,7 +1052,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1090,8 +1061,7 @@ public class Date extends Struct {
      * @param weekday weekday
      * @return {@code true} if the weekday is valid
      */
-    public static boolean validWeekday(@NotNull org.gtk.glib.DateWeekday weekday) {
-        java.util.Objects.requireNonNull(weekday, "Parameter 'weekday' must not be null");
+    public static boolean validWeekday(org.gtk.glib.DateWeekday weekday) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_weekday.invokeExact(
@@ -1099,7 +1069,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1108,8 +1078,7 @@ public class Date extends Struct {
      * @param year year
      * @return {@code true} if the year is valid
      */
-    public static boolean validYear(@NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static boolean validYear(org.gtk.glib.DateYear year) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_year.invokeExact(
@@ -1117,7 +1086,7 @@ public class Date extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -1416,31 +1385,35 @@ public class Date extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Date.Builder} object constructs a {@link Date} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Date.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Date struct;
+        private final Date struct;
         
-         /**
-         * A {@link Date.Build} object constructs a {@link Date} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Date.allocate();
         }
         
          /**
          * Finish building the {@link Date} struct.
          * @return A new instance of {@code Date} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Date construct() {
+        public Date build() {
             return struct;
         }
         
@@ -1449,7 +1422,7 @@ public class Date extends Struct {
          * @param julianDays The value for the {@code julianDays} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setJulianDays(int julianDays) {
+        public Builder setJulianDays(int julianDays) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("julian_days"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), julianDays);
@@ -1461,7 +1434,7 @@ public class Date extends Struct {
          * @param julian The value for the {@code julian} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setJulian(int julian) {
+        public Builder setJulian(int julian) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("julian"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), julian);
@@ -1473,7 +1446,7 @@ public class Date extends Struct {
          * @param dmy The value for the {@code dmy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDmy(int dmy) {
+        public Builder setDmy(int dmy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dmy"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dmy);
@@ -1486,7 +1459,7 @@ public class Date extends Struct {
          * @param day The value for the {@code day} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDay(int day) {
+        public Builder setDay(int day) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("day"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);
@@ -1499,7 +1472,7 @@ public class Date extends Struct {
          * @param month The value for the {@code month} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMonth(int month) {
+        public Builder setMonth(int month) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("month"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
@@ -1511,7 +1484,7 @@ public class Date extends Struct {
          * @param year The value for the {@code year} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYear(int year) {
+        public Builder setYear(int year) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("year"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);

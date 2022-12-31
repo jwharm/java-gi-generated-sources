@@ -134,8 +134,7 @@ public enum QueryType implements io.github.jwharm.javagi.Enumeration {
      * @param type a {@link QueryType}
      * @return a {@link QueryTypeFlags}.
      */
-    public static @NotNull org.gstreamer.gst.QueryTypeFlags getFlags(@NotNull org.gstreamer.gst.QueryType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gstreamer.gst.QueryTypeFlags getFlags(org.gstreamer.gst.QueryType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_type_get_flags.invokeExact(
@@ -151,8 +150,7 @@ public enum QueryType implements io.github.jwharm.javagi.Enumeration {
      * @param type the query type
      * @return a reference to the static name of the query.
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.gst.QueryType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String getName(org.gstreamer.gst.QueryType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_query_type_get_name.invokeExact(
@@ -160,7 +158,7 @@ public enum QueryType implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -168,8 +166,7 @@ public enum QueryType implements io.github.jwharm.javagi.Enumeration {
      * @param type the query type
      * @return the quark associated with the query type
      */
-    public static @NotNull org.gtk.glib.Quark toQuark(@NotNull org.gstreamer.gst.QueryType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.glib.Quark toQuark(org.gstreamer.gst.QueryType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_query_type_to_quark.invokeExact(

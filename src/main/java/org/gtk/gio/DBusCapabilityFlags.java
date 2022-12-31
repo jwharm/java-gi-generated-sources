@@ -30,11 +30,15 @@ public class DBusCapabilityFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusCapabilityFlags or(DBusCapabilityFlags mask) {
-        return new DBusCapabilityFlags(this.getValue() | mask.getValue());
+    public DBusCapabilityFlags or(DBusCapabilityFlags... masks) {
+        int value = this.getValue();
+        for (DBusCapabilityFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DBusCapabilityFlags(value);
     }
     
     /**
@@ -44,7 +48,8 @@ public class DBusCapabilityFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusCapabilityFlags combined(DBusCapabilityFlags mask, DBusCapabilityFlags... masks) {
-        int value = mask.getValue();        for (DBusCapabilityFlags arg : masks) {
+        int value = mask.getValue();
+        for (DBusCapabilityFlags arg : masks) {
             value |= arg.getValue();
         }
         return new DBusCapabilityFlags(value);

@@ -24,19 +24,17 @@ public class SystemClock extends org.gstreamer.gst.Clock {
     
     private static final java.lang.String C_TYPE_NAME = "GstSystemClock";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Clock.getMemoryLayout().withName("clock"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Clock.getMemoryLayout().withName("clock"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -44,43 +42,29 @@ public class SystemClock extends org.gstreamer.gst.Clock {
      * <p>
      * Because SystemClock is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SystemClock(Addressable address, Ownership ownership) {
+    protected SystemClock(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to SystemClock if its GType is a (or inherits from) "GstSystemClock".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SystemClock} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstSystemClock", a ClassCastException will be thrown.
-     */
-    public static SystemClock castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SystemClock.getType())) {
-            return new SystemClock(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstSystemClock");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SystemClock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SystemClock(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_system_clock_get_type.invokeExact();
@@ -98,14 +82,14 @@ public class SystemClock extends org.gstreamer.gst.Clock {
      * <p>
      * MT safe.
      */
-    public static @NotNull org.gstreamer.gst.Clock obtain() {
+    public static org.gstreamer.gst.Clock obtain() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_system_clock_obtain.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Clock(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Clock.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -127,42 +111,44 @@ public class SystemClock extends org.gstreamer.gst.Clock {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link SystemClock.Builder} object constructs a {@link SystemClock} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SystemClock.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Clock.Build {
+    public static class Builder extends org.gstreamer.gst.Clock.Builder {
         
-         /**
-         * A {@link SystemClock.Build} object constructs a {@link SystemClock} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SystemClock} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SystemClock} using {@link SystemClock#castFrom}.
+         * {@link SystemClock}.
          * @return A new instance of {@code SystemClock} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SystemClock construct() {
-            return SystemClock.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SystemClock.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SystemClock build() {
+            return (SystemClock) org.gtk.gobject.GObject.newWithProperties(
+                SystemClock.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setClockType(org.gstreamer.gst.ClockType clockType) {
+        public Builder setClockType(org.gstreamer.gst.ClockType clockType) {
             names.add("clock-type");
             values.add(org.gtk.gobject.Value.create(clockType));
             return this;

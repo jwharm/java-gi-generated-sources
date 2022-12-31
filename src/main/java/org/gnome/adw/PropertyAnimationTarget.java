@@ -7,7 +7,7 @@ import org.jetbrains.annotations.*;
 
 /**
  * An {@link AnimationTarget} changing the value of a property of a
- * {@link org.gtk.gobject.Object} instance.
+ * {@link org.gtk.gobject.GObject} instance.
  * @version 1.2
  */
 public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
@@ -32,39 +32,19 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PropertyAnimationTarget(Addressable address, Ownership ownership) {
+    protected PropertyAnimationTarget(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PropertyAnimationTarget if its GType is a (or inherits from) "AdwPropertyAnimationTarget".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PropertyAnimationTarget} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwPropertyAnimationTarget", a ClassCastException will be thrown.
-     */
-    public static PropertyAnimationTarget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PropertyAnimationTarget.getType())) {
-            return new PropertyAnimationTarget(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwPropertyAnimationTarget");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PropertyAnimationTarget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PropertyAnimationTarget(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gobject.GObject object, java.lang.String propertyName) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_property_animation_target_new.invokeExact(
                     object.handle(),
-                    Interop.allocateNativeString(propertyName));
+                    Marshal.stringToAddress.marshal(propertyName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,14 +57,12 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
      * @param object an object to be animated
      * @param propertyName the name of the property on {@code object} to animate
      */
-    public PropertyAnimationTarget(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String propertyName) {
+    public PropertyAnimationTarget(org.gtk.gobject.GObject object, java.lang.String propertyName) {
         super(constructNew(object, propertyName), Ownership.FULL);
     }
     
-    private static Addressable constructNewForPspec(@NotNull org.gtk.gobject.Object object, @NotNull org.gtk.gobject.ParamSpec pspec) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForPspec(org.gtk.gobject.GObject object, org.gtk.gobject.ParamSpec pspec) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_property_animation_target_new_for_pspec.invokeExact(
                     object.handle(),
@@ -102,8 +80,9 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
      * @param pspec the param spec of the property on {@code object} to animate
      * @return new newly created {@code AdwPropertyAnimationTarget}
      */
-    public static PropertyAnimationTarget newForPspec(@NotNull org.gtk.gobject.Object object, @NotNull org.gtk.gobject.ParamSpec pspec) {
-        return new PropertyAnimationTarget(constructNewForPspec(object, pspec), Ownership.FULL);
+    public static PropertyAnimationTarget newForPspec(org.gtk.gobject.GObject object, org.gtk.gobject.ParamSpec pspec) {
+        var RESULT = constructNewForPspec(object, pspec);
+        return (org.gnome.adw.PropertyAnimationTarget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.PropertyAnimationTarget.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -114,7 +93,7 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
      * lifetime.
      * @return the animated object
      */
-    public @NotNull org.gtk.gobject.Object getObject() {
+    public org.gtk.gobject.GObject getObject() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_property_animation_target_get_object.invokeExact(
@@ -122,14 +101,14 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the {@code GParamSpec} of the property animated by {@code self}.
      * @return the animated property's {@code GParamSpec}
      */
-    public @NotNull org.gtk.gobject.ParamSpec getPspec() {
+    public org.gtk.gobject.ParamSpec getPspec() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_property_animation_target_get_pspec.invokeExact(
@@ -137,14 +116,14 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_property_animation_target_get_type.invokeExact();
@@ -153,38 +132,40 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PropertyAnimationTarget.Builder} object constructs a {@link PropertyAnimationTarget} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PropertyAnimationTarget.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gnome.adw.AnimationTarget.Build {
+    public static class Builder extends org.gnome.adw.AnimationTarget.Builder {
         
-         /**
-         * A {@link PropertyAnimationTarget.Build} object constructs a {@link PropertyAnimationTarget} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PropertyAnimationTarget} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PropertyAnimationTarget} using {@link PropertyAnimationTarget#castFrom}.
+         * {@link PropertyAnimationTarget}.
          * @return A new instance of {@code PropertyAnimationTarget} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PropertyAnimationTarget construct() {
-            return PropertyAnimationTarget.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PropertyAnimationTarget.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PropertyAnimationTarget build() {
+            return (PropertyAnimationTarget) org.gtk.gobject.GObject.newWithProperties(
+                PropertyAnimationTarget.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -197,7 +178,7 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
          * @param object The value for the {@code object} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setObject(org.gtk.gobject.Object object) {
+        public Builder setObject(org.gtk.gobject.GObject object) {
             names.add("object");
             values.add(org.gtk.gobject.Value.create(object));
             return this;
@@ -208,7 +189,7 @@ public class PropertyAnimationTarget extends org.gnome.adw.AnimationTarget {
          * @param pspec The value for the {@code pspec} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPspec(org.gtk.gobject.ParamSpec pspec) {
+        public Builder setPspec(org.gtk.gobject.ParamSpec pspec) {
             names.add("pspec");
             values.add(org.gtk.gobject.Value.create(pspec));
             return this;

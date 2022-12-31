@@ -600,7 +600,7 @@ public enum VideoFormat implements io.github.jwharm.javagi.Enumeration {
      * @param fourcc a FOURCC value representing raw YUV video
      * @return the {@link VideoFormat} describing the FOURCC value
      */
-    public static @NotNull org.gstreamer.video.VideoFormat fromFourcc(int fourcc) {
+    public static org.gstreamer.video.VideoFormat fromFourcc(int fourcc) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_format_from_fourcc.invokeExact(
@@ -624,7 +624,7 @@ public enum VideoFormat implements io.github.jwharm.javagi.Enumeration {
      * @return a {@link VideoFormat} or GST_VIDEO_FORMAT_UNKNOWN when the parameters to
      * not specify a known format.
      */
-    public static @NotNull org.gstreamer.video.VideoFormat fromMasks(int depth, int bpp, int endianness, int redMask, int greenMask, int blueMask, int alphaMask) {
+    public static org.gstreamer.video.VideoFormat fromMasks(int depth, int bpp, int endianness, int redMask, int greenMask, int blueMask, int alphaMask) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_format_from_masks.invokeExact(
@@ -647,12 +647,11 @@ public enum VideoFormat implements io.github.jwharm.javagi.Enumeration {
      * @return the {@link VideoFormat} for {@code format} or GST_VIDEO_FORMAT_UNKNOWN when the
      * string is not a known format.
      */
-    public static @NotNull org.gstreamer.video.VideoFormat fromString(@NotNull java.lang.String format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.video.VideoFormat fromString(java.lang.String format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_format_from_string.invokeExact(
-                    Interop.allocateNativeString(format));
+                    Marshal.stringToAddress.marshal(format, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -664,8 +663,7 @@ public enum VideoFormat implements io.github.jwharm.javagi.Enumeration {
      * @param format a {@link VideoFormat}
      * @return The {@link VideoFormatInfo} for {@code format}.
      */
-    public static @NotNull org.gstreamer.video.VideoFormatInfo getInfo(@NotNull org.gstreamer.video.VideoFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.video.VideoFormatInfo getInfo(org.gstreamer.video.VideoFormat format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_format_get_info.invokeExact(
@@ -673,7 +671,7 @@ public enum VideoFormat implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoFormatInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoFormatInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -684,9 +682,7 @@ public enum VideoFormat implements io.github.jwharm.javagi.Enumeration {
      * @return the default palette of {@code format} or {@code null} when
      * {@code format} does not have a palette.
      */
-    public static @Nullable java.lang.foreign.MemoryAddress getPalette(@NotNull org.gstreamer.video.VideoFormat format, Out<Long> size) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress getPalette(org.gstreamer.video.VideoFormat format, Out<Long> size) {
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
@@ -707,8 +703,7 @@ public enum VideoFormat implements io.github.jwharm.javagi.Enumeration {
      * @param format a {@link VideoFormat} video format
      * @return the FOURCC corresponding to {@code format}
      */
-    public static int toFourcc(@NotNull org.gstreamer.video.VideoFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static int toFourcc(org.gstreamer.video.VideoFormat format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_format_to_fourcc.invokeExact(
@@ -725,8 +720,7 @@ public enum VideoFormat implements io.github.jwharm.javagi.Enumeration {
      * @param format a {@link VideoFormat} video format
      * @return the name corresponding to {@code format}
      */
-    public static @NotNull java.lang.String toString(@NotNull org.gstreamer.video.VideoFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static java.lang.String toString(org.gstreamer.video.VideoFormat format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_format_to_string.invokeExact(
@@ -734,7 +728,7 @@ public enum VideoFormat implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

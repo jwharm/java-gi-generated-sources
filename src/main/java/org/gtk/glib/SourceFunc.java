@@ -15,5 +15,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface SourceFunc {
-        boolean onSourceFunc();
+    boolean run();
+
+    @ApiStatus.Internal default int upcall(MemoryAddress userData) {
+        var RESULT = run();
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SourceFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

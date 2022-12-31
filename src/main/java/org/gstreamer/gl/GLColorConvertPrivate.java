@@ -40,8 +40,10 @@ public class GLColorConvertPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLColorConvertPrivate(Addressable address, Ownership ownership) {
+    protected GLColorConvertPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLColorConvertPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLColorConvertPrivate(input, ownership);
 }

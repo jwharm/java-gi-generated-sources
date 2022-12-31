@@ -40,8 +40,10 @@ public class PhysicalDeviceVariablePointerFeaturesKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceVariablePointerFeaturesKHR(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceVariablePointerFeaturesKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceVariablePointerFeaturesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceVariablePointerFeaturesKHR(input, ownership);
 }

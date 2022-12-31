@@ -115,11 +115,15 @@ public class RegistrationId extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public RegistrationId or(RegistrationId mask) {
-        return new RegistrationId(this.getValue() | mask.getValue());
+    public RegistrationId or(RegistrationId... masks) {
+        int value = this.getValue();
+        for (RegistrationId arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RegistrationId(value);
     }
     
     /**
@@ -129,7 +133,8 @@ public class RegistrationId extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static RegistrationId combined(RegistrationId mask, RegistrationId... masks) {
-        int value = mask.getValue();        for (RegistrationId arg : masks) {
+        int value = mask.getValue();
+        for (RegistrationId arg : masks) {
             value |= arg.getValue();
         }
         return new RegistrationId(value);

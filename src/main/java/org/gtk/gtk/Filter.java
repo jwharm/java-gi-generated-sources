@@ -25,7 +25,7 @@ import org.jetbrains.annotations.*;
  * However, in particular for large lists or complex search methods, it is
  * also possible to subclass {@code GtkFilter} and provide one's own filter.
  */
-public class Filter extends org.gtk.gobject.Object {
+public class Filter extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -33,17 +33,15 @@ public class Filter extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkFilter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -51,30 +49,12 @@ public class Filter extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Filter(Addressable address, Ownership ownership) {
+    protected Filter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Filter if its GType is a (or inherits from) "GtkFilter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Filter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkFilter", a ClassCastException will be thrown.
-     */
-    public static Filter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Filter.getType())) {
-            return new Filter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFilter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Filter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Filter(input, ownership);
     
     /**
      * Notifies all users of the filter that it has changed.
@@ -91,8 +71,7 @@ public class Filter extends org.gtk.gobject.Object {
      * subclasses and should not be called from other functions.
      * @param change How the filter changed
      */
-    public void changed(@NotNull org.gtk.gtk.FilterChange change) {
-        java.util.Objects.requireNonNull(change, "Parameter 'change' must not be null");
+    public void changed(org.gtk.gtk.FilterChange change) {
         try {
             DowncallHandles.gtk_filter_changed.invokeExact(
                     handle(),
@@ -114,7 +93,7 @@ public class Filter extends org.gtk.gobject.Object {
      * choose to omit implementing it, but {@code GtkFilterListModel} uses it.
      * @return the strictness of {@code self}
      */
-    public @NotNull org.gtk.gtk.FilterMatch getStrictness() {
+    public org.gtk.gtk.FilterMatch getStrictness() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_filter_get_strictness.invokeExact(
@@ -131,8 +110,7 @@ public class Filter extends org.gtk.gobject.Object {
      * @return {@code true} if the filter matches the item and a filter model should
      *   keep it, {@code false} if not.
      */
-    public boolean match(@NotNull org.gtk.gobject.Object item) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
+    public boolean match(org.gtk.gobject.GObject item) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_filter_match.invokeExact(
@@ -141,14 +119,14 @@ public class Filter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_filter_get_type.invokeExact();
@@ -160,7 +138,18 @@ public class Filter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Filter sourceFilter, @NotNull org.gtk.gtk.FilterChange change);
+        void run(org.gtk.gtk.FilterChange change);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceFilter, int change) {
+            run(org.gtk.gtk.FilterChange.of(change));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -180,52 +169,46 @@ public class Filter extends org.gtk.gobject.Object {
     public Signal<Filter.Changed> onChanged(Filter.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Filter.Callbacks.class, "signalFilterChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Filter.Changed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Filter.Builder} object constructs a {@link Filter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Filter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Filter.Build} object constructs a {@link Filter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Filter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Filter} using {@link Filter#castFrom}.
+         * {@link Filter}.
          * @return A new instance of {@code Filter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Filter construct() {
-            return Filter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Filter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Filter build() {
+            return (Filter) org.gtk.gobject.GObject.newWithProperties(
+                Filter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -255,14 +238,5 @@ public class Filter extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalFilterChanged(MemoryAddress sourceFilter, int change, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Filter.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Filter(sourceFilter, Ownership.NONE), org.gtk.gtk.FilterChange.of(change));
-        }
     }
 }

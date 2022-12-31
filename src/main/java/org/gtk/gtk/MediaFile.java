@@ -23,17 +23,15 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
     
     private static final java.lang.String C_TYPE_NAME = "GtkMediaFile";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.MediaStream.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.MediaStream.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -41,33 +39,15 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MediaFile(Addressable address, Ownership ownership) {
+    protected MediaFile(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to MediaFile if its GType is a (or inherits from) "GtkMediaFile".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MediaFile} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkMediaFile", a ClassCastException will be thrown.
-     */
-    public static MediaFile castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MediaFile.getType())) {
-            return new MediaFile(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMediaFile");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MediaFile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MediaFile(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new.invokeExact();
         } catch (Throwable ERR) {
@@ -83,9 +63,8 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewForFile(@NotNull org.gtk.gio.File file) {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForFile(org.gtk.gio.File file) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new_for_file.invokeExact(
                     file.handle());
@@ -100,16 +79,16 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @param file The file to play
      * @return a new {@code GtkMediaFile} playing {@code file}
      */
-    public static MediaFile newForFile(@NotNull org.gtk.gio.File file) {
-        return new MediaFile(constructNewForFile(file), Ownership.FULL);
+    public static MediaFile newForFile(org.gtk.gio.File file) {
+        var RESULT = constructNewForFile(file);
+        return (org.gtk.gtk.MediaFile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.MediaFile.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewForFilename(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForFilename(java.lang.String filename) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new_for_filename.invokeExact(
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,13 +103,13 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @param filename filename to open
      * @return a new {@code GtkMediaFile} playing {@code filename}
      */
-    public static MediaFile newForFilename(@NotNull java.lang.String filename) {
-        return new MediaFile(constructNewForFilename(filename), Ownership.FULL);
+    public static MediaFile newForFilename(java.lang.String filename) {
+        var RESULT = constructNewForFilename(filename);
+        return (org.gtk.gtk.MediaFile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.MediaFile.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewForInputStream(@NotNull org.gtk.gio.InputStream stream) {
-        java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForInputStream(org.gtk.gio.InputStream stream) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new_for_input_stream.invokeExact(
                     stream.handle());
@@ -148,16 +127,16 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @param stream The stream to play
      * @return a new {@code GtkMediaFile}
      */
-    public static MediaFile newForInputStream(@NotNull org.gtk.gio.InputStream stream) {
-        return new MediaFile(constructNewForInputStream(stream), Ownership.FULL);
+    public static MediaFile newForInputStream(org.gtk.gio.InputStream stream) {
+        var RESULT = constructNewForInputStream(stream);
+        return (org.gtk.gtk.MediaFile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.MediaFile.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewForResource(@NotNull java.lang.String resourcePath) {
-        java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForResource(java.lang.String resourcePath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_media_file_new_for_resource.invokeExact(
-                    Interop.allocateNativeString(resourcePath));
+                    Marshal.stringToAddress.marshal(resourcePath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,8 +151,9 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * @param resourcePath resource path to open
      * @return a new {@code GtkMediaFile} playing {@code resource_path}
      */
-    public static MediaFile newForResource(@NotNull java.lang.String resourcePath) {
-        return new MediaFile(constructNewForResource(resourcePath), Ownership.FULL);
+    public static MediaFile newForResource(java.lang.String resourcePath) {
+        var RESULT = constructNewForResource(resourcePath);
+        return (org.gtk.gtk.MediaFile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.MediaFile.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -203,7 +183,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -221,7 +201,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InputStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -251,7 +231,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         try {
             DowncallHandles.gtk_media_file_set_filename.invokeExact(
                     handle(),
-                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)));
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(filename, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,7 +267,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         try {
             DowncallHandles.gtk_media_file_set_resource.invokeExact(
                     handle(),
-                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(resourcePath, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -297,7 +277,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_media_file_get_type.invokeExact();
@@ -306,38 +286,40 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link MediaFile.Builder} object constructs a {@link MediaFile} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MediaFile.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.MediaStream.Build {
+    public static class Builder extends org.gtk.gtk.MediaStream.Builder {
         
-         /**
-         * A {@link MediaFile.Build} object constructs a {@link MediaFile} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MediaFile} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MediaFile} using {@link MediaFile#castFrom}.
+         * {@link MediaFile}.
          * @return A new instance of {@code MediaFile} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MediaFile construct() {
-            return MediaFile.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MediaFile.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MediaFile build() {
+            return (MediaFile) org.gtk.gobject.GObject.newWithProperties(
+                MediaFile.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -346,7 +328,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
          * @param file The value for the {@code file} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFile(org.gtk.gio.File file) {
+        public Builder setFile(org.gtk.gio.File file) {
             names.add("file");
             values.add(org.gtk.gobject.Value.create(file));
             return this;
@@ -359,7 +341,7 @@ public class MediaFile extends org.gtk.gtk.MediaStream implements org.gtk.gdk.Pa
          * @param inputStream The value for the {@code input-stream} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputStream(org.gtk.gio.InputStream inputStream) {
+        public Builder setInputStream(org.gtk.gio.InputStream inputStream) {
             names.add("input-stream");
             values.add(org.gtk.gobject.Value.create(inputStream));
             return this;

@@ -16,19 +16,17 @@ public class DvbMultilingualServiceNameItem extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDvbMultilingualServiceNameItem";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("language_code"),
-        Interop.valueLayout.ADDRESS.withName("provider_name"),
-        Interop.valueLayout.ADDRESS.withName("service_name")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("language_code"),
+            Interop.valueLayout.ADDRESS.withName("provider_name"),
+            Interop.valueLayout.ADDRESS.withName("service_name")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,63 +46,63 @@ public class DvbMultilingualServiceNameItem extends Struct {
      * Get the value of the field {@code language_code}
      * @return The value of the field {@code language_code}
      */
-    public java.lang.String languageCode$get() {
+    public java.lang.String getLanguageCode() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code language_code}
      * @param languageCode The new value of the field {@code language_code}
      */
-    public void languageCode$set(java.lang.String languageCode) {
+    public void setLanguageCode(java.lang.String languageCode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(languageCode));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
     }
     
     /**
      * Get the value of the field {@code provider_name}
      * @return The value of the field {@code provider_name}
      */
-    public java.lang.String providerName$get() {
+    public java.lang.String getProviderName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("provider_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code provider_name}
      * @param providerName The new value of the field {@code provider_name}
      */
-    public void providerName$set(java.lang.String providerName) {
+    public void setProviderName(java.lang.String providerName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("provider_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(providerName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (providerName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(providerName, null)));
     }
     
     /**
      * Get the value of the field {@code service_name}
      * @return The value of the field {@code service_name}
      */
-    public java.lang.String serviceName$get() {
+    public java.lang.String getServiceName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code service_name}
      * @param serviceName The new value of the field {@code service_name}
      */
-    public void serviceName$set(java.lang.String serviceName) {
+    public void setServiceName(java.lang.String serviceName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(serviceName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serviceName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(serviceName, null)));
     }
     
     /**
@@ -112,35 +110,41 @@ public class DvbMultilingualServiceNameItem extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DvbMultilingualServiceNameItem(Addressable address, Ownership ownership) {
+    protected DvbMultilingualServiceNameItem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DvbMultilingualServiceNameItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DvbMultilingualServiceNameItem(input, ownership);
+    
+    /**
+     * A {@link DvbMultilingualServiceNameItem.Builder} object constructs a {@link DvbMultilingualServiceNameItem} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DvbMultilingualServiceNameItem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DvbMultilingualServiceNameItem struct;
+        private final DvbMultilingualServiceNameItem struct;
         
-         /**
-         * A {@link DvbMultilingualServiceNameItem.Build} object constructs a {@link DvbMultilingualServiceNameItem} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DvbMultilingualServiceNameItem.allocate();
         }
         
          /**
          * Finish building the {@link DvbMultilingualServiceNameItem} struct.
          * @return A new instance of {@code DvbMultilingualServiceNameItem} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DvbMultilingualServiceNameItem construct() {
+        public DvbMultilingualServiceNameItem build() {
             return struct;
         }
         
@@ -149,10 +153,10 @@ public class DvbMultilingualServiceNameItem extends Struct {
          * @param languageCode The value for the {@code languageCode} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLanguageCode(java.lang.String languageCode) {
+        public Builder setLanguageCode(java.lang.String languageCode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Interop.allocateNativeString(languageCode)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
             return this;
         }
         
@@ -161,10 +165,10 @@ public class DvbMultilingualServiceNameItem extends Struct {
          * @param providerName The value for the {@code providerName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProviderName(java.lang.String providerName) {
+        public Builder setProviderName(java.lang.String providerName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("provider_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (providerName == null ? MemoryAddress.NULL : Interop.allocateNativeString(providerName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (providerName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(providerName, null)));
             return this;
         }
         
@@ -173,10 +177,10 @@ public class DvbMultilingualServiceNameItem extends Struct {
          * @param serviceName The value for the {@code serviceName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setServiceName(java.lang.String serviceName) {
+        public Builder setServiceName(java.lang.String serviceName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("service_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serviceName == null ? MemoryAddress.NULL : Interop.allocateNativeString(serviceName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serviceName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(serviceName, null)));
             return this;
         }
     }

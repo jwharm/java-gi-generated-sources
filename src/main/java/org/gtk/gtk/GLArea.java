@@ -114,17 +114,15 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     private static final java.lang.String C_TYPE_NAME = "GtkGLArea";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -132,40 +130,26 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * <p>
      * Because GLArea is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLArea(Addressable address, Ownership ownership) {
+    protected GLArea(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLArea if its GType is a (or inherits from) "GtkGLArea".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLArea} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkGLArea", a ClassCastException will be thrown.
-     */
-    public static GLArea castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLArea.getType())) {
-            return new GLArea(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGLArea");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLArea> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLArea(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_gl_area_new.invokeExact();
         } catch (Throwable ERR) {
@@ -213,7 +197,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -228,7 +212,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.GLContext(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.GLContext.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -243,7 +227,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Error(RESULT, Ownership.NONE);
+        return org.gtk.glib.Error.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -258,7 +242,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -273,7 +257,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -284,9 +268,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param minor return location for the required minor version
      */
     public void getRequiredVersion(Out<Integer> major, Out<Integer> minor) {
-        java.util.Objects.requireNonNull(major, "Parameter 'major' must not be null");
         MemorySegment majorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minor, "Parameter 'minor' must not be null");
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_gl_area_get_required_version.invokeExact(
@@ -315,7 +297,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -373,7 +355,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         try {
             DowncallHandles.gtk_gl_area_set_auto_render.invokeExact(
                     handle(),
-                    autoRender ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(autoRender, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -409,7 +391,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         try {
             DowncallHandles.gtk_gl_area_set_has_depth_buffer.invokeExact(
                     handle(),
-                    hasDepthBuffer ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hasDepthBuffer, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,7 +409,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         try {
             DowncallHandles.gtk_gl_area_set_has_stencil_buffer.invokeExact(
                     handle(),
-                    hasStencilBuffer ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hasStencilBuffer, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -463,7 +445,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         try {
             DowncallHandles.gtk_gl_area_set_use_es.invokeExact(
                     handle(),
-                    useEs ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useEs, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -473,7 +455,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_gl_area_get_type.invokeExact();
@@ -485,7 +467,19 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface CreateContext {
-        void signalReceived(GLArea sourceGLArea);
+        org.gtk.gdk.GLContext run();
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceGLArea) {
+            var RESULT = run();
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateContext.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -504,16 +498,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public Signal<GLArea.CreateContext> onCreateContext(GLArea.CreateContext handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("create-context"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GLArea.Callbacks.class, "signalGLAreaCreateContext",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<GLArea.CreateContext>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("create-context"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -521,7 +507,19 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Render {
-        boolean signalReceived(GLArea sourceGLArea, @NotNull org.gtk.gdk.GLContext context);
+        boolean run(org.gtk.gdk.GLContext context);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceGLArea, MemoryAddress context) {
+            var RESULT = run((org.gtk.gdk.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gdk.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Render.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -535,16 +533,8 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public Signal<GLArea.Render> onRender(GLArea.Render handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("render"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GLArea.Callbacks.class, "signalGLAreaRender",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<GLArea.Render>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("render"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -552,7 +542,18 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Resize {
-        void signalReceived(GLArea sourceGLArea, int width, int height);
+        void run(int width, int height);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceGLArea, int width, int height) {
+            run(width, height);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Resize.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -573,52 +574,46 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public Signal<GLArea.Resize> onResize(GLArea.Resize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("resize"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GLArea.Callbacks.class, "signalGLAreaResize",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<GLArea.Resize>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("resize"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link GLArea.Builder} object constructs a {@link GLArea} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLArea.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link GLArea.Build} object constructs a {@link GLArea} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLArea} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLArea} using {@link GLArea#castFrom}.
+         * {@link GLArea}.
          * @return A new instance of {@code GLArea} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLArea construct() {
-            return GLArea.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLArea.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLArea build() {
+            return (GLArea) org.gtk.gobject.GObject.newWithProperties(
+                GLArea.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -636,7 +631,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param autoRender The value for the {@code auto-render} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAutoRender(boolean autoRender) {
+        public Builder setAutoRender(boolean autoRender) {
             names.add("auto-render");
             values.add(org.gtk.gobject.Value.create(autoRender));
             return this;
@@ -651,7 +646,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param context The value for the {@code context} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContext(org.gtk.gdk.GLContext context) {
+        public Builder setContext(org.gtk.gdk.GLContext context) {
             names.add("context");
             values.add(org.gtk.gobject.Value.create(context));
             return this;
@@ -667,7 +662,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param hasDepthBuffer The value for the {@code has-depth-buffer} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasDepthBuffer(boolean hasDepthBuffer) {
+        public Builder setHasDepthBuffer(boolean hasDepthBuffer) {
             names.add("has-depth-buffer");
             values.add(org.gtk.gobject.Value.create(hasDepthBuffer));
             return this;
@@ -679,7 +674,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param hasStencilBuffer The value for the {@code has-stencil-buffer} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasStencilBuffer(boolean hasStencilBuffer) {
+        public Builder setHasStencilBuffer(boolean hasStencilBuffer) {
             names.add("has-stencil-buffer");
             values.add(org.gtk.gobject.Value.create(hasStencilBuffer));
             return this;
@@ -691,7 +686,7 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param useEs The value for the {@code use-es} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseEs(boolean useEs) {
+        public Builder setUseEs(boolean useEs) {
             names.add("use-es");
             values.add(org.gtk.gobject.Value.create(useEs));
             return this;
@@ -807,26 +802,5 @@ public class GLArea extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalGLAreaCreateContext(MemoryAddress sourceGLArea, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GLArea.CreateContext) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GLArea(sourceGLArea, Ownership.NONE));
-        }
-        
-        public static boolean signalGLAreaRender(MemoryAddress sourceGLArea, MemoryAddress context, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GLArea.Render) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new GLArea(sourceGLArea, Ownership.NONE), new org.gtk.gdk.GLContext(context, Ownership.NONE));
-        }
-        
-        public static void signalGLAreaResize(MemoryAddress sourceGLArea, int width, int height, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GLArea.Resize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GLArea(sourceGLArea, Ownership.NONE), width, height);
-        }
     }
 }

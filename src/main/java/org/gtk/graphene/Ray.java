@@ -20,18 +20,16 @@ public class Ray extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_ray_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("origin"),
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("direction")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("origin"),
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("direction")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,13 +50,15 @@ public class Ray extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Ray(Addressable address, Ownership ownership) {
+    protected Ray(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Ray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Ray(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_ray_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -76,7 +76,8 @@ public class Ray extends Struct {
      *   this function
      */
     public static Ray alloc() {
-        return new Ray(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -84,8 +85,7 @@ public class Ray extends Struct {
      * @param b a {@link Ray}
      * @return {@code true} if the given rays are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Ray b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Ray b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_ray_equal.invokeExact(
@@ -115,9 +115,7 @@ public class Ray extends Struct {
      * @param p a {@link Point3D}
      * @param res return location for the closest point3d
      */
-    public void getClosestPointToPoint(@NotNull org.gtk.graphene.Point3D p, @NotNull org.gtk.graphene.Point3D res) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void getClosestPointToPoint(org.gtk.graphene.Point3D p, org.gtk.graphene.Point3D res) {
         try {
             DowncallHandles.graphene_ray_get_closest_point_to_point.invokeExact(
                     handle(),
@@ -132,8 +130,7 @@ public class Ray extends Struct {
      * Retrieves the direction of the given {@link Ray}.
      * @param direction return location for the direction
      */
-    public void getDirection(@NotNull org.gtk.graphene.Vec3 direction) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public void getDirection(org.gtk.graphene.Vec3 direction) {
         try {
             DowncallHandles.graphene_ray_get_direction.invokeExact(
                     handle(),
@@ -151,8 +148,7 @@ public class Ray extends Struct {
      * @param p a {@link Plane}
      * @return the distance of the origin of the ray from the plane
      */
-    public float getDistanceToPlane(@NotNull org.gtk.graphene.Plane p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public float getDistanceToPlane(org.gtk.graphene.Plane p) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_ray_get_distance_to_plane.invokeExact(
@@ -174,8 +170,7 @@ public class Ray extends Struct {
      * @param p a {@link Point3D}
      * @return the distance of the point
      */
-    public float getDistanceToPoint(@NotNull org.gtk.graphene.Point3D p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public float getDistanceToPoint(org.gtk.graphene.Point3D p) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_ray_get_distance_to_point.invokeExact(
@@ -191,8 +186,7 @@ public class Ray extends Struct {
      * Retrieves the origin of the given {@link Ray}.
      * @param origin return location for the origin
      */
-    public void getOrigin(@NotNull org.gtk.graphene.Point3D origin) {
-        java.util.Objects.requireNonNull(origin, "Parameter 'origin' must not be null");
+    public void getOrigin(org.gtk.graphene.Point3D origin) {
         try {
             DowncallHandles.graphene_ray_get_origin.invokeExact(
                     handle(),
@@ -208,8 +202,7 @@ public class Ray extends Struct {
      * @param t the distance along the ray
      * @param position return location for the position
      */
-    public void getPositionAt(float t, @NotNull org.gtk.graphene.Point3D position) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public void getPositionAt(float t, org.gtk.graphene.Point3D position) {
         try {
             DowncallHandles.graphene_ray_get_position_at.invokeExact(
                     handle(),
@@ -227,7 +220,7 @@ public class Ray extends Struct {
      * @param direction the direction vector
      * @return the initialized ray
      */
-    public @NotNull org.gtk.graphene.Ray init(@Nullable org.gtk.graphene.Point3D origin, @Nullable org.gtk.graphene.Vec3 direction) {
+    public org.gtk.graphene.Ray init(@Nullable org.gtk.graphene.Point3D origin, @Nullable org.gtk.graphene.Vec3 direction) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_ray_init.invokeExact(
@@ -237,7 +230,7 @@ public class Ray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Ray(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -246,8 +239,7 @@ public class Ray extends Struct {
      * @param src a {@link Ray}
      * @return the initialized ray
      */
-    public @NotNull org.gtk.graphene.Ray initFromRay(@NotNull org.gtk.graphene.Ray src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Ray initFromRay(org.gtk.graphene.Ray src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_ray_init_from_ray.invokeExact(
@@ -256,7 +248,7 @@ public class Ray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Ray(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -265,7 +257,7 @@ public class Ray extends Struct {
      * @param direction a {@link Vec3}
      * @return the initialized ray
      */
-    public @NotNull org.gtk.graphene.Ray initFromVec3(@Nullable org.gtk.graphene.Vec3 origin, @Nullable org.gtk.graphene.Vec3 direction) {
+    public org.gtk.graphene.Ray initFromVec3(@Nullable org.gtk.graphene.Vec3 origin, @Nullable org.gtk.graphene.Vec3 direction) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_ray_init_from_vec3.invokeExact(
@@ -275,7 +267,7 @@ public class Ray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Ray(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Ray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -285,9 +277,7 @@ public class Ray extends Struct {
      * @param tOut the distance of the point on the ray that intersects the box
      * @return the type of intersection
      */
-    public @NotNull org.gtk.graphene.RayIntersectionKind intersectBox(@NotNull org.gtk.graphene.Box b, Out<Float> tOut) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(tOut, "Parameter 'tOut' must not be null");
+    public org.gtk.graphene.RayIntersectionKind intersectBox(org.gtk.graphene.Box b, Out<Float> tOut) {
         MemorySegment tOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
@@ -309,9 +299,7 @@ public class Ray extends Struct {
      * @param tOut the distance of the point on the ray that intersects the sphere
      * @return the type of intersection
      */
-    public @NotNull org.gtk.graphene.RayIntersectionKind intersectSphere(@NotNull org.gtk.graphene.Sphere s, Out<Float> tOut) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
-        java.util.Objects.requireNonNull(tOut, "Parameter 'tOut' must not be null");
+    public org.gtk.graphene.RayIntersectionKind intersectSphere(org.gtk.graphene.Sphere s, Out<Float> tOut) {
         MemorySegment tOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
@@ -333,9 +321,7 @@ public class Ray extends Struct {
      * @param tOut the distance of the point on the ray that intersects the triangle
      * @return the type of intersection
      */
-    public @NotNull org.gtk.graphene.RayIntersectionKind intersectTriangle(@NotNull org.gtk.graphene.Triangle t, Out<Float> tOut) {
-        java.util.Objects.requireNonNull(t, "Parameter 't' must not be null");
-        java.util.Objects.requireNonNull(tOut, "Parameter 'tOut' must not be null");
+    public org.gtk.graphene.RayIntersectionKind intersectTriangle(org.gtk.graphene.Triangle t, Out<Float> tOut) {
         MemorySegment tOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
@@ -358,8 +344,7 @@ public class Ray extends Struct {
      * @param b a {@link Box}
      * @return {@code true} if the ray intersects the box
      */
-    public boolean intersectsBox(@NotNull org.gtk.graphene.Box b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean intersectsBox(org.gtk.graphene.Box b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_ray_intersects_box.invokeExact(
@@ -379,8 +364,7 @@ public class Ray extends Struct {
      * @param s a {@link Sphere}
      * @return {@code true} if the ray intersects the sphere
      */
-    public boolean intersectsSphere(@NotNull org.gtk.graphene.Sphere s) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
+    public boolean intersectsSphere(org.gtk.graphene.Sphere s) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_ray_intersects_sphere.invokeExact(
@@ -400,8 +384,7 @@ public class Ray extends Struct {
      * @param t a {@link Triangle}
      * @return {@code true} if the ray intersects the triangle
      */
-    public boolean intersectsTriangle(@NotNull org.gtk.graphene.Triangle t) {
-        java.util.Objects.requireNonNull(t, "Parameter 't' must not be null");
+    public boolean intersectsTriangle(org.gtk.graphene.Triangle t) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_ray_intersects_triangle.invokeExact(
@@ -523,42 +506,46 @@ public class Ray extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Ray.Builder} object constructs a {@link Ray} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Ray.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Ray struct;
+        private final Ray struct;
         
-         /**
-         * A {@link Ray.Build} object constructs a {@link Ray} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Ray.allocate();
         }
         
          /**
          * Finish building the {@link Ray} struct.
          * @return A new instance of {@code Ray} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Ray construct() {
+        public Ray build() {
             return struct;
         }
         
-        public Build setOrigin(org.gtk.graphene.Vec3 origin) {
+        public Builder setOrigin(org.gtk.graphene.Vec3 origin) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("origin"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
             return this;
         }
         
-        public Build setDirection(org.gtk.graphene.Vec3 direction) {
+        public Builder setDirection(org.gtk.graphene.Vec3 direction) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("direction"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (direction == null ? MemoryAddress.NULL : direction.handle()));

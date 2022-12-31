@@ -32,19 +32,17 @@ public class Private extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GPrivate";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("p"),
-        Interop.valueLayout.ADDRESS.withName("notify"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("future")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("p"),
+            Interop.valueLayout.ADDRESS.withName("notify"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("future")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -65,10 +63,12 @@ public class Private extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Private(Addressable address, Ownership ownership) {
+    protected Private(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Private> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Private(input, ownership);
     
     /**
      * Returns the current value of the thread local variable {@code key}.
@@ -146,49 +146,53 @@ public class Private extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Private.Builder} object constructs a {@link Private} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Private.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Private struct;
+        private final Private struct;
         
-         /**
-         * A {@link Private.Build} object constructs a {@link Private} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Private.allocate();
         }
         
          /**
          * Finish building the {@link Private} struct.
          * @return A new instance of {@code Private} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Private construct() {
+        public Private build() {
             return struct;
         }
         
-        public Build setP(java.lang.foreign.MemoryAddress p) {
+        public Builder setP(java.lang.foreign.MemoryAddress p) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("p"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
             return this;
         }
         
-        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+        public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
             return this;
         }
         
-        public Build setFuture(java.lang.foreign.MemoryAddress[] future) {
+        public Builder setFuture(java.lang.foreign.MemoryAddress[] future) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("future"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (future == null ? MemoryAddress.NULL : Interop.allocateNativeArray(future, false)));

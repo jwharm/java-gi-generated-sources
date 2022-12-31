@@ -17,31 +17,29 @@ public class Source extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GSource";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("callback_data"),
-        Interop.valueLayout.ADDRESS.withName("callback_funcs"),
-        Interop.valueLayout.ADDRESS.withName("source_funcs"),
-        Interop.valueLayout.C_INT.withName("ref_count"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("context"),
-        Interop.valueLayout.C_INT.withName("priority"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        Interop.valueLayout.C_INT.withName("source_id"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("poll_fds"),
-        Interop.valueLayout.ADDRESS.withName("prev"),
-        Interop.valueLayout.ADDRESS.withName("next"),
-        Interop.valueLayout.ADDRESS.withName("name"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("callback_data"),
+            Interop.valueLayout.ADDRESS.withName("callback_funcs"),
+            Interop.valueLayout.ADDRESS.withName("source_funcs"),
+            Interop.valueLayout.C_INT.withName("ref_count"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("context"),
+            Interop.valueLayout.C_INT.withName("priority"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            Interop.valueLayout.C_INT.withName("source_id"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("poll_fds"),
+            Interop.valueLayout.ADDRESS.withName("prev"),
+            Interop.valueLayout.ADDRESS.withName("next"),
+            Interop.valueLayout.ADDRESS.withName("name"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -62,14 +60,15 @@ public class Source extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Source(Addressable address, Ownership ownership) {
+    protected Source(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gtk.glib.SourceFuncs sourceFuncs, int structSize) {
-        java.util.Objects.requireNonNull(sourceFuncs, "Parameter 'sourceFuncs' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Source> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Source(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gtk.glib.SourceFuncs sourceFuncs, int structSize) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_source_new.invokeExact(
                     sourceFuncs.handle(),
@@ -93,7 +92,7 @@ public class Source extends Struct {
      *                the sources behavior.
      * @param structSize size of the {@link Source} structure to create.
      */
-    public Source(@NotNull org.gtk.glib.SourceFuncs sourceFuncs, int structSize) {
+    public Source(org.gtk.glib.SourceFuncs sourceFuncs, int structSize) {
         super(constructNew(sourceFuncs, structSize), Ownership.FULL);
     }
     
@@ -117,8 +116,7 @@ public class Source extends Struct {
      * Do not call this API on a {@link Source} that you did not create.
      * @param childSource a second {@link Source} that {@code source} should "poll"
      */
-    public void addChildSource(@NotNull org.gtk.glib.Source childSource) {
-        java.util.Objects.requireNonNull(childSource, "Parameter 'childSource' must not be null");
+    public void addChildSource(org.gtk.glib.Source childSource) {
         try {
             DowncallHandles.g_source_add_child_source.invokeExact(
                     handle(),
@@ -144,8 +142,7 @@ public class Source extends Struct {
      * @param fd a {@link PollFD} structure holding information about a file
      *      descriptor to watch.
      */
-    public void addPoll(@NotNull org.gtk.glib.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public void addPoll(org.gtk.glib.PollFD fd) {
         try {
             DowncallHandles.g_source_add_poll.invokeExact(
                     handle(),
@@ -173,8 +170,7 @@ public class Source extends Struct {
      * @param events an event mask
      * @return an opaque tag
      */
-    public @NotNull java.lang.foreign.MemoryAddress addUnixFd(int fd, @NotNull org.gtk.glib.IOCondition events) {
-        java.util.Objects.requireNonNull(events, "Parameter 'events' must not be null");
+    public java.lang.foreign.MemoryAddress addUnixFd(int fd, org.gtk.glib.IOCondition events) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_source_add_unix_fd.invokeExact(
@@ -247,7 +243,7 @@ public class Source extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -271,7 +267,7 @@ public class Source extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -281,8 +277,7 @@ public class Source extends Struct {
      * @deprecated use g_source_get_time() instead
      */
     @Deprecated
-    public void getCurrentTime(@NotNull org.gtk.glib.TimeVal timeval) {
-        java.util.Objects.requireNonNull(timeval, "Parameter 'timeval' must not be null");
+    public void getCurrentTime(org.gtk.glib.TimeVal timeval) {
         try {
             DowncallHandles.g_source_get_current_time.invokeExact(
                     handle(),
@@ -328,7 +323,7 @@ public class Source extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -473,7 +468,7 @@ public class Source extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -491,9 +486,7 @@ public class Source extends Struct {
      * @param tag the tag from g_source_add_unix_fd()
      * @param newEvents the new event mask to watch
      */
-    public void modifyUnixFd(@NotNull java.lang.foreign.MemoryAddress tag, @NotNull org.gtk.glib.IOCondition newEvents) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(newEvents, "Parameter 'newEvents' must not be null");
+    public void modifyUnixFd(java.lang.foreign.MemoryAddress tag, org.gtk.glib.IOCondition newEvents) {
         try {
             DowncallHandles.g_source_modify_unix_fd.invokeExact(
                     handle(),
@@ -518,8 +511,7 @@ public class Source extends Struct {
      * @param tag the tag from g_source_add_unix_fd()
      * @return the conditions reported on the fd
      */
-    public @NotNull org.gtk.glib.IOCondition queryUnixFd(@NotNull java.lang.foreign.MemoryAddress tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public org.gtk.glib.IOCondition queryUnixFd(java.lang.foreign.MemoryAddress tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_source_query_unix_fd.invokeExact(
@@ -535,7 +527,7 @@ public class Source extends Struct {
      * Increases the reference count on a source by one.
      * @return {@code source}
      */
-    public @NotNull org.gtk.glib.Source ref() {
+    public org.gtk.glib.Source ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_source_ref.invokeExact(
@@ -543,7 +535,7 @@ public class Source extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -554,8 +546,7 @@ public class Source extends Struct {
      * @param childSource a {@link Source} previously passed to
      *     g_source_add_child_source().
      */
-    public void removeChildSource(@NotNull org.gtk.glib.Source childSource) {
-        java.util.Objects.requireNonNull(childSource, "Parameter 'childSource' must not be null");
+    public void removeChildSource(org.gtk.glib.Source childSource) {
         try {
             DowncallHandles.g_source_remove_child_source.invokeExact(
                     handle(),
@@ -573,8 +564,7 @@ public class Source extends Struct {
      * Do not call this API on a {@link Source} that you did not create.
      * @param fd a {@link PollFD} structure previously passed to g_source_add_poll().
      */
-    public void removePoll(@NotNull org.gtk.glib.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public void removePoll(org.gtk.glib.PollFD fd) {
         try {
             DowncallHandles.g_source_remove_poll.invokeExact(
                     handle(),
@@ -597,8 +587,7 @@ public class Source extends Struct {
      * As the name suggests, this function is not available on Windows.
      * @param tag the tag from g_source_add_unix_fd()
      */
-    public void removeUnixFd(@NotNull java.lang.foreign.MemoryAddress tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public void removeUnixFd(java.lang.foreign.MemoryAddress tag) {
         try {
             DowncallHandles.g_source_remove_unix_fd.invokeExact(
                     handle(),
@@ -630,19 +619,15 @@ public class Source extends Struct {
      * Note that g_source_destroy() for a currently attached source has the effect
      * of also unsetting the callback.
      * @param func a callback function
+     * @param notify a function to call when {@code data} is no longer in use, or {@code null}.
      */
-    public void setCallback(@NotNull org.gtk.glib.SourceFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setCallback(org.gtk.glib.SourceFunc func, @Nullable org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.g_source_set_callback.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -659,16 +644,14 @@ public class Source extends Struct {
      * It is safe to call this function multiple times on a source which has already
      * been attached to a context. The changes will take effect for the next time
      * the source is dispatched after this call returns.
-     * @param callbackData pointer to callback data "object"
      * @param callbackFuncs functions for reference counting {@code callback_data}
      *                  and getting the callback and data
      */
-    public void setCallbackIndirect(@Nullable java.lang.foreign.MemoryAddress callbackData, @NotNull org.gtk.glib.SourceCallbackFuncs callbackFuncs) {
-        java.util.Objects.requireNonNull(callbackFuncs, "Parameter 'callbackFuncs' must not be null");
+    public void setCallbackIndirect(org.gtk.glib.SourceCallbackFuncs callbackFuncs) {
         try {
             DowncallHandles.g_source_set_callback_indirect.invokeExact(
                     handle(),
-                    (Addressable) callbackData,
+                    (Addressable) MemoryAddress.NULL,
                     callbackFuncs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -686,7 +669,7 @@ public class Source extends Struct {
         try {
             DowncallHandles.g_source_set_can_recurse.invokeExact(
                     handle(),
-                    canRecurse ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(canRecurse, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -711,8 +694,14 @@ public class Source extends Struct {
      * This should only ever be called from {@link Source} implementations.
      * @param dispose {@link SourceDisposeFunc} to set on the source
      */
-    public void setDisposeFunction(@NotNull org.gtk.glib.SourceDisposeFunc dispose) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setDisposeFunction(org.gtk.glib.SourceDisposeFunc dispose) {
+        try {
+            DowncallHandles.g_source_set_dispose_function.invokeExact(
+                    handle(),
+                    (Addressable) dispose.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -720,8 +709,7 @@ public class Source extends Struct {
      * default implementations) of an unattached source.
      * @param funcs the new {@link SourceFuncs}
      */
-    public void setFuncs(@NotNull org.gtk.glib.SourceFuncs funcs) {
-        java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
+    public void setFuncs(org.gtk.glib.SourceFuncs funcs) {
         try {
             DowncallHandles.g_source_set_funcs.invokeExact(
                     handle(),
@@ -752,12 +740,11 @@ public class Source extends Struct {
      * Also see g_source_set_static_name().
      * @param name debug name for the source
      */
-    public void setName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setName(java.lang.String name) {
         try {
             DowncallHandles.g_source_set_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -826,12 +813,11 @@ public class Source extends Struct {
      * string literals.
      * @param name debug name for the source
      */
-    public void setStaticName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setStaticName(java.lang.String name) {
         try {
             DowncallHandles.g_source_set_static_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -882,7 +868,7 @@ public class Source extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -890,38 +876,35 @@ public class Source extends Struct {
      * source functions and user data. If multiple sources exist with the
      * same source functions and user data, only one will be destroyed.
      * @param funcs The {@code source_funcs} passed to g_source_new()
-     * @param userData the user data for the callback
      * @return {@code true} if a source was found and removed.
      */
-    public static boolean removeByFuncsUserData(@NotNull org.gtk.glib.SourceFuncs funcs, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
+    public static boolean removeByFuncsUserData(org.gtk.glib.SourceFuncs funcs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_source_remove_by_funcs_user_data.invokeExact(
                     funcs.handle(),
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Removes a source from the default main loop context given the user
      * data for the callback. If multiple sources exist with the same user
      * data, only one will be destroyed.
-     * @param userData the user_data for the callback.
      * @return {@code true} if a source was found and removed.
      */
-    public static boolean removeByUserData(@Nullable java.lang.foreign.MemoryAddress userData) {
+    public static boolean removeByUserData() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_source_remove_by_user_data.invokeExact(
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -944,12 +927,11 @@ public class Source extends Struct {
      * @param tag a {@link Source} ID
      * @param name debug name for the source
      */
-    public static void setNameById(int tag, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static void setNameById(int tag, java.lang.String name) {
         try {
             DowncallHandles.g_source_set_name_by_id.invokeExact(
                     tag,
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1167,119 +1149,123 @@ public class Source extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Source.Builder} object constructs a {@link Source} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Source.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Source struct;
+        private final Source struct;
         
-         /**
-         * A {@link Source.Build} object constructs a {@link Source} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Source.allocate();
         }
         
          /**
          * Finish building the {@link Source} struct.
          * @return A new instance of {@code Source} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Source construct() {
+        public Source build() {
             return struct;
         }
         
-        public Build setCallbackData(java.lang.foreign.MemoryAddress callbackData) {
+        public Builder setCallbackData(java.lang.foreign.MemoryAddress callbackData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("callback_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callbackData == null ? MemoryAddress.NULL : (Addressable) callbackData));
             return this;
         }
         
-        public Build setCallbackFuncs(org.gtk.glib.SourceCallbackFuncs callbackFuncs) {
+        public Builder setCallbackFuncs(org.gtk.glib.SourceCallbackFuncs callbackFuncs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("callback_funcs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callbackFuncs == null ? MemoryAddress.NULL : callbackFuncs.handle()));
             return this;
         }
         
-        public Build setSourceFuncs(org.gtk.glib.SourceFuncs sourceFuncs) {
+        public Builder setSourceFuncs(org.gtk.glib.SourceFuncs sourceFuncs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("source_funcs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sourceFuncs == null ? MemoryAddress.NULL : sourceFuncs.handle()));
             return this;
         }
         
-        public Build setRefCount(int refCount) {
+        public Builder setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
-        public Build setContext(org.gtk.glib.MainContext context) {
+        public Builder setContext(org.gtk.glib.MainContext context) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("context"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
             return this;
         }
         
-        public Build setPriority(int priority) {
+        public Builder setPriority(int priority) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priority"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), priority);
             return this;
         }
         
-        public Build setFlags(int flags) {
+        public Builder setFlags(int flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
             return this;
         }
         
-        public Build setSourceId(int sourceId) {
+        public Builder setSourceId(int sourceId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
             return this;
         }
         
-        public Build setPollFds(org.gtk.glib.SList pollFds) {
+        public Builder setPollFds(org.gtk.glib.SList pollFds) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("poll_fds"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pollFds == null ? MemoryAddress.NULL : pollFds.handle()));
             return this;
         }
         
-        public Build setPrev(org.gtk.glib.Source prev) {
+        public Builder setPrev(org.gtk.glib.Source prev) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("prev"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
             return this;
         }
         
-        public Build setNext(org.gtk.glib.Source next) {
+        public Builder setNext(org.gtk.glib.Source next) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
             return this;
         }
         
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
             return this;
         }
         
-        public Build setPriv(org.gtk.glib.SourcePrivate priv) {
+        public Builder setPriv(org.gtk.glib.SourcePrivate priv) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priv"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));

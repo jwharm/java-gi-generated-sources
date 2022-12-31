@@ -17,23 +17,21 @@ public class DeviceProviderClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstDeviceProviderClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.ObjectClass.getMemoryLayout().withName("parent_class"),
-        Interop.valueLayout.ADDRESS.withName("factory"),
-        Interop.valueLayout.ADDRESS.withName("probe"),
-        Interop.valueLayout.ADDRESS.withName("start"),
-        Interop.valueLayout.ADDRESS.withName("stop"),
-        Interop.valueLayout.ADDRESS.withName("metadata"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.ObjectClass.getMemoryLayout().withName("parent_class"),
+            Interop.valueLayout.ADDRESS.withName("factory"),
+            Interop.valueLayout.ADDRESS.withName("probe"),
+            Interop.valueLayout.ADDRESS.withName("start"),
+            Interop.valueLayout.ADDRESS.withName("stop"),
+            Interop.valueLayout.ADDRESS.withName("metadata"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,30 +51,120 @@ public class DeviceProviderClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gstreamer.gst.ObjectClass parentClass$get() {
+    public org.gstreamer.gst.ObjectClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gstreamer.gst.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
     }
     
     /**
      * Get the value of the field {@code factory}
      * @return The value of the field {@code factory}
      */
-    public org.gstreamer.gst.DeviceProviderFactory factory$get() {
+    public org.gstreamer.gst.DeviceProviderFactory getFactory() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("factory"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.DeviceProviderFactory(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gst.DeviceProviderFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.DeviceProviderFactory.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code factory}
      * @param factory The new value of the field {@code factory}
      */
-    public void factory$set(org.gstreamer.gst.DeviceProviderFactory factory) {
+    public void setFactory(org.gstreamer.gst.DeviceProviderFactory factory) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("factory"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), factory.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (factory == null ? MemoryAddress.NULL : factory.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface ProbeCallback {
+        org.gtk.glib.List run(org.gstreamer.gst.DeviceProvider provider);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress provider) {
+            var RESULT = run((org.gstreamer.gst.DeviceProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gstreamer.gst.DeviceProvider.fromAddress).marshal(provider, Ownership.NONE));
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ProbeCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code probe}
+     * @param probe The new value of the field {@code probe}
+     */
+    public void setProbe(ProbeCallback probe) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("probe"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (probe == null ? MemoryAddress.NULL : probe.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface StartCallback {
+        boolean run(org.gstreamer.gst.DeviceProvider provider);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress provider) {
+            var RESULT = run((org.gstreamer.gst.DeviceProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gstreamer.gst.DeviceProvider.fromAddress).marshal(provider, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code start}
+     * @param start The new value of the field {@code start}
+     */
+    public void setStart(StartCallback start) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface StopCallback {
+        void run(org.gstreamer.gst.DeviceProvider provider);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress provider) {
+            run((org.gstreamer.gst.DeviceProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(provider)), org.gstreamer.gst.DeviceProvider.fromAddress).marshal(provider, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StopCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code stop}
+     * @param stop The new value of the field {@code stop}
+     */
+    public void setStop(StopCallback stop) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("stop"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
     }
     
     /**
@@ -84,24 +172,24 @@ public class DeviceProviderClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DeviceProviderClass(Addressable address, Ownership ownership) {
+    protected DeviceProviderClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DeviceProviderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceProviderClass(input, ownership);
     
     /**
      * Set {@code key} with {@code value} as metadata in {@code klass}.
      * @param key the key to set
      * @param value the value to set
      */
-    public void addMetadata(@NotNull java.lang.String key, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void addMetadata(java.lang.String key, java.lang.String value) {
         try {
             DowncallHandles.gst_device_provider_class_add_metadata.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,14 +205,12 @@ public class DeviceProviderClass extends Struct {
      * @param key the key to set
      * @param value the value to set
      */
-    public void addStaticMetadata(@NotNull java.lang.String key, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void addStaticMetadata(java.lang.String key, java.lang.String value) {
         try {
             DowncallHandles.gst_device_provider_class_add_static_metadata.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,17 +221,16 @@ public class DeviceProviderClass extends Struct {
      * @param key the key to get
      * @return the metadata for {@code key}.
      */
-    public @Nullable java.lang.String getMetadata(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable java.lang.String getMetadata(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_class_get_metadata.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -164,18 +249,14 @@ public class DeviceProviderClass extends Struct {
      * @param author Name and contact details of the author(s). Use \\n to separate
      * multiple author metadata. E.g: "Joe Bloggs &amp;lt;joe.blogs at foo.com&amp;gt;"
      */
-    public void setMetadata(@NotNull java.lang.String longname, @NotNull java.lang.String classification, @NotNull java.lang.String description, @NotNull java.lang.String author) {
-        java.util.Objects.requireNonNull(longname, "Parameter 'longname' must not be null");
-        java.util.Objects.requireNonNull(classification, "Parameter 'classification' must not be null");
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
-        java.util.Objects.requireNonNull(author, "Parameter 'author' must not be null");
+    public void setMetadata(java.lang.String longname, java.lang.String classification, java.lang.String description, java.lang.String author) {
         try {
             DowncallHandles.gst_device_provider_class_set_metadata.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(longname),
-                    Interop.allocateNativeString(classification),
-                    Interop.allocateNativeString(description),
-                    Interop.allocateNativeString(author));
+                    Marshal.stringToAddress.marshal(longname, null),
+                    Marshal.stringToAddress.marshal(classification, null),
+                    Marshal.stringToAddress.marshal(description, null),
+                    Marshal.stringToAddress.marshal(author, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,18 +282,14 @@ public class DeviceProviderClass extends Struct {
      * to separate multiple author metadata. E.g: "Joe Bloggs &amp;lt;joe.blogs at
      * foo.com&amp;gt;"
      */
-    public void setStaticMetadata(@NotNull java.lang.String longname, @NotNull java.lang.String classification, @NotNull java.lang.String description, @NotNull java.lang.String author) {
-        java.util.Objects.requireNonNull(longname, "Parameter 'longname' must not be null");
-        java.util.Objects.requireNonNull(classification, "Parameter 'classification' must not be null");
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
-        java.util.Objects.requireNonNull(author, "Parameter 'author' must not be null");
+    public void setStaticMetadata(java.lang.String longname, java.lang.String classification, java.lang.String description, java.lang.String author) {
         try {
             DowncallHandles.gst_device_provider_class_set_static_metadata.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(longname),
-                    Interop.allocateNativeString(classification),
-                    Interop.allocateNativeString(description),
-                    Interop.allocateNativeString(author));
+                    Marshal.stringToAddress.marshal(longname, null),
+                    Marshal.stringToAddress.marshal(classification, null),
+                    Marshal.stringToAddress.marshal(description, null),
+                    Marshal.stringToAddress.marshal(author, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,31 +327,35 @@ public class DeviceProviderClass extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link DeviceProviderClass.Builder} object constructs a {@link DeviceProviderClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DeviceProviderClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DeviceProviderClass struct;
+        private final DeviceProviderClass struct;
         
-         /**
-         * A {@link DeviceProviderClass.Build} object constructs a {@link DeviceProviderClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DeviceProviderClass.allocate();
         }
         
          /**
          * Finish building the {@link DeviceProviderClass} struct.
          * @return A new instance of {@code DeviceProviderClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DeviceProviderClass construct() {
+        public DeviceProviderClass build() {
             return struct;
         }
         
@@ -283,7 +364,7 @@ public class DeviceProviderClass extends Struct {
          * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
+        public Builder setParentClass(org.gstreamer.gst.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
@@ -296,42 +377,42 @@ public class DeviceProviderClass extends Struct {
          * @param factory The value for the {@code factory} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFactory(org.gstreamer.gst.DeviceProviderFactory factory) {
+        public Builder setFactory(org.gstreamer.gst.DeviceProviderFactory factory) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("factory"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (factory == null ? MemoryAddress.NULL : factory.handle()));
             return this;
         }
         
-        public Build setProbe(java.lang.foreign.MemoryAddress probe) {
+        public Builder setProbe(ProbeCallback probe) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("probe"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (probe == null ? MemoryAddress.NULL : probe));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (probe == null ? MemoryAddress.NULL : probe.toCallback()));
             return this;
         }
         
-        public Build setStart(java.lang.foreign.MemoryAddress start) {
+        public Builder setStart(StartCallback start) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : start));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (start == null ? MemoryAddress.NULL : start.toCallback()));
             return this;
         }
         
-        public Build setStop(java.lang.foreign.MemoryAddress stop) {
+        public Builder setStop(StopCallback stop) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("stop"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : stop));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stop == null ? MemoryAddress.NULL : stop.toCallback()));
             return this;
         }
         
-        public Build setMetadata(java.lang.foreign.MemoryAddress metadata) {
+        public Builder setMetadata(java.lang.foreign.MemoryAddress metadata) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("metadata"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (metadata == null ? MemoryAddress.NULL : (Addressable) metadata));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

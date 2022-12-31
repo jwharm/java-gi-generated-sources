@@ -20,17 +20,15 @@ public class Frustum extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_frustum_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(6, org.gtk.graphene.Plane.getMemoryLayout()).withName("planes")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            MemoryLayout.sequenceLayout(6, org.gtk.graphene.Plane.getMemoryLayout()).withName("planes")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,13 +49,15 @@ public class Frustum extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Frustum(Addressable address, Ownership ownership) {
+    protected Frustum(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Frustum> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Frustum(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -75,7 +75,8 @@ public class Frustum extends Struct {
      *   allocated by this function.
      */
     public static Frustum alloc() {
-        return new Frustum(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -84,8 +85,7 @@ public class Frustum extends Struct {
      * @param point a {@link Point3D}
      * @return {@code true} if the point is inside the frustum
      */
-    public boolean containsPoint(@NotNull org.gtk.graphene.Point3D point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public boolean containsPoint(org.gtk.graphene.Point3D point) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_frustum_contains_point.invokeExact(
@@ -102,8 +102,7 @@ public class Frustum extends Struct {
      * @param b a {@link Frustum}
      * @return {@code true} if the given frustums are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Frustum b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Frustum b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_frustum_equal.invokeExact(
@@ -132,8 +131,7 @@ public class Frustum extends Struct {
      * @param planes return location for an array
      *   of 6 {@link Plane}
      */
-    public void getPlanes(@NotNull Out<org.gtk.graphene.Plane[]> planes) {
-        java.util.Objects.requireNonNull(planes, "Parameter 'planes' must not be null");
+    public void getPlanes(Out<org.gtk.graphene.Plane[]> planes) {
         MemorySegment planesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.graphene_frustum_get_planes.invokeExact(
@@ -145,7 +143,7 @@ public class Frustum extends Struct {
         org.gtk.graphene.Plane[] planesARRAY = new org.gtk.graphene.Plane[6];
         for (int I = 0; I < 6; I++) {
             var OBJ = planesPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            planesARRAY[I] = new org.gtk.graphene.Plane(OBJ, Ownership.NONE);
+            planesARRAY[I] = org.gtk.graphene.Plane.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         planes.set(planesARRAY);
     }
@@ -161,13 +159,7 @@ public class Frustum extends Struct {
      * @param p5 a clipping plane
      * @return the initialized frustum
      */
-    public @NotNull org.gtk.graphene.Frustum init(@NotNull org.gtk.graphene.Plane p0, @NotNull org.gtk.graphene.Plane p1, @NotNull org.gtk.graphene.Plane p2, @NotNull org.gtk.graphene.Plane p3, @NotNull org.gtk.graphene.Plane p4, @NotNull org.gtk.graphene.Plane p5) {
-        java.util.Objects.requireNonNull(p0, "Parameter 'p0' must not be null");
-        java.util.Objects.requireNonNull(p1, "Parameter 'p1' must not be null");
-        java.util.Objects.requireNonNull(p2, "Parameter 'p2' must not be null");
-        java.util.Objects.requireNonNull(p3, "Parameter 'p3' must not be null");
-        java.util.Objects.requireNonNull(p4, "Parameter 'p4' must not be null");
-        java.util.Objects.requireNonNull(p5, "Parameter 'p5' must not be null");
+    public org.gtk.graphene.Frustum init(org.gtk.graphene.Plane p0, org.gtk.graphene.Plane p1, org.gtk.graphene.Plane p2, org.gtk.graphene.Plane p3, org.gtk.graphene.Plane p4, org.gtk.graphene.Plane p5) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_init.invokeExact(
@@ -181,7 +173,7 @@ public class Frustum extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Frustum(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -190,8 +182,7 @@ public class Frustum extends Struct {
      * @param src a {@link Frustum}
      * @return the initialized frustum
      */
-    public @NotNull org.gtk.graphene.Frustum initFromFrustum(@NotNull org.gtk.graphene.Frustum src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Frustum initFromFrustum(org.gtk.graphene.Frustum src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_init_from_frustum.invokeExact(
@@ -200,7 +191,7 @@ public class Frustum extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Frustum(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -208,8 +199,7 @@ public class Frustum extends Struct {
      * @param matrix a {@link Matrix}
      * @return the initialized frustum
      */
-    public @NotNull org.gtk.graphene.Frustum initFromMatrix(@NotNull org.gtk.graphene.Matrix matrix) {
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
+    public org.gtk.graphene.Frustum initFromMatrix(org.gtk.graphene.Matrix matrix) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_frustum_init_from_matrix.invokeExact(
@@ -218,7 +208,7 @@ public class Frustum extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Frustum(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Frustum.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -227,8 +217,7 @@ public class Frustum extends Struct {
      * @param box a {@link Box}
      * @return {@code true} if the box intersects the frustum
      */
-    public boolean intersectsBox(@NotNull org.gtk.graphene.Box box) {
-        java.util.Objects.requireNonNull(box, "Parameter 'box' must not be null");
+    public boolean intersectsBox(org.gtk.graphene.Box box) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_frustum_intersects_box.invokeExact(
@@ -246,8 +235,7 @@ public class Frustum extends Struct {
      * @param sphere a {@link Sphere}
      * @return {@code true} if the sphere intersects the frustum
      */
-    public boolean intersectsSphere(@NotNull org.gtk.graphene.Sphere sphere) {
-        java.util.Objects.requireNonNull(sphere, "Parameter 'sphere' must not be null");
+    public boolean intersectsSphere(org.gtk.graphene.Sphere sphere) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_frustum_intersects_sphere.invokeExact(
@@ -321,35 +309,39 @@ public class Frustum extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Frustum.Builder} object constructs a {@link Frustum} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Frustum.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Frustum struct;
+        private final Frustum struct;
         
-         /**
-         * A {@link Frustum.Build} object constructs a {@link Frustum} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Frustum.allocate();
         }
         
          /**
          * Finish building the {@link Frustum} struct.
          * @return A new instance of {@code Frustum} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Frustum construct() {
+        public Frustum build() {
             return struct;
         }
         
-        public Build setPlanes(org.gtk.graphene.Plane[] planes) {
+        public Builder setPlanes(org.gtk.graphene.Plane[] planes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("planes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (planes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(planes, org.gtk.graphene.Plane.getMemoryLayout(), false)));

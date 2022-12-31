@@ -44,10 +44,12 @@ public class VideoDither extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoDither(Addressable address, Ownership ownership) {
+    protected VideoDither(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoDither> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoDither(input, ownership);
     
     /**
      * Free {@code dither}
@@ -98,11 +100,7 @@ public class VideoDither extends Struct {
      * @param width the width of the lines
      * @return a new {@link VideoDither}
      */
-    public static @NotNull org.gstreamer.video.VideoDither new_(@NotNull org.gstreamer.video.VideoDitherMethod method, @NotNull org.gstreamer.video.VideoDitherFlags flags, @NotNull org.gstreamer.video.VideoFormat format, PointerInteger quantizer, int width) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(quantizer, "Parameter 'quantizer' must not be null");
+    public static org.gstreamer.video.VideoDither new_(org.gstreamer.video.VideoDitherMethod method, org.gstreamer.video.VideoDitherFlags flags, org.gstreamer.video.VideoFormat format, PointerInteger quantizer, int width) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_dither_new.invokeExact(
@@ -114,7 +112,7 @@ public class VideoDither extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoDither(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoDither.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

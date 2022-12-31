@@ -46,35 +46,15 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TimedAnimation(Addressable address, Ownership ownership) {
+    protected TimedAnimation(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TimedAnimation if its GType is a (or inherits from) "AdwTimedAnimation".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TimedAnimation} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwTimedAnimation", a ClassCastException will be thrown.
-     */
-    public static TimedAnimation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TimedAnimation.getType())) {
-            return new TimedAnimation(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwTimedAnimation");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TimedAnimation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimedAnimation(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.Widget widget, double from, double to, int duration, @NotNull org.gnome.adw.AnimationTarget target) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gtk.Widget widget, double from, double to, int duration, org.gnome.adw.AnimationTarget target) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_timed_animation_new.invokeExact(
                     widget.handle(),
@@ -98,7 +78,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      * @param duration a duration for the animation
      * @param target a target value to animate
      */
-    public TimedAnimation(@NotNull org.gtk.gtk.Widget widget, double from, double to, int duration, @NotNull org.gnome.adw.AnimationTarget target) {
+    public TimedAnimation(org.gtk.gtk.Widget widget, double from, double to, int duration, org.gnome.adw.AnimationTarget target) {
         super(constructNew(widget, from, to, duration, target), Ownership.NONE);
     }
     
@@ -114,7 +94,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -136,7 +116,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      * Gets the easing function {@code self} uses.
      * @return the easing function {@code self} uses
      */
-    public @NotNull org.gnome.adw.Easing getEasing() {
+    public org.gnome.adw.Easing getEasing() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_timed_animation_get_easing.invokeExact(
@@ -174,7 +154,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -215,7 +195,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
         try {
             DowncallHandles.adw_timed_animation_set_alternate.invokeExact(
                     handle(),
-                    alternate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(alternate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,8 +223,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      * See {@code Easing} for the description of specific easing functions.
      * @param easing the easing function to use
      */
-    public void setEasing(@NotNull org.gnome.adw.Easing easing) {
-        java.util.Objects.requireNonNull(easing, "Parameter 'easing' must not be null");
+    public void setEasing(org.gnome.adw.Easing easing) {
         try {
             DowncallHandles.adw_timed_animation_set_easing.invokeExact(
                     handle(),
@@ -278,7 +257,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
         try {
             DowncallHandles.adw_timed_animation_set_reverse.invokeExact(
                     handle(),
-                    reverse ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(reverse, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -328,7 +307,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_timed_animation_get_type.invokeExact();
@@ -337,38 +316,40 @@ public class TimedAnimation extends org.gnome.adw.Animation {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TimedAnimation.Builder} object constructs a {@link TimedAnimation} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TimedAnimation.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gnome.adw.Animation.Build {
+    public static class Builder extends org.gnome.adw.Animation.Builder {
         
-         /**
-         * A {@link TimedAnimation.Build} object constructs a {@link TimedAnimation} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TimedAnimation} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TimedAnimation} using {@link TimedAnimation#castFrom}.
+         * {@link TimedAnimation}.
          * @return A new instance of {@code TimedAnimation} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TimedAnimation construct() {
-            return TimedAnimation.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TimedAnimation.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TimedAnimation build() {
+            return (TimedAnimation) org.gtk.gobject.GObject.newWithProperties(
+                TimedAnimation.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -377,7 +358,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
          * @param alternate The value for the {@code alternate} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAlternate(boolean alternate) {
+        public Builder setAlternate(boolean alternate) {
             names.add("alternate");
             values.add(org.gtk.gobject.Value.create(alternate));
             return this;
@@ -393,7 +374,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
          * @param duration The value for the {@code duration} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDuration(int duration) {
+        public Builder setDuration(int duration) {
             names.add("duration");
             values.add(org.gtk.gobject.Value.create(duration));
             return this;
@@ -408,7 +389,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
          * @param easing The value for the {@code easing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEasing(org.gnome.adw.Easing easing) {
+        public Builder setEasing(org.gnome.adw.Easing easing) {
             names.add("easing");
             values.add(org.gtk.gobject.Value.create(easing));
             return this;
@@ -421,7 +402,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
          * @param repeatCount The value for the {@code repeat-count} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRepeatCount(int repeatCount) {
+        public Builder setRepeatCount(int repeatCount) {
             names.add("repeat-count");
             values.add(org.gtk.gobject.Value.create(repeatCount));
             return this;
@@ -432,7 +413,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
          * @param reverse The value for the {@code reverse} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReverse(boolean reverse) {
+        public Builder setReverse(boolean reverse) {
             names.add("reverse");
             values.add(org.gtk.gobject.Value.create(reverse));
             return this;
@@ -449,7 +430,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
          * @param valueFrom The value for the {@code value-from} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueFrom(double valueFrom) {
+        public Builder setValueFrom(double valueFrom) {
             names.add("value-from");
             values.add(org.gtk.gobject.Value.create(valueFrom));
             return this;
@@ -466,7 +447,7 @@ public class TimedAnimation extends org.gnome.adw.Animation {
          * @param valueTo The value for the {@code value-to} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueTo(double valueTo) {
+        public Builder setValueTo(double valueTo) {
             names.add("value-to");
             values.add(org.gtk.gobject.Value.create(valueTo));
             return this;

@@ -16,22 +16,20 @@ public class AtscMGT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsAtscMGT";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("protocol_version"),
-        MemoryLayout.paddingLayout(8),
-        Interop.valueLayout.C_SHORT.withName("tables_defined"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("tables"),
-        Interop.valueLayout.ADDRESS.withName("descriptors")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("protocol_version"),
+            MemoryLayout.paddingLayout(8),
+            Interop.valueLayout.C_SHORT.withName("tables_defined"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("tables"),
+            Interop.valueLayout.ADDRESS.withName("descriptors")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class AtscMGT extends Struct {
      * Get the value of the field {@code protocol_version}
      * @return The value of the field {@code protocol_version}
      */
-    public byte protocolVersion$get() {
+    public byte getProtocolVersion() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,7 +60,7 @@ public class AtscMGT extends Struct {
      * Change the value of the field {@code protocol_version}
      * @param protocolVersion The new value of the field {@code protocol_version}
      */
-    public void protocolVersion$set(byte protocolVersion) {
+    public void setProtocolVersion(byte protocolVersion) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
@@ -72,7 +70,7 @@ public class AtscMGT extends Struct {
      * Get the value of the field {@code tables_defined}
      * @return The value of the field {@code tables_defined}
      */
-    public short tablesDefined$get() {
+    public short getTablesDefined() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tables_defined"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,10 +81,52 @@ public class AtscMGT extends Struct {
      * Change the value of the field {@code tables_defined}
      * @param tablesDefined The new value of the field {@code tables_defined}
      */
-    public void tablesDefined$set(short tablesDefined) {
+    public void setTablesDefined(short tablesDefined) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tables_defined"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tablesDefined);
+    }
+    
+    /**
+     * Get the value of the field {@code tables}
+     * @return The value of the field {@code tables}
+     */
+    public PointerProxy<org.gstreamer.mpegts.AtscMGTTable> getTables() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tables"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.AtscMGTTable>(RESULT, org.gstreamer.mpegts.AtscMGTTable.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code tables}
+     * @param tables The new value of the field {@code tables}
+     */
+    public void setTables(org.gstreamer.mpegts.AtscMGTTable[] tables) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("tables"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tables == null ? MemoryAddress.NULL : Interop.allocateNativeArray(tables, org.gstreamer.mpegts.AtscMGTTable.getMemoryLayout(), false)));
+    }
+    
+    /**
+     * Get the value of the field {@code descriptors}
+     * @return The value of the field {@code descriptors}
+     */
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code descriptors}
+     * @param descriptors The new value of the field {@code descriptors}
+     */
+    public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
     }
     
     /**
@@ -94,13 +134,15 @@ public class AtscMGT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AtscMGT(Addressable address, Ownership ownership) {
+    protected AtscMGT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AtscMGT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscMGT(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_atsc_mgt_new.invokeExact();
         } catch (Throwable ERR) {
@@ -121,31 +163,35 @@ public class AtscMGT extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AtscMGT.Builder} object constructs a {@link AtscMGT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AtscMGT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AtscMGT struct;
+        private final AtscMGT struct;
         
-         /**
-         * A {@link AtscMGT.Build} object constructs a {@link AtscMGT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AtscMGT.allocate();
         }
         
          /**
          * Finish building the {@link AtscMGT} struct.
          * @return A new instance of {@code AtscMGT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AtscMGT construct() {
+        public AtscMGT build() {
             return struct;
         }
         
@@ -154,7 +200,7 @@ public class AtscMGT extends Struct {
          * @param protocolVersion The value for the {@code protocolVersion} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProtocolVersion(byte protocolVersion) {
+        public Builder setProtocolVersion(byte protocolVersion) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("protocol_version"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), protocolVersion);
@@ -166,7 +212,7 @@ public class AtscMGT extends Struct {
          * @param tablesDefined The value for the {@code tablesDefined} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTablesDefined(short tablesDefined) {
+        public Builder setTablesDefined(short tablesDefined) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tables_defined"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tablesDefined);
@@ -178,7 +224,7 @@ public class AtscMGT extends Struct {
          * @param tables The value for the {@code tables} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTables(org.gstreamer.mpegts.AtscMGTTable[] tables) {
+        public Builder setTables(org.gstreamer.mpegts.AtscMGTTable[] tables) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tables"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tables == null ? MemoryAddress.NULL : Interop.allocateNativeArray(tables, org.gstreamer.mpegts.AtscMGTTable.getMemoryLayout(), false)));
@@ -190,7 +236,7 @@ public class AtscMGT extends Struct {
          * @param descriptors The value for the {@code descriptors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));

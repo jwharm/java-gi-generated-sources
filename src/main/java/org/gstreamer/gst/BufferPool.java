@@ -41,7 +41,7 @@ import org.jetbrains.annotations.*;
  * All further gst_buffer_pool_acquire_buffer() calls will return an error. When
  * all buffers are returned to the pool they will be freed.
  */
-public class BufferPool extends org.gstreamer.gst.Object {
+public class BufferPool extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -49,21 +49,19 @@ public class BufferPool extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstBufferPool";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.C_INT.withName("flushing"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.C_INT.withName("flushing"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -71,40 +69,26 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * <p>
      * Because BufferPool is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BufferPool(Addressable address, Ownership ownership) {
+    protected BufferPool(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to BufferPool if its GType is a (or inherits from) "GstBufferPool".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BufferPool} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstBufferPool", a ClassCastException will be thrown.
-     */
-    public static BufferPool castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BufferPool.getType())) {
-            return new BufferPool(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstBufferPool");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BufferPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferPool(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_pool_new.invokeExact();
         } catch (Throwable ERR) {
@@ -130,8 +114,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @return a {@link FlowReturn} such as {@link FlowReturn#FLUSHING} when the pool is
      * inactive.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn acquireBuffer(@NotNull Out<org.gstreamer.gst.Buffer> buffer, @Nullable org.gstreamer.gst.BufferPoolAcquireParams params) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.gst.FlowReturn acquireBuffer(Out<org.gstreamer.gst.Buffer> buffer, @Nullable org.gstreamer.gst.BufferPoolAcquireParams params) {
         MemorySegment bufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -142,7 +125,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        buffer.set(new org.gstreamer.gst.Buffer(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        buffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
@@ -151,7 +134,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * can be modified and used for the gst_buffer_pool_set_config() call.
      * @return a copy of the current configuration of {@code pool}.
      */
-    public @NotNull org.gstreamer.gst.Structure getConfig() {
+    public org.gstreamer.gst.Structure getConfig() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_pool_get_config.invokeExact(
@@ -159,7 +142,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -169,7 +152,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @return a {@code null} terminated array
      *          of strings.
      */
-    public @NotNull PointerString getOptions() {
+    public PointerString getOptions() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_pool_get_options.invokeExact(
@@ -185,17 +168,16 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param option an option
      * @return {@code true} if the buffer pool contains {@code option}.
      */
-    public boolean hasOption(@NotNull java.lang.String option) {
-        java.util.Objects.requireNonNull(option, "Parameter 'option' must not be null");
+    public boolean hasOption(java.lang.String option) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_pool_has_option.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(option));
+                    Marshal.stringToAddress.marshal(option, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -211,7 +193,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -222,8 +204,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * disappears.
      * @param buffer a {@link Buffer}
      */
-    public void releaseBuffer(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public void releaseBuffer(org.gstreamer.gst.Buffer buffer) {
         try {
             DowncallHandles.gst_buffer_pool_release_buffer.invokeExact(
                     handle(),
@@ -253,11 +234,11 @@ public class BufferPool extends org.gstreamer.gst.Object {
         try {
             RESULT = (int) DowncallHandles.gst_buffer_pool_set_active.invokeExact(
                     handle(),
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -280,8 +261,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param config a {@link Structure}
      * @return {@code true} when the configuration could be set.
      */
-    public boolean setConfig(@NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public boolean setConfig(org.gstreamer.gst.Structure config) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_pool_set_config.invokeExact(
@@ -291,7 +271,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -303,7 +283,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_buffer_pool_set_flushing.invokeExact(
                     handle(),
-                    flushing ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flushing, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -313,7 +293,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_buffer_pool_get_type.invokeExact();
@@ -331,13 +311,11 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param config a {@link BufferPool} configuration
      * @param option an option to add
      */
-    public static void configAddOption(@NotNull org.gstreamer.gst.Structure config, @NotNull java.lang.String option) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
-        java.util.Objects.requireNonNull(option, "Parameter 'option' must not be null");
+    public static void configAddOption(org.gstreamer.gst.Structure config, java.lang.String option) {
         try {
             DowncallHandles.gst_buffer_pool_config_add_option.invokeExact(
                     config.handle(),
-                    Interop.allocateNativeString(option));
+                    Marshal.stringToAddress.marshal(option, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,21 +328,19 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param params {@link AllocationParams}, or {@code null}
      * @return {@code true}, if the values are set.
      */
-    public static boolean configGetAllocator(@NotNull org.gstreamer.gst.Structure config, @Nullable Out<org.gstreamer.gst.Allocator> allocator, @NotNull org.gstreamer.gst.AllocationParams params) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static boolean configGetAllocator(org.gstreamer.gst.Structure config, @Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
         MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_pool_config_get_allocator.invokeExact(
                     config.handle(),
                     (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    params.handle());
+                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (allocator != null) allocator.set(new org.gstreamer.gst.Allocator(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        return RESULT != 0;
+        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -374,8 +350,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param index position in the option array to read
      * @return the option at {@code index}.
      */
-    public static @Nullable java.lang.String configGetOption(@NotNull org.gstreamer.gst.Structure config, int index) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static @Nullable java.lang.String configGetOption(org.gstreamer.gst.Structure config, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_pool_config_get_option.invokeExact(
@@ -384,7 +359,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -396,31 +371,27 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param maxBuffers the maximum amount of buffers to allocate or 0 for unlimited.
      * @return {@code true} if all parameters could be fetched.
      */
-    public static boolean configGetParams(@NotNull org.gstreamer.gst.Structure config, @Nullable Out<org.gstreamer.gst.Caps> caps, Out<Integer> size, Out<Integer> minBuffers, Out<Integer> maxBuffers) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static boolean configGetParams(org.gstreamer.gst.Structure config, @Nullable Out<org.gstreamer.gst.Caps> caps, Out<Integer> size, Out<Integer> minBuffers, Out<Integer> maxBuffers) {
         MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minBuffers, "Parameter 'minBuffers' must not be null");
         MemorySegment minBuffersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(maxBuffers, "Parameter 'maxBuffers' must not be null");
         MemorySegment maxBuffersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_pool_config_get_params.invokeExact(
                     config.handle(),
                     (Addressable) (caps == null ? MemoryAddress.NULL : (Addressable) capsPOINTER.address()),
-                    (Addressable) sizePOINTER.address(),
-                    (Addressable) minBuffersPOINTER.address(),
-                    (Addressable) maxBuffersPOINTER.address());
+                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()),
+                    (Addressable) (minBuffers == null ? MemoryAddress.NULL : (Addressable) minBuffersPOINTER.address()),
+                    (Addressable) (maxBuffers == null ? MemoryAddress.NULL : (Addressable) maxBuffersPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (caps != null) caps.set(new org.gstreamer.gst.Caps(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        minBuffers.set(minBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
-        maxBuffers.set(maxBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (caps != null) caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minBuffers != null) minBuffers.set(minBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (maxBuffers != null) maxBuffers.set(maxBuffersPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -429,18 +400,16 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param option an option
      * @return {@code true} if the options array contains {@code option}.
      */
-    public static boolean configHasOption(@NotNull org.gstreamer.gst.Structure config, @NotNull java.lang.String option) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
-        java.util.Objects.requireNonNull(option, "Parameter 'option' must not be null");
+    public static boolean configHasOption(org.gstreamer.gst.Structure config, java.lang.String option) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_pool_config_has_option.invokeExact(
                     config.handle(),
-                    Interop.allocateNativeString(option));
+                    Marshal.stringToAddress.marshal(option, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -449,8 +418,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param config a {@link BufferPool} configuration
      * @return the options array size as a {@code guint}.
      */
-    public static int configNOptions(@NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static int configNOptions(org.gstreamer.gst.Structure config) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_pool_config_n_options.invokeExact(
@@ -478,8 +446,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param allocator a {@link Allocator}
      * @param params {@link AllocationParams}
      */
-    public static void configSetAllocator(@NotNull org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.Allocator allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static void configSetAllocator(org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.Allocator allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
         try {
             DowncallHandles.gst_buffer_pool_config_set_allocator.invokeExact(
                     config.handle(),
@@ -498,8 +465,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param minBuffers the minimum amount of buffers to allocate.
      * @param maxBuffers the maximum amount of buffers to allocate or 0 for unlimited.
      */
-    public static void configSetParams(@NotNull org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.Caps caps, int size, int minBuffers, int maxBuffers) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static void configSetParams(org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.Caps caps, int size, int minBuffers, int maxBuffers) {
         try {
             DowncallHandles.gst_buffer_pool_config_set_params.invokeExact(
                     config.handle(),
@@ -528,8 +494,7 @@ public class BufferPool extends org.gstreamer.gst.Object {
      * @param maxBuffers the expect maximum amount of buffers to allocate or 0 for unlimited.
      * @return {@code true}, if the parameters are valid in this context.
      */
-    public static boolean configValidateParams(@NotNull org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.Caps caps, int size, int minBuffers, int maxBuffers) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static boolean configValidateParams(org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.Caps caps, int size, int minBuffers, int maxBuffers) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_pool_config_validate_params.invokeExact(
@@ -541,40 +506,42 @@ public class BufferPool extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link BufferPool.Builder} object constructs a {@link BufferPool} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BufferPool.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link BufferPool.Build} object constructs a {@link BufferPool} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BufferPool} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BufferPool} using {@link BufferPool#castFrom}.
+         * {@link BufferPool}.
          * @return A new instance of {@code BufferPool} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BufferPool construct() {
-            return BufferPool.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BufferPool.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BufferPool build() {
+            return (BufferPool) org.gtk.gobject.GObject.newWithProperties(
+                BufferPool.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

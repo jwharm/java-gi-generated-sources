@@ -19,4 +19,14 @@ public class DateYear extends io.github.jwharm.javagi.Alias<Short> {
     public DateYear(short value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static DateYear[] fromNativeArray(MemoryAddress address, long length) {
+        DateYear[] array = new DateYear[(int) length];
+        long bytesSize = Interop.valueLayout.C_SHORT.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new DateYear(address.get(Interop.valueLayout.C_SHORT, i * bytesSize));
+        }
+        return array;
+    }
 }

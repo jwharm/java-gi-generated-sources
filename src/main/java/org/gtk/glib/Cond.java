@@ -80,18 +80,16 @@ public class Cond extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GCond";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("p"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("p"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -112,10 +110,12 @@ public class Cond extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Cond(Addressable address, Ownership ownership) {
+    protected Cond(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Cond> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Cond(input, ownership);
     
     /**
      * If threads are waiting for {@code cond}, all of them are unblocked.
@@ -204,8 +204,7 @@ public class Cond extends Struct {
      * the documentation for {@link Cond} for a complete example.
      * @param mutex a {@link Mutex} that is currently locked
      */
-    public void wait_(@NotNull org.gtk.glib.Mutex mutex) {
-        java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
+    public void wait_(org.gtk.glib.Mutex mutex) {
         try {
             DowncallHandles.g_cond_wait.invokeExact(
                     handle(),
@@ -267,8 +266,7 @@ public class Cond extends Struct {
      * @param endTime the monotonic time to wait until
      * @return {@code true} on a signal, {@code false} on a timeout
      */
-    public boolean waitUntil(@NotNull org.gtk.glib.Mutex mutex, long endTime) {
-        java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
+    public boolean waitUntil(org.gtk.glib.Mutex mutex, long endTime) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_cond_wait_until.invokeExact(
@@ -278,7 +276,7 @@ public class Cond extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -319,42 +317,46 @@ public class Cond extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Cond.Builder} object constructs a {@link Cond} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Cond.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Cond struct;
+        private final Cond struct;
         
-         /**
-         * A {@link Cond.Build} object constructs a {@link Cond} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Cond.allocate();
         }
         
          /**
          * Finish building the {@link Cond} struct.
          * @return A new instance of {@code Cond} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Cond construct() {
+        public Cond build() {
             return struct;
         }
         
-        public Build setP(java.lang.foreign.MemoryAddress p) {
+        public Builder setP(java.lang.foreign.MemoryAddress p) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("p"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
             return this;
         }
         
-        public Build setI(int[] i) {
+        public Builder setI(int[] i) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("i"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false)));

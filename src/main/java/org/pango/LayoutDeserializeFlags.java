@@ -32,11 +32,15 @@ public class LayoutDeserializeFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public LayoutDeserializeFlags or(LayoutDeserializeFlags mask) {
-        return new LayoutDeserializeFlags(this.getValue() | mask.getValue());
+    public LayoutDeserializeFlags or(LayoutDeserializeFlags... masks) {
+        int value = this.getValue();
+        for (LayoutDeserializeFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new LayoutDeserializeFlags(value);
     }
     
     /**
@@ -46,7 +50,8 @@ public class LayoutDeserializeFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static LayoutDeserializeFlags combined(LayoutDeserializeFlags mask, LayoutDeserializeFlags... masks) {
-        int value = mask.getValue();        for (LayoutDeserializeFlags arg : masks) {
+        int value = mask.getValue();
+        for (LayoutDeserializeFlags arg : masks) {
             value |= arg.getValue();
         }
         return new LayoutDeserializeFlags(value);

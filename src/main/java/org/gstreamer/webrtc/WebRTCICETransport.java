@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class WebRTCICETransport extends org.gstreamer.gst.Object {
+public class WebRTCICETransport extends org.gstreamer.gst.GstObject {
     
     static {
         GstWebRTC.javagi$ensureInitialized();
@@ -27,43 +27,29 @@ public class WebRTCICETransport extends org.gstreamer.gst.Object {
      * <p>
      * Because WebRTCICETransport is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WebRTCICETransport(Addressable address, Ownership ownership) {
+    protected WebRTCICETransport(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to WebRTCICETransport if its GType is a (or inherits from) "GstWebRTCICETransport".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code WebRTCICETransport} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstWebRTCICETransport", a ClassCastException will be thrown.
-     */
-    public static WebRTCICETransport castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), WebRTCICETransport.getType())) {
-            return new WebRTCICETransport(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstWebRTCICETransport");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WebRTCICETransport> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCICETransport(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_webrtc_ice_transport_get_type.invokeExact();
@@ -75,22 +61,25 @@ public class WebRTCICETransport extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface OnNewCandidate {
-        void signalReceived(WebRTCICETransport sourceWebRTCICETransport, @NotNull java.lang.String object);
+        void run(java.lang.String object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCICETransport, MemoryAddress object) {
+            run(Marshal.addressToString.marshal(object, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OnNewCandidate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCICETransport.OnNewCandidate> onOnNewCandidate(WebRTCICETransport.OnNewCandidate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("on-new-candidate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCICETransport.Callbacks.class, "signalWebRTCICETransportOnNewCandidate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCICETransport.OnNewCandidate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("on-new-candidate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -98,74 +87,79 @@ public class WebRTCICETransport extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface OnSelectedCandidatePairChange {
-        void signalReceived(WebRTCICETransport sourceWebRTCICETransport);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWebRTCICETransport) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OnSelectedCandidatePairChange.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<WebRTCICETransport.OnSelectedCandidatePairChange> onOnSelectedCandidatePairChange(WebRTCICETransport.OnSelectedCandidatePairChange handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("on-selected-candidate-pair-change"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(WebRTCICETransport.Callbacks.class, "signalWebRTCICETransportOnSelectedCandidatePairChange",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<WebRTCICETransport.OnSelectedCandidatePairChange>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("on-selected-candidate-pair-change"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link WebRTCICETransport.Builder} object constructs a {@link WebRTCICETransport} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link WebRTCICETransport.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link WebRTCICETransport.Build} object constructs a {@link WebRTCICETransport} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link WebRTCICETransport} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link WebRTCICETransport} using {@link WebRTCICETransport#castFrom}.
+         * {@link WebRTCICETransport}.
          * @return A new instance of {@code WebRTCICETransport} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public WebRTCICETransport construct() {
-            return WebRTCICETransport.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    WebRTCICETransport.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public WebRTCICETransport build() {
+            return (WebRTCICETransport) org.gtk.gobject.GObject.newWithProperties(
+                WebRTCICETransport.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setComponent(org.gstreamer.webrtc.WebRTCICEComponent component) {
+        public Builder setComponent(org.gstreamer.webrtc.WebRTCICEComponent component) {
             names.add("component");
             values.add(org.gtk.gobject.Value.create(component));
             return this;
         }
         
-        public Build setGatheringState(org.gstreamer.webrtc.WebRTCICEGatheringState gatheringState) {
+        public Builder setGatheringState(org.gstreamer.webrtc.WebRTCICEGatheringState gatheringState) {
             names.add("gathering-state");
             values.add(org.gtk.gobject.Value.create(gatheringState));
             return this;
         }
         
-        public Build setState(org.gstreamer.webrtc.WebRTCICEConnectionState state) {
+        public Builder setState(org.gstreamer.webrtc.WebRTCICEConnectionState state) {
             names.add("state");
             values.add(org.gtk.gobject.Value.create(state));
             return this;
@@ -179,20 +173,5 @@ public class WebRTCICETransport extends org.gstreamer.gst.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalWebRTCICETransportOnNewCandidate(MemoryAddress sourceWebRTCICETransport, MemoryAddress object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCICETransport.OnNewCandidate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCICETransport(sourceWebRTCICETransport, Ownership.NONE), Interop.getStringFrom(object));
-        }
-        
-        public static void signalWebRTCICETransportOnSelectedCandidatePairChange(MemoryAddress sourceWebRTCICETransport, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (WebRTCICETransport.OnSelectedCandidatePairChange) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new WebRTCICETransport(sourceWebRTCICETransport, Ownership.NONE));
-        }
     }
 }

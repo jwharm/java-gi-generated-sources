@@ -40,8 +40,10 @@ public class PhysicalDeviceExternalImageFormatInfoKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceExternalImageFormatInfoKHR(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceExternalImageFormatInfoKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceExternalImageFormatInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceExternalImageFormatInfoKHR(input, ownership);
 }

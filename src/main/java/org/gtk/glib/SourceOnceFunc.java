@@ -14,5 +14,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface SourceOnceFunc {
-        void onSourceOnceFunc();
+    void run();
+
+    @ApiStatus.Internal default void upcall(MemoryAddress userData) {
+        run();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SourceOnceFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

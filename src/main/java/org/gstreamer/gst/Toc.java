@@ -87,14 +87,15 @@ public class Toc extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Toc(Addressable address, Ownership ownership) {
+    protected Toc(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gst.TocScope scope) {
-        java.util.Objects.requireNonNull(scope, "Parameter 'scope' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Toc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Toc(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.gst.TocScope scope) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_new.invokeExact(
                     scope.getValue());
@@ -108,7 +109,7 @@ public class Toc extends Struct {
      * Create a new {@link Toc} structure.
      * @param scope scope of this TOC
      */
-    public Toc(@NotNull org.gstreamer.gst.TocScope scope) {
+    public Toc(org.gstreamer.gst.TocScope scope) {
         super(constructNew(scope), Ownership.FULL);
     }
     
@@ -116,8 +117,7 @@ public class Toc extends Struct {
      * Appends the {@link TocEntry} {@code entry} to {@code toc}.
      * @param entry A {@link TocEntry}
      */
-    public void appendEntry(@NotNull org.gstreamer.gst.TocEntry entry) {
-        java.util.Objects.requireNonNull(entry, "Parameter 'entry' must not be null");
+    public void appendEntry(org.gstreamer.gst.TocEntry entry) {
         try {
             DowncallHandles.gst_toc_append_entry.invokeExact(
                     handle(),
@@ -143,24 +143,23 @@ public class Toc extends Struct {
      * @return {@link TocEntry} with specified
      * {@code uid} from the {@code toc}, or {@code null} if not found.
      */
-    public @Nullable org.gstreamer.gst.TocEntry findEntry(@NotNull java.lang.String uid) {
-        java.util.Objects.requireNonNull(uid, "Parameter 'uid' must not be null");
+    public @Nullable org.gstreamer.gst.TocEntry findEntry(java.lang.String uid) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_find_entry.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uid));
+                    Marshal.stringToAddress.marshal(uid, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TocEntry(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TocEntry.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the list of {@link TocEntry} of {@code toc}.
      * @return A {@link org.gtk.glib.List} of {@link TocEntry} for {@code entry}
      */
-    public @NotNull org.gtk.glib.List getEntries() {
+    public org.gtk.glib.List getEntries() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_get_entries.invokeExact(
@@ -168,10 +167,10 @@ public class Toc extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public @NotNull org.gstreamer.gst.TocScope getScope() {
+    public org.gstreamer.gst.TocScope getScope() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_toc_get_scope.invokeExact(
@@ -186,7 +185,7 @@ public class Toc extends Struct {
      * Gets the tags for {@code toc}.
      * @return A {@link TagList} for {@code entry}
      */
-    public @NotNull org.gstreamer.gst.TagList getTags() {
+    public org.gstreamer.gst.TagList getTags() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_get_tags.invokeExact(
@@ -194,7 +193,7 @@ public class Toc extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -202,8 +201,7 @@ public class Toc extends Struct {
      * @param tags A {@link TagList} or {@code null}
      * @param mode A {@link TagMergeMode}
      */
-    public void mergeTags(@Nullable org.gstreamer.gst.TagList tags, @NotNull org.gstreamer.gst.TagMergeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void mergeTags(@Nullable org.gstreamer.gst.TagList tags, org.gstreamer.gst.TagMergeMode mode) {
         try {
             DowncallHandles.gst_toc_merge_tags.invokeExact(
                     handle(),

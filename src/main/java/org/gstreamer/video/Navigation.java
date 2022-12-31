@@ -29,32 +29,14 @@ import org.jetbrains.annotations.*;
  */
 public interface Navigation extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Navigation if its GType is a (or inherits from) "GstNavigation".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Navigation} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstNavigation", a ClassCastException will be thrown.
-     */
-    public static Navigation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Navigation.getType())) {
-            return new NavigationImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstNavigation");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NavigationImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NavigationImpl(input, ownership);
     
     /**
      * Sends the indicated command to the navigation interface.
      * @param command The command to issue
      */
-    default void sendCommand(@NotNull org.gstreamer.video.NavigationCommand command) {
-        java.util.Objects.requireNonNull(command, "Parameter 'command' must not be null");
+    default void sendCommand(org.gstreamer.video.NavigationCommand command) {
         try {
             DowncallHandles.gst_navigation_send_command.invokeExact(
                     handle(),
@@ -64,8 +46,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    default void sendEvent(@NotNull org.gstreamer.gst.Structure structure) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    default void sendEvent(org.gstreamer.gst.Structure structure) {
         try {
             DowncallHandles.gst_navigation_send_event.invokeExact(
                     handle(),
@@ -75,14 +56,12 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         }
     }
     
-    default void sendKeyEvent(@NotNull java.lang.String event, @NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    default void sendKeyEvent(java.lang.String event, java.lang.String key) {
         try {
             DowncallHandles.gst_navigation_send_key_event.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(event),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(event, null),
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,12 +79,11 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @param x The x coordinate of the mouse event.
      * @param y The y coordinate of the mouse event.
      */
-    default void sendMouseEvent(@NotNull java.lang.String event, int button, double x, double y) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    default void sendMouseEvent(java.lang.String event, int button, double x, double y) {
         try {
             DowncallHandles.gst_navigation_send_mouse_event.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(event),
+                    Marshal.stringToAddress.marshal(event, null),
                     button,
                     x,
                     y);
@@ -141,7 +119,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_navigation_get_type.invokeExact();
@@ -156,8 +134,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * {@code GST_NAVIGATION_EVENT_INVALID} if the event is not a {@link Navigation} event.
      * @param event A {@link org.gstreamer.gst.Event} to inspect.
      */
-    public static @NotNull org.gstreamer.video.NavigationEventType eventGetType(@NotNull org.gstreamer.gst.Event event) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public static org.gstreamer.video.NavigationEventType eventGetType(org.gstreamer.gst.Event event) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_get_type.invokeExact(
@@ -176,36 +153,32 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      *     type of the navigation event.
      * @return TRUE if the navigation command could be extracted, otherwise FALSE.
      */
-    public static boolean eventParseCommand(@NotNull org.gstreamer.gst.Event event, @NotNull Out<org.gstreamer.video.NavigationCommand> command) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(command, "Parameter 'command' must not be null");
+    public static boolean eventParseCommand(org.gstreamer.gst.Event event, @Nullable Out<org.gstreamer.video.NavigationCommand> command) {
         MemorySegment commandPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_command.invokeExact(
                     event.handle(),
-                    (Addressable) commandPOINTER.address());
+                    (Addressable) (command == null ? MemoryAddress.NULL : (Addressable) commandPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        command.set(org.gstreamer.video.NavigationCommand.of(commandPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        if (command != null) command.set(org.gstreamer.video.NavigationCommand.of(commandPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean eventParseKeyEvent(@NotNull org.gstreamer.gst.Event event, @NotNull Out<java.lang.String> key) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static boolean eventParseKeyEvent(org.gstreamer.gst.Event event, @Nullable Out<java.lang.String> key) {
         MemorySegment keyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_key_event.invokeExact(
                     event.handle(),
-                    (Addressable) keyPOINTER.address());
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) keyPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        key.set(Interop.getStringFrom(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (key != null) key.set(Marshal.addressToString.marshal(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -222,28 +195,24 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return TRUE if the button number and both coordinates could be extracted,
      *     otherwise FALSE.
      */
-    public static boolean eventParseMouseButtonEvent(@NotNull org.gstreamer.gst.Event event, Out<Integer> button, Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(button, "Parameter 'button' must not be null");
+    public static boolean eventParseMouseButtonEvent(org.gstreamer.gst.Event event, Out<Integer> button, Out<Double> x, Out<Double> y) {
         MemorySegment buttonPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_button_event.invokeExact(
                     event.handle(),
-                    (Addressable) buttonPOINTER.address(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address());
+                    (Addressable) (button == null ? MemoryAddress.NULL : (Addressable) buttonPOINTER.address()),
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        button.set(buttonPOINTER.get(Interop.valueLayout.C_INT, 0));
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        if (button != null) button.set(buttonPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -256,24 +225,21 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      *     mouse movement.
      * @return TRUE if both coordinates could be extracted, otherwise FALSE.
      */
-    public static boolean eventParseMouseMoveEvent(@NotNull org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static boolean eventParseMouseMoveEvent(org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_move_event.invokeExact(
                     event.handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address());
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,32 +256,27 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      *     mouse movement.
      * @return TRUE if all coordinates could be extracted, otherwise FALSE.
      */
-    public static boolean eventParseMouseScrollEvent(@NotNull org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y, Out<Double> deltaX, Out<Double> deltaY) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static boolean eventParseMouseScrollEvent(org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y, Out<Double> deltaX, Out<Double> deltaY) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(deltaX, "Parameter 'deltaX' must not be null");
         MemorySegment deltaXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(deltaY, "Parameter 'deltaY' must not be null");
         MemorySegment deltaYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_scroll_event.invokeExact(
                     event.handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address(),
-                    (Addressable) deltaXPOINTER.address(),
-                    (Addressable) deltaYPOINTER.address());
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()),
+                    (Addressable) (deltaX == null ? MemoryAddress.NULL : (Addressable) deltaXPOINTER.address()),
+                    (Addressable) (deltaY == null ? MemoryAddress.NULL : (Addressable) deltaYPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        deltaX.set(deltaXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        deltaY.set(deltaYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (deltaX != null) deltaX.set(deltaXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (deltaY != null) deltaY.set(deltaYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -326,8 +287,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * {@code GST_NAVIGATION_MESSAGE_INVALID} if the message is not a {@link Navigation}
      * notification.
      */
-    public static @NotNull org.gstreamer.video.NavigationMessageType messageGetType(@NotNull org.gstreamer.gst.Message message) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public static org.gstreamer.video.NavigationMessageType messageGetType(org.gstreamer.gst.Message message) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_message_get_type.invokeExact(
@@ -343,13 +303,12 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * {@code GST_NAVIGATION_MESSAGE_ANGLES_CHANGED} for notifying an application
      * that the current angle, or current number of angles available in a
      * multiangle video has changed.
-     * @param src A {@link org.gstreamer.gst.Object} to set as source of the new message.
+     * @param src A {@link org.gstreamer.gst.GstObject} to set as source of the new message.
      * @param curAngle The currently selected angle.
      * @param nAngles The number of viewing angles now available.
      * @return The new {@link org.gstreamer.gst.Message}.
      */
-    public static @NotNull org.gstreamer.gst.Message messageNewAnglesChanged(@NotNull org.gstreamer.gst.Object src, int curAngle, int nAngles) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static org.gstreamer.gst.Message messageNewAnglesChanged(org.gstreamer.gst.GstObject src, int curAngle, int nAngles) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_angles_changed.invokeExact(
@@ -359,17 +318,16 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new {@link Navigation} message with type
      * {@code GST_NAVIGATION_MESSAGE_COMMANDS_CHANGED}
-     * @param src A {@link org.gstreamer.gst.Object} to set as source of the new message.
+     * @param src A {@link org.gstreamer.gst.GstObject} to set as source of the new message.
      * @return The new {@link org.gstreamer.gst.Message}.
      */
-    public static @NotNull org.gstreamer.gst.Message messageNewCommandsChanged(@NotNull org.gstreamer.gst.Object src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static org.gstreamer.gst.Message messageNewCommandsChanged(org.gstreamer.gst.GstObject src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_commands_changed.invokeExact(
@@ -377,19 +335,17 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new {@link Navigation} message with type
      * {@code GST_NAVIGATION_MESSAGE_EVENT}.
-     * @param src A {@link org.gstreamer.gst.Object} to set as source of the new message.
+     * @param src A {@link org.gstreamer.gst.GstObject} to set as source of the new message.
      * @param event A navigation {@link org.gstreamer.gst.Event}
      * @return The new {@link org.gstreamer.gst.Message}.
      */
-    public static @NotNull org.gstreamer.gst.Message messageNewEvent(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Event event) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public static org.gstreamer.gst.Message messageNewEvent(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Event event) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_event.invokeExact(
@@ -398,28 +354,27 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new {@link Navigation} message with type
      * {@code GST_NAVIGATION_MESSAGE_MOUSE_OVER}.
-     * @param src A {@link org.gstreamer.gst.Object} to set as source of the new message.
+     * @param src A {@link org.gstreamer.gst.GstObject} to set as source of the new message.
      * @param active {@code true} if the mouse has entered a clickable area of the display.
      * {@code false} if it over a non-clickable area.
      * @return The new {@link org.gstreamer.gst.Message}.
      */
-    public static @NotNull org.gstreamer.gst.Message messageNewMouseOver(@NotNull org.gstreamer.gst.Object src, boolean active) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static org.gstreamer.gst.Message messageNewMouseOver(org.gstreamer.gst.GstObject src, boolean active) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_mouse_over.invokeExact(
                     src.handle(),
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -432,24 +387,21 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      *     count, or NULL.
      * @return {@code true} if the message could be successfully parsed. {@code false} if not.
      */
-    public static boolean messageParseAnglesChanged(@NotNull org.gstreamer.gst.Message message, Out<Integer> curAngle, Out<Integer> nAngles) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(curAngle, "Parameter 'curAngle' must not be null");
+    public static boolean messageParseAnglesChanged(org.gstreamer.gst.Message message, Out<Integer> curAngle, Out<Integer> nAngles) {
         MemorySegment curAnglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(nAngles, "Parameter 'nAngles' must not be null");
         MemorySegment nAnglesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_message_parse_angles_changed.invokeExact(
                     message.handle(),
-                    (Addressable) curAnglePOINTER.address(),
-                    (Addressable) nAnglesPOINTER.address());
+                    (Addressable) (curAngle == null ? MemoryAddress.NULL : (Addressable) curAnglePOINTER.address()),
+                    (Addressable) (nAngles == null ? MemoryAddress.NULL : (Addressable) nAnglesPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
-        nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (curAngle != null) curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (nAngles != null) nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -461,20 +413,18 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      *     the contained navigation event.
      * @return {@code true} if the message could be successfully parsed. {@code false} if not.
      */
-    public static boolean messageParseEvent(@NotNull org.gstreamer.gst.Message message, @NotNull Out<org.gstreamer.gst.Event> event) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public static boolean messageParseEvent(org.gstreamer.gst.Message message, @Nullable Out<org.gstreamer.gst.Event> event) {
         MemorySegment eventPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_message_parse_event.invokeExact(
                     message.handle(),
-                    (Addressable) eventPOINTER.address());
+                    (Addressable) (event == null ? MemoryAddress.NULL : (Addressable) eventPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        event.set(new org.gstreamer.gst.Event(eventPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (event != null) event.set(org.gstreamer.gst.Event.fromAddress.marshal(eventPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -486,20 +436,18 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      *     active/inactive state, or NULL.
      * @return {@code true} if the message could be successfully parsed. {@code false} if not.
      */
-    public static boolean messageParseMouseOver(@NotNull org.gstreamer.gst.Message message, Out<Boolean> active) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(active, "Parameter 'active' must not be null");
+    public static boolean messageParseMouseOver(org.gstreamer.gst.Message message, Out<Boolean> active) {
         MemorySegment activePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_message_parse_mouse_over.invokeExact(
                     message.handle(),
-                    (Addressable) activePOINTER.address());
+                    (Addressable) (active == null ? MemoryAddress.NULL : (Addressable) activePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        active.set(activePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        if (active != null) active.set(activePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -509,8 +457,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @return The {@link NavigationQueryType} of the query, or
      * {@code GST_NAVIGATION_QUERY_INVALID}
      */
-    public static @NotNull org.gstreamer.video.NavigationQueryType queryGetType(@NotNull org.gstreamer.gst.Query query) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public static org.gstreamer.video.NavigationQueryType queryGetType(org.gstreamer.gst.Query query) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_query_get_type.invokeExact(
@@ -527,14 +474,14 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * greater than one in a multiangle video.
      * @return The new query.
      */
-    public static @NotNull org.gstreamer.gst.Query queryNewAngles() {
+    public static org.gstreamer.gst.Query queryNewAngles() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_query_new_angles.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Query(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -542,14 +489,14 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * query the pipeline for the set of currently available commands.
      * @return The new query.
      */
-    public static @NotNull org.gstreamer.gst.Query queryNewCommands() {
+    public static org.gstreamer.gst.Query queryNewCommands() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_query_new_commands.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Query(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -563,24 +510,21 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      *     number of angles value from the query, or NULL
      * @return {@code true} if the query could be successfully parsed. {@code false} if not.
      */
-    public static boolean queryParseAngles(@NotNull org.gstreamer.gst.Query query, Out<Integer> curAngle, Out<Integer> nAngles) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(curAngle, "Parameter 'curAngle' must not be null");
+    public static boolean queryParseAngles(org.gstreamer.gst.Query query, Out<Integer> curAngle, Out<Integer> nAngles) {
         MemorySegment curAnglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(nAngles, "Parameter 'nAngles' must not be null");
         MemorySegment nAnglesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_query_parse_angles.invokeExact(
                     query.handle(),
-                    (Addressable) curAnglePOINTER.address(),
-                    (Addressable) nAnglesPOINTER.address());
+                    (Addressable) (curAngle == null ? MemoryAddress.NULL : (Addressable) curAnglePOINTER.address()),
+                    (Addressable) (nAngles == null ? MemoryAddress.NULL : (Addressable) nAnglesPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
-        nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (curAngle != null) curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (nAngles != null) nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -589,20 +533,18 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @param nCmds the number of commands in this query.
      * @return {@code true} if the query could be successfully parsed. {@code false} if not.
      */
-    public static boolean queryParseCommandsLength(@NotNull org.gstreamer.gst.Query query, Out<Integer> nCmds) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(nCmds, "Parameter 'nCmds' must not be null");
+    public static boolean queryParseCommandsLength(org.gstreamer.gst.Query query, Out<Integer> nCmds) {
         MemorySegment nCmdsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_query_parse_commands_length.invokeExact(
                     query.handle(),
-                    (Addressable) nCmdsPOINTER.address());
+                    (Addressable) (nCmds == null ? MemoryAddress.NULL : (Addressable) nCmdsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nCmds.set(nCmdsPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (nCmds != null) nCmds.set(nCmdsPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -614,21 +556,19 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @param cmd a pointer to store the nth command into.
      * @return {@code true} if the query could be successfully parsed. {@code false} if not.
      */
-    public static boolean queryParseCommandsNth(@NotNull org.gstreamer.gst.Query query, int nth, @NotNull Out<org.gstreamer.video.NavigationCommand> cmd) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(cmd, "Parameter 'cmd' must not be null");
+    public static boolean queryParseCommandsNth(org.gstreamer.gst.Query query, int nth, @Nullable Out<org.gstreamer.video.NavigationCommand> cmd) {
         MemorySegment cmdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_query_parse_commands_nth.invokeExact(
                     query.handle(),
                     nth,
-                    (Addressable) cmdPOINTER.address());
+                    (Addressable) (cmd == null ? MemoryAddress.NULL : (Addressable) cmdPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        cmd.set(org.gstreamer.video.NavigationCommand.of(cmdPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        if (cmd != null) cmd.set(org.gstreamer.video.NavigationCommand.of(cmdPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -637,8 +577,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @param curAngle the current viewing angle to set.
      * @param nAngles the number of viewing angles to set.
      */
-    public static void querySetAngles(@NotNull org.gstreamer.gst.Query query, int curAngle, int nAngles) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public static void querySetAngles(org.gstreamer.gst.Query query, int curAngle, int nAngles) {
         try {
             DowncallHandles.gst_navigation_query_set_angles.invokeExact(
                     query.handle(),
@@ -656,8 +595,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @param nCmds the number of commands to set.
      * @param varargs A list of {@code GstNavigationCommand} values, {@code n_cmds} entries long.
      */
-    public static void querySetCommands(@NotNull org.gstreamer.gst.Query query, int nCmds, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public static void querySetCommands(org.gstreamer.gst.Query query, int nCmds, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_navigation_query_set_commands.invokeExact(
                     query.handle(),
@@ -676,9 +614,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
      * @param cmds An array containing {@code n_cmds}
      *     {@code GstNavigationCommand} values.
      */
-    public static void querySetCommandsv(@NotNull org.gstreamer.gst.Query query, int nCmds, @NotNull org.gstreamer.video.NavigationCommand[] cmds) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(cmds, "Parameter 'cmds' must not be null");
+    public static void querySetCommandsv(org.gstreamer.gst.Query query, int nCmds, org.gstreamer.video.NavigationCommand[] cmds) {
         try {
             DowncallHandles.gst_navigation_query_set_commandsv.invokeExact(
                     query.handle(),
@@ -896,7 +832,7 @@ public interface Navigation extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class NavigationImpl extends org.gtk.gobject.Object implements Navigation {
+    class NavigationImpl extends org.gtk.gobject.GObject implements Navigation {
         
         static {
             GstVideo.javagi$ensureInitialized();

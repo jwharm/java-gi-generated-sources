@@ -17,31 +17,29 @@ public class GLAsyncDebug extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLAsyncDebug";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("state_flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("cat"),
-        Interop.valueLayout.C_INT.withName("level"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("file"),
-        Interop.valueLayout.ADDRESS.withName("function"),
-        Interop.valueLayout.C_INT.withName("line"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("object"),
-        Interop.valueLayout.ADDRESS.withName("debug_msg"),
-        Interop.valueLayout.ADDRESS.withName("callback"),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.ADDRESS.withName("notify"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("state_flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("cat"),
+            Interop.valueLayout.C_INT.withName("level"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("file"),
+            Interop.valueLayout.ADDRESS.withName("function"),
+            Interop.valueLayout.C_INT.withName("line"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("object"),
+            Interop.valueLayout.ADDRESS.withName("debug_msg"),
+            Interop.valueLayout.ADDRESS.withName("callback"),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.ADDRESS.withName("notify"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -62,10 +60,12 @@ public class GLAsyncDebug extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLAsyncDebug(Addressable address, Ownership ownership) {
+    protected GLAsyncDebug(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLAsyncDebug> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLAsyncDebug(input, ownership);
     
     /**
      * Frees {@code ad}
@@ -126,26 +126,21 @@ public class GLAsyncDebug extends Struct {
      * @param file the file where the debug message originates from
      * @param function the function where the debug message originates from
      * @param line the line in {@code file} where the debug message originates from
-     * @param object a {@link org.gtk.gobject.Object} to associate with the debug message
+     * @param object a {@link org.gtk.gobject.GObject} to associate with the debug message
      * @param format a printf style format string
      * @param varargs the list of arguments for {@code format}
      */
-    public void storeLogMsg(@NotNull org.gstreamer.gst.DebugCategory cat, @NotNull org.gstreamer.gst.DebugLevel level, @NotNull java.lang.String file, @NotNull java.lang.String function, int line, @Nullable org.gtk.gobject.Object object, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(cat, "Parameter 'cat' must not be null");
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void storeLogMsg(org.gstreamer.gst.DebugCategory cat, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, @Nullable org.gtk.gobject.GObject object, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_gl_async_debug_store_log_msg.invokeExact(
                     handle(),
                     cat.handle(),
                     level.getValue(),
-                    Interop.allocateNativeString(file),
-                    Interop.allocateNativeString(function),
+                    Marshal.stringToAddress.marshal(file, null),
+                    Marshal.stringToAddress.marshal(function, null),
                     line,
                     (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -159,27 +154,21 @@ public class GLAsyncDebug extends Struct {
      * @param file the file where the debug message originates from
      * @param function the function where the debug message originates from
      * @param line the line in {@code file} where the debug message originates from
-     * @param object a {@link org.gtk.gobject.Object} to associate with the debug message
+     * @param object a {@link org.gtk.gobject.GObject} to associate with the debug message
      * @param format a printf style format string
      * @param varargs the list of arguments for {@code format}
      */
-    public void storeLogMsgValist(@NotNull org.gstreamer.gst.DebugCategory cat, @NotNull org.gstreamer.gst.DebugLevel level, @NotNull java.lang.String file, @NotNull java.lang.String function, int line, @Nullable org.gtk.gobject.Object object, @NotNull java.lang.String format, @NotNull VaList varargs) {
-        java.util.Objects.requireNonNull(cat, "Parameter 'cat' must not be null");
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(varargs, "Parameter 'varargs' must not be null");
+    public void storeLogMsgValist(org.gstreamer.gst.DebugCategory cat, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, @Nullable org.gtk.gobject.GObject object, java.lang.String format, VaList varargs) {
         try {
             DowncallHandles.gst_gl_async_debug_store_log_msg_valist.invokeExact(
                     handle(),
                     cat.handle(),
                     level.getValue(),
-                    Interop.allocateNativeString(file),
-                    Interop.allocateNativeString(function),
+                    Marshal.stringToAddress.marshal(file, null),
+                    Marshal.stringToAddress.marshal(function, null),
                     line,
                     (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -215,14 +204,14 @@ public class GLAsyncDebug extends Struct {
      * Free with gst_gl_async_debug_free()
      * @return a new {@link GLAsyncDebug}
      */
-    public static @NotNull org.gstreamer.gl.GLAsyncDebug new_() {
+    public static org.gstreamer.gl.GLAsyncDebug new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_async_debug_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLAsyncDebug(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLAsyncDebug.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -281,112 +270,116 @@ public class GLAsyncDebug extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLAsyncDebug.Builder} object constructs a {@link GLAsyncDebug} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLAsyncDebug.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLAsyncDebug struct;
+        private final GLAsyncDebug struct;
         
-         /**
-         * A {@link GLAsyncDebug.Build} object constructs a {@link GLAsyncDebug} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLAsyncDebug.allocate();
         }
         
          /**
          * Finish building the {@link GLAsyncDebug} struct.
          * @return A new instance of {@code GLAsyncDebug} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLAsyncDebug construct() {
+        public GLAsyncDebug build() {
             return struct;
         }
         
-        public Build setStateFlags(int stateFlags) {
+        public Builder setStateFlags(int stateFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("state_flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), stateFlags);
             return this;
         }
         
-        public Build setCat(org.gstreamer.gst.DebugCategory cat) {
+        public Builder setCat(org.gstreamer.gst.DebugCategory cat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cat"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cat == null ? MemoryAddress.NULL : cat.handle()));
             return this;
         }
         
-        public Build setLevel(org.gstreamer.gst.DebugLevel level) {
+        public Builder setLevel(org.gstreamer.gst.DebugLevel level) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("level"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (level == null ? MemoryAddress.NULL : level.getValue()));
             return this;
         }
         
-        public Build setFile(java.lang.String file) {
+        public Builder setFile(java.lang.String file) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("file"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (file == null ? MemoryAddress.NULL : Interop.allocateNativeString(file)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (file == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(file, null)));
             return this;
         }
         
-        public Build setFunction(java.lang.String function) {
+        public Builder setFunction(java.lang.String function) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("function"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (function == null ? MemoryAddress.NULL : Interop.allocateNativeString(function)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (function == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(function, null)));
             return this;
         }
         
-        public Build setLine(int line) {
+        public Builder setLine(int line) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line);
             return this;
         }
         
-        public Build setObject(org.gtk.gobject.Object object) {
+        public Builder setObject(org.gtk.gobject.GObject object) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("object"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (object == null ? MemoryAddress.NULL : object.handle()));
             return this;
         }
         
-        public Build setDebugMsg(java.lang.String debugMsg) {
+        public Builder setDebugMsg(java.lang.String debugMsg) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("debug_msg"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (debugMsg == null ? MemoryAddress.NULL : Interop.allocateNativeString(debugMsg)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (debugMsg == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(debugMsg, null)));
             return this;
         }
         
-        public Build setCallback(java.lang.foreign.MemoryAddress callback) {
+        public Builder setCallback(org.gstreamer.gl.GLAsyncDebugLogGetMessage callback) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("callback"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback == null ? MemoryAddress.NULL : callback));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()));
             return this;
         }
         
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
             return this;
         }
         
-        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+        public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

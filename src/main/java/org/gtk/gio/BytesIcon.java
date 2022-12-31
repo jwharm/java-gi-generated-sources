@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * png) to be used as icon.
  * @version 2.38
  */
-public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
+public class BytesIcon extends org.gtk.gobject.GObject implements org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -32,34 +32,15 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BytesIcon(Addressable address, Ownership ownership) {
+    protected BytesIcon(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to BytesIcon if its GType is a (or inherits from) "GBytesIcon".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BytesIcon} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GBytesIcon", a ClassCastException will be thrown.
-     */
-    public static BytesIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BytesIcon.getType())) {
-            return new BytesIcon(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GBytesIcon");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BytesIcon> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BytesIcon(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.glib.Bytes bytes) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.glib.Bytes bytes) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_new.invokeExact(
                     bytes.handle());
@@ -76,7 +57,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
      * (for example, if g_loadable_icon_load() is called) if the image is invalid.
      * @param bytes a {@link org.gtk.glib.Bytes}.
      */
-    public BytesIcon(@NotNull org.gtk.glib.Bytes bytes) {
+    public BytesIcon(org.gtk.glib.Bytes bytes) {
         super(constructNew(bytes), Ownership.FULL);
     }
     
@@ -84,7 +65,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
      * Gets the {@link org.gtk.glib.Bytes} associated with the given {@code icon}.
      * @return a {@link org.gtk.glib.Bytes}.
      */
-    public @NotNull org.gtk.glib.Bytes getBytes() {
+    public org.gtk.glib.Bytes getBytes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_bytes_icon_get_bytes.invokeExact(
@@ -92,14 +73,14 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.NONE);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_bytes_icon_get_type.invokeExact();
@@ -108,38 +89,40 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BytesIcon.Builder} object constructs a {@link BytesIcon} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BytesIcon.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link BytesIcon.Build} object constructs a {@link BytesIcon} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BytesIcon} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BytesIcon} using {@link BytesIcon#castFrom}.
+         * {@link BytesIcon}.
          * @return A new instance of {@code BytesIcon} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BytesIcon construct() {
-            return BytesIcon.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BytesIcon.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BytesIcon build() {
+            return (BytesIcon) org.gtk.gobject.GObject.newWithProperties(
+                BytesIcon.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -148,7 +131,7 @@ public class BytesIcon extends org.gtk.gobject.Object implements org.gtk.gio.Ico
          * @param bytes The value for the {@code bytes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBytes(org.gtk.glib.Bytes bytes) {
+        public Builder setBytes(org.gtk.glib.Bytes bytes) {
             names.add("bytes");
             values.add(org.gtk.gobject.Value.create(bytes));
             return this;

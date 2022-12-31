@@ -20,28 +20,26 @@ public class Vp9SegmentationParams extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVp9SegmentationParams";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("segmentation_enabled"),
-        Interop.valueLayout.C_BYTE.withName("segmentation_update_map"),
-        MemoryLayout.paddingLayout(40),
-        MemoryLayout.sequenceLayout(7, Interop.valueLayout.C_BYTE).withName("segmentation_tree_probs"),
-        MemoryLayout.paddingLayout(8),
-        MemoryLayout.sequenceLayout(3, Interop.valueLayout.C_BYTE).withName("segmentation_pred_prob"),
-        Interop.valueLayout.C_BYTE.withName("segmentation_temporal_update"),
-        Interop.valueLayout.C_BYTE.withName("segmentation_update_data"),
-        Interop.valueLayout.C_BYTE.withName("segmentation_abs_or_delta_update"),
-        MemoryLayout.paddingLayout(88),
-        MemoryLayout.sequenceLayout(32, Interop.valueLayout.C_BYTE).withName("feature_enabled"),
-        MemoryLayout.sequenceLayout(32, Interop.valueLayout.C_SHORT).withName("feature_data")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("segmentation_enabled"),
+            Interop.valueLayout.C_BYTE.withName("segmentation_update_map"),
+            MemoryLayout.paddingLayout(40),
+            MemoryLayout.sequenceLayout(7, Interop.valueLayout.C_BYTE).withName("segmentation_tree_probs"),
+            MemoryLayout.paddingLayout(8),
+            MemoryLayout.sequenceLayout(3, Interop.valueLayout.C_BYTE).withName("segmentation_pred_prob"),
+            Interop.valueLayout.C_BYTE.withName("segmentation_temporal_update"),
+            Interop.valueLayout.C_BYTE.withName("segmentation_update_data"),
+            Interop.valueLayout.C_BYTE.withName("segmentation_abs_or_delta_update"),
+            MemoryLayout.paddingLayout(88),
+            MemoryLayout.sequenceLayout(32, Interop.valueLayout.C_BYTE).withName("feature_enabled"),
+            MemoryLayout.sequenceLayout(32, Interop.valueLayout.C_SHORT).withName("feature_data")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -61,7 +59,7 @@ public class Vp9SegmentationParams extends Struct {
      * Get the value of the field {@code segmentation_enabled}
      * @return The value of the field {@code segmentation_enabled}
      */
-    public byte segmentationEnabled$get() {
+    public byte getSegmentationEnabled() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_enabled"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -72,7 +70,7 @@ public class Vp9SegmentationParams extends Struct {
      * Change the value of the field {@code segmentation_enabled}
      * @param segmentationEnabled The new value of the field {@code segmentation_enabled}
      */
-    public void segmentationEnabled$set(byte segmentationEnabled) {
+    public void setSegmentationEnabled(byte segmentationEnabled) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_enabled"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationEnabled);
@@ -82,7 +80,7 @@ public class Vp9SegmentationParams extends Struct {
      * Get the value of the field {@code segmentation_update_map}
      * @return The value of the field {@code segmentation_update_map}
      */
-    public byte segmentationUpdateMap$get() {
+    public byte getSegmentationUpdateMap() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_update_map"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -93,17 +91,59 @@ public class Vp9SegmentationParams extends Struct {
      * Change the value of the field {@code segmentation_update_map}
      * @param segmentationUpdateMap The new value of the field {@code segmentation_update_map}
      */
-    public void segmentationUpdateMap$set(byte segmentationUpdateMap) {
+    public void setSegmentationUpdateMap(byte segmentationUpdateMap) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_update_map"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationUpdateMap);
     }
     
     /**
+     * Get the value of the field {@code segmentation_tree_probs}
+     * @return The value of the field {@code segmentation_tree_probs}
+     */
+    public byte[] getSegmentationTreeProbs() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("segmentation_tree_probs"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 7, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code segmentation_tree_probs}
+     * @param segmentationTreeProbs The new value of the field {@code segmentation_tree_probs}
+     */
+    public void setSegmentationTreeProbs(byte[] segmentationTreeProbs) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("segmentation_tree_probs"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segmentationTreeProbs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(segmentationTreeProbs, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code segmentation_pred_prob}
+     * @return The value of the field {@code segmentation_pred_prob}
+     */
+    public byte[] getSegmentationPredProb() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("segmentation_pred_prob"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 3, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code segmentation_pred_prob}
+     * @param segmentationPredProb The new value of the field {@code segmentation_pred_prob}
+     */
+    public void setSegmentationPredProb(byte[] segmentationPredProb) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("segmentation_pred_prob"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segmentationPredProb == null ? MemoryAddress.NULL : Interop.allocateNativeArray(segmentationPredProb, false)));
+    }
+    
+    /**
      * Get the value of the field {@code segmentation_temporal_update}
      * @return The value of the field {@code segmentation_temporal_update}
      */
-    public byte segmentationTemporalUpdate$get() {
+    public byte getSegmentationTemporalUpdate() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_temporal_update"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -114,7 +154,7 @@ public class Vp9SegmentationParams extends Struct {
      * Change the value of the field {@code segmentation_temporal_update}
      * @param segmentationTemporalUpdate The new value of the field {@code segmentation_temporal_update}
      */
-    public void segmentationTemporalUpdate$set(byte segmentationTemporalUpdate) {
+    public void setSegmentationTemporalUpdate(byte segmentationTemporalUpdate) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_temporal_update"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationTemporalUpdate);
@@ -124,7 +164,7 @@ public class Vp9SegmentationParams extends Struct {
      * Get the value of the field {@code segmentation_update_data}
      * @return The value of the field {@code segmentation_update_data}
      */
-    public byte segmentationUpdateData$get() {
+    public byte getSegmentationUpdateData() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_update_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -135,7 +175,7 @@ public class Vp9SegmentationParams extends Struct {
      * Change the value of the field {@code segmentation_update_data}
      * @param segmentationUpdateData The new value of the field {@code segmentation_update_data}
      */
-    public void segmentationUpdateData$set(byte segmentationUpdateData) {
+    public void setSegmentationUpdateData(byte segmentationUpdateData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_update_data"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationUpdateData);
@@ -145,7 +185,7 @@ public class Vp9SegmentationParams extends Struct {
      * Get the value of the field {@code segmentation_abs_or_delta_update}
      * @return The value of the field {@code segmentation_abs_or_delta_update}
      */
-    public byte segmentationAbsOrDeltaUpdate$get() {
+    public byte getSegmentationAbsOrDeltaUpdate() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_abs_or_delta_update"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -156,10 +196,52 @@ public class Vp9SegmentationParams extends Struct {
      * Change the value of the field {@code segmentation_abs_or_delta_update}
      * @param segmentationAbsOrDeltaUpdate The new value of the field {@code segmentation_abs_or_delta_update}
      */
-    public void segmentationAbsOrDeltaUpdate$set(byte segmentationAbsOrDeltaUpdate) {
+    public void setSegmentationAbsOrDeltaUpdate(byte segmentationAbsOrDeltaUpdate) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segmentation_abs_or_delta_update"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationAbsOrDeltaUpdate);
+    }
+    
+    /**
+     * Get the value of the field {@code feature_enabled}
+     * @return The value of the field {@code feature_enabled}
+     */
+    public byte[] getFeatureEnabled() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("feature_enabled"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 32, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code feature_enabled}
+     * @param featureEnabled The new value of the field {@code feature_enabled}
+     */
+    public void setFeatureEnabled(byte[] featureEnabled) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("feature_enabled"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (featureEnabled == null ? MemoryAddress.NULL : Interop.allocateNativeArray(featureEnabled, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code feature_data}
+     * @return The value of the field {@code feature_data}
+     */
+    public short[] getFeatureData() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("feature_data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 32, Interop.getScope()).toArray(Interop.valueLayout.C_SHORT);
+    }
+    
+    /**
+     * Change the value of the field {@code feature_data}
+     * @param featureData The new value of the field {@code feature_data}
+     */
+    public void setFeatureData(short[] featureData) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("feature_data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (featureData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(featureData, false)));
     }
     
     /**
@@ -167,35 +249,41 @@ public class Vp9SegmentationParams extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Vp9SegmentationParams(Addressable address, Ownership ownership) {
+    protected Vp9SegmentationParams(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Vp9SegmentationParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp9SegmentationParams(input, ownership);
+    
+    /**
+     * A {@link Vp9SegmentationParams.Builder} object constructs a {@link Vp9SegmentationParams} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Vp9SegmentationParams.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Vp9SegmentationParams struct;
+        private final Vp9SegmentationParams struct;
         
-         /**
-         * A {@link Vp9SegmentationParams.Build} object constructs a {@link Vp9SegmentationParams} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Vp9SegmentationParams.allocate();
         }
         
          /**
          * Finish building the {@link Vp9SegmentationParams} struct.
          * @return A new instance of {@code Vp9SegmentationParams} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Vp9SegmentationParams construct() {
+        public Vp9SegmentationParams build() {
             return struct;
         }
         
@@ -205,7 +293,7 @@ public class Vp9SegmentationParams extends Struct {
          * @param segmentationEnabled The value for the {@code segmentationEnabled} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegmentationEnabled(byte segmentationEnabled) {
+        public Builder setSegmentationEnabled(byte segmentationEnabled) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segmentation_enabled"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationEnabled);
@@ -218,7 +306,7 @@ public class Vp9SegmentationParams extends Struct {
          * @param segmentationUpdateMap The value for the {@code segmentationUpdateMap} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegmentationUpdateMap(byte segmentationUpdateMap) {
+        public Builder setSegmentationUpdateMap(byte segmentationUpdateMap) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segmentation_update_map"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationUpdateMap);
@@ -231,7 +319,7 @@ public class Vp9SegmentationParams extends Struct {
          * @param segmentationTreeProbs The value for the {@code segmentationTreeProbs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegmentationTreeProbs(byte[] segmentationTreeProbs) {
+        public Builder setSegmentationTreeProbs(byte[] segmentationTreeProbs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segmentation_tree_probs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segmentationTreeProbs == null ? MemoryAddress.NULL : Interop.allocateNativeArray(segmentationTreeProbs, false)));
@@ -244,7 +332,7 @@ public class Vp9SegmentationParams extends Struct {
          * @param segmentationPredProb The value for the {@code segmentationPredProb} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegmentationPredProb(byte[] segmentationPredProb) {
+        public Builder setSegmentationPredProb(byte[] segmentationPredProb) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segmentation_pred_prob"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segmentationPredProb == null ? MemoryAddress.NULL : Interop.allocateNativeArray(segmentationPredProb, false)));
@@ -257,7 +345,7 @@ public class Vp9SegmentationParams extends Struct {
          * @param segmentationTemporalUpdate The value for the {@code segmentationTemporalUpdate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegmentationTemporalUpdate(byte segmentationTemporalUpdate) {
+        public Builder setSegmentationTemporalUpdate(byte segmentationTemporalUpdate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segmentation_temporal_update"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationTemporalUpdate);
@@ -270,7 +358,7 @@ public class Vp9SegmentationParams extends Struct {
          * @param segmentationUpdateData The value for the {@code segmentationUpdateData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegmentationUpdateData(byte segmentationUpdateData) {
+        public Builder setSegmentationUpdateData(byte segmentationUpdateData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segmentation_update_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationUpdateData);
@@ -285,7 +373,7 @@ public class Vp9SegmentationParams extends Struct {
          * @param segmentationAbsOrDeltaUpdate The value for the {@code segmentationAbsOrDeltaUpdate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegmentationAbsOrDeltaUpdate(byte segmentationAbsOrDeltaUpdate) {
+        public Builder setSegmentationAbsOrDeltaUpdate(byte segmentationAbsOrDeltaUpdate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segmentation_abs_or_delta_update"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentationAbsOrDeltaUpdate);
@@ -297,7 +385,7 @@ public class Vp9SegmentationParams extends Struct {
          * @param featureEnabled The value for the {@code featureEnabled} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFeatureEnabled(byte[] featureEnabled) {
+        public Builder setFeatureEnabled(byte[] featureEnabled) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("feature_enabled"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (featureEnabled == null ? MemoryAddress.NULL : Interop.allocateNativeArray(featureEnabled, false)));
@@ -309,7 +397,7 @@ public class Vp9SegmentationParams extends Struct {
          * @param featureData The value for the {@code featureData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFeatureData(short[] featureData) {
+        public Builder setFeatureData(short[] featureData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("feature_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (featureData == null ? MemoryAddress.NULL : Interop.allocateNativeArray(featureData, false)));

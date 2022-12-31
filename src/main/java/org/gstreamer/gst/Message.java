@@ -30,25 +30,23 @@ public class Message extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMessage";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
-        Interop.valueLayout.C_INT.withName("type"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("timestamp"),
-        Interop.valueLayout.ADDRESS.withName("src"),
-        Interop.valueLayout.C_INT.withName("seqnum"),
-        MemoryLayout.paddingLayout(32),
-        org.gtk.glib.Mutex.getMemoryLayout().withName("lock"),
-        org.gtk.glib.Cond.getMemoryLayout().withName("cond")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object"),
+            Interop.valueLayout.C_INT.withName("type"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("timestamp"),
+            Interop.valueLayout.ADDRESS.withName("src"),
+            Interop.valueLayout.C_INT.withName("seqnum"),
+            MemoryLayout.paddingLayout(32),
+            org.gtk.glib.Mutex.getMemoryLayout().withName("lock"),
+            org.gtk.glib.Cond.getMemoryLayout().withName("cond")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -68,16 +66,26 @@ public class Message extends Struct {
      * Get the value of the field {@code mini_object}
      * @return The value of the field {@code mini_object}
      */
-    public org.gstreamer.gst.MiniObject miniObject$get() {
+    public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return new org.gstreamer.gst.MiniObject(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mini_object}
+     * @param miniObject The new value of the field {@code mini_object}
+     */
+    public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
     }
     
     /**
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.gst.MessageType type$get() {
+    public org.gstreamer.gst.MessageType getType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -88,17 +96,17 @@ public class Message extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.gst.MessageType type) {
+    public void setType(org.gstreamer.gst.MessageType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
      * Get the value of the field {@code timestamp}
      * @return The value of the field {@code timestamp}
      */
-    public long timestamp$get() {
+    public long getTimestamp() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -109,7 +117,7 @@ public class Message extends Struct {
      * Change the value of the field {@code timestamp}
      * @param timestamp The new value of the field {@code timestamp}
      */
-    public void timestamp$set(long timestamp) {
+    public void setTimestamp(long timestamp) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), timestamp);
@@ -119,28 +127,28 @@ public class Message extends Struct {
      * Get the value of the field {@code src}
      * @return The value of the field {@code src}
      */
-    public org.gstreamer.gst.Object src$get() {
+    public org.gstreamer.gst.GstObject getSrc() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("src"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Object(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.GstObject.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code src}
      * @param src The new value of the field {@code src}
      */
-    public void src$set(org.gstreamer.gst.Object src) {
+    public void setSrc(org.gstreamer.gst.GstObject src) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("src"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), src.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (src == null ? MemoryAddress.NULL : src.handle()));
     }
     
     /**
      * Get the value of the field {@code seqnum}
      * @return The value of the field {@code seqnum}
      */
-    public int seqnum$get() {
+    public int getSeqnum_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seqnum"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -151,7 +159,7 @@ public class Message extends Struct {
      * Change the value of the field {@code seqnum}
      * @param seqnum The new value of the field {@code seqnum}
      */
-    public void seqnum$set(int seqnum) {
+    public void setSeqnum_(int seqnum) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seqnum"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seqnum);
@@ -162,14 +170,15 @@ public class Message extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Message(Addressable address, Ownership ownership) {
+    protected Message(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewApplication(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Structure structure) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Message> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Message(input, ownership);
+    
+    private static MemoryAddress constructNewApplication(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Structure structure) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_application.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -191,13 +200,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newApplication(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Structure structure) {
-        return new Message(constructNewApplication(src, structure), Ownership.FULL);
+    public static Message newApplication(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Structure structure) {
+        var RESULT = constructNewApplication(src, structure);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewAsyncDone(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.ClockTime runningTime) {
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewAsyncDone(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.ClockTime runningTime) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_async_done.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -220,12 +229,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newAsyncDone(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.ClockTime runningTime) {
-        return new Message(constructNewAsyncDone(src, runningTime), Ownership.FULL);
+    public static Message newAsyncDone(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.ClockTime runningTime) {
+        var RESULT = constructNewAsyncDone(src, runningTime);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewAsyncStart(@Nullable org.gstreamer.gst.Object src) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewAsyncStart(@Nullable org.gstreamer.gst.GstObject src) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_async_start.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()));
@@ -242,12 +252,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newAsyncStart(@Nullable org.gstreamer.gst.Object src) {
-        return new Message(constructNewAsyncStart(src), Ownership.FULL);
+    public static Message newAsyncStart(@Nullable org.gstreamer.gst.GstObject src) {
+        var RESULT = constructNewAsyncStart(src);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewBuffering(@Nullable org.gstreamer.gst.Object src, int percent) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewBuffering(@Nullable org.gstreamer.gst.GstObject src, int percent) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_buffering.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -275,13 +286,13 @@ public class Message extends Struct {
      * @param percent The buffering percent
      * @return The new buffering message.
      */
-    public static Message newBuffering(@Nullable org.gstreamer.gst.Object src, int percent) {
-        return new Message(constructNewBuffering(src, percent), Ownership.FULL);
+    public static Message newBuffering(@Nullable org.gstreamer.gst.GstObject src, int percent) {
+        var RESULT = constructNewBuffering(src, percent);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewClockLost(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Clock clock) {
-        java.util.Objects.requireNonNull(clock, "Parameter 'clock' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewClockLost(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Clock clock) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_clock_lost.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -305,18 +316,18 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newClockLost(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Clock clock) {
-        return new Message(constructNewClockLost(src, clock), Ownership.FULL);
+    public static Message newClockLost(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Clock clock) {
+        var RESULT = constructNewClockLost(src, clock);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewClockProvide(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Clock clock, boolean ready) {
-        java.util.Objects.requireNonNull(clock, "Parameter 'clock' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewClockProvide(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Clock clock, boolean ready) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_clock_provide.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
                     clock.handle(),
-                    ready ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(ready, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -337,13 +348,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newClockProvide(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Clock clock, boolean ready) {
-        return new Message(constructNewClockProvide(src, clock, ready), Ownership.FULL);
+    public static Message newClockProvide(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Clock clock, boolean ready) {
+        var RESULT = constructNewClockProvide(src, clock, ready);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewCustom(@NotNull org.gstreamer.gst.MessageType type, @Nullable org.gstreamer.gst.Object src, @Nullable org.gstreamer.gst.Structure structure) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewCustom(org.gstreamer.gst.MessageType type, @Nullable org.gstreamer.gst.GstObject src, @Nullable org.gstreamer.gst.Structure structure) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_custom.invokeExact(
                     type.getValue(),
@@ -368,14 +379,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newCustom(@NotNull org.gstreamer.gst.MessageType type, @Nullable org.gstreamer.gst.Object src, @Nullable org.gstreamer.gst.Structure structure) {
-        return new Message(constructNewCustom(type, src, structure), Ownership.FULL);
+    public static Message newCustom(org.gstreamer.gst.MessageType type, @Nullable org.gstreamer.gst.GstObject src, @Nullable org.gstreamer.gst.Structure structure) {
+        var RESULT = constructNewCustom(type, src, structure);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewDeviceAdded(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Device device) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewDeviceAdded(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Device device) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_device_added.invokeExact(
                     src.handle(),
@@ -390,19 +400,17 @@ public class Message extends Struct {
      * Creates a new device-added message. The device-added message is produced by
      * {@link DeviceProvider} or a {@link DeviceMonitor}. They announce the appearance
      * of monitored devices.
-     * @param src The {@link Object} that created the message
+     * @param src The {@link GstObject} that created the message
      * @param device The new {@link Device}
      * @return a newly allocated {@link Message}
      */
-    public static Message newDeviceAdded(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Device device) {
-        return new Message(constructNewDeviceAdded(src, device), Ownership.FULL);
+    public static Message newDeviceAdded(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Device device) {
+        var RESULT = constructNewDeviceAdded(src, device);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewDeviceChanged(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Device device, @NotNull org.gstreamer.gst.Device changedDevice) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(changedDevice, "Parameter 'changedDevice' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewDeviceChanged(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Device device, org.gstreamer.gst.Device changedDevice) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_device_changed.invokeExact(
                     src.handle(),
@@ -418,19 +426,18 @@ public class Message extends Struct {
      * Creates a new device-changed message. The device-changed message is produced
      * by {@link DeviceProvider} or a {@link DeviceMonitor}. They announce that a device
      * properties has changed and {@code device} represent the new modified version of {@code changed_device}.
-     * @param src The {@link Object} that created the message
+     * @param src The {@link GstObject} that created the message
      * @param device The newly created device representing {@code replaced_device}
      *         with its new configuration.
      * @return a newly allocated {@link Message}
      */
-    public static Message newDeviceChanged(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Device device, @NotNull org.gstreamer.gst.Device changedDevice) {
-        return new Message(constructNewDeviceChanged(src, device, changedDevice), Ownership.FULL);
+    public static Message newDeviceChanged(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Device device, org.gstreamer.gst.Device changedDevice) {
+        var RESULT = constructNewDeviceChanged(src, device, changedDevice);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewDeviceRemoved(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Device device) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewDeviceRemoved(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Device device) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_device_removed.invokeExact(
                     src.handle(),
@@ -445,16 +452,17 @@ public class Message extends Struct {
      * Creates a new device-removed message. The device-removed message is produced
      * by {@link DeviceProvider} or a {@link DeviceMonitor}. They announce the
      * disappearance of monitored devices.
-     * @param src The {@link Object} that created the message
+     * @param src The {@link GstObject} that created the message
      * @param device The removed {@link Device}
      * @return a newly allocated {@link Message}
      */
-    public static Message newDeviceRemoved(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Device device) {
-        return new Message(constructNewDeviceRemoved(src, device), Ownership.FULL);
+    public static Message newDeviceRemoved(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Device device) {
+        var RESULT = constructNewDeviceRemoved(src, device);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewDurationChanged(@Nullable org.gstreamer.gst.Object src) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewDurationChanged(@Nullable org.gstreamer.gst.GstObject src) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_duration_changed.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()));
@@ -474,13 +482,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newDurationChanged(@Nullable org.gstreamer.gst.Object src) {
-        return new Message(constructNewDurationChanged(src), Ownership.FULL);
+    public static Message newDurationChanged(@Nullable org.gstreamer.gst.GstObject src) {
+        var RESULT = constructNewDurationChanged(src);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewElement(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Structure structure) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewElement(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Structure structure) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_element.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -504,12 +512,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newElement(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Structure structure) {
-        return new Message(constructNewElement(src, structure), Ownership.FULL);
+    public static Message newElement(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Structure structure) {
+        var RESULT = constructNewElement(src, structure);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewEos(@Nullable org.gstreamer.gst.Object src) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewEos(@Nullable org.gstreamer.gst.GstObject src) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_eos.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()));
@@ -528,19 +537,18 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newEos(@Nullable org.gstreamer.gst.Object src) {
-        return new Message(constructNewEos(src), Ownership.FULL);
+    public static Message newEos(@Nullable org.gstreamer.gst.GstObject src) {
+        var RESULT = constructNewEos(src);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewError(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(debug, "Parameter 'debug' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewError(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_error.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
                     error.handle(),
-                    Interop.allocateNativeString(debug));
+                    Marshal.stringToAddress.marshal(debug, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -559,19 +567,18 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newError(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug) {
-        return new Message(constructNewError(src, error, debug), Ownership.FULL);
+    public static Message newError(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug) {
+        var RESULT = constructNewError(src, error, debug);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewErrorWithDetails(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(debug, "Parameter 'debug' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewErrorWithDetails(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_error_with_details.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
                     error.handle(),
-                    Interop.allocateNativeString(debug),
+                    Marshal.stringToAddress.marshal(debug, null),
                     (Addressable) (details == null ? MemoryAddress.NULL : details.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -591,13 +598,13 @@ public class Message extends Struct {
      * @param details A GstStructure with details
      * @return the new error message.
      */
-    public static Message newErrorWithDetails(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
-        return new Message(constructNewErrorWithDetails(src, error, debug, details), Ownership.FULL);
+    public static Message newErrorWithDetails(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
+        var RESULT = constructNewErrorWithDetails(src, error, debug, details);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewHaveContext(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Context context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewHaveContext(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Context context) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_have_context.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -617,19 +624,18 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newHaveContext(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Context context) {
-        return new Message(constructNewHaveContext(src, context), Ownership.FULL);
+    public static Message newHaveContext(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Context context) {
+        var RESULT = constructNewHaveContext(src, context);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewInfo(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(debug, "Parameter 'debug' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewInfo(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_info.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
                     error.handle(),
-                    Interop.allocateNativeString(debug));
+                    Marshal.stringToAddress.marshal(debug, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -646,19 +652,18 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newInfo(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug) {
-        return new Message(constructNewInfo(src, error, debug), Ownership.FULL);
+    public static Message newInfo(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug) {
+        var RESULT = constructNewInfo(src, error, debug);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewInfoWithDetails(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(debug, "Parameter 'debug' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewInfoWithDetails(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_info_with_details.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
                     error.handle(),
-                    Interop.allocateNativeString(debug),
+                    Marshal.stringToAddress.marshal(debug, null),
                     (Addressable) (details == null ? MemoryAddress.NULL : details.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -676,13 +681,13 @@ public class Message extends Struct {
      * @param details A GstStructure with details
      * @return the new warning message.
      */
-    public static Message newInfoWithDetails(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
-        return new Message(constructNewInfoWithDetails(src, error, debug, details), Ownership.FULL);
+    public static Message newInfoWithDetails(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
+        var RESULT = constructNewInfoWithDetails(src, error, debug, details);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewInstantRateRequest(@NotNull org.gstreamer.gst.Object src, double rateMultiplier) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewInstantRateRequest(org.gstreamer.gst.GstObject src, double rateMultiplier) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_instant_rate_request.invokeExact(
                     src.handle(),
@@ -700,16 +705,17 @@ public class Message extends Struct {
      * running time when the rate change should happen and to send an
      * {@code GST_EVENT_INSTANT_RATE_SYNC_TIME} event to notify the elements
      * in the pipeline.
-     * @param src The {@link Object} that posted the message
+     * @param src The {@link GstObject} that posted the message
      * @param rateMultiplier the rate multiplier factor that should be applied
      * @return a newly allocated {@link Message}
      */
-    public static Message newInstantRateRequest(@NotNull org.gstreamer.gst.Object src, double rateMultiplier) {
-        return new Message(constructNewInstantRateRequest(src, rateMultiplier), Ownership.FULL);
+    public static Message newInstantRateRequest(org.gstreamer.gst.GstObject src, double rateMultiplier) {
+        var RESULT = constructNewInstantRateRequest(src, rateMultiplier);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewLatency(@Nullable org.gstreamer.gst.Object src) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewLatency(@Nullable org.gstreamer.gst.GstObject src) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_latency.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()));
@@ -727,17 +733,17 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newLatency(@Nullable org.gstreamer.gst.Object src) {
-        return new Message(constructNewLatency(src), Ownership.FULL);
+    public static Message newLatency(@Nullable org.gstreamer.gst.GstObject src) {
+        var RESULT = constructNewLatency(src);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewNeedContext(@Nullable org.gstreamer.gst.Object src, @NotNull java.lang.String contextType) {
-        java.util.Objects.requireNonNull(contextType, "Parameter 'contextType' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewNeedContext(@Nullable org.gstreamer.gst.GstObject src, java.lang.String contextType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_need_context.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
-                    Interop.allocateNativeString(contextType));
+                    Marshal.stringToAddress.marshal(contextType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -752,13 +758,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newNeedContext(@Nullable org.gstreamer.gst.Object src, @NotNull java.lang.String contextType) {
-        return new Message(constructNewNeedContext(src, contextType), Ownership.FULL);
+    public static Message newNeedContext(@Nullable org.gstreamer.gst.GstObject src, java.lang.String contextType) {
+        var RESULT = constructNewNeedContext(src, contextType);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewNewClock(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Clock clock) {
-        java.util.Objects.requireNonNull(clock, "Parameter 'clock' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewNewClock(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Clock clock) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_new_clock.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -778,22 +784,19 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newNewClock(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Clock clock) {
-        return new Message(constructNewNewClock(src, clock), Ownership.FULL);
+    public static Message newNewClock(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Clock clock) {
+        var RESULT = constructNewNewClock(src, clock);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewProgress(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.ProgressType type, @NotNull java.lang.String code, @NotNull java.lang.String text) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(code, "Parameter 'code' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewProgress(org.gstreamer.gst.GstObject src, org.gstreamer.gst.ProgressType type, java.lang.String code, java.lang.String text) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_progress.invokeExact(
                     src.handle(),
                     type.getValue(),
-                    Interop.allocateNativeString(code),
-                    Interop.allocateNativeString(text));
+                    Marshal.stringToAddress.marshal(code, null),
+                    Marshal.stringToAddress.marshal(text, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -812,18 +815,17 @@ public class Message extends Struct {
      * @param text free, user visible text describing the progress
      * @return The new qos message.
      */
-    public static Message newProgress(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.ProgressType type, @NotNull java.lang.String code, @NotNull java.lang.String text) {
-        return new Message(constructNewProgress(src, type, code, text), Ownership.FULL);
+    public static Message newProgress(org.gstreamer.gst.GstObject src, org.gstreamer.gst.ProgressType type, java.lang.String code, java.lang.String text) {
+        var RESULT = constructNewProgress(src, type, code, text);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewPropertyNotify(@NotNull org.gstreamer.gst.Object src, @NotNull java.lang.String propertyName, @Nullable org.gtk.gobject.Value val) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewPropertyNotify(org.gstreamer.gst.GstObject src, java.lang.String propertyName, @Nullable org.gtk.gobject.Value val) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_property_notify.invokeExact(
                     src.handle(),
-                    Interop.allocateNativeString(propertyName),
+                    Marshal.stringToAddress.marshal(propertyName, null),
                     (Addressable) (val == null ? MemoryAddress.NULL : val.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -832,17 +834,17 @@ public class Message extends Struct {
         return RESULT;
     }
     
-    public static Message newPropertyNotify(@NotNull org.gstreamer.gst.Object src, @NotNull java.lang.String propertyName, @Nullable org.gtk.gobject.Value val) {
-        return new Message(constructNewPropertyNotify(src, propertyName, val), Ownership.FULL);
+    public static Message newPropertyNotify(org.gstreamer.gst.GstObject src, java.lang.String propertyName, @Nullable org.gtk.gobject.Value val) {
+        var RESULT = constructNewPropertyNotify(src, propertyName, val);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewQos(@NotNull org.gstreamer.gst.Object src, boolean live, long runningTime, long streamTime, long timestamp, long duration) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewQos(org.gstreamer.gst.GstObject src, boolean live, long runningTime, long streamTime, long timestamp, long duration) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_qos.invokeExact(
                     src.handle(),
-                    live ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(live, null).intValue(),
                     runningTime,
                     streamTime,
                     timestamp,
@@ -877,18 +879,17 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newQos(@NotNull org.gstreamer.gst.Object src, boolean live, long runningTime, long streamTime, long timestamp, long duration) {
-        return new Message(constructNewQos(src, live, runningTime, streamTime, timestamp, duration), Ownership.FULL);
+    public static Message newQos(org.gstreamer.gst.GstObject src, boolean live, long runningTime, long streamTime, long timestamp, long duration) {
+        var RESULT = constructNewQos(src, live, runningTime, streamTime, timestamp, duration);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewRedirect(@NotNull org.gstreamer.gst.Object src, @NotNull java.lang.String location, @Nullable org.gstreamer.gst.TagList tagList, @Nullable org.gstreamer.gst.Structure entryStruct) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewRedirect(org.gstreamer.gst.GstObject src, java.lang.String location, @Nullable org.gstreamer.gst.TagList tagList, @Nullable org.gstreamer.gst.Structure entryStruct) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_redirect.invokeExact(
                     src.handle(),
-                    Interop.allocateNativeString(location),
+                    Marshal.stringToAddress.marshal(location, null),
                     (Addressable) (tagList == null ? MemoryAddress.NULL : tagList.handle()),
                     (Addressable) (entryStruct == null ? MemoryAddress.NULL : entryStruct.handle()));
         } catch (Throwable ERR) {
@@ -925,19 +926,19 @@ public class Message extends Struct {
      * <p>
      * The specified location string is copied. However, ownership over the tag
      * list and structure are transferred to the message.
-     * @param src The {@link Object} whose property changed (may or may not be a {@link Element})
+     * @param src The {@link GstObject} whose property changed (may or may not be a {@link Element})
      * @param location location string for the new entry
      * @param tagList tag list for the new entry
      * @param entryStruct structure for the new entry
      * @return a newly allocated {@link Message}
      */
-    public static Message newRedirect(@NotNull org.gstreamer.gst.Object src, @NotNull java.lang.String location, @Nullable org.gstreamer.gst.TagList tagList, @Nullable org.gstreamer.gst.Structure entryStruct) {
-        return new Message(constructNewRedirect(src, location, tagList, entryStruct), Ownership.FULL);
+    public static Message newRedirect(org.gstreamer.gst.GstObject src, java.lang.String location, @Nullable org.gstreamer.gst.TagList tagList, @Nullable org.gstreamer.gst.Structure entryStruct) {
+        var RESULT = constructNewRedirect(src, location, tagList, entryStruct);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewRequestState(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.State state) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewRequestState(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.State state) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_request_state.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -958,13 +959,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newRequestState(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.State state) {
-        return new Message(constructNewRequestState(src, state), Ownership.FULL);
+    public static Message newRequestState(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.State state) {
+        var RESULT = constructNewRequestState(src, state);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewResetTime(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.ClockTime runningTime) {
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewResetTime(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.ClockTime runningTime) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_reset_time.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -984,13 +985,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newResetTime(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.ClockTime runningTime) {
-        return new Message(constructNewResetTime(src, runningTime), Ownership.FULL);
+    public static Message newResetTime(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.ClockTime runningTime) {
+        var RESULT = constructNewResetTime(src, runningTime);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSegmentDone(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Format format, long position) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSegmentDone(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Format format, long position) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_segment_done.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -1014,13 +1015,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newSegmentDone(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Format format, long position) {
-        return new Message(constructNewSegmentDone(src, format, position), Ownership.FULL);
+    public static Message newSegmentDone(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Format format, long position) {
+        var RESULT = constructNewSegmentDone(src, format, position);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSegmentStart(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Format format, long position) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSegmentStart(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Format format, long position) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_segment_start.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -1044,15 +1045,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newSegmentStart(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Format format, long position) {
-        return new Message(constructNewSegmentStart(src, format, position), Ownership.FULL);
+    public static Message newSegmentStart(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.Format format, long position) {
+        var RESULT = constructNewSegmentStart(src, format, position);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewStateChanged(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.State oldstate, @NotNull org.gstreamer.gst.State newstate, @NotNull org.gstreamer.gst.State pending) {
-        java.util.Objects.requireNonNull(oldstate, "Parameter 'oldstate' must not be null");
-        java.util.Objects.requireNonNull(newstate, "Parameter 'newstate' must not be null");
-        java.util.Objects.requireNonNull(pending, "Parameter 'pending' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewStateChanged(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.State oldstate, org.gstreamer.gst.State newstate, org.gstreamer.gst.State pending) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_state_changed.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -1076,12 +1075,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newStateChanged(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.State oldstate, @NotNull org.gstreamer.gst.State newstate, @NotNull org.gstreamer.gst.State pending) {
-        return new Message(constructNewStateChanged(src, oldstate, newstate, pending), Ownership.FULL);
+    public static Message newStateChanged(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.State oldstate, org.gstreamer.gst.State newstate, org.gstreamer.gst.State pending) {
+        var RESULT = constructNewStateChanged(src, oldstate, newstate, pending);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewStateDirty(@Nullable org.gstreamer.gst.Object src) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewStateDirty(@Nullable org.gstreamer.gst.GstObject src) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_state_dirty.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()));
@@ -1100,24 +1100,23 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newStateDirty(@Nullable org.gstreamer.gst.Object src) {
-        return new Message(constructNewStateDirty(src), Ownership.FULL);
+    public static Message newStateDirty(@Nullable org.gstreamer.gst.GstObject src) {
+        var RESULT = constructNewStateDirty(src);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewStepDone(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate, long duration, boolean eos) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewStepDone(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate, long duration, boolean eos) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_step_done.invokeExact(
                     src.handle(),
                     format.getValue(),
                     amount,
                     rate,
-                    flush ? 1 : 0,
-                    intermediate ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(flush, null).intValue(),
+                    Marshal.booleanToInteger.marshal(intermediate, null).intValue(),
                     duration,
-                    eos ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(eos, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1142,23 +1141,22 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newStepDone(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate, long duration, boolean eos) {
-        return new Message(constructNewStepDone(src, format, amount, rate, flush, intermediate, duration, eos), Ownership.FULL);
+    public static Message newStepDone(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate, long duration, boolean eos) {
+        var RESULT = constructNewStepDone(src, format, amount, rate, flush, intermediate, duration, eos);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewStepStart(@NotNull org.gstreamer.gst.Object src, boolean active, @NotNull org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewStepStart(org.gstreamer.gst.GstObject src, boolean active, org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_step_start.invokeExact(
                     src.handle(),
-                    active ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(active, null).intValue(),
                     format.getValue(),
                     amount,
                     rate,
-                    flush ? 1 : 0,
-                    intermediate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flush, null).intValue(),
+                    Marshal.booleanToInteger.marshal(intermediate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1187,14 +1185,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newStepStart(@NotNull org.gstreamer.gst.Object src, boolean active, @NotNull org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate) {
-        return new Message(constructNewStepStart(src, active, format, amount, rate, flush, intermediate), Ownership.FULL);
+    public static Message newStepStart(org.gstreamer.gst.GstObject src, boolean active, org.gstreamer.gst.Format format, long amount, double rate, boolean flush, boolean intermediate) {
+        var RESULT = constructNewStepStart(src, active, format, amount, rate, flush, intermediate);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewStreamCollection(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.StreamCollection collection) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(collection, "Parameter 'collection' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewStreamCollection(org.gstreamer.gst.GstObject src, org.gstreamer.gst.StreamCollection collection) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_stream_collection.invokeExact(
                     src.handle(),
@@ -1208,16 +1205,17 @@ public class Message extends Struct {
     /**
      * Creates a new stream-collection message. The message is used to announce new
      * {@link StreamCollection}
-     * @param src The {@link Object} that created the message
+     * @param src The {@link GstObject} that created the message
      * @param collection The {@link StreamCollection}
      * @return a newly allocated {@link Message}
      */
-    public static Message newStreamCollection(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.StreamCollection collection) {
-        return new Message(constructNewStreamCollection(src, collection), Ownership.FULL);
+    public static Message newStreamCollection(org.gstreamer.gst.GstObject src, org.gstreamer.gst.StreamCollection collection) {
+        var RESULT = constructNewStreamCollection(src, collection);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewStreamStart(@Nullable org.gstreamer.gst.Object src) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewStreamStart(@Nullable org.gstreamer.gst.GstObject src) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_stream_start.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()));
@@ -1236,15 +1234,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newStreamStart(@Nullable org.gstreamer.gst.Object src) {
-        return new Message(constructNewStreamStart(src), Ownership.FULL);
+    public static Message newStreamStart(@Nullable org.gstreamer.gst.GstObject src) {
+        var RESULT = constructNewStreamStart(src);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewStreamStatus(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.StreamStatusType type, @NotNull org.gstreamer.gst.Element owner) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(owner, "Parameter 'owner' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewStreamStatus(org.gstreamer.gst.GstObject src, org.gstreamer.gst.StreamStatusType type, org.gstreamer.gst.Element owner) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_stream_status.invokeExact(
                     src.handle(),
@@ -1266,14 +1262,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newStreamStatus(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.StreamStatusType type, @NotNull org.gstreamer.gst.Element owner) {
-        return new Message(constructNewStreamStatus(src, type, owner), Ownership.FULL);
+    public static Message newStreamStatus(org.gstreamer.gst.GstObject src, org.gstreamer.gst.StreamStatusType type, org.gstreamer.gst.Element owner) {
+        var RESULT = constructNewStreamStatus(src, type, owner);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewStreamsSelected(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.StreamCollection collection) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(collection, "Parameter 'collection' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewStreamsSelected(org.gstreamer.gst.GstObject src, org.gstreamer.gst.StreamCollection collection) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_streams_selected.invokeExact(
                     src.handle(),
@@ -1295,24 +1290,23 @@ public class Message extends Struct {
      * <p>
      * Users of gst_message_new_streams_selected() can add the selected streams with
      * gst_message_streams_selected_add().
-     * @param src The {@link Object} that created the message
+     * @param src The {@link GstObject} that created the message
      * @param collection The {@link StreamCollection}
      * @return a newly allocated {@link Message}
      */
-    public static Message newStreamsSelected(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.StreamCollection collection) {
-        return new Message(constructNewStreamsSelected(src, collection), Ownership.FULL);
+    public static Message newStreamsSelected(org.gstreamer.gst.GstObject src, org.gstreamer.gst.StreamCollection collection) {
+        var RESULT = constructNewStreamsSelected(src, collection);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewStructureChange(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.StructureChangeType type, @NotNull org.gstreamer.gst.Element owner, boolean busy) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(owner, "Parameter 'owner' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewStructureChange(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.StructureChangeType type, org.gstreamer.gst.Element owner, boolean busy) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_structure_change.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
                     type.getValue(),
                     owner.handle(),
-                    busy ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(busy, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1333,13 +1327,13 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newStructureChange(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.StructureChangeType type, @NotNull org.gstreamer.gst.Element owner, boolean busy) {
-        return new Message(constructNewStructureChange(src, type, owner, busy), Ownership.FULL);
+    public static Message newStructureChange(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.StructureChangeType type, org.gstreamer.gst.Element owner, boolean busy) {
+        var RESULT = constructNewStructureChange(src, type, owner, busy);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewTag(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.TagList tagList) {
-        java.util.Objects.requireNonNull(tagList, "Parameter 'tagList' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewTag(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.TagList tagList) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_tag.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
@@ -1360,19 +1354,18 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newTag(@Nullable org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.TagList tagList) {
-        return new Message(constructNewTag(src, tagList), Ownership.FULL);
+    public static Message newTag(@Nullable org.gstreamer.gst.GstObject src, org.gstreamer.gst.TagList tagList) {
+        var RESULT = constructNewTag(src, tagList);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewToc(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Toc toc, boolean updated) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(toc, "Parameter 'toc' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewToc(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Toc toc, boolean updated) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_toc.invokeExact(
                     src.handle(),
                     toc.handle(),
-                    updated ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(updated, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1389,19 +1382,18 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newToc(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Toc toc, boolean updated) {
-        return new Message(constructNewToc(src, toc, updated), Ownership.FULL);
+    public static Message newToc(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Toc toc, boolean updated) {
+        var RESULT = constructNewToc(src, toc, updated);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWarning(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(debug, "Parameter 'debug' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWarning(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_warning.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
                     error.handle(),
-                    Interop.allocateNativeString(debug));
+                    Marshal.stringToAddress.marshal(debug, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1418,19 +1410,18 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public static Message newWarning(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug) {
-        return new Message(constructNewWarning(src, error, debug), Ownership.FULL);
+    public static Message newWarning(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug) {
+        var RESULT = constructNewWarning(src, error, debug);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWarningWithDetails(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(debug, "Parameter 'debug' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWarningWithDetails(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_new_warning_with_details.invokeExact(
                     (Addressable) (src == null ? MemoryAddress.NULL : src.handle()),
                     error.handle(),
-                    Interop.allocateNativeString(debug),
+                    Marshal.stringToAddress.marshal(debug, null),
                     (Addressable) (details == null ? MemoryAddress.NULL : details.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1448,8 +1439,9 @@ public class Message extends Struct {
      * @param details A GstStructure with details
      * @return the new warning message.
      */
-    public static Message newWarningWithDetails(@Nullable org.gstreamer.gst.Object src, @NotNull org.gtk.glib.Error error, @NotNull java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
-        return new Message(constructNewWarningWithDetails(src, error, debug, details), Ownership.FULL);
+    public static Message newWarningWithDetails(@Nullable org.gstreamer.gst.GstObject src, org.gtk.glib.Error error, java.lang.String debug, @Nullable org.gstreamer.gst.Structure details) {
+        var RESULT = constructNewWarningWithDetails(src, error, debug, details);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1461,12 +1453,11 @@ public class Message extends Struct {
      * @param tagList tag list for the new entry
      * @param entryStruct structure for the new entry
      */
-    public void addRedirectEntry(@NotNull java.lang.String location, @Nullable org.gstreamer.gst.TagList tagList, @Nullable org.gstreamer.gst.Structure entryStruct) {
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
+    public void addRedirectEntry(java.lang.String location, @Nullable org.gstreamer.gst.TagList tagList, @Nullable org.gstreamer.gst.Structure entryStruct) {
         try {
             DowncallHandles.gst_message_add_redirect_entry.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(location),
+                    Marshal.stringToAddress.marshal(location, null),
                     (Addressable) (tagList == null ? MemoryAddress.NULL : tagList.handle()),
                     (Addressable) (entryStruct == null ? MemoryAddress.NULL : entryStruct.handle()));
         } catch (Throwable ERR) {
@@ -1482,7 +1473,7 @@ public class Message extends Struct {
      * <p>
      * MT safe
      */
-    public @NotNull org.gstreamer.gst.Message copy() {
+    public org.gstreamer.gst.Message copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_copy.invokeExact(
@@ -1490,7 +1481,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public long getNumRedirectEntries() {
@@ -1547,7 +1538,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1566,7 +1557,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1575,17 +1566,16 @@ public class Message extends Struct {
      * @param name name to check
      * @return {@code true} if {@code name} matches the name of the message structure.
      */
-    public boolean hasName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean hasName(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_message_has_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1594,17 +1584,16 @@ public class Message extends Struct {
      * MT safe.
      * @param runningTime Result location for the running_time or {@code null}
      */
-    public void parseAsyncDone(@NotNull Out<org.gstreamer.gst.ClockTime> runningTime) {
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
+    public void parseAsyncDone(@Nullable org.gstreamer.gst.ClockTime runningTime) {
         MemorySegment runningTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_message_parse_async_done.invokeExact(
                     handle(),
-                    (Addressable) runningTimePOINTER.address());
+                    (Addressable) (runningTime == null ? MemoryAddress.NULL : (Addressable) runningTimePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        runningTime.set(new org.gstreamer.gst.ClockTime(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (runningTime != null) runningTime.setValue(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1615,16 +1604,15 @@ public class Message extends Struct {
      * @param percent Return location for the percent.
      */
     public void parseBuffering(Out<Integer> percent) {
-        java.util.Objects.requireNonNull(percent, "Parameter 'percent' must not be null");
         MemorySegment percentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_message_parse_buffering.invokeExact(
                     handle(),
-                    (Addressable) percentPOINTER.address());
+                    (Addressable) (percent == null ? MemoryAddress.NULL : (Addressable) percentPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        percent.set(percentPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (percent != null) percent.set(percentPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1635,29 +1623,25 @@ public class Message extends Struct {
      * @param bufferingLeft amount of buffering time left in
      *     milliseconds, or {@code null}
      */
-    public void parseBufferingStats(@NotNull Out<org.gstreamer.gst.BufferingMode> mode, Out<Integer> avgIn, Out<Integer> avgOut, Out<Long> bufferingLeft) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void parseBufferingStats(@Nullable Out<org.gstreamer.gst.BufferingMode> mode, Out<Integer> avgIn, Out<Integer> avgOut, Out<Long> bufferingLeft) {
         MemorySegment modePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(avgIn, "Parameter 'avgIn' must not be null");
         MemorySegment avgInPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(avgOut, "Parameter 'avgOut' must not be null");
         MemorySegment avgOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(bufferingLeft, "Parameter 'bufferingLeft' must not be null");
         MemorySegment bufferingLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_message_parse_buffering_stats.invokeExact(
                     handle(),
-                    (Addressable) modePOINTER.address(),
-                    (Addressable) avgInPOINTER.address(),
-                    (Addressable) avgOutPOINTER.address(),
-                    (Addressable) bufferingLeftPOINTER.address());
+                    (Addressable) (mode == null ? MemoryAddress.NULL : (Addressable) modePOINTER.address()),
+                    (Addressable) (avgIn == null ? MemoryAddress.NULL : (Addressable) avgInPOINTER.address()),
+                    (Addressable) (avgOut == null ? MemoryAddress.NULL : (Addressable) avgOutPOINTER.address()),
+                    (Addressable) (bufferingLeft == null ? MemoryAddress.NULL : (Addressable) bufferingLeftPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        mode.set(org.gstreamer.gst.BufferingMode.of(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        avgIn.set(avgInPOINTER.get(Interop.valueLayout.C_INT, 0));
-        avgOut.set(avgOutPOINTER.get(Interop.valueLayout.C_INT, 0));
-        bufferingLeft.set(bufferingLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (mode != null) mode.set(org.gstreamer.gst.BufferingMode.of(modePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (avgIn != null) avgIn.set(avgInPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (avgOut != null) avgOut.set(avgOutPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (bufferingLeft != null) bufferingLeft.set(bufferingLeftPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -1667,17 +1651,16 @@ public class Message extends Struct {
      * MT safe.
      * @param clock a pointer to hold the lost clock
      */
-    public void parseClockLost(@NotNull Out<org.gstreamer.gst.Clock> clock) {
-        java.util.Objects.requireNonNull(clock, "Parameter 'clock' must not be null");
+    public void parseClockLost(@Nullable Out<org.gstreamer.gst.Clock> clock) {
         MemorySegment clockPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_clock_lost.invokeExact(
                     handle(),
-                    (Addressable) clockPOINTER.address());
+                    (Addressable) (clock == null ? MemoryAddress.NULL : (Addressable) clockPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        clock.set(new org.gstreamer.gst.Clock(clockPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (clock != null) clock.set((org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clockPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Clock.fromAddress).marshal(clockPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1689,21 +1672,19 @@ public class Message extends Struct {
      *     object, or {@code null}
      * @param ready a pointer to hold the ready flag, or {@code null}
      */
-    public void parseClockProvide(@NotNull Out<org.gstreamer.gst.Clock> clock, Out<Boolean> ready) {
-        java.util.Objects.requireNonNull(clock, "Parameter 'clock' must not be null");
+    public void parseClockProvide(@Nullable Out<org.gstreamer.gst.Clock> clock, Out<Boolean> ready) {
         MemorySegment clockPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(ready, "Parameter 'ready' must not be null");
         MemorySegment readyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_message_parse_clock_provide.invokeExact(
                     handle(),
-                    (Addressable) clockPOINTER.address(),
-                    (Addressable) readyPOINTER.address());
+                    (Addressable) (clock == null ? MemoryAddress.NULL : (Addressable) clockPOINTER.address()),
+                    (Addressable) (ready == null ? MemoryAddress.NULL : (Addressable) readyPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        clock.set(new org.gstreamer.gst.Clock(clockPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        ready.set(readyPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (clock != null) clock.set((org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clockPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Clock.fromAddress).marshal(clockPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (ready != null) ready.set(readyPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -1711,19 +1692,18 @@ public class Message extends Struct {
      * @param contextType the context type, or {@code null}
      * @return a {@code gboolean} indicating if the parsing succeeded.
      */
-    public boolean parseContextType(@NotNull Out<java.lang.String> contextType) {
-        java.util.Objects.requireNonNull(contextType, "Parameter 'contextType' must not be null");
+    public boolean parseContextType(@Nullable Out<java.lang.String> contextType) {
         MemorySegment contextTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_message_parse_context_type.invokeExact(
                     handle(),
-                    (Addressable) contextTypePOINTER.address());
+                    (Addressable) (contextType == null ? MemoryAddress.NULL : (Addressable) contextTypePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        contextType.set(Interop.getStringFrom(contextTypePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (contextType != null) contextType.set(Marshal.addressToString.marshal(contextTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1733,17 +1713,16 @@ public class Message extends Struct {
      * @param device A location where to store a
      *  pointer to the new {@link Device}, or {@code null}
      */
-    public void parseDeviceAdded(@NotNull Out<org.gstreamer.gst.Device> device) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public void parseDeviceAdded(@Nullable Out<org.gstreamer.gst.Device> device) {
         MemorySegment devicePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_device_added.invokeExact(
                     handle(),
-                    (Addressable) devicePOINTER.address());
+                    (Addressable) (device == null ? MemoryAddress.NULL : (Addressable) devicePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        device.set(new org.gstreamer.gst.Device(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (device != null) device.set((org.gstreamer.gst.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Device.fromAddress).marshal(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1756,21 +1735,19 @@ public class Message extends Struct {
      * @param changedDevice A location where to store a
      *  pointer to the old version of the {@link Device}, or {@code null}
      */
-    public void parseDeviceChanged(@NotNull Out<org.gstreamer.gst.Device> device, @NotNull Out<org.gstreamer.gst.Device> changedDevice) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public void parseDeviceChanged(@Nullable Out<org.gstreamer.gst.Device> device, @Nullable Out<org.gstreamer.gst.Device> changedDevice) {
         MemorySegment devicePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(changedDevice, "Parameter 'changedDevice' must not be null");
         MemorySegment changedDevicePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_device_changed.invokeExact(
                     handle(),
-                    (Addressable) devicePOINTER.address(),
-                    (Addressable) changedDevicePOINTER.address());
+                    (Addressable) (device == null ? MemoryAddress.NULL : (Addressable) devicePOINTER.address()),
+                    (Addressable) (changedDevice == null ? MemoryAddress.NULL : (Addressable) changedDevicePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        device.set(new org.gstreamer.gst.Device(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        changedDevice.set(new org.gstreamer.gst.Device(changedDevicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (device != null) device.set((org.gstreamer.gst.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Device.fromAddress).marshal(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (changedDevice != null) changedDevice.set((org.gstreamer.gst.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(changedDevicePOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Device.fromAddress).marshal(changedDevicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1780,17 +1757,16 @@ public class Message extends Struct {
      * @param device A location where to store a
      *  pointer to the removed {@link Device}, or {@code null}
      */
-    public void parseDeviceRemoved(@NotNull Out<org.gstreamer.gst.Device> device) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public void parseDeviceRemoved(@Nullable Out<org.gstreamer.gst.Device> device) {
         MemorySegment devicePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_device_removed.invokeExact(
                     handle(),
-                    (Addressable) devicePOINTER.address());
+                    (Addressable) (device == null ? MemoryAddress.NULL : (Addressable) devicePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        device.set(new org.gstreamer.gst.Device(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (device != null) device.set((org.gstreamer.gst.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Device.fromAddress).marshal(devicePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1823,20 +1799,19 @@ public class Message extends Struct {
      * @param debug location for the debug message,
      *     or {@code null}
      */
-    public void parseError(@NotNull Out<org.gtk.glib.Error> gerror, @NotNull Out<java.lang.String> debug) {
+    public void parseError(@Nullable Out<org.gtk.glib.Error> gerror, @Nullable Out<java.lang.String> debug) {
         MemorySegment gerrorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(debug, "Parameter 'debug' must not be null");
         MemorySegment debugPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_error.invokeExact(
                     handle(),
                     (Addressable) gerrorPOINTER.address(),
-                    (Addressable) debugPOINTER.address());
+                    (Addressable) (debug == null ? MemoryAddress.NULL : (Addressable) debugPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        gerror.set(new org.gtk.glib.Error(gerrorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        debug.set(Interop.getStringFrom(debugPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        gerror.set(org.gtk.glib.Error.fromAddress.marshal(gerrorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (debug != null) debug.set(Marshal.addressToString.marshal(debugPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -1844,8 +1819,7 @@ public class Message extends Struct {
      * The returned structure must not be freed.
      * @param structure A pointer to the returned details
      */
-    public void parseErrorDetails(@NotNull Out<org.gstreamer.gst.Structure> structure) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public void parseErrorDetails(Out<org.gstreamer.gst.Structure> structure) {
         MemorySegment structurePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_error_details.invokeExact(
@@ -1854,7 +1828,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        structure.set(new org.gstreamer.gst.Structure(structurePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        structure.set(org.gstreamer.gst.Structure.fromAddress.marshal(structurePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1866,18 +1840,17 @@ public class Message extends Struct {
      * MT safe.
      */
     public boolean parseGroupId(Out<Integer> groupId) {
-        java.util.Objects.requireNonNull(groupId, "Parameter 'groupId' must not be null");
         MemorySegment groupIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_message_parse_group_id.invokeExact(
                     handle(),
-                    (Addressable) groupIdPOINTER.address());
+                    (Addressable) (groupId == null ? MemoryAddress.NULL : (Addressable) groupIdPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        groupId.set(groupIdPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (groupId != null) groupId.set(groupIdPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1887,17 +1860,16 @@ public class Message extends Struct {
      * @param context Result location for the
      *      context or {@code null}
      */
-    public void parseHaveContext(@NotNull Out<org.gstreamer.gst.Context> context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void parseHaveContext(@Nullable Out<org.gstreamer.gst.Context> context) {
         MemorySegment contextPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_have_context.invokeExact(
                     handle(),
-                    (Addressable) contextPOINTER.address());
+                    (Addressable) (context == null ? MemoryAddress.NULL : (Addressable) contextPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        context.set(new org.gstreamer.gst.Context(contextPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (context != null) context.set(org.gstreamer.gst.Context.fromAddress.marshal(contextPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1909,20 +1881,19 @@ public class Message extends Struct {
      * @param debug location for the debug message,
      *     or {@code null}
      */
-    public void parseInfo(@NotNull Out<org.gtk.glib.Error> gerror, @NotNull Out<java.lang.String> debug) {
+    public void parseInfo(@Nullable Out<org.gtk.glib.Error> gerror, @Nullable Out<java.lang.String> debug) {
         MemorySegment gerrorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(debug, "Parameter 'debug' must not be null");
         MemorySegment debugPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_info.invokeExact(
                     handle(),
                     (Addressable) gerrorPOINTER.address(),
-                    (Addressable) debugPOINTER.address());
+                    (Addressable) (debug == null ? MemoryAddress.NULL : (Addressable) debugPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        gerror.set(new org.gtk.glib.Error(gerrorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        debug.set(Interop.getStringFrom(debugPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        gerror.set(org.gtk.glib.Error.fromAddress.marshal(gerrorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (debug != null) debug.set(Marshal.addressToString.marshal(debugPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -1930,8 +1901,7 @@ public class Message extends Struct {
      * The returned structure must not be freed.
      * @param structure A pointer to the returned details structure
      */
-    public void parseInfoDetails(@NotNull Out<org.gstreamer.gst.Structure> structure) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public void parseInfoDetails(Out<org.gstreamer.gst.Structure> structure) {
         MemorySegment structurePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_info_details.invokeExact(
@@ -1940,7 +1910,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        structure.set(new org.gstreamer.gst.Structure(structurePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        structure.set(org.gstreamer.gst.Structure.fromAddress.marshal(structurePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1948,16 +1918,15 @@ public class Message extends Struct {
      * @param rateMultiplier return location for the rate, or {@code null}
      */
     public void parseInstantRateRequest(Out<Double> rateMultiplier) {
-        java.util.Objects.requireNonNull(rateMultiplier, "Parameter 'rateMultiplier' must not be null");
         MemorySegment rateMultiplierPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gst_message_parse_instant_rate_request.invokeExact(
                     handle(),
-                    (Addressable) rateMultiplierPOINTER.address());
+                    (Addressable) (rateMultiplier == null ? MemoryAddress.NULL : (Addressable) rateMultiplierPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rateMultiplier.set(rateMultiplierPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (rateMultiplier != null) rateMultiplier.set(rateMultiplierPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -1968,17 +1937,16 @@ public class Message extends Struct {
      * @param clock a pointer to hold the selected
      *     new clock
      */
-    public void parseNewClock(@NotNull Out<org.gstreamer.gst.Clock> clock) {
-        java.util.Objects.requireNonNull(clock, "Parameter 'clock' must not be null");
+    public void parseNewClock(@Nullable Out<org.gstreamer.gst.Clock> clock) {
         MemorySegment clockPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_new_clock.invokeExact(
                     handle(),
-                    (Addressable) clockPOINTER.address());
+                    (Addressable) (clock == null ? MemoryAddress.NULL : (Addressable) clockPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        clock.set(new org.gstreamer.gst.Clock(clockPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (clock != null) clock.set((org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clockPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Clock.fromAddress).marshal(clockPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1987,25 +1955,22 @@ public class Message extends Struct {
      * @param code location for the code
      * @param text location for the text
      */
-    public void parseProgress(@NotNull Out<org.gstreamer.gst.ProgressType> type, @NotNull Out<java.lang.String> code, @NotNull Out<java.lang.String> text) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void parseProgress(@Nullable Out<org.gstreamer.gst.ProgressType> type, @Nullable Out<java.lang.String> code, @Nullable Out<java.lang.String> text) {
         MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(code, "Parameter 'code' must not be null");
         MemorySegment codePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_progress.invokeExact(
                     handle(),
-                    (Addressable) typePOINTER.address(),
-                    (Addressable) codePOINTER.address(),
-                    (Addressable) textPOINTER.address());
+                    (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) typePOINTER.address()),
+                    (Addressable) (code == null ? MemoryAddress.NULL : (Addressable) codePOINTER.address()),
+                    (Addressable) (text == null ? MemoryAddress.NULL : (Addressable) textPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        type.set(org.gstreamer.gst.ProgressType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        code.set(Interop.getStringFrom(codePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        text.set(Interop.getStringFrom(textPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (type != null) type.set(org.gstreamer.gst.ProgressType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (code != null) code.set(Marshal.addressToString.marshal(codePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (text != null) text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -2021,25 +1986,22 @@ public class Message extends Struct {
      *     only be set if the property notify watch was told to include the value
      *     when it was set up
      */
-    public void parsePropertyNotify(@NotNull Out<org.gstreamer.gst.Object> object, @NotNull Out<java.lang.String> propertyName, @NotNull Out<org.gtk.gobject.Value> propertyValue) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
+    public void parsePropertyNotify(@Nullable Out<org.gstreamer.gst.GstObject> object, @Nullable Out<java.lang.String> propertyName, @Nullable Out<org.gtk.gobject.Value> propertyValue) {
         MemorySegment objectPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
         MemorySegment propertyNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(propertyValue, "Parameter 'propertyValue' must not be null");
         MemorySegment propertyValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_property_notify.invokeExact(
                     handle(),
-                    (Addressable) objectPOINTER.address(),
-                    (Addressable) propertyNamePOINTER.address(),
-                    (Addressable) propertyValuePOINTER.address());
+                    (Addressable) (object == null ? MemoryAddress.NULL : (Addressable) objectPOINTER.address()),
+                    (Addressable) (propertyName == null ? MemoryAddress.NULL : (Addressable) propertyNamePOINTER.address()),
+                    (Addressable) (propertyValue == null ? MemoryAddress.NULL : (Addressable) propertyValuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        object.set(new org.gstreamer.gst.Object(objectPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        propertyName.set(Interop.getStringFrom(propertyNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        propertyValue.set(new org.gtk.gobject.Value(propertyValuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (object != null) object.set((org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(objectPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.GstObject.fromAddress).marshal(objectPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (propertyName != null) propertyName.set(Marshal.addressToString.marshal(propertyNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (propertyValue != null) propertyValue.set(org.gtk.gobject.Value.fromAddress.marshal(propertyValuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -2061,32 +2023,27 @@ public class Message extends Struct {
      *     generated the message
      */
     public void parseQos(Out<Boolean> live, Out<Long> runningTime, Out<Long> streamTime, Out<Long> timestamp, Out<Long> duration) {
-        java.util.Objects.requireNonNull(live, "Parameter 'live' must not be null");
         MemorySegment livePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
         MemorySegment runningTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(streamTime, "Parameter 'streamTime' must not be null");
         MemorySegment streamTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
         MemorySegment timestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
         MemorySegment durationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_message_parse_qos.invokeExact(
                     handle(),
-                    (Addressable) livePOINTER.address(),
-                    (Addressable) runningTimePOINTER.address(),
-                    (Addressable) streamTimePOINTER.address(),
-                    (Addressable) timestampPOINTER.address(),
-                    (Addressable) durationPOINTER.address());
+                    (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
+                    (Addressable) (runningTime == null ? MemoryAddress.NULL : (Addressable) runningTimePOINTER.address()),
+                    (Addressable) (streamTime == null ? MemoryAddress.NULL : (Addressable) streamTimePOINTER.address()),
+                    (Addressable) (timestamp == null ? MemoryAddress.NULL : (Addressable) timestampPOINTER.address()),
+                    (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        runningTime.set(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        streamTime.set(streamTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        timestamp.set(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (runningTime != null) runningTime.set(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (streamTime != null) streamTime.set(streamTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (timestamp != null) timestamp.set(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (duration != null) duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -2106,25 +2063,22 @@ public class Message extends Struct {
      * @param dropped Total number of units dropped since the last
      *     state change to READY or a flushing operation.
      */
-    public void parseQosStats(@NotNull Out<org.gstreamer.gst.Format> format, Out<Long> processed, Out<Long> dropped) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void parseQosStats(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> processed, Out<Long> dropped) {
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(processed, "Parameter 'processed' must not be null");
         MemorySegment processedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(dropped, "Parameter 'dropped' must not be null");
         MemorySegment droppedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_message_parse_qos_stats.invokeExact(
                     handle(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) processedPOINTER.address(),
-                    (Addressable) droppedPOINTER.address());
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (processed == null ? MemoryAddress.NULL : (Addressable) processedPOINTER.address()),
+                    (Addressable) (dropped == null ? MemoryAddress.NULL : (Addressable) droppedPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        processed.set(processedPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        dropped.set(droppedPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (processed != null) processed.set(processedPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (dropped != null) dropped.set(droppedPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -2140,24 +2094,21 @@ public class Message extends Struct {
      *     maximum quality is 1000000.
      */
     public void parseQosValues(Out<Long> jitter, Out<Double> proportion, Out<Integer> quality) {
-        java.util.Objects.requireNonNull(jitter, "Parameter 'jitter' must not be null");
         MemorySegment jitterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(proportion, "Parameter 'proportion' must not be null");
         MemorySegment proportionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(quality, "Parameter 'quality' must not be null");
         MemorySegment qualityPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_message_parse_qos_values.invokeExact(
                     handle(),
-                    (Addressable) jitterPOINTER.address(),
-                    (Addressable) proportionPOINTER.address(),
-                    (Addressable) qualityPOINTER.address());
+                    (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()),
+                    (Addressable) (proportion == null ? MemoryAddress.NULL : (Addressable) proportionPOINTER.address()),
+                    (Addressable) (quality == null ? MemoryAddress.NULL : (Addressable) qualityPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        jitter.set(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        proportion.set(proportionPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        quality.set(qualityPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (jitter != null) jitter.set(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (proportion != null) proportion.set(proportionPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (quality != null) quality.set(qualityPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -2172,26 +2123,23 @@ public class Message extends Struct {
      * @param entryStruct return location
      *     for the pointer to the entry's structure, or {@code null}
      */
-    public void parseRedirectEntry(long entryIndex, @NotNull Out<java.lang.String> location, @NotNull Out<org.gstreamer.gst.TagList> tagList, @NotNull Out<org.gstreamer.gst.Structure> entryStruct) {
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
+    public void parseRedirectEntry(long entryIndex, @Nullable Out<java.lang.String> location, @Nullable Out<org.gstreamer.gst.TagList> tagList, @Nullable Out<org.gstreamer.gst.Structure> entryStruct) {
         MemorySegment locationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(tagList, "Parameter 'tagList' must not be null");
         MemorySegment tagListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(entryStruct, "Parameter 'entryStruct' must not be null");
         MemorySegment entryStructPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_redirect_entry.invokeExact(
                     handle(),
                     entryIndex,
-                    (Addressable) locationPOINTER.address(),
-                    (Addressable) tagListPOINTER.address(),
-                    (Addressable) entryStructPOINTER.address());
+                    (Addressable) (location == null ? MemoryAddress.NULL : (Addressable) locationPOINTER.address()),
+                    (Addressable) (tagList == null ? MemoryAddress.NULL : (Addressable) tagListPOINTER.address()),
+                    (Addressable) (entryStruct == null ? MemoryAddress.NULL : (Addressable) entryStructPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        location.set(Interop.getStringFrom(locationPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        tagList.set(new org.gstreamer.gst.TagList(tagListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        entryStruct.set(new org.gstreamer.gst.Structure(entryStructPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (location != null) location.set(Marshal.addressToString.marshal(locationPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (tagList != null) tagList.set(org.gstreamer.gst.TagList.fromAddress.marshal(tagListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (entryStruct != null) entryStruct.set(org.gstreamer.gst.Structure.fromAddress.marshal(entryStructPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -2200,17 +2148,16 @@ public class Message extends Struct {
      * MT safe.
      * @param state Result location for the requested state or {@code null}
      */
-    public void parseRequestState(@NotNull Out<org.gstreamer.gst.State> state) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public void parseRequestState(@Nullable Out<org.gstreamer.gst.State> state) {
         MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_message_parse_request_state.invokeExact(
                     handle(),
-                    (Addressable) statePOINTER.address());
+                    (Addressable) (state == null ? MemoryAddress.NULL : (Addressable) statePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        state.set(org.gstreamer.gst.State.of(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (state != null) state.set(org.gstreamer.gst.State.of(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -2220,17 +2167,16 @@ public class Message extends Struct {
      * @param runningTime Result location for the running_time or
      *      {@code null}
      */
-    public void parseResetTime(@NotNull Out<org.gstreamer.gst.ClockTime> runningTime) {
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
+    public void parseResetTime(@Nullable org.gstreamer.gst.ClockTime runningTime) {
         MemorySegment runningTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_message_parse_reset_time.invokeExact(
                     handle(),
-                    (Addressable) runningTimePOINTER.address());
+                    (Addressable) (runningTime == null ? MemoryAddress.NULL : (Addressable) runningTimePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        runningTime.set(new org.gstreamer.gst.ClockTime(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (runningTime != null) runningTime.setValue(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -2240,21 +2186,19 @@ public class Message extends Struct {
      * @param format Result location for the format, or {@code null}
      * @param position Result location for the position, or {@code null}
      */
-    public void parseSegmentDone(@NotNull Out<org.gstreamer.gst.Format> format, Out<Long> position) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void parseSegmentDone(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> position) {
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_message_parse_segment_done.invokeExact(
                     handle(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) positionPOINTER.address());
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (position != null) position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -2264,21 +2208,19 @@ public class Message extends Struct {
      * @param format Result location for the format, or {@code null}
      * @param position Result location for the position, or {@code null}
      */
-    public void parseSegmentStart(@NotNull Out<org.gstreamer.gst.Format> format, Out<Long> position) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void parseSegmentStart(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> position) {
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_message_parse_segment_start.invokeExact(
                     handle(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) positionPOINTER.address());
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (position != null) position.set(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -2308,25 +2250,22 @@ public class Message extends Struct {
      * @param newstate the new (current) state, or {@code null}
      * @param pending the pending (target) state, or {@code null}
      */
-    public void parseStateChanged(@NotNull Out<org.gstreamer.gst.State> oldstate, @NotNull Out<org.gstreamer.gst.State> newstate, @NotNull Out<org.gstreamer.gst.State> pending) {
-        java.util.Objects.requireNonNull(oldstate, "Parameter 'oldstate' must not be null");
+    public void parseStateChanged(@Nullable Out<org.gstreamer.gst.State> oldstate, @Nullable Out<org.gstreamer.gst.State> newstate, @Nullable Out<org.gstreamer.gst.State> pending) {
         MemorySegment oldstatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(newstate, "Parameter 'newstate' must not be null");
         MemorySegment newstatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(pending, "Parameter 'pending' must not be null");
         MemorySegment pendingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_message_parse_state_changed.invokeExact(
                     handle(),
-                    (Addressable) oldstatePOINTER.address(),
-                    (Addressable) newstatePOINTER.address(),
-                    (Addressable) pendingPOINTER.address());
+                    (Addressable) (oldstate == null ? MemoryAddress.NULL : (Addressable) oldstatePOINTER.address()),
+                    (Addressable) (newstate == null ? MemoryAddress.NULL : (Addressable) newstatePOINTER.address()),
+                    (Addressable) (pending == null ? MemoryAddress.NULL : (Addressable) pendingPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        oldstate.set(org.gstreamer.gst.State.of(oldstatePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        newstate.set(org.gstreamer.gst.State.of(newstatePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        pending.set(org.gstreamer.gst.State.of(pendingPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (oldstate != null) oldstate.set(org.gstreamer.gst.State.of(oldstatePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (newstate != null) newstate.set(org.gstreamer.gst.State.of(newstatePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (pending != null) pending.set(org.gstreamer.gst.State.of(pendingPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -2341,41 +2280,34 @@ public class Message extends Struct {
      * @param duration result location for the duration
      * @param eos result location for the EOS flag
      */
-    public void parseStepDone(@NotNull Out<org.gstreamer.gst.Format> format, Out<Long> amount, Out<Double> rate, Out<Boolean> flush, Out<Boolean> intermediate, Out<Long> duration, Out<Boolean> eos) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void parseStepDone(@Nullable Out<org.gstreamer.gst.Format> format, Out<Long> amount, Out<Double> rate, Out<Boolean> flush, Out<Boolean> intermediate, Out<Long> duration, Out<Boolean> eos) {
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(amount, "Parameter 'amount' must not be null");
         MemorySegment amountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(rate, "Parameter 'rate' must not be null");
         MemorySegment ratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(flush, "Parameter 'flush' must not be null");
         MemorySegment flushPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(intermediate, "Parameter 'intermediate' must not be null");
         MemorySegment intermediatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
         MemorySegment durationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(eos, "Parameter 'eos' must not be null");
         MemorySegment eosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_message_parse_step_done.invokeExact(
                     handle(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) amountPOINTER.address(),
-                    (Addressable) ratePOINTER.address(),
-                    (Addressable) flushPOINTER.address(),
-                    (Addressable) intermediatePOINTER.address(),
-                    (Addressable) durationPOINTER.address(),
-                    (Addressable) eosPOINTER.address());
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (amount == null ? MemoryAddress.NULL : (Addressable) amountPOINTER.address()),
+                    (Addressable) (rate == null ? MemoryAddress.NULL : (Addressable) ratePOINTER.address()),
+                    (Addressable) (flush == null ? MemoryAddress.NULL : (Addressable) flushPOINTER.address()),
+                    (Addressable) (intermediate == null ? MemoryAddress.NULL : (Addressable) intermediatePOINTER.address()),
+                    (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()),
+                    (Addressable) (eos == null ? MemoryAddress.NULL : (Addressable) eosPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        amount.set(amountPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        flush.set(flushPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        intermediate.set(intermediatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        eos.set(eosPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (amount != null) amount.set(amountPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (rate != null) rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (flush != null) flush.set(flushPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (intermediate != null) intermediate.set(intermediatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (duration != null) duration.set(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (eos != null) eos.set(eosPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -2389,37 +2321,31 @@ public class Message extends Struct {
      * @param flush result location for the flush flag
      * @param intermediate result location for the intermediate flag
      */
-    public void parseStepStart(Out<Boolean> active, @NotNull Out<org.gstreamer.gst.Format> format, Out<Long> amount, Out<Double> rate, Out<Boolean> flush, Out<Boolean> intermediate) {
-        java.util.Objects.requireNonNull(active, "Parameter 'active' must not be null");
+    public void parseStepStart(Out<Boolean> active, @Nullable Out<org.gstreamer.gst.Format> format, Out<Long> amount, Out<Double> rate, Out<Boolean> flush, Out<Boolean> intermediate) {
         MemorySegment activePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemorySegment formatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(amount, "Parameter 'amount' must not be null");
         MemorySegment amountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(rate, "Parameter 'rate' must not be null");
         MemorySegment ratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(flush, "Parameter 'flush' must not be null");
         MemorySegment flushPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(intermediate, "Parameter 'intermediate' must not be null");
         MemorySegment intermediatePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_message_parse_step_start.invokeExact(
                     handle(),
-                    (Addressable) activePOINTER.address(),
-                    (Addressable) formatPOINTER.address(),
-                    (Addressable) amountPOINTER.address(),
-                    (Addressable) ratePOINTER.address(),
-                    (Addressable) flushPOINTER.address(),
-                    (Addressable) intermediatePOINTER.address());
+                    (Addressable) (active == null ? MemoryAddress.NULL : (Addressable) activePOINTER.address()),
+                    (Addressable) (format == null ? MemoryAddress.NULL : (Addressable) formatPOINTER.address()),
+                    (Addressable) (amount == null ? MemoryAddress.NULL : (Addressable) amountPOINTER.address()),
+                    (Addressable) (rate == null ? MemoryAddress.NULL : (Addressable) ratePOINTER.address()),
+                    (Addressable) (flush == null ? MemoryAddress.NULL : (Addressable) flushPOINTER.address()),
+                    (Addressable) (intermediate == null ? MemoryAddress.NULL : (Addressable) intermediatePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        active.set(activePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        amount.set(amountPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        flush.set(flushPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        intermediate.set(intermediatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (active != null) active.set(activePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (format != null) format.set(org.gstreamer.gst.Format.of(formatPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (amount != null) amount.set(amountPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (rate != null) rate.set(ratePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (flush != null) flush.set(flushPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (intermediate != null) intermediate.set(intermediatePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -2427,17 +2353,16 @@ public class Message extends Struct {
      * @param collection A location where to store a
      *  pointer to the {@link StreamCollection}, or {@code null}
      */
-    public void parseStreamCollection(@NotNull Out<org.gstreamer.gst.StreamCollection> collection) {
-        java.util.Objects.requireNonNull(collection, "Parameter 'collection' must not be null");
+    public void parseStreamCollection(@Nullable Out<org.gstreamer.gst.StreamCollection> collection) {
         MemorySegment collectionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_stream_collection.invokeExact(
                     handle(),
-                    (Addressable) collectionPOINTER.address());
+                    (Addressable) (collection == null ? MemoryAddress.NULL : (Addressable) collectionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        collection.set(new org.gstreamer.gst.StreamCollection(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (collection != null) collection.set((org.gstreamer.gst.StreamCollection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.StreamCollection.fromAddress).marshal(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -2449,10 +2374,8 @@ public class Message extends Struct {
      * @param type A pointer to hold the status type
      * @param owner The owner element of the message source
      */
-    public void parseStreamStatus(@NotNull Out<org.gstreamer.gst.StreamStatusType> type, @NotNull Out<org.gstreamer.gst.Element> owner) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void parseStreamStatus(Out<org.gstreamer.gst.StreamStatusType> type, Out<org.gstreamer.gst.Element> owner) {
         MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(owner, "Parameter 'owner' must not be null");
         MemorySegment ownerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_stream_status.invokeExact(
@@ -2463,7 +2386,7 @@ public class Message extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         type.set(org.gstreamer.gst.StreamStatusType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        owner.set(new org.gstreamer.gst.Element(ownerPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        owner.set((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(ownerPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Element.fromAddress).marshal(ownerPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -2471,17 +2394,16 @@ public class Message extends Struct {
      * @param collection A location where to store a
      *  pointer to the {@link StreamCollection}, or {@code null}
      */
-    public void parseStreamsSelected(@NotNull Out<org.gstreamer.gst.StreamCollection> collection) {
-        java.util.Objects.requireNonNull(collection, "Parameter 'collection' must not be null");
+    public void parseStreamsSelected(@Nullable Out<org.gstreamer.gst.StreamCollection> collection) {
         MemorySegment collectionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_streams_selected.invokeExact(
                     handle(),
-                    (Addressable) collectionPOINTER.address());
+                    (Addressable) (collection == null ? MemoryAddress.NULL : (Addressable) collectionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        collection.set(new org.gstreamer.gst.StreamCollection(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (collection != null) collection.set((org.gstreamer.gst.StreamCollection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.StreamCollection.fromAddress).marshal(collectionPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -2494,25 +2416,22 @@ public class Message extends Struct {
      * @param busy a pointer to hold whether the change is in
      *     progress or has been completed
      */
-    public void parseStructureChange(@NotNull Out<org.gstreamer.gst.StructureChangeType> type, @NotNull Out<org.gstreamer.gst.Element> owner, Out<Boolean> busy) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void parseStructureChange(Out<org.gstreamer.gst.StructureChangeType> type, @Nullable Out<org.gstreamer.gst.Element> owner, Out<Boolean> busy) {
         MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(owner, "Parameter 'owner' must not be null");
         MemorySegment ownerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(busy, "Parameter 'busy' must not be null");
         MemorySegment busyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_message_parse_structure_change.invokeExact(
                     handle(),
                     (Addressable) typePOINTER.address(),
-                    (Addressable) ownerPOINTER.address(),
-                    (Addressable) busyPOINTER.address());
+                    (Addressable) (owner == null ? MemoryAddress.NULL : (Addressable) ownerPOINTER.address()),
+                    (Addressable) (busy == null ? MemoryAddress.NULL : (Addressable) busyPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         type.set(org.gstreamer.gst.StructureChangeType.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        owner.set(new org.gstreamer.gst.Element(ownerPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        busy.set(busyPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (owner != null) owner.set((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(ownerPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Element.fromAddress).marshal(ownerPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (busy != null) busy.set(busyPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -2540,8 +2459,7 @@ public class Message extends Struct {
      * MT safe.
      * @param tagList return location for the tag-list.
      */
-    public void parseTag(@NotNull Out<org.gstreamer.gst.TagList> tagList) {
-        java.util.Objects.requireNonNull(tagList, "Parameter 'tagList' must not be null");
+    public void parseTag(Out<org.gstreamer.gst.TagList> tagList) {
         MemorySegment tagListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_tag.invokeExact(
@@ -2550,7 +2468,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        tagList.set(new org.gstreamer.gst.TagList(tagListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        tagList.set(org.gstreamer.gst.TagList.fromAddress.marshal(tagListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -2562,10 +2480,8 @@ public class Message extends Struct {
      * @param toc return location for the TOC.
      * @param updated return location for the updated flag.
      */
-    public void parseToc(@NotNull Out<org.gstreamer.gst.Toc> toc, Out<Boolean> updated) {
-        java.util.Objects.requireNonNull(toc, "Parameter 'toc' must not be null");
+    public void parseToc(Out<org.gstreamer.gst.Toc> toc, Out<Boolean> updated) {
         MemorySegment tocPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(updated, "Parameter 'updated' must not be null");
         MemorySegment updatedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_message_parse_toc.invokeExact(
@@ -2575,7 +2491,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        toc.set(new org.gstreamer.gst.Toc(tocPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        toc.set(org.gstreamer.gst.Toc.fromAddress.marshal(tocPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         updated.set(updatedPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
@@ -2588,20 +2504,19 @@ public class Message extends Struct {
      * @param debug location for the debug message,
      *     or {@code null}
      */
-    public void parseWarning(@NotNull Out<org.gtk.glib.Error> gerror, @NotNull Out<java.lang.String> debug) {
+    public void parseWarning(@Nullable Out<org.gtk.glib.Error> gerror, @Nullable Out<java.lang.String> debug) {
         MemorySegment gerrorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(debug, "Parameter 'debug' must not be null");
         MemorySegment debugPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_warning.invokeExact(
                     handle(),
                     (Addressable) gerrorPOINTER.address(),
-                    (Addressable) debugPOINTER.address());
+                    (Addressable) (debug == null ? MemoryAddress.NULL : (Addressable) debugPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        gerror.set(new org.gtk.glib.Error(gerrorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        debug.set(Interop.getStringFrom(debugPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        gerror.set(org.gtk.glib.Error.fromAddress.marshal(gerrorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (debug != null) debug.set(Marshal.addressToString.marshal(debugPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -2609,8 +2524,7 @@ public class Message extends Struct {
      * The returned structure must not be freed.
      * @param structure A pointer to the returned details structure
      */
-    public void parseWarningDetails(@NotNull Out<org.gstreamer.gst.Structure> structure) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public void parseWarningDetails(Out<org.gstreamer.gst.Structure> structure) {
         MemorySegment structurePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_message_parse_warning_details.invokeExact(
@@ -2619,7 +2533,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        structure.set(new org.gstreamer.gst.Structure(structurePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        structure.set(org.gstreamer.gst.Structure.fromAddress.marshal(structurePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -2629,8 +2543,7 @@ public class Message extends Struct {
      * @param avgOut the average output rate
      * @param bufferingLeft amount of buffering time left in milliseconds
      */
-    public void setBufferingStats(@NotNull org.gstreamer.gst.BufferingMode mode, int avgIn, int avgOut, long bufferingLeft) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setBufferingStats(org.gstreamer.gst.BufferingMode mode, int avgIn, int avgOut, long bufferingLeft) {
         try {
             DowncallHandles.gst_message_set_buffering_stats.invokeExact(
                     handle(),
@@ -2681,8 +2594,7 @@ public class Message extends Struct {
      * @param dropped Total number of units dropped since the last state change to READY
      * or a flushing operation.
      */
-    public void setQosStats(@NotNull org.gstreamer.gst.Format format, long processed, long dropped) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void setQosStats(org.gstreamer.gst.Format format, long processed, long dropped) {
         try {
             DowncallHandles.gst_message_set_qos_stats.invokeExact(
                     handle(),
@@ -2741,8 +2653,7 @@ public class Message extends Struct {
      * GstTask object but other objects might be added in the future.
      * @param object the object controlling the streaming
      */
-    public void setStreamStatusObject(@NotNull org.gtk.gobject.Value object) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
+    public void setStreamStatusObject(org.gtk.gobject.Value object) {
         try {
             DowncallHandles.gst_message_set_stream_status_object.invokeExact(
                     handle(),
@@ -2756,8 +2667,7 @@ public class Message extends Struct {
      * Adds the {@code stream} to the {@code message}.
      * @param stream a {@link Stream} to add to {@code message}
      */
-    public void streamsSelectedAdd(@NotNull org.gstreamer.gst.Stream stream) {
-        java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
+    public void streamsSelectedAdd(org.gstreamer.gst.Stream stream) {
         try {
             DowncallHandles.gst_message_streams_selected_add.invokeExact(
                     handle(),
@@ -2796,7 +2706,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Stream(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Stream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Stream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2809,7 +2719,7 @@ public class Message extends Struct {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.Structure writableStructure() {
+    public org.gstreamer.gst.Structure writableStructure() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_writable_structure.invokeExact(
@@ -2817,7 +2727,7 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2843,8 +2753,8 @@ public class Message extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (oldMessage != null) oldMessage.set(new org.gstreamer.gst.Message(oldMessagePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (oldMessage != null) oldMessage.set(org.gstreamer.gst.Message.fromAddress.marshal(oldMessagePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -3443,31 +3353,35 @@ public class Message extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Message.Builder} object constructs a {@link Message} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Message.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Message struct;
+        private final Message struct;
         
-         /**
-         * A {@link Message.Build} object constructs a {@link Message} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Message.allocate();
         }
         
          /**
          * Finish building the {@link Message} struct.
          * @return A new instance of {@code Message} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Message construct() {
+        public Message build() {
             return struct;
         }
         
@@ -3476,7 +3390,7 @@ public class Message extends Struct {
          * @param miniObject The value for the {@code miniObject} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
@@ -3488,7 +3402,7 @@ public class Message extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.gst.MessageType type) {
+        public Builder setType(org.gstreamer.gst.MessageType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
@@ -3500,7 +3414,7 @@ public class Message extends Struct {
          * @param timestamp The value for the {@code timestamp} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTimestamp(long timestamp) {
+        public Builder setTimestamp(long timestamp) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("timestamp"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), timestamp);
@@ -3512,7 +3426,7 @@ public class Message extends Struct {
          * @param src The value for the {@code src} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSrc(org.gstreamer.gst.Object src) {
+        public Builder setSrc(org.gstreamer.gst.GstObject src) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("src"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (src == null ? MemoryAddress.NULL : src.handle()));
@@ -3524,21 +3438,21 @@ public class Message extends Struct {
          * @param seqnum The value for the {@code seqnum} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSeqnum(int seqnum) {
+        public Builder setSeqnum(int seqnum) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("seqnum"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seqnum);
             return this;
         }
         
-        public Build setLock(org.gtk.glib.Mutex lock) {
+        public Builder setLock(org.gtk.glib.Mutex lock) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lock"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
             return this;
         }
         
-        public Build setCond(org.gtk.glib.Cond cond) {
+        public Builder setCond(org.gtk.glib.Cond cond) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cond"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cond == null ? MemoryAddress.NULL : cond.handle()));

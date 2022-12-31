@@ -11,5 +11,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface SettingsBindSetMapping {
-        org.gtk.glib.Variant onSettingsBindSetMapping(@NotNull org.gtk.gobject.Value value, @NotNull org.gtk.glib.VariantType expectedType);
+    org.gtk.glib.Variant run(org.gtk.gobject.Value value, org.gtk.glib.VariantType expectedType);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress value, MemoryAddress expectedType, MemoryAddress userData) {
+        var RESULT = run(org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE), org.gtk.glib.VariantType.fromAddress.marshal(expectedType, Ownership.NONE));
+        return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SettingsBindSetMapping.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

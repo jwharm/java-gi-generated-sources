@@ -44,17 +44,18 @@ public class PatternSpec extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PatternSpec(Addressable address, Ownership ownership) {
+    protected PatternSpec(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String pattern) {
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PatternSpec> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PatternSpec(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String pattern) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_new.invokeExact(
-                    Interop.allocateNativeString(pattern));
+                    Marshal.stringToAddress.marshal(pattern, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -65,7 +66,7 @@ public class PatternSpec extends Struct {
      * Compiles a pattern to a {@link PatternSpec}.
      * @param pattern a zero-terminated UTF-8 encoded string
      */
-    public PatternSpec(@NotNull java.lang.String pattern) {
+    public PatternSpec(java.lang.String pattern) {
         super(constructNew(pattern), Ownership.FULL);
     }
     
@@ -73,7 +74,7 @@ public class PatternSpec extends Struct {
      * Copies {@code pspec} in a new {@link PatternSpec}.
      * @return a copy of {@code pspec}.
      */
-    public @NotNull org.gtk.glib.PatternSpec copy() {
+    public org.gtk.glib.PatternSpec copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_pattern_spec_copy.invokeExact(
@@ -81,7 +82,7 @@ public class PatternSpec extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.PatternSpec(RESULT, Ownership.FULL);
+        return org.gtk.glib.PatternSpec.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -90,8 +91,7 @@ public class PatternSpec extends Struct {
      * @param pspec2 another {@link PatternSpec}
      * @return Whether the compiled patterns are equal
      */
-    public boolean equal(@NotNull org.gtk.glib.PatternSpec pspec2) {
-        java.util.Objects.requireNonNull(pspec2, "Parameter 'pspec2' must not be null");
+    public boolean equal(org.gtk.glib.PatternSpec pspec2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_pattern_spec_equal.invokeExact(
@@ -100,7 +100,7 @@ public class PatternSpec extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -139,19 +139,18 @@ public class PatternSpec extends Struct {
      * @param stringReversed the reverse of {@code string} or {@code null}
      * @return {@code true} if {@code string} matches {@code pspec}
      */
-    public boolean match(long stringLength, @NotNull java.lang.String string, @Nullable java.lang.String stringReversed) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public boolean match(long stringLength, java.lang.String string, @Nullable java.lang.String stringReversed) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_pattern_spec_match.invokeExact(
                     handle(),
                     stringLength,
-                    Interop.allocateNativeString(string),
-                    (Addressable) (stringReversed == null ? MemoryAddress.NULL : Interop.allocateNativeString(stringReversed)));
+                    Marshal.stringToAddress.marshal(string, null),
+                    (Addressable) (stringReversed == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stringReversed, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -161,17 +160,16 @@ public class PatternSpec extends Struct {
      * @param string the UTF-8 encoded string to match
      * @return {@code true} if {@code string} matches {@code pspec}
      */
-    public boolean matchString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public boolean matchString(java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_pattern_spec_match_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

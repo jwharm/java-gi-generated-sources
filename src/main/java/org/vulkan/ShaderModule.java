@@ -40,8 +40,10 @@ public class ShaderModule extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ShaderModule(Addressable address, Ownership ownership) {
+    protected ShaderModule(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ShaderModule> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShaderModule(input, ownership);
 }

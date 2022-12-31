@@ -40,8 +40,10 @@ public class PlayerSubtitleInfoClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PlayerSubtitleInfoClass(Addressable address, Ownership ownership) {
+    protected PlayerSubtitleInfoClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PlayerSubtitleInfoClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerSubtitleInfoClass(input, ownership);
 }

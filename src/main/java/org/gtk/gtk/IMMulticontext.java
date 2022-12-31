@@ -21,18 +21,16 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
     
     private static final java.lang.String C_TYPE_NAME = "GtkIMMulticontext";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.IMContext.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.IMContext.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -40,33 +38,15 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IMMulticontext(Addressable address, Ownership ownership) {
+    protected IMMulticontext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to IMMulticontext if its GType is a (or inherits from) "GtkIMMulticontext".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code IMMulticontext} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkIMMulticontext", a ClassCastException will be thrown.
-     */
-    public static IMMulticontext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IMMulticontext.getType())) {
-            return new IMMulticontext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkIMMulticontext");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IMMulticontext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IMMulticontext(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_im_multicontext_new.invokeExact();
         } catch (Throwable ERR) {
@@ -86,7 +66,7 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      * Gets the id of the currently active delegate of the {@code context}.
      * @return the id of the currently active delegate
      */
-    public @NotNull java.lang.String getContextId() {
+    public java.lang.String getContextId() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_im_multicontext_get_context_id.invokeExact(
@@ -94,7 +74,7 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -112,7 +92,7 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
         try {
             DowncallHandles.gtk_im_multicontext_set_context_id.invokeExact(
                     handle(),
-                    (Addressable) (contextId == null ? MemoryAddress.NULL : Interop.allocateNativeString(contextId)));
+                    (Addressable) (contextId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(contextId, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,7 +102,7 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_im_multicontext_get_type.invokeExact();
@@ -131,38 +111,40 @@ public class IMMulticontext extends org.gtk.gtk.IMContext {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link IMMulticontext.Builder} object constructs a {@link IMMulticontext} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link IMMulticontext.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.IMContext.Build {
+    public static class Builder extends org.gtk.gtk.IMContext.Builder {
         
-         /**
-         * A {@link IMMulticontext.Build} object constructs a {@link IMMulticontext} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link IMMulticontext} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link IMMulticontext} using {@link IMMulticontext#castFrom}.
+         * {@link IMMulticontext}.
          * @return A new instance of {@code IMMulticontext} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public IMMulticontext construct() {
-            return IMMulticontext.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    IMMulticontext.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public IMMulticontext build() {
+            return (IMMulticontext) org.gtk.gobject.GObject.newWithProperties(
+                IMMulticontext.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

@@ -75,17 +75,15 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     private static final java.lang.String C_TYPE_NAME = "GtkApplication";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.Application.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.Application.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -93,37 +91,18 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Application(Addressable address, Ownership ownership) {
+    protected Application(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Application if its GType is a (or inherits from) "GtkApplication".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Application} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkApplication", a ClassCastException will be thrown.
-     */
-    public static Application castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Application.getType())) {
-            return new Application(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkApplication");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Application> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Application(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_application_new.invokeExact(
-                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationId)),
+                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(applicationId, null)),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -153,7 +132,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * @param applicationId The application ID
      * @param flags the application flags
      */
-    public Application(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
+    public Application(@Nullable java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
         super(constructNew(applicationId, flags), Ownership.FULL);
     }
     
@@ -175,8 +154,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * any windows.
      * @param window a {@code GtkWindow}
      */
-    public void addWindow(@NotNull org.gtk.gtk.Window window) {
-        java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
+    public void addWindow(org.gtk.gtk.Window window) {
         try {
             DowncallHandles.gtk_application_add_window.invokeExact(
                     handle(),
@@ -193,13 +171,12 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      *   and target to obtain accelerators for
      * @return accelerators for {@code detailed_action_name}
      */
-    public @NotNull PointerString getAccelsForAction(@NotNull java.lang.String detailedActionName) {
-        java.util.Objects.requireNonNull(detailedActionName, "Parameter 'detailedActionName' must not be null");
+    public PointerString getAccelsForAction(java.lang.String detailedActionName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_accels_for_action.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(detailedActionName));
+                    Marshal.stringToAddress.marshal(detailedActionName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,13 +204,12 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * @param accel an accelerator that can be parsed by {@link Gtk#acceleratorParse}
      * @return a {@code null}-terminated array of actions for {@code accel}
      */
-    public @NotNull PointerString getActionsForAccel(@NotNull java.lang.String accel) {
-        java.util.Objects.requireNonNull(accel, "Parameter 'accel' must not be null");
+    public PointerString getActionsForAccel(java.lang.String accel) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_actions_for_accel.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(accel));
+                    Marshal.stringToAddress.marshal(accel, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -257,7 +233,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Window(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Window.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -269,17 +245,16 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * @return Gets the menu with the
      *   given id from the automatically loaded resources
      */
-    public @Nullable org.gtk.gio.Menu getMenuById(@NotNull java.lang.String id) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public @Nullable org.gtk.gio.Menu getMenuById(java.lang.String id) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_menu_by_id.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(id));
+                    Marshal.stringToAddress.marshal(id, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Menu(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Menu) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Menu.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -295,7 +270,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -315,7 +290,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Window(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Window.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -331,7 +306,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * @return a {@code GList} of {@code GtkWindow}
      *   instances
      */
-    public @NotNull org.gtk.glib.List getWindows() {
+    public org.gtk.glib.List getWindows() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_application_get_windows.invokeExact(
@@ -339,7 +314,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -375,15 +350,14 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      *   in order to remove the request. If the platform does not support
      *   inhibiting or the request failed for some reason, 0 is returned.
      */
-    public int inhibit(@Nullable org.gtk.gtk.Window window, @NotNull org.gtk.gtk.ApplicationInhibitFlags flags, @Nullable java.lang.String reason) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public int inhibit(@Nullable org.gtk.gtk.Window window, org.gtk.gtk.ApplicationInhibitFlags flags, @Nullable java.lang.String reason) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_application_inhibit.invokeExact(
                     handle(),
                     (Addressable) (window == null ? MemoryAddress.NULL : window.handle()),
                     flags.getValue(),
-                    (Addressable) (reason == null ? MemoryAddress.NULL : Interop.allocateNativeString(reason)));
+                    (Addressable) (reason == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(reason, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -396,7 +370,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * See {@link Application#setAccelsForAction}.
      * @return the detailed action names
      */
-    public @NotNull PointerString listActionDescriptions() {
+    public PointerString listActionDescriptions() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_application_list_action_descriptions.invokeExact(
@@ -418,8 +392,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * function, if {@code window} was the last window of the {@code application}.
      * @param window a {@code GtkWindow}
      */
-    public void removeWindow(@NotNull org.gtk.gtk.Window window) {
-        java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
+    public void removeWindow(org.gtk.gtk.Window window) {
         try {
             DowncallHandles.gtk_application_remove_window.invokeExact(
                     handle(),
@@ -446,13 +419,11 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * @param accels a list of accelerators in the format
      *   understood by {@link Gtk#acceleratorParse}
      */
-    public void setAccelsForAction(@NotNull java.lang.String detailedActionName, @NotNull java.lang.String[] accels) {
-        java.util.Objects.requireNonNull(detailedActionName, "Parameter 'detailedActionName' must not be null");
-        java.util.Objects.requireNonNull(accels, "Parameter 'accels' must not be null");
+    public void setAccelsForAction(java.lang.String detailedActionName, java.lang.String[] accels) {
         try {
             DowncallHandles.gtk_application_set_accels_for_action.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(detailedActionName),
+                    Marshal.stringToAddress.marshal(detailedActionName, null),
                     Interop.allocateNativeArray(accels, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -512,7 +483,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_application_get_type.invokeExact();
@@ -524,7 +495,18 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     @FunctionalInterface
     public interface QueryEnd {
-        void signalReceived(Application sourceApplication);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceApplication) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(QueryEnd.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -540,16 +522,8 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public Signal<Application.QueryEnd> onQueryEnd(Application.QueryEnd handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("query-end"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationQueryEnd",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Application.QueryEnd>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("query-end"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -557,7 +531,18 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     @FunctionalInterface
     public interface WindowAdded {
-        void signalReceived(Application sourceApplication, @NotNull org.gtk.gtk.Window window);
+        void run(org.gtk.gtk.Window window);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceApplication, MemoryAddress window) {
+            run((org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gtk.gtk.Window.fromAddress).marshal(window, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WindowAdded.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -569,16 +554,8 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public Signal<Application.WindowAdded> onWindowAdded(Application.WindowAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("window-added"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationWindowAdded",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Application.WindowAdded>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("window-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -586,7 +563,18 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     
     @FunctionalInterface
     public interface WindowRemoved {
-        void signalReceived(Application sourceApplication, @NotNull org.gtk.gtk.Window window);
+        void run(org.gtk.gtk.Window window);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceApplication, MemoryAddress window) {
+            run((org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(window)), org.gtk.gtk.Window.fromAddress).marshal(window, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WindowRemoved.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -600,52 +588,46 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
     public Signal<Application.WindowRemoved> onWindowRemoved(Application.WindowRemoved handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("window-removed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationWindowRemoved",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Application.WindowRemoved>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("window-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Application.Builder} object constructs a {@link Application} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Application.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.Application.Build {
+    public static class Builder extends org.gtk.gio.Application.Builder {
         
-         /**
-         * A {@link Application.Build} object constructs a {@link Application} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Application} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Application} using {@link Application#castFrom}.
+         * {@link Application}.
          * @return A new instance of {@code Application} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Application construct() {
-            return Application.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Application.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Application build() {
+            return (Application) org.gtk.gobject.GObject.newWithProperties(
+                Application.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -654,7 +636,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
          * @param activeWindow The value for the {@code active-window} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActiveWindow(org.gtk.gtk.Window activeWindow) {
+        public Builder setActiveWindow(org.gtk.gtk.Window activeWindow) {
             names.add("active-window");
             values.add(org.gtk.gobject.Value.create(activeWindow));
             return this;
@@ -665,7 +647,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
          * @param menubar The value for the {@code menubar} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMenubar(org.gtk.gio.MenuModel menubar) {
+        public Builder setMenubar(org.gtk.gio.MenuModel menubar) {
             names.add("menubar");
             values.add(org.gtk.gobject.Value.create(menubar));
             return this;
@@ -679,7 +661,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
          * @param registerSession The value for the {@code register-session} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRegisterSession(boolean registerSession) {
+        public Builder setRegisterSession(boolean registerSession) {
             names.add("register-session");
             values.add(org.gtk.gobject.Value.create(registerSession));
             return this;
@@ -697,7 +679,7 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
          * @param screensaverActive The value for the {@code screensaver-active} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScreensaverActive(boolean screensaverActive) {
+        public Builder setScreensaverActive(boolean screensaverActive) {
             names.add("screensaver-active");
             values.add(org.gtk.gobject.Value.create(screensaverActive));
             return this;
@@ -801,26 +783,5 @@ public class Application extends org.gtk.gio.Application implements org.gtk.gio.
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalApplicationQueryEnd(MemoryAddress sourceApplication, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Application.QueryEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
-        }
-        
-        public static void signalApplicationWindowAdded(MemoryAddress sourceApplication, MemoryAddress window, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Application.WindowAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE), new org.gtk.gtk.Window(window, Ownership.NONE));
-        }
-        
-        public static void signalApplicationWindowRemoved(MemoryAddress sourceApplication, MemoryAddress window, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Application.WindowRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE), new org.gtk.gtk.Window(window, Ownership.NONE));
-        }
     }
 }

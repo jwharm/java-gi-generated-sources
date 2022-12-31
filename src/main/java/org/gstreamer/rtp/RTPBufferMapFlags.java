@@ -31,11 +31,15 @@ public class RTPBufferMapFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public RTPBufferMapFlags or(RTPBufferMapFlags mask) {
-        return new RTPBufferMapFlags(this.getValue() | mask.getValue());
+    public RTPBufferMapFlags or(RTPBufferMapFlags... masks) {
+        int value = this.getValue();
+        for (RTPBufferMapFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RTPBufferMapFlags(value);
     }
     
     /**
@@ -45,7 +49,8 @@ public class RTPBufferMapFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static RTPBufferMapFlags combined(RTPBufferMapFlags mask, RTPBufferMapFlags... masks) {
-        int value = mask.getValue();        for (RTPBufferMapFlags arg : masks) {
+        int value = mask.getValue();
+        for (RTPBufferMapFlags arg : masks) {
             value |= arg.getValue();
         }
         return new RTPBufferMapFlags(value);

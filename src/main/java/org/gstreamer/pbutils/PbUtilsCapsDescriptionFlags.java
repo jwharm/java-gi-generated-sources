@@ -60,11 +60,15 @@ public class PbUtilsCapsDescriptionFlags extends io.github.jwharm.javagi.Bitfiel
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PbUtilsCapsDescriptionFlags or(PbUtilsCapsDescriptionFlags mask) {
-        return new PbUtilsCapsDescriptionFlags(this.getValue() | mask.getValue());
+    public PbUtilsCapsDescriptionFlags or(PbUtilsCapsDescriptionFlags... masks) {
+        int value = this.getValue();
+        for (PbUtilsCapsDescriptionFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new PbUtilsCapsDescriptionFlags(value);
     }
     
     /**
@@ -74,7 +78,8 @@ public class PbUtilsCapsDescriptionFlags extends io.github.jwharm.javagi.Bitfiel
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PbUtilsCapsDescriptionFlags combined(PbUtilsCapsDescriptionFlags mask, PbUtilsCapsDescriptionFlags... masks) {
-        int value = mask.getValue();        for (PbUtilsCapsDescriptionFlags arg : masks) {
+        int value = mask.getValue();
+        for (PbUtilsCapsDescriptionFlags arg : masks) {
             value |= arg.getValue();
         }
         return new PbUtilsCapsDescriptionFlags(value);

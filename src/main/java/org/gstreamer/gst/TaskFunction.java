@@ -11,5 +11,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TaskFunction {
-        void onTaskFunction();
+    void run();
+
+    @ApiStatus.Internal default void upcall(MemoryAddress userData) {
+        run();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TaskFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

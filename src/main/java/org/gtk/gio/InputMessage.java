@@ -35,25 +35,23 @@ public class InputMessage extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GInputMessage";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("address"),
-        Interop.valueLayout.ADDRESS.withName("vectors"),
-        Interop.valueLayout.C_INT.withName("num_vectors"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("bytes_received"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("control_messages"),
-        Interop.valueLayout.ADDRESS.withName("num_control_messages")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("address"),
+            Interop.valueLayout.ADDRESS.withName("vectors"),
+            Interop.valueLayout.C_INT.withName("num_vectors"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("bytes_received"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("control_messages"),
+            Interop.valueLayout.ADDRESS.withName("num_control_messages")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -73,28 +71,49 @@ public class InputMessage extends Struct {
      * Get the value of the field {@code address}
      * @return The value of the field {@code address}
      */
-    public PointerProxy<org.gtk.gio.SocketAddress> address$get() {
+    public PointerProxy<org.gtk.gio.SocketAddress> getAddress() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("address"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new PointerProxy<org.gtk.gio.SocketAddress>(RESULT, org.gtk.gio.SocketAddress.class);
+        return new PointerProxy<org.gtk.gio.SocketAddress>(RESULT, org.gtk.gio.SocketAddress.fromAddress);
     }
     
     /**
      * Change the value of the field {@code address}
      * @param address The new value of the field {@code address}
      */
-    public void address$set(PointerProxy<org.gtk.gio.SocketAddress> address) {
+    public void setAddress(PointerProxy<org.gtk.gio.SocketAddress> address) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("address"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), address.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (address == null ? MemoryAddress.NULL : address.handle()));
+    }
+    
+    /**
+     * Get the value of the field {@code vectors}
+     * @return The value of the field {@code vectors}
+     */
+    public PointerProxy<org.gtk.gio.InputVector> getVectors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("vectors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gtk.gio.InputVector>(RESULT, org.gtk.gio.InputVector.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code vectors}
+     * @param vectors The new value of the field {@code vectors}
+     */
+    public void setVectors(org.gtk.gio.InputVector[] vectors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("vectors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (vectors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(vectors, org.gtk.gio.InputVector.getMemoryLayout(), false)));
     }
     
     /**
      * Get the value of the field {@code num_vectors}
      * @return The value of the field {@code num_vectors}
      */
-    public int numVectors$get() {
+    public int getNumVectors() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -105,7 +124,7 @@ public class InputMessage extends Struct {
      * Change the value of the field {@code num_vectors}
      * @param numVectors The new value of the field {@code num_vectors}
      */
-    public void numVectors$set(int numVectors) {
+    public void setNumVectors(int numVectors) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numVectors);
@@ -115,7 +134,7 @@ public class InputMessage extends Struct {
      * Get the value of the field {@code bytes_received}
      * @return The value of the field {@code bytes_received}
      */
-    public long bytesReceived$get() {
+    public long getBytesReceived() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -126,7 +145,7 @@ public class InputMessage extends Struct {
      * Change the value of the field {@code bytes_received}
      * @param bytesReceived The new value of the field {@code bytes_received}
      */
-    public void bytesReceived$set(long bytesReceived) {
+    public void setBytesReceived(long bytesReceived) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytesReceived);
@@ -136,7 +155,7 @@ public class InputMessage extends Struct {
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public int flags$get() {
+    public int getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -147,17 +166,38 @@ public class InputMessage extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(int flags) {
+    public void setFlags(int flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
     }
     
     /**
+     * Get the value of the field {@code control_messages}
+     * @return The value of the field {@code control_messages}
+     */
+    public PointerProxy<org.gtk.gio.SocketControlMessage> getControlMessages() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gtk.gio.SocketControlMessage>(RESULT, org.gtk.gio.SocketControlMessage.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code control_messages}
+     * @param controlMessages The new value of the field {@code control_messages}
+     */
+    public void setControlMessages(org.gtk.gio.SocketControlMessage[] controlMessages) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (controlMessages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(controlMessages, false)));
+    }
+    
+    /**
      * Get the value of the field {@code num_control_messages}
      * @return The value of the field {@code num_control_messages}
      */
-    public PointerInteger numControlMessages$get() {
+    public PointerInteger getNumControlMessages() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -168,10 +208,10 @@ public class InputMessage extends Struct {
      * Change the value of the field {@code num_control_messages}
      * @param numControlMessages The new value of the field {@code num_control_messages}
      */
-    public void numControlMessages$set(PointerInteger numControlMessages) {
+    public void setNumControlMessages(PointerInteger numControlMessages) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numControlMessages.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (numControlMessages == null ? MemoryAddress.NULL : numControlMessages.handle()));
     }
     
     /**
@@ -179,35 +219,41 @@ public class InputMessage extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InputMessage(Addressable address, Ownership ownership) {
+    protected InputMessage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InputMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InputMessage(input, ownership);
+    
+    /**
+     * A {@link InputMessage.Builder} object constructs a {@link InputMessage} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link InputMessage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private InputMessage struct;
+        private final InputMessage struct;
         
-         /**
-         * A {@link InputMessage.Build} object constructs a {@link InputMessage} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = InputMessage.allocate();
         }
         
          /**
          * Finish building the {@link InputMessage} struct.
          * @return A new instance of {@code InputMessage} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public InputMessage construct() {
+        public InputMessage build() {
             return struct;
         }
         
@@ -217,7 +263,7 @@ public class InputMessage extends Struct {
          * @param address The value for the {@code address} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAddress(PointerProxy<org.gtk.gio.SocketAddress> address) {
+        public Builder setAddress(PointerProxy<org.gtk.gio.SocketAddress> address) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("address"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (address == null ? MemoryAddress.NULL : address.handle()));
@@ -230,7 +276,7 @@ public class InputMessage extends Struct {
          * @param vectors The value for the {@code vectors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVectors(org.gtk.gio.InputVector[] vectors) {
+        public Builder setVectors(org.gtk.gio.InputVector[] vectors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("vectors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (vectors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(vectors, org.gtk.gio.InputVector.getMemoryLayout(), false)));
@@ -242,7 +288,7 @@ public class InputMessage extends Struct {
          * @param numVectors The value for the {@code numVectors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumVectors(int numVectors) {
+        public Builder setNumVectors(int numVectors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num_vectors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numVectors);
@@ -255,7 +301,7 @@ public class InputMessage extends Struct {
          * @param bytesReceived The value for the {@code bytesReceived} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBytesReceived(long bytesReceived) {
+        public Builder setBytesReceived(long bytesReceived) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bytes_received"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytesReceived);
@@ -268,7 +314,7 @@ public class InputMessage extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(int flags) {
+        public Builder setFlags(int flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -281,7 +327,7 @@ public class InputMessage extends Struct {
          * @param controlMessages The value for the {@code controlMessages} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setControlMessages(org.gtk.gio.SocketControlMessage[] controlMessages) {
+        public Builder setControlMessages(org.gtk.gio.SocketControlMessage[] controlMessages) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("control_messages"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (controlMessages == null ? MemoryAddress.NULL : Interop.allocateNativeArray(controlMessages, false)));
@@ -294,7 +340,7 @@ public class InputMessage extends Struct {
          * @param numControlMessages The value for the {@code numControlMessages} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumControlMessages(PointerInteger numControlMessages) {
+        public Builder setNumControlMessages(PointerInteger numControlMessages) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num_control_messages"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (numControlMessages == null ? MemoryAddress.NULL : numControlMessages.handle()));

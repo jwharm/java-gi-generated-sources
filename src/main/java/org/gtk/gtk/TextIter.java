@@ -21,31 +21,29 @@ public class TextIter extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkTextIter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("dummy1"),
-        Interop.valueLayout.ADDRESS.withName("dummy2"),
-        Interop.valueLayout.C_INT.withName("dummy3"),
-        Interop.valueLayout.C_INT.withName("dummy4"),
-        Interop.valueLayout.C_INT.withName("dummy5"),
-        Interop.valueLayout.C_INT.withName("dummy6"),
-        Interop.valueLayout.C_INT.withName("dummy7"),
-        Interop.valueLayout.C_INT.withName("dummy8"),
-        Interop.valueLayout.ADDRESS.withName("dummy9"),
-        Interop.valueLayout.ADDRESS.withName("dummy10"),
-        Interop.valueLayout.C_INT.withName("dummy11"),
-        Interop.valueLayout.C_INT.withName("dummy12"),
-        Interop.valueLayout.C_INT.withName("dummy13"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("dummy14")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("dummy1"),
+            Interop.valueLayout.ADDRESS.withName("dummy2"),
+            Interop.valueLayout.C_INT.withName("dummy3"),
+            Interop.valueLayout.C_INT.withName("dummy4"),
+            Interop.valueLayout.C_INT.withName("dummy5"),
+            Interop.valueLayout.C_INT.withName("dummy6"),
+            Interop.valueLayout.C_INT.withName("dummy7"),
+            Interop.valueLayout.C_INT.withName("dummy8"),
+            Interop.valueLayout.ADDRESS.withName("dummy9"),
+            Interop.valueLayout.ADDRESS.withName("dummy10"),
+            Interop.valueLayout.C_INT.withName("dummy11"),
+            Interop.valueLayout.C_INT.withName("dummy12"),
+            Interop.valueLayout.C_INT.withName("dummy13"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("dummy14")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -66,10 +64,12 @@ public class TextIter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TextIter(Addressable address, Ownership ownership) {
+    protected TextIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TextIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextIter(input, ownership);
     
     /**
      * Assigns the value of {@code other} to {@code iter}.
@@ -80,8 +80,7 @@ public class TextIter extends Struct {
      * The function is used by language bindings.
      * @param other another {@code GtkTextIter}
      */
-    public void assign(@NotNull org.gtk.gtk.TextIter other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public void assign(org.gtk.gtk.TextIter other) {
         try {
             DowncallHandles.gtk_text_iter_assign.invokeExact(
                     handle(),
@@ -107,7 +106,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -132,7 +131,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -147,7 +146,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -166,7 +165,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -176,23 +175,18 @@ public class TextIter extends Struct {
      * @param limit search limit
      * @return whether a match was found
      */
-    public boolean backwardFindChar(@NotNull org.gtk.gtk.TextCharPredicate pred, @Nullable org.gtk.gtk.TextIter limit) {
-        java.util.Objects.requireNonNull(pred, "Parameter 'pred' must not be null");
+    public boolean backwardFindChar(org.gtk.gtk.TextCharPredicate pred, @Nullable org.gtk.gtk.TextIter limit) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_backward_find_char.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTextCharPredicate",
-                            MethodType.methodType(int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(pred)),
+                    (Addressable) pred.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -215,7 +209,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -241,7 +235,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -256,24 +250,20 @@ public class TextIter extends Struct {
      * @param limit location of last possible {@code match_start}, or {@code null} for start of buffer
      * @return whether a match was found
      */
-    public boolean backwardSearch(@NotNull java.lang.String str, @NotNull org.gtk.gtk.TextSearchFlags flags, @NotNull org.gtk.gtk.TextIter matchStart, @NotNull org.gtk.gtk.TextIter matchEnd, @Nullable org.gtk.gtk.TextIter limit) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(matchStart, "Parameter 'matchStart' must not be null");
-        java.util.Objects.requireNonNull(matchEnd, "Parameter 'matchEnd' must not be null");
+    public boolean backwardSearch(java.lang.String str, org.gtk.gtk.TextSearchFlags flags, @Nullable org.gtk.gtk.TextIter matchStart, @Nullable org.gtk.gtk.TextIter matchEnd, @Nullable org.gtk.gtk.TextIter limit) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_backward_search.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     flags.getValue(),
-                    matchStart.handle(),
-                    matchEnd.handle(),
+                    (Addressable) (matchStart == null ? MemoryAddress.NULL : matchStart.handle()),
+                    (Addressable) (matchEnd == null ? MemoryAddress.NULL : matchEnd.handle()),
                     (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -294,7 +284,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -313,7 +303,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -338,7 +328,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -355,7 +345,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -374,7 +364,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -397,7 +387,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -423,7 +413,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -444,7 +434,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -461,7 +451,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -482,7 +472,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -499,7 +489,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -519,11 +509,11 @@ public class TextIter extends Struct {
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_can_insert.invokeExact(
                     handle(),
-                    defaultEditability ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(defaultEditability, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -535,8 +525,7 @@ public class TextIter extends Struct {
      * @param rhs another {@code GtkTextIter}
      * @return -1 if {@code lhs} is less than {@code rhs}, 1 if {@code lhs} is greater, 0 if they are equal
      */
-    public int compare(@NotNull org.gtk.gtk.TextIter rhs) {
-        java.util.Objects.requireNonNull(rhs, "Parameter 'rhs' must not be null");
+    public int compare(org.gtk.gtk.TextIter rhs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_compare.invokeExact(
@@ -558,7 +547,7 @@ public class TextIter extends Struct {
      * The function is used by language bindings.
      * @return a copy of the {@code iter}, free with {@link TextIter#free}
      */
-    public @NotNull org.gtk.gtk.TextIter copy() {
+    public org.gtk.gtk.TextIter copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_copy.invokeExact(
@@ -566,7 +555,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextIter(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TextIter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -591,11 +580,11 @@ public class TextIter extends Struct {
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_editable.invokeExact(
                     handle(),
-                    defaultSetting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(defaultSetting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -620,7 +609,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -638,7 +627,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -664,7 +653,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -682,7 +671,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -696,8 +685,7 @@ public class TextIter extends Struct {
      * @param rhs another {@code GtkTextIter}
      * @return {@code true} if the iterators point to the same place in the buffer
      */
-    public boolean equal(@NotNull org.gtk.gtk.TextIter rhs) {
-        java.util.Objects.requireNonNull(rhs, "Parameter 'rhs' must not be null");
+    public boolean equal(org.gtk.gtk.TextIter rhs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_equal.invokeExact(
@@ -706,7 +694,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -727,7 +715,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -752,7 +740,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -781,7 +769,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -800,7 +788,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -813,23 +801,18 @@ public class TextIter extends Struct {
      * @param limit search limit
      * @return whether a match was found
      */
-    public boolean forwardFindChar(@NotNull org.gtk.gtk.TextCharPredicate pred, @Nullable org.gtk.gtk.TextIter limit) {
-        java.util.Objects.requireNonNull(pred, "Parameter 'pred' must not be null");
+    public boolean forwardFindChar(org.gtk.gtk.TextCharPredicate pred, @Nullable org.gtk.gtk.TextIter limit) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_forward_find_char.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTextCharPredicate",
-                            MethodType.methodType(int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(pred)),
+                    (Addressable) pred.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -849,7 +832,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -875,7 +858,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -896,24 +879,20 @@ public class TextIter extends Struct {
      * @param limit location of last possible {@code match_end}, or {@code null} for the end of the buffer
      * @return whether a match was found
      */
-    public boolean forwardSearch(@NotNull java.lang.String str, @NotNull org.gtk.gtk.TextSearchFlags flags, @NotNull org.gtk.gtk.TextIter matchStart, @NotNull org.gtk.gtk.TextIter matchEnd, @Nullable org.gtk.gtk.TextIter limit) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(matchStart, "Parameter 'matchStart' must not be null");
-        java.util.Objects.requireNonNull(matchEnd, "Parameter 'matchEnd' must not be null");
+    public boolean forwardSearch(java.lang.String str, org.gtk.gtk.TextSearchFlags flags, @Nullable org.gtk.gtk.TextIter matchStart, @Nullable org.gtk.gtk.TextIter matchEnd, @Nullable org.gtk.gtk.TextIter limit) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_forward_search.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     flags.getValue(),
-                    matchStart.handle(),
-                    matchEnd.handle(),
+                    (Addressable) (matchStart == null ? MemoryAddress.NULL : matchStart.handle()),
+                    (Addressable) (matchEnd == null ? MemoryAddress.NULL : matchEnd.handle()),
                     (Addressable) (limit == null ? MemoryAddress.NULL : limit.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -934,7 +913,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -953,7 +932,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -994,7 +973,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1019,7 +998,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1036,7 +1015,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1055,7 +1034,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1075,7 +1054,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1101,7 +1080,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1122,7 +1101,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1139,7 +1118,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1160,7 +1139,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1177,7 +1156,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1200,7 +1179,7 @@ public class TextIter extends Struct {
      * Returns the {@code GtkTextBuffer} this iterator is associated with.
      * @return the buffer
      */
-    public @NotNull org.gtk.gtk.TextBuffer getBuffer() {
+    public org.gtk.gtk.TextBuffer getBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_buffer.invokeExact(
@@ -1208,7 +1187,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextBuffer(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1281,7 +1260,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextChildAnchor(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextChildAnchor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextChildAnchor.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1291,7 +1270,7 @@ public class TextIter extends Struct {
      * value is identical to that of {@link Gtk#getDefaultLanguage}.
      * @return language in effect at {@code iter}
      */
-    public @NotNull org.pango.Language getLanguage() {
+    public org.pango.Language getLanguage() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_language.invokeExact(
@@ -1299,7 +1278,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(RESULT, Ownership.FULL);
+        return org.pango.Language.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1368,7 +1347,7 @@ public class TextIter extends Struct {
      * The returned list is not in any meaningful order.
      * @return list of {@code GtkTextMark}
      */
-    public @NotNull org.gtk.glib.SList getMarks() {
+    public org.gtk.glib.SList getMarks() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_marks.invokeExact(
@@ -1376,7 +1355,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -1413,7 +1392,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1430,8 +1409,7 @@ public class TextIter extends Struct {
      * @param end iterator at end of a range
      * @return slice of text from the buffer
      */
-    public @NotNull java.lang.String getSlice(@NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public java.lang.String getSlice(org.gtk.gtk.TextIter end) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_slice.invokeExact(
@@ -1440,7 +1418,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1454,7 +1432,7 @@ public class TextIter extends Struct {
      * @return list of
      *   {@code GtkTextTag}
      */
-    public @NotNull org.gtk.glib.SList getTags() {
+    public org.gtk.glib.SList getTags() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_tags.invokeExact(
@@ -1462,7 +1440,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -1476,8 +1454,7 @@ public class TextIter extends Struct {
      * @param end iterator at end of a range
      * @return array of characters from the buffer
      */
-    public @NotNull java.lang.String getText(@NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public java.lang.String getText(org.gtk.gtk.TextIter end) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_text.invokeExact(
@@ -1486,7 +1463,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1502,16 +1479,16 @@ public class TextIter extends Struct {
      * @return tags
      *   toggled at this point
      */
-    public @NotNull org.gtk.glib.SList getToggledTags(boolean toggledOn) {
+    public org.gtk.glib.SList getToggledTags(boolean toggledOn) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_toggled_tags.invokeExact(
                     handle(),
-                    toggledOn ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(toggledOn, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -1560,8 +1537,7 @@ public class TextIter extends Struct {
      * @param end iterator at end of range
      * @return slice of text from the buffer
      */
-    public @NotNull java.lang.String getVisibleSlice(@NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public java.lang.String getVisibleSlice(org.gtk.gtk.TextIter end) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_visible_slice.invokeExact(
@@ -1570,7 +1546,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1584,8 +1560,7 @@ public class TextIter extends Struct {
      * @return string containing visible text in the
      * range
      */
-    public @NotNull java.lang.String getVisibleText(@NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public java.lang.String getVisibleText(org.gtk.gtk.TextIter end) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_iter_get_visible_text.invokeExact(
@@ -1594,7 +1569,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1606,8 +1581,7 @@ public class TextIter extends Struct {
      * @param tag a {@code GtkTextTag}
      * @return whether {@code iter} is tagged with {@code tag}
      */
-    public boolean hasTag(@NotNull org.gtk.gtk.TextTag tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public boolean hasTag(org.gtk.gtk.TextTag tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_has_tag.invokeExact(
@@ -1616,7 +1590,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1627,9 +1601,7 @@ public class TextIter extends Struct {
      * @param end end of range
      * @return {@code true} if {@code iter} is in the range
      */
-    public boolean inRange(@NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public boolean inRange(org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_iter_in_range.invokeExact(
@@ -1639,7 +1611,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1659,7 +1631,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1682,7 +1654,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1701,7 +1673,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1720,7 +1692,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1735,7 +1707,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1750,8 +1722,7 @@ public class TextIter extends Struct {
      * pre-sorted range.
      * @param second another {@code GtkTextIter}
      */
-    public void order(@NotNull org.gtk.gtk.TextIter second) {
-        java.util.Objects.requireNonNull(second, "Parameter 'second' must not be null");
+    public void order(org.gtk.gtk.TextIter second) {
         try {
             DowncallHandles.gtk_text_iter_order.invokeExact(
                     handle(),
@@ -1881,7 +1852,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1899,7 +1870,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1925,7 +1896,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1943,7 +1914,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1964,7 +1935,7 @@ public class TextIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -2509,126 +2480,130 @@ public class TextIter extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TextIter.Builder} object constructs a {@link TextIter} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TextIter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TextIter struct;
+        private final TextIter struct;
         
-         /**
-         * A {@link TextIter.Build} object constructs a {@link TextIter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TextIter.allocate();
         }
         
          /**
          * Finish building the {@link TextIter} struct.
          * @return A new instance of {@code TextIter} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TextIter construct() {
+        public TextIter build() {
             return struct;
         }
         
-        public Build setDummy1(java.lang.foreign.MemoryAddress dummy1) {
+        public Builder setDummy1(java.lang.foreign.MemoryAddress dummy1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
             return this;
         }
         
-        public Build setDummy2(java.lang.foreign.MemoryAddress dummy2) {
+        public Builder setDummy2(java.lang.foreign.MemoryAddress dummy2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
             return this;
         }
         
-        public Build setDummy3(int dummy3) {
+        public Builder setDummy3(int dummy3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy3);
             return this;
         }
         
-        public Build setDummy4(int dummy4) {
+        public Builder setDummy4(int dummy4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy4"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy4);
             return this;
         }
         
-        public Build setDummy5(int dummy5) {
+        public Builder setDummy5(int dummy5) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy5"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy5);
             return this;
         }
         
-        public Build setDummy6(int dummy6) {
+        public Builder setDummy6(int dummy6) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy6"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy6);
             return this;
         }
         
-        public Build setDummy7(int dummy7) {
+        public Builder setDummy7(int dummy7) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy7"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy7);
             return this;
         }
         
-        public Build setDummy8(int dummy8) {
+        public Builder setDummy8(int dummy8) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy8"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy8);
             return this;
         }
         
-        public Build setDummy9(java.lang.foreign.MemoryAddress dummy9) {
+        public Builder setDummy9(java.lang.foreign.MemoryAddress dummy9) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy9"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy9 == null ? MemoryAddress.NULL : (Addressable) dummy9));
             return this;
         }
         
-        public Build setDummy10(java.lang.foreign.MemoryAddress dummy10) {
+        public Builder setDummy10(java.lang.foreign.MemoryAddress dummy10) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy10"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy10 == null ? MemoryAddress.NULL : (Addressable) dummy10));
             return this;
         }
         
-        public Build setDummy11(int dummy11) {
+        public Builder setDummy11(int dummy11) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy11"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy11);
             return this;
         }
         
-        public Build setDummy12(int dummy12) {
+        public Builder setDummy12(int dummy12) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy12"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy12);
             return this;
         }
         
-        public Build setDummy13(int dummy13) {
+        public Builder setDummy13(int dummy13) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy13"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy13);
             return this;
         }
         
-        public Build setDummy14(java.lang.foreign.MemoryAddress dummy14) {
+        public Builder setDummy14(java.lang.foreign.MemoryAddress dummy14) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy14"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy14 == null ? MemoryAddress.NULL : (Addressable) dummy14));

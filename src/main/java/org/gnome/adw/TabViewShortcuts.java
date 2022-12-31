@@ -100,11 +100,15 @@ public class TabViewShortcuts extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TabViewShortcuts or(TabViewShortcuts mask) {
-        return new TabViewShortcuts(this.getValue() | mask.getValue());
+    public TabViewShortcuts or(TabViewShortcuts... masks) {
+        int value = this.getValue();
+        for (TabViewShortcuts arg : masks) {
+            value |= arg.getValue();
+        }
+        return new TabViewShortcuts(value);
     }
     
     /**
@@ -114,7 +118,8 @@ public class TabViewShortcuts extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TabViewShortcuts combined(TabViewShortcuts mask, TabViewShortcuts... masks) {
-        int value = mask.getValue();        for (TabViewShortcuts arg : masks) {
+        int value = mask.getValue();
+        for (TabViewShortcuts arg : masks) {
             value |= arg.getValue();
         }
         return new TabViewShortcuts(value);

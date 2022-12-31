@@ -67,7 +67,7 @@ public enum PixbufError implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_error_quark.invokeExact();

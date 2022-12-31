@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * from all relevant providers.
  * @version 1.4
  */
-public class DeviceProvider extends org.gstreamer.gst.Object {
+public class DeviceProvider extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -25,20 +25,18 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstDeviceProvider";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("devices"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("devices"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -46,37 +44,23 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * <p>
      * Because DeviceProvider is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DeviceProvider(Addressable address, Ownership ownership) {
+    protected DeviceProvider(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to DeviceProvider if its GType is a (or inherits from) "GstDeviceProvider".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DeviceProvider} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstDeviceProvider", a ClassCastException will be thrown.
-     */
-    public static DeviceProvider castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DeviceProvider.getType())) {
-            return new DeviceProvider(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstDeviceProvider");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DeviceProvider> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceProvider(input, ownership);
     
     public boolean canMonitor() {
         int RESULT;
@@ -86,7 +70,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -99,8 +83,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * will be removed (see gst_object_ref_sink()).
      * @param device a {@link Device} that has been added
      */
-    public void deviceAdd(@NotNull org.gstreamer.gst.Device device) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public void deviceAdd(org.gstreamer.gst.Device device) {
         try {
             DowncallHandles.gst_device_provider_device_add.invokeExact(
                     handle(),
@@ -119,9 +102,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * @param device the new version of {@code changed_device}
      * @param changedDevice the old version of the device that has been updated
      */
-    public void deviceChanged(@NotNull org.gstreamer.gst.Device device, @NotNull org.gstreamer.gst.Device changedDevice) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(changedDevice, "Parameter 'changedDevice' must not be null");
+    public void deviceChanged(org.gstreamer.gst.Device device, org.gstreamer.gst.Device changedDevice) {
         try {
             DowncallHandles.gst_device_provider_device_changed.invokeExact(
                     handle(),
@@ -139,8 +120,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * This is for use by subclasses.
      * @param device a {@link Device} that has been removed
      */
-    public void deviceRemove(@NotNull org.gstreamer.gst.Device device) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public void deviceRemove(org.gstreamer.gst.Device device) {
         try {
             DowncallHandles.gst_device_provider_device_remove.invokeExact(
                     handle(),
@@ -154,7 +134,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * Gets the {@link Bus} of this {@link DeviceProvider}
      * @return a {@link Bus}
      */
-    public @NotNull org.gstreamer.gst.Bus getBus() {
+    public org.gstreamer.gst.Bus getBus() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_get_bus.invokeExact(
@@ -162,7 +142,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Bus(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -174,7 +154,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * @return a {@link org.gtk.glib.List} of
      *   {@link Device}
      */
-    public @NotNull org.gtk.glib.List getDevices() {
+    public org.gtk.glib.List getDevices() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_get_devices.invokeExact(
@@ -182,7 +162,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -198,7 +178,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.DeviceProviderFactory(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.DeviceProviderFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.DeviceProviderFactory.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -207,7 +187,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * @return a list of hidden providers factory names or {@code null} when
      *   nothing is hidden by {@code provider}. Free with g_strfreev.
      */
-    public @NotNull PointerString getHiddenProviders() {
+    public PointerString getHiddenProviders() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_get_hidden_providers.invokeExact(
@@ -223,17 +203,16 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * @param key the key to get
      * @return the metadata for {@code key}.
      */
-    public @NotNull java.lang.String getMetadata(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public java.lang.String getMetadata(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_get_metadata.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -244,12 +223,11 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * device provider with {@code name} to avoid duplicate devices.
      * @param name a provider factory name
      */
-    public void hideProvider(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void hideProvider(java.lang.String name) {
         try {
             DowncallHandles.gst_device_provider_hide_provider.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +244,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -292,7 +270,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -318,12 +296,11 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * all devices again.
      * @param name a provider factory name
      */
-    public void unhideProvider(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void unhideProvider(java.lang.String name) {
         try {
             DowncallHandles.gst_device_provider_unhide_provider.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,7 +310,7 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_device_provider_get_type.invokeExact();
@@ -353,40 +330,41 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
      * @param type GType of device provider to register
      * @return {@code true}, if the registering succeeded, {@code false} on error
      */
-    public static boolean register(@Nullable org.gstreamer.gst.Plugin plugin, @NotNull java.lang.String name, int rank, @NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static boolean register(@Nullable org.gstreamer.gst.Plugin plugin, java.lang.String name, int rank, org.gtk.glib.Type type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_device_provider_register.invokeExact(
                     (Addressable) (plugin == null ? MemoryAddress.NULL : plugin.handle()),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     rank,
                     type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     @FunctionalInterface
     public interface ProviderHidden {
-        void signalReceived(DeviceProvider sourceDeviceProvider, @NotNull java.lang.String object);
+        void run(java.lang.String object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDeviceProvider, MemoryAddress object) {
+            run(Marshal.addressToString.marshal(object, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ProviderHidden.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<DeviceProvider.ProviderHidden> onProviderHidden(DeviceProvider.ProviderHidden handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("provider-hidden"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DeviceProvider.Callbacks.class, "signalDeviceProviderProviderHidden",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DeviceProvider.ProviderHidden>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("provider-hidden"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,58 +372,63 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface ProviderUnhidden {
-        void signalReceived(DeviceProvider sourceDeviceProvider, @NotNull java.lang.String object);
+        void run(java.lang.String object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDeviceProvider, MemoryAddress object) {
+            run(Marshal.addressToString.marshal(object, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ProviderUnhidden.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<DeviceProvider.ProviderUnhidden> onProviderUnhidden(DeviceProvider.ProviderUnhidden handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("provider-unhidden"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DeviceProvider.Callbacks.class, "signalDeviceProviderProviderUnhidden",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DeviceProvider.ProviderUnhidden>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("provider-unhidden"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DeviceProvider.Builder} object constructs a {@link DeviceProvider} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DeviceProvider.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link DeviceProvider.Build} object constructs a {@link DeviceProvider} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DeviceProvider} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DeviceProvider} using {@link DeviceProvider#castFrom}.
+         * {@link DeviceProvider}.
          * @return A new instance of {@code DeviceProvider} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DeviceProvider construct() {
-            return DeviceProvider.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DeviceProvider.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DeviceProvider build() {
+            return (DeviceProvider) org.gtk.gobject.GObject.newWithProperties(
+                DeviceProvider.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -547,20 +530,5 @@ public class DeviceProvider extends org.gstreamer.gst.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalDeviceProviderProviderHidden(MemoryAddress sourceDeviceProvider, MemoryAddress object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DeviceProvider.ProviderHidden) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DeviceProvider(sourceDeviceProvider, Ownership.NONE), Interop.getStringFrom(object));
-        }
-        
-        public static void signalDeviceProviderProviderUnhidden(MemoryAddress sourceDeviceProvider, MemoryAddress object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DeviceProvider.ProviderUnhidden) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DeviceProvider(sourceDeviceProvider, Ownership.NONE), Interop.getStringFrom(object));
-        }
     }
 }

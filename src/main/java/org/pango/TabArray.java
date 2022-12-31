@@ -47,17 +47,19 @@ public class TabArray extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TabArray(Addressable address, Ownership ownership) {
+    protected TabArray(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(int initialSize, boolean positionsInPixels) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TabArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TabArray(input, ownership);
+    
+    private static MemoryAddress constructNew(int initialSize, boolean positionsInPixels) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_new.invokeExact(
                     initialSize,
-                    positionsInPixels ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(positionsInPixels, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,13 +78,12 @@ public class TabArray extends Struct {
         super(constructNew(initialSize, positionsInPixels), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithPositions(int size, boolean positionsInPixels, @NotNull org.pango.TabAlign firstAlignment, int firstPosition, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstAlignment, "Parameter 'firstAlignment' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithPositions(int size, boolean positionsInPixels, org.pango.TabAlign firstAlignment, int firstPosition, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_new_with_positions.invokeExact(
                     size,
-                    positionsInPixels ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(positionsInPixels, null).intValue(),
                     firstAlignment.getValue(),
                     firstPosition,
                     varargs);
@@ -105,8 +106,9 @@ public class TabArray extends Struct {
      * @return the newly allocated {@code PangoTabArray}, which should
      *   be freed with {@link TabArray#free}.
      */
-    public static TabArray newWithPositions(int size, boolean positionsInPixels, @NotNull org.pango.TabAlign firstAlignment, int firstPosition, java.lang.Object... varargs) {
-        return new TabArray(constructNewWithPositions(size, positionsInPixels, firstAlignment, firstPosition, varargs), Ownership.FULL);
+    public static TabArray newWithPositions(int size, boolean positionsInPixels, org.pango.TabAlign firstAlignment, int firstPosition, java.lang.Object... varargs) {
+        var RESULT = constructNewWithPositions(size, positionsInPixels, firstAlignment, firstPosition, varargs);
+        return org.pango.TabArray.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -114,7 +116,7 @@ public class TabArray extends Struct {
      * @return the newly allocated {@code PangoTabArray}, which should
      *   be freed with {@link TabArray#free}.
      */
-    public @NotNull org.pango.TabArray copy() {
+    public org.pango.TabArray copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_copy.invokeExact(
@@ -122,7 +124,7 @@ public class TabArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(RESULT, Ownership.FULL);
+        return org.pango.TabArray.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -173,7 +175,7 @@ public class TabArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -197,22 +199,20 @@ public class TabArray extends Struct {
      * @param alignment location to store alignment
      * @param location location to store tab position
      */
-    public void getTab(int tabIndex, @NotNull Out<org.pango.TabAlign> alignment, Out<Integer> location) {
-        java.util.Objects.requireNonNull(alignment, "Parameter 'alignment' must not be null");
+    public void getTab(int tabIndex, @Nullable Out<org.pango.TabAlign> alignment, Out<Integer> location) {
         MemorySegment alignmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
         MemorySegment locationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_tab_array_get_tab.invokeExact(
                     handle(),
                     tabIndex,
-                    (Addressable) alignmentPOINTER.address(),
-                    (Addressable) locationPOINTER.address());
+                    (Addressable) (alignment == null ? MemoryAddress.NULL : (Addressable) alignmentPOINTER.address()),
+                    (Addressable) (location == null ? MemoryAddress.NULL : (Addressable) locationPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        alignment.set(org.pango.TabAlign.of(alignmentPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        location.set(locationPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (alignment != null) alignment.set(org.pango.TabAlign.of(alignmentPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (location != null) location.set(locationPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -226,8 +226,17 @@ public class TabArray extends Struct {
      * @param locations location to store an array
      *   of tab positions
      */
-    public void getTabs(@NotNull Out<org.pango.TabAlign> alignments, @NotNull Out<int[]> locations) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void getTabs(@Nullable Out<org.pango.TabAlign> alignments, int[] locations) {
+        MemorySegment alignmentsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        try {
+            DowncallHandles.pango_tab_array_get_tabs.invokeExact(
+                    handle(),
+                    (Addressable) (alignments == null ? MemoryAddress.NULL : (Addressable) alignmentsPOINTER.address()),
+                    (Addressable) (locations == null ? MemoryAddress.NULL : Interop.allocateNativeArray(locations, false)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (alignments != null) alignments.set(org.pango.TabAlign.of(alignmentsPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -279,7 +288,7 @@ public class TabArray extends Struct {
         try {
             DowncallHandles.pango_tab_array_set_positions_in_pixels.invokeExact(
                     handle(),
-                    positionsInPixels ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(positionsInPixels, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -291,8 +300,7 @@ public class TabArray extends Struct {
      * @param alignment tab alignment
      * @param location tab location in Pango units
      */
-    public void setTab(int tabIndex, @NotNull org.pango.TabAlign alignment, int location) {
-        java.util.Objects.requireNonNull(alignment, "Parameter 'alignment' must not be null");
+    public void setTab(int tabIndex, org.pango.TabAlign alignment, int location) {
         try {
             DowncallHandles.pango_tab_array_set_tab.invokeExact(
                     handle(),
@@ -327,7 +335,7 @@ public class TabArray extends Struct {
      * storage format.
      * @return a newly allocated string
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_to_string.invokeExact(
@@ -335,7 +343,7 @@ public class TabArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -346,16 +354,15 @@ public class TabArray extends Struct {
      * @param text a string
      * @return a new {@code PangoTabArray}
      */
-    public static @Nullable org.pango.TabArray fromString(@NotNull java.lang.String text) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static @Nullable org.pango.TabArray fromString(java.lang.String text) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_tab_array_from_string.invokeExact(
-                    Interop.allocateNativeString(text));
+                    Marshal.stringToAddress.marshal(text, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(RESULT, Ownership.FULL);
+        return org.pango.TabArray.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

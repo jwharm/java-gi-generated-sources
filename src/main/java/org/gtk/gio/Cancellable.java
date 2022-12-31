@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * throughout GIO to allow for cancellation of synchronous and
  * asynchronous operations.
  */
-public class Cancellable extends org.gtk.gobject.Object {
+public class Cancellable extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -18,18 +18,16 @@ public class Cancellable extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GCancellable";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,33 +35,15 @@ public class Cancellable extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Cancellable(Addressable address, Ownership ownership) {
+    protected Cancellable(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Cancellable if its GType is a (or inherits from) "GCancellable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Cancellable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GCancellable", a ClassCastException will be thrown.
-     */
-    public static Cancellable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Cancellable.getType())) {
-            return new Cancellable(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GCancellable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Cancellable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Cancellable(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_cancellable_new.invokeExact();
         } catch (Throwable ERR) {
@@ -133,22 +113,18 @@ public class Cancellable extends org.gtk.gobject.Object {
      * earlier GLib versions which now makes it easier to write cleanup
      * code that unconditionally invokes e.g. g_cancellable_cancel().
      * @param callback The {@link org.gtk.gobject.Callback} to connect.
+     * @param dataDestroyFunc Free function for {@code data} or {@code null}.
      * @return The id of the signal handler or 0 if {@code cancellable} has already
      *          been cancelled.
      */
-    public long connect(@NotNull org.gtk.gobject.Callback callback) {
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public long connect(org.gtk.gobject.Callback callback, @Nullable org.gtk.glib.DestroyNotify dataDestroyFunc) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_cancellable_connect.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbCallback",
-                            MethodType.methodType(void.class)),
-                        FunctionDescriptor.ofVoid(),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (dataDestroyFunc == null ? MemoryAddress.NULL : (Addressable) dataDestroyFunc.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +199,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -249,8 +225,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * @return {@code true} if {@code pollfd} was successfully initialized, {@code false} on
      *          failure to prepare the cancellable.
      */
-    public boolean makePollfd(@NotNull org.gtk.glib.PollFD pollfd) {
-        java.util.Objects.requireNonNull(pollfd, "Parameter 'pollfd' must not be null");
+    public boolean makePollfd(org.gtk.glib.PollFD pollfd) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_cancellable_make_pollfd.invokeExact(
@@ -259,7 +234,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -355,7 +330,7 @@ public class Cancellable extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -370,7 +345,7 @@ public class Cancellable extends org.gtk.gobject.Object {
      * The new {@link org.gtk.glib.Source} will hold a reference to the {@link Cancellable}.
      * @return the new {@link org.gtk.glib.Source}.
      */
-    public @NotNull org.gtk.glib.Source sourceNew() {
+    public org.gtk.glib.Source sourceNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_cancellable_source_new.invokeExact(
@@ -378,14 +353,14 @@ public class Cancellable extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_cancellable_get_type.invokeExact();
@@ -407,12 +382,23 @@ public class Cancellable extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Cancellable(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Cancellable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     @FunctionalInterface
     public interface Cancelled {
-        void signalReceived(Cancellable sourceCancellable);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceCancellable) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Cancelled.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -473,52 +459,46 @@ public class Cancellable extends org.gtk.gobject.Object {
     public Signal<Cancellable.Cancelled> onCancelled(Cancellable.Cancelled handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("cancelled"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Cancellable.Callbacks.class, "signalCancellableCancelled",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Cancellable.Cancelled>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("cancelled"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Cancellable.Builder} object constructs a {@link Cancellable} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Cancellable.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Cancellable.Build} object constructs a {@link Cancellable} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Cancellable} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Cancellable} using {@link Cancellable#castFrom}.
+         * {@link Cancellable}.
          * @return A new instance of {@code Cancellable} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Cancellable construct() {
-            return Cancellable.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Cancellable.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Cancellable build() {
+            return (Cancellable) org.gtk.gobject.GObject.newWithProperties(
+                Cancellable.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -614,14 +594,5 @@ public class Cancellable extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalCancellableCancelled(MemoryAddress sourceCancellable, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Cancellable.Cancelled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Cancellable(sourceCancellable, Ownership.NONE));
-        }
     }
 }

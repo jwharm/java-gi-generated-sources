@@ -69,17 +69,15 @@ public class Promise extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstPromise";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -99,9 +97,19 @@ public class Promise extends Struct {
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gstreamer.gst.MiniObject parent$get() {
+    public org.gstreamer.gst.MiniObject getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gstreamer.gst.MiniObject(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent}
+     * @param parent The new value of the field {@code parent}
+     */
+    public void setParent(org.gstreamer.gst.MiniObject parent) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
@@ -109,13 +117,15 @@ public class Promise extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Promise(Addressable address, Ownership ownership) {
+    protected Promise(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Promise> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Promise(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_promise_new.invokeExact();
         } catch (Throwable ERR) {
@@ -128,18 +138,13 @@ public class Promise extends Struct {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithChangeFunc(@NotNull org.gstreamer.gst.PromiseChangeFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithChangeFunc(org.gstreamer.gst.PromiseChangeFunc func, org.gtk.glib.DestroyNotify notify) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_promise_new_with_change_func.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbPromiseChangeFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,10 +156,12 @@ public class Promise extends Struct {
      * {@link PromiseResult#PENDING} into any of the other {@link PromiseResult}
      * states.
      * @param func a {@link PromiseChangeFunc} to call
+     * @param notify notification function that {@code user_data} is no longer needed
      * @return a new {@link Promise}
      */
-    public static Promise newWithChangeFunc(@NotNull org.gstreamer.gst.PromiseChangeFunc func) {
-        return new Promise(constructNewWithChangeFunc(func), Ownership.FULL);
+    public static Promise newWithChangeFunc(org.gstreamer.gst.PromiseChangeFunc func, org.gtk.glib.DestroyNotify notify) {
+        var RESULT = constructNewWithChangeFunc(func, notify);
+        return org.gstreamer.gst.Promise.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -184,7 +191,7 @@ public class Promise extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -227,7 +234,7 @@ public class Promise extends Struct {
      * immediately with the current result.
      * @return the result of the promise
      */
-    public @NotNull org.gstreamer.gst.PromiseResult wait_() {
+    public org.gstreamer.gst.PromiseResult wait_() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_promise_wait.invokeExact(
@@ -282,31 +289,35 @@ public class Promise extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Promise.Builder} object constructs a {@link Promise} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Promise.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Promise struct;
+        private final Promise struct;
         
-         /**
-         * A {@link Promise.Build} object constructs a {@link Promise} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Promise.allocate();
         }
         
          /**
          * Finish building the {@link Promise} struct.
          * @return A new instance of {@code Promise} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Promise construct() {
+        public Promise build() {
             return struct;
         }
         
@@ -315,7 +326,7 @@ public class Promise extends Struct {
          * @param parent The value for the {@code parent} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gstreamer.gst.MiniObject parent) {
+        public Builder setParent(org.gstreamer.gst.MiniObject parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));

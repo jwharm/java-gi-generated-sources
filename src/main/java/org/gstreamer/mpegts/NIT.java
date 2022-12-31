@@ -16,21 +16,19 @@ public class NIT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsNIT";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("actual_network"),
-        Interop.valueLayout.C_SHORT.withName("network_id"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.ADDRESS.withName("descriptors"),
-        Interop.valueLayout.ADDRESS.withName("streams")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("actual_network"),
+            Interop.valueLayout.C_SHORT.withName("network_id"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.ADDRESS.withName("descriptors"),
+            Interop.valueLayout.ADDRESS.withName("streams")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,28 +48,28 @@ public class NIT extends Struct {
      * Get the value of the field {@code actual_network}
      * @return The value of the field {@code actual_network}
      */
-    public boolean actualNetwork$get() {
+    public boolean getActualNetwork() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("actual_network"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code actual_network}
      * @param actualNetwork The new value of the field {@code actual_network}
      */
-    public void actualNetwork$set(boolean actualNetwork) {
+    public void setActualNetwork(boolean actualNetwork) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("actual_network"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), actualNetwork ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualNetwork, null).intValue());
     }
     
     /**
      * Get the value of the field {@code network_id}
      * @return The value of the field {@code network_id}
      */
-    public short networkId$get() {
+    public short getNetworkId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("network_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -82,10 +80,52 @@ public class NIT extends Struct {
      * Change the value of the field {@code network_id}
      * @param networkId The new value of the field {@code network_id}
      */
-    public void networkId$set(short networkId) {
+    public void setNetworkId(short networkId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("network_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), networkId);
+    }
+    
+    /**
+     * Get the value of the field {@code descriptors}
+     * @return The value of the field {@code descriptors}
+     */
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code descriptors}
+     * @param descriptors The new value of the field {@code descriptors}
+     */
+    public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
+    }
+    
+    /**
+     * Get the value of the field {@code streams}
+     * @return The value of the field {@code streams}
+     */
+    public PointerProxy<org.gstreamer.mpegts.NITStream> getStreams() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("streams"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.NITStream>(RESULT, org.gstreamer.mpegts.NITStream.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code streams}
+     * @param streams The new value of the field {@code streams}
+     */
+    public void setStreams(org.gstreamer.mpegts.NITStream[] streams) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("streams"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (streams == null ? MemoryAddress.NULL : Interop.allocateNativeArray(streams, org.gstreamer.mpegts.NITStream.getMemoryLayout(), false)));
     }
     
     /**
@@ -93,13 +133,15 @@ public class NIT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NIT(Addressable address, Ownership ownership) {
+    protected NIT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NIT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NIT(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_nit_new.invokeExact();
         } catch (Throwable ERR) {
@@ -123,31 +165,35 @@ public class NIT extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link NIT.Builder} object constructs a {@link NIT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link NIT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private NIT struct;
+        private final NIT struct;
         
-         /**
-         * A {@link NIT.Build} object constructs a {@link NIT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = NIT.allocate();
         }
         
          /**
          * Finish building the {@link NIT} struct.
          * @return A new instance of {@code NIT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NIT construct() {
+        public NIT build() {
             return struct;
         }
         
@@ -156,10 +202,10 @@ public class NIT extends Struct {
          * @param actualNetwork The value for the {@code actualNetwork} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActualNetwork(boolean actualNetwork) {
+        public Builder setActualNetwork(boolean actualNetwork) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("actual_network"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), actualNetwork ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualNetwork, null).intValue());
             return this;
         }
         
@@ -168,7 +214,7 @@ public class NIT extends Struct {
          * @param networkId The value for the {@code networkId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNetworkId(short networkId) {
+        public Builder setNetworkId(short networkId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("network_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), networkId);
@@ -180,7 +226,7 @@ public class NIT extends Struct {
          * @param descriptors The value for the {@code descriptors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
@@ -192,7 +238,7 @@ public class NIT extends Struct {
          * @param streams The value for the {@code streams} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStreams(org.gstreamer.mpegts.NITStream[] streams) {
+        public Builder setStreams(org.gstreamer.mpegts.NITStream[] streams) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("streams"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (streams == null ? MemoryAddress.NULL : Interop.allocateNativeArray(streams, org.gstreamer.mpegts.NITStream.getMemoryLayout(), false)));

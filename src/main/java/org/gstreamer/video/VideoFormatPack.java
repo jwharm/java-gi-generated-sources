@@ -25,5 +25,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface VideoFormatPack {
-        void onVideoFormatPack(@NotNull org.gstreamer.video.VideoFormatInfo info, @NotNull org.gstreamer.video.VideoPackFlags flags, @Nullable java.lang.foreign.MemoryAddress src, int sstride, @Nullable java.lang.foreign.MemoryAddress data, PointerInteger stride, @NotNull org.gstreamer.video.VideoChromaSite chromaSite, int y, int width);
+    void run(org.gstreamer.video.VideoFormatInfo info, org.gstreamer.video.VideoPackFlags flags, @Nullable java.lang.foreign.MemoryAddress src, int sstride, @Nullable java.lang.foreign.MemoryAddress data, PointerInteger stride, org.gstreamer.video.VideoChromaSite chromaSite, int y, int width);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress info, int flags, MemoryAddress src, int sstride, MemoryAddress data, MemoryAddress stride, int chromaSite, int y, int width) {
+        run(org.gstreamer.video.VideoFormatInfo.fromAddress.marshal(info, Ownership.NONE), new org.gstreamer.video.VideoPackFlags(flags), src, sstride, data, new PointerInteger(stride), new org.gstreamer.video.VideoChromaSite(chromaSite), y, width);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VideoFormatPack.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

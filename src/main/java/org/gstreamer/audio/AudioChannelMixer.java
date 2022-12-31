@@ -40,10 +40,12 @@ public class AudioChannelMixer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioChannelMixer(Addressable address, Ownership ownership) {
+    protected AudioChannelMixer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioChannelMixer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioChannelMixer(input, ownership);
     
     /**
      * Free memory allocated by {@code mix}.
@@ -79,7 +81,7 @@ public class AudioChannelMixer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -117,24 +119,20 @@ public class AudioChannelMixer extends Struct {
      * @return a new {@link AudioChannelMixer} object, or {@code null} if {@code format} isn't supported.
      *   Free with gst_audio_channel_mixer_free() after usage.
      */
-    public static @NotNull org.gstreamer.audio.AudioChannelMixer new_(@NotNull org.gstreamer.audio.AudioChannelMixerFlags flags, @NotNull org.gstreamer.audio.AudioFormat format, int inChannels, @NotNull org.gstreamer.audio.AudioChannelPosition inPosition, int outChannels, @NotNull org.gstreamer.audio.AudioChannelPosition outPosition) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(inPosition, "Parameter 'inPosition' must not be null");
-        java.util.Objects.requireNonNull(outPosition, "Parameter 'outPosition' must not be null");
+    public static org.gstreamer.audio.AudioChannelMixer new_(org.gstreamer.audio.AudioChannelMixerFlags flags, org.gstreamer.audio.AudioFormat format, int inChannels, PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> inPosition, int outChannels, PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> outPosition) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_channel_mixer_new.invokeExact(
                     flags.getValue(),
                     format.getValue(),
                     inChannels,
-                    new PointerInteger(inPosition.getValue()).handle(),
+                    inPosition.handle(),
                     outChannels,
-                    new PointerInteger(outPosition.getValue()).handle());
+                    outPosition.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioChannelMixer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioChannelMixer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -149,9 +147,7 @@ public class AudioChannelMixer extends Struct {
      *   {@code matrix} is invalid, or {@code matrix} is {@code null} and {@code in_channels} != {@code out_channels}.
      *   Free with gst_audio_channel_mixer_free() after usage.
      */
-    public static @NotNull org.gstreamer.audio.AudioChannelMixer newWithMatrix(@NotNull org.gstreamer.audio.AudioChannelMixerFlags flags, @NotNull org.gstreamer.audio.AudioFormat format, int inChannels, int outChannels, PointerFloat matrix) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.audio.AudioChannelMixer newWithMatrix(org.gstreamer.audio.AudioChannelMixerFlags flags, org.gstreamer.audio.AudioFormat format, int inChannels, int outChannels, PointerFloat matrix) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_channel_mixer_new_with_matrix.invokeExact(
@@ -163,7 +159,7 @@ public class AudioChannelMixer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioChannelMixer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioChannelMixer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

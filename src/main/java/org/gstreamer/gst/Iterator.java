@@ -53,30 +53,28 @@ public class Iterator extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstIterator";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("copy"),
-        Interop.valueLayout.ADDRESS.withName("next"),
-        Interop.valueLayout.ADDRESS.withName("item"),
-        Interop.valueLayout.ADDRESS.withName("resync"),
-        Interop.valueLayout.ADDRESS.withName("free"),
-        Interop.valueLayout.ADDRESS.withName("pushed"),
-        Interop.valueLayout.C_LONG.withName("type"),
-        Interop.valueLayout.ADDRESS.withName("lock"),
-        Interop.valueLayout.C_INT.withName("cookie"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("master_cookie"),
-        Interop.valueLayout.C_INT.withName("size"),
-        MemoryLayout.paddingLayout(96),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("copy"),
+            Interop.valueLayout.ADDRESS.withName("next"),
+            Interop.valueLayout.ADDRESS.withName("item"),
+            Interop.valueLayout.ADDRESS.withName("resync"),
+            Interop.valueLayout.ADDRESS.withName("free"),
+            Interop.valueLayout.ADDRESS.withName("pushed"),
+            Interop.valueLayout.C_LONG.withName("type"),
+            Interop.valueLayout.ADDRESS.withName("lock"),
+            Interop.valueLayout.C_INT.withName("cookie"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("master_cookie"),
+            Interop.valueLayout.C_INT.withName("size"),
+            MemoryLayout.paddingLayout(96),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -96,7 +94,7 @@ public class Iterator extends Struct {
      * Get the value of the field {@code copy}
      * @return The value of the field {@code copy}
      */
-    public org.gstreamer.gst.IteratorCopyFunction copy$get() {
+    public org.gstreamer.gst.IteratorCopyFunction getCopy() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("copy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,10 +102,20 @@ public class Iterator extends Struct {
     }
     
     /**
+     * Change the value of the field {@code copy}
+     * @param copy The new value of the field {@code copy}
+     */
+    public void setCopy(org.gstreamer.gst.IteratorCopyFunction copy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code next}
      * @return The value of the field {@code next}
      */
-    public org.gstreamer.gst.IteratorNextFunction next$get() {
+    public org.gstreamer.gst.IteratorNextFunction getNext() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -115,10 +123,20 @@ public class Iterator extends Struct {
     }
     
     /**
+     * Change the value of the field {@code next}
+     * @param next The new value of the field {@code next}
+     */
+    public void setNext(org.gstreamer.gst.IteratorNextFunction next) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("next"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : (Addressable) next.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code item}
      * @return The value of the field {@code item}
      */
-    public org.gstreamer.gst.IteratorItemFunction item$get() {
+    public org.gstreamer.gst.IteratorItemFunction getItem() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("item"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -126,10 +144,20 @@ public class Iterator extends Struct {
     }
     
     /**
+     * Change the value of the field {@code item}
+     * @param item The new value of the field {@code item}
+     */
+    public void setItem(org.gstreamer.gst.IteratorItemFunction item) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("item"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code resync}
      * @return The value of the field {@code resync}
      */
-    public org.gstreamer.gst.IteratorResyncFunction resync$get() {
+    public org.gstreamer.gst.IteratorResyncFunction getResync() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("resync"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -137,10 +165,20 @@ public class Iterator extends Struct {
     }
     
     /**
+     * Change the value of the field {@code resync}
+     * @param resync The new value of the field {@code resync}
+     */
+    public void setResync(org.gstreamer.gst.IteratorResyncFunction resync) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("resync"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resync == null ? MemoryAddress.NULL : (Addressable) resync.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code free}
      * @return The value of the field {@code free}
      */
-    public org.gstreamer.gst.IteratorFreeFunction free$get() {
+    public org.gstreamer.gst.IteratorFreeFunction getFree() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("free"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -148,31 +186,41 @@ public class Iterator extends Struct {
     }
     
     /**
+     * Change the value of the field {@code free}
+     * @param free The new value of the field {@code free}
+     */
+    public void setFree(org.gstreamer.gst.IteratorFreeFunction free) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("free"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code pushed}
      * @return The value of the field {@code pushed}
      */
-    public org.gstreamer.gst.Iterator pushed$get() {
+    public org.gstreamer.gst.Iterator getPushed() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pushed"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code pushed}
      * @param pushed The new value of the field {@code pushed}
      */
-    public void pushed$set(org.gstreamer.gst.Iterator pushed) {
+    public void setPushed(org.gstreamer.gst.Iterator pushed) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pushed"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pushed.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pushed == null ? MemoryAddress.NULL : pushed.handle()));
     }
     
     /**
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gtk.glib.Type type$get() {
+    public org.gtk.glib.Type getType() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -183,38 +231,38 @@ public class Iterator extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gtk.glib.Type type) {
+    public void setType(org.gtk.glib.Type type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code lock}
      * @return The value of the field {@code lock}
      */
-    public org.gtk.glib.Mutex lock$get() {
+    public org.gtk.glib.Mutex getLock() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lock"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Mutex(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Mutex.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code lock}
      * @param lock The new value of the field {@code lock}
      */
-    public void lock$set(org.gtk.glib.Mutex lock) {
+    public void setLock(org.gtk.glib.Mutex lock) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lock"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lock.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
     }
     
     /**
      * Get the value of the field {@code cookie}
      * @return The value of the field {@code cookie}
      */
-    public int cookie$get() {
+    public int getCookie() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cookie"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -225,7 +273,7 @@ public class Iterator extends Struct {
      * Change the value of the field {@code cookie}
      * @param cookie The new value of the field {@code cookie}
      */
-    public void cookie$set(int cookie) {
+    public void setCookie(int cookie) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("cookie"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), cookie);
@@ -235,7 +283,7 @@ public class Iterator extends Struct {
      * Get the value of the field {@code master_cookie}
      * @return The value of the field {@code master_cookie}
      */
-    public PointerInteger masterCookie$get() {
+    public PointerInteger getMasterCookie() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("master_cookie"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -246,17 +294,17 @@ public class Iterator extends Struct {
      * Change the value of the field {@code master_cookie}
      * @param masterCookie The new value of the field {@code master_cookie}
      */
-    public void masterCookie$set(PointerInteger masterCookie) {
+    public void setMasterCookie(PointerInteger masterCookie) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("master_cookie"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), masterCookie.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (masterCookie == null ? MemoryAddress.NULL : masterCookie.handle()));
     }
     
     /**
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public int size$get() {
+    public int getSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -267,7 +315,7 @@ public class Iterator extends Struct {
      * Change the value of the field {@code size}
      * @param size The new value of the field {@code size}
      */
-    public void size$set(int size) {
+    public void setSize(int size) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -278,13 +326,30 @@ public class Iterator extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Iterator(Addressable address, Ownership ownership) {
+    protected Iterator(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(int size, @NotNull org.gtk.glib.Type type, @NotNull org.gtk.glib.Mutex lock, PointerInteger masterCookie, @NotNull org.gstreamer.gst.IteratorCopyFunction copy, @NotNull org.gstreamer.gst.IteratorNextFunction next, @NotNull org.gstreamer.gst.IteratorItemFunction item, @NotNull org.gstreamer.gst.IteratorResyncFunction resync, @NotNull org.gstreamer.gst.IteratorFreeFunction free) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Iterator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Iterator(input, ownership);
+    
+    private static MemoryAddress constructNew(int size, org.gtk.glib.Type type, org.gtk.glib.Mutex lock, PointerInteger masterCookie, org.gstreamer.gst.IteratorCopyFunction copy, org.gstreamer.gst.IteratorNextFunction next, org.gstreamer.gst.IteratorItemFunction item, org.gstreamer.gst.IteratorResyncFunction resync, org.gstreamer.gst.IteratorFreeFunction free) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gst_iterator_new.invokeExact(
+                    size,
+                    type.getValue().longValue(),
+                    lock.handle(),
+                    masterCookie.handle(),
+                    (Addressable) copy.toCallback(),
+                    (Addressable) next.toCallback(),
+                    (Addressable) item.toCallback(),
+                    (Addressable) resync.toCallback(),
+                    (Addressable) free.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -294,7 +359,7 @@ public class Iterator extends Struct {
      * For each item retrieved, the {@code item} function is called with the lock
      * held. The {@code free} function is called when the iterator is freed.
      * @param size the size of the iterator structure
-     * @param type {@link org.gtk.gobject.Type} of children
+     * @param type {@link org.gtk.glib.Type} of children
      * @param lock pointer to a {@link org.gtk.glib.Mutex}.
      * @param masterCookie pointer to a guint32 that is changed when the items in the
      *    iterator changed.
@@ -304,13 +369,24 @@ public class Iterator extends Struct {
      * @param resync function to resync the iterator
      * @param free function to free the iterator
      */
-    public Iterator(int size, @NotNull org.gtk.glib.Type type, @NotNull org.gtk.glib.Mutex lock, PointerInteger masterCookie, @NotNull org.gstreamer.gst.IteratorCopyFunction copy, @NotNull org.gstreamer.gst.IteratorNextFunction next, @NotNull org.gstreamer.gst.IteratorItemFunction item, @NotNull org.gstreamer.gst.IteratorResyncFunction resync, @NotNull org.gstreamer.gst.IteratorFreeFunction free) {
-        this(null, null); // avoid compiler error
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public Iterator(int size, org.gtk.glib.Type type, org.gtk.glib.Mutex lock, PointerInteger masterCookie, org.gstreamer.gst.IteratorCopyFunction copy, org.gstreamer.gst.IteratorNextFunction next, org.gstreamer.gst.IteratorItemFunction item, org.gstreamer.gst.IteratorResyncFunction resync, org.gstreamer.gst.IteratorFreeFunction free) {
+        super(constructNew(size, type, lock, masterCookie, copy, next, item, resync, free), Ownership.FULL);
     }
     
-    private static Addressable constructNewList(@NotNull org.gtk.glib.Type type, @NotNull org.gtk.glib.Mutex lock, PointerInteger masterCookie, @NotNull PointerProxy<org.gtk.glib.List> list, @NotNull org.gtk.gobject.Object owner, @NotNull org.gstreamer.gst.IteratorItemFunction item) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    private static MemoryAddress constructNewList(org.gtk.glib.Type type, org.gtk.glib.Mutex lock, PointerInteger masterCookie, PointerProxy<org.gtk.glib.List> list, org.gtk.gobject.GObject owner, org.gstreamer.gst.IteratorItemFunction item) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gst_iterator_new_list.invokeExact(
+                    type.getValue().longValue(),
+                    lock.handle(),
+                    masterCookie.handle(),
+                    list.handle(),
+                    owner.handle(),
+                    (Addressable) item.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -326,7 +402,7 @@ public class Iterator extends Struct {
      * holding {@code lock}, {@code master_cookie} will be updated. The iterator implementation
      * will notice the update of the cookie and will return {@link IteratorResult#RESYNC} to
      * the user of the iterator in the next call to gst_iterator_next().
-     * @param type {@link org.gtk.gobject.Type} of elements
+     * @param type {@link org.gtk.glib.Type} of elements
      * @param lock pointer to a {@link org.gtk.glib.Mutex} protecting the list.
      * @param masterCookie pointer to a guint32 that is incremented when the list
      *     is changed.
@@ -337,14 +413,13 @@ public class Iterator extends Struct {
      * <p>
      * MT safe.
      */
-    public static Iterator newList(@NotNull org.gtk.glib.Type type, @NotNull org.gtk.glib.Mutex lock, PointerInteger masterCookie, @NotNull PointerProxy<org.gtk.glib.List> list, @NotNull org.gtk.gobject.Object owner, @NotNull org.gstreamer.gst.IteratorItemFunction item) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static Iterator newList(org.gtk.glib.Type type, org.gtk.glib.Mutex lock, PointerInteger masterCookie, PointerProxy<org.gtk.glib.List> list, org.gtk.gobject.GObject owner, org.gstreamer.gst.IteratorItemFunction item) {
+        var RESULT = constructNewList(type, lock, masterCookie, list, owner, item);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSingle(@NotNull org.gtk.glib.Type type, @NotNull org.gtk.gobject.Value object) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSingle(org.gtk.glib.Type type, org.gtk.gobject.Value object) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_iterator_new_single.invokeExact(
                     type.getValue().longValue(),
@@ -360,19 +435,20 @@ public class Iterator extends Struct {
      * case where a {@link Iterator} needs to be returned but only
      * a single object has to be considered. This happens often
      * for the {@link PadIterIntLinkFunction}.
-     * @param type {@link org.gtk.gobject.Type} of the passed object
+     * @param type {@link org.gtk.glib.Type} of the passed object
      * @param object object that this iterator should return
      * @return the new {@link Iterator} for {@code object}.
      */
-    public static Iterator newSingle(@NotNull org.gtk.glib.Type type, @NotNull org.gtk.gobject.Value object) {
-        return new Iterator(constructNewSingle(type, object), Ownership.FULL);
+    public static Iterator newSingle(org.gtk.glib.Type type, org.gtk.gobject.Value object) {
+        var RESULT = constructNewSingle(type, object);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Copy the iterator and its state.
      * @return a new copy of {@code it}.
      */
-    public @NotNull org.gstreamer.gst.Iterator copy() {
+    public org.gstreamer.gst.Iterator copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_iterator_copy.invokeExact(
@@ -380,7 +456,7 @@ public class Iterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -397,8 +473,17 @@ public class Iterator extends Struct {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.Iterator filter(@NotNull org.gtk.glib.CompareFunc func, @NotNull org.gtk.gobject.Value userData) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public org.gstreamer.gst.Iterator filter(org.gtk.glib.CompareFunc func, org.gtk.gobject.Value userData) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gst_iterator_filter.invokeExact(
+                    handle(),
+                    (Addressable) func.toCallback(),
+                    userData.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -418,24 +503,18 @@ public class Iterator extends Struct {
      * <p>
      * MT safe.
      */
-    public boolean findCustom(@NotNull org.gtk.glib.CompareFunc func, @NotNull org.gtk.gobject.Value elem) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        java.util.Objects.requireNonNull(elem, "Parameter 'elem' must not be null");
+    public boolean findCustom(org.gtk.glib.CompareFunc func, org.gtk.gobject.Value elem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_iterator_find_custom.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
+                    (Addressable) func.toCallback(),
                     elem.handle(),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -460,20 +539,14 @@ public class Iterator extends Struct {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.IteratorResult fold(@NotNull org.gstreamer.gst.IteratorFoldFunction func, @NotNull org.gtk.gobject.Value ret) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        java.util.Objects.requireNonNull(ret, "Parameter 'ret' must not be null");
+    public org.gstreamer.gst.IteratorResult fold(org.gstreamer.gst.IteratorFoldFunction func, org.gtk.gobject.Value ret) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_iterator_fold.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbIteratorFoldFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
+                    (Addressable) func.toCallback(),
                     ret.handle(),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -489,18 +562,13 @@ public class Iterator extends Struct {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.IteratorResult foreach(@NotNull org.gstreamer.gst.IteratorForeachFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public org.gstreamer.gst.IteratorResult foreach(org.gstreamer.gst.IteratorForeachFunction func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_iterator_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbIteratorForeachFunction",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -543,8 +611,7 @@ public class Iterator extends Struct {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.IteratorResult next(@NotNull org.gtk.gobject.Value elem) {
-        java.util.Objects.requireNonNull(elem, "Parameter 'elem' must not be null");
+    public org.gstreamer.gst.IteratorResult next(org.gtk.gobject.Value elem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_iterator_next.invokeExact(
@@ -570,8 +637,7 @@ public class Iterator extends Struct {
      * MT safe.
      * @param other The {@link Iterator} to push
      */
-    public void push(@NotNull org.gstreamer.gst.Iterator other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public void push(org.gstreamer.gst.Iterator other) {
         try {
             DowncallHandles.gst_iterator_push.invokeExact(
                     handle(),
@@ -673,31 +739,35 @@ public class Iterator extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Iterator.Builder} object constructs a {@link Iterator} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Iterator.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Iterator struct;
+        private final Iterator struct;
         
-         /**
-         * A {@link Iterator.Build} object constructs a {@link Iterator} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Iterator.allocate();
         }
         
          /**
          * Finish building the {@link Iterator} struct.
          * @return A new instance of {@code Iterator} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Iterator construct() {
+        public Iterator build() {
             return struct;
         }
         
@@ -706,10 +776,10 @@ public class Iterator extends Struct {
          * @param copy The value for the {@code copy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCopy(java.lang.foreign.MemoryAddress copy) {
+        public Builder setCopy(org.gstreamer.gst.IteratorCopyFunction copy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : copy));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
             return this;
         }
         
@@ -718,10 +788,10 @@ public class Iterator extends Struct {
          * @param next The value for the {@code next} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNext(java.lang.foreign.MemoryAddress next) {
+        public Builder setNext(org.gstreamer.gst.IteratorNextFunction next) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : (Addressable) next.toCallback()));
             return this;
         }
         
@@ -730,10 +800,10 @@ public class Iterator extends Struct {
          * @param item The value for the {@code item} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItem(java.lang.foreign.MemoryAddress item) {
+        public Builder setItem(org.gstreamer.gst.IteratorItemFunction item) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : item));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (item == null ? MemoryAddress.NULL : (Addressable) item.toCallback()));
             return this;
         }
         
@@ -742,10 +812,10 @@ public class Iterator extends Struct {
          * @param resync The value for the {@code resync} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setResync(java.lang.foreign.MemoryAddress resync) {
+        public Builder setResync(org.gstreamer.gst.IteratorResyncFunction resync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("resync"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resync == null ? MemoryAddress.NULL : resync));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resync == null ? MemoryAddress.NULL : (Addressable) resync.toCallback()));
             return this;
         }
         
@@ -754,10 +824,10 @@ public class Iterator extends Struct {
          * @param free The value for the {@code free} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFree(java.lang.foreign.MemoryAddress free) {
+        public Builder setFree(org.gstreamer.gst.IteratorFreeFunction free) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : free));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
             return this;
         }
         
@@ -766,7 +836,7 @@ public class Iterator extends Struct {
          * @param pushed The value for the {@code pushed} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPushed(org.gstreamer.gst.Iterator pushed) {
+        public Builder setPushed(org.gstreamer.gst.Iterator pushed) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pushed"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pushed == null ? MemoryAddress.NULL : pushed.handle()));
@@ -778,7 +848,7 @@ public class Iterator extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gtk.glib.Type type) {
+        public Builder setType(org.gtk.glib.Type type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
@@ -790,7 +860,7 @@ public class Iterator extends Struct {
          * @param lock The value for the {@code lock} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLock(org.gtk.glib.Mutex lock) {
+        public Builder setLock(org.gtk.glib.Mutex lock) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lock"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
@@ -803,7 +873,7 @@ public class Iterator extends Struct {
          * @param cookie The value for the {@code cookie} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCookie(int cookie) {
+        public Builder setCookie(int cookie) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cookie"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), cookie);
@@ -815,7 +885,7 @@ public class Iterator extends Struct {
          * @param masterCookie The value for the {@code masterCookie} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMasterCookie(PointerInteger masterCookie) {
+        public Builder setMasterCookie(PointerInteger masterCookie) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("master_cookie"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (masterCookie == null ? MemoryAddress.NULL : masterCookie.handle()));
@@ -827,14 +897,14 @@ public class Iterator extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(int size) {
+        public Builder setSize(int size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

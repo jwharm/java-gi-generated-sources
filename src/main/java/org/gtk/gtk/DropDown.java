@@ -69,40 +69,26 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * Because DropDown is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DropDown(Addressable address, Ownership ownership) {
+    protected DropDown(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to DropDown if its GType is a (or inherits from) "GtkDropDown".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DropDown} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkDropDown", a ClassCastException will be thrown.
-     */
-    public static DropDown castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DropDown.getType())) {
-            return new DropDown(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDropDown");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DropDown> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DropDown(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Expression expression) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Expression expression) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()),
@@ -127,9 +113,8 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         super(constructNew(model, expression), Ownership.NONE);
     }
     
-    private static Addressable constructNewFromStrings(@NotNull java.lang.String[] strings) {
-        java.util.Objects.requireNonNull(strings, "Parameter 'strings' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromStrings(java.lang.String[] strings) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_new_from_strings.invokeExact(
                     Interop.allocateNativeArray(strings, false));
@@ -145,8 +130,9 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param strings The strings to put in the dropdown
      * @return a new {@code GtkDropDown}
      */
-    public static DropDown newFromStrings(@NotNull java.lang.String[] strings) {
-        return new DropDown(constructNewFromStrings(strings), Ownership.NONE);
+    public static DropDown newFromStrings(java.lang.String[] strings) {
+        var RESULT = constructNewFromStrings(strings);
+        return (org.gtk.gtk.DropDown) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.DropDown.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -161,7 +147,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -178,7 +164,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -197,7 +183,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ListItemFactory(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListItemFactory.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -212,7 +198,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ListItemFactory(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ListItemFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListItemFactory.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -227,7 +213,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -250,7 +236,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Gets the selected item. If no item is selected, {@code null} is returned.
      * @return The selected item
      */
-    public @Nullable org.gtk.gobject.Object getSelectedItem() {
+    public @Nullable org.gtk.gobject.GObject getSelectedItem() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_drop_down_get_selected_item.invokeExact(
@@ -258,7 +244,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -273,7 +259,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -288,7 +274,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_drop_down_set_enable_search.invokeExact(
                     handle(),
-                    enableSearch ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enableSearch, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -375,7 +361,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_drop_down_set_show_arrow.invokeExact(
                     handle(),
-                    showArrow ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showArrow, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,7 +371,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_drop_down_get_type.invokeExact();
@@ -397,7 +383,18 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(DropDown sourceDropDown);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDropDown) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -411,52 +408,46 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<DropDown.Activate> onActivate(DropDown.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DropDown.Callbacks.class, "signalDropDownActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DropDown.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DropDown.Builder} object constructs a {@link DropDown} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DropDown.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link DropDown.Build} object constructs a {@link DropDown} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DropDown} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DropDown} using {@link DropDown#castFrom}.
+         * {@link DropDown}.
          * @return A new instance of {@code DropDown} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DropDown construct() {
-            return DropDown.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DropDown.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DropDown build() {
+            return (DropDown) org.gtk.gobject.GObject.newWithProperties(
+                DropDown.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -468,7 +459,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param enableSearch The value for the {@code enable-search} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnableSearch(boolean enableSearch) {
+        public Builder setEnableSearch(boolean enableSearch) {
             names.add("enable-search");
             values.add(org.gtk.gobject.Value.create(enableSearch));
             return this;
@@ -484,7 +475,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param expression The value for the {@code expression} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExpression(org.gtk.gtk.Expression expression) {
+        public Builder setExpression(org.gtk.gtk.Expression expression) {
             names.add("expression");
             values.add(org.gtk.gobject.Value.create(expression));
             return this;
@@ -495,7 +486,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param factory The value for the {@code factory} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFactory(org.gtk.gtk.ListItemFactory factory) {
+        public Builder setFactory(org.gtk.gtk.ListItemFactory factory) {
             names.add("factory");
             values.add(org.gtk.gobject.Value.create(factory));
             return this;
@@ -508,7 +499,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param listFactory The value for the {@code list-factory} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setListFactory(org.gtk.gtk.ListItemFactory listFactory) {
+        public Builder setListFactory(org.gtk.gtk.ListItemFactory listFactory) {
             names.add("list-factory");
             values.add(org.gtk.gobject.Value.create(listFactory));
             return this;
@@ -519,7 +510,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gio.ListModel model) {
+        public Builder setModel(org.gtk.gio.ListModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -533,7 +524,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param selected The value for the {@code selected} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelected(int selected) {
+        public Builder setSelected(int selected) {
             names.add("selected");
             values.add(org.gtk.gobject.Value.create(selected));
             return this;
@@ -544,7 +535,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param selectedItem The value for the {@code selected-item} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelectedItem(org.gtk.gobject.Object selectedItem) {
+        public Builder setSelectedItem(org.gtk.gobject.GObject selectedItem) {
             names.add("selected-item");
             values.add(org.gtk.gobject.Value.create(selectedItem));
             return this;
@@ -555,7 +546,7 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param showArrow The value for the {@code show-arrow} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowArrow(boolean showArrow) {
+        public Builder setShowArrow(boolean showArrow) {
             names.add("show-arrow");
             values.add(org.gtk.gobject.Value.create(showArrow));
             return this;
@@ -671,14 +662,5 @@ public class DropDown extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalDropDownActivate(MemoryAddress sourceDropDown, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DropDown.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DropDown(sourceDropDown, Ownership.NONE));
-        }
     }
 }

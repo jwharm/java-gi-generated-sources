@@ -70,7 +70,7 @@ import org.jetbrains.annotations.*;
  * </object>
  * }</pre>
  */
-public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Buildable {
+public class SizeGroup extends org.gtk.gobject.GObject implements org.gtk.gtk.Buildable {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -78,17 +78,15 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     
     private static final java.lang.String C_TYPE_NAME = "GtkSizeGroup";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -96,34 +94,15 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SizeGroup(Addressable address, Ownership ownership) {
+    protected SizeGroup(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SizeGroup if its GType is a (or inherits from) "GtkSizeGroup".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SizeGroup} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSizeGroup", a ClassCastException will be thrown.
-     */
-    public static SizeGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SizeGroup.getType())) {
-            return new SizeGroup(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSizeGroup");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SizeGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SizeGroup(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.SizeGroupMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gtk.SizeGroupMode mode) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_size_group_new.invokeExact(
                     mode.getValue());
@@ -137,7 +116,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * Create a new {@code GtkSizeGroup}.
      * @param mode the mode for the new size group.
      */
-    public SizeGroup(@NotNull org.gtk.gtk.SizeGroupMode mode) {
+    public SizeGroup(org.gtk.gtk.SizeGroupMode mode) {
         super(constructNew(mode), Ownership.FULL);
     }
     
@@ -155,8 +134,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * will be removed from the size group.
      * @param widget the {@code GtkWidget} to add
      */
-    public void addWidget(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void addWidget(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.gtk_size_group_add_widget.invokeExact(
                     handle(),
@@ -170,7 +148,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * Gets the current mode of the size group.
      * @return the current mode of the size group.
      */
-    public @NotNull org.gtk.gtk.SizeGroupMode getMode() {
+    public org.gtk.gtk.SizeGroupMode getMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_size_group_get_mode.invokeExact(
@@ -186,7 +164,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @return a {@code GSList} of
      *   widgets. The list is owned by GTK and should not be modified.
      */
-    public @NotNull org.gtk.glib.SList getWidgets() {
+    public org.gtk.glib.SList getWidgets() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_size_group_get_widgets.invokeExact(
@@ -194,15 +172,14 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.NONE);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Removes a widget from a {@code GtkSizeGroup}.
      * @param widget the {@code GtkWidget} to remove
      */
-    public void removeWidget(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void removeWidget(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.gtk_size_group_remove_widget.invokeExact(
                     handle(),
@@ -222,8 +199,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * in both directions ({@link SizeGroupMode#BOTH}).
      * @param mode the mode to set for the size group.
      */
-    public void setMode(@NotNull org.gtk.gtk.SizeGroupMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setMode(org.gtk.gtk.SizeGroupMode mode) {
         try {
             DowncallHandles.gtk_size_group_set_mode.invokeExact(
                     handle(),
@@ -237,7 +213,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_size_group_get_type.invokeExact();
@@ -246,38 +222,40 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SizeGroup.Builder} object constructs a {@link SizeGroup} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SizeGroup.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SizeGroup.Build} object constructs a {@link SizeGroup} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SizeGroup} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SizeGroup} using {@link SizeGroup#castFrom}.
+         * {@link SizeGroup}.
          * @return A new instance of {@code SizeGroup} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SizeGroup construct() {
-            return SizeGroup.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SizeGroup.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SizeGroup build() {
+            return (SizeGroup) org.gtk.gobject.GObject.newWithProperties(
+                SizeGroup.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -286,7 +264,7 @@ public class SizeGroup extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
          * @param mode The value for the {@code mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMode(org.gtk.gtk.SizeGroupMode mode) {
+        public Builder setMode(org.gtk.gtk.SizeGroupMode mode) {
             names.add("mode");
             values.add(org.gtk.gobject.Value.create(mode));
             return this;

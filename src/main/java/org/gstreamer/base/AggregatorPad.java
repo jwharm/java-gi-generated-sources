@@ -19,20 +19,18 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     
     private static final java.lang.String C_TYPE_NAME = "GstAggregatorPad";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Pad.getMemoryLayout().withName("parent"),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Pad.getMemoryLayout().withName("parent"),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -40,37 +38,23 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
      * <p>
      * Because AggregatorPad is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AggregatorPad(Addressable address, Ownership ownership) {
+    protected AggregatorPad(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AggregatorPad if its GType is a (or inherits from) "GstAggregatorPad".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AggregatorPad} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAggregatorPad", a ClassCastException will be thrown.
-     */
-    public static AggregatorPad castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AggregatorPad.getType())) {
-            return new AggregatorPad(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAggregatorPad");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AggregatorPad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AggregatorPad(input, ownership);
     
     /**
      * Drop the buffer currently queued in {@code pad}.
@@ -84,7 +68,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -101,7 +85,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean isEos() {
@@ -112,7 +96,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -128,7 +112,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public @Nullable org.gstreamer.gst.Buffer peekBuffer() {
@@ -139,7 +123,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -155,14 +139,14 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_aggregator_pad_get_type.invokeExact();
@@ -174,58 +158,63 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
     
     @FunctionalInterface
     public interface BufferConsumed {
-        void signalReceived(AggregatorPad sourceAggregatorPad, @NotNull org.gstreamer.gst.Buffer object);
+        void run(org.gstreamer.gst.Buffer object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAggregatorPad, MemoryAddress object) {
+            run(org.gstreamer.gst.Buffer.fromAddress.marshal(object, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BufferConsumed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<AggregatorPad.BufferConsumed> onBufferConsumed(AggregatorPad.BufferConsumed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("buffer-consumed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AggregatorPad.Callbacks.class, "signalAggregatorPadBufferConsumed",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AggregatorPad.BufferConsumed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("buffer-consumed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link AggregatorPad.Builder} object constructs a {@link AggregatorPad} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AggregatorPad.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Pad.Build {
+    public static class Builder extends org.gstreamer.gst.Pad.Builder {
         
-         /**
-         * A {@link AggregatorPad.Build} object constructs a {@link AggregatorPad} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AggregatorPad} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AggregatorPad} using {@link AggregatorPad#castFrom}.
+         * {@link AggregatorPad}.
          * @return A new instance of {@code AggregatorPad} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AggregatorPad construct() {
-            return AggregatorPad.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AggregatorPad.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AggregatorPad build() {
+            return (AggregatorPad) org.gtk.gobject.GObject.newWithProperties(
+                AggregatorPad.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -234,7 +223,7 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
          * @param emitSignals The value for the {@code emit-signals} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEmitSignals(boolean emitSignals) {
+        public Builder setEmitSignals(boolean emitSignals) {
             names.add("emit-signals");
             values.add(org.gtk.gobject.Value.create(emitSignals));
             return this;
@@ -284,14 +273,5 @@ public class AggregatorPad extends org.gstreamer.gst.Pad {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalAggregatorPadBufferConsumed(MemoryAddress sourceAggregatorPad, MemoryAddress object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AggregatorPad.BufferConsumed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AggregatorPad(sourceAggregatorPad, Ownership.NONE), new org.gstreamer.gst.Buffer(object, Ownership.NONE));
-        }
     }
 }

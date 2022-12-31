@@ -170,11 +170,15 @@ public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public RegexCompileFlags or(RegexCompileFlags mask) {
-        return new RegexCompileFlags(this.getValue() | mask.getValue());
+    public RegexCompileFlags or(RegexCompileFlags... masks) {
+        int value = this.getValue();
+        for (RegexCompileFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RegexCompileFlags(value);
     }
     
     /**
@@ -184,7 +188,8 @@ public class RegexCompileFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static RegexCompileFlags combined(RegexCompileFlags mask, RegexCompileFlags... masks) {
-        int value = mask.getValue();        for (RegexCompileFlags arg : masks) {
+        int value = mask.getValue();
+        for (RegexCompileFlags arg : masks) {
             value |= arg.getValue();
         }
         return new RegexCompileFlags(value);

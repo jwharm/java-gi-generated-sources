@@ -18,20 +18,18 @@ public class GlyphExtentsT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "hb_glyph_extents_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("x_bearing"),
-        Interop.valueLayout.C_INT.withName("y_bearing"),
-        Interop.valueLayout.C_INT.withName("width"),
-        Interop.valueLayout.C_INT.withName("height")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("x_bearing"),
+            Interop.valueLayout.C_INT.withName("y_bearing"),
+            Interop.valueLayout.C_INT.withName("width"),
+            Interop.valueLayout.C_INT.withName("height")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class GlyphExtentsT extends Struct {
      * Get the value of the field {@code x_bearing}
      * @return The value of the field {@code x_bearing}
      */
-    public org.harfbuzz.PositionT xBearing$get() {
+    public org.harfbuzz.PositionT getXBearing() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x_bearing"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,17 +60,17 @@ public class GlyphExtentsT extends Struct {
      * Change the value of the field {@code x_bearing}
      * @param xBearing The new value of the field {@code x_bearing}
      */
-    public void xBearing$set(org.harfbuzz.PositionT xBearing) {
+    public void setXBearing(org.harfbuzz.PositionT xBearing) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x_bearing"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xBearing.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xBearing == null ? MemoryAddress.NULL : xBearing.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code y_bearing}
      * @return The value of the field {@code y_bearing}
      */
-    public org.harfbuzz.PositionT yBearing$get() {
+    public org.harfbuzz.PositionT getYBearing() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_bearing"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,17 +81,17 @@ public class GlyphExtentsT extends Struct {
      * Change the value of the field {@code y_bearing}
      * @param yBearing The new value of the field {@code y_bearing}
      */
-    public void yBearing$set(org.harfbuzz.PositionT yBearing) {
+    public void setYBearing(org.harfbuzz.PositionT yBearing) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_bearing"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yBearing.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yBearing == null ? MemoryAddress.NULL : yBearing.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code width}
      * @return The value of the field {@code width}
      */
-    public org.harfbuzz.PositionT width$get() {
+    public org.harfbuzz.PositionT getWidth() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,17 +102,17 @@ public class GlyphExtentsT extends Struct {
      * Change the value of the field {@code width}
      * @param width The new value of the field {@code width}
      */
-    public void width$set(org.harfbuzz.PositionT width) {
+    public void setWidth(org.harfbuzz.PositionT width) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (width == null ? MemoryAddress.NULL : width.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code height}
      * @return The value of the field {@code height}
      */
-    public org.harfbuzz.PositionT height$get() {
+    public org.harfbuzz.PositionT getHeight() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -125,10 +123,10 @@ public class GlyphExtentsT extends Struct {
      * Change the value of the field {@code height}
      * @param height The new value of the field {@code height}
      */
-    public void height$set(org.harfbuzz.PositionT height) {
+    public void setHeight(org.harfbuzz.PositionT height) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (height == null ? MemoryAddress.NULL : height.getValue().intValue()));
     }
     
     /**
@@ -136,35 +134,41 @@ public class GlyphExtentsT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GlyphExtentsT(Addressable address, Ownership ownership) {
+    protected GlyphExtentsT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GlyphExtentsT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphExtentsT(input, ownership);
+    
+    /**
+     * A {@link GlyphExtentsT.Builder} object constructs a {@link GlyphExtentsT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GlyphExtentsT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GlyphExtentsT struct;
+        private final GlyphExtentsT struct;
         
-         /**
-         * A {@link GlyphExtentsT.Build} object constructs a {@link GlyphExtentsT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GlyphExtentsT.allocate();
         }
         
          /**
          * Finish building the {@link GlyphExtentsT} struct.
          * @return A new instance of {@code GlyphExtentsT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GlyphExtentsT construct() {
+        public GlyphExtentsT build() {
             return struct;
         }
         
@@ -173,7 +177,7 @@ public class GlyphExtentsT extends Struct {
          * @param xBearing The value for the {@code xBearing} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setXBearing(org.harfbuzz.PositionT xBearing) {
+        public Builder setXBearing(org.harfbuzz.PositionT xBearing) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x_bearing"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xBearing == null ? MemoryAddress.NULL : xBearing.getValue().intValue()));
@@ -185,7 +189,7 @@ public class GlyphExtentsT extends Struct {
          * @param yBearing The value for the {@code yBearing} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYBearing(org.harfbuzz.PositionT yBearing) {
+        public Builder setYBearing(org.harfbuzz.PositionT yBearing) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y_bearing"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yBearing == null ? MemoryAddress.NULL : yBearing.getValue().intValue()));
@@ -197,7 +201,7 @@ public class GlyphExtentsT extends Struct {
          * @param width The value for the {@code width} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidth(org.harfbuzz.PositionT width) {
+        public Builder setWidth(org.harfbuzz.PositionT width) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("width"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (width == null ? MemoryAddress.NULL : width.getValue().intValue()));
@@ -209,7 +213,7 @@ public class GlyphExtentsT extends Struct {
          * @param height The value for the {@code height} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeight(org.harfbuzz.PositionT height) {
+        public Builder setHeight(org.harfbuzz.PositionT height) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("height"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (height == null ? MemoryAddress.NULL : height.getValue().intValue()));

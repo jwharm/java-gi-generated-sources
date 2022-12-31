@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface LogFunction {
-        void onLogFunction(@NotNull org.gstreamer.gst.DebugCategory category, @NotNull org.gstreamer.gst.DebugLevel level, @NotNull java.lang.String file, @NotNull java.lang.String function, int line, @NotNull org.gtk.gobject.Object object, @NotNull org.gstreamer.gst.DebugMessage message);
+    void run(org.gstreamer.gst.DebugCategory category, org.gstreamer.gst.DebugLevel level, java.lang.String file, java.lang.String function, int line, org.gtk.gobject.GObject object, org.gstreamer.gst.DebugMessage message);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress category, int level, MemoryAddress file, MemoryAddress function, int line, MemoryAddress object, MemoryAddress message, MemoryAddress userData) {
+        run(org.gstreamer.gst.DebugCategory.fromAddress.marshal(category, Ownership.NONE), org.gstreamer.gst.DebugLevel.of(level), Marshal.addressToString.marshal(file, null), Marshal.addressToString.marshal(function, null), line, (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gtk.gobject.GObject.fromAddress).marshal(object, Ownership.NONE), org.gstreamer.gst.DebugMessage.fromAddress.marshal(message, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LogFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

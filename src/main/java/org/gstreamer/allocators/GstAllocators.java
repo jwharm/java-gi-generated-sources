@@ -14,7 +14,15 @@ public final class GstAllocators {
         System.loadLibrary("gstallocators-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     public static final java.lang.String ALLOCATOR_DMABUF = "dmabuf";
     
@@ -55,8 +63,7 @@ public final class GstAllocators {
      *     descriptor is still owned by the GstMemory.  Use dup to take a copy
      *     if you intend to use it beyond the lifetime of this GstMemory.
      */
-    public static int dmabufMemoryGetFd(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static int dmabufMemoryGetFd(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_dmabuf_memory_get_fd.invokeExact(
@@ -73,8 +80,7 @@ public final class GstAllocators {
      * @param mem {@link org.gstreamer.gst.Memory}
      * @return the fd of {@code mem} or -1 when there is no fd on {@code mem}
      */
-    public static int fdMemoryGetFd(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static int fdMemoryGetFd(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_fd_memory_get_fd.invokeExact(
@@ -90,8 +96,7 @@ public final class GstAllocators {
      * @param mem the memory to be check
      * @return {@code true} if {@code mem} is dmabuf memory, otherwise {@code false}
      */
-    public static boolean isDmabufMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isDmabufMemory(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_dmabuf_memory.invokeExact(
@@ -99,7 +104,7 @@ public final class GstAllocators {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -108,8 +113,7 @@ public final class GstAllocators {
      * @return {@code true} when {@code mem} has an fd that can be retrieved with
      * gst_fd_memory_get_fd().
      */
-    public static boolean isFdMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isFdMemory(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_fd_memory.invokeExact(
@@ -117,11 +121,10 @@ public final class GstAllocators {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean isPhysMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isPhysMemory(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_phys_memory.invokeExact(
@@ -129,11 +132,10 @@ public final class GstAllocators {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static long physMemoryGetPhysAddr(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static long physMemoryGetPhysAddr(org.gstreamer.gst.Memory mem) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_phys_memory_get_phys_addr.invokeExact(

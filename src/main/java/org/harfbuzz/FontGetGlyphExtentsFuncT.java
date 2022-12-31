@@ -13,5 +13,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface FontGetGlyphExtentsFuncT {
-        org.harfbuzz.BoolT onFontGetGlyphExtentsFuncT(@NotNull org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.GlyphExtentsT extents, @Nullable java.lang.foreign.MemoryAddress userData);
+    org.harfbuzz.BoolT run(org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, org.harfbuzz.CodepointT glyph, org.harfbuzz.GlyphExtentsT extents, @Nullable java.lang.foreign.MemoryAddress userData);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress font, MemoryAddress fontData, int glyph, MemoryAddress extents, MemoryAddress userData) {
+        var RESULT = run(org.harfbuzz.FontT.fromAddress.marshal(font, Ownership.NONE), fontData, new org.harfbuzz.CodepointT(glyph), org.harfbuzz.GlyphExtentsT.fromAddress.marshal(extents, Ownership.NONE), userData);
+        return RESULT.getValue().intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FontGetGlyphExtentsFuncT.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  * cause notifications to be blocked even if the thread-default
  * context is still running).
  */
-public class FileMonitor extends org.gtk.gobject.Object {
+public class FileMonitor extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -29,18 +29,16 @@ public class FileMonitor extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GFileMonitor";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -48,30 +46,12 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FileMonitor(Addressable address, Ownership ownership) {
+    protected FileMonitor(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FileMonitor if its GType is a (or inherits from) "GFileMonitor".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FileMonitor} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GFileMonitor", a ClassCastException will be thrown.
-     */
-    public static FileMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileMonitor.getType())) {
-            return new FileMonitor(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFileMonitor");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FileMonitor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileMonitor(input, ownership);
     
     /**
      * Cancels a file monitor.
@@ -85,7 +65,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -100,10 +80,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * @param otherFile a {@link File}.
      * @param eventType a set of {@link FileMonitorEvent} flags.
      */
-    public void emitEvent(@NotNull org.gtk.gio.File child, @NotNull org.gtk.gio.File otherFile, @NotNull org.gtk.gio.FileMonitorEvent eventType) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(otherFile, "Parameter 'otherFile' must not be null");
-        java.util.Objects.requireNonNull(eventType, "Parameter 'eventType' must not be null");
+    public void emitEvent(org.gtk.gio.File child, org.gtk.gio.File otherFile, org.gtk.gio.FileMonitorEvent eventType) {
         try {
             DowncallHandles.g_file_monitor_emit_event.invokeExact(
                     handle(),
@@ -127,7 +104,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -150,7 +127,7 @@ public class FileMonitor extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_file_monitor_get_type.invokeExact();
@@ -162,7 +139,18 @@ public class FileMonitor extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(FileMonitor sourceFileMonitor, @NotNull org.gtk.gio.File file, @Nullable org.gtk.gio.File otherFile, @NotNull org.gtk.gio.FileMonitorEvent eventType);
+        void run(org.gtk.gio.File file, @Nullable org.gtk.gio.File otherFile, org.gtk.gio.FileMonitorEvent eventType);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceFileMonitor, MemoryAddress file, MemoryAddress otherFile, int eventType) {
+            run((org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(file)), org.gtk.gio.File.fromAddress).marshal(file, Ownership.NONE), (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(otherFile)), org.gtk.gio.File.fromAddress).marshal(otherFile, Ownership.NONE), org.gtk.gio.FileMonitorEvent.of(eventType));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -200,62 +188,56 @@ public class FileMonitor extends org.gtk.gobject.Object {
     public Signal<FileMonitor.Changed> onChanged(FileMonitor.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FileMonitor.Callbacks.class, "signalFileMonitorChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<FileMonitor.Changed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link FileMonitor.Builder} object constructs a {@link FileMonitor} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FileMonitor.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link FileMonitor.Build} object constructs a {@link FileMonitor} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FileMonitor} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FileMonitor} using {@link FileMonitor#castFrom}.
+         * {@link FileMonitor}.
          * @return A new instance of {@code FileMonitor} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FileMonitor construct() {
-            return FileMonitor.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FileMonitor.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FileMonitor build() {
+            return (FileMonitor) org.gtk.gobject.GObject.newWithProperties(
+                FileMonitor.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setCancelled(boolean cancelled) {
+        public Builder setCancelled(boolean cancelled) {
             names.add("cancelled");
             values.add(org.gtk.gobject.Value.create(cancelled));
             return this;
         }
         
-        public Build setRateLimit(int rateLimit) {
+        public Builder setRateLimit(int rateLimit) {
             names.add("rate-limit");
             values.add(org.gtk.gobject.Value.create(rateLimit));
             return this;
@@ -293,14 +275,5 @@ public class FileMonitor extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalFileMonitorChanged(MemoryAddress sourceFileMonitor, MemoryAddress file, MemoryAddress otherFile, int eventType, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FileMonitor.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FileMonitor(sourceFileMonitor, Ownership.NONE), new org.gtk.gio.File.FileImpl(file, Ownership.NONE), new org.gtk.gio.File.FileImpl(otherFile, Ownership.NONE), org.gtk.gio.FileMonitorEvent.of(eventType));
-        }
     }
 }

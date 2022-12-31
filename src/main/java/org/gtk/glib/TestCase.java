@@ -43,10 +43,12 @@ public class TestCase extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TestCase(Addressable address, Ownership ownership) {
+    protected TestCase(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TestCase> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestCase(input, ownership);
     
     /**
      * Free the {@code test_case}.

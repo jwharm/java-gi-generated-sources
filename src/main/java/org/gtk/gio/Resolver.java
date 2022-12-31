@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * {@link Resolver} functionality that also implement {@link SocketConnectable},
  * making it easy to connect to a remote host/service.
  */
-public class Resolver extends org.gtk.gobject.Object {
+public class Resolver extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -23,18 +23,16 @@ public class Resolver extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GResolver";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -42,30 +40,12 @@ public class Resolver extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Resolver(Addressable address, Ownership ownership) {
+    protected Resolver(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Resolver if its GType is a (or inherits from) "GResolver".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Resolver} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GResolver", a ClassCastException will be thrown.
-     */
-    public static Resolver castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Resolver.getType())) {
-            return new Resolver(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GResolver");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Resolver> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Resolver(input, ownership);
     
     /**
      * Synchronously reverse-resolves {@code address} to determine its
@@ -83,8 +63,7 @@ public class Resolver extends org.gtk.gobject.Object {
      *     form), or {@code null} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String lookupByAddress(@NotNull org.gtk.gio.InetAddress address, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+    public java.lang.String lookupByAddress(org.gtk.gio.InetAddress address, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -99,7 +78,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -110,19 +89,14 @@ public class Resolver extends org.gtk.gobject.Object {
      * @param cancellable a {@link Cancellable}, or {@code null}
      * @param callback callback to call after resolution completes
      */
-    public void lookupByAddressAsync(@NotNull org.gtk.gio.InetAddress address, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+    public void lookupByAddressAsync(org.gtk.gio.InetAddress address, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_resolver_lookup_by_address_async.invokeExact(
                     handle(),
                     address.handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -140,8 +114,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * form), or {@code null} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String lookupByAddressFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public java.lang.String lookupByAddressFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -155,7 +128,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -190,14 +163,13 @@ public class Resolver extends org.gtk.gobject.Object {
      * done with it. (You can use g_resolver_free_addresses() to do this.)
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.List lookupByName(@NotNull java.lang.String hostname, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
+    public org.gtk.glib.List lookupByName(java.lang.String hostname, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resolver_lookup_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(hostname),
+                    Marshal.stringToAddress.marshal(hostname, null),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -206,7 +178,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -218,19 +190,14 @@ public class Resolver extends org.gtk.gobject.Object {
      * @param cancellable a {@link Cancellable}, or {@code null}
      * @param callback callback to call after resolution completes
      */
-    public void lookupByNameAsync(@NotNull java.lang.String hostname, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
+    public void lookupByNameAsync(java.lang.String hostname, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_resolver_lookup_by_name_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(hostname),
+                    Marshal.stringToAddress.marshal(hostname, null),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,8 +216,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * for more details.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.List lookupByNameFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public org.gtk.glib.List lookupByNameFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -264,7 +230,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -280,15 +246,13 @@ public class Resolver extends org.gtk.gobject.Object {
      * done with it. (You can use g_resolver_free_addresses() to do this.)
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.List lookupByNameWithFlags(@NotNull java.lang.String hostname, @NotNull org.gtk.gio.ResolverNameLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gtk.glib.List lookupByNameWithFlags(java.lang.String hostname, org.gtk.gio.ResolverNameLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resolver_lookup_by_name_with_flags.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(hostname),
+                    Marshal.stringToAddress.marshal(hostname, null),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
@@ -298,7 +262,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -311,21 +275,15 @@ public class Resolver extends org.gtk.gobject.Object {
      * @param cancellable a {@link Cancellable}, or {@code null}
      * @param callback callback to call after resolution completes
      */
-    public void lookupByNameWithFlagsAsync(@NotNull java.lang.String hostname, @NotNull org.gtk.gio.ResolverNameLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void lookupByNameWithFlagsAsync(java.lang.String hostname, org.gtk.gio.ResolverNameLookupFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_resolver_lookup_by_name_with_flags_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(hostname),
+                    Marshal.stringToAddress.marshal(hostname, null),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,8 +302,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * for more details.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.List lookupByNameWithFlagsFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public org.gtk.glib.List lookupByNameWithFlagsFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -359,7 +316,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -382,15 +339,13 @@ public class Resolver extends org.gtk.gobject.Object {
      * g_variant_unref() to do this.)
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.List lookupRecords(@NotNull java.lang.String rrname, @NotNull org.gtk.gio.ResolverRecordType recordType, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(rrname, "Parameter 'rrname' must not be null");
-        java.util.Objects.requireNonNull(recordType, "Parameter 'recordType' must not be null");
+    public org.gtk.glib.List lookupRecords(java.lang.String rrname, org.gtk.gio.ResolverRecordType recordType, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resolver_lookup_records.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(rrname),
+                    Marshal.stringToAddress.marshal(rrname, null),
                     recordType.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
@@ -400,7 +355,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -413,21 +368,15 @@ public class Resolver extends org.gtk.gobject.Object {
      * @param cancellable a {@link Cancellable}, or {@code null}
      * @param callback callback to call after resolution completes
      */
-    public void lookupRecordsAsync(@NotNull java.lang.String rrname, @NotNull org.gtk.gio.ResolverRecordType recordType, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(rrname, "Parameter 'rrname' must not be null");
-        java.util.Objects.requireNonNull(recordType, "Parameter 'recordType' must not be null");
+    public void lookupRecordsAsync(java.lang.String rrname, org.gtk.gio.ResolverRecordType recordType, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_resolver_lookup_records_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(rrname),
+                    Marshal.stringToAddress.marshal(rrname, null),
                     recordType.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -449,8 +398,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * g_variant_unref() to do this.)
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.List lookupRecordsFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public org.gtk.glib.List lookupRecordsFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -464,7 +412,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -499,18 +447,15 @@ public class Resolver extends org.gtk.gobject.Object {
      * this.)
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.List lookupService(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(service, "Parameter 'service' must not be null");
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+    public org.gtk.glib.List lookupService(java.lang.String service, java.lang.String protocol, java.lang.String domain, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resolver_lookup_service.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(service),
-                    Interop.allocateNativeString(protocol),
-                    Interop.allocateNativeString(domain),
+                    Marshal.stringToAddress.marshal(service, null),
+                    Marshal.stringToAddress.marshal(protocol, null),
+                    Marshal.stringToAddress.marshal(domain, null),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -519,7 +464,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -534,23 +479,16 @@ public class Resolver extends org.gtk.gobject.Object {
      * @param cancellable a {@link Cancellable}, or {@code null}
      * @param callback callback to call after resolution completes
      */
-    public void lookupServiceAsync(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(service, "Parameter 'service' must not be null");
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+    public void lookupServiceAsync(java.lang.String service, java.lang.String protocol, java.lang.String domain, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_resolver_lookup_service_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(service),
-                    Interop.allocateNativeString(protocol),
-                    Interop.allocateNativeString(domain),
+                    Marshal.stringToAddress.marshal(service, null),
+                    Marshal.stringToAddress.marshal(protocol, null),
+                    Marshal.stringToAddress.marshal(domain, null),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -569,8 +507,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * details.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.List lookupServiceFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public org.gtk.glib.List lookupServiceFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -584,7 +521,7 @@ public class Resolver extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -611,7 +548,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_resolver_get_type.invokeExact();
@@ -628,8 +565,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * by hand.)
      * @param addresses a {@link org.gtk.glib.List} of {@link InetAddress}
      */
-    public static void freeAddresses(@NotNull org.gtk.glib.List addresses) {
-        java.util.Objects.requireNonNull(addresses, "Parameter 'addresses' must not be null");
+    public static void freeAddresses(org.gtk.glib.List addresses) {
         try {
             DowncallHandles.g_resolver_free_addresses.invokeExact(
                     addresses.handle());
@@ -645,8 +581,7 @@ public class Resolver extends org.gtk.gobject.Object {
      * results by hand.)
      * @param targets a {@link org.gtk.glib.List} of {@link SrvTarget}
      */
-    public static void freeTargets(@NotNull org.gtk.glib.List targets) {
-        java.util.Objects.requireNonNull(targets, "Parameter 'targets' must not be null");
+    public static void freeTargets(org.gtk.glib.List targets) {
         try {
             DowncallHandles.g_resolver_free_targets.invokeExact(
                     targets.handle());
@@ -661,19 +596,30 @@ public class Resolver extends org.gtk.gobject.Object {
      * many threads it should allocate for concurrent DNS resolutions.
      * @return the default {@link Resolver}.
      */
-    public static @NotNull org.gtk.gio.Resolver getDefault() {
+    public static org.gtk.gio.Resolver getDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resolver_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Resolver(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Resolver) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Resolver.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @FunctionalInterface
     public interface Reload {
-        void signalReceived(Resolver sourceResolver);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceResolver) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reload.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -685,52 +631,46 @@ public class Resolver extends org.gtk.gobject.Object {
     public Signal<Resolver.Reload> onReload(Resolver.Reload handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("reload"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Resolver.Callbacks.class, "signalResolverReload",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Resolver.Reload>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("reload"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Resolver.Builder} object constructs a {@link Resolver} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Resolver.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Resolver.Build} object constructs a {@link Resolver} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Resolver} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Resolver} using {@link Resolver#castFrom}.
+         * {@link Resolver}.
          * @return A new instance of {@code Resolver} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Resolver construct() {
-            return Resolver.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Resolver.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Resolver build() {
+            return (Resolver) org.gtk.gobject.GObject.newWithProperties(
+                Resolver.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -856,14 +796,5 @@ public class Resolver extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalResolverReload(MemoryAddress sourceResolver, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Resolver.Reload) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Resolver(sourceResolver, Ownership.NONE));
-        }
     }
 }

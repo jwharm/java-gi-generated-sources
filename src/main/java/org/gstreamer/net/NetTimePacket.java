@@ -17,18 +17,16 @@ public class NetTimePacket extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstNetTimePacket";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("local_time"),
-        Interop.valueLayout.C_LONG.withName("remote_time")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("local_time"),
+            Interop.valueLayout.C_LONG.withName("remote_time")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class NetTimePacket extends Struct {
      * Get the value of the field {@code local_time}
      * @return The value of the field {@code local_time}
      */
-    public org.gstreamer.gst.ClockTime localTime$get() {
+    public org.gstreamer.gst.ClockTime getLocalTime() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("local_time"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,17 +57,17 @@ public class NetTimePacket extends Struct {
      * Change the value of the field {@code local_time}
      * @param localTime The new value of the field {@code local_time}
      */
-    public void localTime$set(org.gstreamer.gst.ClockTime localTime) {
+    public void setLocalTime(org.gstreamer.gst.ClockTime localTime) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("local_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), localTime.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (localTime == null ? MemoryAddress.NULL : localTime.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code remote_time}
      * @return The value of the field {@code remote_time}
      */
-    public org.gstreamer.gst.ClockTime remoteTime$get() {
+    public org.gstreamer.gst.ClockTime getRemoteTime() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("remote_time"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,10 +78,10 @@ public class NetTimePacket extends Struct {
      * Change the value of the field {@code remote_time}
      * @param remoteTime The new value of the field {@code remote_time}
      */
-    public void remoteTime$set(org.gstreamer.gst.ClockTime remoteTime) {
+    public void setRemoteTime(org.gstreamer.gst.ClockTime remoteTime) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("remote_time"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), remoteTime.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (remoteTime == null ? MemoryAddress.NULL : remoteTime.getValue().longValue()));
     }
     
     /**
@@ -91,14 +89,15 @@ public class NetTimePacket extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NetTimePacket(Addressable address, Ownership ownership) {
+    protected NetTimePacket(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull byte[] buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NetTimePacket> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetTimePacket(input, ownership);
+    
+    private static MemoryAddress constructNew(byte[] buffer) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_net_time_packet_new.invokeExact(
                     Interop.allocateNativeArray(buffer, false));
@@ -119,7 +118,7 @@ public class NetTimePacket extends Struct {
      * MT safe. Caller owns return value (gst_net_time_packet_free to free).
      * @param buffer a buffer from which to construct the packet, or NULL
      */
-    public NetTimePacket(@NotNull byte[] buffer) {
+    public NetTimePacket(byte[] buffer) {
         super(constructNew(buffer), Ownership.FULL);
     }
     
@@ -127,7 +126,7 @@ public class NetTimePacket extends Struct {
      * Make a copy of {@code packet}.
      * @return a copy of {@code packet}, free with gst_net_time_packet_free().
      */
-    public @NotNull org.gstreamer.net.NetTimePacket copy() {
+    public org.gstreamer.net.NetTimePacket copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_net_time_packet_copy.invokeExact(
@@ -135,7 +134,7 @@ public class NetTimePacket extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.net.NetTimePacket(RESULT, Ownership.FULL);
+        return org.gstreamer.net.NetTimePacket.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -159,9 +158,7 @@ public class NetTimePacket extends Struct {
      * @return TRUE if successful, FALSE in case an error occurred.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean send(@NotNull org.gtk.gio.Socket socket, @NotNull org.gtk.gio.SocketAddress destAddress) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
-        java.util.Objects.requireNonNull(destAddress, "Parameter 'destAddress' must not be null");
+    public boolean send(org.gtk.gio.Socket socket, org.gtk.gio.SocketAddress destAddress) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -176,7 +173,7 @@ public class NetTimePacket extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -208,9 +205,7 @@ public class NetTimePacket extends Struct {
      *    with gst_net_time_packet_free() when done.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.net.NetTimePacket receive(@NotNull org.gtk.gio.Socket socket, @NotNull Out<org.gtk.gio.SocketAddress> srcAddress) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
-        java.util.Objects.requireNonNull(srcAddress, "Parameter 'srcAddress' must not be null");
+    public static org.gstreamer.net.NetTimePacket receive(org.gtk.gio.Socket socket, Out<org.gtk.gio.SocketAddress> srcAddress) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment srcAddressPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -225,8 +220,8 @@ public class NetTimePacket extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        srcAddress.set(new org.gtk.gio.SocketAddress(srcAddressPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gstreamer.net.NetTimePacket(RESULT, Ownership.FULL);
+        srcAddress.set((org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(srcAddressPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gio.SocketAddress.fromAddress).marshal(srcAddressPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return org.gstreamer.net.NetTimePacket.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -267,31 +262,35 @@ public class NetTimePacket extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link NetTimePacket.Builder} object constructs a {@link NetTimePacket} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link NetTimePacket.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private NetTimePacket struct;
+        private final NetTimePacket struct;
         
-         /**
-         * A {@link NetTimePacket.Build} object constructs a {@link NetTimePacket} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = NetTimePacket.allocate();
         }
         
          /**
          * Finish building the {@link NetTimePacket} struct.
          * @return A new instance of {@code NetTimePacket} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NetTimePacket construct() {
+        public NetTimePacket build() {
             return struct;
         }
         
@@ -300,7 +299,7 @@ public class NetTimePacket extends Struct {
          * @param localTime The value for the {@code localTime} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLocalTime(org.gstreamer.gst.ClockTime localTime) {
+        public Builder setLocalTime(org.gstreamer.gst.ClockTime localTime) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("local_time"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (localTime == null ? MemoryAddress.NULL : localTime.getValue().longValue()));
@@ -312,7 +311,7 @@ public class NetTimePacket extends Struct {
          * @param remoteTime The value for the {@code remoteTime} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRemoteTime(org.gstreamer.gst.ClockTime remoteTime) {
+        public Builder setRemoteTime(org.gstreamer.gst.ClockTime remoteTime) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("remote_time"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (remoteTime == null ? MemoryAddress.NULL : remoteTime.getValue().longValue()));

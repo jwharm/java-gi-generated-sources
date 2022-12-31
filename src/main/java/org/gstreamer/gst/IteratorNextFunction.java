@@ -15,5 +15,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface IteratorNextFunction {
-        org.gstreamer.gst.IteratorResult onIteratorNextFunction(@NotNull org.gstreamer.gst.Iterator it, @NotNull org.gtk.gobject.Value result);
+    org.gstreamer.gst.IteratorResult run(org.gstreamer.gst.Iterator it, org.gtk.gobject.Value result);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress it, MemoryAddress result) {
+        var RESULT = run(org.gstreamer.gst.Iterator.fromAddress.marshal(it, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(result, Ownership.NONE));
+        return RESULT.getValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IteratorNextFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

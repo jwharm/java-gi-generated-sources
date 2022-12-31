@@ -40,8 +40,10 @@ public class PhysicalDevice16BitStorageFeaturesKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDevice16BitStorageFeaturesKHR(Addressable address, Ownership ownership) {
+    protected PhysicalDevice16BitStorageFeaturesKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDevice16BitStorageFeaturesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDevice16BitStorageFeaturesKHR(input, ownership);
 }

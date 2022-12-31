@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface MiniObjectNotify {
-        void onMiniObjectNotify(@NotNull org.gstreamer.gst.MiniObject obj);
+    void run(org.gstreamer.gst.MiniObject obj);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress userData, MemoryAddress obj) {
+        run(org.gstreamer.gst.MiniObject.fromAddress.marshal(obj, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MiniObjectNotify.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

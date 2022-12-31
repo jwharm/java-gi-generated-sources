@@ -13,4 +13,14 @@ public class MaskT extends io.github.jwharm.javagi.Alias<Integer> {
     public MaskT(int value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static MaskT[] fromNativeArray(MemoryAddress address, long length) {
+        MaskT[] array = new MaskT[(int) length];
+        long bytesSize = Interop.valueLayout.C_INT.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new MaskT(address.get(Interop.valueLayout.C_INT, i * bytesSize));
+        }
+        return array;
+    }
 }

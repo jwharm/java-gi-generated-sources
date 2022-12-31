@@ -20,20 +20,18 @@ public class FeatureT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "hb_feature_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("tag"),
-        Interop.valueLayout.C_INT.withName("value"),
-        Interop.valueLayout.C_INT.withName("start"),
-        Interop.valueLayout.C_INT.withName("end")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("tag"),
+            Interop.valueLayout.C_INT.withName("value"),
+            Interop.valueLayout.C_INT.withName("start"),
+            Interop.valueLayout.C_INT.withName("end")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,7 +51,7 @@ public class FeatureT extends Struct {
      * Get the value of the field {@code tag}
      * @return The value of the field {@code tag}
      */
-    public org.harfbuzz.TagT tag$get() {
+    public org.harfbuzz.TagT getTag() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tag"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -64,17 +62,17 @@ public class FeatureT extends Struct {
      * Change the value of the field {@code tag}
      * @param tag The new value of the field {@code tag}
      */
-    public void tag$set(org.harfbuzz.TagT tag) {
+    public void setTag(org.harfbuzz.TagT tag) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tag.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code value}
      * @return The value of the field {@code value}
      */
-    public int value$get() {
+    public int getValue() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -85,7 +83,7 @@ public class FeatureT extends Struct {
      * Change the value of the field {@code value}
      * @param value The new value of the field {@code value}
      */
-    public void value$set(int value) {
+    public void setValue(int value) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
@@ -95,7 +93,7 @@ public class FeatureT extends Struct {
      * Get the value of the field {@code start}
      * @return The value of the field {@code start}
      */
-    public int start$get() {
+    public int getStart() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -106,7 +104,7 @@ public class FeatureT extends Struct {
      * Change the value of the field {@code start}
      * @param start The new value of the field {@code start}
      */
-    public void start$set(int start) {
+    public void setStart(int start) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -116,7 +114,7 @@ public class FeatureT extends Struct {
      * Get the value of the field {@code end}
      * @return The value of the field {@code end}
      */
-    public int end$get() {
+    public int getEnd() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -127,7 +125,7 @@ public class FeatureT extends Struct {
      * Change the value of the field {@code end}
      * @param end The new value of the field {@code end}
      */
-    public void end$set(int end) {
+    public void setEnd(int end) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
@@ -138,10 +136,12 @@ public class FeatureT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FeatureT(Addressable address, Ownership ownership) {
+    protected FeatureT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FeatureT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FeatureT(input, ownership);
     
     /**
      * Converts a {@link FeatureT} into a {@code NULL}-terminated string in the format
@@ -150,23 +150,20 @@ public class FeatureT extends Struct {
      * @param buf output string
      * @param size the allocated size of {@code buf}
      */
-    public void String(@NotNull Out<java.lang.String[]> buf, Out<Integer> size) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public void String(Out<java.lang.String[]> buf, int size) {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_feature_to_string.invokeExact(
                     handle(),
                     (Addressable) bufPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        java.lang.String[] bufARRAY = new java.lang.String[size.get().intValue()];
-        for (int I = 0; I < size.get().intValue(); I++) {
+        java.lang.String[] bufARRAY = new java.lang.String[size];
+        for (int I = 0; I < size; I++) {
             var OBJ = bufPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            bufARRAY[I] = Interop.getStringFrom(OBJ);
+            bufARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         buf.set(bufARRAY);
     }
@@ -179,31 +176,35 @@ public class FeatureT extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link FeatureT.Builder} object constructs a {@link FeatureT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link FeatureT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private FeatureT struct;
+        private final FeatureT struct;
         
-         /**
-         * A {@link FeatureT.Build} object constructs a {@link FeatureT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = FeatureT.allocate();
         }
         
          /**
          * Finish building the {@link FeatureT} struct.
          * @return A new instance of {@code FeatureT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FeatureT construct() {
+        public FeatureT build() {
             return struct;
         }
         
@@ -212,7 +213,7 @@ public class FeatureT extends Struct {
          * @param tag The value for the {@code tag} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTag(org.harfbuzz.TagT tag) {
+        public Builder setTag(org.harfbuzz.TagT tag) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tag"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
@@ -226,7 +227,7 @@ public class FeatureT extends Struct {
          * @param value The value for the {@code value} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(int value) {
+        public Builder setValue(int value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
@@ -238,7 +239,7 @@ public class FeatureT extends Struct {
          * @param start The value for the {@code start} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStart(int start) {
+        public Builder setStart(int start) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -250,7 +251,7 @@ public class FeatureT extends Struct {
          * @param end The value for the {@code end} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnd(int end) {
+        public Builder setEnd(int end) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);

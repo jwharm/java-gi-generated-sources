@@ -19,18 +19,16 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
     
     private static final java.lang.String C_TYPE_NAME = "GFilterOutputStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("base_stream")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("base_stream")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -38,36 +36,18 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FilterOutputStream(Addressable address, Ownership ownership) {
+    protected FilterOutputStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FilterOutputStream if its GType is a (or inherits from) "GFilterOutputStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FilterOutputStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GFilterOutputStream", a ClassCastException will be thrown.
-     */
-    public static FilterOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FilterOutputStream.getType())) {
-            return new FilterOutputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFilterOutputStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FilterOutputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FilterOutputStream(input, ownership);
     
     /**
      * Gets the base stream for the filter stream.
      * @return a {@link OutputStream}.
      */
-    public @NotNull org.gtk.gio.OutputStream getBaseStream() {
+    public org.gtk.gio.OutputStream getBaseStream() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filter_output_stream_get_base_stream.invokeExact(
@@ -75,7 +55,7 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.OutputStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.OutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.OutputStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -91,7 +71,7 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -102,7 +82,7 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
         try {
             DowncallHandles.g_filter_output_stream_set_close_base_stream.invokeExact(
                     handle(),
-                    closeBase ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(closeBase, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +92,7 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_filter_output_stream_get_type.invokeExact();
@@ -121,48 +101,50 @@ public class FilterOutputStream extends org.gtk.gio.OutputStream {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link FilterOutputStream.Builder} object constructs a {@link FilterOutputStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FilterOutputStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.OutputStream.Build {
+    public static class Builder extends org.gtk.gio.OutputStream.Builder {
         
-         /**
-         * A {@link FilterOutputStream.Build} object constructs a {@link FilterOutputStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FilterOutputStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FilterOutputStream} using {@link FilterOutputStream#castFrom}.
+         * {@link FilterOutputStream}.
          * @return A new instance of {@code FilterOutputStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FilterOutputStream construct() {
-            return FilterOutputStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FilterOutputStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FilterOutputStream build() {
+            return (FilterOutputStream) org.gtk.gobject.GObject.newWithProperties(
+                FilterOutputStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setBaseStream(org.gtk.gio.OutputStream baseStream) {
+        public Builder setBaseStream(org.gtk.gio.OutputStream baseStream) {
             names.add("base-stream");
             values.add(org.gtk.gobject.Value.create(baseStream));
             return this;
         }
         
-        public Build setCloseBaseStream(boolean closeBaseStream) {
+        public Builder setCloseBaseStream(boolean closeBaseStream) {
             names.add("close-base-stream");
             values.add(org.gtk.gobject.Value.create(closeBaseStream));
             return this;

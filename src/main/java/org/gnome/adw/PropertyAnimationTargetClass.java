@@ -40,8 +40,10 @@ public class PropertyAnimationTargetClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PropertyAnimationTargetClass(Addressable address, Ownership ownership) {
+    protected PropertyAnimationTargetClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PropertyAnimationTargetClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PropertyAnimationTargetClass(input, ownership);
 }

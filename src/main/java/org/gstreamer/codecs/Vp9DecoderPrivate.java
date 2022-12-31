@@ -40,8 +40,10 @@ public class Vp9DecoderPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Vp9DecoderPrivate(Addressable address, Ownership ownership) {
+    protected Vp9DecoderPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Vp9DecoderPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp9DecoderPrivate(input, ownership);
 }

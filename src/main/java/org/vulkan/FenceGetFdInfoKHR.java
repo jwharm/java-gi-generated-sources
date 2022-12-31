@@ -40,8 +40,10 @@ public class FenceGetFdInfoKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FenceGetFdInfoKHR(Addressable address, Ownership ownership) {
+    protected FenceGetFdInfoKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FenceGetFdInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FenceGetFdInfoKHR(input, ownership);
 }

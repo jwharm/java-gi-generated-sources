@@ -16,18 +16,16 @@ public class ByteArray extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GByteArray";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.C_INT.withName("len")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.C_INT.withName("len")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,7 +45,7 @@ public class ByteArray extends Struct {
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public PointerByte data$get() {
+    public PointerByte getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -58,17 +56,17 @@ public class ByteArray extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(PointerByte data) {
+    public void setData(PointerByte data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
     }
     
     /**
      * Get the value of the field {@code len}
      * @return The value of the field {@code len}
      */
-    public int len$get() {
+    public int getLen() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -79,7 +77,7 @@ public class ByteArray extends Struct {
      * Change the value of the field {@code len}
      * @param len The new value of the field {@code len}
      */
-    public void len$set(int len) {
+    public void setLen(int len) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
@@ -90,10 +88,12 @@ public class ByteArray extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ByteArray(Addressable address, Ownership ownership) {
+    protected ByteArray(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ByteArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ByteArray(input, ownership);
     
     /**
      * Adds the given bytes to the end of the {@link ByteArray}.
@@ -103,9 +103,7 @@ public class ByteArray extends Struct {
      * @param len the number of bytes to add
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte append(@NotNull byte[] array, PointerByte data, int len) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static PointerByte append(byte[] array, PointerByte data, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_append.invokeExact(
@@ -128,13 +126,12 @@ public class ByteArray extends Struct {
      * @return the element data if {@code free_segment} is {@code false}, otherwise
      *          {@code null}.  The element data should be freed using g_free().
      */
-    public static PointerByte free(@NotNull byte[] array, boolean freeSegment) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerByte free(byte[] array, boolean freeSegment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    freeSegment ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(freeSegment, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,8 +151,7 @@ public class ByteArray extends Struct {
      * @return a new immutable {@link Bytes} representing same
      *     byte data that was in the array
      */
-    public static @NotNull org.gtk.glib.Bytes freeToBytes(@NotNull byte[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static org.gtk.glib.Bytes freeToBytes(byte[] array) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free_to_bytes.invokeExact(
@@ -163,14 +159,14 @@ public class ByteArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new {@link ByteArray} with a reference count of 1.
      * @return the new {@link ByteArray}
      */
-    public static @NotNull PointerByte new_() {
+    public static PointerByte new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new.invokeExact();
@@ -191,8 +187,7 @@ public class ByteArray extends Struct {
      * @param len length of {@code data}
      * @return a new {@link ByteArray}
      */
-    public static @NotNull PointerByte newTake(@NotNull byte[] data, long len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static PointerByte newTake(byte[] data, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new_take.invokeExact(
@@ -212,9 +207,7 @@ public class ByteArray extends Struct {
      * @param len the number of bytes to add
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte prepend(@NotNull byte[] array, PointerByte data, int len) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static PointerByte prepend(byte[] array, PointerByte data, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_prepend.invokeExact(
@@ -233,8 +226,7 @@ public class ByteArray extends Struct {
      * @param array A {@link ByteArray}
      * @return The passed in {@link ByteArray}
      */
-    public static @NotNull PointerByte ref(@NotNull byte[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerByte ref(byte[] array) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_ref.invokeExact(
@@ -252,8 +244,7 @@ public class ByteArray extends Struct {
      * @param index the index of the byte to remove
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte removeIndex(@NotNull byte[] array, int index) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerByte removeIndex(byte[] array, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index.invokeExact(
@@ -274,8 +265,7 @@ public class ByteArray extends Struct {
      * @param index the index of the byte to remove
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte removeIndexFast(@NotNull byte[] array, int index) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerByte removeIndexFast(byte[] array, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_index_fast.invokeExact(
@@ -295,8 +285,7 @@ public class ByteArray extends Struct {
      * @param length the number of bytes to remove
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte removeRange(@NotNull byte[] array, int index, int length) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerByte removeRange(byte[] array, int index, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_remove_range.invokeExact(
@@ -315,8 +304,7 @@ public class ByteArray extends Struct {
      * @param length the new size of the {@link ByteArray}
      * @return the {@link ByteArray}
      */
-    public static @NotNull PointerByte setSize(@NotNull byte[] array, int length) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerByte setSize(byte[] array, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_set_size.invokeExact(
@@ -336,7 +324,7 @@ public class ByteArray extends Struct {
      * @param reservedSize number of bytes preallocated
      * @return the new {@link ByteArray}
      */
-    public static @NotNull PointerByte sizedNew(int reservedSize) {
+    public static PointerByte sizedNew(int reservedSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_sized_new.invokeExact(
@@ -361,8 +349,14 @@ public class ByteArray extends Struct {
      * @param array a {@link ByteArray}
      * @param compareFunc comparison function
      */
-    public static void sort(@NotNull byte[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void sort(byte[] array, org.gtk.glib.CompareFunc compareFunc) {
+        try {
+            DowncallHandles.g_byte_array_sort.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) compareFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -371,18 +365,12 @@ public class ByteArray extends Struct {
      * @param array a {@link ByteArray}
      * @param compareFunc comparison function
      */
-    public static void sortWithData(@NotNull byte[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public static void sortWithData(byte[] array, org.gtk.glib.CompareDataFunc compareFunc) {
         try {
             DowncallHandles.g_byte_array_sort_with_data.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(compareFunc)));
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -398,19 +386,17 @@ public class ByteArray extends Struct {
      * @return the element data, which should be
      *     freed using g_free().
      */
-    public static PointerByte steal(@NotNull byte[] array, Out<Long> len) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
+    public static PointerByte steal(byte[] array, Out<Long> len) {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_steal.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) lenPOINTER.address());
+                    (Addressable) (len == null ? MemoryAddress.NULL : (Addressable) lenPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (len != null) len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerByte(RESULT);
     }
     
@@ -421,8 +407,7 @@ public class ByteArray extends Struct {
      * thread.
      * @param array A {@link ByteArray}
      */
-    public static void unref(@NotNull byte[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static void unref(byte[] array) {
         try {
             DowncallHandles.g_byte_array_unref.invokeExact(
                     Interop.allocateNativeArray(array, false));
@@ -529,31 +514,35 @@ public class ByteArray extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link ByteArray.Builder} object constructs a {@link ByteArray} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ByteArray.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ByteArray struct;
+        private final ByteArray struct;
         
-         /**
-         * A {@link ByteArray.Build} object constructs a {@link ByteArray} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ByteArray.allocate();
         }
         
          /**
          * Finish building the {@link ByteArray} struct.
          * @return A new instance of {@code ByteArray} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ByteArray construct() {
+        public ByteArray build() {
             return struct;
         }
         
@@ -563,7 +552,7 @@ public class ByteArray extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(PointerByte data) {
+        public Builder setData(PointerByte data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
@@ -575,7 +564,7 @@ public class ByteArray extends Struct {
          * @param len The value for the {@code len} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLen(int len) {
+        public Builder setLen(int len) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("len"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);

@@ -25,11 +25,15 @@ public class OtMathGlyphPartFlagsT extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public OtMathGlyphPartFlagsT or(OtMathGlyphPartFlagsT mask) {
-        return new OtMathGlyphPartFlagsT(this.getValue() | mask.getValue());
+    public OtMathGlyphPartFlagsT or(OtMathGlyphPartFlagsT... masks) {
+        int value = this.getValue();
+        for (OtMathGlyphPartFlagsT arg : masks) {
+            value |= arg.getValue();
+        }
+        return new OtMathGlyphPartFlagsT(value);
     }
     
     /**
@@ -39,7 +43,8 @@ public class OtMathGlyphPartFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static OtMathGlyphPartFlagsT combined(OtMathGlyphPartFlagsT mask, OtMathGlyphPartFlagsT... masks) {
-        int value = mask.getValue();        for (OtMathGlyphPartFlagsT arg : masks) {
+        int value = mask.getValue();
+        for (OtMathGlyphPartFlagsT arg : masks) {
             value |= arg.getValue();
         }
         return new OtMathGlyphPartFlagsT(value);

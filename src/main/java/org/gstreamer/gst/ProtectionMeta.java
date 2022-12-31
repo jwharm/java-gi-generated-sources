@@ -18,18 +18,16 @@ public class ProtectionMeta extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstProtectionMeta";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
-        Interop.valueLayout.ADDRESS.withName("info")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
+            Interop.valueLayout.ADDRESS.withName("info")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,30 +47,40 @@ public class ProtectionMeta extends Struct {
      * Get the value of the field {@code meta}
      * @return The value of the field {@code meta}
      */
-    public org.gstreamer.gst.Meta meta$get() {
+    public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return new org.gstreamer.gst.Meta(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code meta}
+     * @param meta The new value of the field {@code meta}
+     */
+    public void setMeta(org.gstreamer.gst.Meta meta) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
     }
     
     /**
      * Get the value of the field {@code info}
      * @return The value of the field {@code info}
      */
-    public org.gstreamer.gst.Structure info$get() {
+    public org.gstreamer.gst.Structure getInfo_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("info"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code info}
      * @param info The new value of the field {@code info}
      */
-    public void info$set(org.gstreamer.gst.Structure info) {
+    public void setInfo(org.gstreamer.gst.Structure info) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), info.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
     }
     
     /**
@@ -80,19 +88,21 @@ public class ProtectionMeta extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ProtectionMeta(Addressable address, Ownership ownership) {
+    protected ProtectionMeta(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo getInfo() {
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ProtectionMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProtectionMeta(input, ownership);
+    
+    public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_protection_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -103,31 +113,35 @@ public class ProtectionMeta extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link ProtectionMeta.Builder} object constructs a {@link ProtectionMeta} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ProtectionMeta.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ProtectionMeta struct;
+        private final ProtectionMeta struct;
         
-         /**
-         * A {@link ProtectionMeta.Build} object constructs a {@link ProtectionMeta} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ProtectionMeta.allocate();
         }
         
          /**
          * Finish building the {@link ProtectionMeta} struct.
          * @return A new instance of {@code ProtectionMeta} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ProtectionMeta construct() {
+        public ProtectionMeta build() {
             return struct;
         }
         
@@ -136,7 +150,7 @@ public class ProtectionMeta extends Struct {
          * @param meta The value for the {@code meta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMeta(org.gstreamer.gst.Meta meta) {
+        public Builder setMeta(org.gstreamer.gst.Meta meta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
@@ -148,7 +162,7 @@ public class ProtectionMeta extends Struct {
          * @param info The value for the {@code info} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInfo(org.gstreamer.gst.Structure info) {
+        public Builder setInfo(org.gstreamer.gst.Structure info) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));

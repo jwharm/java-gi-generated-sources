@@ -14,5 +14,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ClearHandleFunc {
-        void onClearHandleFunc(int handleId);
+    void run(int handleId);
+
+    @ApiStatus.Internal default void upcall(int handleId) {
+        run(handleId);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClearHandleFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

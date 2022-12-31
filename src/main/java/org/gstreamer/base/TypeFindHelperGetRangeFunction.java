@@ -16,5 +16,19 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TypeFindHelperGetRangeFunction {
-        org.gstreamer.gst.FlowReturn onTypeFindHelperGetRangeFunction(@NotNull org.gstreamer.gst.Object obj, @Nullable org.gstreamer.gst.Object parent, long offset, int length, @NotNull Out<PointerProxy<org.gstreamer.gst.Buffer>> buffer);
+    org.gstreamer.gst.FlowReturn run(org.gstreamer.gst.GstObject obj, @Nullable org.gstreamer.gst.GstObject parent, long offset, int length, Out<org.gstreamer.gst.Buffer> buffer);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress obj, MemoryAddress parent, long offset, int length, MemoryAddress buffer) {
+        Out<org.gstreamer.gst.Buffer> bufferOUT = new Out<>(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.FULL));
+        var RESULT = run((org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(obj)), org.gstreamer.gst.GstObject.fromAddress).marshal(obj, Ownership.NONE), (org.gstreamer.gst.GstObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gstreamer.gst.GstObject.fromAddress).marshal(parent, Ownership.NONE), offset, length, bufferOUT);
+        buffer.set(Interop.valueLayout.ADDRESS, 0, bufferOUT.get().handle());
+        return RESULT.getValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TypeFindHelperGetRangeFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

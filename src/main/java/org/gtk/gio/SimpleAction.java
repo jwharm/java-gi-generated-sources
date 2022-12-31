@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * See also {@code GtkAction}.
  */
-public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.Action {
+public class SimpleAction extends org.gtk.gobject.GObject implements org.gtk.gio.Action {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -34,37 +34,18 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SimpleAction(Addressable address, Ownership ownership) {
+    protected SimpleAction(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SimpleAction if its GType is a (or inherits from) "GSimpleAction".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SimpleAction} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSimpleAction", a ClassCastException will be thrown.
-     */
-    public static SimpleAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SimpleAction.getType())) {
-            return new SimpleAction(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSimpleAction");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SimpleAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleAction(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_action_new.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -81,17 +62,15 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param parameterType the type of parameter that will be passed to
      *   handlers for the {@link SimpleAction}::activate signal, or {@code null} for no parameter
      */
-    public SimpleAction(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
+    public SimpleAction(java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType) {
         super(constructNew(name, parameterType), Ownership.FULL);
     }
     
-    private static Addressable constructNewStateful(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, @NotNull org.gtk.glib.Variant state) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewStateful(java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_action_new_stateful.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     (Addressable) (parameterType == null ? MemoryAddress.NULL : parameterType.handle()),
                     state.handle());
         } catch (Throwable ERR) {
@@ -113,8 +92,9 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param state the initial state of the action
      * @return a new {@link SimpleAction}
      */
-    public static SimpleAction newStateful(@NotNull java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, @NotNull org.gtk.glib.Variant state) {
-        return new SimpleAction(constructNewStateful(name, parameterType, state), Ownership.FULL);
+    public static SimpleAction newStateful(java.lang.String name, @Nullable org.gtk.glib.VariantType parameterType, org.gtk.glib.Variant state) {
+        var RESULT = constructNewStateful(name, parameterType, state);
+        return (org.gtk.gio.SimpleAction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SimpleAction.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -131,7 +111,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
         try {
             DowncallHandles.g_simple_action_set_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -150,8 +130,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * If the {@code value} GVariant is floating, it is consumed.
      * @param value the new {@link org.gtk.glib.Variant} for the state
      */
-    public void setState(@NotNull org.gtk.glib.Variant value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setState(org.gtk.glib.Variant value) {
         try {
             DowncallHandles.g_simple_action_set_state.invokeExact(
                     handle(),
@@ -182,7 +161,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_simple_action_get_type.invokeExact();
@@ -194,7 +173,18 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(SimpleAction sourceSimpleAction, @Nullable org.gtk.glib.Variant parameter);
+        void run(@Nullable org.gtk.glib.Variant parameter);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSimpleAction, MemoryAddress parameter) {
+            run(org.gtk.glib.Variant.fromAddress.marshal(parameter, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -217,16 +207,8 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
     public Signal<SimpleAction.Activate> onActivate(SimpleAction.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SimpleAction.Callbacks.class, "signalSimpleActionActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SimpleAction.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,7 +216,18 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
     
     @FunctionalInterface
     public interface ChangeState {
-        void signalReceived(SimpleAction sourceSimpleAction, @Nullable org.gtk.glib.Variant value);
+        void run(@Nullable org.gtk.glib.Variant value);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSimpleAction, MemoryAddress value) {
+            run(org.gtk.glib.Variant.fromAddress.marshal(value, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeState.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -277,52 +270,46 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
     public Signal<SimpleAction.ChangeState> onChangeState(SimpleAction.ChangeState handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("change-state"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SimpleAction.Callbacks.class, "signalSimpleActionChangeState",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SimpleAction.ChangeState>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("change-state"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link SimpleAction.Builder} object constructs a {@link SimpleAction} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SimpleAction.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SimpleAction.Build} object constructs a {@link SimpleAction} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SimpleAction} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SimpleAction} using {@link SimpleAction#castFrom}.
+         * {@link SimpleAction}.
          * @return A new instance of {@code SimpleAction} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SimpleAction construct() {
-            return SimpleAction.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SimpleAction.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SimpleAction build() {
+            return (SimpleAction) org.gtk.gobject.GObject.newWithProperties(
+                SimpleAction.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -334,7 +321,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param enabled The value for the {@code enabled} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnabled(boolean enabled) {
+        public Builder setEnabled(boolean enabled) {
             names.add("enabled");
             values.add(org.gtk.gobject.Value.create(enabled));
             return this;
@@ -346,7 +333,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
@@ -358,7 +345,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param parameterType The value for the {@code parameter-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParameterType(org.gtk.glib.VariantType parameterType) {
+        public Builder setParameterType(org.gtk.glib.VariantType parameterType) {
             names.add("parameter-type");
             values.add(org.gtk.gobject.Value.create(parameterType));
             return this;
@@ -369,7 +356,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param state The value for the {@code state} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setState(org.gtk.glib.Variant state) {
+        public Builder setState(org.gtk.glib.Variant state) {
             names.add("state");
             values.add(org.gtk.gobject.Value.create(state));
             return this;
@@ -381,7 +368,7 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param stateType The value for the {@code state-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStateType(org.gtk.glib.VariantType stateType) {
+        public Builder setStateType(org.gtk.glib.VariantType stateType) {
             names.add("state-type");
             values.add(org.gtk.gobject.Value.create(stateType));
             return this;
@@ -425,20 +412,5 @@ public class SimpleAction extends org.gtk.gobject.Object implements org.gtk.gio.
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalSimpleActionActivate(MemoryAddress sourceSimpleAction, MemoryAddress parameter, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SimpleAction.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SimpleAction(sourceSimpleAction, Ownership.NONE), new org.gtk.glib.Variant(parameter, Ownership.NONE));
-        }
-        
-        public static void signalSimpleActionChangeState(MemoryAddress sourceSimpleAction, MemoryAddress value, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SimpleAction.ChangeState) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SimpleAction(sourceSimpleAction, Ownership.NONE), new org.gtk.glib.Variant(value, Ownership.NONE));
-        }
     }
 }

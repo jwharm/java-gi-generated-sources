@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class Play extends org.gstreamer.gst.Object {
+public class Play extends org.gstreamer.gst.GstObject {
     
     static {
         GstPlay.javagi$ensureInitialized();
@@ -27,40 +27,26 @@ public class Play extends org.gstreamer.gst.Object {
      * <p>
      * Because Play is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Play(Addressable address, Ownership ownership) {
+    protected Play(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Play if its GType is a (or inherits from) "GstPlay".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Play} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPlay", a ClassCastException will be thrown.
-     */
-    public static Play castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Play.getType())) {
-            return new Play(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPlay");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Play> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Play(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gstreamer.play.PlayVideoRenderer videoRenderer) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gstreamer.play.PlayVideoRenderer videoRenderer) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_new.invokeExact(
                     (Addressable) (videoRenderer == null ? MemoryAddress.NULL : videoRenderer.handle()));
@@ -104,8 +90,7 @@ public class Play extends org.gstreamer.gst.Object {
      * @return The current value of {@code type}, between [0,1]. In case of
      *   error -1 is returned.
      */
-    public double getColorBalance(@NotNull org.gstreamer.play.PlayColorBalanceType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public double getColorBalance(org.gstreamer.play.PlayColorBalanceType type) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_play_get_color_balance.invokeExact(
@@ -124,7 +109,7 @@ public class Play extends org.gstreamer.gst.Object {
      * @return a copy of the current configuration of {@code play}. Use
      * gst_structure_free() after usage or gst_play_set_config().
      */
-    public @NotNull org.gstreamer.gst.Structure getConfig() {
+    public org.gstreamer.gst.Structure getConfig() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_get_config.invokeExact(
@@ -132,7 +117,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -149,7 +134,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.play.PlayAudioInfo(RESULT, Ownership.FULL);
+        return (org.gstreamer.play.PlayAudioInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlayAudioInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -166,7 +151,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.play.PlaySubtitleInfo(RESULT, Ownership.FULL);
+        return (org.gstreamer.play.PlaySubtitleInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlaySubtitleInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -183,7 +168,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.play.PlayVideoInfo(RESULT, Ownership.FULL);
+        return (org.gstreamer.play.PlayVideoInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlayVideoInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     public @Nullable java.lang.String getCurrentVisualization() {
@@ -194,7 +179,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -202,7 +187,7 @@ public class Play extends org.gstreamer.gst.Object {
      * @return the duration of the currently-playing media stream, in
      * nanoseconds.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getDuration() {
+    public org.gstreamer.gst.ClockTime getDuration() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_play_get_duration.invokeExact(
@@ -227,7 +212,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.play.PlayMediaInfo(RESULT, Ownership.FULL);
+        return (org.gstreamer.play.PlayMediaInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlayMediaInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -245,7 +230,7 @@ public class Play extends org.gstreamer.gst.Object {
      * fill memory. To avoid that, the bus has to be set "flushing".
      * @return The play message bus instance
      */
-    public @NotNull org.gstreamer.gst.Bus getMessageBus() {
+    public org.gstreamer.gst.Bus getMessageBus() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_get_message_bus.invokeExact(
@@ -253,14 +238,14 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Bus(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Retrieve the current value of the indicated {@code type}.
      * @return The current value of {@code type}, Default: 0x00000000 "none
      */
-    public @NotNull org.gstreamer.video.VideoMultiviewFlags getMultiviewFlags() {
+    public org.gstreamer.video.VideoMultiviewFlags getMultiviewFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_play_get_multiview_flags.invokeExact(
@@ -275,7 +260,7 @@ public class Play extends org.gstreamer.gst.Object {
      * Retrieve the current value of the indicated {@code type}.
      * @return The current value of {@code type}, Default: -1 "none"
      */
-    public @NotNull org.gstreamer.video.VideoMultiviewFramePacking getMultiviewMode() {
+    public org.gstreamer.video.VideoMultiviewFramePacking getMultiviewMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_play_get_multiview_mode.invokeExact(
@@ -294,10 +279,10 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull org.gstreamer.gst.Element getPipeline() {
+    public org.gstreamer.gst.Element getPipeline() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_get_pipeline.invokeExact(
@@ -305,10 +290,10 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.gst.ClockTime getPosition() {
+    public org.gstreamer.gst.ClockTime getPosition() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_play_get_position.invokeExact(
@@ -343,7 +328,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -374,7 +359,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -390,8 +375,7 @@ public class Play extends org.gstreamer.gst.Object {
      * @param config Additional configuration
      * @return Current video snapshot sample or {@code null} on failure
      */
-    public @Nullable org.gstreamer.gst.Sample getVideoSnapshot(@NotNull org.gstreamer.play.PlaySnapshotFormat format, @Nullable org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public @Nullable org.gstreamer.gst.Sample getVideoSnapshot(org.gstreamer.play.PlaySnapshotFormat format, @Nullable org.gstreamer.gst.Structure config) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_get_video_snapshot.invokeExact(
@@ -401,7 +385,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Sample(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -432,7 +416,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -464,8 +448,7 @@ public class Play extends org.gstreamer.gst.Object {
      * in nanoseconds.
      * @param position position to seek in nanoseconds
      */
-    public void seek(@NotNull org.gstreamer.gst.ClockTime position) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public void seek(org.gstreamer.gst.ClockTime position) {
         try {
             DowncallHandles.gst_play_seek.invokeExact(
                     handle(),
@@ -484,7 +467,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -495,7 +478,7 @@ public class Play extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_play_set_audio_track_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -521,8 +504,7 @@ public class Play extends org.gstreamer.gst.Object {
      * @param type {@link PlayColorBalanceType}
      * @param value The new value for the {@code type}, ranged [0,1]
      */
-    public void setColorBalance(@NotNull org.gstreamer.play.PlayColorBalanceType type, double value) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void setColorBalance(org.gstreamer.play.PlayColorBalanceType type, double value) {
         try {
             DowncallHandles.gst_play_set_color_balance.invokeExact(
                     handle(),
@@ -546,8 +528,7 @@ public class Play extends org.gstreamer.gst.Object {
      * @param config a {@link org.gstreamer.gst.Structure}
      * @return {@code true} when the configuration could be set.
      */
-    public boolean setConfig(@NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public boolean setConfig(org.gstreamer.gst.Structure config) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_play_set_config.invokeExact(
@@ -557,7 +538,7 @@ public class Play extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -565,8 +546,7 @@ public class Play extends org.gstreamer.gst.Object {
      * value.
      * @param flags The new value for the {@code type}
      */
-    public void setMultiviewFlags(@NotNull org.gstreamer.video.VideoMultiviewFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void setMultiviewFlags(org.gstreamer.video.VideoMultiviewFlags flags) {
         try {
             DowncallHandles.gst_play_set_multiview_flags.invokeExact(
                     handle(),
@@ -581,8 +561,7 @@ public class Play extends org.gstreamer.gst.Object {
      * value.
      * @param mode The new value for the {@code type}
      */
-    public void setMultiviewMode(@NotNull org.gstreamer.video.VideoMultiviewFramePacking mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setMultiviewMode(org.gstreamer.video.VideoMultiviewFramePacking mode) {
         try {
             DowncallHandles.gst_play_set_multiview_mode.invokeExact(
                     handle(),
@@ -600,7 +579,7 @@ public class Play extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_play_set_mute.invokeExact(
                     handle(),
-                    val ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(val, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -629,7 +608,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -640,7 +619,7 @@ public class Play extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_play_set_subtitle_track_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -656,7 +635,7 @@ public class Play extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_play_set_subtitle_uri.invokeExact(
                     handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Interop.allocateNativeString(uri)));
+                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -684,7 +663,7 @@ public class Play extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_play_set_uri.invokeExact(
                     handle(),
-                    (Addressable) (uri == null ? MemoryAddress.NULL : Interop.allocateNativeString(uri)));
+                    (Addressable) (uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(uri, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -699,7 +678,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -710,7 +689,7 @@ public class Play extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_play_set_video_track_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -721,11 +700,11 @@ public class Play extends org.gstreamer.gst.Object {
         try {
             RESULT = (int) DowncallHandles.gst_play_set_visualization.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -736,7 +715,7 @@ public class Play extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_play_set_visualization_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -773,7 +752,7 @@ public class Play extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_play_get_type.invokeExact();
@@ -783,8 +762,7 @@ public class Play extends org.gstreamer.gst.Object {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static int configGetPositionUpdateInterval(@NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static int configGetPositionUpdateInterval(org.gstreamer.gst.Structure config) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_play_config_get_position_update_interval.invokeExact(
@@ -795,8 +773,7 @@ public class Play extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public static boolean configGetSeekAccurate(@NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static boolean configGetSeekAccurate(org.gstreamer.gst.Structure config) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_play_config_get_seek_accurate.invokeExact(
@@ -804,7 +781,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -813,8 +790,7 @@ public class Play extends org.gstreamer.gst.Object {
      * @param config a {@link Play} configuration
      * @return the configured agent, or {@code null}
      */
-    public static @Nullable java.lang.String configGetUserAgent(@NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static @Nullable java.lang.String configGetUserAgent(org.gstreamer.gst.Structure config) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_config_get_user_agent.invokeExact(
@@ -822,7 +798,7 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -831,8 +807,7 @@ public class Play extends org.gstreamer.gst.Object {
      * @param config a {@link Play} configuration
      * @param interval interval in ms
      */
-    public static void configSetPositionUpdateInterval(@NotNull org.gstreamer.gst.Structure config, int interval) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static void configSetPositionUpdateInterval(org.gstreamer.gst.Structure config, int interval) {
         try {
             DowncallHandles.gst_play_config_set_position_update_interval.invokeExact(
                     config.handle(),
@@ -855,12 +830,11 @@ public class Play extends org.gstreamer.gst.Object {
      * @param config a {@link Play} configuration
      * @param accurate accurate seek or not
      */
-    public static void configSetSeekAccurate(@NotNull org.gstreamer.gst.Structure config, boolean accurate) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static void configSetSeekAccurate(org.gstreamer.gst.Structure config, boolean accurate) {
         try {
             DowncallHandles.gst_play_config_set_seek_accurate.invokeExact(
                     config.handle(),
-                    accurate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(accurate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -873,19 +847,17 @@ public class Play extends org.gstreamer.gst.Object {
      * @param config a {@link Play} configuration
      * @param agent the string to use as user agent
      */
-    public static void configSetUserAgent(@NotNull org.gstreamer.gst.Structure config, @Nullable java.lang.String agent) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static void configSetUserAgent(org.gstreamer.gst.Structure config, @Nullable java.lang.String agent) {
         try {
             DowncallHandles.gst_play_config_set_user_agent.invokeExact(
                     config.handle(),
-                    (Addressable) (agent == null ? MemoryAddress.NULL : Interop.allocateNativeString(agent)));
+                    (Addressable) (agent == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(agent, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static @NotNull org.gtk.glib.List getAudioStreams(@NotNull org.gstreamer.play.PlayMediaInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public static org.gtk.glib.List getAudioStreams(org.gstreamer.play.PlayMediaInfo info) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_get_audio_streams.invokeExact(
@@ -893,11 +865,10 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.List getSubtitleStreams(@NotNull org.gstreamer.play.PlayMediaInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public static org.gtk.glib.List getSubtitleStreams(org.gstreamer.play.PlayMediaInfo info) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_get_subtitle_streams.invokeExact(
@@ -905,11 +876,10 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.List getVideoStreams(@NotNull org.gstreamer.play.PlayMediaInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public static org.gtk.glib.List getVideoStreams(org.gstreamer.play.PlayMediaInfo info) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_get_video_streams.invokeExact(
@@ -917,11 +887,10 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static boolean isPlayMessage(@NotNull org.gstreamer.gst.Message msg) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static boolean isPlayMessage(org.gstreamer.gst.Message msg) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_play_is_play_message.invokeExact(
@@ -929,15 +898,14 @@ public class Play extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Frees a {@code null} terminated array of {@link PlayVisualization}.
      * @param viss a {@code null} terminated array of {@link PlayVisualization} to free
      */
-    public static void visualizationsFree(@NotNull PointerProxy<org.gstreamer.play.PlayVisualization> viss) {
-        java.util.Objects.requireNonNull(viss, "Parameter 'viss' must not be null");
+    public static void visualizationsFree(PointerProxy<org.gstreamer.play.PlayVisualization> viss) {
         try {
             DowncallHandles.gst_play_visualizations_free.invokeExact(
                     viss.handle());
@@ -946,147 +914,149 @@ public class Play extends org.gstreamer.gst.Object {
         }
     }
     
-    public static @NotNull PointerProxy<org.gstreamer.play.PlayVisualization> visualizationsGet() {
+    public static PointerProxy<org.gstreamer.play.PlayVisualization> visualizationsGet() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_visualizations_get.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<org.gstreamer.play.PlayVisualization>(RESULT, org.gstreamer.play.PlayVisualization.class);
+        return new PointerProxy<org.gstreamer.play.PlayVisualization>(RESULT, org.gstreamer.play.PlayVisualization.fromAddress);
     }
-
+    
+    /**
+     * A {@link Play.Builder} object constructs a {@link Play} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Play.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link Play.Build} object constructs a {@link Play} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Play} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Play} using {@link Play#castFrom}.
+         * {@link Play}.
          * @return A new instance of {@code Play} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Play construct() {
-            return Play.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Play.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Play build() {
+            return (Play) org.gtk.gobject.GObject.newWithProperties(
+                Play.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setAudioVideoOffset(long audioVideoOffset) {
+        public Builder setAudioVideoOffset(long audioVideoOffset) {
             names.add("audio-video-offset");
             values.add(org.gtk.gobject.Value.create(audioVideoOffset));
             return this;
         }
         
-        public Build setCurrentAudioTrack(org.gstreamer.play.PlayAudioInfo currentAudioTrack) {
+        public Builder setCurrentAudioTrack(org.gstreamer.play.PlayAudioInfo currentAudioTrack) {
             names.add("current-audio-track");
             values.add(org.gtk.gobject.Value.create(currentAudioTrack));
             return this;
         }
         
-        public Build setCurrentSubtitleTrack(org.gstreamer.play.PlaySubtitleInfo currentSubtitleTrack) {
+        public Builder setCurrentSubtitleTrack(org.gstreamer.play.PlaySubtitleInfo currentSubtitleTrack) {
             names.add("current-subtitle-track");
             values.add(org.gtk.gobject.Value.create(currentSubtitleTrack));
             return this;
         }
         
-        public Build setCurrentVideoTrack(org.gstreamer.play.PlayVideoInfo currentVideoTrack) {
+        public Builder setCurrentVideoTrack(org.gstreamer.play.PlayVideoInfo currentVideoTrack) {
             names.add("current-video-track");
             values.add(org.gtk.gobject.Value.create(currentVideoTrack));
             return this;
         }
         
-        public Build setDuration(long duration) {
+        public Builder setDuration(long duration) {
             names.add("duration");
             values.add(org.gtk.gobject.Value.create(duration));
             return this;
         }
         
-        public Build setMediaInfo(org.gstreamer.play.PlayMediaInfo mediaInfo) {
+        public Builder setMediaInfo(org.gstreamer.play.PlayMediaInfo mediaInfo) {
             names.add("media-info");
             values.add(org.gtk.gobject.Value.create(mediaInfo));
             return this;
         }
         
-        public Build setMute(boolean mute) {
+        public Builder setMute(boolean mute) {
             names.add("mute");
             values.add(org.gtk.gobject.Value.create(mute));
             return this;
         }
         
-        public Build setPipeline(org.gstreamer.gst.Element pipeline) {
+        public Builder setPipeline(org.gstreamer.gst.Element pipeline) {
             names.add("pipeline");
             values.add(org.gtk.gobject.Value.create(pipeline));
             return this;
         }
         
-        public Build setPosition(long position) {
+        public Builder setPosition(long position) {
             names.add("position");
             values.add(org.gtk.gobject.Value.create(position));
             return this;
         }
         
-        public Build setRate(double rate) {
+        public Builder setRate(double rate) {
             names.add("rate");
             values.add(org.gtk.gobject.Value.create(rate));
             return this;
         }
         
-        public Build setSubtitleVideoOffset(long subtitleVideoOffset) {
+        public Builder setSubtitleVideoOffset(long subtitleVideoOffset) {
             names.add("subtitle-video-offset");
             values.add(org.gtk.gobject.Value.create(subtitleVideoOffset));
             return this;
         }
         
-        public Build setSuburi(java.lang.String suburi) {
+        public Builder setSuburi(java.lang.String suburi) {
             names.add("suburi");
             values.add(org.gtk.gobject.Value.create(suburi));
             return this;
         }
         
-        public Build setUri(java.lang.String uri) {
+        public Builder setUri(java.lang.String uri) {
             names.add("uri");
             values.add(org.gtk.gobject.Value.create(uri));
             return this;
         }
         
-        public Build setVideoMultiviewFlags(org.gstreamer.video.VideoMultiviewFlags videoMultiviewFlags) {
+        public Builder setVideoMultiviewFlags(org.gstreamer.video.VideoMultiviewFlags videoMultiviewFlags) {
             names.add("video-multiview-flags");
             values.add(org.gtk.gobject.Value.create(videoMultiviewFlags));
             return this;
         }
         
-        public Build setVideoMultiviewMode(org.gstreamer.video.VideoMultiviewFramePacking videoMultiviewMode) {
+        public Builder setVideoMultiviewMode(org.gstreamer.video.VideoMultiviewFramePacking videoMultiviewMode) {
             names.add("video-multiview-mode");
             values.add(org.gtk.gobject.Value.create(videoMultiviewMode));
             return this;
         }
         
-        public Build setVideoRenderer(org.gstreamer.play.PlayVideoRenderer videoRenderer) {
+        public Builder setVideoRenderer(org.gstreamer.play.PlayVideoRenderer videoRenderer) {
             names.add("video-renderer");
             values.add(org.gtk.gobject.Value.create(videoRenderer));
             return this;
         }
         
-        public Build setVolume(double volume) {
+        public Builder setVolume(double volume) {
             names.add("volume");
             values.add(org.gtk.gobject.Value.create(volume));
             return this;

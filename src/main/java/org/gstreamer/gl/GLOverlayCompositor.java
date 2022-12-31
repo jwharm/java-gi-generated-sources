@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Opaque {@link GLOverlayCompositor} object
  */
-public class GLOverlayCompositor extends org.gstreamer.gst.Object {
+public class GLOverlayCompositor extends org.gstreamer.gst.GstObject {
     
     static {
         GstGL.javagi$ensureInitialized();
@@ -16,25 +16,23 @@ public class GLOverlayCompositor extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLOverlayCompositor";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("context"),
-        Interop.valueLayout.C_INT.withName("last_window_width"),
-        Interop.valueLayout.C_INT.withName("last_window_height"),
-        Interop.valueLayout.ADDRESS.withName("overlays"),
-        Interop.valueLayout.ADDRESS.withName("shader"),
-        Interop.valueLayout.C_INT.withName("position_attrib"),
-        Interop.valueLayout.C_INT.withName("texcoord_attrib"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("context"),
+            Interop.valueLayout.C_INT.withName("last_window_width"),
+            Interop.valueLayout.C_INT.withName("last_window_height"),
+            Interop.valueLayout.ADDRESS.withName("overlays"),
+            Interop.valueLayout.ADDRESS.withName("shader"),
+            Interop.valueLayout.C_INT.withName("position_attrib"),
+            Interop.valueLayout.C_INT.withName("texcoord_attrib"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -42,41 +40,26 @@ public class GLOverlayCompositor extends org.gstreamer.gst.Object {
      * <p>
      * Because GLOverlayCompositor is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLOverlayCompositor(Addressable address, Ownership ownership) {
+    protected GLOverlayCompositor(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLOverlayCompositor if its GType is a (or inherits from) "GstGLOverlayCompositor".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLOverlayCompositor} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLOverlayCompositor", a ClassCastException will be thrown.
-     */
-    public static GLOverlayCompositor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLOverlayCompositor.getType())) {
-            return new GLOverlayCompositor(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLOverlayCompositor");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLOverlayCompositor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLOverlayCompositor(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gl.GLContext context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_overlay_compositor_new.invokeExact(
                     context.handle());
@@ -86,7 +69,7 @@ public class GLOverlayCompositor extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public GLOverlayCompositor(@NotNull org.gstreamer.gl.GLContext context) {
+    public GLOverlayCompositor(org.gstreamer.gl.GLContext context) {
         super(constructNew(context), Ownership.NONE);
     }
     
@@ -108,8 +91,7 @@ public class GLOverlayCompositor extends org.gstreamer.gst.Object {
         }
     }
     
-    public void uploadOverlays(@NotNull org.gstreamer.gst.Buffer buf) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public void uploadOverlays(org.gstreamer.gst.Buffer buf) {
         try {
             DowncallHandles.gst_gl_overlay_compositor_upload_overlays.invokeExact(
                     handle(),
@@ -123,7 +105,7 @@ public class GLOverlayCompositor extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_overlay_compositor_get_type.invokeExact();
@@ -133,8 +115,7 @@ public class GLOverlayCompositor extends org.gstreamer.gst.Object {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.Caps addCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static org.gstreamer.gst.Caps addCaps(org.gstreamer.gst.Caps caps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_overlay_compositor_add_caps.invokeExact(
@@ -142,44 +123,46 @@ public class GLOverlayCompositor extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link GLOverlayCompositor.Builder} object constructs a {@link GLOverlayCompositor} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLOverlayCompositor.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link GLOverlayCompositor.Build} object constructs a {@link GLOverlayCompositor} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLOverlayCompositor} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLOverlayCompositor} using {@link GLOverlayCompositor#castFrom}.
+         * {@link GLOverlayCompositor}.
          * @return A new instance of {@code GLOverlayCompositor} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLOverlayCompositor construct() {
-            return GLOverlayCompositor.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLOverlayCompositor.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLOverlayCompositor build() {
+            return (GLOverlayCompositor) org.gtk.gobject.GObject.newWithProperties(
+                GLOverlayCompositor.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setYinvert(boolean yinvert) {
+        public Builder setYinvert(boolean yinvert) {
             names.add("yinvert");
             values.add(org.gtk.gobject.Value.create(yinvert));
             return this;

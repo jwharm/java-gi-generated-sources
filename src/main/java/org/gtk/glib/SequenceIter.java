@@ -44,10 +44,12 @@ public class SequenceIter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SequenceIter(Addressable address, Ownership ownership) {
+    protected SequenceIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SequenceIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SequenceIter(input, ownership);
     
     /**
      * Returns a negative number if {@code a} comes before {@code b}, 0 if they are equal,
@@ -58,8 +60,7 @@ public class SequenceIter extends Struct {
      * @return a negative number if {@code a} comes before {@code b}, 0 if they are
      *     equal, and a positive number if {@code a} comes after {@code b}
      */
-    public int compare(@NotNull org.gtk.glib.SequenceIter b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public int compare(org.gtk.glib.SequenceIter b) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_sequence_iter_compare.invokeExact(
@@ -90,7 +91,7 @@ public class SequenceIter extends Struct {
      * Returns the {@link Sequence} that {@code iter} points into.
      * @return the {@link Sequence} that {@code iter} points into
      */
-    public @NotNull org.gtk.glib.Sequence getSequence() {
+    public org.gtk.glib.Sequence getSequence() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_get_sequence.invokeExact(
@@ -98,7 +99,7 @@ public class SequenceIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Sequence(RESULT, Ownership.NONE);
+        return org.gtk.glib.Sequence.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -113,7 +114,7 @@ public class SequenceIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -128,7 +129,7 @@ public class SequenceIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -140,7 +141,7 @@ public class SequenceIter extends Struct {
      *    from {@code iter} the returned {@link SequenceIter} will be
      * @return a {@link SequenceIter} which is {@code delta} positions away from {@code iter}
      */
-    public @NotNull org.gtk.glib.SequenceIter move(int delta) {
+    public org.gtk.glib.SequenceIter move(int delta) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_move.invokeExact(
@@ -149,7 +150,7 @@ public class SequenceIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -157,7 +158,7 @@ public class SequenceIter extends Struct {
      * If {@code iter} is the end iterator, the end iterator is returned.
      * @return a {@link SequenceIter} pointing to the next position after {@code iter}
      */
-    public @NotNull org.gtk.glib.SequenceIter next() {
+    public org.gtk.glib.SequenceIter next() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_next.invokeExact(
@@ -165,7 +166,7 @@ public class SequenceIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -174,7 +175,7 @@ public class SequenceIter extends Struct {
      * @return a {@link SequenceIter} pointing to the previous position
      *     before {@code iter}
      */
-    public @NotNull org.gtk.glib.SequenceIter prev() {
+    public org.gtk.glib.SequenceIter prev() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_iter_prev.invokeExact(
@@ -182,7 +183,7 @@ public class SequenceIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {

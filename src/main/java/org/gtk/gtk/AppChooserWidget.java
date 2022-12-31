@@ -51,44 +51,29 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * <p>
      * Because AppChooserWidget is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AppChooserWidget(Addressable address, Ownership ownership) {
+    protected AppChooserWidget(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AppChooserWidget if its GType is a (or inherits from) "GtkAppChooserWidget".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AppChooserWidget} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkAppChooserWidget", a ClassCastException will be thrown.
-     */
-    public static AppChooserWidget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AppChooserWidget.getType())) {
-            return new AppChooserWidget(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAppChooserWidget");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AppChooserWidget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppChooserWidget(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String contentType) {
-        java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String contentType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_widget_new.invokeExact(
-                    Interop.allocateNativeString(contentType));
+                    Marshal.stringToAddress.marshal(contentType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -100,7 +85,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * that can handle content of the given type.
      * @param contentType the content type to show applications for
      */
-    public AppChooserWidget(@NotNull java.lang.String contentType) {
+    public AppChooserWidget(java.lang.String contentType) {
         super(constructNew(contentType), Ownership.NONE);
     }
     
@@ -117,7 +102,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -133,7 +118,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -149,7 +134,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -165,7 +150,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -181,7 +166,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -197,7 +182,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -205,12 +190,11 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * that can handle the content type.
      * @param text the new value for {@code Gtk.AppChooserWidget:default-text}
      */
-    public void setDefaultText(@NotNull java.lang.String text) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public void setDefaultText(java.lang.String text) {
         try {
             DowncallHandles.gtk_app_chooser_widget_set_default_text.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text));
+                    Marshal.stringToAddress.marshal(text, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -225,7 +209,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         try {
             DowncallHandles.gtk_app_chooser_widget_set_show_all.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -240,7 +224,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         try {
             DowncallHandles.gtk_app_chooser_widget_set_show_default.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -255,7 +239,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         try {
             DowncallHandles.gtk_app_chooser_widget_set_show_fallback.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +254,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         try {
             DowncallHandles.gtk_app_chooser_widget_set_show_other.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -285,7 +269,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
         try {
             DowncallHandles.gtk_app_chooser_widget_set_show_recommended.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -295,7 +279,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_app_chooser_widget_get_type.invokeExact();
@@ -307,7 +291,18 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface ApplicationActivated {
-        void signalReceived(AppChooserWidget sourceAppChooserWidget, @NotNull org.gtk.gio.AppInfo application);
+        void run(org.gtk.gio.AppInfo application);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAppChooserWidget, MemoryAddress application) {
+            run((org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.AppInfo.fromAddress).marshal(application, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ApplicationActivated.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -322,16 +317,8 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public Signal<AppChooserWidget.ApplicationActivated> onApplicationActivated(AppChooserWidget.ApplicationActivated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("application-activated"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppChooserWidget.Callbacks.class, "signalAppChooserWidgetApplicationActivated",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AppChooserWidget.ApplicationActivated>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("application-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -339,7 +326,18 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface ApplicationSelected {
-        void signalReceived(AppChooserWidget sourceAppChooserWidget, @NotNull org.gtk.gio.AppInfo application);
+        void run(org.gtk.gio.AppInfo application);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAppChooserWidget, MemoryAddress application) {
+            run((org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(application)), org.gtk.gio.AppInfo.fromAddress).marshal(application, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ApplicationSelected.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -350,52 +348,46 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
     public Signal<AppChooserWidget.ApplicationSelected> onApplicationSelected(AppChooserWidget.ApplicationSelected handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("application-selected"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AppChooserWidget.Callbacks.class, "signalAppChooserWidgetApplicationSelected",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AppChooserWidget.ApplicationSelected>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("application-selected"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link AppChooserWidget.Builder} object constructs a {@link AppChooserWidget} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AppChooserWidget.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link AppChooserWidget.Build} object constructs a {@link AppChooserWidget} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AppChooserWidget} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AppChooserWidget} using {@link AppChooserWidget#castFrom}.
+         * {@link AppChooserWidget}.
          * @return A new instance of {@code AppChooserWidget} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AppChooserWidget construct() {
-            return AppChooserWidget.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AppChooserWidget.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AppChooserWidget build() {
+            return (AppChooserWidget) org.gtk.gobject.GObject.newWithProperties(
+                AppChooserWidget.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -405,7 +397,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
          * @param defaultText The value for the {@code default-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefaultText(java.lang.String defaultText) {
+        public Builder setDefaultText(java.lang.String defaultText) {
             names.add("default-text");
             values.add(org.gtk.gobject.Value.create(defaultText));
             return this;
@@ -418,7 +410,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
          * @param showAll The value for the {@code show-all} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowAll(boolean showAll) {
+        public Builder setShowAll(boolean showAll) {
             names.add("show-all");
             values.add(org.gtk.gobject.Value.create(showAll));
             return this;
@@ -433,7 +425,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
          * @param showDefault The value for the {@code show-default} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowDefault(boolean showDefault) {
+        public Builder setShowDefault(boolean showDefault) {
             names.add("show-default");
             values.add(org.gtk.gobject.Value.create(showDefault));
             return this;
@@ -448,7 +440,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
          * @param showFallback The value for the {@code show-fallback} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowFallback(boolean showFallback) {
+        public Builder setShowFallback(boolean showFallback) {
             names.add("show-fallback");
             values.add(org.gtk.gobject.Value.create(showFallback));
             return this;
@@ -460,7 +452,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
          * @param showOther The value for the {@code show-other} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowOther(boolean showOther) {
+        public Builder setShowOther(boolean showOther) {
             names.add("show-other");
             values.add(org.gtk.gobject.Value.create(showOther));
             return this;
@@ -475,7 +467,7 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
          * @param showRecommended The value for the {@code show-recommended} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowRecommended(boolean showRecommended) {
+        public Builder setShowRecommended(boolean showRecommended) {
             names.add("show-recommended");
             values.add(org.gtk.gobject.Value.create(showRecommended));
             return this;
@@ -567,20 +559,5 @@ public class AppChooserWidget extends org.gtk.gtk.Widget implements org.gtk.gtk.
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalAppChooserWidgetApplicationActivated(MemoryAddress sourceAppChooserWidget, MemoryAddress application, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AppChooserWidget.ApplicationActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserWidget(sourceAppChooserWidget, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(application, Ownership.NONE));
-        }
-        
-        public static void signalAppChooserWidgetApplicationSelected(MemoryAddress sourceAppChooserWidget, MemoryAddress application, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AppChooserWidget.ApplicationSelected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new AppChooserWidget(sourceAppChooserWidget, Ownership.NONE), new org.gtk.gio.AppInfo.AppInfoImpl(application, Ownership.NONE));
-        }
     }
 }

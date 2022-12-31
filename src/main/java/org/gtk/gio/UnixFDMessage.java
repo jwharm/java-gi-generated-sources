@@ -28,18 +28,16 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
     
     private static final java.lang.String C_TYPE_NAME = "GUnixFDMessage";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.SocketControlMessage.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.SocketControlMessage.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -47,33 +45,15 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public UnixFDMessage(Addressable address, Ownership ownership) {
+    protected UnixFDMessage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to UnixFDMessage if its GType is a (or inherits from) "GUnixFDMessage".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code UnixFDMessage} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GUnixFDMessage", a ClassCastException will be thrown.
-     */
-    public static UnixFDMessage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), UnixFDMessage.getType())) {
-            return new UnixFDMessage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GUnixFDMessage");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, UnixFDMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UnixFDMessage(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_new.invokeExact();
         } catch (Throwable ERR) {
@@ -90,9 +70,8 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithFdList(@NotNull org.gtk.gio.UnixFDList fdList) {
-        java.util.Objects.requireNonNull(fdList, "Parameter 'fdList' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithFdList(org.gtk.gio.UnixFDList fdList) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_new_with_fd_list.invokeExact(
                     fdList.handle());
@@ -107,8 +86,9 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * @param fdList a {@link UnixFDList}
      * @return a new {@link UnixFDMessage}
      */
-    public static UnixFDMessage newWithFdList(@NotNull org.gtk.gio.UnixFDList fdList) {
-        return new UnixFDMessage(constructNewWithFdList(fdList), Ownership.FULL);
+    public static UnixFDMessage newWithFdList(org.gtk.gio.UnixFDList fdList) {
+        var RESULT = constructNewWithFdList(fdList);
+        return (org.gtk.gio.UnixFDMessage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.UnixFDMessage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -138,7 +118,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -147,7 +127,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * the lifetime of {@code message}.
      * @return the {@link UnixFDList} from {@code message}
      */
-    public @NotNull org.gtk.gio.UnixFDList getFdList() {
+    public org.gtk.gio.UnixFDList getFdList() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_get_fd_list.invokeExact(
@@ -155,7 +135,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.UnixFDList(RESULT, Ownership.NONE);
+        return (org.gtk.gio.UnixFDList) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.UnixFDList.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -181,18 +161,17 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * @return an array of file
      *     descriptors
      */
-    public @NotNull int[] stealFds(Out<Integer> length) {
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public int[] stealFds(Out<Integer> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_message_steal_fds.invokeExact(
                     handle(),
-                    (Addressable) lengthPOINTER.address());
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_INT, 0));
         return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT);
     }
     
@@ -200,7 +179,7 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_unix_fd_message_get_type.invokeExact();
@@ -209,42 +188,44 @@ public class UnixFDMessage extends org.gtk.gio.SocketControlMessage {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link UnixFDMessage.Builder} object constructs a {@link UnixFDMessage} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link UnixFDMessage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.SocketControlMessage.Build {
+    public static class Builder extends org.gtk.gio.SocketControlMessage.Builder {
         
-         /**
-         * A {@link UnixFDMessage.Build} object constructs a {@link UnixFDMessage} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link UnixFDMessage} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link UnixFDMessage} using {@link UnixFDMessage#castFrom}.
+         * {@link UnixFDMessage}.
          * @return A new instance of {@code UnixFDMessage} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public UnixFDMessage construct() {
-            return UnixFDMessage.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    UnixFDMessage.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public UnixFDMessage build() {
+            return (UnixFDMessage) org.gtk.gobject.GObject.newWithProperties(
+                UnixFDMessage.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setFdList(org.gtk.gio.UnixFDList fdList) {
+        public Builder setFdList(org.gtk.gio.UnixFDList fdList) {
             names.add("fd-list");
             values.add(org.gtk.gobject.Value.create(fdList));
             return this;

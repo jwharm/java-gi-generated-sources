@@ -32,11 +32,15 @@ public class VideoDecoderRequestSyncPointFlags extends io.github.jwharm.javagi.B
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public VideoDecoderRequestSyncPointFlags or(VideoDecoderRequestSyncPointFlags mask) {
-        return new VideoDecoderRequestSyncPointFlags(this.getValue() | mask.getValue());
+    public VideoDecoderRequestSyncPointFlags or(VideoDecoderRequestSyncPointFlags... masks) {
+        int value = this.getValue();
+        for (VideoDecoderRequestSyncPointFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new VideoDecoderRequestSyncPointFlags(value);
     }
     
     /**
@@ -46,7 +50,8 @@ public class VideoDecoderRequestSyncPointFlags extends io.github.jwharm.javagi.B
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static VideoDecoderRequestSyncPointFlags combined(VideoDecoderRequestSyncPointFlags mask, VideoDecoderRequestSyncPointFlags... masks) {
-        int value = mask.getValue();        for (VideoDecoderRequestSyncPointFlags arg : masks) {
+        int value = mask.getValue();
+        for (VideoDecoderRequestSyncPointFlags arg : masks) {
             value |= arg.getValue();
         }
         return new VideoDecoderRequestSyncPointFlags(value);

@@ -13,20 +13,18 @@ public class CellEditableIface extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkCellEditableIface";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
-        Interop.valueLayout.ADDRESS.withName("editing_done"),
-        Interop.valueLayout.ADDRESS.withName("remove_widget"),
-        Interop.valueLayout.ADDRESS.withName("start_editing")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
+            Interop.valueLayout.ADDRESS.withName("editing_done"),
+            Interop.valueLayout.ADDRESS.withName("remove_widget"),
+            Interop.valueLayout.ADDRESS.withName("start_editing")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -42,68 +40,152 @@ public class CellEditableIface extends Struct {
         return newInstance;
     }
     
+    @FunctionalInterface
+    public interface EditingDoneCallback {
+        void run(org.gtk.gtk.CellEditable cellEditable);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress cellEditable) {
+            run((org.gtk.gtk.CellEditable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cellEditable)), org.gtk.gtk.CellEditable.fromAddress).marshal(cellEditable, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EditingDoneCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code editing_done}
+     * @param editingDone The new value of the field {@code editing_done}
+     */
+    public void setEditingDone(EditingDoneCallback editingDone) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("editing_done"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (editingDone == null ? MemoryAddress.NULL : editingDone.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface RemoveWidgetCallback {
+        void run(org.gtk.gtk.CellEditable cellEditable);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress cellEditable) {
+            run((org.gtk.gtk.CellEditable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cellEditable)), org.gtk.gtk.CellEditable.fromAddress).marshal(cellEditable, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RemoveWidgetCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code remove_widget}
+     * @param removeWidget The new value of the field {@code remove_widget}
+     */
+    public void setRemoveWidget(RemoveWidgetCallback removeWidget) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("remove_widget"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeWidget == null ? MemoryAddress.NULL : removeWidget.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface StartEditingCallback {
+        void run(org.gtk.gtk.CellEditable cellEditable, @Nullable org.gtk.gdk.Event event);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress cellEditable, MemoryAddress event) {
+            run((org.gtk.gtk.CellEditable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cellEditable)), org.gtk.gtk.CellEditable.fromAddress).marshal(cellEditable, Ownership.NONE), (org.gtk.gdk.Event) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(event)), org.gtk.gdk.Event.fromAddress).marshal(event, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StartEditingCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code start_editing}
+     * @param startEditing The new value of the field {@code start_editing}
+     */
+    public void setStartEditing(StartEditingCallback startEditing) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("start_editing"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startEditing == null ? MemoryAddress.NULL : startEditing.toCallback()));
+    }
+    
     /**
      * Create a CellEditableIface proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CellEditableIface(Addressable address, Ownership ownership) {
+    protected CellEditableIface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellEditableIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellEditableIface(input, ownership);
+    
+    /**
+     * A {@link CellEditableIface.Builder} object constructs a {@link CellEditableIface} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link CellEditableIface.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private CellEditableIface struct;
+        private final CellEditableIface struct;
         
-         /**
-         * A {@link CellEditableIface.Build} object constructs a {@link CellEditableIface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = CellEditableIface.allocate();
         }
         
          /**
          * Finish building the {@link CellEditableIface} struct.
          * @return A new instance of {@code CellEditableIface} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CellEditableIface construct() {
+        public CellEditableIface build() {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
+        public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setEditingDone(java.lang.foreign.MemoryAddress editingDone) {
+        public Builder setEditingDone(EditingDoneCallback editingDone) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("editing_done"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (editingDone == null ? MemoryAddress.NULL : editingDone));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (editingDone == null ? MemoryAddress.NULL : editingDone.toCallback()));
             return this;
         }
         
-        public Build setRemoveWidget(java.lang.foreign.MemoryAddress removeWidget) {
+        public Builder setRemoveWidget(RemoveWidgetCallback removeWidget) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("remove_widget"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeWidget == null ? MemoryAddress.NULL : removeWidget));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (removeWidget == null ? MemoryAddress.NULL : removeWidget.toCallback()));
             return this;
         }
         
-        public Build setStartEditing(java.lang.foreign.MemoryAddress startEditing) {
+        public Builder setStartEditing(StartEditingCallback startEditing) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_editing"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startEditing == null ? MemoryAddress.NULL : startEditing));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (startEditing == null ? MemoryAddress.NULL : startEditing.toCallback()));
             return this;
         }
     }

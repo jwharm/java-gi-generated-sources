@@ -14,7 +14,15 @@ public final class GstPlay {
         System.loadLibrary("gstplay-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Gets a string representing the given color balance type.
@@ -22,8 +30,7 @@ public final class GstPlay {
      * @return a string with the name of the color
      *   balance type.
      */
-    public static @NotNull java.lang.String playColorBalanceTypeGetName(@NotNull org.gstreamer.play.PlayColorBalanceType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String playColorBalanceTypeGetName(org.gstreamer.play.PlayColorBalanceType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_color_balance_type_get_name.invokeExact(
@@ -31,7 +38,7 @@ public final class GstPlay {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -39,8 +46,7 @@ public final class GstPlay {
      * @param error a {@link PlayError}
      * @return a string with the given error.
      */
-    public static @NotNull java.lang.String playErrorGetName(@NotNull org.gstreamer.play.PlayError error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public static java.lang.String playErrorGetName(org.gstreamer.play.PlayError error) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_error_get_name.invokeExact(
@@ -48,10 +54,10 @@ public final class GstPlay {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark playErrorQuark() {
+    public static org.gtk.glib.Quark playErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_play_error_quark.invokeExact();
@@ -61,8 +67,7 @@ public final class GstPlay {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull java.lang.String playMessageGetName(@NotNull org.gstreamer.play.PlayMessage messageType) {
-        java.util.Objects.requireNonNull(messageType, "Parameter 'messageType' must not be null");
+    public static java.lang.String playMessageGetName(org.gstreamer.play.PlayMessage messageType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_message_get_name.invokeExact(
@@ -70,7 +75,7 @@ public final class GstPlay {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -78,18 +83,16 @@ public final class GstPlay {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param percent the resulting buffering percent
      */
-    public static void playMessageParseBufferingPercent(@NotNull org.gstreamer.gst.Message msg, Out<Integer> percent) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(percent, "Parameter 'percent' must not be null");
+    public static void playMessageParseBufferingPercent(org.gstreamer.gst.Message msg, Out<Integer> percent) {
         MemorySegment percentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_play_message_parse_buffering_percent.invokeExact(
                     msg.handle(),
-                    (Addressable) percentPOINTER.address());
+                    (Addressable) (percent == null ? MemoryAddress.NULL : (Addressable) percentPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        percent.set(percentPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (percent != null) percent.set(percentPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -97,18 +100,16 @@ public final class GstPlay {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param duration the resulting duration
      */
-    public static void playMessageParseDurationUpdated(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.gst.ClockTime> duration) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
+    public static void playMessageParseDurationUpdated(org.gstreamer.gst.Message msg, @Nullable org.gstreamer.gst.ClockTime duration) {
         MemorySegment durationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_play_message_parse_duration_updated.invokeExact(
                     msg.handle(),
-                    (Addressable) durationPOINTER.address());
+                    (Addressable) (duration == null ? MemoryAddress.NULL : (Addressable) durationPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        duration.set(new org.gstreamer.gst.ClockTime(durationPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (duration != null) duration.setValue(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -117,8 +118,7 @@ public final class GstPlay {
      * @param error the resulting error
      * @param details A {@link org.gstreamer.gst.Structure} containing additional details about the error
      */
-    public static void playMessageParseError(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gtk.glib.Error> error, @Nullable Out<org.gstreamer.gst.Structure> details) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static void playMessageParseError(org.gstreamer.gst.Message msg, @Nullable Out<org.gtk.glib.Error> error, @Nullable Out<org.gstreamer.gst.Structure> details) {
         MemorySegment errorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment detailsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
@@ -129,8 +129,8 @@ public final class GstPlay {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        error.set(new org.gtk.glib.Error(errorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (details != null) details.set(new org.gstreamer.gst.Structure(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        error.set(org.gtk.glib.Error.fromAddress.marshal(errorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (details != null) details.set(org.gstreamer.gst.Structure.fromAddress.marshal(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -138,18 +138,16 @@ public final class GstPlay {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param info the resulting media info
      */
-    public static void playMessageParseMediaInfoUpdated(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.play.PlayMediaInfo> info) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public static void playMessageParseMediaInfoUpdated(org.gstreamer.gst.Message msg, @Nullable Out<org.gstreamer.play.PlayMediaInfo> info) {
         MemorySegment infoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_play_message_parse_media_info_updated.invokeExact(
                     msg.handle(),
-                    (Addressable) infoPOINTER.address());
+                    (Addressable) (info == null ? MemoryAddress.NULL : (Addressable) infoPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        info.set(new org.gstreamer.play.PlayMediaInfo(infoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (info != null) info.set((org.gstreamer.play.PlayMediaInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(infoPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.play.PlayMediaInfo.fromAddress).marshal(infoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -157,18 +155,16 @@ public final class GstPlay {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param muted the resulting audio muted state
      */
-    public static void playMessageParseMutedChanged(@NotNull org.gstreamer.gst.Message msg, Out<Boolean> muted) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(muted, "Parameter 'muted' must not be null");
+    public static void playMessageParseMutedChanged(org.gstreamer.gst.Message msg, Out<Boolean> muted) {
         MemorySegment mutedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_play_message_parse_muted_changed.invokeExact(
                     msg.handle(),
-                    (Addressable) mutedPOINTER.address());
+                    (Addressable) (muted == null ? MemoryAddress.NULL : (Addressable) mutedPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        muted.set(mutedPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (muted != null) muted.set(mutedPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
     }
     
     /**
@@ -176,18 +172,16 @@ public final class GstPlay {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param position the resulting position
      */
-    public static void playMessageParsePositionUpdated(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.gst.ClockTime> position) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public static void playMessageParsePositionUpdated(org.gstreamer.gst.Message msg, @Nullable org.gstreamer.gst.ClockTime position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_play_message_parse_position_updated.invokeExact(
                     msg.handle(),
-                    (Addressable) positionPOINTER.address());
+                    (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(new org.gstreamer.gst.ClockTime(positionPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (position != null) position.setValue(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -195,18 +189,16 @@ public final class GstPlay {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param state the resulting play state
      */
-    public static void playMessageParseStateChanged(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.play.PlayState> state) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public static void playMessageParseStateChanged(org.gstreamer.gst.Message msg, @Nullable Out<org.gstreamer.play.PlayState> state) {
         MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_play_message_parse_state_changed.invokeExact(
                     msg.handle(),
-                    (Addressable) statePOINTER.address());
+                    (Addressable) (state == null ? MemoryAddress.NULL : (Addressable) statePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        state.set(org.gstreamer.play.PlayState.of(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (state != null) state.set(org.gstreamer.play.PlayState.of(statePOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -214,18 +206,16 @@ public final class GstPlay {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param type the resulting message type
      */
-    public static void playMessageParseType(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.play.PlayMessage> type) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static void playMessageParseType(org.gstreamer.gst.Message msg, @Nullable Out<org.gstreamer.play.PlayMessage> type) {
         MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_play_message_parse_type.invokeExact(
                     msg.handle(),
-                    (Addressable) typePOINTER.address());
+                    (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) typePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        type.set(org.gstreamer.play.PlayMessage.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (type != null) type.set(org.gstreamer.play.PlayMessage.of(typePOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -234,22 +224,19 @@ public final class GstPlay {
      * @param width the resulting video width
      * @param height the resulting video height
      */
-    public static void playMessageParseVideoDimensionsChanged(@NotNull org.gstreamer.gst.Message msg, Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
+    public static void playMessageParseVideoDimensionsChanged(org.gstreamer.gst.Message msg, Out<Integer> width, Out<Integer> height) {
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_play_message_parse_video_dimensions_changed.invokeExact(
                     msg.handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -257,18 +244,16 @@ public final class GstPlay {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param volume the resulting audio volume
      */
-    public static void playMessageParseVolumeChanged(@NotNull org.gstreamer.gst.Message msg, Out<Double> volume) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(volume, "Parameter 'volume' must not be null");
+    public static void playMessageParseVolumeChanged(org.gstreamer.gst.Message msg, Out<Double> volume) {
         MemorySegment volumePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gst_play_message_parse_volume_changed.invokeExact(
                     msg.handle(),
-                    (Addressable) volumePOINTER.address());
+                    (Addressable) (volume == null ? MemoryAddress.NULL : (Addressable) volumePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        volume.set(volumePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (volume != null) volume.set(volumePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -277,8 +262,7 @@ public final class GstPlay {
      * @param error the resulting warning
      * @param details A {@link org.gstreamer.gst.Structure} containing additional details about the warning
      */
-    public static void playMessageParseWarning(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gtk.glib.Error> error, @Nullable Out<org.gstreamer.gst.Structure> details) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static void playMessageParseWarning(org.gstreamer.gst.Message msg, @Nullable Out<org.gtk.glib.Error> error, @Nullable Out<org.gstreamer.gst.Structure> details) {
         MemorySegment errorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment detailsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
@@ -289,8 +273,8 @@ public final class GstPlay {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        error.set(new org.gtk.glib.Error(errorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        if (details != null) details.set(new org.gstreamer.gst.Structure(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        error.set(org.gtk.glib.Error.fromAddress.marshal(errorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (details != null) details.set(org.gstreamer.gst.Structure.fromAddress.marshal(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -298,8 +282,7 @@ public final class GstPlay {
      * @param state a {@link PlayState}
      * @return a string with the name of the state.
      */
-    public static @NotNull java.lang.String playStateGetName(@NotNull org.gstreamer.play.PlayState state) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public static java.lang.String playStateGetName(org.gstreamer.play.PlayState state) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_state_get_name.invokeExact(
@@ -307,7 +290,7 @@ public final class GstPlay {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

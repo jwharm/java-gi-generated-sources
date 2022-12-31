@@ -18,25 +18,23 @@ public class VideoResampler extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoResampler";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("in_size"),
-        Interop.valueLayout.C_INT.withName("out_size"),
-        Interop.valueLayout.C_INT.withName("max_taps"),
-        Interop.valueLayout.C_INT.withName("n_phases"),
-        Interop.valueLayout.ADDRESS.withName("offset"),
-        Interop.valueLayout.ADDRESS.withName("phase"),
-        Interop.valueLayout.ADDRESS.withName("n_taps"),
-        Interop.valueLayout.ADDRESS.withName("taps"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("in_size"),
+            Interop.valueLayout.C_INT.withName("out_size"),
+            Interop.valueLayout.C_INT.withName("max_taps"),
+            Interop.valueLayout.C_INT.withName("n_phases"),
+            Interop.valueLayout.ADDRESS.withName("offset"),
+            Interop.valueLayout.ADDRESS.withName("phase"),
+            Interop.valueLayout.ADDRESS.withName("n_taps"),
+            Interop.valueLayout.ADDRESS.withName("taps"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,7 +54,7 @@ public class VideoResampler extends Struct {
      * Get the value of the field {@code in_size}
      * @return The value of the field {@code in_size}
      */
-    public int inSize$get() {
+    public int getInSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("in_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -67,7 +65,7 @@ public class VideoResampler extends Struct {
      * Change the value of the field {@code in_size}
      * @param inSize The new value of the field {@code in_size}
      */
-    public void inSize$set(int inSize) {
+    public void setInSize(int inSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("in_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), inSize);
@@ -77,7 +75,7 @@ public class VideoResampler extends Struct {
      * Get the value of the field {@code out_size}
      * @return The value of the field {@code out_size}
      */
-    public int outSize$get() {
+    public int getOutSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("out_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -88,7 +86,7 @@ public class VideoResampler extends Struct {
      * Change the value of the field {@code out_size}
      * @param outSize The new value of the field {@code out_size}
      */
-    public void outSize$set(int outSize) {
+    public void setOutSize(int outSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("out_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), outSize);
@@ -98,7 +96,7 @@ public class VideoResampler extends Struct {
      * Get the value of the field {@code max_taps}
      * @return The value of the field {@code max_taps}
      */
-    public int maxTaps$get() {
+    public int getMaxTaps() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_taps"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -109,7 +107,7 @@ public class VideoResampler extends Struct {
      * Change the value of the field {@code max_taps}
      * @param maxTaps The new value of the field {@code max_taps}
      */
-    public void maxTaps$set(int maxTaps) {
+    public void setMaxTaps(int maxTaps) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_taps"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxTaps);
@@ -119,7 +117,7 @@ public class VideoResampler extends Struct {
      * Get the value of the field {@code n_phases}
      * @return The value of the field {@code n_phases}
      */
-    public int nPhases$get() {
+    public int getNPhases() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_phases"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -130,7 +128,7 @@ public class VideoResampler extends Struct {
      * Change the value of the field {@code n_phases}
      * @param nPhases The new value of the field {@code n_phases}
      */
-    public void nPhases$set(int nPhases) {
+    public void setNPhases(int nPhases) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_phases"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPhases);
@@ -140,7 +138,7 @@ public class VideoResampler extends Struct {
      * Get the value of the field {@code offset}
      * @return The value of the field {@code offset}
      */
-    public PointerInteger offset$get() {
+    public PointerInteger getOffset() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -151,17 +149,17 @@ public class VideoResampler extends Struct {
      * Change the value of the field {@code offset}
      * @param offset The new value of the field {@code offset}
      */
-    public void offset$set(PointerInteger offset) {
+    public void setOffset(PointerInteger offset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offset == null ? MemoryAddress.NULL : offset.handle()));
     }
     
     /**
      * Get the value of the field {@code phase}
      * @return The value of the field {@code phase}
      */
-    public PointerInteger phase$get() {
+    public PointerInteger getPhase() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("phase"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -172,17 +170,17 @@ public class VideoResampler extends Struct {
      * Change the value of the field {@code phase}
      * @param phase The new value of the field {@code phase}
      */
-    public void phase$set(PointerInteger phase) {
+    public void setPhase(PointerInteger phase) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("phase"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), phase.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (phase == null ? MemoryAddress.NULL : phase.handle()));
     }
     
     /**
      * Get the value of the field {@code n_taps}
      * @return The value of the field {@code n_taps}
      */
-    public PointerInteger nTaps$get() {
+    public PointerInteger getNTaps() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_taps"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -193,17 +191,17 @@ public class VideoResampler extends Struct {
      * Change the value of the field {@code n_taps}
      * @param nTaps The new value of the field {@code n_taps}
      */
-    public void nTaps$set(PointerInteger nTaps) {
+    public void setNTaps(PointerInteger nTaps) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_taps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nTaps.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nTaps == null ? MemoryAddress.NULL : nTaps.handle()));
     }
     
     /**
      * Get the value of the field {@code taps}
      * @return The value of the field {@code taps}
      */
-    public PointerDouble taps$get() {
+    public PointerDouble getTaps() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("taps"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -214,10 +212,10 @@ public class VideoResampler extends Struct {
      * Change the value of the field {@code taps}
      * @param taps The new value of the field {@code taps}
      */
-    public void taps$set(PointerDouble taps) {
+    public void setTaps(PointerDouble taps) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("taps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), taps.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (taps == null ? MemoryAddress.NULL : taps.handle()));
     }
     
     /**
@@ -225,10 +223,12 @@ public class VideoResampler extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoResampler(Addressable address, Ownership ownership) {
+    protected VideoResampler(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoResampler> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoResampler(input, ownership);
     
     /**
      * Clear a previously initialized {@link VideoResampler} {@code resampler}.
@@ -242,10 +242,7 @@ public class VideoResampler extends Struct {
         }
     }
     
-    public boolean init(@NotNull org.gstreamer.video.VideoResamplerMethod method, @NotNull org.gstreamer.video.VideoResamplerFlags flags, int nPhases, int nTaps, double shift, int inSize, int outSize, @NotNull org.gstreamer.gst.Structure options) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(options, "Parameter 'options' must not be null");
+    public boolean init(org.gstreamer.video.VideoResamplerMethod method, org.gstreamer.video.VideoResamplerFlags flags, int nPhases, int nTaps, double shift, int inSize, int outSize, org.gstreamer.gst.Structure options) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_resampler_init.invokeExact(
@@ -261,7 +258,7 @@ public class VideoResampler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -278,31 +275,35 @@ public class VideoResampler extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoResampler.Builder} object constructs a {@link VideoResampler} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoResampler.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoResampler struct;
+        private final VideoResampler struct;
         
-         /**
-         * A {@link VideoResampler.Build} object constructs a {@link VideoResampler} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoResampler.allocate();
         }
         
          /**
          * Finish building the {@link VideoResampler} struct.
          * @return A new instance of {@code VideoResampler} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoResampler construct() {
+        public VideoResampler build() {
             return struct;
         }
         
@@ -311,7 +312,7 @@ public class VideoResampler extends Struct {
          * @param inSize The value for the {@code inSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInSize(int inSize) {
+        public Builder setInSize(int inSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("in_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), inSize);
@@ -323,7 +324,7 @@ public class VideoResampler extends Struct {
          * @param outSize The value for the {@code outSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOutSize(int outSize) {
+        public Builder setOutSize(int outSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("out_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), outSize);
@@ -335,7 +336,7 @@ public class VideoResampler extends Struct {
          * @param maxTaps The value for the {@code maxTaps} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxTaps(int maxTaps) {
+        public Builder setMaxTaps(int maxTaps) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max_taps"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxTaps);
@@ -347,7 +348,7 @@ public class VideoResampler extends Struct {
          * @param nPhases The value for the {@code nPhases} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPhases(int nPhases) {
+        public Builder setNPhases(int nPhases) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_phases"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPhases);
@@ -359,7 +360,7 @@ public class VideoResampler extends Struct {
          * @param offset The value for the {@code offset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(PointerInteger offset) {
+        public Builder setOffset(PointerInteger offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offset == null ? MemoryAddress.NULL : offset.handle()));
@@ -371,7 +372,7 @@ public class VideoResampler extends Struct {
          * @param phase The value for the {@code phase} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPhase(PointerInteger phase) {
+        public Builder setPhase(PointerInteger phase) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("phase"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (phase == null ? MemoryAddress.NULL : phase.handle()));
@@ -383,7 +384,7 @@ public class VideoResampler extends Struct {
          * @param nTaps The value for the {@code nTaps} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNTaps(PointerInteger nTaps) {
+        public Builder setNTaps(PointerInteger nTaps) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_taps"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nTaps == null ? MemoryAddress.NULL : nTaps.handle()));
@@ -395,14 +396,14 @@ public class VideoResampler extends Struct {
          * @param taps The value for the {@code taps} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTaps(PointerDouble taps) {
+        public Builder setTaps(PointerDouble taps) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("taps"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (taps == null ? MemoryAddress.NULL : taps.handle()));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

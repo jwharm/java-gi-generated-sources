@@ -64,13 +64,15 @@ public class VideoOverlayComposition extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoOverlayComposition(Addressable address, Ownership ownership) {
+    protected VideoOverlayComposition(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable org.gstreamer.video.VideoOverlayRectangle rectangle) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoOverlayComposition> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayComposition(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable org.gstreamer.video.VideoOverlayRectangle rectangle) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_new.invokeExact(
                     (Addressable) (rectangle == null ? MemoryAddress.NULL : rectangle.handle()));
@@ -98,8 +100,7 @@ public class VideoOverlayComposition extends Struct {
      * @param rectangle a {@link VideoOverlayRectangle} to add to the
      *     composition
      */
-    public void addRectangle(@NotNull org.gstreamer.video.VideoOverlayRectangle rectangle) {
-        java.util.Objects.requireNonNull(rectangle, "Parameter 'rectangle' must not be null");
+    public void addRectangle(org.gstreamer.video.VideoOverlayRectangle rectangle) {
         try {
             DowncallHandles.gst_video_overlay_composition_add_rectangle.invokeExact(
                     handle(),
@@ -119,8 +120,7 @@ public class VideoOverlayComposition extends Struct {
      * @param videoBuf a {@link VideoFrame} containing raw video data in a
      *             supported format. It should be mapped using GST_MAP_READWRITE
      */
-    public boolean blend(@NotNull org.gstreamer.video.VideoFrame videoBuf) {
-        java.util.Objects.requireNonNull(videoBuf, "Parameter 'videoBuf' must not be null");
+    public boolean blend(org.gstreamer.video.VideoFrame videoBuf) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_overlay_composition_blend.invokeExact(
@@ -129,7 +129,7 @@ public class VideoOverlayComposition extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -141,7 +141,7 @@ public class VideoOverlayComposition extends Struct {
      * @return a new {@link VideoOverlayComposition} equivalent
      *     to {@code comp}.
      */
-    public @NotNull org.gstreamer.video.VideoOverlayComposition copy() {
+    public org.gstreamer.video.VideoOverlayComposition copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_copy.invokeExact(
@@ -149,7 +149,7 @@ public class VideoOverlayComposition extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoOverlayComposition(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoOverlayComposition.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -160,7 +160,7 @@ public class VideoOverlayComposition extends Struct {
      *     obtain her own reference using gst_video_overlay_rectangle_ref()
      *     if needed.
      */
-    public @NotNull org.gstreamer.video.VideoOverlayRectangle getRectangle(int n) {
+    public org.gstreamer.video.VideoOverlayRectangle getRectangle(int n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_get_rectangle.invokeExact(
@@ -169,7 +169,7 @@ public class VideoOverlayComposition extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoOverlayRectangle(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoOverlayRectangle.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -199,7 +199,7 @@ public class VideoOverlayComposition extends Struct {
      * @return a writable {@link VideoOverlayComposition}
      *     equivalent to {@code comp}.
      */
-    public @NotNull org.gstreamer.video.VideoOverlayComposition makeWritable() {
+    public org.gstreamer.video.VideoOverlayComposition makeWritable() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_make_writable.invokeExact(
@@ -208,7 +208,7 @@ public class VideoOverlayComposition extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.video.VideoOverlayComposition(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoOverlayComposition.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

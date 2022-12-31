@@ -74,40 +74,26 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * <p>
      * Because AboutDialog is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AboutDialog(Addressable address, Ownership ownership) {
+    protected AboutDialog(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AboutDialog if its GType is a (or inherits from) "GtkAboutDialog".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AboutDialog} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkAboutDialog", a ClassCastException will be thrown.
-     */
-    public static AboutDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AboutDialog.getType())) {
-            return new AboutDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAboutDialog");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AboutDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AboutDialog(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_new.invokeExact();
         } catch (Throwable ERR) {
@@ -128,13 +114,11 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param sectionName The name of the section
      * @param people The people who belong to that section
      */
-    public void addCreditSection(@NotNull java.lang.String sectionName, @NotNull java.lang.String[] people) {
-        java.util.Objects.requireNonNull(sectionName, "Parameter 'sectionName' must not be null");
-        java.util.Objects.requireNonNull(people, "Parameter 'people' must not be null");
+    public void addCreditSection(java.lang.String sectionName, java.lang.String[] people) {
         try {
             DowncallHandles.gtk_about_dialog_add_credit_section.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(sectionName),
+                    Marshal.stringToAddress.marshal(sectionName, null),
                     Interop.allocateNativeArray(people, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -147,7 +131,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @return A
      *   {@code NULL}-terminated string array containing the artists
      */
-    public @NotNull PointerString getArtists() {
+    public PointerString getArtists() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_artists.invokeExact(
@@ -164,7 +148,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @return A
      *   {@code NULL}-terminated string array containing the authors
      */
-    public @NotNull PointerString getAuthors() {
+    public PointerString getAuthors() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_authors.invokeExact(
@@ -187,7 +171,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -202,7 +186,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -211,7 +195,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @return A
      *   {@code NULL}-terminated string array containing the documenters
      */
-    public @NotNull PointerString getDocumenters() {
+    public PointerString getDocumenters() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_about_dialog_get_documenters.invokeExact(
@@ -234,14 +218,14 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Retrieves the license type.
      * @return a {@code Gtk.License} value
      */
-    public @NotNull org.gtk.gtk.License getLicenseType() {
+    public org.gtk.gtk.License getLicenseType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_about_dialog_get_license_type.invokeExact(
@@ -266,7 +250,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -282,7 +266,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -297,7 +281,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -312,7 +296,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -328,7 +312,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -343,7 +327,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -358,7 +342,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -373,7 +357,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -389,7 +373,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -398,8 +382,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param artists the authors of the artwork
      *   of the application
      */
-    public void setArtists(@NotNull java.lang.String[] artists) {
-        java.util.Objects.requireNonNull(artists, "Parameter 'artists' must not be null");
+    public void setArtists(java.lang.String[] artists) {
         try {
             DowncallHandles.gtk_about_dialog_set_artists.invokeExact(
                     handle(),
@@ -414,8 +397,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * in the "Credits" page of the about dialog.
      * @param authors the authors of the application
      */
-    public void setAuthors(@NotNull java.lang.String[] authors) {
-        java.util.Objects.requireNonNull(authors, "Parameter 'authors' must not be null");
+    public void setAuthors(java.lang.String[] authors) {
         try {
             DowncallHandles.gtk_about_dialog_set_authors.invokeExact(
                     handle(),
@@ -435,7 +417,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_comments.invokeExact(
                     handle(),
-                    (Addressable) (comments == null ? MemoryAddress.NULL : Interop.allocateNativeString(comments)));
+                    (Addressable) (comments == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(comments, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,7 +433,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_copyright.invokeExact(
                     handle(),
-                    (Addressable) (copyright == null ? MemoryAddress.NULL : Interop.allocateNativeString(copyright)));
+                    (Addressable) (copyright == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(copyright, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -463,8 +445,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * @param documenters the authors of the documentation
      *   of the application
      */
-    public void setDocumenters(@NotNull java.lang.String[] documenters) {
-        java.util.Objects.requireNonNull(documenters, "Parameter 'documenters' must not be null");
+    public void setDocumenters(java.lang.String[] documenters) {
         try {
             DowncallHandles.gtk_about_dialog_set_documenters.invokeExact(
                     handle(),
@@ -485,7 +466,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_license.invokeExact(
                     handle(),
-                    (Addressable) (license == null ? MemoryAddress.NULL : Interop.allocateNativeString(license)));
+                    (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -499,8 +480,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * {@link AboutDialog#setLicense}.
      * @param licenseType the type of license
      */
-    public void setLicenseType(@NotNull org.gtk.gtk.License licenseType) {
-        java.util.Objects.requireNonNull(licenseType, "Parameter 'licenseType' must not be null");
+    public void setLicenseType(org.gtk.gtk.License licenseType) {
         try {
             DowncallHandles.gtk_about_dialog_set_license_type.invokeExact(
                     handle(),
@@ -532,7 +512,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_logo_icon_name.invokeExact(
                     handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -549,7 +529,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_program_name.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -569,7 +549,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_system_information.invokeExact(
                     handle(),
-                    (Addressable) (systemInformation == null ? MemoryAddress.NULL : Interop.allocateNativeString(systemInformation)));
+                    (Addressable) (systemInformation == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(systemInformation, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -599,7 +579,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_translator_credits.invokeExact(
                     handle(),
-                    (Addressable) (translatorCredits == null ? MemoryAddress.NULL : Interop.allocateNativeString(translatorCredits)));
+                    (Addressable) (translatorCredits == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(translatorCredits, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -613,7 +593,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_version.invokeExact(
                     handle(),
-                    (Addressable) (version == null ? MemoryAddress.NULL : Interop.allocateNativeString(version)));
+                    (Addressable) (version == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(version, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -627,7 +607,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_website.invokeExact(
                     handle(),
-                    (Addressable) (website == null ? MemoryAddress.NULL : Interop.allocateNativeString(website)));
+                    (Addressable) (website == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(website, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -637,12 +617,11 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * Sets the label to be used for the website link.
      * @param websiteLabel the label used for the website link
      */
-    public void setWebsiteLabel(@NotNull java.lang.String websiteLabel) {
-        java.util.Objects.requireNonNull(websiteLabel, "Parameter 'websiteLabel' must not be null");
+    public void setWebsiteLabel(java.lang.String websiteLabel) {
         try {
             DowncallHandles.gtk_about_dialog_set_website_label.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(websiteLabel));
+                    Marshal.stringToAddress.marshal(websiteLabel, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -657,7 +636,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_about_dialog_set_wrap_license.invokeExact(
                     handle(),
-                    wrapLicense ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(wrapLicense, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -667,7 +646,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_about_dialog_get_type.invokeExact();
@@ -679,7 +658,19 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface ActivateLink {
-        boolean signalReceived(AboutDialog sourceAboutDialog, @NotNull java.lang.String uri);
+        boolean run(java.lang.String uri);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceAboutDialog, MemoryAddress uri) {
+            var RESULT = run(Marshal.addressToString.marshal(uri, null));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateLink.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -693,52 +684,46 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
     public Signal<AboutDialog.ActivateLink> onActivateLink(AboutDialog.ActivateLink handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate-link"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(AboutDialog.Callbacks.class, "signalAboutDialogActivateLink",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<AboutDialog.ActivateLink>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate-link"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link AboutDialog.Builder} object constructs a {@link AboutDialog} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AboutDialog.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Window.Build {
+    public static class Builder extends org.gtk.gtk.Window.Builder {
         
-         /**
-         * A {@link AboutDialog.Build} object constructs a {@link AboutDialog} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AboutDialog} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AboutDialog} using {@link AboutDialog#castFrom}.
+         * {@link AboutDialog}.
          * @return A new instance of {@code AboutDialog} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AboutDialog construct() {
-            return AboutDialog.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AboutDialog.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AboutDialog build() {
+            return (AboutDialog) org.gtk.gobject.GObject.newWithProperties(
+                AboutDialog.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -751,7 +736,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param comments The value for the {@code comments} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setComments(java.lang.String comments) {
+        public Builder setComments(java.lang.String comments) {
             names.add("comments");
             values.add(org.gtk.gobject.Value.create(comments));
             return this;
@@ -762,7 +747,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param copyright The value for the {@code copyright} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCopyright(java.lang.String copyright) {
+        public Builder setCopyright(java.lang.String copyright) {
             names.add("copyright");
             values.add(org.gtk.gobject.Value.create(copyright));
             return this;
@@ -786,7 +771,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param license The value for the {@code license} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLicense(java.lang.String license) {
+        public Builder setLicense(java.lang.String license) {
             names.add("license");
             values.add(org.gtk.gobject.Value.create(license));
             return this;
@@ -811,7 +796,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param licenseType The value for the {@code license-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLicenseType(org.gtk.gtk.License licenseType) {
+        public Builder setLicenseType(org.gtk.gtk.License licenseType) {
             names.add("license-type");
             values.add(org.gtk.gobject.Value.create(licenseType));
             return this;
@@ -825,7 +810,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param logo The value for the {@code logo} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLogo(org.gtk.gdk.Paintable logo) {
+        public Builder setLogo(org.gtk.gdk.Paintable logo) {
             names.add("logo");
             values.add(org.gtk.gobject.Value.create(logo));
             return this;
@@ -838,7 +823,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param logoIconName The value for the {@code logo-icon-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLogoIconName(java.lang.String logoIconName) {
+        public Builder setLogoIconName(java.lang.String logoIconName) {
             names.add("logo-icon-name");
             values.add(org.gtk.gobject.Value.create(logoIconName));
             return this;
@@ -852,7 +837,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param programName The value for the {@code program-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProgramName(java.lang.String programName) {
+        public Builder setProgramName(java.lang.String programName) {
             names.add("program-name");
             values.add(org.gtk.gobject.Value.create(programName));
             return this;
@@ -871,7 +856,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param systemInformation The value for the {@code system-information} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSystemInformation(java.lang.String systemInformation) {
+        public Builder setSystemInformation(java.lang.String systemInformation) {
             names.add("system-information");
             values.add(org.gtk.gobject.Value.create(systemInformation));
             return this;
@@ -887,7 +872,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param translatorCredits The value for the {@code translator-credits} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTranslatorCredits(java.lang.String translatorCredits) {
+        public Builder setTranslatorCredits(java.lang.String translatorCredits) {
             names.add("translator-credits");
             values.add(org.gtk.gobject.Value.create(translatorCredits));
             return this;
@@ -898,7 +883,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param version The value for the {@code version} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVersion(java.lang.String version) {
+        public Builder setVersion(java.lang.String version) {
             names.add("version");
             values.add(org.gtk.gobject.Value.create(version));
             return this;
@@ -911,7 +896,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param website The value for the {@code website} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWebsite(java.lang.String website) {
+        public Builder setWebsite(java.lang.String website) {
             names.add("website");
             values.add(org.gtk.gobject.Value.create(website));
             return this;
@@ -922,7 +907,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param websiteLabel The value for the {@code website-label} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWebsiteLabel(java.lang.String websiteLabel) {
+        public Builder setWebsiteLabel(java.lang.String websiteLabel) {
             names.add("website-label");
             values.add(org.gtk.gobject.Value.create(websiteLabel));
             return this;
@@ -933,7 +918,7 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
          * @param wrapLicense The value for the {@code wrap-license} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWrapLicense(boolean wrapLicense) {
+        public Builder setWrapLicense(boolean wrapLicense) {
             names.add("wrap-license");
             values.add(org.gtk.gobject.Value.create(wrapLicense));
             return this;
@@ -1151,14 +1136,5 @@ public class AboutDialog extends org.gtk.gtk.Window implements org.gtk.gtk.Acces
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalAboutDialogActivateLink(MemoryAddress sourceAboutDialog, MemoryAddress uri, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AboutDialog.ActivateLink) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new AboutDialog(sourceAboutDialog, Ownership.NONE), Interop.getStringFrom(uri));
-        }
     }
 }

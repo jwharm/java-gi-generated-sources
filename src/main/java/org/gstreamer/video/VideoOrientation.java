@@ -11,25 +11,8 @@ import org.jetbrains.annotations.*;
  */
 public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to VideoOrientation if its GType is a (or inherits from) "GstVideoOrientation".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VideoOrientation} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVideoOrientation", a ClassCastException will be thrown.
-     */
-    public static VideoOrientation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VideoOrientation.getType())) {
-            return new VideoOrientationImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVideoOrientation");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoOrientationImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOrientationImpl(input, ownership);
     
     /**
      * Get the horizontal centering offset from the given object.
@@ -37,7 +20,6 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} in case the element supports centering
      */
     default boolean getHcenter(Out<Integer> center) {
-        java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
         MemorySegment centerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -48,7 +30,7 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         center.set(centerPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -57,7 +39,6 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} in case the element supports flipping
      */
     default boolean getHflip(Out<Boolean> flip) {
-        java.util.Objects.requireNonNull(flip, "Parameter 'flip' must not be null");
         MemorySegment flipPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -68,7 +49,7 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         flip.set(flipPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -77,7 +58,6 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} in case the element supports centering
      */
     default boolean getVcenter(Out<Integer> center) {
-        java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
         MemorySegment centerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -88,7 +68,7 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         center.set(centerPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -97,7 +77,6 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} in case the element supports flipping
      */
     default boolean getVflip(Out<Boolean> flip) {
-        java.util.Objects.requireNonNull(flip, "Parameter 'flip' must not be null");
         MemorySegment flipPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -108,7 +87,7 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         flip.set(flipPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -125,7 +104,7 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -138,11 +117,11 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (int) DowncallHandles.gst_video_orientation_set_hflip.invokeExact(
                     handle(),
-                    flip ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flip, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -159,7 +138,7 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,18 +151,18 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
         try {
             RESULT = (int) DowncallHandles.gst_video_orientation_set_vflip.invokeExact(
                     handle(),
-                    flip ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flip, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_orientation_get_type.invokeExact();
@@ -200,9 +179,7 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
      * @param method The location where to return the orientation.
      * @return TRUE if there was a valid "image-orientation" tag in the taglist.
      */
-    public static boolean fromTag(@NotNull org.gstreamer.gst.TagList taglist, @NotNull Out<org.gstreamer.video.VideoOrientationMethod> method) {
-        java.util.Objects.requireNonNull(taglist, "Parameter 'taglist' must not be null");
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
+    public static boolean fromTag(org.gstreamer.gst.TagList taglist, Out<org.gstreamer.video.VideoOrientationMethod> method) {
         MemorySegment methodPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -213,7 +190,7 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         method.set(org.gstreamer.video.VideoOrientationMethod.of(methodPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     @ApiStatus.Internal
@@ -290,7 +267,7 @@ public interface VideoOrientation extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class VideoOrientationImpl extends org.gtk.gobject.Object implements VideoOrientation {
+    class VideoOrientationImpl extends org.gtk.gobject.GObject implements VideoOrientation {
         
         static {
             GstVideo.javagi$ensureInitialized();

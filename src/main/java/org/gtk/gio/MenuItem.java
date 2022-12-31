@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * functions below.
  * @version 2.32
  */
-public class MenuItem extends org.gtk.gobject.Object {
+public class MenuItem extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -32,37 +32,19 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MenuItem(Addressable address, Ownership ownership) {
+    protected MenuItem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to MenuItem if its GType is a (or inherits from) "GMenuItem".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MenuItem} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GMenuItem", a ClassCastException will be thrown.
-     */
-    public static MenuItem castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MenuItem.getType())) {
-            return new MenuItem(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMenuItem");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MenuItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MenuItem(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String label, @Nullable java.lang.String detailedAction) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_item_new.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
-                    (Addressable) (detailedAction == null ? MemoryAddress.NULL : Interop.allocateNativeString(detailedAction)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
+                    (Addressable) (detailedAction == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(detailedAction, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -85,9 +67,8 @@ public class MenuItem extends org.gtk.gobject.Object {
         super(constructNew(label, detailedAction), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromModel(@NotNull org.gtk.gio.MenuModel model, int itemIndex) {
-        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromModel(org.gtk.gio.MenuModel model, int itemIndex) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_item_new_from_model.invokeExact(
                     model.handle(),
@@ -108,16 +89,16 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @param itemIndex the index of an item in {@code model}
      * @return a new {@link MenuItem}.
      */
-    public static MenuItem newFromModel(@NotNull org.gtk.gio.MenuModel model, int itemIndex) {
-        return new MenuItem(constructNewFromModel(model, itemIndex), Ownership.FULL);
+    public static MenuItem newFromModel(org.gtk.gio.MenuModel model, int itemIndex) {
+        var RESULT = constructNewFromModel(model, itemIndex);
+        return (org.gtk.gio.MenuItem) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuItem.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSection(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
-        java.util.Objects.requireNonNull(section, "Parameter 'section' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSection(@Nullable java.lang.String label, org.gtk.gio.MenuModel section) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_item_new_section.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
                     section.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -190,16 +171,16 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @param section a {@link MenuModel} with the items of the section
      * @return a new {@link MenuItem}
      */
-    public static MenuItem newSection(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel section) {
-        return new MenuItem(constructNewSection(label, section), Ownership.FULL);
+    public static MenuItem newSection(@Nullable java.lang.String label, org.gtk.gio.MenuModel section) {
+        var RESULT = constructNewSection(label, section);
+        return (org.gtk.gio.MenuItem) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuItem.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSubmenu(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
-        java.util.Objects.requireNonNull(submenu, "Parameter 'submenu' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSubmenu(@Nullable java.lang.String label, org.gtk.gio.MenuModel submenu) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_item_new_submenu.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)),
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)),
                     submenu.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -216,8 +197,9 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @param submenu a {@link MenuModel} with the items of the submenu
      * @return a new {@link MenuItem}
      */
-    public static MenuItem newSubmenu(@Nullable java.lang.String label, @NotNull org.gtk.gio.MenuModel submenu) {
-        return new MenuItem(constructNewSubmenu(label, submenu), Ownership.FULL);
+    public static MenuItem newSubmenu(@Nullable java.lang.String label, org.gtk.gio.MenuModel submenu) {
+        var RESULT = constructNewSubmenu(label, submenu);
+        return (org.gtk.gio.MenuItem) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuItem.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -236,20 +218,18 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @return {@code true} if the named attribute was found with the expected
      *     type
      */
-    public boolean getAttribute(@NotNull java.lang.String attribute, @NotNull java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+    public boolean getAttribute(java.lang.String attribute, java.lang.String formatString, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_menu_item_get_attribute.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
-                    Interop.allocateNativeString(formatString),
+                    Marshal.stringToAddress.marshal(attribute, null),
+                    Marshal.stringToAddress.marshal(formatString, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -262,18 +242,17 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @param expectedType the expected type of the attribute
      * @return the attribute value, or {@code null}
      */
-    public @Nullable org.gtk.glib.Variant getAttributeValue(@NotNull java.lang.String attribute, @Nullable org.gtk.glib.VariantType expectedType) {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+    public @Nullable org.gtk.glib.Variant getAttributeValue(java.lang.String attribute, @Nullable org.gtk.glib.VariantType expectedType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_item_get_attribute_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
+                    Marshal.stringToAddress.marshal(attribute, null),
                     (Addressable) (expectedType == null ? MemoryAddress.NULL : expectedType.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -281,17 +260,16 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @param link the link name to query
      * @return the link, or {@code null}
      */
-    public @Nullable org.gtk.gio.MenuModel getLink(@NotNull java.lang.String link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public @Nullable org.gtk.gio.MenuModel getLink(java.lang.String link) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_item_get_link.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(link));
+                    Marshal.stringToAddress.marshal(link, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.FULL);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -322,8 +300,8 @@ public class MenuItem extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_menu_item_set_action_and_target.invokeExact(
                     handle(),
-                    (Addressable) (action == null ? MemoryAddress.NULL : Interop.allocateNativeString(action)),
-                    (Addressable) (formatString == null ? MemoryAddress.NULL : Interop.allocateNativeString(formatString)),
+                    (Addressable) (action == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(action, null)),
+                    (Addressable) (formatString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(formatString, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -374,7 +352,7 @@ public class MenuItem extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_menu_item_set_action_and_target_value.invokeExact(
                     handle(),
-                    (Addressable) (action == null ? MemoryAddress.NULL : Interop.allocateNativeString(action)),
+                    (Addressable) (action == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(action, null)),
                     (Addressable) (targetValue == null ? MemoryAddress.NULL : targetValue.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -403,13 +381,12 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @param formatString a {@link org.gtk.glib.Variant} format string, or {@code null}
      * @param varargs positional parameters, as per {@code format_string}
      */
-    public void setAttribute(@NotNull java.lang.String attribute, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+    public void setAttribute(java.lang.String attribute, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_menu_item_set_attribute.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
-                    (Addressable) (formatString == null ? MemoryAddress.NULL : Interop.allocateNativeString(formatString)),
+                    Marshal.stringToAddress.marshal(attribute, null),
+                    (Addressable) (formatString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(formatString, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -439,12 +416,11 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @param attribute the attribute to set
      * @param value a {@link org.gtk.glib.Variant} to use as the value, or {@code null}
      */
-    public void setAttributeValue(@NotNull java.lang.String attribute, @Nullable org.gtk.glib.Variant value) {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+    public void setAttributeValue(java.lang.String attribute, @Nullable org.gtk.glib.Variant value) {
         try {
             DowncallHandles.g_menu_item_set_attribute_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
+                    Marshal.stringToAddress.marshal(attribute, null),
                     (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -465,12 +441,11 @@ public class MenuItem extends org.gtk.gobject.Object {
      * the semantics of the action and target attributes.
      * @param detailedAction the "detailed" action string
      */
-    public void setDetailedAction(@NotNull java.lang.String detailedAction) {
-        java.util.Objects.requireNonNull(detailedAction, "Parameter 'detailedAction' must not be null");
+    public void setDetailedAction(java.lang.String detailedAction) {
         try {
             DowncallHandles.g_menu_item_set_detailed_action.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(detailedAction));
+                    Marshal.stringToAddress.marshal(detailedAction, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -491,8 +466,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * If {@code icon} is {@code null} then the icon is unset.
      * @param icon a {@link Icon}, or {@code null}
      */
-    public void setIcon(@NotNull org.gtk.gio.Icon icon) {
-        java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
+    public void setIcon(org.gtk.gio.Icon icon) {
         try {
             DowncallHandles.g_menu_item_set_icon.invokeExact(
                     handle(),
@@ -513,7 +487,7 @@ public class MenuItem extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_menu_item_set_label.invokeExact(
                     handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -533,12 +507,11 @@ public class MenuItem extends org.gtk.gobject.Object {
      * @param link type of link to establish or unset
      * @param model the {@link MenuModel} to link to (or {@code null} to unset)
      */
-    public void setLink(@NotNull java.lang.String link, @Nullable org.gtk.gio.MenuModel model) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public void setLink(java.lang.String link, @Nullable org.gtk.gio.MenuModel model) {
         try {
             DowncallHandles.g_menu_item_set_link.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(link),
+                    Marshal.stringToAddress.marshal(link, null),
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -589,7 +562,7 @@ public class MenuItem extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_menu_item_get_type.invokeExact();
@@ -598,38 +571,40 @@ public class MenuItem extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link MenuItem.Builder} object constructs a {@link MenuItem} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MenuItem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link MenuItem.Build} object constructs a {@link MenuItem} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MenuItem} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MenuItem} using {@link MenuItem#castFrom}.
+         * {@link MenuItem}.
          * @return A new instance of {@code MenuItem} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MenuItem construct() {
-            return MenuItem.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MenuItem.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MenuItem build() {
+            return (MenuItem) org.gtk.gobject.GObject.newWithProperties(
+                MenuItem.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

@@ -40,8 +40,10 @@ public class FileIconClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FileIconClass(Addressable address, Ownership ownership) {
+    protected FileIconClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FileIconClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileIconClass(input, ownership);
 }

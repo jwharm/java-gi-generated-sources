@@ -17,20 +17,18 @@ public class RTSPTime2 extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTSPTime2";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_DOUBLE.withName("frames"),
-        Interop.valueLayout.C_INT.withName("year"),
-        Interop.valueLayout.C_INT.withName("month"),
-        Interop.valueLayout.C_INT.withName("day")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_DOUBLE.withName("frames"),
+            Interop.valueLayout.C_INT.withName("year"),
+            Interop.valueLayout.C_INT.withName("month"),
+            Interop.valueLayout.C_INT.withName("day")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class RTSPTime2 extends Struct {
      * Get the value of the field {@code frames}
      * @return The value of the field {@code frames}
      */
-    public double frames$get() {
+    public double getFrames() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("frames"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -61,7 +59,7 @@ public class RTSPTime2 extends Struct {
      * Change the value of the field {@code frames}
      * @param frames The new value of the field {@code frames}
      */
-    public void frames$set(double frames) {
+    public void setFrames(double frames) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("frames"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);
@@ -71,7 +69,7 @@ public class RTSPTime2 extends Struct {
      * Get the value of the field {@code year}
      * @return The value of the field {@code year}
      */
-    public int year$get() {
+    public int getYear() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("year"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -82,7 +80,7 @@ public class RTSPTime2 extends Struct {
      * Change the value of the field {@code year}
      * @param year The new value of the field {@code year}
      */
-    public void year$set(int year) {
+    public void setYear(int year) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("year"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);
@@ -92,7 +90,7 @@ public class RTSPTime2 extends Struct {
      * Get the value of the field {@code month}
      * @return The value of the field {@code month}
      */
-    public int month$get() {
+    public int getMonth() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("month"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -103,7 +101,7 @@ public class RTSPTime2 extends Struct {
      * Change the value of the field {@code month}
      * @param month The new value of the field {@code month}
      */
-    public void month$set(int month) {
+    public void setMonth(int month) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("month"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
@@ -113,7 +111,7 @@ public class RTSPTime2 extends Struct {
      * Get the value of the field {@code day}
      * @return The value of the field {@code day}
      */
-    public int day$get() {
+    public int getDay() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("day"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -124,7 +122,7 @@ public class RTSPTime2 extends Struct {
      * Change the value of the field {@code day}
      * @param day The new value of the field {@code day}
      */
-    public void day$set(int day) {
+    public void setDay(int day) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("day"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);
@@ -135,35 +133,41 @@ public class RTSPTime2 extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTSPTime2(Addressable address, Ownership ownership) {
+    protected RTSPTime2(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTSPTime2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPTime2(input, ownership);
+    
+    /**
+     * A {@link RTSPTime2.Builder} object constructs a {@link RTSPTime2} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RTSPTime2.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RTSPTime2 struct;
+        private final RTSPTime2 struct;
         
-         /**
-         * A {@link RTSPTime2.Build} object constructs a {@link RTSPTime2} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RTSPTime2.allocate();
         }
         
          /**
          * Finish building the {@link RTSPTime2} struct.
          * @return A new instance of {@code RTSPTime2} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTSPTime2 construct() {
+        public RTSPTime2 build() {
             return struct;
         }
         
@@ -173,7 +177,7 @@ public class RTSPTime2 extends Struct {
          * @param frames The value for the {@code frames} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFrames(double frames) {
+        public Builder setFrames(double frames) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("frames"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);
@@ -185,7 +189,7 @@ public class RTSPTime2 extends Struct {
          * @param year The value for the {@code year} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYear(int year) {
+        public Builder setYear(int year) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("year"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), year);
@@ -197,7 +201,7 @@ public class RTSPTime2 extends Struct {
          * @param month The value for the {@code month} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMonth(int month) {
+        public Builder setMonth(int month) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("month"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), month);
@@ -209,7 +213,7 @@ public class RTSPTime2 extends Struct {
          * @param day The value for the {@code day} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDay(int day) {
+        public Builder setDay(int day) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("day"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), day);

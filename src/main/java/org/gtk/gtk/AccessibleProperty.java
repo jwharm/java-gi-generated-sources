@@ -150,9 +150,7 @@ public enum AccessibleProperty implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static void initValue(@NotNull org.gtk.gtk.AccessibleProperty property, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void initValue(org.gtk.gtk.AccessibleProperty property, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gtk_accessible_property_init_value.invokeExact(
                     property.getValue(),

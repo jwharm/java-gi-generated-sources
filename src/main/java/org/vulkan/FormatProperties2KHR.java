@@ -40,8 +40,10 @@ public class FormatProperties2KHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FormatProperties2KHR(Addressable address, Ownership ownership) {
+    protected FormatProperties2KHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FormatProperties2KHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FormatProperties2KHR(input, ownership);
 }

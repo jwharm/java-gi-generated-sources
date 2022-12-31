@@ -31,11 +31,15 @@ public class VideoResamplerFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public VideoResamplerFlags or(VideoResamplerFlags mask) {
-        return new VideoResamplerFlags(this.getValue() | mask.getValue());
+    public VideoResamplerFlags or(VideoResamplerFlags... masks) {
+        int value = this.getValue();
+        for (VideoResamplerFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new VideoResamplerFlags(value);
     }
     
     /**
@@ -45,7 +49,8 @@ public class VideoResamplerFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static VideoResamplerFlags combined(VideoResamplerFlags mask, VideoResamplerFlags... masks) {
-        int value = mask.getValue();        for (VideoResamplerFlags arg : masks) {
+        int value = mask.getValue();
+        for (VideoResamplerFlags arg : masks) {
             value |= arg.getValue();
         }
         return new VideoResamplerFlags(value);

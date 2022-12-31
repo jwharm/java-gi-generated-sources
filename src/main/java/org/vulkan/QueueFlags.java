@@ -40,8 +40,10 @@ public class QueueFlags extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public QueueFlags(Addressable address, Ownership ownership) {
+    protected QueueFlags(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, QueueFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new QueueFlags(input, ownership);
 }

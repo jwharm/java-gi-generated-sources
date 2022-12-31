@@ -43,11 +43,15 @@ public class StyleContextPrintFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public StyleContextPrintFlags or(StyleContextPrintFlags mask) {
-        return new StyleContextPrintFlags(this.getValue() | mask.getValue());
+    public StyleContextPrintFlags or(StyleContextPrintFlags... masks) {
+        int value = this.getValue();
+        for (StyleContextPrintFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new StyleContextPrintFlags(value);
     }
     
     /**
@@ -57,7 +61,8 @@ public class StyleContextPrintFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static StyleContextPrintFlags combined(StyleContextPrintFlags mask, StyleContextPrintFlags... masks) {
-        int value = mask.getValue();        for (StyleContextPrintFlags arg : masks) {
+        int value = mask.getValue();
+        for (StyleContextPrintFlags arg : masks) {
             value |= arg.getValue();
         }
         return new StyleContextPrintFlags(value);

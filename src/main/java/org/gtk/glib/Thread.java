@@ -55,23 +55,20 @@ public class Thread extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Thread(Addressable address, Ownership ownership) {
+    protected Thread(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Thread> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Thread(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String name, org.gtk.glib.ThreadFunc func) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbThreadFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -109,23 +106,18 @@ public class Thread extends Struct {
      * @param name an (optional) name for the new thread
      * @param func a function to execute in the new thread
      */
-    public Thread(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) {
+    public Thread(@Nullable java.lang.String name, org.gtk.glib.ThreadFunc func) {
         super(constructNew(name, func), Ownership.FULL);
     }
     
-    private static Addressable constructTryNew(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) throws GErrorException {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    private static MemoryAddress constructTryNew(@Nullable java.lang.String name, org.gtk.glib.ThreadFunc func) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_try_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbThreadFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -147,8 +139,9 @@ public class Thread extends Struct {
      * @return the new {@link Thread}, or {@code null} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static Thread tryNew(@Nullable java.lang.String name, @NotNull org.gtk.glib.ThreadFunc func) throws GErrorException {
-        return new Thread(constructTryNew(name, func), Ownership.FULL);
+    public static Thread tryNew(@Nullable java.lang.String name, org.gtk.glib.ThreadFunc func) throws GErrorException {
+        var RESULT = constructTryNew(name, func);
+        return org.gtk.glib.Thread.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -186,7 +179,7 @@ public class Thread extends Struct {
      * Increase the reference count on {@code thread}.
      * @return a new reference to {@code thread}
      */
-    public @NotNull org.gtk.glib.Thread ref() {
+    public org.gtk.glib.Thread ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_ref.invokeExact(
@@ -194,7 +187,7 @@ public class Thread extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Thread(RESULT, Ownership.FULL);
+        return org.gtk.glib.Thread.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -215,7 +208,7 @@ public class Thread extends Struct {
         this.yieldOwnership();
     }
     
-    public static @NotNull org.gtk.glib.Quark errorQuark() {
+    public static org.gtk.glib.Quark errorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_thread_error_quark.invokeExact();
@@ -262,14 +255,14 @@ public class Thread extends Struct {
      * as g_thread_join()) on these threads.
      * @return the {@link Thread} representing the current thread
      */
-    public static @NotNull org.gtk.glib.Thread self() {
+    public static org.gtk.glib.Thread self() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_self.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Thread(RESULT, Ownership.NONE);
+        return org.gtk.glib.Thread.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**

@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * When being stored/loaded, targets come from a specific category, like
  * {@code GST_ENCODING_CATEGORY_DEVICE}.
  */
-public class EncodingTarget extends org.gtk.gobject.Object {
+public class EncodingTarget extends org.gtk.gobject.GObject {
     
     static {
         GstPbutils.javagi$ensureInitialized();
@@ -33,42 +33,20 @@ public class EncodingTarget extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EncodingTarget(Addressable address, Ownership ownership) {
+    protected EncodingTarget(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EncodingTarget if its GType is a (or inherits from) "GstEncodingTarget".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EncodingTarget} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstEncodingTarget", a ClassCastException will be thrown.
-     */
-    public static EncodingTarget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EncodingTarget.getType())) {
-            return new EncodingTarget(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstEncodingTarget");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EncodingTarget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EncodingTarget(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String name, @NotNull java.lang.String category, @NotNull java.lang.String description, @NotNull org.gtk.glib.List profiles) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(category, "Parameter 'category' must not be null");
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
-        java.util.Objects.requireNonNull(profiles, "Parameter 'profiles' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String name, java.lang.String category, java.lang.String description, org.gtk.glib.List profiles) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_target_new.invokeExact(
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(category),
-                    Interop.allocateNativeString(description),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(category, null),
+                    Marshal.stringToAddress.marshal(description, null),
                     profiles.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -95,7 +73,7 @@ public class EncodingTarget extends org.gtk.gobject.Object {
      * @param profiles A {@link org.gtk.glib.List} of
      * {@link EncodingProfile}.
      */
-    public EncodingTarget(@NotNull java.lang.String name, @NotNull java.lang.String category, @NotNull java.lang.String description, @NotNull org.gtk.glib.List profiles) {
+    public EncodingTarget(java.lang.String name, java.lang.String category, java.lang.String description, org.gtk.glib.List profiles) {
         super(constructNew(name, category, description, profiles), Ownership.FULL);
     }
     
@@ -109,8 +87,7 @@ public class EncodingTarget extends org.gtk.gobject.Object {
      * @param profile the {@link EncodingProfile} to add
      * @return {@code true} if the profile was added, else {@code false}.
      */
-    public boolean addProfile(@NotNull org.gstreamer.pbutils.EncodingProfile profile) {
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public boolean addProfile(org.gstreamer.pbutils.EncodingProfile profile) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_encoding_target_add_profile.invokeExact(
@@ -120,10 +97,10 @@ public class EncodingTarget extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         profile.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull java.lang.String getCategory() {
+    public java.lang.String getCategory() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_target_get_category.invokeExact(
@@ -131,10 +108,10 @@ public class EncodingTarget extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull java.lang.String getDescription() {
+    public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_target_get_description.invokeExact(
@@ -142,10 +119,10 @@ public class EncodingTarget extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_target_get_name.invokeExact(
@@ -153,10 +130,10 @@ public class EncodingTarget extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull java.lang.String getPath() {
+    public java.lang.String getPath() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_target_get_path.invokeExact(
@@ -164,23 +141,22 @@ public class EncodingTarget extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull org.gstreamer.pbutils.EncodingProfile getProfile(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public org.gstreamer.pbutils.EncodingProfile getProfile(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_target_get_profile.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.pbutils.EncodingProfile(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.EncodingProfile) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.EncodingProfile.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gtk.glib.List getProfiles() {
+    public org.gtk.glib.List getProfiles() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_target_get_profiles.invokeExact(
@@ -188,7 +164,7 @@ public class EncodingTarget extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -209,7 +185,7 @@ public class EncodingTarget extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -218,14 +194,13 @@ public class EncodingTarget extends org.gtk.gobject.Object {
      * @return {@code true} if the target was correctly saved, else {@code false}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean saveToFile(@NotNull java.lang.String filepath) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filepath, "Parameter 'filepath' must not be null");
+    public boolean saveToFile(java.lang.String filepath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_encoding_target_save_to_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filepath),
+                    Marshal.stringToAddress.marshal(filepath, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -233,14 +208,14 @@ public class EncodingTarget extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_encoding_target_get_type.invokeExact();
@@ -264,14 +239,13 @@ public class EncodingTarget extends org.gtk.gobject.Object {
      * @return The {@link EncodingTarget} if available, else {@code null}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.pbutils.EncodingTarget load(@NotNull java.lang.String name, @Nullable java.lang.String category) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gstreamer.pbutils.EncodingTarget load(java.lang.String name, @Nullable java.lang.String category) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_target_load.invokeExact(
-                    Interop.allocateNativeString(name),
-                    (Addressable) (category == null ? MemoryAddress.NULL : Interop.allocateNativeString(category)),
+                    Marshal.stringToAddress.marshal(name, null),
+                    (Addressable) (category == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(category, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -279,7 +253,7 @@ public class EncodingTarget extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.pbutils.EncodingTarget(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.EncodingTarget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.EncodingTarget.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -289,13 +263,12 @@ public class EncodingTarget extends org.gtk.gobject.Object {
      * {@code null}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.pbutils.EncodingTarget loadFromFile(@NotNull java.lang.String filepath) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filepath, "Parameter 'filepath' must not be null");
+    public static org.gstreamer.pbutils.EncodingTarget loadFromFile(java.lang.String filepath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_target_load_from_file.invokeExact(
-                    Interop.allocateNativeString(filepath),
+                    Marshal.stringToAddress.marshal(filepath, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -303,40 +276,42 @@ public class EncodingTarget extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.pbutils.EncodingTarget(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.EncodingTarget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.EncodingTarget.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link EncodingTarget.Builder} object constructs a {@link EncodingTarget} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EncodingTarget.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link EncodingTarget.Build} object constructs a {@link EncodingTarget} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EncodingTarget} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EncodingTarget} using {@link EncodingTarget#castFrom}.
+         * {@link EncodingTarget}.
          * @return A new instance of {@code EncodingTarget} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EncodingTarget construct() {
-            return EncodingTarget.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EncodingTarget.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EncodingTarget build() {
+            return (EncodingTarget) org.gtk.gobject.GObject.newWithProperties(
+                EncodingTarget.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

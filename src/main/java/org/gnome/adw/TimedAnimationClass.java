@@ -40,8 +40,10 @@ public class TimedAnimationClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TimedAnimationClass(Addressable address, Ownership ownership) {
+    protected TimedAnimationClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TimedAnimationClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimedAnimationClass(input, ownership);
 }

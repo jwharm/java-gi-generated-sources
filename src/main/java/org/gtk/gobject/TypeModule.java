@@ -37,22 +37,13 @@ import org.jetbrains.annotations.*;
  * derive from {@link TypeModule} and implement the load and unload functions
  * in {@link TypeModuleClass}.
  */
-public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobject.TypePlugin {
+public class TypeModule extends org.gtk.gobject.GObject implements org.gtk.gobject.TypePlugin {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GTypeModule";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.C_INT.withName("use_count"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("type_infos"),
-        Interop.valueLayout.ADDRESS.withName("interface_infos"),
-        Interop.valueLayout.ADDRESS.withName("name")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -60,7 +51,14 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.C_INT.withName("use_count"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("type_infos"),
+            Interop.valueLayout.ADDRESS.withName("interface_infos"),
+            Interop.valueLayout.ADDRESS.withName("name")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -68,30 +66,12 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TypeModule(Addressable address, Ownership ownership) {
+    protected TypeModule(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TypeModule if its GType is a (or inherits from) "GTypeModule".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TypeModule} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GTypeModule", a ClassCastException will be thrown.
-     */
-    public static TypeModule castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TypeModule.getType())) {
-            return new TypeModule(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTypeModule");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TypeModule> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeModule(input, ownership);
     
     /**
      * Registers an additional interface for a type, whose interface lives
@@ -107,10 +87,7 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      * @param interfaceType interface type to add
      * @param interfaceInfo type information structure
      */
-    public void addInterface(@NotNull org.gtk.glib.Type instanceType, @NotNull org.gtk.glib.Type interfaceType, @NotNull org.gtk.gobject.InterfaceInfo interfaceInfo) {
-        java.util.Objects.requireNonNull(instanceType, "Parameter 'instanceType' must not be null");
-        java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
-        java.util.Objects.requireNonNull(interfaceInfo, "Parameter 'interfaceInfo' must not be null");
+    public void addInterface(org.gtk.glib.Type instanceType, org.gtk.glib.Type interfaceType, org.gtk.gobject.InterfaceInfo interfaceInfo) {
         try {
             DowncallHandles.g_type_module_add_interface.invokeExact(
                     handle(),
@@ -125,8 +102,8 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
     /**
      * Looks up or registers an enumeration that is implemented with a particular
      * type plugin. If a type with name {@code type_name} was previously registered,
-     * the {@link Type} identifier for the type is returned, otherwise the type
-     * is newly registered, and the resulting {@link Type} identifier returned.
+     * the {@link org.gtk.glib.Type} identifier for the type is returned, otherwise the type
+     * is newly registered, and the resulting {@link org.gtk.glib.Type} identifier returned.
      * <p>
      * As long as any instances of the type exist, the type plugin will
      * not be unloaded.
@@ -140,14 +117,12 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      *                       0.
      * @return the new or existing type ID
      */
-    public @NotNull org.gtk.glib.Type registerEnum(@NotNull java.lang.String name, @NotNull org.gtk.gobject.EnumValue constStaticValues) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(constStaticValues, "Parameter 'constStaticValues' must not be null");
+    public org.gtk.glib.Type registerEnum(java.lang.String name, org.gtk.gobject.EnumValue constStaticValues) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_type_module_register_enum.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -158,8 +133,8 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
     /**
      * Looks up or registers a flags type that is implemented with a particular
      * type plugin. If a type with name {@code type_name} was previously registered,
-     * the {@link Type} identifier for the type is returned, otherwise the type
-     * is newly registered, and the resulting {@link Type} identifier returned.
+     * the {@link org.gtk.glib.Type} identifier for the type is returned, otherwise the type
+     * is newly registered, and the resulting {@link org.gtk.glib.Type} identifier returned.
      * <p>
      * As long as any instances of the type exist, the type plugin will
      * not be unloaded.
@@ -173,14 +148,12 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      *                       0.
      * @return the new or existing type ID
      */
-    public @NotNull org.gtk.glib.Type registerFlags(@NotNull java.lang.String name, @NotNull org.gtk.gobject.FlagsValue constStaticValues) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(constStaticValues, "Parameter 'constStaticValues' must not be null");
+    public org.gtk.glib.Type registerFlags(java.lang.String name, org.gtk.gobject.FlagsValue constStaticValues) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_type_module_register_flags.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     constStaticValues.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -191,8 +164,8 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
     /**
      * Looks up or registers a type that is implemented with a particular
      * type plugin. If a type with name {@code type_name} was previously registered,
-     * the {@link Type} identifier for the type is returned, otherwise the type
-     * is newly registered, and the resulting {@link Type} identifier returned.
+     * the {@link org.gtk.glib.Type} identifier for the type is returned, otherwise the type
+     * is newly registered, and the resulting {@link org.gtk.glib.Type} identifier returned.
      * <p>
      * When reregistering a type (typically because a module is unloaded
      * then reloaded, and reinitialized), {@code module} and {@code parent_type} must
@@ -209,17 +182,13 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      * @param flags flags field providing details about the type
      * @return the new or existing type ID
      */
-    public @NotNull org.gtk.glib.Type registerType(@NotNull org.gtk.glib.Type parentType, @NotNull java.lang.String typeName, @NotNull org.gtk.gobject.TypeInfo typeInfo, @NotNull org.gtk.gobject.TypeFlags flags) {
-        java.util.Objects.requireNonNull(parentType, "Parameter 'parentType' must not be null");
-        java.util.Objects.requireNonNull(typeName, "Parameter 'typeName' must not be null");
-        java.util.Objects.requireNonNull(typeInfo, "Parameter 'typeInfo' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gtk.glib.Type registerType(org.gtk.glib.Type parentType, java.lang.String typeName, org.gtk.gobject.TypeInfo typeInfo, org.gtk.gobject.TypeFlags flags) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_type_module_register_type.invokeExact(
                     handle(),
                     parentType.getValue().longValue(),
-                    Interop.allocateNativeString(typeName),
+                    Marshal.stringToAddress.marshal(typeName, null),
                     typeInfo.handle(),
                     flags.getValue());
         } catch (Throwable ERR) {
@@ -232,12 +201,11 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
      * Sets the name for a {@link TypeModule}
      * @param name a human-readable name to use in error messages.
      */
-    public void setName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setName(java.lang.String name) {
         try {
             DowncallHandles.g_type_module_set_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,14 +243,14 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_type_module_get_type.invokeExact();
@@ -291,38 +259,40 @@ public class TypeModule extends org.gtk.gobject.Object implements org.gtk.gobjec
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TypeModule.Builder} object constructs a {@link TypeModule} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TypeModule.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TypeModule.Build} object constructs a {@link TypeModule} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TypeModule} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TypeModule} using {@link TypeModule#castFrom}.
+         * {@link TypeModule}.
          * @return A new instance of {@code TypeModule} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TypeModule construct() {
-            return TypeModule.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TypeModule.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TypeModule build() {
+            return (TypeModule) org.gtk.gobject.GObject.newWithProperties(
+                TypeModule.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

@@ -45,10 +45,12 @@ public class OptionContext extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public OptionContext(Addressable address, Ownership ownership) {
+    protected OptionContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, OptionContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OptionContext(input, ownership);
     
     /**
      * Adds a {@link OptionGroup} to the {@code context}, so that parsing with {@code context}
@@ -56,8 +58,7 @@ public class OptionContext extends Struct {
      * ownership of the {@code group} and thus the {@code group} should not be freed.
      * @param group the group to add
      */
-    public void addGroup(@NotNull org.gtk.glib.OptionGroup group) {
-        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+    public void addGroup(org.gtk.glib.OptionGroup group) {
         try {
             DowncallHandles.g_option_context_add_group.invokeExact(
                     handle(),
@@ -76,13 +77,12 @@ public class OptionContext extends Struct {
      *    the {@code --help} output for the options in {@code entries}
      *    with gettext(), or {@code null}
      */
-    public void addMainEntries(@NotNull org.gtk.glib.OptionEntry[] entries, @Nullable java.lang.String translationDomain) {
-        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
+    public void addMainEntries(org.gtk.glib.OptionEntry[] entries, @Nullable java.lang.String translationDomain) {
         try {
             DowncallHandles.g_option_context_add_main_entries.invokeExact(
                     handle(),
                     Interop.allocateNativeArray(entries, org.gtk.glib.OptionEntry.getMemoryLayout(), false),
-                    (Addressable) (translationDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(translationDomain)));
+                    (Addressable) (translationDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(translationDomain, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,7 +108,7 @@ public class OptionContext extends Struct {
      * Returns the description. See g_option_context_set_description().
      * @return the description
      */
-    public @NotNull java.lang.String getDescription() {
+    public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_description.invokeExact(
@@ -116,7 +116,7 @@ public class OptionContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -131,17 +131,17 @@ public class OptionContext extends Struct {
      * @param group the {@link OptionGroup} to create help for, or {@code null}
      * @return A newly allocated string containing the help text
      */
-    public @NotNull java.lang.String getHelp(boolean mainHelp, @Nullable org.gtk.glib.OptionGroup group) {
+    public java.lang.String getHelp(boolean mainHelp, @Nullable org.gtk.glib.OptionGroup group) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_help.invokeExact(
                     handle(),
-                    mainHelp ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(mainHelp, null).intValue(),
                     (Addressable) (group == null ? MemoryAddress.NULL : group.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -157,7 +157,7 @@ public class OptionContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -173,7 +173,7 @@ public class OptionContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -182,7 +182,7 @@ public class OptionContext extends Struct {
      *  {@code context} doesn't have a main group. Note that group belongs to
      *  {@code context} and should not be modified or freed.
      */
-    public @NotNull org.gtk.glib.OptionGroup getMainGroup() {
+    public org.gtk.glib.OptionGroup getMainGroup() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_main_group.invokeExact(
@@ -190,7 +190,7 @@ public class OptionContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.OptionGroup(RESULT, Ownership.NONE);
+        return org.gtk.glib.OptionGroup.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -207,14 +207,14 @@ public class OptionContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Returns the summary. See g_option_context_set_summary().
      * @return the summary
      */
-    public @NotNull java.lang.String getSummary() {
+    public java.lang.String getSummary() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_option_context_get_summary.invokeExact(
@@ -222,7 +222,7 @@ public class OptionContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -253,18 +253,16 @@ public class OptionContext extends Struct {
      *               {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean parse(Out<Integer> argc, @NotNull Out<java.lang.String[]> argv) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(argc, "Parameter 'argc' must not be null");
+    public boolean parse(Out<Integer> argc, @Nullable Out<java.lang.String[]> argv) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment argcPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
         MemorySegment argvPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_option_context_parse.invokeExact(
                     handle(),
-                    (Addressable) argcPOINTER.address(),
-                    (Addressable) argvPOINTER.address(),
+                    (Addressable) (argc == null ? MemoryAddress.NULL : (Addressable) argcPOINTER.address()),
+                    (Addressable) (argv == null ? MemoryAddress.NULL : (Addressable) argvPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -272,14 +270,14 @@ public class OptionContext extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (argc != null) argc.set(argcPOINTER.get(Interop.valueLayout.C_INT, 0));
         java.lang.String[] argvARRAY = new java.lang.String[argc.get().intValue()];
         for (int I = 0; I < argc.get().intValue(); I++) {
             var OBJ = argvPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            argvARRAY[I] = Interop.getStringFrom(OBJ);
+            argvARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         argv.set(argvARRAY);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -307,8 +305,21 @@ public class OptionContext extends Struct {
      *          {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean parseStrv(@NotNull Out<java.lang.String[]> arguments) throws io.github.jwharm.javagi.GErrorException {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseStrv(@Nullable java.lang.String[] arguments) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_option_context_parse_strv.invokeExact(
+                    handle(),
+                    (Addressable) (arguments == null ? MemoryAddress.NULL : Interop.allocateNativeArray(arguments, false)),
+                    (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -324,7 +335,7 @@ public class OptionContext extends Struct {
         try {
             DowncallHandles.g_option_context_set_description.invokeExact(
                     handle(),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +352,7 @@ public class OptionContext extends Struct {
         try {
             DowncallHandles.g_option_context_set_help_enabled.invokeExact(
                     handle(),
-                    helpEnabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(helpEnabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -362,7 +373,7 @@ public class OptionContext extends Struct {
         try {
             DowncallHandles.g_option_context_set_ignore_unknown_options.invokeExact(
                     handle(),
-                    ignoreUnknown ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(ignoreUnknown, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -375,8 +386,7 @@ public class OptionContext extends Struct {
      * treated differently when generating {@code --help} output.
      * @param group the group to set as main group
      */
-    public void setMainGroup(@NotNull org.gtk.glib.OptionGroup group) {
-        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+    public void setMainGroup(org.gtk.glib.OptionGroup group) {
         try {
             DowncallHandles.g_option_context_set_main_group.invokeExact(
                     handle(),
@@ -418,7 +428,7 @@ public class OptionContext extends Struct {
         try {
             DowncallHandles.g_option_context_set_strict_posix.invokeExact(
                     handle(),
-                    strictPosix ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(strictPosix, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -438,7 +448,7 @@ public class OptionContext extends Struct {
         try {
             DowncallHandles.g_option_context_set_summary.invokeExact(
                     handle(),
-                    (Addressable) (summary == null ? MemoryAddress.NULL : Interop.allocateNativeString(summary)));
+                    (Addressable) (summary == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(summary, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -457,18 +467,15 @@ public class OptionContext extends Struct {
      * If you are using gettext(), you only need to set the translation
      * domain, see g_option_context_set_translation_domain().
      * @param func the {@link TranslateFunc}, or {@code null}
+     * @param destroyNotify a function which gets called to free {@code data}, or {@code null}
      */
-    public void setTranslateFunc(@Nullable org.gtk.glib.TranslateFunc func) {
+    public void setTranslateFunc(@Nullable org.gtk.glib.TranslateFunc func, @Nullable org.gtk.glib.DestroyNotify destroyNotify) {
         try {
             DowncallHandles.g_option_context_set_translate_func.invokeExact(
                     handle(),
-                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTranslateFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (destroyNotify == null ? MemoryAddress.NULL : (Addressable) destroyNotify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -479,12 +486,11 @@ public class OptionContext extends Struct {
      * user-visible strings.
      * @param domain the domain to use
      */
-    public void setTranslationDomain(@NotNull java.lang.String domain) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+    public void setTranslationDomain(java.lang.String domain) {
         try {
             DowncallHandles.g_option_context_set_translation_domain.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(domain));
+                    Marshal.stringToAddress.marshal(domain, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -516,15 +522,15 @@ public class OptionContext extends Struct {
      * @return a newly created {@link OptionContext}, which must be
      *    freed with g_option_context_free() after use.
      */
-    public static @NotNull org.gtk.glib.OptionContext new_(@Nullable java.lang.String parameterString) {
+    public static org.gtk.glib.OptionContext new_(@Nullable java.lang.String parameterString) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_option_context_new.invokeExact(
-                    (Addressable) (parameterString == null ? MemoryAddress.NULL : Interop.allocateNativeString(parameterString)));
+                    (Addressable) (parameterString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(parameterString, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.OptionContext(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.OptionContext.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

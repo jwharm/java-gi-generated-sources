@@ -11,5 +11,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface CellCallback {
-        boolean onCellCallback(@NotNull org.gtk.gtk.CellRenderer renderer);
+    boolean run(org.gtk.gtk.CellRenderer renderer);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress renderer, MemoryAddress data) {
+        var RESULT = run((org.gtk.gtk.CellRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(renderer)), org.gtk.gtk.CellRenderer.fromAddress).marshal(renderer, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CellCallback.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

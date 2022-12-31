@@ -67,12 +67,11 @@ public class VideoChromaSite extends io.github.jwharm.javagi.Bitfield {
      * @return a {@link VideoChromaSite} or {@link VideoChromaSite#UNKNOWN} when {@code s} does
      * not contain a valid chroma-site description.
      */
-    public static @NotNull org.gstreamer.video.VideoChromaSite fromString(@NotNull java.lang.String s) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
+    public static org.gstreamer.video.VideoChromaSite fromString(java.lang.String s) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_chroma_site_from_string.invokeExact(
-                    Interop.allocateNativeString(s));
+                    Marshal.stringToAddress.marshal(s, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,8 +85,7 @@ public class VideoChromaSite extends io.github.jwharm.javagi.Bitfield {
      *          or {@code null} if {@code site} contains undefined value or
      *          is equal to {@link VideoChromaSite#UNKNOWN}
      */
-    public static @Nullable java.lang.String toString(@NotNull org.gstreamer.video.VideoChromaSite site) {
-        java.util.Objects.requireNonNull(site, "Parameter 'site' must not be null");
+    public static @Nullable java.lang.String toString(org.gstreamer.video.VideoChromaSite site) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_chroma_site_to_string.invokeExact(
@@ -95,16 +93,20 @@ public class VideoChromaSite extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public VideoChromaSite or(VideoChromaSite mask) {
-        return new VideoChromaSite(this.getValue() | mask.getValue());
+    public VideoChromaSite or(VideoChromaSite... masks) {
+        int value = this.getValue();
+        for (VideoChromaSite arg : masks) {
+            value |= arg.getValue();
+        }
+        return new VideoChromaSite(value);
     }
     
     /**
@@ -114,7 +116,8 @@ public class VideoChromaSite extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static VideoChromaSite combined(VideoChromaSite mask, VideoChromaSite... masks) {
-        int value = mask.getValue();        for (VideoChromaSite arg : masks) {
+        int value = mask.getValue();
+        for (VideoChromaSite arg : masks) {
             value |= arg.getValue();
         }
         return new VideoChromaSite(value);

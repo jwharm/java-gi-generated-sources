@@ -13,17 +13,15 @@ public class TagXmpWriterInterface extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstTagXmpWriterInterface";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeInterface.getMemoryLayout().withName("parent")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeInterface.getMemoryLayout().withName("parent")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -43,9 +41,19 @@ public class TagXmpWriterInterface extends Struct {
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gtk.gobject.TypeInterface parent$get() {
+    public org.gtk.gobject.TypeInterface getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent}
+     * @param parent The new value of the field {@code parent}
+     */
+    public void setParent(org.gtk.gobject.TypeInterface parent) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
@@ -53,39 +61,45 @@ public class TagXmpWriterInterface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TagXmpWriterInterface(Addressable address, Ownership ownership) {
+    protected TagXmpWriterInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TagXmpWriterInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagXmpWriterInterface(input, ownership);
+    
+    /**
+     * A {@link TagXmpWriterInterface.Builder} object constructs a {@link TagXmpWriterInterface} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TagXmpWriterInterface.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TagXmpWriterInterface struct;
+        private final TagXmpWriterInterface struct;
         
-         /**
-         * A {@link TagXmpWriterInterface.Build} object constructs a {@link TagXmpWriterInterface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TagXmpWriterInterface.allocate();
         }
         
          /**
          * Finish building the {@link TagXmpWriterInterface} struct.
          * @return A new instance of {@code TagXmpWriterInterface} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TagXmpWriterInterface construct() {
+        public TagXmpWriterInterface build() {
             return struct;
         }
         
-        public Build setParent(org.gtk.gobject.TypeInterface parent) {
+        public Builder setParent(org.gtk.gobject.TypeInterface parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));

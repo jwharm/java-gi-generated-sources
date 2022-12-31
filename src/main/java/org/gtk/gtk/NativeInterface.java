@@ -40,8 +40,10 @@ public class NativeInterface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NativeInterface(Addressable address, Ownership ownership) {
+    protected NativeInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NativeInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NativeInterface(input, ownership);
 }

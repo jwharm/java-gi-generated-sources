@@ -51,13 +51,15 @@ public class ToplevelLayout extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ToplevelLayout(Addressable address, Ownership ownership) {
+    protected ToplevelLayout(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ToplevelLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ToplevelLayout(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_new.invokeExact();
         } catch (Throwable ERR) {
@@ -83,7 +85,7 @@ public class ToplevelLayout extends Struct {
      * Create a new {@code GdkToplevelLayout} and copy the contents of {@code layout} into it.
      * @return a copy of {@code layout}.
      */
-    public @NotNull org.gtk.gdk.ToplevelLayout copy() {
+    public org.gtk.gdk.ToplevelLayout copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_copy.invokeExact(
@@ -91,7 +93,7 @@ public class ToplevelLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ToplevelLayout(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ToplevelLayout.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -100,8 +102,7 @@ public class ToplevelLayout extends Struct {
      * @return {@code true} if {@code layout} and {@code other} have identical layout properties,
      *   otherwise {@code false}.
      */
-    public boolean equal(@NotNull org.gtk.gdk.ToplevelLayout other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public boolean equal(org.gtk.gdk.ToplevelLayout other) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_toplevel_layout_equal.invokeExact(
@@ -110,7 +111,7 @@ public class ToplevelLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -121,7 +122,6 @@ public class ToplevelLayout extends Struct {
      * @return whether the {@code layout} specifies the fullscreen state for the toplevel
      */
     public boolean getFullscreen(Out<Boolean> fullscreen) {
-        java.util.Objects.requireNonNull(fullscreen, "Parameter 'fullscreen' must not be null");
         MemorySegment fullscreenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -132,7 +132,7 @@ public class ToplevelLayout extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         fullscreen.set(fullscreenPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -148,7 +148,7 @@ public class ToplevelLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Monitor(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Monitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Monitor.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -159,7 +159,6 @@ public class ToplevelLayout extends Struct {
      * @return whether the {@code layout} specifies the maximized state for the toplevel
      */
     public boolean getMaximized(Out<Boolean> maximized) {
-        java.util.Objects.requireNonNull(maximized, "Parameter 'maximized' must not be null");
         MemorySegment maximizedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -170,7 +169,7 @@ public class ToplevelLayout extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         maximized.set(maximizedPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -186,14 +185,14 @@ public class ToplevelLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Increases the reference count of {@code layout}.
      * @return the same {@code layout}
      */
-    public @NotNull org.gtk.gdk.ToplevelLayout ref() {
+    public org.gtk.gdk.ToplevelLayout ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_toplevel_layout_ref.invokeExact(
@@ -201,7 +200,7 @@ public class ToplevelLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ToplevelLayout(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ToplevelLayout.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -214,7 +213,7 @@ public class ToplevelLayout extends Struct {
         try {
             DowncallHandles.gdk_toplevel_layout_set_fullscreen.invokeExact(
                     handle(),
-                    fullscreen ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(fullscreen, null).intValue(),
                     (Addressable) (monitor == null ? MemoryAddress.NULL : monitor.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -230,7 +229,7 @@ public class ToplevelLayout extends Struct {
         try {
             DowncallHandles.gdk_toplevel_layout_set_maximized.invokeExact(
                     handle(),
-                    maximized ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(maximized, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -245,7 +244,7 @@ public class ToplevelLayout extends Struct {
         try {
             DowncallHandles.gdk_toplevel_layout_set_resizable.invokeExact(
                     handle(),
-                    resizable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(resizable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

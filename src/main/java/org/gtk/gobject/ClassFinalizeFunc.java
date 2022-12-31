@@ -18,5 +18,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ClassFinalizeFunc {
-        void onClassFinalizeFunc(@NotNull org.gtk.gobject.TypeClass gClass);
+    void run(org.gtk.gobject.TypeClass gClass);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress gClass, MemoryAddress classData) {
+        run(org.gtk.gobject.TypeClass.fromAddress.marshal(gClass, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ClassFinalizeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

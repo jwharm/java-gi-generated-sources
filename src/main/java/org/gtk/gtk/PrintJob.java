@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * {@code GtkPrintJob} also supports printing of manually generated PostScript,
  * via {@link PrintJob#setSourceFile}.
  */
-public class PrintJob extends org.gtk.gobject.Object {
+public class PrintJob extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -39,40 +39,18 @@ public class PrintJob extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PrintJob(Addressable address, Ownership ownership) {
+    protected PrintJob(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PrintJob if its GType is a (or inherits from) "GtkPrintJob".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PrintJob} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPrintJob", a ClassCastException will be thrown.
-     */
-    public static PrintJob castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PrintJob.getType())) {
-            return new PrintJob(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPrintJob");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PrintJob> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintJob(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String title, @NotNull org.gtk.gtk.Printer printer, @NotNull org.gtk.gtk.PrintSettings settings, @NotNull org.gtk.gtk.PageSetup pageSetup) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
-        java.util.Objects.requireNonNull(printer, "Parameter 'printer' must not be null");
-        java.util.Objects.requireNonNull(settings, "Parameter 'settings' must not be null");
-        java.util.Objects.requireNonNull(pageSetup, "Parameter 'pageSetup' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String title, org.gtk.gtk.Printer printer, org.gtk.gtk.PrintSettings settings, org.gtk.gtk.PageSetup pageSetup) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_new.invokeExact(
-                    Interop.allocateNativeString(title),
+                    Marshal.stringToAddress.marshal(title, null),
                     printer.handle(),
                     settings.handle(),
                     pageSetup.handle());
@@ -89,7 +67,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * @param settings a {@code GtkPrintSettings}
      * @param pageSetup a {@code GtkPageSetup}
      */
-    public PrintJob(@NotNull java.lang.String title, @NotNull org.gtk.gtk.Printer printer, @NotNull org.gtk.gtk.PrintSettings settings, @NotNull org.gtk.gtk.PageSetup pageSetup) {
+    public PrintJob(java.lang.String title, org.gtk.gtk.Printer printer, org.gtk.gtk.PrintSettings settings, org.gtk.gtk.PageSetup pageSetup) {
         super(constructNew(title, printer, settings, pageSetup), Ownership.FULL);
     }
     
@@ -105,7 +83,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -127,7 +105,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the n-up layout setting for this job.
      * @return the n-up layout
      */
-    public @NotNull org.gtk.gtk.NumberUpLayout getNUpLayout() {
+    public org.gtk.gtk.NumberUpLayout getNUpLayout() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_job_get_n_up_layout.invokeExact(
@@ -159,8 +137,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * @return a pointer to an
      *   array of {@code GtkPageRange} structs
      */
-    public @NotNull org.gtk.gtk.PageRange[] getPageRanges(Out<Integer> nRanges) {
-        java.util.Objects.requireNonNull(nRanges, "Parameter 'nRanges' must not be null");
+    public org.gtk.gtk.PageRange[] getPageRanges(Out<Integer> nRanges) {
         MemorySegment nRangesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -174,7 +151,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         org.gtk.gtk.PageRange[] resultARRAY = new org.gtk.gtk.PageRange[nRanges.get().intValue()];
         for (int I = 0; I < nRanges.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.gtk.gtk.PageRange(OBJ, Ownership.NONE);
+            resultARRAY[I] = org.gtk.gtk.PageRange.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -183,7 +160,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the {@code GtkPageSet} setting for this job.
      * @return the {@code GtkPageSet} setting
      */
-    public @NotNull org.gtk.gtk.PageSet getPageSet() {
+    public org.gtk.gtk.PageSet getPageSet() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_job_get_page_set.invokeExact(
@@ -198,7 +175,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the {@code GtkPrintPages} setting for this job.
      * @return the {@code GtkPrintPages} setting
      */
-    public @NotNull org.gtk.gtk.PrintPages getPages() {
+    public org.gtk.gtk.PrintPages getPages() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_job_get_pages.invokeExact(
@@ -213,7 +190,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the {@code GtkPrinter} of the print job.
      * @return the printer of {@code job}
      */
-    public @NotNull org.gtk.gtk.Printer getPrinter() {
+    public org.gtk.gtk.Printer getPrinter() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_printer.invokeExact(
@@ -221,7 +198,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Printer(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Printer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Printer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -236,7 +213,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -251,7 +228,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -273,7 +250,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Gets the {@code GtkPrintSettings} of the print job.
      * @return the settings of {@code job}
      */
-    public @NotNull org.gtk.gtk.PrintSettings getSettings() {
+    public org.gtk.gtk.PrintSettings getSettings() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_settings.invokeExact(
@@ -281,14 +258,14 @@ public class PrintJob extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintSettings(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PrintSettings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PrintSettings.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the status of the print job.
      * @return the status of {@code job}
      */
-    public @NotNull org.gtk.gtk.PrintStatus getStatus() {
+    public org.gtk.gtk.PrintStatus getStatus() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_job_get_status.invokeExact(
@@ -305,7 +282,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * @return the cairo surface of {@code job}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.cairographics.Surface getSurface() throws io.github.jwharm.javagi.GErrorException {
+    public org.cairographics.Surface getSurface() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -318,14 +295,14 @@ public class PrintJob extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.cairographics.Surface(RESULT, Ownership.NONE);
+        return org.cairographics.Surface.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the job title.
      * @return the title of {@code job}
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_job_get_title.invokeExact(
@@ -333,7 +310,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -350,25 +327,21 @@ public class PrintJob extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Sends the print job off to the printer.
      * @param callback function to call when the job completes or an error occurs
+     * @param dnotify destroy notify for {@code user_data}
      */
-    public void send(@NotNull org.gtk.gtk.PrintJobCompleteFunc callback) {
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public void send(org.gtk.gtk.PrintJobCompleteFunc callback, org.gtk.glib.DestroyNotify dnotify) {
         try {
             DowncallHandles.gtk_print_job_send.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbPrintJobCompleteFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) dnotify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -382,7 +355,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_print_job_set_collate.invokeExact(
                     handle(),
-                    collate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(collate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,8 +379,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Sets the n-up layout setting for this job.
      * @param layout the n-up layout setting
      */
-    public void setNUpLayout(@NotNull org.gtk.gtk.NumberUpLayout layout) {
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    public void setNUpLayout(org.gtk.gtk.NumberUpLayout layout) {
         try {
             DowncallHandles.gtk_print_job_set_n_up_layout.invokeExact(
                     handle(),
@@ -437,8 +409,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      *    {@code GtkPageRange} structs
      * @param nRanges the length of the {@code ranges} array
      */
-    public void setPageRanges(@NotNull org.gtk.gtk.PageRange[] ranges, int nRanges) {
-        java.util.Objects.requireNonNull(ranges, "Parameter 'ranges' must not be null");
+    public void setPageRanges(org.gtk.gtk.PageRange[] ranges, int nRanges) {
         try {
             DowncallHandles.gtk_print_job_set_page_ranges.invokeExact(
                     handle(),
@@ -453,8 +424,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Sets the {@code GtkPageSet} setting for this job.
      * @param pageSet a {@code GtkPageSet} setting
      */
-    public void setPageSet(@NotNull org.gtk.gtk.PageSet pageSet) {
-        java.util.Objects.requireNonNull(pageSet, "Parameter 'pageSet' must not be null");
+    public void setPageSet(org.gtk.gtk.PageSet pageSet) {
         try {
             DowncallHandles.gtk_print_job_set_page_set.invokeExact(
                     handle(),
@@ -468,8 +438,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Sets the {@code GtkPrintPages} setting for this job.
      * @param pages the {@code GtkPrintPages} setting
      */
-    public void setPages(@NotNull org.gtk.gtk.PrintPages pages) {
-        java.util.Objects.requireNonNull(pages, "Parameter 'pages' must not be null");
+    public void setPages(org.gtk.gtk.PrintPages pages) {
         try {
             DowncallHandles.gtk_print_job_set_pages.invokeExact(
                     handle(),
@@ -487,7 +456,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_print_job_set_reverse.invokeExact(
                     handle(),
-                    reverse ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(reverse, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -501,7 +470,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_print_job_set_rotate.invokeExact(
                     handle(),
-                    rotate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(rotate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -553,7 +522,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -568,14 +537,13 @@ public class PrintJob extends org.gtk.gobject.Object {
      * @return {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean setSourceFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public boolean setSourceFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_job_set_source_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -583,7 +551,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -601,7 +569,7 @@ public class PrintJob extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_print_job_set_track_print_status.invokeExact(
                     handle(),
-                    trackStatus ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(trackStatus, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -611,7 +579,7 @@ public class PrintJob extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_print_job_get_type.invokeExact();
@@ -623,7 +591,18 @@ public class PrintJob extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface StatusChanged {
-        void signalReceived(PrintJob sourcePrintJob);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintJob) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StatusChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -637,52 +616,46 @@ public class PrintJob extends org.gtk.gobject.Object {
     public Signal<PrintJob.StatusChanged> onStatusChanged(PrintJob.StatusChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("status-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintJob.Callbacks.class, "signalPrintJobStatusChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintJob.StatusChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("status-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link PrintJob.Builder} object constructs a {@link PrintJob} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PrintJob.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PrintJob.Build} object constructs a {@link PrintJob} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PrintJob} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PrintJob} using {@link PrintJob#castFrom}.
+         * {@link PrintJob}.
          * @return A new instance of {@code PrintJob} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PrintJob construct() {
-            return PrintJob.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PrintJob.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PrintJob build() {
+            return (PrintJob) org.gtk.gobject.GObject.newWithProperties(
+                PrintJob.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -691,7 +664,7 @@ public class PrintJob extends org.gtk.gobject.Object {
          * @param pageSetup The value for the {@code page-setup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPageSetup(org.gtk.gtk.PageSetup pageSetup) {
+        public Builder setPageSetup(org.gtk.gtk.PageSetup pageSetup) {
             names.add("page-setup");
             values.add(org.gtk.gobject.Value.create(pageSetup));
             return this;
@@ -702,7 +675,7 @@ public class PrintJob extends org.gtk.gobject.Object {
          * @param printer The value for the {@code printer} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrinter(org.gtk.gtk.Printer printer) {
+        public Builder setPrinter(org.gtk.gtk.Printer printer) {
             names.add("printer");
             values.add(org.gtk.gobject.Value.create(printer));
             return this;
@@ -713,7 +686,7 @@ public class PrintJob extends org.gtk.gobject.Object {
          * @param settings The value for the {@code settings} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSettings(org.gtk.gtk.PrintSettings settings) {
+        public Builder setSettings(org.gtk.gtk.PrintSettings settings) {
             names.add("settings");
             values.add(org.gtk.gobject.Value.create(settings));
             return this;
@@ -724,7 +697,7 @@ public class PrintJob extends org.gtk.gobject.Object {
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -736,7 +709,7 @@ public class PrintJob extends org.gtk.gobject.Object {
          * @param trackPrintStatus The value for the {@code track-print-status} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTrackPrintStatus(boolean trackPrintStatus) {
+        public Builder setTrackPrintStatus(boolean trackPrintStatus) {
             names.add("track-print-status");
             values.add(org.gtk.gobject.Value.create(trackPrintStatus));
             return this;
@@ -936,14 +909,5 @@ public class PrintJob extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalPrintJobStatusChanged(MemoryAddress sourcePrintJob, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintJob.StatusChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintJob(sourcePrintJob, Ownership.NONE));
-        }
     }
 }

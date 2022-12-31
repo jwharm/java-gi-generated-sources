@@ -119,32 +119,30 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     private static final java.lang.String C_TYPE_NAME = "GstBin";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
-        Interop.valueLayout.C_INT.withName("numchildren"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("children"),
-        Interop.valueLayout.C_INT.withName("children_cookie"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("child_bus"),
-        Interop.valueLayout.ADDRESS.withName("messages"),
-        Interop.valueLayout.C_INT.withName("polling"),
-        Interop.valueLayout.C_INT.withName("state_dirty"),
-        Interop.valueLayout.C_INT.withName("clock_dirty"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("provided_clock"),
-        Interop.valueLayout.ADDRESS.withName("clock_provider"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
+            Interop.valueLayout.C_INT.withName("numchildren"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("children"),
+            Interop.valueLayout.C_INT.withName("children_cookie"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("child_bus"),
+            Interop.valueLayout.ADDRESS.withName("messages"),
+            Interop.valueLayout.C_INT.withName("polling"),
+            Interop.valueLayout.C_INT.withName("state_dirty"),
+            Interop.valueLayout.C_INT.withName("clock_dirty"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("provided_clock"),
+            Interop.valueLayout.ADDRESS.withName("clock_provider"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -152,43 +150,29 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * <p>
      * Because Bin is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Bin(Addressable address, Ownership ownership) {
+    protected Bin(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Bin if its GType is a (or inherits from) "GstBin".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Bin} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstBin", a ClassCastException will be thrown.
-     */
-    public static Bin castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Bin.getType())) {
-            return new Bin(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstBin");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Bin> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Bin(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String name) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String name) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bin_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,8 +205,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * @return {@code true} if the element could be added, {@code false} if
      * the bin does not want to accept the element.
      */
-    public boolean add(@NotNull org.gstreamer.gst.Element element) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public boolean add(org.gstreamer.gst.Element element) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_bin_add.invokeExact(
@@ -231,7 +214,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -241,8 +224,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * @param element1 the {@link Element} element to add to the bin
      * @param varargs additional elements to add to the bin
      */
-    public void addMany(@NotNull org.gstreamer.gst.Element element1, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(element1, "Parameter 'element1' must not be null");
+    public void addMany(org.gstreamer.gst.Element element1, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_bin_add_many.invokeExact(
                     handle(),
@@ -263,8 +245,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * @return unlinked pad of the given
      * direction.
      */
-    public @Nullable org.gstreamer.gst.Pad findUnlinkedPad(@NotNull org.gstreamer.gst.PadDirection direction) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public @Nullable org.gstreamer.gst.Pad findUnlinkedPad(org.gstreamer.gst.PadDirection direction) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bin_find_unlinked_pad.invokeExact(
@@ -273,7 +254,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -282,12 +263,11 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * You can cast this element to the given interface afterwards.  If you want
      * all elements that implement the interface, use
      * gst_bin_iterate_all_by_interface(). This function recurses into child bins.
-     * @param iface the {@link org.gtk.gobject.Type} of an interface
+     * @param iface the {@link org.gtk.glib.Type} of an interface
      * @return A {@link Element} inside the bin
      * implementing the interface
      */
-    public @Nullable org.gstreamer.gst.Element getByInterface(@NotNull org.gtk.glib.Type iface) {
-        java.util.Objects.requireNonNull(iface, "Parameter 'iface' must not be null");
+    public @Nullable org.gstreamer.gst.Element getByInterface(org.gtk.glib.Type iface) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bin_get_by_interface.invokeExact(
@@ -296,7 +276,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -306,17 +286,16 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * @return the {@link Element} with the given
      * name
      */
-    public @Nullable org.gstreamer.gst.Element getByName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gstreamer.gst.Element getByName(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bin_get_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -326,20 +305,19 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * @return the {@link Element} with the given
      * name
      */
-    public @Nullable org.gstreamer.gst.Element getByNameRecurseUp(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gstreamer.gst.Element getByNameRecurseUp(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bin_get_by_name_recurse_up.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.gst.ElementFlags getSuppressedFlags() {
+    public org.gstreamer.gst.ElementFlags getSuppressedFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_bin_get_suppressed_flags.invokeExact(
@@ -358,17 +336,16 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * @return a {@link Iterator} of {@link Element}
      *     for all elements in the bin with the given element factory name
      */
-    public @Nullable org.gstreamer.gst.Iterator iterateAllByElementFactoryName(@NotNull java.lang.String factoryName) {
-        java.util.Objects.requireNonNull(factoryName, "Parameter 'factoryName' must not be null");
+    public @Nullable org.gstreamer.gst.Iterator iterateAllByElementFactoryName(java.lang.String factoryName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bin_iterate_all_by_element_factory_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(factoryName));
+                    Marshal.stringToAddress.marshal(factoryName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -376,12 +353,11 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * interface. You can safely cast all returned elements to the given interface.
      * The function recurses inside child bins. The iterator will yield a series
      * of {@link Element}.
-     * @param iface the {@link org.gtk.gobject.Type} of an interface
+     * @param iface the {@link org.gtk.glib.Type} of an interface
      * @return a {@link Iterator} of {@link Element}
      *     for all elements in the bin implementing the given interface
      */
-    public @Nullable org.gstreamer.gst.Iterator iterateAllByInterface(@NotNull org.gtk.glib.Type iface) {
-        java.util.Objects.requireNonNull(iface, "Parameter 'iface' must not be null");
+    public @Nullable org.gstreamer.gst.Iterator iterateAllByInterface(org.gtk.glib.Type iface) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bin_iterate_all_by_interface.invokeExact(
@@ -390,7 +366,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -405,7 +381,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -421,7 +397,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -437,7 +413,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -457,7 +433,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -473,7 +449,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -495,7 +471,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -512,8 +488,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * @return {@code true} if the element could be removed, {@code false} if
      * the bin does not want to remove the element.
      */
-    public boolean remove(@NotNull org.gstreamer.gst.Element element) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public boolean remove(org.gstreamer.gst.Element element) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_bin_remove.invokeExact(
@@ -522,7 +497,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -531,8 +506,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * @param element1 the first {@link Element} to remove from the bin
      * @param varargs {@code null}-terminated list of elements to remove from the bin
      */
-    public void removeMany(@NotNull org.gstreamer.gst.Element element1, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(element1, "Parameter 'element1' must not be null");
+    public void removeMany(org.gstreamer.gst.Element element1, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_bin_remove_many.invokeExact(
                     handle(),
@@ -550,8 +524,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
      * not be propagated to the bin.
      * @param flags the {@link ElementFlags} to suppress
      */
-    public void setSuppressedFlags(@NotNull org.gstreamer.gst.ElementFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void setSuppressedFlags(org.gstreamer.gst.ElementFlags flags) {
         try {
             DowncallHandles.gst_bin_set_suppressed_flags.invokeExact(
                     handle(),
@@ -575,14 +548,14 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_bin_get_type.invokeExact();
@@ -594,7 +567,18 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface DeepElementAdded {
-        void signalReceived(Bin sourceBin, @NotNull org.gstreamer.gst.Bin subBin, @NotNull org.gstreamer.gst.Element element);
+        void run(org.gstreamer.gst.Bin subBin, org.gstreamer.gst.Element element);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceBin, MemoryAddress subBin, MemoryAddress element) {
+            run((org.gstreamer.gst.Bin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(subBin)), org.gstreamer.gst.Bin.fromAddress).marshal(subBin, Ownership.NONE), (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeepElementAdded.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -605,16 +589,8 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     public Signal<Bin.DeepElementAdded> onDeepElementAdded(Bin.DeepElementAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("deep-element-added"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Bin.Callbacks.class, "signalBinDeepElementAdded",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Bin.DeepElementAdded>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("deep-element-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -622,7 +598,18 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface DeepElementRemoved {
-        void signalReceived(Bin sourceBin, @NotNull org.gstreamer.gst.Bin subBin, @NotNull org.gstreamer.gst.Element element);
+        void run(org.gstreamer.gst.Bin subBin, org.gstreamer.gst.Element element);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceBin, MemoryAddress subBin, MemoryAddress element) {
+            run((org.gstreamer.gst.Bin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(subBin)), org.gstreamer.gst.Bin.fromAddress).marshal(subBin, Ownership.NONE), (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeepElementRemoved.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -633,16 +620,8 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     public Signal<Bin.DeepElementRemoved> onDeepElementRemoved(Bin.DeepElementRemoved handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("deep-element-removed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Bin.Callbacks.class, "signalBinDeepElementRemoved",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Bin.DeepElementRemoved>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("deep-element-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -650,7 +629,19 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface DoLatency {
-        boolean signalReceived(Bin sourceBin);
+        boolean run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceBin) {
+            var RESULT = run();
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DoLatency.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -671,16 +662,8 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     public Signal<Bin.DoLatency> onDoLatency(Bin.DoLatency handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("do-latency"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Bin.Callbacks.class, "signalBinDoLatency",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Bin.DoLatency>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("do-latency"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -688,7 +671,18 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface ElementAdded {
-        void signalReceived(Bin sourceBin, @NotNull org.gstreamer.gst.Element element);
+        void run(org.gstreamer.gst.Element element);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceBin, MemoryAddress element) {
+            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ElementAdded.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -699,16 +693,8 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     public Signal<Bin.ElementAdded> onElementAdded(Bin.ElementAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("element-added"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Bin.Callbacks.class, "signalBinElementAdded",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Bin.ElementAdded>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("element-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -716,7 +702,18 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     
     @FunctionalInterface
     public interface ElementRemoved {
-        void signalReceived(Bin sourceBin, @NotNull org.gstreamer.gst.Element element);
+        void run(org.gstreamer.gst.Element element);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceBin, MemoryAddress element) {
+            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(element)), org.gstreamer.gst.Element.fromAddress).marshal(element, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ElementRemoved.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -727,52 +724,46 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
     public Signal<Bin.ElementRemoved> onElementRemoved(Bin.ElementRemoved handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("element-removed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Bin.Callbacks.class, "signalBinElementRemoved",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Bin.ElementRemoved>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("element-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Bin.Builder} object constructs a {@link Bin} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Bin.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Element.Build {
+    public static class Builder extends org.gstreamer.gst.Element.Builder {
         
-         /**
-         * A {@link Bin.Build} object constructs a {@link Bin} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Bin} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Bin} using {@link Bin#castFrom}.
+         * {@link Bin}.
          * @return A new instance of {@code Bin} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Bin construct() {
-            return Bin.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Bin.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Bin build() {
+            return (Bin) org.gtk.gobject.GObject.newWithProperties(
+                Bin.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -783,7 +774,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
          * @param asyncHandling The value for the {@code async-handling} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAsyncHandling(boolean asyncHandling) {
+        public Builder setAsyncHandling(boolean asyncHandling) {
             names.add("async-handling");
             values.add(org.gtk.gobject.Value.create(asyncHandling));
             return this;
@@ -800,7 +791,7 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
          * @param messageForward The value for the {@code message-forward} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMessageForward(boolean messageForward) {
+        public Builder setMessageForward(boolean messageForward) {
             names.add("message-forward");
             values.add(org.gtk.gobject.Value.create(messageForward));
             return this;
@@ -934,38 +925,5 @@ public class Bin extends org.gstreamer.gst.Element implements org.gstreamer.gst.
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalBinDeepElementAdded(MemoryAddress sourceBin, MemoryAddress subBin, MemoryAddress element, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Bin.DeepElementAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE), new org.gstreamer.gst.Bin(subBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
-        }
-        
-        public static void signalBinDeepElementRemoved(MemoryAddress sourceBin, MemoryAddress subBin, MemoryAddress element, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Bin.DeepElementRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE), new org.gstreamer.gst.Bin(subBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
-        }
-        
-        public static boolean signalBinDoLatency(MemoryAddress sourceBin, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Bin.DoLatency) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE));
-        }
-        
-        public static void signalBinElementAdded(MemoryAddress sourceBin, MemoryAddress element, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Bin.ElementAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
-        }
-        
-        public static void signalBinElementRemoved(MemoryAddress sourceBin, MemoryAddress element, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Bin.ElementRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Bin(sourceBin, Ownership.NONE), new org.gstreamer.gst.Element(element, Ownership.NONE));
-        }
     }
 }

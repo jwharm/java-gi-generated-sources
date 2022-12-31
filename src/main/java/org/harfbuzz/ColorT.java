@@ -14,4 +14,14 @@ public class ColorT extends io.github.jwharm.javagi.Alias<Integer> {
     public ColorT(int value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static ColorT[] fromNativeArray(MemoryAddress address, long length) {
+        ColorT[] array = new ColorT[(int) length];
+        long bytesSize = Interop.valueLayout.C_INT.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new ColorT(address.get(Interop.valueLayout.C_INT, i * bytesSize));
+        }
+        return array;
+    }
 }

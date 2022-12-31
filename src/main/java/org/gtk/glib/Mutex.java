@@ -51,7 +51,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * A {@link Mutex} should only be accessed via g_mutex_ functions.
  */
-public class Mutex extends io.github.jwharm.javagi.ObjectBase {
+public class Mutex extends ObjectBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -59,18 +59,16 @@ public class Mutex extends io.github.jwharm.javagi.ObjectBase {
     
     private static final java.lang.String C_TYPE_NAME = "GMutex";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.unionLayout(
-        Interop.valueLayout.ADDRESS.withName("p"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.unionLayout(
+            Interop.valueLayout.ADDRESS.withName("p"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -78,9 +76,11 @@ public class Mutex extends io.github.jwharm.javagi.ObjectBase {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Mutex(Addressable address, Ownership ownership) {
+    protected Mutex(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Mutex> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Mutex(input, ownership);
 }
 

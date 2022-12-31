@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Holds a password used in TLS.
  * @version 2.30
  */
-public class TlsPassword extends org.gtk.gobject.Object {
+public class TlsPassword extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -17,18 +17,16 @@ public class TlsPassword extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GTlsPassword";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -36,39 +34,19 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TlsPassword(Addressable address, Ownership ownership) {
+    protected TlsPassword(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TlsPassword if its GType is a (or inherits from) "GTlsPassword".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TlsPassword} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GTlsPassword", a ClassCastException will be thrown.
-     */
-    public static TlsPassword castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TlsPassword.getType())) {
-            return new TlsPassword(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTlsPassword");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TlsPassword> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsPassword(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.TlsPasswordFlags flags, @NotNull java.lang.String description) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.TlsPasswordFlags flags, java.lang.String description) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_password_new.invokeExact(
                     flags.getValue(),
-                    Interop.allocateNativeString(description));
+                    Marshal.stringToAddress.marshal(description, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -80,7 +58,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @param flags the password flags
      * @param description description of what the password is for
      */
-    public TlsPassword(@NotNull org.gtk.gio.TlsPasswordFlags flags, @NotNull java.lang.String description) {
+    public TlsPassword(org.gtk.gio.TlsPasswordFlags flags, java.lang.String description) {
         super(constructNew(flags, description), Ownership.FULL);
     }
     
@@ -88,7 +66,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * Get a description string about what the password will be used for.
      * @return The description of the password.
      */
-    public @NotNull java.lang.String getDescription() {
+    public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_description.invokeExact(
@@ -96,14 +74,14 @@ public class TlsPassword extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get flags about the password.
      * @return The flags about the password.
      */
-    public @NotNull org.gtk.gio.TlsPasswordFlags getFlags() {
+    public org.gtk.gio.TlsPasswordFlags getFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_tls_password_get_flags.invokeExact(
@@ -123,8 +101,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @param length location to place the length of the password.
      * @return The password value (owned by the password object).
      */
-    public @NotNull byte[] getValue(Out<Long> length) {
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public byte[] getValue(Out<Long> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
@@ -144,7 +121,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * g_tls_password_get_flags().
      * @return The warning.
      */
-    public @NotNull java.lang.String getWarning() {
+    public java.lang.String getWarning() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_password_get_warning.invokeExact(
@@ -152,19 +129,18 @@ public class TlsPassword extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Set a description string about what the password will be used for.
      * @param description The description of the password
      */
-    public void setDescription(@NotNull java.lang.String description) {
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
+    public void setDescription(java.lang.String description) {
         try {
             DowncallHandles.g_tls_password_set_description.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(description));
+                    Marshal.stringToAddress.marshal(description, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,8 +150,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * Set flags about the password.
      * @param flags The flags about the password
      */
-    public void setFlags(@NotNull org.gtk.gio.TlsPasswordFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void setFlags(org.gtk.gio.TlsPasswordFlags flags) {
         try {
             DowncallHandles.g_tls_password_set_flags.invokeExact(
                     handle(),
@@ -196,8 +171,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @param value the new password value
      * @param length the length of the password, or -1
      */
-    public void setValue(@NotNull byte[] value, long length) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setValue(byte[] value, long length) {
         try {
             DowncallHandles.g_tls_password_set_value.invokeExact(
                     handle(),
@@ -222,8 +196,16 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * @param length the length of the password, or -1
      * @param destroy a function to use to free the password.
      */
-    public void setValueFull(@NotNull byte[] value, long length, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setValueFull(byte[] value, long length, @Nullable org.gtk.glib.DestroyNotify destroy) {
+        try {
+            DowncallHandles.g_tls_password_set_value_full.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(value, false),
+                    length,
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -232,12 +214,11 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * g_tls_password_get_flags().
      * @param warning The user readable warning
      */
-    public void setWarning(@NotNull java.lang.String warning) {
-        java.util.Objects.requireNonNull(warning, "Parameter 'warning' must not be null");
+    public void setWarning(java.lang.String warning) {
         try {
             DowncallHandles.g_tls_password_set_warning.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(warning));
+                    Marshal.stringToAddress.marshal(warning, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -247,7 +228,7 @@ public class TlsPassword extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_password_get_type.invokeExact();
@@ -256,54 +237,56 @@ public class TlsPassword extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TlsPassword.Builder} object constructs a {@link TlsPassword} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TlsPassword.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TlsPassword.Build} object constructs a {@link TlsPassword} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TlsPassword} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TlsPassword} using {@link TlsPassword#castFrom}.
+         * {@link TlsPassword}.
          * @return A new instance of {@code TlsPassword} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TlsPassword construct() {
-            return TlsPassword.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TlsPassword.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TlsPassword build() {
+            return (TlsPassword) org.gtk.gobject.GObject.newWithProperties(
+                TlsPassword.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setDescription(java.lang.String description) {
+        public Builder setDescription(java.lang.String description) {
             names.add("description");
             values.add(org.gtk.gobject.Value.create(description));
             return this;
         }
         
-        public Build setFlags(org.gtk.gio.TlsPasswordFlags flags) {
+        public Builder setFlags(org.gtk.gio.TlsPasswordFlags flags) {
             names.add("flags");
             values.add(org.gtk.gobject.Value.create(flags));
             return this;
         }
         
-        public Build setWarning(java.lang.String warning) {
+        public Builder setWarning(java.lang.String warning) {
             names.add("warning");
             values.add(org.gtk.gobject.Value.create(warning));
             return this;

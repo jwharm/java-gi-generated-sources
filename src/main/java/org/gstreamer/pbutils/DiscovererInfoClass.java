@@ -12,8 +12,10 @@ public class DiscovererInfoClass extends org.gtk.gobject.ObjectClass {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DiscovererInfoClass(Addressable address, Ownership ownership) {
+    protected DiscovererInfoClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DiscovererInfoClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererInfoClass(input, ownership);
 }

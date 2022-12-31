@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * structure that is used to represent that information. It is an
  * opaque structure with no public fields.
  */
-public class Coverage extends org.gtk.gobject.Object {
+public class Coverage extends org.gtk.gobject.GObject {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -37,33 +37,15 @@ public class Coverage extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Coverage(Addressable address, Ownership ownership) {
+    protected Coverage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Coverage if its GType is a (or inherits from) "PangoCoverage".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Coverage} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "PangoCoverage", a ClassCastException will be thrown.
-     */
-    public static Coverage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Coverage.getType())) {
-            return new Coverage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoCoverage");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Coverage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Coverage(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_coverage_new.invokeExact();
         } catch (Throwable ERR) {
@@ -85,7 +67,7 @@ public class Coverage extends org.gtk.gobject.Object {
      *   with a reference count of one, which should be freed with
      *   {@link Coverage#unref}.
      */
-    public @NotNull org.pango.Coverage copy() {
+    public org.pango.Coverage copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_coverage_copy.invokeExact(
@@ -93,7 +75,7 @@ public class Coverage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Coverage(RESULT, Ownership.FULL);
+        return (org.pango.Coverage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Coverage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -101,7 +83,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * @param index the index to check
      * @return the coverage level of {@code coverage} for character {@code index_}.
      */
-    public @NotNull org.pango.CoverageLevel get(int index) {
+    public org.pango.CoverageLevel get(int index) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_coverage_get.invokeExact(
@@ -121,8 +103,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * @deprecated This function does nothing
      */
     @Deprecated
-    public void max(@NotNull org.pango.Coverage other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public void max(org.pango.Coverage other) {
         try {
             DowncallHandles.pango_coverage_max.invokeExact(
                     handle(),
@@ -138,7 +119,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * @deprecated Use g_object_ref instead
      */
     @Deprecated
-    public @NotNull org.pango.Coverage ref() {
+    public org.pango.Coverage ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_coverage_ref.invokeExact(
@@ -146,7 +127,7 @@ public class Coverage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Coverage(RESULT, Ownership.FULL);
+        return (org.pango.Coverage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Coverage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -154,8 +135,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * @param index the index to modify
      * @param level the new level for {@code index_}
      */
-    public void set(int index, @NotNull org.pango.CoverageLevel level) {
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
+    public void set(int index, org.pango.CoverageLevel level) {
         try {
             DowncallHandles.pango_coverage_set.invokeExact(
                     handle(),
@@ -173,10 +153,8 @@ public class Coverage extends org.gtk.gobject.Object {
      * @deprecated This returns {@code null}
      */
     @Deprecated
-    public void toBytes(@NotNull Out<byte[]> bytes, Out<Integer> nBytes) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
+    public void toBytes(Out<byte[]> bytes, Out<Integer> nBytes) {
         MemorySegment bytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(nBytes, "Parameter 'nBytes' must not be null");
         MemorySegment nBytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_coverage_to_bytes.invokeExact(
@@ -211,7 +189,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.pango_coverage_get_type.invokeExact();
@@ -231,8 +209,7 @@ public class Coverage extends org.gtk.gobject.Object {
      * @deprecated This returns {@code null}
      */
     @Deprecated
-    public static @Nullable org.pango.Coverage fromBytes(@NotNull byte[] bytes, int nBytes) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
+    public static @Nullable org.pango.Coverage fromBytes(byte[] bytes, int nBytes) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_coverage_from_bytes.invokeExact(
@@ -241,40 +218,42 @@ public class Coverage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Coverage(RESULT, Ownership.FULL);
+        return (org.pango.Coverage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Coverage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link Coverage.Builder} object constructs a {@link Coverage} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Coverage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Coverage.Build} object constructs a {@link Coverage} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Coverage} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Coverage} using {@link Coverage#castFrom}.
+         * {@link Coverage}.
          * @return A new instance of {@code Coverage} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Coverage construct() {
-            return Coverage.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Coverage.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Coverage build() {
+            return (Coverage) org.gtk.gobject.GObject.newWithProperties(
+                Coverage.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

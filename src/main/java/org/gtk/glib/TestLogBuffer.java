@@ -13,18 +13,16 @@ public class TestLogBuffer extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GTestLogBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.ADDRESS.withName("msgs")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.ADDRESS.withName("msgs")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,10 +43,12 @@ public class TestLogBuffer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TestLogBuffer(Addressable address, Ownership ownership) {
+    protected TestLogBuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TestLogBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestLogBuffer(input, ownership);
     
     /**
      * Internal function for gtester to free test log messages, no ABI guarantees provided.
@@ -65,7 +65,7 @@ public class TestLogBuffer extends Struct {
     /**
      * Internal function for gtester to retrieve test log messages, no ABI guarantees provided.
      */
-    public @NotNull org.gtk.glib.TestLogMsg pop() {
+    public org.gtk.glib.TestLogMsg pop() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_log_buffer_pop.invokeExact(
@@ -73,14 +73,13 @@ public class TestLogBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TestLogMsg(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TestLogMsg.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Internal function for gtester to decode test log messages, no ABI guarantees provided.
      */
     public void push(int nBytes, PointerByte bytes) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         try {
             DowncallHandles.g_test_log_buffer_push.invokeExact(
                     handle(),
@@ -94,14 +93,14 @@ public class TestLogBuffer extends Struct {
     /**
      * Internal function for gtester to decode test log messages, no ABI guarantees provided.
      */
-    public static @NotNull org.gtk.glib.TestLogBuffer new_() {
+    public static org.gtk.glib.TestLogBuffer new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_log_buffer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TestLogBuffer(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TestLogBuffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -130,42 +129,46 @@ public class TestLogBuffer extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TestLogBuffer.Builder} object constructs a {@link TestLogBuffer} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TestLogBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TestLogBuffer struct;
+        private final TestLogBuffer struct;
         
-         /**
-         * A {@link TestLogBuffer.Build} object constructs a {@link TestLogBuffer} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TestLogBuffer.allocate();
         }
         
          /**
          * Finish building the {@link TestLogBuffer} struct.
          * @return A new instance of {@code TestLogBuffer} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TestLogBuffer construct() {
+        public TestLogBuffer build() {
             return struct;
         }
         
-        public Build setData(org.gtk.glib.String data) {
+        public Builder setData(org.gtk.glib.GString data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
             return this;
         }
         
-        public Build setMsgs(org.gtk.glib.SList msgs) {
+        public Builder setMsgs(org.gtk.glib.SList msgs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("msgs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msgs == null ? MemoryAddress.NULL : msgs.handle()));

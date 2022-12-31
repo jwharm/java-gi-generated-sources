@@ -44,10 +44,12 @@ public class SettingsSchemaKey extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SettingsSchemaKey(Addressable address, Ownership ownership) {
+    protected SettingsSchemaKey(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SettingsSchemaKey> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SettingsSchemaKey(input, ownership);
     
     /**
      * Gets the default value for {@code key}.
@@ -56,7 +58,7 @@ public class SettingsSchemaKey extends Struct {
      * administrator defaults and lockdown are not visible via this API.
      * @return the default value for the key
      */
-    public @NotNull org.gtk.glib.Variant getDefaultValue() {
+    public org.gtk.glib.Variant getDefaultValue() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_default_value.invokeExact(
@@ -64,7 +66,7 @@ public class SettingsSchemaKey extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -92,14 +94,14 @@ public class SettingsSchemaKey extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the name of {@code key}.
      * @return the name of {@code key}.
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_name.invokeExact(
@@ -107,7 +109,7 @@ public class SettingsSchemaKey extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -149,7 +151,7 @@ public class SettingsSchemaKey extends Struct {
      * no longer needed.
      * @return a {@link org.gtk.glib.Variant} describing the range
      */
-    public @NotNull org.gtk.glib.Variant getRange() {
+    public org.gtk.glib.Variant getRange() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_range.invokeExact(
@@ -157,7 +159,7 @@ public class SettingsSchemaKey extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -184,14 +186,14 @@ public class SettingsSchemaKey extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the {@link org.gtk.glib.VariantType} of {@code key}.
      * @return the type of {@code key}
      */
-    public @NotNull org.gtk.glib.VariantType getValueType() {
+    public org.gtk.glib.VariantType getValueType() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_get_value_type.invokeExact(
@@ -199,7 +201,7 @@ public class SettingsSchemaKey extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -211,8 +213,7 @@ public class SettingsSchemaKey extends Struct {
      * @param value the value to check
      * @return {@code true} if {@code value} is valid for {@code key}
      */
-    public boolean rangeCheck(@NotNull org.gtk.glib.Variant value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean rangeCheck(org.gtk.glib.Variant value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_schema_key_range_check.invokeExact(
@@ -221,14 +222,14 @@ public class SettingsSchemaKey extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Increase the reference count of {@code key}, returning a new reference.
      * @return a new reference to {@code key}
      */
-    public @NotNull org.gtk.gio.SettingsSchemaKey ref() {
+    public org.gtk.gio.SettingsSchemaKey ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_key_ref.invokeExact(
@@ -236,7 +237,7 @@ public class SettingsSchemaKey extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchemaKey(RESULT, Ownership.FULL);
+        return org.gtk.gio.SettingsSchemaKey.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

@@ -40,8 +40,10 @@ public class Bool32 extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Bool32(Addressable address, Ownership ownership) {
+    protected Bool32(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Bool32> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Bool32(input, ownership);
 }

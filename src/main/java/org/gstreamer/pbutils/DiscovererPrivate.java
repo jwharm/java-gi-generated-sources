@@ -40,8 +40,10 @@ public class DiscovererPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DiscovererPrivate(Addressable address, Ownership ownership) {
+    protected DiscovererPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DiscovererPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererPrivate(input, ownership);
 }

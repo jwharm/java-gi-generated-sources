@@ -21,20 +21,18 @@ public class ByteReader extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstByteReader";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.C_INT.withName("size"),
-        Interop.valueLayout.C_INT.withName("byte"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.C_INT.withName("size"),
+            Interop.valueLayout.C_INT.withName("byte"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,10 +49,31 @@ public class ByteReader extends Struct {
     }
     
     /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public PointerByte getData_() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerByte(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void setData(byte[] data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+    }
+    
+    /**
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public int size$get() {
+    public int getSize_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,7 +84,7 @@ public class ByteReader extends Struct {
      * Change the value of the field {@code size}
      * @param size The new value of the field {@code size}
      */
-    public void size$set(int size) {
+    public void setSize(int size) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -75,7 +94,7 @@ public class ByteReader extends Struct {
      * Get the value of the field {@code byte}
      * @return The value of the field {@code byte}
      */
-    public int byte_$get() {
+    public int getByte() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("byte"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,7 +105,7 @@ public class ByteReader extends Struct {
      * Change the value of the field {@code byte}
      * @param byte_ The new value of the field {@code byte}
      */
-    public void byte_$set(int byte_) {
+    public void setByte(int byte_) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("byte"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), byte_);
@@ -97,10 +116,12 @@ public class ByteReader extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ByteReader(Addressable address, Ownership ownership) {
+    protected ByteReader(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ByteReader> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ByteReader(input, ownership);
     
     /**
      * Free-function: g_free
@@ -113,22 +134,19 @@ public class ByteReader extends Struct {
      *     {@code guint8} pointer variable in which to store the result
      * @return {@code true} if successful, {@code false} otherwise.
      */
-    public boolean dupData(Out<Integer> size, @NotNull Out<byte[]> val) {
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public boolean dupData(int size, Out<byte[]> val) {
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_reader_dup_data.invokeExact(
                     handle(),
-                    (Addressable) sizePOINTER.address(),
+                    size,
                     (Addressable) valPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -151,8 +169,16 @@ public class ByteReader extends Struct {
      * @return {@code true} if a string could be read, {@code false} otherwise. The
      *     string put into {@code str} must be freed with g_free() when no longer needed.
      */
-    public boolean dupStringUtf16(@NotNull Out<short[]> str) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean dupStringUtf16(short[] str) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_byte_reader_dup_string_utf16.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(str, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -175,8 +201,16 @@ public class ByteReader extends Struct {
      * @return {@code true} if a string could be read, {@code false} otherwise. The
      *     string put into {@code str} must be freed with g_free() when no longer needed.
      */
-    public boolean dupStringUtf32(@NotNull Out<int[]> str) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean dupStringUtf32(int[] str) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_byte_reader_dup_string_utf32.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(str, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -193,8 +227,16 @@ public class ByteReader extends Struct {
      * @return {@code true} if a string could be read into {@code str}, {@code false} otherwise. The
      *     string put into {@code str} must be freed with g_free() when no longer needed.
      */
-    public boolean dupStringUtf8(@NotNull Out<java.lang.String[]> str) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean dupStringUtf8(java.lang.String[] str) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_byte_reader_dup_string_utf8.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(str, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -220,22 +262,19 @@ public class ByteReader extends Struct {
      *     {@code guint8} pointer variable in which to store the result
      * @return {@code true} if successful, {@code false} otherwise.
      */
-    public boolean getData(Out<Integer> size, @NotNull Out<byte[]> val) {
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public boolean getData(int size, Out<byte[]> val) {
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_reader_get_data.invokeExact(
                     handle(),
-                    (Addressable) sizePOINTER.address(),
+                    size,
                     (Addressable) valPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -245,7 +284,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getFloat32Be(Out<Float> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
@@ -256,7 +294,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -266,7 +304,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getFloat32Le(Out<Float> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
@@ -277,7 +314,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -287,7 +324,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getFloat64Be(Out<Double> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -298,7 +334,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -308,7 +344,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getFloat64Le(Out<Double> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -319,7 +354,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -329,7 +364,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt16Be(Out<Short> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -340,7 +374,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -350,7 +384,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt16Le(Out<Short> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -361,7 +394,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -371,7 +404,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt24Be(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -382,7 +414,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -392,7 +424,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt24Le(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -403,7 +434,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -413,7 +444,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt32Be(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -424,7 +454,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -434,7 +464,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt32Le(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -445,7 +474,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -455,7 +484,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt64Be(Out<Long> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -466,7 +494,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -476,7 +504,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt64Le(Out<Long> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -487,7 +514,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -496,7 +523,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getInt8(Out<Byte> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -507,7 +533,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -569,8 +595,16 @@ public class ByteReader extends Struct {
      *     {@code gchar} pointer variable in which to store the result
      * @return {@code true} if a string could be found, {@code false} otherwise.
      */
-    public boolean getStringUtf8(@NotNull Out<java.lang.String[]> str) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean getStringUtf8(java.lang.String[] str) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_byte_reader_get_string_utf8.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(str, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -585,8 +619,7 @@ public class ByteReader extends Struct {
      * @return FALSE on error or if {@code reader} does not contain {@code size} more bytes from
      *     the current position, and otherwise TRUE
      */
-    public boolean getSubReader(@NotNull org.gstreamer.base.ByteReader subReader, int size) {
-        java.util.Objects.requireNonNull(subReader, "Parameter 'subReader' must not be null");
+    public boolean getSubReader(org.gstreamer.base.ByteReader subReader, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_reader_get_sub_reader.invokeExact(
@@ -596,7 +629,7 @@ public class ByteReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -606,7 +639,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint16Be(Out<Short> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -617,7 +649,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -627,7 +659,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint16Le(Out<Short> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -638,7 +669,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -648,7 +679,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint24Be(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -659,7 +689,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -669,7 +699,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint24Le(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -680,7 +709,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -690,7 +719,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint32Be(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -701,7 +729,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -711,7 +739,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint32Le(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -722,7 +749,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -732,7 +759,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint64Be(Out<Long> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -743,7 +769,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -753,7 +779,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint64Le(Out<Long> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -764,7 +789,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -773,7 +798,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean getUint8(Out<Byte> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -784,7 +808,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -794,8 +818,7 @@ public class ByteReader extends Struct {
      *     the {@link ByteReader} should read
      * @param size Size of {@code data} in bytes
      */
-    public void init(@NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void init(byte[] data, int size) {
         try {
             DowncallHandles.gst_byte_reader_init.invokeExact(
                     handle(),
@@ -879,7 +902,6 @@ public class ByteReader extends Struct {
      * @return offset of the first match, or -1 if no match was found.
      */
     public int maskedScanUint32Peek(int mask, int pattern, int offset, int size, Out<Integer> value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -906,22 +928,19 @@ public class ByteReader extends Struct {
      *     {@code guint8} pointer variable in which to store the result
      * @return {@code true} if successful, {@code false} otherwise.
      */
-    public boolean peekData(Out<Integer> size, @NotNull Out<byte[]> val) {
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public boolean peekData(int size, Out<byte[]> val) {
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_reader_peek_data.invokeExact(
                     handle(),
-                    (Addressable) sizePOINTER.address(),
+                    size,
                     (Addressable) valPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        val.set(MemorySegment.ofAddress(valPOINTER.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -931,7 +950,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekFloat32Be(Out<Float> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
@@ -942,7 +960,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -952,7 +970,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekFloat32Le(Out<Float> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
@@ -963,7 +980,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -973,7 +990,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekFloat64Be(Out<Double> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -984,7 +1000,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -994,7 +1010,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekFloat64Le(Out<Double> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -1005,7 +1020,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1015,7 +1030,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt16Be(Out<Short> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -1026,7 +1040,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1036,7 +1050,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt16Le(Out<Short> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -1047,7 +1060,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1057,7 +1070,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt24Be(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1068,7 +1080,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1078,7 +1090,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt24Le(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1089,7 +1100,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1099,7 +1110,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt32Be(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1110,7 +1120,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1120,7 +1130,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt32Le(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1131,7 +1140,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1141,7 +1150,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt64Be(Out<Long> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -1152,7 +1160,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1162,7 +1170,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt64Le(Out<Long> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -1173,7 +1180,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1182,7 +1189,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekInt8(Out<Byte> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -1193,7 +1199,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1210,8 +1216,16 @@ public class ByteReader extends Struct {
      *     {@code gchar} pointer variable in which to store the result
      * @return {@code true} if a string could be skipped, {@code false} otherwise.
      */
-    public boolean peekStringUtf8(@NotNull Out<java.lang.String[]> str) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean peekStringUtf8(java.lang.String[] str) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_byte_reader_peek_string_utf8.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(str, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1226,8 +1240,7 @@ public class ByteReader extends Struct {
      * @return FALSE on error or if {@code reader} does not contain {@code size} more bytes from
      *     the current position, and otherwise TRUE
      */
-    public boolean peekSubReader(@NotNull org.gstreamer.base.ByteReader subReader, int size) {
-        java.util.Objects.requireNonNull(subReader, "Parameter 'subReader' must not be null");
+    public boolean peekSubReader(org.gstreamer.base.ByteReader subReader, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_byte_reader_peek_sub_reader.invokeExact(
@@ -1237,7 +1250,7 @@ public class ByteReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1247,7 +1260,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint16Be(Out<Short> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -1258,7 +1270,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1268,7 +1280,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint16Le(Out<Short> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -1279,7 +1290,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1289,7 +1300,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint24Be(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1300,7 +1310,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1310,7 +1320,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint24Le(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1321,7 +1330,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1331,7 +1340,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint32Be(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1342,7 +1350,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1352,7 +1360,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint32Le(Out<Integer> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1363,7 +1370,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1373,7 +1380,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint64Be(Out<Long> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -1384,7 +1390,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1394,7 +1400,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint64Le(Out<Long> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -1405,7 +1410,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1414,7 +1419,6 @@ public class ByteReader extends Struct {
      * @return {@code true} if successful, {@code false} otherwise.
      */
     public boolean peekUint8(Out<Byte> val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
         MemorySegment valPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -1425,7 +1429,7 @@ public class ByteReader extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         val.set(valPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1443,7 +1447,7 @@ public class ByteReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1460,7 +1464,7 @@ public class ByteReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1480,7 +1484,7 @@ public class ByteReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1500,7 +1504,7 @@ public class ByteReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1520,7 +1524,7 @@ public class ByteReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1532,8 +1536,7 @@ public class ByteReader extends Struct {
      * @param size Size of {@code data} in bytes
      * @return a new {@link ByteReader} instance
      */
-    public static @NotNull org.gstreamer.base.ByteReader new_(@NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.base.ByteReader new_(byte[] data, int size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_reader_new.invokeExact(
@@ -1542,7 +1545,7 @@ public class ByteReader extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.ByteReader(RESULT, Ownership.FULL);
+        return org.gstreamer.base.ByteReader.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -1949,31 +1952,35 @@ public class ByteReader extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link ByteReader.Builder} object constructs a {@link ByteReader} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ByteReader.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ByteReader struct;
+        private final ByteReader struct;
         
-         /**
-         * A {@link ByteReader.Build} object constructs a {@link ByteReader} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ByteReader.allocate();
         }
         
          /**
          * Finish building the {@link ByteReader} struct.
          * @return A new instance of {@code ByteReader} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ByteReader construct() {
+        public ByteReader build() {
             return struct;
         }
         
@@ -1983,7 +1990,7 @@ public class ByteReader extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(byte[] data) {
+        public Builder setData(byte[] data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
@@ -1995,7 +2002,7 @@ public class ByteReader extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(int size) {
+        public Builder setSize(int size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
@@ -2007,14 +2014,14 @@ public class ByteReader extends Struct {
          * @param byte_ The value for the {@code byte_} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setByte(int byte_) {
+        public Builder setByte(int byte_) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("byte"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), byte_);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

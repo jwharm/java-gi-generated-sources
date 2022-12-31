@@ -39,5 +39,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface HashFunc {
-        int onHashFunc(@Nullable java.lang.foreign.MemoryAddress key);
+    int run(@Nullable java.lang.foreign.MemoryAddress key);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress key) {
+        var RESULT = run(key);
+        return RESULT;
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HashFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

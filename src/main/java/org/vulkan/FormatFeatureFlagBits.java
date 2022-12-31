@@ -40,8 +40,10 @@ public class FormatFeatureFlagBits extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FormatFeatureFlagBits(Addressable address, Ownership ownership) {
+    protected FormatFeatureFlagBits(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FormatFeatureFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FormatFeatureFlagBits(input, ownership);
 }

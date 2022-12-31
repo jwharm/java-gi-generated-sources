@@ -27,18 +27,16 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     
     private static final java.lang.String C_TYPE_NAME = "GstInsertBin";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Bin.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Bin.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -46,43 +44,29 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
      * <p>
      * Because InsertBin is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InsertBin(Addressable address, Ownership ownership) {
+    protected InsertBin(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to InsertBin if its GType is a (or inherits from) "GstInsertBin".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code InsertBin} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstInsertBin", a ClassCastException will be thrown.
-     */
-    public static InsertBin castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), InsertBin.getType())) {
-            return new InsertBin(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstInsertBin");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InsertBin> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InsertBin(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String name) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String name) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_insert_bin_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -106,19 +90,13 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
      * @param callback the callback to call when the element has been
      *  added or not, or {@code null}
      */
-    public void append(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.insertbin.InsertBinCallback callback) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public void append(org.gstreamer.gst.Element element, org.gstreamer.insertbin.InsertBinCallback callback) {
         try {
             DowncallHandles.gst_insert_bin_append.invokeExact(
                     handle(),
                     element.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstInsertBin.Callbacks.class, "cbInsertBinCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)));
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,21 +112,14 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
      * @param callback the callback to call when the element has been
      *  added or not, or {@code null}
      */
-    public void insertAfter(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Element sibling, @NotNull org.gstreamer.insertbin.InsertBinCallback callback) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public void insertAfter(org.gstreamer.gst.Element element, org.gstreamer.gst.Element sibling, org.gstreamer.insertbin.InsertBinCallback callback) {
         try {
             DowncallHandles.gst_insert_bin_insert_after.invokeExact(
                     handle(),
                     element.handle(),
                     sibling.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstInsertBin.Callbacks.class, "cbInsertBinCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)));
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,21 +135,14 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
      * @param callback the callback to call when the element has been
      *  added or not, or {@code null}
      */
-    public void insertBefore(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Element sibling, @NotNull org.gstreamer.insertbin.InsertBinCallback callback) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public void insertBefore(org.gstreamer.gst.Element element, org.gstreamer.gst.Element sibling, org.gstreamer.insertbin.InsertBinCallback callback) {
         try {
             DowncallHandles.gst_insert_bin_insert_before.invokeExact(
                     handle(),
                     element.handle(),
                     sibling.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstInsertBin.Callbacks.class, "cbInsertBinCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)));
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -193,19 +157,13 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
      * @param callback the callback to call when the element has been
      *  added or not, or {@code null}
      */
-    public void prepend(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.insertbin.InsertBinCallback callback) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public void prepend(org.gstreamer.gst.Element element, org.gstreamer.insertbin.InsertBinCallback callback) {
         try {
             DowncallHandles.gst_insert_bin_prepend.invokeExact(
                     handle(),
                     element.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstInsertBin.Callbacks.class, "cbInsertBinCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)));
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,19 +177,13 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
      * @param callback the callback to call when the element has been
      *  removed or not, or {@code null}
      */
-    public void remove(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.insertbin.InsertBinCallback callback) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public void remove(org.gstreamer.gst.Element element, org.gstreamer.insertbin.InsertBinCallback callback) {
         try {
             DowncallHandles.gst_insert_bin_remove.invokeExact(
                     handle(),
                     element.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstInsertBin.Callbacks.class, "cbInsertBinCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)));
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -241,7 +193,7 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_insert_bin_get_type.invokeExact();
@@ -253,7 +205,18 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     
     @FunctionalInterface
     public interface Append {
-        void signalReceived(InsertBin sourceInsertBin, @NotNull org.gstreamer.gst.Element callback, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable java.lang.foreign.MemoryAddress userData2);
+        void run(org.gstreamer.gst.Element callback);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceInsertBin, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2) {
+            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(callback)), org.gstreamer.gst.Element.fromAddress).marshal(callback, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Append.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -267,16 +230,8 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     public Signal<InsertBin.Append> onAppend(InsertBin.Append handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("append"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(InsertBin.Callbacks.class, "signalInsertBinAppend",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<InsertBin.Append>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("append"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -284,7 +239,18 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     
     @FunctionalInterface
     public interface InsertAfter {
-        void signalReceived(InsertBin sourceInsertBin, @NotNull org.gstreamer.gst.Element sibling, @NotNull org.gstreamer.gst.Element callback, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable java.lang.foreign.MemoryAddress userData2);
+        void run(org.gstreamer.gst.Element sibling, org.gstreamer.gst.Element callback);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceInsertBin, MemoryAddress sibling, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2) {
+            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(sibling)), org.gstreamer.gst.Element.fromAddress).marshal(sibling, Ownership.NONE), (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(callback)), org.gstreamer.gst.Element.fromAddress).marshal(callback, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertAfter.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -299,16 +265,8 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     public Signal<InsertBin.InsertAfter> onInsertAfter(InsertBin.InsertAfter handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-after"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(InsertBin.Callbacks.class, "signalInsertBinInsertAfter",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<InsertBin.InsertAfter>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-after"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -316,7 +274,18 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     
     @FunctionalInterface
     public interface InsertBefore {
-        void signalReceived(InsertBin sourceInsertBin, @NotNull org.gstreamer.gst.Element sibling, @NotNull org.gstreamer.gst.Element callback, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable java.lang.foreign.MemoryAddress userData2);
+        void run(org.gstreamer.gst.Element sibling, org.gstreamer.gst.Element callback);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceInsertBin, MemoryAddress sibling, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2) {
+            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(sibling)), org.gstreamer.gst.Element.fromAddress).marshal(sibling, Ownership.NONE), (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(callback)), org.gstreamer.gst.Element.fromAddress).marshal(callback, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertBefore.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -330,16 +299,8 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     public Signal<InsertBin.InsertBefore> onInsertBefore(InsertBin.InsertBefore handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-before"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(InsertBin.Callbacks.class, "signalInsertBinInsertBefore",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<InsertBin.InsertBefore>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-before"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -347,7 +308,18 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     
     @FunctionalInterface
     public interface Prepend {
-        void signalReceived(InsertBin sourceInsertBin, @NotNull org.gstreamer.gst.Element callback, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable java.lang.foreign.MemoryAddress userData2);
+        void run(org.gstreamer.gst.Element callback);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceInsertBin, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2) {
+            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(callback)), org.gstreamer.gst.Element.fromAddress).marshal(callback, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Prepend.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -361,16 +333,8 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     public Signal<InsertBin.Prepend> onPrepend(InsertBin.Prepend handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("prepend"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(InsertBin.Callbacks.class, "signalInsertBinPrepend",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<InsertBin.Prepend>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("prepend"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -378,7 +342,18 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     
     @FunctionalInterface
     public interface Remove {
-        void signalReceived(InsertBin sourceInsertBin, @NotNull org.gstreamer.gst.Element callback, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable java.lang.foreign.MemoryAddress userData2);
+        void run(org.gstreamer.gst.Element callback);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceInsertBin, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2) {
+            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(callback)), org.gstreamer.gst.Element.fromAddress).marshal(callback, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Remove.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -391,52 +366,46 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
     public Signal<InsertBin.Remove> onRemove(InsertBin.Remove handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("remove"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(InsertBin.Callbacks.class, "signalInsertBinRemove",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<InsertBin.Remove>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("remove"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link InsertBin.Builder} object constructs a {@link InsertBin} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link InsertBin.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Bin.Build {
+    public static class Builder extends org.gstreamer.gst.Bin.Builder {
         
-         /**
-         * A {@link InsertBin.Build} object constructs a {@link InsertBin} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link InsertBin} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link InsertBin} using {@link InsertBin#castFrom}.
+         * {@link InsertBin}.
          * @return A new instance of {@code InsertBin} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public InsertBin construct() {
-            return InsertBin.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    InsertBin.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public InsertBin build() {
+            return (InsertBin) org.gtk.gobject.GObject.newWithProperties(
+                InsertBin.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -484,38 +453,5 @@ public class InsertBin extends org.gstreamer.gst.Bin implements org.gstreamer.gs
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalInsertBinAppend(MemoryAddress sourceInsertBin, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (InsertBin.Append) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InsertBin(sourceInsertBin, Ownership.NONE), new org.gstreamer.gst.Element(callback, Ownership.NONE), userData, userData2);
-        }
-        
-        public static void signalInsertBinInsertAfter(MemoryAddress sourceInsertBin, MemoryAddress sibling, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (InsertBin.InsertAfter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InsertBin(sourceInsertBin, Ownership.NONE), new org.gstreamer.gst.Element(sibling, Ownership.NONE), new org.gstreamer.gst.Element(callback, Ownership.NONE), userData, userData2);
-        }
-        
-        public static void signalInsertBinInsertBefore(MemoryAddress sourceInsertBin, MemoryAddress sibling, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (InsertBin.InsertBefore) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InsertBin(sourceInsertBin, Ownership.NONE), new org.gstreamer.gst.Element(sibling, Ownership.NONE), new org.gstreamer.gst.Element(callback, Ownership.NONE), userData, userData2);
-        }
-        
-        public static void signalInsertBinPrepend(MemoryAddress sourceInsertBin, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (InsertBin.Prepend) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InsertBin(sourceInsertBin, Ownership.NONE), new org.gstreamer.gst.Element(callback, Ownership.NONE), userData, userData2);
-        }
-        
-        public static void signalInsertBinRemove(MemoryAddress sourceInsertBin, MemoryAddress callback, MemoryAddress userData, MemoryAddress userData2, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (InsertBin.Remove) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InsertBin(sourceInsertBin, Ownership.NONE), new org.gstreamer.gst.Element(callback, Ownership.NONE), userData, userData2);
-        }
     }
 }

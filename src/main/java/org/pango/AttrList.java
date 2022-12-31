@@ -53,13 +53,15 @@ public class AttrList extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AttrList(Addressable address, Ownership ownership) {
+    protected AttrList(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AttrList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrList(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_new.invokeExact();
         } catch (Throwable ERR) {
@@ -91,8 +93,7 @@ public class AttrList extends Struct {
      * never removes or combines existing attributes.
      * @param attr the attribute to insert
      */
-    public void change(@NotNull org.pango.Attribute attr) {
-        java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
+    public void change(org.pango.Attribute attr) {
         try {
             DowncallHandles.pango_attr_list_change.invokeExact(
                     handle(),
@@ -118,7 +119,7 @@ public class AttrList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.FULL);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -132,8 +133,7 @@ public class AttrList extends Struct {
      * @return {@code true} if the lists are equal, {@code false} if
      *   they aren't
      */
-    public boolean equal(@NotNull org.pango.AttrList otherList) {
-        java.util.Objects.requireNonNull(otherList, "Parameter 'otherList' must not be null");
+    public boolean equal(org.pango.AttrList otherList) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_attr_list_equal.invokeExact(
@@ -142,7 +142,7 @@ public class AttrList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -155,22 +155,17 @@ public class AttrList extends Struct {
      *   {@code PangoAttrList} or {@code null} if no attributes of the
      *   given types were found
      */
-    public @Nullable org.pango.AttrList filter(@NotNull org.pango.AttrFilterFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public @Nullable org.pango.AttrList filter(org.pango.AttrFilterFunc func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_filter.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbAttrFilterFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.FULL);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -179,7 +174,7 @@ public class AttrList extends Struct {
      *   call {@link Attribute#destroy} on each value and
      *   g_slist_free() on the list.
      */
-    public @NotNull org.gtk.glib.SList getAttributes() {
+    public org.gtk.glib.SList getAttributes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_attributes.invokeExact(
@@ -187,7 +182,7 @@ public class AttrList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.FULL);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -198,7 +193,7 @@ public class AttrList extends Struct {
      *   {@code PangoAttrIterator}, which should be freed with
      *   {@link AttrIterator#destroy}
      */
-    public @NotNull org.pango.AttrIterator getIterator() {
+    public org.pango.AttrIterator getIterator() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_get_iterator.invokeExact(
@@ -206,7 +201,7 @@ public class AttrList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrIterator(RESULT, Ownership.FULL);
+        return org.pango.AttrIterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -216,8 +211,7 @@ public class AttrList extends Struct {
      * matching {@code start_index}.
      * @param attr the attribute to insert
      */
-    public void insert(@NotNull org.pango.Attribute attr) {
-        java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
+    public void insert(org.pango.Attribute attr) {
         try {
             DowncallHandles.pango_attr_list_insert.invokeExact(
                     handle(),
@@ -235,8 +229,7 @@ public class AttrList extends Struct {
      * matching {@code start_index}.
      * @param attr the attribute to insert
      */
-    public void insertBefore(@NotNull org.pango.Attribute attr) {
-        java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
+    public void insertBefore(org.pango.Attribute attr) {
         try {
             DowncallHandles.pango_attr_list_insert_before.invokeExact(
                     handle(),
@@ -252,7 +245,7 @@ public class AttrList extends Struct {
      * list by one.
      * @return The attribute list passed in
      */
-    public @NotNull org.pango.AttrList ref() {
+    public org.pango.AttrList ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_ref.invokeExact(
@@ -260,7 +253,7 @@ public class AttrList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.FULL);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -288,8 +281,7 @@ public class AttrList extends Struct {
      *   must be specified since the attributes in {@code other} may only
      *   be present at some subsection of this range)
      */
-    public void splice(@NotNull org.pango.AttrList other, int pos, int len) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public void splice(org.pango.AttrList other, int pos, int len) {
         try {
             DowncallHandles.pango_attr_list_splice.invokeExact(
                     handle(),
@@ -337,7 +329,7 @@ public class AttrList extends Struct {
      * Note that shape attributes can not be serialized.
      * @return a newly allocated string
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_to_string.invokeExact(
@@ -345,7 +337,7 @@ public class AttrList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -403,16 +395,15 @@ public class AttrList extends Struct {
      * @param text a string
      * @return a new {@code PangoAttrList}
      */
-    public static @Nullable org.pango.AttrList fromString(@NotNull java.lang.String text) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static @Nullable org.pango.AttrList fromString(java.lang.String text) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_list_from_string.invokeExact(
-                    Interop.allocateNativeString(text));
+                    Marshal.stringToAddress.marshal(text, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.FULL);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

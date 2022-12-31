@@ -34,25 +34,8 @@ import org.jetbrains.annotations.*;
  */
 public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to PowerProfileMonitor if its GType is a (or inherits from) "GPowerProfileMonitor".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PowerProfileMonitor} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GPowerProfileMonitor", a ClassCastException will be thrown.
-     */
-    public static PowerProfileMonitor castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PowerProfileMonitor.getType())) {
-            return new PowerProfileMonitorImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GPowerProfileMonitor");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PowerProfileMonitorImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PowerProfileMonitorImpl(input, ownership);
     
     /**
      * Gets whether the system is in “Power Saver” mode.
@@ -70,14 +53,14 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_power_profile_monitor_get_type.invokeExact();
@@ -91,14 +74,14 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
      * Gets a reference to the default {@link PowerProfileMonitor} for the system.
      * @return a new reference to the default {@link PowerProfileMonitor}
      */
-    public static @NotNull org.gtk.gio.PowerProfileMonitor dupDefault() {
+    public static org.gtk.gio.PowerProfileMonitor dupDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_power_profile_monitor_dup_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.PowerProfileMonitor.PowerProfileMonitorImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.PowerProfileMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.PowerProfileMonitor.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -126,7 +109,7 @@ public interface PowerProfileMonitor extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class PowerProfileMonitorImpl extends org.gtk.gobject.Object implements PowerProfileMonitor {
+    class PowerProfileMonitorImpl extends org.gtk.gobject.GObject implements PowerProfileMonitor {
         
         static {
             Gio.javagi$ensureInitialized();

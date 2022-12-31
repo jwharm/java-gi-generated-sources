@@ -11,15 +11,10 @@ import org.jetbrains.annotations.*;
 public class TypeInterface extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GTypeInterface";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("g_type"),
-        Interop.valueLayout.C_LONG.withName("g_instance_type")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -27,7 +22,10 @@ public class TypeInterface extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("g_type"),
+            Interop.valueLayout.C_LONG.withName("g_instance_type")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,10 +46,12 @@ public class TypeInterface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TypeInterface(Addressable address, Ownership ownership) {
+    protected TypeInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TypeInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeInterface(input, ownership);
     
     /**
      * Returns the corresponding {@link TypeInterface} structure of the parent type
@@ -63,7 +63,7 @@ public class TypeInterface extends Struct {
      *     instance type to which {@code g_iface} belongs, or {@code null} if the parent
      *     type doesn't conform to the interface
      */
-    public @NotNull org.gtk.gobject.TypeInterface peekParent() {
+    public org.gtk.gobject.TypeInterface peekParent() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek_parent.invokeExact(
@@ -71,7 +71,7 @@ public class TypeInterface extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeInterface(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -80,12 +80,10 @@ public class TypeInterface extends Struct {
      * {@code prerequisite_type}. Prerequisites can be thought of as an alternative to
      * interface derivation (which GType doesn't support). An interface can have
      * at most one instantiatable prerequisite type.
-     * @param interfaceType {@link Type} value of an interface type
-     * @param prerequisiteType {@link Type} value of an interface or instantiatable type
+     * @param interfaceType {@link org.gtk.glib.Type} value of an interface type
+     * @param prerequisiteType {@link org.gtk.glib.Type} value of an interface or instantiatable type
      */
-    public static void addPrerequisite(@NotNull org.gtk.glib.Type interfaceType, @NotNull org.gtk.glib.Type prerequisiteType) {
-        java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
-        java.util.Objects.requireNonNull(prerequisiteType, "Parameter 'prerequisiteType' must not be null");
+    public static void addPrerequisite(org.gtk.glib.Type interfaceType, org.gtk.glib.Type prerequisiteType) {
         try {
             DowncallHandles.g_type_interface_add_prerequisite.invokeExact(
                     interfaceType.getValue().longValue(),
@@ -100,14 +98,12 @@ public class TypeInterface extends Struct {
      * {@code interface_type} which has been added to {@code instance_type}, or {@code null}
      * if {@code interface_type} has not been added to {@code instance_type} or does
      * not have a {@link TypePlugin} structure. See g_type_add_interface_dynamic().
-     * @param instanceType {@link Type} of an instantiatable type
-     * @param interfaceType {@link Type} of an interface type
+     * @param instanceType {@link org.gtk.glib.Type} of an instantiatable type
+     * @param interfaceType {@link org.gtk.glib.Type} of an interface type
      * @return the {@link TypePlugin} for the dynamic
      *     interface {@code interface_type} of {@code instance_type}
      */
-    public static @NotNull org.gtk.gobject.TypePlugin getPlugin(@NotNull org.gtk.glib.Type instanceType, @NotNull org.gtk.glib.Type interfaceType) {
-        java.util.Objects.requireNonNull(instanceType, "Parameter 'instanceType' must not be null");
-        java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
+    public static org.gtk.gobject.TypePlugin getPlugin(org.gtk.glib.Type instanceType, org.gtk.glib.Type interfaceType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_interface_get_plugin.invokeExact(
@@ -116,7 +112,7 @@ public class TypeInterface extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypePlugin.TypePluginImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.TypePlugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.TypePlugin.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -129,8 +125,7 @@ public class TypeInterface extends Struct {
      * @param interfaceType an interface type
      * @return the instantiatable prerequisite type or {@code G_TYPE_INVALID} if none
      */
-    public static @NotNull org.gtk.glib.Type instantiatablePrerequisite(@NotNull org.gtk.glib.Type interfaceType) {
-        java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
+    public static org.gtk.glib.Type instantiatablePrerequisite(org.gtk.glib.Type interfaceType) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_type_interface_instantiatable_prerequisite.invokeExact(
@@ -150,9 +145,7 @@ public class TypeInterface extends Struct {
      *     structure of {@code iface_type} if implemented by {@code instance_class}, {@code null}
      *     otherwise
      */
-    public static @NotNull org.gtk.gobject.TypeInterface peek(@NotNull org.gtk.gobject.TypeClass instanceClass, @NotNull org.gtk.glib.Type ifaceType) {
-        java.util.Objects.requireNonNull(instanceClass, "Parameter 'instanceClass' must not be null");
-        java.util.Objects.requireNonNull(ifaceType, "Parameter 'ifaceType' must not be null");
+    public static org.gtk.gobject.TypeInterface peek(org.gtk.gobject.TypeClass instanceClass, org.gtk.glib.Type ifaceType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_interface_peek.invokeExact(
@@ -161,7 +154,7 @@ public class TypeInterface extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.TypeInterface(RESULT, Ownership.NONE);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -170,22 +163,20 @@ public class TypeInterface extends Struct {
      * @param nPrerequisites location to return the number
      *     of prerequisites, or {@code null}
      * @return a
-     *     newly-allocated zero-terminated array of {@link Type} containing
+     *     newly-allocated zero-terminated array of {@link org.gtk.glib.Type} containing
      *     the prerequisites of {@code interface_type}
      */
-    public static @NotNull org.gtk.glib.Type[] prerequisites(@NotNull org.gtk.glib.Type interfaceType, Out<Integer> nPrerequisites) {
-        java.util.Objects.requireNonNull(interfaceType, "Parameter 'interfaceType' must not be null");
-        java.util.Objects.requireNonNull(nPrerequisites, "Parameter 'nPrerequisites' must not be null");
+    public static org.gtk.glib.Type[] prerequisites(org.gtk.glib.Type interfaceType, Out<Integer> nPrerequisites) {
         MemorySegment nPrerequisitesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_type_interface_prerequisites.invokeExact(
                     interfaceType.getValue().longValue(),
-                    (Addressable) nPrerequisitesPOINTER.address());
+                    (Addressable) (nPrerequisites == null ? MemoryAddress.NULL : (Addressable) nPrerequisitesPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nPrerequisites.set(nPrerequisitesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (nPrerequisites != null) nPrerequisites.set(nPrerequisitesPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.gtk.glib.Type[] resultARRAY = new org.gtk.glib.Type[nPrerequisites.get().intValue()];
         for (int I = 0; I < nPrerequisites.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.C_LONG, I);
@@ -232,42 +223,46 @@ public class TypeInterface extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TypeInterface.Builder} object constructs a {@link TypeInterface} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TypeInterface.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TypeInterface struct;
+        private final TypeInterface struct;
         
-         /**
-         * A {@link TypeInterface.Build} object constructs a {@link TypeInterface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TypeInterface.allocate();
         }
         
          /**
          * Finish building the {@link TypeInterface} struct.
          * @return A new instance of {@code TypeInterface} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TypeInterface construct() {
+        public TypeInterface build() {
             return struct;
         }
         
-        public Build setGType(org.gtk.glib.Type gType) {
+        public Builder setGType(org.gtk.glib.Type gType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gType == null ? MemoryAddress.NULL : gType.getValue().longValue()));
             return this;
         }
         
-        public Build setGInstanceType(org.gtk.glib.Type gInstanceType) {
+        public Builder setGInstanceType(org.gtk.glib.Type gInstanceType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_instance_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gInstanceType == null ? MemoryAddress.NULL : gInstanceType.getValue().longValue()));

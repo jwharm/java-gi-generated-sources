@@ -40,10 +40,12 @@ public class DebugMessage extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DebugMessage(Addressable address, Ownership ownership) {
+    protected DebugMessage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DebugMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugMessage(input, ownership);
     
     /**
      * Gets the string representation of a {@link DebugMessage}. This function is used
@@ -58,7 +60,7 @@ public class DebugMessage extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

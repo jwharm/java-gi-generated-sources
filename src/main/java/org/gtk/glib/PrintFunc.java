@@ -11,5 +11,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PrintFunc {
-        void onPrintFunc(@NotNull java.lang.String string);
+    void run(java.lang.String string);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress string) {
+        run(Marshal.addressToString.marshal(string, null));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PrintFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

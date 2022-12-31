@@ -70,11 +70,15 @@ public class LogLevelFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public LogLevelFlags or(LogLevelFlags mask) {
-        return new LogLevelFlags(this.getValue() | mask.getValue());
+    public LogLevelFlags or(LogLevelFlags... masks) {
+        int value = this.getValue();
+        for (LogLevelFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new LogLevelFlags(value);
     }
     
     /**
@@ -84,7 +88,8 @@ public class LogLevelFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static LogLevelFlags combined(LogLevelFlags mask, LogLevelFlags... masks) {
-        int value = mask.getValue();        for (LogLevelFlags arg : masks) {
+        int value = mask.getValue();
+        for (LogLevelFlags arg : masks) {
             value |= arg.getValue();
         }
         return new LogLevelFlags(value);

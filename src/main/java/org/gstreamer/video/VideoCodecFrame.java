@@ -17,33 +17,31 @@ public class VideoCodecFrame extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoCodecFrame";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("ref_count"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        Interop.valueLayout.C_INT.withName("system_frame_number"),
-        Interop.valueLayout.C_INT.withName("decode_frame_number"),
-        Interop.valueLayout.C_INT.withName("presentation_frame_number"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("dts"),
-        Interop.valueLayout.C_LONG.withName("pts"),
-        Interop.valueLayout.C_LONG.withName("duration"),
-        Interop.valueLayout.C_INT.withName("distance_from_sync"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("input_buffer"),
-        Interop.valueLayout.ADDRESS.withName("output_buffer"),
-        Interop.valueLayout.C_LONG.withName("deadline"),
-        Interop.valueLayout.ADDRESS.withName("events"),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.ADDRESS.withName("user_data_destroy_notify")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("ref_count"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            Interop.valueLayout.C_INT.withName("system_frame_number"),
+            Interop.valueLayout.C_INT.withName("decode_frame_number"),
+            Interop.valueLayout.C_INT.withName("presentation_frame_number"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("dts"),
+            Interop.valueLayout.C_LONG.withName("pts"),
+            Interop.valueLayout.C_LONG.withName("duration"),
+            Interop.valueLayout.C_INT.withName("distance_from_sync"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("input_buffer"),
+            Interop.valueLayout.ADDRESS.withName("output_buffer"),
+            Interop.valueLayout.C_LONG.withName("deadline"),
+            Interop.valueLayout.ADDRESS.withName("events"),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.ADDRESS.withName("user_data_destroy_notify")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -63,7 +61,7 @@ public class VideoCodecFrame extends Struct {
      * Get the value of the field {@code system_frame_number}
      * @return The value of the field {@code system_frame_number}
      */
-    public int systemFrameNumber$get() {
+    public int getSystemFrameNumber() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -74,7 +72,7 @@ public class VideoCodecFrame extends Struct {
      * Change the value of the field {@code system_frame_number}
      * @param systemFrameNumber The new value of the field {@code system_frame_number}
      */
-    public void systemFrameNumber$set(int systemFrameNumber) {
+    public void setSystemFrameNumber(int systemFrameNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
@@ -84,7 +82,7 @@ public class VideoCodecFrame extends Struct {
      * Get the value of the field {@code dts}
      * @return The value of the field {@code dts}
      */
-    public org.gstreamer.gst.ClockTime dts$get() {
+    public org.gstreamer.gst.ClockTime getDts() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dts"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -95,17 +93,17 @@ public class VideoCodecFrame extends Struct {
      * Change the value of the field {@code dts}
      * @param dts The new value of the field {@code dts}
      */
-    public void dts$set(org.gstreamer.gst.ClockTime dts) {
+    public void setDts(org.gstreamer.gst.ClockTime dts) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dts.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code pts}
      * @return The value of the field {@code pts}
      */
-    public org.gstreamer.gst.ClockTime pts$get() {
+    public org.gstreamer.gst.ClockTime getPts() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pts"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -116,17 +114,17 @@ public class VideoCodecFrame extends Struct {
      * Change the value of the field {@code pts}
      * @param pts The new value of the field {@code pts}
      */
-    public void pts$set(org.gstreamer.gst.ClockTime pts) {
+    public void setPts(org.gstreamer.gst.ClockTime pts) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pts"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pts.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code duration}
      * @return The value of the field {@code duration}
      */
-    public org.gstreamer.gst.ClockTime duration$get() {
+    public org.gstreamer.gst.ClockTime getDuration() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -137,17 +135,17 @@ public class VideoCodecFrame extends Struct {
      * Change the value of the field {@code duration}
      * @param duration The new value of the field {@code duration}
      */
-    public void duration$set(org.gstreamer.gst.ClockTime duration) {
+    public void setDuration(org.gstreamer.gst.ClockTime duration) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("duration"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), duration.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code distance_from_sync}
      * @return The value of the field {@code distance_from_sync}
      */
-    public int distanceFromSync$get() {
+    public int getDistanceFromSync() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("distance_from_sync"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -158,7 +156,7 @@ public class VideoCodecFrame extends Struct {
      * Change the value of the field {@code distance_from_sync}
      * @param distanceFromSync The new value of the field {@code distance_from_sync}
      */
-    public void distanceFromSync$set(int distanceFromSync) {
+    public void setDistanceFromSync(int distanceFromSync) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("distance_from_sync"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), distanceFromSync);
@@ -168,49 +166,49 @@ public class VideoCodecFrame extends Struct {
      * Get the value of the field {@code input_buffer}
      * @return The value of the field {@code input_buffer}
      */
-    public org.gstreamer.gst.Buffer inputBuffer$get() {
+    public org.gstreamer.gst.Buffer getInputBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("input_buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code input_buffer}
      * @param inputBuffer The new value of the field {@code input_buffer}
      */
-    public void inputBuffer$set(org.gstreamer.gst.Buffer inputBuffer) {
+    public void setInputBuffer(org.gstreamer.gst.Buffer inputBuffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("input_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), inputBuffer.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputBuffer == null ? MemoryAddress.NULL : inputBuffer.handle()));
     }
     
     /**
      * Get the value of the field {@code output_buffer}
      * @return The value of the field {@code output_buffer}
      */
-    public org.gstreamer.gst.Buffer outputBuffer$get() {
+    public org.gstreamer.gst.Buffer getOutputBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("output_buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code output_buffer}
      * @param outputBuffer The new value of the field {@code output_buffer}
      */
-    public void outputBuffer$set(org.gstreamer.gst.Buffer outputBuffer) {
+    public void setOutputBuffer(org.gstreamer.gst.Buffer outputBuffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("output_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), outputBuffer.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outputBuffer == null ? MemoryAddress.NULL : outputBuffer.handle()));
     }
     
     /**
      * Get the value of the field {@code deadline}
      * @return The value of the field {@code deadline}
      */
-    public org.gstreamer.gst.ClockTime deadline$get() {
+    public org.gstreamer.gst.ClockTime getDeadline() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("deadline"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -221,10 +219,10 @@ public class VideoCodecFrame extends Struct {
      * Change the value of the field {@code deadline}
      * @param deadline The new value of the field {@code deadline}
      */
-    public void deadline$set(org.gstreamer.gst.ClockTime deadline) {
+    public void setDeadline(org.gstreamer.gst.ClockTime deadline) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("deadline"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), deadline.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deadline == null ? MemoryAddress.NULL : deadline.getValue().longValue()));
     }
     
     /**
@@ -232,10 +230,12 @@ public class VideoCodecFrame extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoCodecFrame(Addressable address, Ownership ownership) {
+    protected VideoCodecFrame(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoCodecFrame> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoCodecFrame(input, ownership);
     
     /**
      * Gets private data set on the frame by the subclass via
@@ -257,7 +257,7 @@ public class VideoCodecFrame extends Struct {
      * Increases the refcount of the given frame by one.
      * @return {@code buf}
      */
-    public @NotNull org.gstreamer.video.VideoCodecFrame ref() {
+    public org.gstreamer.video.VideoCodecFrame ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_codec_frame_ref.invokeExact(
@@ -265,7 +265,7 @@ public class VideoCodecFrame extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoCodecFrame(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoCodecFrame.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -274,15 +274,14 @@ public class VideoCodecFrame extends Struct {
      * <p>
      * If a {@code user_data} was previously set, then the previous set {@code notify} will be called
      * before the {@code user_data} is replaced.
-     * @param userData private data
      * @param notify a {@link org.gtk.glib.DestroyNotify}
      */
-    public void setUserData(@Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify notify) {
+    public void setUserData(org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_video_codec_frame_set_user_data.invokeExact(
                     handle(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -327,42 +326,46 @@ public class VideoCodecFrame extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoCodecFrame.Builder} object constructs a {@link VideoCodecFrame} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoCodecFrame.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoCodecFrame struct;
+        private final VideoCodecFrame struct;
         
-         /**
-         * A {@link VideoCodecFrame.Build} object constructs a {@link VideoCodecFrame} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoCodecFrame.allocate();
         }
         
          /**
          * Finish building the {@link VideoCodecFrame} struct.
          * @return A new instance of {@code VideoCodecFrame} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoCodecFrame construct() {
+        public VideoCodecFrame build() {
             return struct;
         }
         
-        public Build setRefCount(int refCount) {
+        public Builder setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
-        public Build setFlags(int flags) {
+        public Builder setFlags(int flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -377,21 +380,21 @@ public class VideoCodecFrame extends Struct {
          * @param systemFrameNumber The value for the {@code systemFrameNumber} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSystemFrameNumber(int systemFrameNumber) {
+        public Builder setSystemFrameNumber(int systemFrameNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
             return this;
         }
         
-        public Build setDecodeFrameNumber(int decodeFrameNumber) {
+        public Builder setDecodeFrameNumber(int decodeFrameNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("decode_frame_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), decodeFrameNumber);
             return this;
         }
         
-        public Build setPresentationFrameNumber(int presentationFrameNumber) {
+        public Builder setPresentationFrameNumber(int presentationFrameNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("presentation_frame_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), presentationFrameNumber);
@@ -403,7 +406,7 @@ public class VideoCodecFrame extends Struct {
          * @param dts The value for the {@code dts} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDts(org.gstreamer.gst.ClockTime dts) {
+        public Builder setDts(org.gstreamer.gst.ClockTime dts) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dts"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dts == null ? MemoryAddress.NULL : dts.getValue().longValue()));
@@ -415,7 +418,7 @@ public class VideoCodecFrame extends Struct {
          * @param pts The value for the {@code pts} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPts(org.gstreamer.gst.ClockTime pts) {
+        public Builder setPts(org.gstreamer.gst.ClockTime pts) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pts"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pts == null ? MemoryAddress.NULL : pts.getValue().longValue()));
@@ -427,7 +430,7 @@ public class VideoCodecFrame extends Struct {
          * @param duration The value for the {@code duration} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDuration(org.gstreamer.gst.ClockTime duration) {
+        public Builder setDuration(org.gstreamer.gst.ClockTime duration) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("duration"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (duration == null ? MemoryAddress.NULL : duration.getValue().longValue()));
@@ -439,7 +442,7 @@ public class VideoCodecFrame extends Struct {
          * @param distanceFromSync The value for the {@code distanceFromSync} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDistanceFromSync(int distanceFromSync) {
+        public Builder setDistanceFromSync(int distanceFromSync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("distance_from_sync"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), distanceFromSync);
@@ -453,7 +456,7 @@ public class VideoCodecFrame extends Struct {
          * @param inputBuffer The value for the {@code inputBuffer} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputBuffer(org.gstreamer.gst.Buffer inputBuffer) {
+        public Builder setInputBuffer(org.gstreamer.gst.Buffer inputBuffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("input_buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputBuffer == null ? MemoryAddress.NULL : inputBuffer.handle()));
@@ -470,7 +473,7 @@ public class VideoCodecFrame extends Struct {
          * @param outputBuffer The value for the {@code outputBuffer} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOutputBuffer(org.gstreamer.gst.Buffer outputBuffer) {
+        public Builder setOutputBuffer(org.gstreamer.gst.Buffer outputBuffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("output_buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outputBuffer == null ? MemoryAddress.NULL : outputBuffer.handle()));
@@ -482,31 +485,31 @@ public class VideoCodecFrame extends Struct {
          * @param deadline The value for the {@code deadline} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDeadline(org.gstreamer.gst.ClockTime deadline) {
+        public Builder setDeadline(org.gstreamer.gst.ClockTime deadline) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("deadline"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (deadline == null ? MemoryAddress.NULL : deadline.getValue().longValue()));
             return this;
         }
         
-        public Build setEvents(org.gtk.glib.List events) {
+        public Builder setEvents(org.gtk.glib.List events) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("events"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : events.handle()));
             return this;
         }
         
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
             return this;
         }
         
-        public Build setUserDataDestroyNotify(java.lang.foreign.MemoryAddress userDataDestroyNotify) {
+        public Builder setUserDataDestroyNotify(org.gtk.glib.DestroyNotify userDataDestroyNotify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data_destroy_notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userDataDestroyNotify == null ? MemoryAddress.NULL : userDataDestroyNotify));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userDataDestroyNotify == null ? MemoryAddress.NULL : (Addressable) userDataDestroyNotify.toCallback()));
             return this;
         }
     }

@@ -16,25 +16,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Proxy extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Proxy if its GType is a (or inherits from) "GProxy".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Proxy} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GProxy", a ClassCastException will be thrown.
-     */
-    public static Proxy castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Proxy.getType())) {
-            return new ProxyImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GProxy");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ProxyImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ProxyImpl(input, ownership);
     
     /**
      * Given {@code connection} to communicate with a proxy (eg, a
@@ -49,9 +32,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
      *               will be added.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.IOStream connect(@NotNull org.gtk.gio.IOStream connection, @NotNull org.gtk.gio.ProxyAddress proxyAddress, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
-        java.util.Objects.requireNonNull(proxyAddress, "Parameter 'proxyAddress' must not be null");
+    default org.gtk.gio.IOStream connect(org.gtk.gio.IOStream connection, org.gtk.gio.ProxyAddress proxyAddress, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -67,7 +48,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.IOStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.IOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.IOStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -77,21 +58,15 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
      * @param cancellable a {@link Cancellable}
      * @param callback a {@link AsyncReadyCallback}
      */
-    default void connectAsync(@NotNull org.gtk.gio.IOStream connection, @NotNull org.gtk.gio.ProxyAddress proxyAddress, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
-        java.util.Objects.requireNonNull(proxyAddress, "Parameter 'proxyAddress' must not be null");
+    default void connectAsync(org.gtk.gio.IOStream connection, org.gtk.gio.ProxyAddress proxyAddress, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_proxy_connect_async.invokeExact(
                     handle(),
                     connection.handle(),
                     proxyAddress.handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -103,8 +78,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
      * @return a {@link IOStream}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.IOStream connectFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default org.gtk.gio.IOStream connectFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -118,7 +92,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.IOStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.IOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.IOStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -139,14 +113,14 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_proxy_get_type.invokeExact();
@@ -163,16 +137,15 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
      * @return return a {@link Proxy} or NULL if protocol
      *               is not supported.
      */
-    public static @Nullable org.gtk.gio.Proxy getDefaultForProtocol(@NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static @Nullable org.gtk.gio.Proxy getDefaultForProtocol(java.lang.String protocol) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_proxy_get_default_for_protocol.invokeExact(
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Proxy.ProxyImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Proxy) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Proxy.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -221,7 +194,7 @@ public interface Proxy extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class ProxyImpl extends org.gtk.gobject.Object implements Proxy {
+    class ProxyImpl extends org.gtk.gobject.GObject implements Proxy {
         
         static {
             Gio.javagi$ensureInitialized();

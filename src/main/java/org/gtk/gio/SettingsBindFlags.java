@@ -20,13 +20,13 @@ public class SettingsBindFlags extends io.github.jwharm.javagi.Bitfield {
     public static final SettingsBindFlags DEFAULT = new SettingsBindFlags(0);
     
     /**
-     * Update the {@link org.gtk.gobject.Object} property when the setting changes.
+     * Update the {@link org.gtk.gobject.GObject} property when the setting changes.
      *     It is an error to use this flag if the property is not writable.
      */
     public static final SettingsBindFlags GET = new SettingsBindFlags(1);
     
     /**
-     * Update the setting when the {@link org.gtk.gobject.Object} property changes.
+     * Update the setting when the {@link org.gtk.gobject.GObject} property changes.
      *     It is an error to use this flag if the property is not readable.
      */
     public static final SettingsBindFlags SET = new SettingsBindFlags(2);
@@ -37,7 +37,7 @@ public class SettingsBindFlags extends io.github.jwharm.javagi.Bitfield {
     public static final SettingsBindFlags NO_SENSITIVITY = new SettingsBindFlags(4);
     
     /**
-     * When set in addition to {@link SettingsBindFlags#GET}, set the {@link org.gtk.gobject.Object} property
+     * When set in addition to {@link SettingsBindFlags#GET}, set the {@link org.gtk.gobject.GObject} property
      *     value initially from the setting, but do not listen for changes of the setting
      */
     public static final SettingsBindFlags GET_NO_CHANGES = new SettingsBindFlags(8);
@@ -55,11 +55,15 @@ public class SettingsBindFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public SettingsBindFlags or(SettingsBindFlags mask) {
-        return new SettingsBindFlags(this.getValue() | mask.getValue());
+    public SettingsBindFlags or(SettingsBindFlags... masks) {
+        int value = this.getValue();
+        for (SettingsBindFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new SettingsBindFlags(value);
     }
     
     /**
@@ -69,7 +73,8 @@ public class SettingsBindFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static SettingsBindFlags combined(SettingsBindFlags mask, SettingsBindFlags... masks) {
-        int value = mask.getValue();        for (SettingsBindFlags arg : masks) {
+        int value = mask.getValue();
+        for (SettingsBindFlags arg : masks) {
             value |= arg.getValue();
         }
         return new SettingsBindFlags(value);

@@ -14,7 +14,15 @@ public final class GstVulkan {
         System.loadLibrary("gstvulkan-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     public static final java.lang.String CAPS_FEATURE_MEMORY_VULKAN_BUFFER = "memory:VulkanBuffer";
     
@@ -38,9 +46,7 @@ public final class GstVulkan {
     
     public static final java.lang.String VULKAN_SWAPPER_VIDEO_FORMATS = " { RGBA, BGRA, RGB, BGR } ";
     
-    public static boolean contextGetVulkanDevice(@NotNull org.gstreamer.gst.Context context, @NotNull PointerProxy<org.gstreamer.vulkan.VulkanDevice> device) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public static boolean contextGetVulkanDevice(org.gstreamer.gst.Context context, PointerProxy<org.gstreamer.vulkan.VulkanDevice> device) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_context_get_vulkan_device.invokeExact(
@@ -49,12 +55,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean contextGetVulkanDisplay(@NotNull org.gstreamer.gst.Context context, @NotNull PointerProxy<org.gstreamer.vulkan.VulkanDisplay> display) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public static boolean contextGetVulkanDisplay(org.gstreamer.gst.Context context, PointerProxy<org.gstreamer.vulkan.VulkanDisplay> display) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_context_get_vulkan_display.invokeExact(
@@ -63,12 +67,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean contextGetVulkanInstance(@NotNull org.gstreamer.gst.Context context, @NotNull PointerProxy<org.gstreamer.vulkan.VulkanInstance> instance) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
+    public static boolean contextGetVulkanInstance(org.gstreamer.gst.Context context, PointerProxy<org.gstreamer.vulkan.VulkanInstance> instance) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_context_get_vulkan_instance.invokeExact(
@@ -77,12 +79,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean contextGetVulkanQueue(@NotNull org.gstreamer.gst.Context context, @NotNull PointerProxy<org.gstreamer.vulkan.VulkanQueue> queue) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(queue, "Parameter 'queue' must not be null");
+    public static boolean contextGetVulkanQueue(org.gstreamer.gst.Context context, PointerProxy<org.gstreamer.vulkan.VulkanQueue> queue) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_context_get_vulkan_queue.invokeExact(
@@ -91,7 +91,7 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -99,9 +99,7 @@ public final class GstVulkan {
      * @param context a {@link org.gstreamer.gst.Context}
      * @param device a {@link VulkanDevice}
      */
-    public static void contextSetVulkanDevice(@NotNull org.gstreamer.gst.Context context, @NotNull org.gstreamer.vulkan.VulkanDevice device) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public static void contextSetVulkanDevice(org.gstreamer.gst.Context context, org.gstreamer.vulkan.VulkanDevice device) {
         try {
             DowncallHandles.gst_context_set_vulkan_device.invokeExact(
                     context.handle(),
@@ -116,9 +114,7 @@ public final class GstVulkan {
      * @param context a {@link org.gstreamer.gst.Context}
      * @param display a {@link VulkanDisplay}
      */
-    public static void contextSetVulkanDisplay(@NotNull org.gstreamer.gst.Context context, @NotNull org.gstreamer.vulkan.VulkanDisplay display) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public static void contextSetVulkanDisplay(org.gstreamer.gst.Context context, org.gstreamer.vulkan.VulkanDisplay display) {
         try {
             DowncallHandles.gst_context_set_vulkan_display.invokeExact(
                     context.handle(),
@@ -133,9 +129,7 @@ public final class GstVulkan {
      * @param context a {@link org.gstreamer.gst.Context}
      * @param instance a {@link VulkanInstance}
      */
-    public static void contextSetVulkanInstance(@NotNull org.gstreamer.gst.Context context, @NotNull org.gstreamer.vulkan.VulkanInstance instance) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
+    public static void contextSetVulkanInstance(org.gstreamer.gst.Context context, org.gstreamer.vulkan.VulkanInstance instance) {
         try {
             DowncallHandles.gst_context_set_vulkan_instance.invokeExact(
                     context.handle(),
@@ -150,9 +144,7 @@ public final class GstVulkan {
      * @param context a {@link org.gstreamer.gst.Context}
      * @param queue a {@link VulkanQueue}
      */
-    public static void contextSetVulkanQueue(@NotNull org.gstreamer.gst.Context context, @NotNull org.gstreamer.vulkan.VulkanQueue queue) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(queue, "Parameter 'queue' must not be null");
+    public static void contextSetVulkanQueue(org.gstreamer.gst.Context context, org.gstreamer.vulkan.VulkanQueue queue) {
         try {
             DowncallHandles.gst_context_set_vulkan_queue.invokeExact(
                     context.handle(),
@@ -162,8 +154,7 @@ public final class GstVulkan {
         }
     }
     
-    public static boolean isVulkanBufferMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isVulkanBufferMemory(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_vulkan_buffer_memory.invokeExact(
@@ -171,11 +162,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean isVulkanImageMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isVulkanImageMemory(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_vulkan_image_memory.invokeExact(
@@ -183,11 +173,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean isVulkanMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isVulkanMemory(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_vulkan_memory.invokeExact(
@@ -195,7 +184,7 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -207,10 +196,7 @@ public final class GstVulkan {
      * @return a {@link org.gstreamer.gst.Memory} object backed by a vulkan buffer
      *          backed by vulkan device memory
      */
-    public static @NotNull org.gstreamer.gst.Memory vulkanBufferMemoryAlloc(@NotNull org.gstreamer.vulkan.VulkanDevice device, long size, @NotNull org.vulkan.BufferUsageFlags usage, @NotNull org.vulkan.MemoryPropertyFlags memPropFlags) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(usage, "Parameter 'usage' must not be null");
-        java.util.Objects.requireNonNull(memPropFlags, "Parameter 'memPropFlags' must not be null");
+    public static org.gstreamer.gst.Memory vulkanBufferMemoryAlloc(org.gstreamer.vulkan.VulkanDevice device, long size, org.vulkan.BufferUsageFlags usage, org.vulkan.MemoryPropertyFlags memPropFlags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_buffer_memory_alloc.invokeExact(
@@ -221,7 +207,7 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -241,37 +227,31 @@ public final class GstVulkan {
      * @param device a {@link VulkanDevice}
      * @param buffer a {@code VkBuffer}
      * @param usage usage flags of {@code buffer}
-     * @param userData user data to call {@code notify} with
      * @param notify a {@link org.gtk.glib.DestroyNotify} called when {@code buffer} is no longer in use
      * @return a {@link org.gstreamer.gst.Memory} object backed by a vulkan device memory
      */
-    public static @NotNull org.gstreamer.gst.Memory vulkanBufferMemoryWrapped(@NotNull org.gstreamer.vulkan.VulkanDevice device, @NotNull org.vulkan.Buffer buffer, @NotNull org.vulkan.BufferUsageFlags usage, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(usage, "Parameter 'usage' must not be null");
+    public static org.gstreamer.gst.Memory vulkanBufferMemoryWrapped(org.gstreamer.vulkan.VulkanDevice device, org.vulkan.Buffer buffer, org.vulkan.BufferUsageFlags usage, @Nullable org.gtk.glib.DestroyNotify notify) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_buffer_memory_wrapped.invokeExact(
                     device.handle(),
                     buffer.handle(),
                     usage.handle(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.vulkan.VulkanHandle vulkanCreateShader(@NotNull org.gstreamer.vulkan.VulkanDevice device, @NotNull java.lang.String code, long size) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(code, "Parameter 'code' must not be null");
+    public static org.gstreamer.vulkan.VulkanHandle vulkanCreateShader(org.gstreamer.vulkan.VulkanDevice device, java.lang.String code, long size) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_create_shader.invokeExact(
                     device.handle(),
-                    Interop.allocateNativeString(code),
+                    Marshal.stringToAddress.marshal(code, null),
                     size,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -280,11 +260,10 @@ public final class GstVulkan {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.vulkan.VulkanHandle(RESULT, Ownership.FULL);
+        return org.gstreamer.vulkan.VulkanHandle.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull java.lang.String vulkanDisplayTypeToExtensionString(@NotNull org.gstreamer.vulkan.VulkanDisplayType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String vulkanDisplayTypeToExtensionString(org.gstreamer.vulkan.VulkanDisplayType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_type_to_extension_string.invokeExact(
@@ -292,7 +271,7 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -310,27 +289,24 @@ public final class GstVulkan {
      *          {@code display_ptr} is not {@code null}, whether a {@link VulkanDisplay} exists in
      *          {@code display_ptr}
      */
-    public static boolean vulkanEnsureElementData(@NotNull org.gstreamer.gst.Element element, @NotNull Out<org.gstreamer.vulkan.VulkanDisplay> displayPtr, @NotNull Out<org.gstreamer.vulkan.VulkanInstance> instancePtr) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(displayPtr, "Parameter 'displayPtr' must not be null");
+    public static boolean vulkanEnsureElementData(org.gstreamer.gst.Element element, @Nullable Out<org.gstreamer.vulkan.VulkanDisplay> displayPtr, Out<org.gstreamer.vulkan.VulkanInstance> instancePtr) {
         MemorySegment displayPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(instancePtr, "Parameter 'instancePtr' must not be null");
         MemorySegment instancePtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_ensure_element_data.invokeExact(
                     element.handle(),
-                    (Addressable) displayPtrPOINTER.address(),
+                    (Addressable) (displayPtr == null ? MemoryAddress.NULL : (Addressable) displayPtrPOINTER.address()),
                     (Addressable) instancePtrPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        displayPtr.set(new org.gstreamer.vulkan.VulkanDisplay(displayPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        instancePtr.set(new org.gstreamer.vulkan.VulkanInstance(instancePtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (displayPtr != null) displayPtr.set((org.gstreamer.vulkan.VulkanDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(displayPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.vulkan.VulkanDisplay.fromAddress).marshal(displayPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        instancePtr.set((org.gstreamer.vulkan.VulkanInstance) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(instancePtrPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.vulkan.VulkanInstance.fromAddress).marshal(instancePtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark vulkanErrorQuark() {
+    public static org.gtk.glib.Quark vulkanErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_error_quark.invokeExact();
@@ -349,26 +325,23 @@ public final class GstVulkan {
      * @param varargs arguments for {@code format}
      * @return {@code result} for easy chaining
      */
-    public static @NotNull org.vulkan.Result vulkanErrorToGError(@NotNull org.vulkan.Result result, @NotNull Out<org.gtk.glib.Error> error, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static org.vulkan.Result vulkanErrorToGError(org.vulkan.Result result, @Nullable Out<org.gtk.glib.Error> error, java.lang.String format, java.lang.Object... varargs) {
         MemorySegment errorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_error_to_g_error.invokeExact(
                     result.handle(),
                     (Addressable) errorPOINTER.address(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        error.set(new org.gtk.glib.Error(errorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.vulkan.Result(RESULT, Ownership.UNKNOWN);
+        error.set(org.gtk.glib.Error.fromAddress.marshal(errorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return org.vulkan.Result.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
-    public static @NotNull org.vulkan.Format vulkanFormatFromVideoInfo(@NotNull org.gstreamer.video.VideoInfo vInfo, int plane) {
-        java.util.Objects.requireNonNull(vInfo, "Parameter 'vInfo' must not be null");
+    public static org.vulkan.Format vulkanFormatFromVideoInfo(org.gstreamer.video.VideoInfo vInfo, int plane) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_format_from_video_info.invokeExact(
@@ -377,11 +350,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.vulkan.Format(RESULT, Ownership.UNKNOWN);
+        return org.vulkan.Format.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
-    public static @NotNull org.gstreamer.vulkan.VulkanFormatInfo vulkanFormatGetInfo(@NotNull org.vulkan.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.vulkan.VulkanFormatInfo vulkanFormatGetInfo(org.vulkan.Format format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_format_get_info.invokeExact(
@@ -389,11 +361,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanFormatInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.vulkan.VulkanFormatInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gstreamer.vulkan.VulkanImageView vulkanGetOrCreateImageView(@NotNull org.gstreamer.vulkan.VulkanImageMemory image) {
-        java.util.Objects.requireNonNull(image, "Parameter 'image' must not be null");
+    public static org.gstreamer.vulkan.VulkanImageView vulkanGetOrCreateImageView(org.gstreamer.vulkan.VulkanImageMemory image) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_get_or_create_image_view.invokeExact(
@@ -401,7 +372,7 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanImageView(RESULT, Ownership.FULL);
+        return org.gstreamer.vulkan.VulkanImageView.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -410,21 +381,17 @@ public final class GstVulkan {
      * @param element a {@link org.gstreamer.gst.Element}
      * @param contextType the context type to query for
      */
-    public static void vulkanGlobalContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull java.lang.String contextType) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(contextType, "Parameter 'contextType' must not be null");
+    public static void vulkanGlobalContextQuery(org.gstreamer.gst.Element element, java.lang.String contextType) {
         try {
             DowncallHandles.gst_vulkan_global_context_query.invokeExact(
                     element.handle(),
-                    Interop.allocateNativeString(contextType));
+                    Marshal.stringToAddress.marshal(contextType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static boolean vulkanHandleContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Query query, @Nullable org.gstreamer.vulkan.VulkanDisplay display, @Nullable org.gstreamer.vulkan.VulkanInstance instance, @Nullable org.gstreamer.vulkan.VulkanDevice device) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public static boolean vulkanHandleContextQuery(org.gstreamer.gst.Element element, org.gstreamer.gst.Query query, @Nullable org.gstreamer.vulkan.VulkanDisplay display, @Nullable org.gstreamer.vulkan.VulkanInstance instance, @Nullable org.gstreamer.vulkan.VulkanDevice device) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_handle_context_query.invokeExact(
@@ -436,7 +403,7 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -451,26 +418,22 @@ public final class GstVulkan {
      * @param instance location of a {@link VulkanInstance}
      * @return whether the {@code display} or {@code instance} could be set successfully
      */
-    public static boolean vulkanHandleSetContext(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Context context, @NotNull Out<org.gstreamer.vulkan.VulkanDisplay> display, @NotNull Out<org.gstreamer.vulkan.VulkanInstance> instance) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public static boolean vulkanHandleSetContext(org.gstreamer.gst.Element element, org.gstreamer.gst.Context context, @Nullable Out<org.gstreamer.vulkan.VulkanDisplay> display, Out<org.gstreamer.vulkan.VulkanInstance> instance) {
         MemorySegment displayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
         MemorySegment instancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_handle_set_context.invokeExact(
                     element.handle(),
                     context.handle(),
-                    (Addressable) displayPOINTER.address(),
+                    (Addressable) (display == null ? MemoryAddress.NULL : (Addressable) displayPOINTER.address()),
                     (Addressable) instancePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        display.set(new org.gstreamer.vulkan.VulkanDisplay(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        instance.set(new org.gstreamer.vulkan.VulkanInstance(instancePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (display != null) display.set((org.gstreamer.vulkan.VulkanDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.vulkan.VulkanDisplay.fromAddress).marshal(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        instance.set((org.gstreamer.vulkan.VulkanInstance) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(instancePOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.vulkan.VulkanInstance.fromAddress).marshal(instancePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -484,12 +447,7 @@ public final class GstVulkan {
      * @param memPropFlags VkDeviceMemory property flags for the new image
      * @return a {@link org.gstreamer.gst.Memory} object backed by a vulkan device memory
      */
-    public static @NotNull org.gstreamer.gst.Memory vulkanImageMemoryAlloc(@NotNull org.gstreamer.vulkan.VulkanDevice device, @NotNull org.vulkan.Format format, long width, long height, @NotNull org.vulkan.ImageTiling tiling, @NotNull org.vulkan.ImageUsageFlags usage, @NotNull org.vulkan.MemoryPropertyFlags memPropFlags) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(tiling, "Parameter 'tiling' must not be null");
-        java.util.Objects.requireNonNull(usage, "Parameter 'usage' must not be null");
-        java.util.Objects.requireNonNull(memPropFlags, "Parameter 'memPropFlags' must not be null");
+    public static org.gstreamer.gst.Memory vulkanImageMemoryAlloc(org.gstreamer.vulkan.VulkanDevice device, org.vulkan.Format format, long width, long height, org.vulkan.ImageTiling tiling, org.vulkan.ImageUsageFlags usage, org.vulkan.MemoryPropertyFlags memPropFlags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_image_memory_alloc.invokeExact(
@@ -503,7 +461,7 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -518,12 +476,7 @@ public final class GstVulkan {
         }
     }
     
-    public static @NotNull org.gstreamer.gst.Memory vulkanImageMemoryWrapped(@NotNull org.gstreamer.vulkan.VulkanDevice device, @NotNull org.vulkan.Image image, @NotNull org.vulkan.Format format, long width, long height, @NotNull org.vulkan.ImageTiling tiling, @NotNull org.vulkan.ImageUsageFlags usage, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(image, "Parameter 'image' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(tiling, "Parameter 'tiling' must not be null");
-        java.util.Objects.requireNonNull(usage, "Parameter 'usage' must not be null");
+    public static org.gstreamer.gst.Memory vulkanImageMemoryWrapped(org.gstreamer.vulkan.VulkanDevice device, org.vulkan.Image image, org.vulkan.Format format, long width, long height, org.vulkan.ImageTiling tiling, org.vulkan.ImageUsageFlags usage, org.gtk.glib.DestroyNotify notify) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_image_memory_wrapped.invokeExact(
@@ -534,12 +487,12 @@ public final class GstVulkan {
                     height,
                     tiling.handle(),
                     usage.handle(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -548,18 +501,16 @@ public final class GstVulkan {
      * @param element a {@link org.gstreamer.gst.Element}
      * @param contextType the context type to query for
      */
-    public static @NotNull org.gstreamer.gst.Query vulkanLocalContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull java.lang.String contextType) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(contextType, "Parameter 'contextType' must not be null");
+    public static org.gstreamer.gst.Query vulkanLocalContextQuery(org.gstreamer.gst.Element element, java.lang.String contextType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_local_context_query.invokeExact(
                     element.handle(),
-                    Interop.allocateNativeString(contextType));
+                    Marshal.stringToAddress.marshal(contextType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Query(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -570,10 +521,7 @@ public final class GstVulkan {
      * @param size the size to allocate
      * @return a {@link org.gstreamer.gst.Memory} object backed by a vulkan device memory
      */
-    public static @NotNull org.gstreamer.gst.Memory vulkanMemoryAlloc(@NotNull org.gstreamer.vulkan.VulkanDevice device, int memoryTypeIndex, @NotNull org.gstreamer.gst.AllocationParams params, long size, @NotNull org.vulkan.MemoryPropertyFlags memPropFlags) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
-        java.util.Objects.requireNonNull(memPropFlags, "Parameter 'memPropFlags' must not be null");
+    public static org.gstreamer.gst.Memory vulkanMemoryAlloc(org.gstreamer.vulkan.VulkanDevice device, int memoryTypeIndex, org.gstreamer.gst.AllocationParams params, long size, org.vulkan.MemoryPropertyFlags memPropFlags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_memory_alloc.invokeExact(
@@ -585,13 +533,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static boolean vulkanMemoryFindMemoryTypeIndexWithTypeProperties(@NotNull org.gstreamer.vulkan.VulkanDevice device, int typeBits, @NotNull org.vulkan.MemoryPropertyFlags properties, PointerInteger typeIndex) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(properties, "Parameter 'properties' must not be null");
-        java.util.Objects.requireNonNull(typeIndex, "Parameter 'typeIndex' must not be null");
+    public static boolean vulkanMemoryFindMemoryTypeIndexWithTypeProperties(org.gstreamer.vulkan.VulkanDevice device, int typeBits, org.vulkan.MemoryPropertyFlags properties, PointerInteger typeIndex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_memory_find_memory_type_index_with_type_properties.invokeExact(
@@ -602,11 +547,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull java.lang.String vulkanMemoryHeapFlagsToString(@NotNull org.vulkan.MemoryHeapFlags propBits) {
-        java.util.Objects.requireNonNull(propBits, "Parameter 'propBits' must not be null");
+    public static java.lang.String vulkanMemoryHeapFlagsToString(org.vulkan.MemoryHeapFlags propBits) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_memory_heap_flags_to_string.invokeExact(
@@ -614,7 +558,7 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -629,8 +573,7 @@ public final class GstVulkan {
         }
     }
     
-    public static @NotNull java.lang.String vulkanMemoryPropertyFlagsToString(@NotNull org.vulkan.MemoryPropertyFlags propBits) {
-        java.util.Objects.requireNonNull(propBits, "Parameter 'propBits' must not be null");
+    public static java.lang.String vulkanMemoryPropertyFlagsToString(org.vulkan.MemoryPropertyFlags propBits) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_memory_property_flags_to_string.invokeExact(
@@ -638,11 +581,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull java.lang.String vulkanPresentModeToString(@NotNull org.vulkan.PresentModeKHR presentMode) {
-        java.util.Objects.requireNonNull(presentMode, "Parameter 'presentMode' must not be null");
+    public static java.lang.String vulkanPresentModeToString(org.vulkan.PresentModeKHR presentMode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_present_mode_to_string.invokeExact(
@@ -650,13 +592,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static boolean vulkanRunQuery(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Query query, @NotNull org.gstreamer.gst.PadDirection direction) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public static boolean vulkanRunQuery(org.gstreamer.gst.Element element, org.gstreamer.gst.Query query, org.gstreamer.gst.PadDirection direction) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_run_query.invokeExact(
@@ -666,11 +605,10 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull java.lang.String vulkanSampleCountFlagsToString(@NotNull org.vulkan.SampleCountFlags sampleCountBits) {
-        java.util.Objects.requireNonNull(sampleCountBits, "Parameter 'sampleCountBits' must not be null");
+    public static java.lang.String vulkanSampleCountFlagsToString(org.vulkan.SampleCountFlags sampleCountBits) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_sample_count_flags_to_string.invokeExact(
@@ -678,44 +616,40 @@ public final class GstVulkan {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * A {@link VulkanTrashNotify} implementation for unreffing a {@link org.gstreamer.gst.MiniObject} when the
      * associated {@link VulkanFence} is signalled
      * @param device the {@link VulkanDevice}
-     * @param userData the {@link org.gstreamer.gst.MiniObject}
      */
-    public static void vulkanTrashMiniObjectUnref(@NotNull org.gstreamer.vulkan.VulkanDevice device, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public static void vulkanTrashMiniObjectUnref(org.gstreamer.vulkan.VulkanDevice device) {
         try {
             DowncallHandles.gst_vulkan_trash_mini_object_unref.invokeExact(
                     device.handle(),
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
     /**
-     * A {@link VulkanTrashNotify} implementation for unreffing a {@link org.gstreamer.gst.Object} when the
+     * A {@link VulkanTrashNotify} implementation for unreffing a {@link org.gstreamer.gst.GstObject} when the
      * associated {@link VulkanFence} is signalled
      * @param device the {@link VulkanDevice}
-     * @param userData the {@link org.gstreamer.gst.MiniObject}
      */
-    public static void vulkanTrashObjectUnref(@NotNull org.gstreamer.vulkan.VulkanDevice device, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public static void vulkanTrashObjectUnref(org.gstreamer.vulkan.VulkanDevice device) {
         try {
             DowncallHandles.gst_vulkan_trash_object_unref.invokeExact(
                     device.handle(),
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static @NotNull org.gtk.glib.Quark vulkanWindowErrorQuark() {
+    public static org.gtk.glib.Quark vulkanWindowErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_window_error_quark.invokeExact();
@@ -970,31 +904,5 @@ public final class GstVulkan {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static int cbVulkanDeviceForEachQueueFunc(MemoryAddress device, MemoryAddress queue, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VulkanDeviceForEachQueueFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onVulkanDeviceForEachQueueFunc(new org.gstreamer.vulkan.VulkanDevice(device, Ownership.NONE), new org.gstreamer.vulkan.VulkanQueue(queue, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbVulkanTrashNotify(MemoryAddress device, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VulkanTrashNotify) Interop.signalRegistry.get(HASH);
-            HANDLER.onVulkanTrashNotify(new org.gstreamer.vulkan.VulkanDevice(device, Ownership.NONE));
-        }
-        
-        public static int cbVulkanImageMemoryFindViewFunc(MemoryAddress view, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VulkanImageMemoryFindViewFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onVulkanImageMemoryFindViewFunc(new org.gstreamer.vulkan.VulkanImageView(view, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbVulkanHandleDestroyNotify(MemoryAddress handle, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VulkanHandleDestroyNotify) Interop.signalRegistry.get(HASH);
-            HANDLER.onVulkanHandleDestroyNotify(new org.gstreamer.vulkan.VulkanHandle(handle, Ownership.NONE));
-        }
     }
 }

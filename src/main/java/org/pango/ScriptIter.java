@@ -44,17 +44,18 @@ public class ScriptIter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ScriptIter(Addressable address, Ownership ownership) {
+    protected ScriptIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String text, int length) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ScriptIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScriptIter(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String text, int length) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_script_iter_new.invokeExact(
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -72,7 +73,7 @@ public class ScriptIter extends Struct {
      * @param text a UTF-8 string
      * @param length length of {@code text}, or -1 if {@code text} is nul-terminated
      */
-    public ScriptIter(@NotNull java.lang.String text, int length) {
+    public ScriptIter(java.lang.String text, int length) {
         super(constructNew(text, length), Ownership.FULL);
     }
     
@@ -102,25 +103,22 @@ public class ScriptIter extends Struct {
      * @param end location to store end position of the range
      * @param script location to store script for range
      */
-    public void getRange(@NotNull Out<java.lang.String> start, @NotNull Out<java.lang.String> end, @NotNull Out<org.pango.Script> script) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
+    public void getRange(@Nullable Out<java.lang.String> start, @Nullable Out<java.lang.String> end, @Nullable Out<org.pango.Script> script) {
         MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
         MemorySegment scriptPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_script_iter_get_range.invokeExact(
                     handle(),
-                    (Addressable) startPOINTER.address(),
-                    (Addressable) endPOINTER.address(),
-                    (Addressable) scriptPOINTER.address());
+                    (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
+                    (Addressable) (end == null ? MemoryAddress.NULL : (Addressable) endPOINTER.address()),
+                    (Addressable) (script == null ? MemoryAddress.NULL : (Addressable) scriptPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        start.set(Interop.getStringFrom(startPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        end.set(Interop.getStringFrom(endPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        script.set(org.pango.Script.of(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (start != null) start.set(Marshal.addressToString.marshal(startPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (end != null) end.set(Marshal.addressToString.marshal(endPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (script != null) script.set(org.pango.Script.of(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -138,7 +136,7 @@ public class ScriptIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

@@ -17,22 +17,20 @@ public class AttrShape extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrShape";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.pango.Attribute.getMemoryLayout().withName("attr"),
-        org.pango.Rectangle.getMemoryLayout().withName("ink_rect"),
-        org.pango.Rectangle.getMemoryLayout().withName("logical_rect"),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.ADDRESS.withName("copy_func"),
-        Interop.valueLayout.ADDRESS.withName("destroy_func")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.pango.Attribute.getMemoryLayout().withName("attr"),
+            org.pango.Rectangle.getMemoryLayout().withName("ink_rect"),
+            org.pango.Rectangle.getMemoryLayout().withName("logical_rect"),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.ADDRESS.withName("copy_func"),
+            Interop.valueLayout.ADDRESS.withName("destroy_func")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,34 +50,64 @@ public class AttrShape extends Struct {
      * Get the value of the field {@code attr}
      * @return The value of the field {@code attr}
      */
-    public org.pango.Attribute attr$get() {
+    public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return new org.pango.Attribute(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code attr}
+     * @param attr The new value of the field {@code attr}
+     */
+    public void setAttr(org.pango.Attribute attr) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
     }
     
     /**
      * Get the value of the field {@code ink_rect}
      * @return The value of the field {@code ink_rect}
      */
-    public org.pango.Rectangle inkRect$get() {
+    public org.pango.Rectangle getInkRect() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("ink_rect"));
-        return new org.pango.Rectangle(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Rectangle.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code ink_rect}
+     * @param inkRect The new value of the field {@code ink_rect}
+     */
+    public void setInkRect(org.pango.Rectangle inkRect) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("ink_rect"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()));
     }
     
     /**
      * Get the value of the field {@code logical_rect}
      * @return The value of the field {@code logical_rect}
      */
-    public org.pango.Rectangle logicalRect$get() {
+    public org.pango.Rectangle getLogicalRect() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("logical_rect"));
-        return new org.pango.Rectangle(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Rectangle.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code logical_rect}
+     * @param logicalRect The new value of the field {@code logical_rect}
+     */
+    public void setLogicalRect(org.pango.Rectangle logicalRect) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("logical_rect"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
     }
     
     /**
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public java.lang.foreign.MemoryAddress data$get() {
+    public java.lang.foreign.MemoryAddress getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -90,17 +118,17 @@ public class AttrShape extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(java.lang.foreign.MemoryAddress data) {
+    public void setData(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
     }
     
     /**
      * Get the value of the field {@code copy_func}
      * @return The value of the field {@code copy_func}
      */
-    public org.pango.AttrDataCopyFunc copyFunc$get() {
+    public org.pango.AttrDataCopyFunc getCopyFunc() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -108,10 +136,20 @@ public class AttrShape extends Struct {
     }
     
     /**
+     * Change the value of the field {@code copy_func}
+     * @param copyFunc The new value of the field {@code copy_func}
+     */
+    public void setCopyFunc(org.pango.AttrDataCopyFunc copyFunc) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) copyFunc.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code destroy_func}
      * @return The value of the field {@code destroy_func}
      */
-    public org.gtk.glib.DestroyNotify destroyFunc$get() {
+    public org.gtk.glib.DestroyNotify getDestroyFunc() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -119,14 +157,26 @@ public class AttrShape extends Struct {
     }
     
     /**
+     * Change the value of the field {@code destroy_func}
+     * @param destroyFunc The new value of the field {@code destroy_func}
+     */
+    public void setDestroyFunc(org.gtk.glib.DestroyNotify destroyFunc) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyFunc == null ? MemoryAddress.NULL : (Addressable) destroyFunc.toCallback()));
+    }
+    
+    /**
      * Create a AttrShape proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AttrShape(Addressable address, Ownership ownership) {
+    protected AttrShape(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AttrShape> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrShape(input, ownership);
     
     /**
      * Create a new shape attribute.
@@ -141,9 +191,7 @@ public class AttrShape extends Struct {
      *   {@code PangoAttribute}, which should be freed with
      *   {@link Attribute#destroy}
      */
-    public static @NotNull org.pango.Attribute new_(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public static org.pango.Attribute new_(org.pango.Rectangle inkRect, org.pango.Rectangle logicalRect) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new.invokeExact(
@@ -152,7 +200,7 @@ public class AttrShape extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(RESULT, Ownership.FULL);
+        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -166,29 +214,25 @@ public class AttrShape extends Struct {
      * @param copyFunc function to copy {@code data} when the
      *   attribute is copied. If {@code null}, {@code data} is simply copied
      *   as a pointer
+     * @param destroyFunc function to free {@code data} when the
+     *   attribute is freed
      * @return the newly allocated
      *   {@code PangoAttribute}, which should be freed with
      *   {@link Attribute#destroy}
      */
-    public static @NotNull org.pango.Attribute newWithData(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect, @Nullable org.pango.AttrDataCopyFunc copyFunc) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public static org.pango.Attribute newWithData(org.pango.Rectangle inkRect, org.pango.Rectangle logicalRect, @Nullable org.pango.AttrDataCopyFunc copyFunc, @Nullable org.gtk.glib.DestroyNotify destroyFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_shape_new_with_data.invokeExact(
                     inkRect.handle(),
                     logicalRect.handle(),
-                    (Addressable) (copyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(copyFunc)),
-                    (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbAttrDataCopyFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) copyFunc.toCallback()),
+                    (Addressable) (destroyFunc == null ? MemoryAddress.NULL : (Addressable) destroyFunc.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(RESULT, Ownership.FULL);
+        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -205,31 +249,35 @@ public class AttrShape extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AttrShape.Builder} object constructs a {@link AttrShape} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AttrShape.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AttrShape struct;
+        private final AttrShape struct;
         
-         /**
-         * A {@link AttrShape.Build} object constructs a {@link AttrShape} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AttrShape.allocate();
         }
         
          /**
          * Finish building the {@link AttrShape} struct.
          * @return A new instance of {@code AttrShape} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AttrShape construct() {
+        public AttrShape build() {
             return struct;
         }
         
@@ -238,7 +286,7 @@ public class AttrShape extends Struct {
          * @param attr The value for the {@code attr} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttr(org.pango.Attribute attr) {
+        public Builder setAttr(org.pango.Attribute attr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("attr"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
@@ -250,7 +298,7 @@ public class AttrShape extends Struct {
          * @param inkRect The value for the {@code inkRect} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInkRect(org.pango.Rectangle inkRect) {
+        public Builder setInkRect(org.pango.Rectangle inkRect) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ink_rect"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()));
@@ -262,7 +310,7 @@ public class AttrShape extends Struct {
          * @param logicalRect The value for the {@code logicalRect} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLogicalRect(org.pango.Rectangle logicalRect) {
+        public Builder setLogicalRect(org.pango.Rectangle logicalRect) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("logical_rect"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
@@ -274,7 +322,7 @@ public class AttrShape extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(java.lang.foreign.MemoryAddress data) {
+        public Builder setData(java.lang.foreign.MemoryAddress data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
@@ -286,10 +334,10 @@ public class AttrShape extends Struct {
          * @param copyFunc The value for the {@code copyFunc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCopyFunc(java.lang.foreign.MemoryAddress copyFunc) {
+        public Builder setCopyFunc(org.pango.AttrDataCopyFunc copyFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("copy_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyFunc == null ? MemoryAddress.NULL : copyFunc));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copyFunc == null ? MemoryAddress.NULL : (Addressable) copyFunc.toCallback()));
             return this;
         }
         
@@ -298,10 +346,10 @@ public class AttrShape extends Struct {
          * @param destroyFunc The value for the {@code destroyFunc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDestroyFunc(java.lang.foreign.MemoryAddress destroyFunc) {
+        public Builder setDestroyFunc(org.gtk.glib.DestroyNotify destroyFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("destroy_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyFunc == null ? MemoryAddress.NULL : destroyFunc));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyFunc == null ? MemoryAddress.NULL : (Addressable) destroyFunc.toCallback()));
             return this;
         }
     }

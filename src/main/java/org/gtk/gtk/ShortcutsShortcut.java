@@ -33,43 +33,29 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
      * <p>
      * Because ShortcutsShortcut is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ShortcutsShortcut(Addressable address, Ownership ownership) {
+    protected ShortcutsShortcut(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ShortcutsShortcut if its GType is a (or inherits from) "GtkShortcutsShortcut".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ShortcutsShortcut} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkShortcutsShortcut", a ClassCastException will be thrown.
-     */
-    public static ShortcutsShortcut castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ShortcutsShortcut.getType())) {
-            return new ShortcutsShortcut(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutsShortcut");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ShortcutsShortcut> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutsShortcut(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_shortcuts_shortcut_get_type.invokeExact();
@@ -78,38 +64,40 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ShortcutsShortcut.Builder} object constructs a {@link ShortcutsShortcut} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ShortcutsShortcut.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link ShortcutsShortcut.Build} object constructs a {@link ShortcutsShortcut} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ShortcutsShortcut} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ShortcutsShortcut} using {@link ShortcutsShortcut#castFrom}.
+         * {@link ShortcutsShortcut}.
          * @return A new instance of {@code ShortcutsShortcut} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ShortcutsShortcut construct() {
-            return ShortcutsShortcut.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ShortcutsShortcut.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ShortcutsShortcut build() {
+            return (ShortcutsShortcut) org.gtk.gobject.GObject.newWithProperties(
+                ShortcutsShortcut.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -120,7 +108,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param accelSizeGroup The value for the {@code accel-size-group} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAccelSizeGroup(org.gtk.gtk.SizeGroup accelSizeGroup) {
+        public Builder setAccelSizeGroup(org.gtk.gtk.SizeGroup accelSizeGroup) {
             names.add("accel-size-group");
             values.add(org.gtk.gobject.Value.create(accelSizeGroup));
             return this;
@@ -158,7 +146,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param accelerator The value for the {@code accelerator} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAccelerator(java.lang.String accelerator) {
+        public Builder setAccelerator(java.lang.String accelerator) {
             names.add("accelerator");
             values.add(org.gtk.gobject.Value.create(accelerator));
             return this;
@@ -174,7 +162,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param actionName The value for the {@code action-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActionName(java.lang.String actionName) {
+        public Builder setActionName(java.lang.String actionName) {
             names.add("action-name");
             values.add(org.gtk.gobject.Value.create(actionName));
             return this;
@@ -188,7 +176,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param direction The value for the {@code direction} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDirection(org.gtk.gtk.TextDirection direction) {
+        public Builder setDirection(org.gtk.gtk.TextDirection direction) {
             names.add("direction");
             values.add(org.gtk.gobject.Value.create(direction));
             return this;
@@ -204,7 +192,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param icon The value for the {@code icon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIcon(org.gtk.gio.Icon icon) {
+        public Builder setIcon(org.gtk.gio.Icon icon) {
             names.add("icon");
             values.add(org.gtk.gobject.Value.create(icon));
             return this;
@@ -215,7 +203,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param iconSet The value for the {@code icon-set} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIconSet(boolean iconSet) {
+        public Builder setIconSet(boolean iconSet) {
             names.add("icon-set");
             values.add(org.gtk.gobject.Value.create(iconSet));
             return this;
@@ -226,7 +214,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param shortcutType The value for the {@code shortcut-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShortcutType(org.gtk.gtk.ShortcutType shortcutType) {
+        public Builder setShortcutType(org.gtk.gtk.ShortcutType shortcutType) {
             names.add("shortcut-type");
             values.add(org.gtk.gobject.Value.create(shortcutType));
             return this;
@@ -241,7 +229,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param subtitle The value for the {@code subtitle} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSubtitle(java.lang.String subtitle) {
+        public Builder setSubtitle(java.lang.String subtitle) {
             names.add("subtitle");
             values.add(org.gtk.gobject.Value.create(subtitle));
             return this;
@@ -252,7 +240,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param subtitleSet The value for the {@code subtitle-set} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSubtitleSet(boolean subtitleSet) {
+        public Builder setSubtitleSet(boolean subtitleSet) {
             names.add("subtitle-set");
             values.add(org.gtk.gobject.Value.create(subtitleSet));
             return this;
@@ -266,7 +254,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -279,7 +267,7 @@ public class ShortcutsShortcut extends org.gtk.gtk.Widget implements org.gtk.gtk
          * @param titleSizeGroup The value for the {@code title-size-group} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitleSizeGroup(org.gtk.gtk.SizeGroup titleSizeGroup) {
+        public Builder setTitleSizeGroup(org.gtk.gtk.SizeGroup titleSizeGroup) {
             names.add("title-size-group");
             values.add(org.gtk.gobject.Value.create(titleSizeGroup));
             return this;

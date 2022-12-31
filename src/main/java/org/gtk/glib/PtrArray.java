@@ -16,18 +16,16 @@ public class PtrArray extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GPtrArray";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("pdata"),
-        Interop.valueLayout.C_INT.withName("len")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("pdata"),
+            Interop.valueLayout.C_INT.withName("len")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,7 +45,7 @@ public class PtrArray extends Struct {
      * Get the value of the field {@code pdata}
      * @return The value of the field {@code pdata}
      */
-    public java.lang.foreign.MemoryAddress pdata$get() {
+    public java.lang.foreign.MemoryAddress getPdata() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pdata"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -58,17 +56,17 @@ public class PtrArray extends Struct {
      * Change the value of the field {@code pdata}
      * @param pdata The new value of the field {@code pdata}
      */
-    public void pdata$set(java.lang.foreign.MemoryAddress pdata) {
+    public void setPdata(java.lang.foreign.MemoryAddress pdata) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pdata"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) pdata);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pdata == null ? MemoryAddress.NULL : (Addressable) pdata));
     }
     
     /**
      * Get the value of the field {@code len}
      * @return The value of the field {@code len}
      */
-    public int len$get() {
+    public int getLen() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -79,7 +77,7 @@ public class PtrArray extends Struct {
      * Change the value of the field {@code len}
      * @param len The new value of the field {@code len}
      */
-    public void len$set(int len) {
+    public void setLen(int len) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
@@ -90,23 +88,23 @@ public class PtrArray extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PtrArray(Addressable address, Ownership ownership) {
+    protected PtrArray(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PtrArray> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PtrArray(input, ownership);
     
     /**
      * Adds a pointer to the end of the pointer array. The array will grow
      * in size automatically if necessary.
      * @param array a {@link PtrArray}
-     * @param data the pointer to add
      */
-    public static void add(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static void add(java.lang.foreign.MemoryAddress[] array) {
         try {
             DowncallHandles.g_ptr_array_add.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -131,18 +129,13 @@ public class PtrArray extends Struct {
      * @param func a copy function used to copy every element in the array
      * @return a deep copy of the initial {@link PtrArray}.
      */
-    public static @NotNull PointerAddress copy(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress copy(java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_copy.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,19 +161,13 @@ public class PtrArray extends Struct {
      * @param array a {@link PtrArray} to add to the end of {@code array_to_extend}.
      * @param func a copy function used to copy every element in the array
      */
-    public static void extend(@NotNull java.lang.foreign.MemoryAddress[] arrayToExtend, @NotNull java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
-        java.util.Objects.requireNonNull(arrayToExtend, "Parameter 'arrayToExtend' must not be null");
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static void extend(java.lang.foreign.MemoryAddress[] arrayToExtend, java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.CopyFunc func) {
         try {
             DowncallHandles.g_ptr_array_extend.invokeExact(
                     Interop.allocateNativeArray(arrayToExtend, false),
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)));
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -198,9 +185,7 @@ public class PtrArray extends Struct {
      * @param array a {@link PtrArray} to add to the end of
      *     {@code array_to_extend}.
      */
-    public static void extendAndSteal(@NotNull java.lang.foreign.MemoryAddress[] arrayToExtend, @NotNull java.lang.foreign.MemoryAddress[] array) {
-        java.util.Objects.requireNonNull(arrayToExtend, "Parameter 'arrayToExtend' must not be null");
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static void extendAndSteal(java.lang.foreign.MemoryAddress[] arrayToExtend, java.lang.foreign.MemoryAddress[] array) {
         try {
             DowncallHandles.g_ptr_array_extend_and_steal.invokeExact(
                     Interop.allocateNativeArray(arrayToExtend, false),
@@ -224,21 +209,19 @@ public class PtrArray extends Struct {
      *    the element, if found
      * @return {@code true} if {@code needle} is one of the elements of {@code haystack}
      */
-    public static boolean find(@NotNull java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, Out<Integer> index) {
-        java.util.Objects.requireNonNull(haystack, "Parameter 'haystack' must not be null");
-        java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
+    public static boolean find(java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, Out<Integer> index) {
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ptr_array_find.invokeExact(
                     Interop.allocateNativeArray(haystack, false),
                     (Addressable) (needle == null ? MemoryAddress.NULL : (Addressable) needle),
-                    (Addressable) indexPOINTER.address());
+                    (Addressable) (index == null ? MemoryAddress.NULL : (Addressable) indexPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (index != null) index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -260,8 +243,20 @@ public class PtrArray extends Struct {
      *    the element, if found
      * @return {@code true} if {@code needle} is one of the elements of {@code haystack}
      */
-    public static boolean findWithEqualFunc(@NotNull java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, @Nullable org.gtk.glib.EqualFunc equalFunc, Out<Integer> index) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static boolean findWithEqualFunc(java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, @Nullable org.gtk.glib.EqualFunc equalFunc, Out<Integer> index) {
+        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_ptr_array_find_with_equal_func.invokeExact(
+                    Interop.allocateNativeArray(haystack, false),
+                    (Addressable) (needle == null ? MemoryAddress.NULL : (Addressable) needle),
+                    (Addressable) (equalFunc == null ? MemoryAddress.NULL : (Addressable) equalFunc.toCallback()),
+                    (Addressable) (index == null ? MemoryAddress.NULL : (Addressable) indexPOINTER.address()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (index != null) index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -270,18 +265,12 @@ public class PtrArray extends Struct {
      * @param array a {@link PtrArray}
      * @param func the function to call for each array element
      */
-    public static void foreach(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.Func func) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void foreach(java.lang.foreign.MemoryAddress[] array, org.gtk.glib.Func func) {
         try {
             DowncallHandles.g_ptr_array_foreach.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -311,13 +300,12 @@ public class PtrArray extends Struct {
      * @return the pointer array if {@code free_seg} is
      *     {@code false}, otherwise {@code null}. The pointer array should be freed using g_free().
      */
-    public static @Nullable java.lang.foreign.MemoryAddress free(@NotNull java.lang.foreign.MemoryAddress[] array, boolean freeSeg) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress free(java.lang.foreign.MemoryAddress[] array, boolean freeSeg) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_free.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    freeSeg ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(freeSeg, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,15 +317,13 @@ public class PtrArray extends Struct {
      * array will grow in size automatically if necessary.
      * @param array a {@link PtrArray}
      * @param index the index to place the new element at, or -1 to append
-     * @param data the pointer to add.
      */
-    public static void insert(@NotNull java.lang.foreign.MemoryAddress[] array, int index, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static void insert(java.lang.foreign.MemoryAddress[] array, int index) {
         try {
             DowncallHandles.g_ptr_array_insert.invokeExact(
                     Interop.allocateNativeArray(array, false),
                     index,
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -353,8 +339,7 @@ public class PtrArray extends Struct {
      * @param array the {@link PtrArray}
      * @return {@code true} if the array is made to be {@code null} terminated.
      */
-    public static boolean isNullTerminated(@NotNull java.lang.foreign.MemoryAddress[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static boolean isNullTerminated(java.lang.foreign.MemoryAddress[] array) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ptr_array_is_null_terminated.invokeExact(
@@ -362,14 +347,14 @@ public class PtrArray extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Creates a new {@link PtrArray} with a reference count of 1.
      * @return the new {@link PtrArray}
      */
-    public static @NotNull PointerAddress new_() {
+    public static PointerAddress new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_new.invokeExact();
@@ -392,8 +377,16 @@ public class PtrArray extends Struct {
      *     destroy {@code array} or {@code null}
      * @return A new {@link PtrArray}
      */
-    public static @NotNull PointerAddress newFull(int reservedSize, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static PointerAddress newFull(int reservedSize, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_new_full.invokeExact(
+                    reservedSize,
+                    (Addressable) (elementFreeFunc == null ? MemoryAddress.NULL : (Addressable) elementFreeFunc.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new PointerAddress(RESULT);
     }
     
     /**
@@ -421,8 +414,17 @@ public class PtrArray extends Struct {
      * @param nullTerminated whether to make the array as {@code null} terminated.
      * @return A new {@link PtrArray}
      */
-    public static @NotNull PointerAddress newNullTerminated(int reservedSize, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc, boolean nullTerminated) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static PointerAddress newNullTerminated(int reservedSize, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc, boolean nullTerminated) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_new_null_terminated.invokeExact(
+                    reservedSize,
+                    (Addressable) (elementFreeFunc == null ? MemoryAddress.NULL : (Addressable) elementFreeFunc.toCallback()),
+                    Marshal.booleanToInteger.marshal(nullTerminated, null).intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new PointerAddress(RESULT);
     }
     
     /**
@@ -434,8 +436,15 @@ public class PtrArray extends Struct {
      *     destroy {@code array} or {@code null}
      * @return A new {@link PtrArray}
      */
-    public static @NotNull PointerAddress newWithFreeFunc(@Nullable org.gtk.glib.DestroyNotify elementFreeFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static PointerAddress newWithFreeFunc(@Nullable org.gtk.glib.DestroyNotify elementFreeFunc) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_new_with_free_func.invokeExact(
+                    (Addressable) (elementFreeFunc == null ? MemoryAddress.NULL : (Addressable) elementFreeFunc.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new PointerAddress(RESULT);
     }
     
     /**
@@ -444,8 +453,7 @@ public class PtrArray extends Struct {
      * @param array a {@link PtrArray}
      * @return The passed in {@link PtrArray}
      */
-    public static @NotNull PointerAddress ref(@NotNull java.lang.foreign.MemoryAddress[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress ref(java.lang.foreign.MemoryAddress[] array) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_ref.invokeExact(
@@ -465,21 +473,19 @@ public class PtrArray extends Struct {
      * It returns {@code true} if the pointer was removed, or {@code false} if the
      * pointer was not found.
      * @param array a {@link PtrArray}
-     * @param data the pointer to remove
      * @return {@code true} if the pointer is removed, {@code false} if the pointer
      *     is not found in the array
      */
-    public static boolean remove(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static boolean remove(java.lang.foreign.MemoryAddress[] array) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ptr_array_remove.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -492,20 +498,18 @@ public class PtrArray extends Struct {
      * It returns {@code true} if the pointer was removed, or {@code false} if the
      * pointer was not found.
      * @param array a {@link PtrArray}
-     * @param data the pointer to remove
      * @return {@code true} if the pointer was found in the array
      */
-    public static boolean removeFast(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static boolean removeFast(java.lang.foreign.MemoryAddress[] array) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ptr_array_remove_fast.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -518,8 +522,7 @@ public class PtrArray extends Struct {
      * @param index the index of the pointer to remove
      * @return the pointer which was removed
      */
-    public static @Nullable java.lang.foreign.MemoryAddress removeIndex(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress removeIndex(java.lang.foreign.MemoryAddress[] array, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_remove_index.invokeExact(
@@ -543,8 +546,7 @@ public class PtrArray extends Struct {
      * @param index the index of the pointer to remove
      * @return the pointer which was removed
      */
-    public static @Nullable java.lang.foreign.MemoryAddress removeIndexFast(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress removeIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_remove_index_fast.invokeExact(
@@ -566,8 +568,7 @@ public class PtrArray extends Struct {
      * @param length the number of pointers to remove
      * @return the {@code array}
      */
-    public static @NotNull PointerAddress removeRange(@NotNull java.lang.foreign.MemoryAddress[] array, int index, int length) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_remove_range.invokeExact(
@@ -588,8 +589,14 @@ public class PtrArray extends Struct {
      * @param elementFreeFunc A function to free elements with
      *     destroy {@code array} or {@code null}
      */
-    public static void setFreeFunc(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void setFreeFunc(java.lang.foreign.MemoryAddress[] array, @Nullable org.gtk.glib.DestroyNotify elementFreeFunc) {
+        try {
+            DowncallHandles.g_ptr_array_set_free_func.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) (elementFreeFunc == null ? MemoryAddress.NULL : (Addressable) elementFreeFunc.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -600,8 +607,7 @@ public class PtrArray extends Struct {
      * @param array a {@link PtrArray}
      * @param length the new length of the pointer array
      */
-    public static void setSize(@NotNull java.lang.foreign.MemoryAddress[] array, int length) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static void setSize(java.lang.foreign.MemoryAddress[] array, int length) {
         try {
             DowncallHandles.g_ptr_array_set_size.invokeExact(
                     Interop.allocateNativeArray(array, false),
@@ -619,7 +625,7 @@ public class PtrArray extends Struct {
      * @param reservedSize number of pointers preallocated
      * @return the new {@link PtrArray}
      */
-    public static @NotNull PointerAddress sizedNew(int reservedSize) {
+    public static PointerAddress sizedNew(int reservedSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_sized_new.invokeExact(
@@ -668,8 +674,14 @@ public class PtrArray extends Struct {
      * @param array a {@link PtrArray}
      * @param compareFunc comparison function
      */
-    public static void sort(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void sort(java.lang.foreign.MemoryAddress[] array, org.gtk.glib.CompareFunc compareFunc) {
+        try {
+            DowncallHandles.g_ptr_array_sort.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) compareFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -728,18 +740,12 @@ public class PtrArray extends Struct {
      * @param array a {@link PtrArray}
      * @param compareFunc comparison function
      */
-    public static void sortWithData(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public static void sortWithData(java.lang.foreign.MemoryAddress[] array, org.gtk.glib.CompareDataFunc compareFunc) {
         try {
             DowncallHandles.g_ptr_array_sort_with_data.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(compareFunc)));
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -797,19 +803,17 @@ public class PtrArray extends Struct {
      *     freed using g_free(). This may be {@code null} if the array doesn’t have any
      *     elements (i.e. if {@code *len} is zero).
      */
-    public static @Nullable java.lang.foreign.MemoryAddress steal(@NotNull java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress steal(java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) lenPOINTER.address());
+                    (Addressable) (len == null ? MemoryAddress.NULL : (Addressable) lenPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (len != null) len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -822,8 +826,7 @@ public class PtrArray extends Struct {
      * @param index the index of the pointer to steal
      * @return the pointer which was removed
      */
-    public static @Nullable java.lang.foreign.MemoryAddress stealIndex(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress stealIndex(java.lang.foreign.MemoryAddress[] array, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal_index.invokeExact(
@@ -846,8 +849,7 @@ public class PtrArray extends Struct {
      * @param index the index of the pointer to steal
      * @return the pointer which was removed
      */
-    public static @Nullable java.lang.foreign.MemoryAddress stealIndexFast(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress stealIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ptr_array_steal_index_fast.invokeExact(
@@ -866,8 +868,7 @@ public class PtrArray extends Struct {
      * is thread-safe and may be called from any thread.
      * @param array A {@link PtrArray}
      */
-    public static void unref(@NotNull java.lang.foreign.MemoryAddress[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static void unref(java.lang.foreign.MemoryAddress[] array) {
         try {
             DowncallHandles.g_ptr_array_unref.invokeExact(
                     Interop.allocateNativeArray(array, false));
@@ -1052,31 +1053,35 @@ public class PtrArray extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link PtrArray.Builder} object constructs a {@link PtrArray} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link PtrArray.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private PtrArray struct;
+        private final PtrArray struct;
         
-         /**
-         * A {@link PtrArray.Build} object constructs a {@link PtrArray} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = PtrArray.allocate();
         }
         
          /**
          * Finish building the {@link PtrArray} struct.
          * @return A new instance of {@code PtrArray} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PtrArray construct() {
+        public PtrArray build() {
             return struct;
         }
         
@@ -1086,7 +1091,7 @@ public class PtrArray extends Struct {
          * @param pdata The value for the {@code pdata} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPdata(java.lang.foreign.MemoryAddress pdata) {
+        public Builder setPdata(java.lang.foreign.MemoryAddress pdata) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pdata"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pdata == null ? MemoryAddress.NULL : (Addressable) pdata));
@@ -1098,7 +1103,7 @@ public class PtrArray extends Struct {
          * @param len The value for the {@code len} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLen(int len) {
+        public Builder setLen(int len) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("len"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);

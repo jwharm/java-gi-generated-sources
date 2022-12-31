@@ -40,8 +40,10 @@ public class ListStorePrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ListStorePrivate(Addressable address, Ownership ownership) {
+    protected ListStorePrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ListStorePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListStorePrivate(input, ownership);
 }

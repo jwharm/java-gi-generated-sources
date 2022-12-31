@@ -10,5 +10,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface DirectControlBindingConvertValue {
-        void onDirectControlBindingConvertValue(@NotNull org.gstreamer.controller.DirectControlBinding self, double srcValue, @Nullable java.lang.foreign.MemoryAddress destValue);
+    void run(org.gstreamer.controller.DirectControlBinding self, double srcValue, @Nullable java.lang.foreign.MemoryAddress destValue);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress self, double srcValue, MemoryAddress destValue) {
+        run((org.gstreamer.controller.DirectControlBinding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(self)), org.gstreamer.controller.DirectControlBinding.fromAddress).marshal(self, Ownership.NONE), srcValue, destValue);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DirectControlBindingConvertValue.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

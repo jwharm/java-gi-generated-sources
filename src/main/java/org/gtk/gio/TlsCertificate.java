@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * {@link TlsServerConnection}).
  * @version 2.28
  */
-public class TlsCertificate extends org.gtk.gobject.Object {
+public class TlsCertificate extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -21,18 +21,16 @@ public class TlsCertificate extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GTlsCertificate";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -40,38 +38,19 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TlsCertificate(Addressable address, Ownership ownership) {
+    protected TlsCertificate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TlsCertificate if its GType is a (or inherits from) "GTlsCertificate".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TlsCertificate} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GTlsCertificate", a ClassCastException will be thrown.
-     */
-    public static TlsCertificate castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TlsCertificate.getType())) {
-            return new TlsCertificate(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTlsCertificate");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TlsCertificate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsCertificate(input, ownership);
     
-    private static Addressable constructNewFromFile(@NotNull java.lang.String file) throws GErrorException {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
+    private static MemoryAddress constructNewFromFile(java.lang.String file) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_file.invokeExact(
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(file, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -96,19 +75,18 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @return the new certificate, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static TlsCertificate newFromFile(@NotNull java.lang.String file) throws GErrorException {
-        return new TlsCertificate(constructNewFromFile(file), Ownership.FULL);
+    public static TlsCertificate newFromFile(java.lang.String file) throws GErrorException {
+        var RESULT = constructNewFromFile(file);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromFileWithPassword(@NotNull java.lang.String file, @NotNull java.lang.String password) throws GErrorException {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(password, "Parameter 'password' must not be null");
+    private static MemoryAddress constructNewFromFileWithPassword(java.lang.String file, java.lang.String password) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_file_with_password.invokeExact(
-                    Interop.allocateNativeString(file),
-                    Interop.allocateNativeString(password),
+                    Marshal.stringToAddress.marshal(file, null),
+                    Marshal.stringToAddress.marshal(password, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -133,19 +111,18 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @return the new certificate, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static TlsCertificate newFromFileWithPassword(@NotNull java.lang.String file, @NotNull java.lang.String password) throws GErrorException {
-        return new TlsCertificate(constructNewFromFileWithPassword(file, password), Ownership.FULL);
+    public static TlsCertificate newFromFileWithPassword(java.lang.String file, java.lang.String password) throws GErrorException {
+        var RESULT = constructNewFromFileWithPassword(file, password);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromFiles(@NotNull java.lang.String certFile, @NotNull java.lang.String keyFile) throws GErrorException {
-        java.util.Objects.requireNonNull(certFile, "Parameter 'certFile' must not be null");
-        java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
+    private static MemoryAddress constructNewFromFiles(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_files.invokeExact(
-                    Interop.allocateNativeString(certFile),
-                    Interop.allocateNativeString(keyFile),
+                    Marshal.stringToAddress.marshal(certFile, null),
+                    Marshal.stringToAddress.marshal(keyFile, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -178,17 +155,17 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @return the new certificate, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static TlsCertificate newFromFiles(@NotNull java.lang.String certFile, @NotNull java.lang.String keyFile) throws GErrorException {
-        return new TlsCertificate(constructNewFromFiles(certFile, keyFile), Ownership.FULL);
+    public static TlsCertificate newFromFiles(java.lang.String certFile, java.lang.String keyFile) throws GErrorException {
+        var RESULT = constructNewFromFiles(certFile, keyFile);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromPem(@NotNull java.lang.String data, long length) throws GErrorException {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    private static MemoryAddress constructNewFromPem(java.lang.String data, long length) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pem.invokeExact(
-                    Interop.allocateNativeString(data),
+                    Marshal.stringToAddress.marshal(data, null),
                     length,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -220,18 +197,18 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @return the new certificate, or {@code null} if {@code data} is invalid
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static TlsCertificate newFromPem(@NotNull java.lang.String data, long length) throws GErrorException {
-        return new TlsCertificate(constructNewFromPem(data, length), Ownership.FULL);
+    public static TlsCertificate newFromPem(java.lang.String data, long length) throws GErrorException {
+        var RESULT = constructNewFromPem(data, length);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromPkcs11Uris(@NotNull java.lang.String pkcs11Uri, @Nullable java.lang.String privateKeyPkcs11Uri) throws GErrorException {
-        java.util.Objects.requireNonNull(pkcs11Uri, "Parameter 'pkcs11Uri' must not be null");
+    private static MemoryAddress constructNewFromPkcs11Uris(java.lang.String pkcs11Uri, @Nullable java.lang.String privateKeyPkcs11Uri) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pkcs11_uris.invokeExact(
-                    Interop.allocateNativeString(pkcs11Uri),
-                    (Addressable) (privateKeyPkcs11Uri == null ? MemoryAddress.NULL : Interop.allocateNativeString(privateKeyPkcs11Uri)),
+                    Marshal.stringToAddress.marshal(pkcs11Uri, null),
+                    (Addressable) (privateKeyPkcs11Uri == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(privateKeyPkcs11Uri, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -271,19 +248,19 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @return the new certificate, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static TlsCertificate newFromPkcs11Uris(@NotNull java.lang.String pkcs11Uri, @Nullable java.lang.String privateKeyPkcs11Uri) throws GErrorException {
-        return new TlsCertificate(constructNewFromPkcs11Uris(pkcs11Uri, privateKeyPkcs11Uri), Ownership.FULL);
+    public static TlsCertificate newFromPkcs11Uris(java.lang.String pkcs11Uri, @Nullable java.lang.String privateKeyPkcs11Uri) throws GErrorException {
+        var RESULT = constructNewFromPkcs11Uris(pkcs11Uri, privateKeyPkcs11Uri);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromPkcs12(@NotNull byte[] data, long length, @Nullable java.lang.String password) throws GErrorException {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    private static MemoryAddress constructNewFromPkcs12(byte[] data, long length, @Nullable java.lang.String password) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_new_from_pkcs12.invokeExact(
                     Interop.allocateNativeArray(data, false),
                     length,
-                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password)),
+                    (Addressable) (password == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(password, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -318,8 +295,9 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @return the new certificate, or {@code null} if {@code data} is invalid
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static TlsCertificate newFromPkcs12(@NotNull byte[] data, long length, @Nullable java.lang.String password) throws GErrorException {
-        return new TlsCertificate(constructNewFromPkcs12(data, length, password), Ownership.FULL);
+    public static TlsCertificate newFromPkcs12(byte[] data, long length, @Nullable java.lang.String password) throws GErrorException {
+        var RESULT = constructNewFromPkcs12(data, length, password);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -335,7 +313,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<org.gtk.glib.Bytes>(RESULT, org.gtk.glib.Bytes.class);
+        return new PointerProxy<org.gtk.glib.Bytes>(RESULT, org.gtk.glib.Bytes.fromAddress);
     }
     
     /**
@@ -351,7 +329,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<org.gtk.gio.InetAddress>(RESULT, org.gtk.gio.InetAddress.class);
+        return new PointerProxy<org.gtk.gio.InetAddress>(RESULT, org.gtk.gio.InetAddress.fromAddress);
     }
     
     /**
@@ -368,7 +346,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsCertificate(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -383,7 +361,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -398,7 +376,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -413,7 +391,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -428,7 +406,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -440,8 +418,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @param certTwo second certificate to compare
      * @return whether the same or not
      */
-    public boolean isSame(@NotNull org.gtk.gio.TlsCertificate certTwo) {
-        java.util.Objects.requireNonNull(certTwo, "Parameter 'certTwo' must not be null");
+    public boolean isSame(org.gtk.gio.TlsCertificate certTwo) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_tls_certificate_is_same.invokeExact(
@@ -450,7 +427,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -491,7 +468,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * @param trustedCa the certificate of a trusted authority
      * @return the appropriate {@link TlsCertificateFlags}
      */
-    public @NotNull org.gtk.gio.TlsCertificateFlags verify(@Nullable org.gtk.gio.SocketConnectable identity, @Nullable org.gtk.gio.TlsCertificate trustedCa) {
+    public org.gtk.gio.TlsCertificateFlags verify(@Nullable org.gtk.gio.SocketConnectable identity, @Nullable org.gtk.gio.TlsCertificate trustedCa) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_tls_certificate_verify.invokeExact(
@@ -508,7 +485,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_certificate_get_type.invokeExact();
@@ -530,13 +507,12 @@ public class TlsCertificate extends org.gtk.gobject.Object {
      * and its contents when you are done with it.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.List listNewFromFile(@NotNull java.lang.String file) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
+    public static org.gtk.glib.List listNewFromFile(java.lang.String file) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_certificate_list_new_from_file.invokeExact(
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(file, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -544,40 +520,42 @@ public class TlsCertificate extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link TlsCertificate.Builder} object constructs a {@link TlsCertificate} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TlsCertificate.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TlsCertificate.Build} object constructs a {@link TlsCertificate} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TlsCertificate} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TlsCertificate} using {@link TlsCertificate#castFrom}.
+         * {@link TlsCertificate}.
          * @return A new instance of {@code TlsCertificate} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TlsCertificate construct() {
-            return TlsCertificate.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TlsCertificate.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TlsCertificate build() {
+            return (TlsCertificate) org.gtk.gobject.GObject.newWithProperties(
+                TlsCertificate.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -588,7 +566,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param certificatePem The value for the {@code certificate-pem} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCertificatePem(java.lang.String certificatePem) {
+        public Builder setCertificatePem(java.lang.String certificatePem) {
             names.add("certificate-pem");
             values.add(org.gtk.gobject.Value.create(certificatePem));
             return this;
@@ -614,7 +592,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param issuer The value for the {@code issuer} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIssuer(org.gtk.gio.TlsCertificate issuer) {
+        public Builder setIssuer(org.gtk.gio.TlsCertificate issuer) {
             names.add("issuer");
             values.add(org.gtk.gobject.Value.create(issuer));
             return this;
@@ -626,7 +604,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param issuerName The value for the {@code issuer-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIssuerName(java.lang.String issuerName) {
+        public Builder setIssuerName(java.lang.String issuerName) {
             names.add("issuer-name");
             values.add(org.gtk.gobject.Value.create(issuerName));
             return this;
@@ -638,7 +616,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param notValidAfter The value for the {@code not-valid-after} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNotValidAfter(org.gtk.glib.DateTime notValidAfter) {
+        public Builder setNotValidAfter(org.gtk.glib.DateTime notValidAfter) {
             names.add("not-valid-after");
             values.add(org.gtk.gobject.Value.create(notValidAfter));
             return this;
@@ -650,7 +628,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param notValidBefore The value for the {@code not-valid-before} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNotValidBefore(org.gtk.glib.DateTime notValidBefore) {
+        public Builder setNotValidBefore(org.gtk.glib.DateTime notValidBefore) {
             names.add("not-valid-before");
             values.add(org.gtk.gobject.Value.create(notValidBefore));
             return this;
@@ -661,7 +639,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param password The value for the {@code password} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPassword(java.lang.String password) {
+        public Builder setPassword(java.lang.String password) {
             names.add("password");
             values.add(org.gtk.gobject.Value.create(password));
             return this;
@@ -676,7 +654,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param pkcs11Uri The value for the {@code pkcs11-uri} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPkcs11Uri(java.lang.String pkcs11Uri) {
+        public Builder setPkcs11Uri(java.lang.String pkcs11Uri) {
             names.add("pkcs11-uri");
             values.add(org.gtk.gobject.Value.create(pkcs11Uri));
             return this;
@@ -704,7 +682,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param privateKeyPem The value for the {@code private-key-pem} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrivateKeyPem(java.lang.String privateKeyPem) {
+        public Builder setPrivateKeyPem(java.lang.String privateKeyPem) {
             names.add("private-key-pem");
             values.add(org.gtk.gobject.Value.create(privateKeyPem));
             return this;
@@ -716,7 +694,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param privateKeyPkcs11Uri The value for the {@code private-key-pkcs11-uri} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrivateKeyPkcs11Uri(java.lang.String privateKeyPkcs11Uri) {
+        public Builder setPrivateKeyPkcs11Uri(java.lang.String privateKeyPkcs11Uri) {
             names.add("private-key-pkcs11-uri");
             values.add(org.gtk.gobject.Value.create(privateKeyPkcs11Uri));
             return this;
@@ -728,7 +706,7 @@ public class TlsCertificate extends org.gtk.gobject.Object {
          * @param subjectName The value for the {@code subject-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSubjectName(java.lang.String subjectName) {
+        public Builder setSubjectName(java.lang.String subjectName) {
             names.add("subject-name");
             values.add(org.gtk.gobject.Value.create(subjectName));
             return this;

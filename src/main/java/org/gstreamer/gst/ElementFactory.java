@@ -54,45 +54,30 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * <p>
      * Because ElementFactory is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ElementFactory(Addressable address, Ownership ownership) {
+    protected ElementFactory(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ElementFactory if its GType is a (or inherits from) "GstElementFactory".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ElementFactory} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstElementFactory", a ClassCastException will be thrown.
-     */
-    public static ElementFactory castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ElementFactory.getType())) {
-            return new ElementFactory(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstElementFactory");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ElementFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ElementFactory(input, ownership);
     
     /**
      * Checks if the factory can sink all possible capabilities.
      * @param caps the caps to check
      * @return {@code true} if the caps are fully compatible.
      */
-    public boolean canSinkAllCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean canSinkAllCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_element_factory_can_sink_all_caps.invokeExact(
@@ -101,7 +86,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -109,8 +94,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @param caps the caps to check
      * @return {@code true} if the caps have a common subset.
      */
-    public boolean canSinkAnyCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean canSinkAnyCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_element_factory_can_sink_any_caps.invokeExact(
@@ -119,7 +103,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -127,8 +111,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @param caps the caps to check
      * @return {@code true} if the caps are fully compatible.
      */
-    public boolean canSrcAllCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean canSrcAllCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_element_factory_can_src_all_caps.invokeExact(
@@ -137,7 +120,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -145,8 +128,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @param caps the caps to check
      * @return {@code true} if the caps have a common subset.
      */
-    public boolean canSrcAnyCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean canSrcAnyCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_element_factory_can_src_any_caps.invokeExact(
@@ -155,7 +137,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,11 +154,11 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -192,12 +174,12 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create_full.invokeExact(
                     handle(),
-                    (Addressable) (first == null ? MemoryAddress.NULL : Interop.allocateNativeString(first)),
+                    (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, null)),
                     (Addressable) (varargs == null ? MemoryAddress.NULL : varargs));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -213,12 +195,12 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_create_valist.invokeExact(
                     handle(),
-                    (Addressable) (first == null ? MemoryAddress.NULL : Interop.allocateNativeString(first)),
+                    (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, null)),
                     (Addressable) (properties == null ? MemoryAddress.NULL : properties));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -241,17 +223,17 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Get the {@link org.gtk.gobject.Type} for elements managed by this factory. The type can
+     * Get the {@link org.gtk.glib.Type} for elements managed by this factory. The type can
      * only be retrieved if the element factory is loaded, which can be
      * assured with gst_plugin_feature_load().
-     * @return the {@link org.gtk.gobject.Type} for elements managed by this factory or 0 if
+     * @return the {@link org.gtk.glib.Type} for elements managed by this factory or 0 if
      * the factory is not loaded.
      */
-    public @NotNull org.gtk.glib.Type getElementType() {
+    public org.gtk.glib.Type getElementType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_element_factory_get_element_type.invokeExact(
@@ -268,17 +250,16 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @return the metadata with {@code key} on {@code factory} or {@code null}
      * when there was no metadata with the given {@code key}.
      */
-    public @Nullable java.lang.String getMetadata(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable java.lang.String getMetadata(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_metadata.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -325,7 +306,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -333,7 +314,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @return the
      *     static pad templates
      */
-    public @NotNull org.gtk.glib.List getStaticPadTemplates() {
+    public org.gtk.glib.List getStaticPadTemplates() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_static_pad_templates.invokeExact(
@@ -341,7 +322,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -352,7 +333,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @return the supported protocols
      *     or {@code null}
      */
-    public @NotNull PointerString getUriProtocols() {
+    public PointerString getUriProtocols() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_get_uri_protocols.invokeExact(
@@ -367,7 +348,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * Gets the type of URIs the element supports or {@code GST_URI_UNKNOWN} if none.
      * @return type of URIs this element supports
      */
-    public @NotNull org.gstreamer.gst.URIType getUriType() {
+    public org.gstreamer.gst.URIType getUriType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_element_factory_get_uri_type.invokeExact(
@@ -383,17 +364,16 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @param interfacename an interface name
      * @return {@code true} when {@code factory} implement the interface.
      */
-    public boolean hasInterface(@NotNull java.lang.String interfacename) {
-        java.util.Objects.requireNonNull(interfacename, "Parameter 'interfacename' must not be null");
+    public boolean hasInterface(java.lang.String interfacename) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_element_factory_has_interface.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(interfacename));
+                    Marshal.stringToAddress.marshal(interfacename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -401,8 +381,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @param type a {@link ElementFactoryListType}
      * @return {@code true} if {@code factory} is of {@code type}.
      */
-    public boolean listIsType(@NotNull org.gstreamer.gst.ElementFactoryListType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public boolean listIsType(org.gstreamer.gst.ElementFactoryListType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_element_factory_list_is_type.invokeExact(
@@ -411,14 +390,14 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_element_factory_get_type.invokeExact();
@@ -435,16 +414,15 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @return {@link ElementFactory} if found,
      * {@code null} otherwise
      */
-    public static @Nullable org.gstreamer.gst.ElementFactory find(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static @Nullable org.gstreamer.gst.ElementFactory find(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_find.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.ElementFactory(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.ElementFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.ElementFactory.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -463,21 +441,18 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      *     {@link ElementFactory} elements that match the given requisites.
      *     Use {@code gst_plugin_feature_list_free} after usage.
      */
-    public static @NotNull org.gtk.glib.List listFilter(@NotNull org.gtk.glib.List list, @NotNull org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.gst.PadDirection direction, boolean subsetonly) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public static org.gtk.glib.List listFilter(org.gtk.glib.List list, org.gstreamer.gst.Caps caps, org.gstreamer.gst.PadDirection direction, boolean subsetonly) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_list_filter.invokeExact(
                     list.handle(),
                     caps.handle(),
                     direction.getValue(),
-                    subsetonly ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(subsetonly, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -490,9 +465,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      *     {@link ElementFactory} elements. Use gst_plugin_feature_list_free() after
      *     usage.
      */
-    public static @NotNull org.gtk.glib.List listGetElements(@NotNull org.gstreamer.gst.ElementFactoryListType type, @NotNull org.gstreamer.gst.Rank minrank) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(minrank, "Parameter 'minrank' must not be null");
+    public static org.gtk.glib.List listGetElements(org.gstreamer.gst.ElementFactoryListType type, org.gstreamer.gst.Rank minrank) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_list_get_elements.invokeExact(
@@ -501,7 +474,7 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -515,17 +488,16 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @return new {@link Element} or {@code null}
      * if unable to create element
      */
-    public static @Nullable org.gstreamer.gst.Element make(@NotNull java.lang.String factoryname, @Nullable java.lang.String name) {
-        java.util.Objects.requireNonNull(factoryname, "Parameter 'factoryname' must not be null");
+    public static @Nullable org.gstreamer.gst.Element make(java.lang.String factoryname, @Nullable java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make.invokeExact(
-                    Interop.allocateNativeString(factoryname),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    Marshal.stringToAddress.marshal(factoryname, null),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -537,18 +509,17 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @return new {@link Element} or {@code null}
      * if unable to create element
      */
-    public static @Nullable org.gstreamer.gst.Element makeFull(@NotNull java.lang.String factoryname, @Nullable java.lang.String first, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(factoryname, "Parameter 'factoryname' must not be null");
+    public static @Nullable org.gstreamer.gst.Element makeFull(java.lang.String factoryname, @Nullable java.lang.String first, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make_full.invokeExact(
-                    Interop.allocateNativeString(factoryname),
-                    (Addressable) (first == null ? MemoryAddress.NULL : Interop.allocateNativeString(first)),
+                    Marshal.stringToAddress.marshal(factoryname, null),
+                    (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, null)),
                     (Addressable) (varargs == null ? MemoryAddress.NULL : varargs));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -560,18 +531,17 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @return new {@link Element} or {@code null}
      * if unable to create element
      */
-    public static @Nullable org.gstreamer.gst.Element makeValist(@NotNull java.lang.String factoryname, @Nullable java.lang.String first, @Nullable VaList properties) {
-        java.util.Objects.requireNonNull(factoryname, "Parameter 'factoryname' must not be null");
+    public static @Nullable org.gstreamer.gst.Element makeValist(java.lang.String factoryname, @Nullable java.lang.String first, @Nullable VaList properties) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make_valist.invokeExact(
-                    Interop.allocateNativeString(factoryname),
-                    (Addressable) (first == null ? MemoryAddress.NULL : Interop.allocateNativeString(first)),
+                    Marshal.stringToAddress.marshal(factoryname, null),
+                    (Addressable) (first == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(first, null)),
                     (Addressable) (properties == null ? MemoryAddress.NULL : properties));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -584,52 +554,53 @@ public class ElementFactory extends org.gstreamer.gst.PluginFeature {
      * @return new {@link Element} or {@code null}
      *     if the element couldn't be created
      */
-    public static @Nullable org.gstreamer.gst.Element makeWithProperties(@NotNull java.lang.String factoryname, int n, @Nullable java.lang.String[] names, @Nullable org.gtk.gobject.Value[] values) {
-        java.util.Objects.requireNonNull(factoryname, "Parameter 'factoryname' must not be null");
+    public static @Nullable org.gstreamer.gst.Element makeWithProperties(java.lang.String factoryname, int n, @Nullable java.lang.String[] names, @Nullable org.gtk.gobject.Value[] values) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_element_factory_make_with_properties.invokeExact(
-                    Interop.allocateNativeString(factoryname),
+                    Marshal.stringToAddress.marshal(factoryname, null),
                     n,
                     (Addressable) (names == null ? MemoryAddress.NULL : Interop.allocateNativeArray(names, false)),
                     (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.NONE);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.NONE);
     }
-
+    
+    /**
+     * A {@link ElementFactory.Builder} object constructs a {@link ElementFactory} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ElementFactory.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.PluginFeature.Build {
+    public static class Builder extends org.gstreamer.gst.PluginFeature.Builder {
         
-         /**
-         * A {@link ElementFactory.Build} object constructs a {@link ElementFactory} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ElementFactory} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ElementFactory} using {@link ElementFactory#castFrom}.
+         * {@link ElementFactory}.
          * @return A new instance of {@code ElementFactory} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ElementFactory construct() {
-            return ElementFactory.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ElementFactory.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ElementFactory build() {
+            return (ElementFactory) org.gtk.gobject.GObject.newWithProperties(
+                ElementFactory.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

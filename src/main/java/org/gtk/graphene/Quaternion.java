@@ -20,20 +20,18 @@ public class Quaternion extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_quaternion_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_FLOAT.withName("x"),
-        Interop.valueLayout.C_FLOAT.withName("y"),
-        Interop.valueLayout.C_FLOAT.withName("z"),
-        Interop.valueLayout.C_FLOAT.withName("w")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_FLOAT.withName("x"),
+            Interop.valueLayout.C_FLOAT.withName("y"),
+            Interop.valueLayout.C_FLOAT.withName("z"),
+            Interop.valueLayout.C_FLOAT.withName("w")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -54,13 +52,15 @@ public class Quaternion extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Quaternion(Addressable address, Ownership ownership) {
+    protected Quaternion(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Quaternion> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Quaternion(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -76,7 +76,8 @@ public class Quaternion extends Struct {
      * @return the newly allocated {@link Quaternion}
      */
     public static Quaternion alloc() {
-        return new Quaternion(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -84,9 +85,7 @@ public class Quaternion extends Struct {
      * @param b a {@link Quaternion}
      * @param res the result of the operation
      */
-    public void add(@NotNull org.gtk.graphene.Quaternion b, @NotNull org.gtk.graphene.Quaternion res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void add(org.gtk.graphene.Quaternion b, org.gtk.graphene.Quaternion res) {
         try {
             DowncallHandles.graphene_quaternion_add.invokeExact(
                     handle(),
@@ -102,8 +101,7 @@ public class Quaternion extends Struct {
      * @param b a {@link Quaternion}
      * @return the value of the dot products
      */
-    public float dot(@NotNull org.gtk.graphene.Quaternion b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public float dot(org.gtk.graphene.Quaternion b) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_quaternion_dot.invokeExact(
@@ -120,8 +118,7 @@ public class Quaternion extends Struct {
      * @param b a {@link Quaternion}
      * @return {@code true} if the quaternions are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Quaternion b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Quaternion b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_quaternion_equal.invokeExact(
@@ -153,7 +150,7 @@ public class Quaternion extends Struct {
      * @param w the fourth component of the quaternion
      * @return the initialized quaternion
      */
-    public @NotNull org.gtk.graphene.Quaternion init(float x, float y, float z, float w) {
+    public org.gtk.graphene.Quaternion init(float x, float y, float z, float w) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init.invokeExact(
@@ -165,7 +162,7 @@ public class Quaternion extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -175,8 +172,7 @@ public class Quaternion extends Struct {
      * @param axis the axis of rotation, expressed as a vector
      * @return the initialized quaternion
      */
-    public @NotNull org.gtk.graphene.Quaternion initFromAngleVec3(float angle, @NotNull org.gtk.graphene.Vec3 axis) {
-        java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
+    public org.gtk.graphene.Quaternion initFromAngleVec3(float angle, org.gtk.graphene.Vec3 axis) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_angle_vec3.invokeExact(
@@ -186,7 +182,7 @@ public class Quaternion extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -200,7 +196,7 @@ public class Quaternion extends Struct {
      * @param degZ rotation angle on the Z axis (roll), in degrees
      * @return the initialized quaternion
      */
-    public @NotNull org.gtk.graphene.Quaternion initFromAngles(float degX, float degY, float degZ) {
+    public org.gtk.graphene.Quaternion initFromAngles(float degX, float degY, float degZ) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_angles.invokeExact(
@@ -211,7 +207,7 @@ public class Quaternion extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -219,8 +215,7 @@ public class Quaternion extends Struct {
      * @param e a {@link Euler}
      * @return the initialized {@link Quaternion}
      */
-    public @NotNull org.gtk.graphene.Quaternion initFromEuler(@NotNull org.gtk.graphene.Euler e) {
-        java.util.Objects.requireNonNull(e, "Parameter 'e' must not be null");
+    public org.gtk.graphene.Quaternion initFromEuler(org.gtk.graphene.Euler e) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_euler.invokeExact(
@@ -229,7 +224,7 @@ public class Quaternion extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -238,8 +233,7 @@ public class Quaternion extends Struct {
      * @param m a {@link Matrix}
      * @return the initialized quaternion
      */
-    public @NotNull org.gtk.graphene.Quaternion initFromMatrix(@NotNull org.gtk.graphene.Matrix m) {
-        java.util.Objects.requireNonNull(m, "Parameter 'm' must not be null");
+    public org.gtk.graphene.Quaternion initFromMatrix(org.gtk.graphene.Matrix m) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_matrix.invokeExact(
@@ -248,7 +242,7 @@ public class Quaternion extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -256,8 +250,7 @@ public class Quaternion extends Struct {
      * @param src a {@link Quaternion}
      * @return the initialized quaternion
      */
-    public @NotNull org.gtk.graphene.Quaternion initFromQuaternion(@NotNull org.gtk.graphene.Quaternion src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Quaternion initFromQuaternion(org.gtk.graphene.Quaternion src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_quaternion.invokeExact(
@@ -266,7 +259,7 @@ public class Quaternion extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -280,7 +273,7 @@ public class Quaternion extends Struct {
      * @param radZ rotation angle on the Z axis (roll), in radians
      * @return the initialized quaternion
      */
-    public @NotNull org.gtk.graphene.Quaternion initFromRadians(float radX, float radY, float radZ) {
+    public org.gtk.graphene.Quaternion initFromRadians(float radX, float radY, float radZ) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_radians.invokeExact(
@@ -291,7 +284,7 @@ public class Quaternion extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -299,8 +292,7 @@ public class Quaternion extends Struct {
      * @param src a {@link Vec4}
      * @return the initialized quaternion
      */
-    public @NotNull org.gtk.graphene.Quaternion initFromVec4(@NotNull org.gtk.graphene.Vec4 src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Quaternion initFromVec4(org.gtk.graphene.Vec4 src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_from_vec4.invokeExact(
@@ -309,7 +301,7 @@ public class Quaternion extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -317,7 +309,7 @@ public class Quaternion extends Struct {
      * transformation.
      * @return the initialized quaternion
      */
-    public @NotNull org.gtk.graphene.Quaternion initIdentity() {
+    public org.gtk.graphene.Quaternion initIdentity() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quaternion_init_identity.invokeExact(
@@ -325,7 +317,7 @@ public class Quaternion extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quaternion(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quaternion.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -334,8 +326,7 @@ public class Quaternion extends Struct {
      * @param res return location for the inverted
      *   quaternion
      */
-    public void invert(@NotNull org.gtk.graphene.Quaternion res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void invert(org.gtk.graphene.Quaternion res) {
         try {
             DowncallHandles.graphene_quaternion_invert.invokeExact(
                     handle(),
@@ -350,9 +341,7 @@ public class Quaternion extends Struct {
      * @param b a {@link Quaternion}
      * @param res the result of the operation
      */
-    public void multiply(@NotNull org.gtk.graphene.Quaternion b, @NotNull org.gtk.graphene.Quaternion res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void multiply(org.gtk.graphene.Quaternion b, org.gtk.graphene.Quaternion res) {
         try {
             DowncallHandles.graphene_quaternion_multiply.invokeExact(
                     handle(),
@@ -368,8 +357,7 @@ public class Quaternion extends Struct {
      * @param res return location for the normalized
      *   quaternion
      */
-    public void normalize(@NotNull org.gtk.graphene.Quaternion res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void normalize(org.gtk.graphene.Quaternion res) {
         try {
             DowncallHandles.graphene_quaternion_normalize.invokeExact(
                     handle(),
@@ -385,8 +373,7 @@ public class Quaternion extends Struct {
      * @param factor a scaling factor
      * @param res the result of the operation
      */
-    public void scale(float factor, @NotNull org.gtk.graphene.Quaternion res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void scale(float factor, org.gtk.graphene.Quaternion res) {
         try {
             DowncallHandles.graphene_quaternion_scale.invokeExact(
                     handle(),
@@ -406,9 +393,7 @@ public class Quaternion extends Struct {
      * @param res return location for the interpolated
      *   quaternion
      */
-    public void slerp(@NotNull org.gtk.graphene.Quaternion b, float factor, @NotNull org.gtk.graphene.Quaternion res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void slerp(org.gtk.graphene.Quaternion b, float factor, org.gtk.graphene.Quaternion res) {
         try {
             DowncallHandles.graphene_quaternion_slerp.invokeExact(
                     handle(),
@@ -425,10 +410,8 @@ public class Quaternion extends Struct {
      * @param angle return location for the angle, in degrees
      * @param axis return location for the rotation axis
      */
-    public void toAngleVec3(Out<Float> angle, @NotNull org.gtk.graphene.Vec3 axis) {
-        java.util.Objects.requireNonNull(angle, "Parameter 'angle' must not be null");
+    public void toAngleVec3(Out<Float> angle, org.gtk.graphene.Vec3 axis) {
         MemorySegment anglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
         try {
             DowncallHandles.graphene_quaternion_to_angle_vec3.invokeExact(
                     handle(),
@@ -452,24 +435,21 @@ public class Quaternion extends Struct {
      *   the Z axis (roll), in degrees
      */
     public void toAngles(Out<Float> degX, Out<Float> degY, Out<Float> degZ) {
-        java.util.Objects.requireNonNull(degX, "Parameter 'degX' must not be null");
         MemorySegment degXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(degY, "Parameter 'degY' must not be null");
         MemorySegment degYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(degZ, "Parameter 'degZ' must not be null");
         MemorySegment degZPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.graphene_quaternion_to_angles.invokeExact(
                     handle(),
-                    (Addressable) degXPOINTER.address(),
-                    (Addressable) degYPOINTER.address(),
-                    (Addressable) degZPOINTER.address());
+                    (Addressable) (degX == null ? MemoryAddress.NULL : (Addressable) degXPOINTER.address()),
+                    (Addressable) (degY == null ? MemoryAddress.NULL : (Addressable) degYPOINTER.address()),
+                    (Addressable) (degZ == null ? MemoryAddress.NULL : (Addressable) degZPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        degX.set(degXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        degY.set(degYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        degZ.set(degZPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        if (degX != null) degX.set(degXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        if (degY != null) degY.set(degYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        if (degZ != null) degZ.set(degZPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -477,8 +457,7 @@ public class Quaternion extends Struct {
      * the rotation defined by the {@link Quaternion}.
      * @param m a {@link Matrix}
      */
-    public void toMatrix(@NotNull org.gtk.graphene.Matrix m) {
-        java.util.Objects.requireNonNull(m, "Parameter 'm' must not be null");
+    public void toMatrix(org.gtk.graphene.Matrix m) {
         try {
             DowncallHandles.graphene_quaternion_to_matrix.invokeExact(
                     handle(),
@@ -500,24 +479,21 @@ public class Quaternion extends Struct {
      *   the Z axis (roll), in radians
      */
     public void toRadians(Out<Float> radX, Out<Float> radY, Out<Float> radZ) {
-        java.util.Objects.requireNonNull(radX, "Parameter 'radX' must not be null");
         MemorySegment radXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(radY, "Parameter 'radY' must not be null");
         MemorySegment radYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
-        java.util.Objects.requireNonNull(radZ, "Parameter 'radZ' must not be null");
         MemorySegment radZPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         try {
             DowncallHandles.graphene_quaternion_to_radians.invokeExact(
                     handle(),
-                    (Addressable) radXPOINTER.address(),
-                    (Addressable) radYPOINTER.address(),
-                    (Addressable) radZPOINTER.address());
+                    (Addressable) (radX == null ? MemoryAddress.NULL : (Addressable) radXPOINTER.address()),
+                    (Addressable) (radY == null ? MemoryAddress.NULL : (Addressable) radYPOINTER.address()),
+                    (Addressable) (radZ == null ? MemoryAddress.NULL : (Addressable) radZPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        radX.set(radXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        radY.set(radYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        radZ.set(radZPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        if (radX != null) radX.set(radXPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        if (radY != null) radY.set(radYPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
+        if (radZ != null) radZ.set(radZPOINTER.get(Interop.valueLayout.C_FLOAT, 0));
     }
     
     /**
@@ -526,8 +502,7 @@ public class Quaternion extends Struct {
      * @param res return location for a
      *   {@link Vec4}
      */
-    public void toVec4(@NotNull org.gtk.graphene.Vec4 res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void toVec4(org.gtk.graphene.Vec4 res) {
         try {
             DowncallHandles.graphene_quaternion_to_vec4.invokeExact(
                     handle(),
@@ -683,56 +658,60 @@ public class Quaternion extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Quaternion.Builder} object constructs a {@link Quaternion} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Quaternion.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Quaternion struct;
+        private final Quaternion struct;
         
-         /**
-         * A {@link Quaternion.Build} object constructs a {@link Quaternion} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Quaternion.allocate();
         }
         
          /**
          * Finish building the {@link Quaternion} struct.
          * @return A new instance of {@code Quaternion} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Quaternion construct() {
+        public Quaternion build() {
             return struct;
         }
         
-        public Build setX(float x) {
+        public Builder setX(float x) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
             return this;
         }
         
-        public Build setY(float y) {
+        public Builder setY(float y) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
             return this;
         }
         
-        public Build setZ(float z) {
+        public Builder setZ(float z) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("z"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), z);
             return this;
         }
         
-        public Build setW(float w) {
+        public Builder setW(float w) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("w"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);

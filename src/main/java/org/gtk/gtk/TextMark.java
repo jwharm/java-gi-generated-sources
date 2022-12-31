@@ -40,7 +40,7 @@ import org.jetbrains.annotations.*;
  * Marks are typically created using the {@link TextBuffer#createMark}
  * function.
  */
-public class TextMark extends org.gtk.gobject.Object {
+public class TextMark extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -48,18 +48,16 @@ public class TextMark extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkTextMark";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("segment")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("segment")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -67,37 +65,19 @@ public class TextMark extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TextMark(Addressable address, Ownership ownership) {
+    protected TextMark(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TextMark if its GType is a (or inherits from) "GtkTextMark".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TextMark} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTextMark", a ClassCastException will be thrown.
-     */
-    public static TextMark castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TextMark.getType())) {
-            return new TextMark(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTextMark");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TextMark> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextMark(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String name, boolean leftGravity) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String name, boolean leftGravity) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_mark_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
-                    leftGravity ? 1 : 0);
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
+                    Marshal.booleanToInteger.marshal(leftGravity, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -137,7 +117,7 @@ public class TextMark extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextBuffer(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -155,7 +135,7 @@ public class TextMark extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -170,7 +150,7 @@ public class TextMark extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -187,7 +167,7 @@ public class TextMark extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -204,14 +184,14 @@ public class TextMark extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public void setVisible(boolean setting) {
         try {
             DowncallHandles.gtk_text_mark_set_visible.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -221,7 +201,7 @@ public class TextMark extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_text_mark_get_type.invokeExact();
@@ -230,38 +210,40 @@ public class TextMark extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TextMark.Builder} object constructs a {@link TextMark} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TextMark.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TextMark.Build} object constructs a {@link TextMark} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TextMark} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TextMark} using {@link TextMark#castFrom}.
+         * {@link TextMark}.
          * @return A new instance of {@code TextMark} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TextMark construct() {
-            return TextMark.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TextMark.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TextMark build() {
+            return (TextMark) org.gtk.gobject.GObject.newWithProperties(
+                TextMark.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -274,7 +256,7 @@ public class TextMark extends org.gtk.gobject.Object {
          * @param leftGravity The value for the {@code left-gravity} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLeftGravity(boolean leftGravity) {
+        public Builder setLeftGravity(boolean leftGravity) {
             names.add("left-gravity");
             values.add(org.gtk.gobject.Value.create(leftGravity));
             return this;
@@ -285,7 +267,7 @@ public class TextMark extends org.gtk.gobject.Object {
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;

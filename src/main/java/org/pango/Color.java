@@ -17,19 +17,17 @@ public class Color extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoColor";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("red"),
-        Interop.valueLayout.C_SHORT.withName("green"),
-        Interop.valueLayout.C_SHORT.withName("blue")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("red"),
+            Interop.valueLayout.C_SHORT.withName("green"),
+            Interop.valueLayout.C_SHORT.withName("blue")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class Color extends Struct {
      * Get the value of the field {@code red}
      * @return The value of the field {@code red}
      */
-    public short red$get() {
+    public short getRed() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("red"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,7 +58,7 @@ public class Color extends Struct {
      * Change the value of the field {@code red}
      * @param red The new value of the field {@code red}
      */
-    public void red$set(short red) {
+    public void setRed(short red) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("red"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
@@ -70,7 +68,7 @@ public class Color extends Struct {
      * Get the value of the field {@code green}
      * @return The value of the field {@code green}
      */
-    public short green$get() {
+    public short getGreen() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("green"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,7 +79,7 @@ public class Color extends Struct {
      * Change the value of the field {@code green}
      * @param green The new value of the field {@code green}
      */
-    public void green$set(short green) {
+    public void setGreen(short green) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("green"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
@@ -91,7 +89,7 @@ public class Color extends Struct {
      * Get the value of the field {@code blue}
      * @return The value of the field {@code blue}
      */
-    public short blue$get() {
+    public short getBlue() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("blue"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -102,7 +100,7 @@ public class Color extends Struct {
      * Change the value of the field {@code blue}
      * @param blue The new value of the field {@code blue}
      */
-    public void blue$set(short blue) {
+    public void setBlue(short blue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("blue"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
@@ -113,10 +111,12 @@ public class Color extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Color(Addressable address, Ownership ownership) {
+    protected Color(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Color> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Color(input, ownership);
     
     /**
      * Creates a copy of {@code src}.
@@ -136,7 +136,7 @@ public class Color extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Color(RESULT, Ownership.FULL);
+        return org.pango.Color.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -165,17 +165,16 @@ public class Color extends Struct {
      * @return {@code true} if parsing of the specifier succeeded,
      *   otherwise {@code false}
      */
-    public boolean parse(@NotNull java.lang.String spec) {
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
+    public boolean parse(java.lang.String spec) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_color_parse.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(spec));
+                    Marshal.stringToAddress.marshal(spec, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -199,21 +198,19 @@ public class Color extends Struct {
      * @return {@code true} if parsing of the specifier succeeded,
      *   otherwise {@code false}
      */
-    public boolean parseWithAlpha(Out<Short> alpha, @NotNull java.lang.String spec) {
-        java.util.Objects.requireNonNull(alpha, "Parameter 'alpha' must not be null");
+    public boolean parseWithAlpha(Out<Short> alpha, java.lang.String spec) {
         MemorySegment alphaPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_color_parse_with_alpha.invokeExact(
                     handle(),
-                    (Addressable) alphaPOINTER.address(),
-                    Interop.allocateNativeString(spec));
+                    (Addressable) (alpha == null ? MemoryAddress.NULL : (Addressable) alphaPOINTER.address()),
+                    Marshal.stringToAddress.marshal(spec, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        alpha.set(alphaPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        if (alpha != null) alpha.set(alphaPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -225,7 +222,7 @@ public class Color extends Struct {
      * @return a newly-allocated text string that must
      *   be freed with g_free().
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_color_to_string.invokeExact(
@@ -233,7 +230,7 @@ public class Color extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
@@ -268,31 +265,35 @@ public class Color extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Color.Builder} object constructs a {@link Color} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Color.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Color struct;
+        private final Color struct;
         
-         /**
-         * A {@link Color.Build} object constructs a {@link Color} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Color.allocate();
         }
         
          /**
          * Finish building the {@link Color} struct.
          * @return A new instance of {@code Color} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Color construct() {
+        public Color build() {
             return struct;
         }
         
@@ -301,7 +302,7 @@ public class Color extends Struct {
          * @param red The value for the {@code red} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRed(short red) {
+        public Builder setRed(short red) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("red"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
@@ -313,7 +314,7 @@ public class Color extends Struct {
          * @param green The value for the {@code green} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGreen(short green) {
+        public Builder setGreen(short green) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("green"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
@@ -325,7 +326,7 @@ public class Color extends Struct {
          * @param blue The value for the {@code blue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBlue(short blue) {
+        public Builder setBlue(short blue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("blue"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);

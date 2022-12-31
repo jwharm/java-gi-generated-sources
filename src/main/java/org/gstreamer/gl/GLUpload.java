@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * A {@link GLUpload} can be created with gst_gl_upload_new()
  */
-public class GLUpload extends org.gstreamer.gst.Object {
+public class GLUpload extends org.gstreamer.gst.GstObject {
     
     static {
         GstGL.javagi$ensureInitialized();
@@ -18,20 +18,18 @@ public class GLUpload extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLUpload";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("context"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("context"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -39,41 +37,26 @@ public class GLUpload extends org.gstreamer.gst.Object {
      * <p>
      * Because GLUpload is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLUpload(Addressable address, Ownership ownership) {
+    protected GLUpload(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLUpload if its GType is a (or inherits from) "GstGLUpload".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLUpload} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLUpload", a ClassCastException will be thrown.
-     */
-    public static GLUpload castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLUpload.getType())) {
-            return new GLUpload(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLUpload");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLUpload> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLUpload(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gl.GLContext context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_upload_new.invokeExact(
                     context.handle());
@@ -83,25 +66,23 @@ public class GLUpload extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public GLUpload(@NotNull org.gstreamer.gl.GLContext context) {
+    public GLUpload(org.gstreamer.gl.GLContext context) {
         super(constructNew(context), Ownership.FULL);
     }
     
-    public void getCaps(@NotNull Out<org.gstreamer.gst.Caps> inCaps, @NotNull Out<org.gstreamer.gst.Caps> outCaps) {
-        java.util.Objects.requireNonNull(inCaps, "Parameter 'inCaps' must not be null");
+    public void getCaps(@Nullable Out<org.gstreamer.gst.Caps> inCaps, @Nullable Out<org.gstreamer.gst.Caps> outCaps) {
         MemorySegment inCapsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(outCaps, "Parameter 'outCaps' must not be null");
         MemorySegment outCapsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_gl_upload_get_caps.invokeExact(
                     handle(),
-                    (Addressable) inCapsPOINTER.address(),
-                    (Addressable) outCapsPOINTER.address());
+                    (Addressable) (inCaps == null ? MemoryAddress.NULL : (Addressable) inCapsPOINTER.address()),
+                    (Addressable) (outCaps == null ? MemoryAddress.NULL : (Addressable) outCapsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        inCaps.set(new org.gstreamer.gst.Caps(inCapsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        outCaps.set(new org.gstreamer.gst.Caps(outCapsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (inCaps != null) inCaps.set(org.gstreamer.gst.Caps.fromAddress.marshal(inCapsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (outCaps != null) outCaps.set(org.gstreamer.gst.Caps.fromAddress.marshal(outCapsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -111,9 +92,7 @@ public class GLUpload extends org.gstreamer.gst.Object {
      * @param outbufPtr resulting {@link org.gstreamer.gst.Buffer}
      * @return whether the upload was successful
      */
-    public @NotNull org.gstreamer.gl.GLUploadReturn performWithBuffer(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull Out<org.gstreamer.gst.Buffer> outbufPtr) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(outbufPtr, "Parameter 'outbufPtr' must not be null");
+    public org.gstreamer.gl.GLUploadReturn performWithBuffer(org.gstreamer.gst.Buffer buffer, Out<org.gstreamer.gst.Buffer> outbufPtr) {
         MemorySegment outbufPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -124,7 +103,7 @@ public class GLUpload extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outbufPtr.set(new org.gstreamer.gst.Buffer(outbufPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        outbufPtr.set(org.gstreamer.gst.Buffer.fromAddress.marshal(outbufPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.gl.GLUploadReturn.of(RESULT);
     }
     
@@ -133,8 +112,7 @@ public class GLUpload extends org.gstreamer.gst.Object {
      * @param decideQuery a {@link org.gstreamer.gst.Query} from a decide allocation
      * @param query the proposed allocation query
      */
-    public void proposeAllocation(@Nullable org.gstreamer.gst.Query decideQuery, @NotNull org.gstreamer.gst.Query query) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public void proposeAllocation(@Nullable org.gstreamer.gst.Query decideQuery, org.gstreamer.gst.Query query) {
         try {
             DowncallHandles.gst_gl_upload_propose_allocation.invokeExact(
                     handle(),
@@ -151,9 +129,7 @@ public class GLUpload extends org.gstreamer.gst.Object {
      * @param outCaps output {@link org.gstreamer.gst.Caps}
      * @return whether {@code in_caps} and {@code out_caps} could be set on {@code upload}
      */
-    public boolean setCaps(@NotNull org.gstreamer.gst.Caps inCaps, @NotNull org.gstreamer.gst.Caps outCaps) {
-        java.util.Objects.requireNonNull(inCaps, "Parameter 'inCaps' must not be null");
-        java.util.Objects.requireNonNull(outCaps, "Parameter 'outCaps' must not be null");
+    public boolean setCaps(org.gstreamer.gst.Caps inCaps, org.gstreamer.gst.Caps outCaps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_upload_set_caps.invokeExact(
@@ -163,11 +139,10 @@ public class GLUpload extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public void setContext(@NotNull org.gstreamer.gl.GLContext context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void setContext(org.gstreamer.gl.GLContext context) {
         try {
             DowncallHandles.gst_gl_upload_set_context.invokeExact(
                     handle(),
@@ -177,11 +152,7 @@ public class GLUpload extends org.gstreamer.gst.Object {
         }
     }
     
-    public @NotNull org.gstreamer.gst.Caps transformCaps(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gst.PadDirection direction, @NotNull org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.gst.Caps filter) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(filter, "Parameter 'filter' must not be null");
+    public org.gstreamer.gst.Caps transformCaps(org.gstreamer.gl.GLContext context, org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.Caps caps, org.gstreamer.gst.Caps filter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_upload_transform_caps.invokeExact(
@@ -193,14 +164,14 @@ public class GLUpload extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_upload_get_type.invokeExact();
@@ -210,47 +181,49 @@ public class GLUpload extends org.gstreamer.gst.Object {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.Caps getInputTemplateCaps() {
+    public static org.gstreamer.gst.Caps getInputTemplateCaps() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_upload_get_input_template_caps.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link GLUpload.Builder} object constructs a {@link GLUpload} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLUpload.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link GLUpload.Build} object constructs a {@link GLUpload} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLUpload} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLUpload} using {@link GLUpload#castFrom}.
+         * {@link GLUpload}.
          * @return A new instance of {@code GLUpload} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLUpload construct() {
-            return GLUpload.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLUpload.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLUpload build() {
+            return (GLUpload) org.gtk.gobject.GObject.newWithProperties(
+                GLUpload.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

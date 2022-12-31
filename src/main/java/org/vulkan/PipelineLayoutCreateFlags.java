@@ -40,8 +40,10 @@ public class PipelineLayoutCreateFlags extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PipelineLayoutCreateFlags(Addressable address, Ownership ownership) {
+    protected PipelineLayoutCreateFlags(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PipelineLayoutCreateFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineLayoutCreateFlags(input, ownership);
 }

@@ -17,17 +17,15 @@ public class VariantIter extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GVariantIter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(16, Interop.valueLayout.C_LONG).withName("x")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            MemoryLayout.sequenceLayout(16, Interop.valueLayout.C_LONG).withName("x")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,10 +46,12 @@ public class VariantIter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VariantIter(Addressable address, Ownership ownership) {
+    protected VariantIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VariantIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VariantIter(input, ownership);
     
     /**
      * Creates a new heap-allocated {@link VariantIter} to iterate over the
@@ -66,7 +66,7 @@ public class VariantIter extends Struct {
      * and will be related only when g_variant_iter_free() is called.
      * @return a new heap-allocated {@link VariantIter}
      */
-    public @NotNull org.gtk.glib.VariantIter copy() {
+    public org.gtk.glib.VariantIter copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_iter_copy.invokeExact(
@@ -74,7 +74,7 @@ public class VariantIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantIter(RESULT, Ownership.FULL);
+        return org.gtk.glib.VariantIter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -102,8 +102,7 @@ public class VariantIter extends Struct {
      * @param value a container {@link Variant}
      * @return the number of items in {@code value}
      */
-    public long init(@NotNull org.gtk.glib.Variant value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public long init(org.gtk.glib.Variant value) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_variant_iter_init.invokeExact(
@@ -183,18 +182,17 @@ public class VariantIter extends Struct {
      * @return {@code true} if a value was unpacked, or {@code false} if there was no
      *          value
      */
-    public boolean loop(@NotNull java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+    public boolean loop(java.lang.String formatString, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_iter_loop.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(formatString),
+                    Marshal.stringToAddress.marshal(formatString, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -262,18 +260,17 @@ public class VariantIter extends Struct {
      * @param varargs the arguments to unpack the value into
      * @return {@code true} if a value was unpacked, or {@code false} if there as no value
      */
-    public boolean next(@NotNull java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+    public boolean next(java.lang.String formatString, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_iter_next.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(formatString),
+                    Marshal.stringToAddress.marshal(formatString, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -314,7 +311,7 @@ public class VariantIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -361,35 +358,39 @@ public class VariantIter extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VariantIter.Builder} object constructs a {@link VariantIter} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VariantIter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VariantIter struct;
+        private final VariantIter struct;
         
-         /**
-         * A {@link VariantIter.Build} object constructs a {@link VariantIter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VariantIter.allocate();
         }
         
          /**
          * Finish building the {@link VariantIter} struct.
          * @return A new instance of {@code VariantIter} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VariantIter construct() {
+        public VariantIter build() {
             return struct;
         }
         
-        public Build setX(long[] x) {
+        public Builder setX(long[] x) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (x == null ? MemoryAddress.NULL : Interop.allocateNativeArray(x, false)));

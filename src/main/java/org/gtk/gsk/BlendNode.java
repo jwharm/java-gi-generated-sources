@@ -30,36 +30,15 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BlendNode(Addressable address, Ownership ownership) {
+    protected BlendNode(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to BlendNode if its GType is a (or inherits from) "GskBlendNode".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BlendNode} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GskBlendNode", a ClassCastException will be thrown.
-     */
-    public static BlendNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BlendNode.getType())) {
-            return new BlendNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskBlendNode");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BlendNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BlendNode(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gsk.RenderNode bottom, @NotNull org.gtk.gsk.RenderNode top, @NotNull org.gtk.gsk.BlendMode blendMode) {
-        java.util.Objects.requireNonNull(bottom, "Parameter 'bottom' must not be null");
-        java.util.Objects.requireNonNull(top, "Parameter 'top' must not be null");
-        java.util.Objects.requireNonNull(blendMode, "Parameter 'blendMode' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gsk.RenderNode bottom, org.gtk.gsk.RenderNode top, org.gtk.gsk.BlendMode blendMode) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_blend_node_new.invokeExact(
                     bottom.handle(),
@@ -78,7 +57,7 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
      * @param top The node to be blended onto the {@code bottom} node
      * @param blendMode The blend mode to use
      */
-    public BlendNode(@NotNull org.gtk.gsk.RenderNode bottom, @NotNull org.gtk.gsk.RenderNode top, @NotNull org.gtk.gsk.BlendMode blendMode) {
+    public BlendNode(org.gtk.gsk.RenderNode bottom, org.gtk.gsk.RenderNode top, org.gtk.gsk.BlendMode blendMode) {
         super(constructNew(bottom, top, blendMode), Ownership.FULL);
     }
     
@@ -86,7 +65,7 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
      * Retrieves the blend mode used by {@code node}.
      * @return the blend mode
      */
-    public @NotNull org.gtk.gsk.BlendMode getBlendMode() {
+    public org.gtk.gsk.BlendMode getBlendMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_blend_node_get_blend_mode.invokeExact(
@@ -101,7 +80,7 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
      * Retrieves the bottom {@code GskRenderNode} child of the {@code node}.
      * @return the bottom child node
      */
-    public @NotNull org.gtk.gsk.RenderNode getBottomChild() {
+    public org.gtk.gsk.RenderNode getBottomChild() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_blend_node_get_bottom_child.invokeExact(
@@ -109,14 +88,14 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves the top {@code GskRenderNode} child of the {@code node}.
      * @return the top child node
      */
-    public @NotNull org.gtk.gsk.RenderNode getTopChild() {
+    public org.gtk.gsk.RenderNode getTopChild() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_blend_node_get_top_child.invokeExact(
@@ -124,14 +103,14 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(RESULT, Ownership.NONE);
+        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gsk_blend_node_get_type.invokeExact();
@@ -139,41 +118,6 @@ public class BlendNode extends org.gtk.gsk.RenderNode {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Type(RESULT);
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends org.gtk.gsk.RenderNode.Build {
-        
-         /**
-         * A {@link BlendNode.Build} object constructs a {@link BlendNode} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link BlendNode} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link BlendNode} using {@link BlendNode#castFrom}.
-         * @return A new instance of {@code BlendNode} with the properties 
-         *         that were set in the Build object.
-         */
-        public BlendNode construct() {
-            return BlendNode.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BlendNode.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
     }
     
     private static class DowncallHandles {

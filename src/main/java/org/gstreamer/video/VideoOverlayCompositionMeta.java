@@ -16,18 +16,16 @@ public class VideoOverlayCompositionMeta extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoOverlayCompositionMeta";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
-        Interop.valueLayout.ADDRESS.withName("overlay")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
+            Interop.valueLayout.ADDRESS.withName("overlay")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,30 +45,40 @@ public class VideoOverlayCompositionMeta extends Struct {
      * Get the value of the field {@code meta}
      * @return The value of the field {@code meta}
      */
-    public org.gstreamer.gst.Meta meta$get() {
+    public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return new org.gstreamer.gst.Meta(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code meta}
+     * @param meta The new value of the field {@code meta}
+     */
+    public void setMeta(org.gstreamer.gst.Meta meta) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
     }
     
     /**
      * Get the value of the field {@code overlay}
      * @return The value of the field {@code overlay}
      */
-    public org.gstreamer.video.VideoOverlayComposition overlay$get() {
+    public org.gstreamer.video.VideoOverlayComposition getOverlay() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("overlay"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.video.VideoOverlayComposition(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoOverlayComposition.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code overlay}
      * @param overlay The new value of the field {@code overlay}
      */
-    public void overlay$set(org.gstreamer.video.VideoOverlayComposition overlay) {
+    public void setOverlay(org.gstreamer.video.VideoOverlayComposition overlay) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("overlay"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), overlay.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (overlay == null ? MemoryAddress.NULL : overlay.handle()));
     }
     
     /**
@@ -78,19 +86,21 @@ public class VideoOverlayCompositionMeta extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoOverlayCompositionMeta(Addressable address, Ownership ownership) {
+    protected VideoOverlayCompositionMeta(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo getInfo() {
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoOverlayCompositionMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayCompositionMeta(input, ownership);
+    
+    public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -101,31 +111,35 @@ public class VideoOverlayCompositionMeta extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoOverlayCompositionMeta.Builder} object constructs a {@link VideoOverlayCompositionMeta} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoOverlayCompositionMeta.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoOverlayCompositionMeta struct;
+        private final VideoOverlayCompositionMeta struct;
         
-         /**
-         * A {@link VideoOverlayCompositionMeta.Build} object constructs a {@link VideoOverlayCompositionMeta} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoOverlayCompositionMeta.allocate();
         }
         
          /**
          * Finish building the {@link VideoOverlayCompositionMeta} struct.
          * @return A new instance of {@code VideoOverlayCompositionMeta} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoOverlayCompositionMeta construct() {
+        public VideoOverlayCompositionMeta build() {
             return struct;
         }
         
@@ -134,7 +148,7 @@ public class VideoOverlayCompositionMeta extends Struct {
          * @param meta The value for the {@code meta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMeta(org.gstreamer.gst.Meta meta) {
+        public Builder setMeta(org.gstreamer.gst.Meta meta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
@@ -146,7 +160,7 @@ public class VideoOverlayCompositionMeta extends Struct {
          * @param overlay The value for the {@code overlay} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOverlay(org.gstreamer.video.VideoOverlayComposition overlay) {
+        public Builder setOverlay(org.gstreamer.video.VideoOverlayComposition overlay) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("overlay"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (overlay == null ? MemoryAddress.NULL : overlay.handle()));

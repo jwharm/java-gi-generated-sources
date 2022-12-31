@@ -35,11 +35,15 @@ public class VideoFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public VideoFlags or(VideoFlags mask) {
-        return new VideoFlags(this.getValue() | mask.getValue());
+    public VideoFlags or(VideoFlags... masks) {
+        int value = this.getValue();
+        for (VideoFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new VideoFlags(value);
     }
     
     /**
@@ -49,7 +53,8 @@ public class VideoFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static VideoFlags combined(VideoFlags mask, VideoFlags... masks) {
-        int value = mask.getValue();        for (VideoFlags arg : masks) {
+        int value = mask.getValue();
+        for (VideoFlags arg : masks) {
             value |= arg.getValue();
         }
         return new VideoFlags(value);

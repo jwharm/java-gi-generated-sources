@@ -145,8 +145,7 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
      * @param val a value
      * @return the gamma decoded value of {@code val}
      */
-    public static double decode(@NotNull org.gstreamer.video.VideoTransferFunction func, double val) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static double decode(org.gstreamer.video.VideoTransferFunction func, double val) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_video_transfer_function_decode.invokeExact(
@@ -173,8 +172,7 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
      * @param val a value
      * @return the gamma encoded value of {@code val}
      */
-    public static double encode(@NotNull org.gstreamer.video.VideoTransferFunction func, double val) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static double encode(org.gstreamer.video.VideoTransferFunction func, double val) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_video_transfer_function_encode.invokeExact(
@@ -195,7 +193,7 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
      * @param value a ITU-T H.273 transfer characteristics value
      * @return the matched {@link VideoTransferFunction}
      */
-    public static @NotNull org.gstreamer.video.VideoTransferFunction fromIso(int value) {
+    public static org.gstreamer.video.VideoTransferFunction fromIso(int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_transfer_function_from_iso.invokeExact(
@@ -218,9 +216,7 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
      * @param toBpp bits per pixel to convert into
      * @return TRUE if {@code from_func} and {@code to_func} can be considered equivalent.
      */
-    public static boolean isEquivalent(@NotNull org.gstreamer.video.VideoTransferFunction fromFunc, int fromBpp, @NotNull org.gstreamer.video.VideoTransferFunction toFunc, int toBpp) {
-        java.util.Objects.requireNonNull(fromFunc, "Parameter 'fromFunc' must not be null");
-        java.util.Objects.requireNonNull(toFunc, "Parameter 'toFunc' must not be null");
+    public static boolean isEquivalent(org.gstreamer.video.VideoTransferFunction fromFunc, int fromBpp, org.gstreamer.video.VideoTransferFunction toFunc, int toBpp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_transfer_function_is_equivalent.invokeExact(
@@ -231,7 +227,7 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -242,8 +238,7 @@ public enum VideoTransferFunction implements io.github.jwharm.javagi.Enumeration
      * @param func a {@link VideoTransferFunction}
      * @return The value of ISO/IEC 23001-8 transfer characteristics.
      */
-    public static int toIso(@NotNull org.gstreamer.video.VideoTransferFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static int toIso(org.gstreamer.video.VideoTransferFunction func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_transfer_function_to_iso.invokeExact(

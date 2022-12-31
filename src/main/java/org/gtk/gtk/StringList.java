@@ -31,7 +31,7 @@ import org.jetbrains.annotations.*;
  * </object>
  * }</pre>
  */
-public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel, org.gtk.gtk.Buildable {
+public class StringList extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel, org.gtk.gtk.Buildable {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -53,33 +53,15 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StringList(Addressable address, Ownership ownership) {
+    protected StringList(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to StringList if its GType is a (or inherits from) "GtkStringList".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code StringList} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkStringList", a ClassCastException will be thrown.
-     */
-    public static StringList castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StringList.getType())) {
-            return new StringList(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStringList");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StringList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringList(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String[] strings) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String[] strings) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_string_list_new.invokeExact(
                     (Addressable) (strings == null ? MemoryAddress.NULL : Interop.allocateNativeArray(strings, false)));
@@ -104,12 +86,11 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * {@link StringList#take} for a way to avoid that.
      * @param string the string to insert
      */
-    public void append(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public void append(java.lang.String string) {
         try {
             DowncallHandles.gtk_string_list_append.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -134,7 +115,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -194,12 +175,11 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * }</pre>
      * @param string the string to insert
      */
-    public void take(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public void take(java.lang.String string) {
         try {
             DowncallHandles.gtk_string_list_take.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -209,7 +189,7 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_string_list_get_type.invokeExact();
@@ -218,38 +198,40 @@ public class StringList extends org.gtk.gobject.Object implements org.gtk.gio.Li
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link StringList.Builder} object constructs a {@link StringList} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link StringList.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link StringList.Build} object constructs a {@link StringList} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link StringList} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link StringList} using {@link StringList#castFrom}.
+         * {@link StringList}.
          * @return A new instance of {@code StringList} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public StringList construct() {
-            return StringList.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    StringList.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public StringList build() {
+            return (StringList) org.gtk.gobject.GObject.newWithProperties(
+                StringList.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

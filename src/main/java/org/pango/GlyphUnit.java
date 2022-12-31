@@ -23,4 +23,14 @@ public class GlyphUnit extends io.github.jwharm.javagi.Alias<Integer> {
     public GlyphUnit(int value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static GlyphUnit[] fromNativeArray(MemoryAddress address, long length) {
+        GlyphUnit[] array = new GlyphUnit[(int) length];
+        long bytesSize = Interop.valueLayout.C_INT.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new GlyphUnit(address.get(Interop.valueLayout.C_INT, i * bytesSize));
+        }
+        return array;
+    }
 }

@@ -57,26 +57,10 @@ import org.jetbrains.annotations.*;
 public class Closure extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GClosure";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("ref_count"),
-        Interop.valueLayout.C_INT.withName("meta_marshal_nouse"),
-        Interop.valueLayout.C_INT.withName("n_guards"),
-        Interop.valueLayout.C_INT.withName("n_fnotifiers"),
-        Interop.valueLayout.C_INT.withName("n_inotifiers"),
-        Interop.valueLayout.C_INT.withName("in_inotify"),
-        Interop.valueLayout.C_INT.withName("floating"),
-        Interop.valueLayout.C_INT.withName("derivative_flag"),
-        Interop.valueLayout.C_INT.withName("in_marshal"),
-        Interop.valueLayout.C_INT.withName("is_invalid"),
-        Interop.valueLayout.ADDRESS.withName("marshal"),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.ADDRESS.withName("notifiers")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -84,7 +68,21 @@ public class Closure extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("ref_count"),
+            Interop.valueLayout.C_INT.withName("meta_marshal_nouse"),
+            Interop.valueLayout.C_INT.withName("n_guards"),
+            Interop.valueLayout.C_INT.withName("n_fnotifiers"),
+            Interop.valueLayout.C_INT.withName("n_inotifiers"),
+            Interop.valueLayout.C_INT.withName("in_inotify"),
+            Interop.valueLayout.C_INT.withName("floating"),
+            Interop.valueLayout.C_INT.withName("derivative_flag"),
+            Interop.valueLayout.C_INT.withName("in_marshal"),
+            Interop.valueLayout.C_INT.withName("is_invalid"),
+            Interop.valueLayout.ADDRESS.withName("marshal"),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.ADDRESS.withName("notifiers")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -104,7 +102,7 @@ public class Closure extends Struct {
      * Get the value of the field {@code in_marshal}
      * @return The value of the field {@code in_marshal}
      */
-    public int inMarshal$get() {
+    public int getInMarshal() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("in_marshal"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -115,7 +113,7 @@ public class Closure extends Struct {
      * Change the value of the field {@code in_marshal}
      * @param inMarshal The new value of the field {@code in_marshal}
      */
-    public void inMarshal$set(int inMarshal) {
+    public void setInMarshal(int inMarshal) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("in_marshal"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), inMarshal);
@@ -125,7 +123,7 @@ public class Closure extends Struct {
      * Get the value of the field {@code is_invalid}
      * @return The value of the field {@code is_invalid}
      */
-    public int isInvalid$get() {
+    public int getIsInvalid() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_invalid"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -136,10 +134,36 @@ public class Closure extends Struct {
      * Change the value of the field {@code is_invalid}
      * @param isInvalid The new value of the field {@code is_invalid}
      */
-    public void isInvalid$set(int isInvalid) {
+    public void setIsInvalid(int isInvalid) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_invalid"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isInvalid);
+    }
+    
+    @FunctionalInterface
+    public interface MarshalCallback {
+        void run(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, java.lang.foreign.MemoryAddress invocationHint);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress closure, MemoryAddress returnValue, int nParamValues, MemoryAddress paramValues, MemoryAddress invocationHint, MemoryAddress marshalData) {
+            run(org.gtk.gobject.Closure.fromAddress.marshal(closure, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(returnValue, Ownership.NONE), nParamValues, org.gtk.gobject.Value.fromAddress.marshal(paramValues, Ownership.NONE), invocationHint);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MarshalCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code marshal}
+     * @param marshal The new value of the field {@code marshal}
+     */
+    public void setMarshal_(MarshalCallback marshal) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("marshal"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (marshal == null ? MemoryAddress.NULL : marshal.toCallback()));
     }
     
     /**
@@ -147,14 +171,15 @@ public class Closure extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Closure(Addressable address, Ownership ownership) {
+    protected Closure(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewObject(int sizeofClosure, @NotNull org.gtk.gobject.Object object) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Closure> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Closure(input, ownership);
+    
+    private static MemoryAddress constructNewObject(int sizeofClosure, org.gtk.gobject.GObject object) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_closure_new_object.invokeExact(
                     sizeofClosure,
@@ -172,20 +197,21 @@ public class Closure extends Struct {
      * when implementing new types of closures.
      * @param sizeofClosure the size of the structure to allocate, must be at least
      *  {@code sizeof (GClosure)}
-     * @param object a {@link Object} pointer to store in the {@code data} field of the newly
+     * @param object a {@link GObject} pointer to store in the {@code data} field of the newly
      *  allocated {@link Closure}
      * @return a newly allocated {@link Closure}
      */
-    public static Closure newObject(int sizeofClosure, @NotNull org.gtk.gobject.Object object) {
-        return new Closure(constructNewObject(sizeofClosure, object), Ownership.FULL);
+    public static Closure newObject(int sizeofClosure, org.gtk.gobject.GObject object) {
+        var RESULT = constructNewObject(sizeofClosure, object);
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSimple(int sizeofClosure, @Nullable java.lang.foreign.MemoryAddress data) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewSimple(int sizeofClosure) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_closure_new_simple.invokeExact(
                     sizeofClosure,
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,11 +257,11 @@ public class Closure extends Struct {
      * }</pre>
      * @param sizeofClosure the size of the structure to allocate, must be at least
      *                  {@code sizeof (GClosure)}
-     * @param data data to store in the {@code data} field of the newly allocated {@link Closure}
      * @return a floating reference to a new {@link Closure}
      */
-    public static Closure newSimple(int sizeofClosure, @Nullable java.lang.foreign.MemoryAddress data) {
-        return new Closure(constructNewSimple(sizeofClosure, data), Ownership.NONE);
+    public static Closure newSimple(int sizeofClosure) {
+        var RESULT = constructNewSimple(sizeofClosure);
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -252,12 +278,8 @@ public class Closure extends Struct {
         try {
             DowncallHandles.g_closure_add_finalize_notifier.invokeExact(
                     handle(),
-                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(notifyFunc)),
-                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : (Addressable) notifyFunc.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -275,12 +297,8 @@ public class Closure extends Struct {
         try {
             DowncallHandles.g_closure_add_invalidate_notifier.invokeExact(
                     handle(),
-                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : Interop.registerCallback(notifyFunc)),
-                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notifyFunc == null ? MemoryAddress.NULL : (Addressable) notifyFunc.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,18 +318,10 @@ public class Closure extends Struct {
         try {
             DowncallHandles.g_closure_add_marshal_guards.invokeExact(
                     handle(),
-                    (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : Interop.registerCallback(preMarshalNotify)),
-                    (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : Interop.registerCallback(preMarshalNotify)),
-                    (Addressable) (postMarshalNotify == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (preMarshalNotify == null ? MemoryAddress.NULL : (Addressable) preMarshalNotify.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (postMarshalNotify == null ? MemoryAddress.NULL : (Addressable) postMarshalNotify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -354,13 +364,11 @@ public class Closure extends Struct {
      *                invoke the callback of {@code closure}
      * @param invocationHint a context-dependent invocation hint
      */
-    public void invoke(@NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value[] paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public void invoke(@Nullable org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value[] paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_closure_invoke.invokeExact(
                     handle(),
-                    returnValue.handle(),
+                    (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     nParamValues,
                     Interop.allocateNativeArray(paramValues, org.gtk.gobject.Value.getMemoryLayout(), false),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint));
@@ -374,7 +382,7 @@ public class Closure extends Struct {
      * alive while the caller holds a pointer to it.
      * @return The {@code closure} passed in, for convenience
      */
-    public @NotNull org.gtk.gobject.Closure ref() {
+    public org.gtk.gobject.Closure ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_closure_ref.invokeExact(
@@ -382,7 +390,7 @@ public class Closure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Closure(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -391,17 +399,12 @@ public class Closure extends Struct {
      * Notice that notifiers are automatically removed after they are run.
      * @param notifyFunc the callback function to remove
      */
-    public void removeFinalizeNotifier(@NotNull org.gtk.gobject.ClosureNotify notifyFunc) {
-        java.util.Objects.requireNonNull(notifyFunc, "Parameter 'notifyFunc' must not be null");
+    public void removeFinalizeNotifier(org.gtk.gobject.ClosureNotify notifyFunc) {
         try {
             DowncallHandles.g_closure_remove_finalize_notifier.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(notifyFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notifyFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -413,17 +416,12 @@ public class Closure extends Struct {
      * Notice that notifiers are automatically removed after they are run.
      * @param notifyFunc the callback function to remove
      */
-    public void removeInvalidateNotifier(@NotNull org.gtk.gobject.ClosureNotify notifyFunc) {
-        java.util.Objects.requireNonNull(notifyFunc, "Parameter 'notifyFunc' must not be null");
+    public void removeInvalidateNotifier(org.gtk.gobject.ClosureNotify notifyFunc) {
         try {
             DowncallHandles.g_closure_remove_invalidate_notifier.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(notifyFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notifyFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -442,8 +440,14 @@ public class Closure extends Struct {
      * See also: g_closure_set_meta_marshal()
      * @param marshal a {@link ClosureMarshal} function
      */
-    public void setMarshal(@NotNull org.gtk.gobject.ClosureMarshal marshal) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setMarshal(org.gtk.gobject.ClosureMarshal marshal) {
+        try {
+            DowncallHandles.g_closure_set_marshal.invokeExact(
+                    handle(),
+                    (Addressable) marshal.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -470,12 +474,8 @@ public class Closure extends Struct {
         try {
             DowncallHandles.g_closure_set_meta_marshal.invokeExact(
                     handle(),
-                    (Addressable) (metaMarshal == null ? MemoryAddress.NULL : Interop.registerCallback(metaMarshal)),
-                    (Addressable) (metaMarshal == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureMarshal",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (metaMarshal == null ? MemoryAddress.NULL : (Addressable) metaMarshal.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -638,84 +638,88 @@ public class Closure extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Closure.Builder} object constructs a {@link Closure} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Closure.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Closure struct;
+        private final Closure struct;
         
-         /**
-         * A {@link Closure.Build} object constructs a {@link Closure} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Closure.allocate();
         }
         
          /**
          * Finish building the {@link Closure} struct.
          * @return A new instance of {@code Closure} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Closure construct() {
+        public Closure build() {
             return struct;
         }
         
-        public Build setRefCount(int refCount) {
+        public Builder setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
-        public Build setMetaMarshalNouse(int metaMarshalNouse) {
+        public Builder setMetaMarshalNouse(int metaMarshalNouse) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta_marshal_nouse"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), metaMarshalNouse);
             return this;
         }
         
-        public Build setNGuards(int nGuards) {
+        public Builder setNGuards(int nGuards) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_guards"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nGuards);
             return this;
         }
         
-        public Build setNFnotifiers(int nFnotifiers) {
+        public Builder setNFnotifiers(int nFnotifiers) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_fnotifiers"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nFnotifiers);
             return this;
         }
         
-        public Build setNInotifiers(int nInotifiers) {
+        public Builder setNInotifiers(int nInotifiers) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_inotifiers"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nInotifiers);
             return this;
         }
         
-        public Build setInInotify(int inInotify) {
+        public Builder setInInotify(int inInotify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("in_inotify"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), inInotify);
             return this;
         }
         
-        public Build setFloating(int floating) {
+        public Builder setFloating(int floating) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("floating"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), floating);
             return this;
         }
         
-        public Build setDerivativeFlag(int derivativeFlag) {
+        public Builder setDerivativeFlag(int derivativeFlag) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("derivative_flag"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), derivativeFlag);
@@ -728,7 +732,7 @@ public class Closure extends Struct {
          * @param inMarshal The value for the {@code inMarshal} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInMarshal(int inMarshal) {
+        public Builder setInMarshal(int inMarshal) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("in_marshal"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), inMarshal);
@@ -741,28 +745,28 @@ public class Closure extends Struct {
          * @param isInvalid The value for the {@code isInvalid} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsInvalid(int isInvalid) {
+        public Builder setIsInvalid(int isInvalid) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_invalid"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isInvalid);
             return this;
         }
         
-        public Build setMarshal(java.lang.foreign.MemoryAddress marshal) {
+        public Builder setMarshal(MarshalCallback marshal) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("marshal"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (marshal == null ? MemoryAddress.NULL : marshal));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (marshal == null ? MemoryAddress.NULL : marshal.toCallback()));
             return this;
         }
         
-        public Build setData(java.lang.foreign.MemoryAddress data) {
+        public Builder setData(java.lang.foreign.MemoryAddress data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
             return this;
         }
         
-        public Build setNotifiers(org.gtk.gobject.ClosureNotifyData notifiers) {
+        public Builder setNotifiers(org.gtk.gobject.ClosureNotifyData notifiers) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("notifiers"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notifiers == null ? MemoryAddress.NULL : notifiers.handle()));

@@ -42,43 +42,29 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
      * <p>
      * Because ShortcutsSection is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ShortcutsSection(Addressable address, Ownership ownership) {
+    protected ShortcutsSection(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ShortcutsSection if its GType is a (or inherits from) "GtkShortcutsSection".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ShortcutsSection} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkShortcutsSection", a ClassCastException will be thrown.
-     */
-    public static ShortcutsSection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ShortcutsSection.getType())) {
-            return new ShortcutsSection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutsSection");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ShortcutsSection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutsSection(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_shortcuts_section_get_type.invokeExact();
@@ -90,58 +76,64 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
     
     @FunctionalInterface
     public interface ChangeCurrentPage {
-        boolean signalReceived(ShortcutsSection sourceShortcutsSection, int object);
+        boolean run(int object);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceShortcutsSection, int object) {
+            var RESULT = run(object);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeCurrentPage.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<ShortcutsSection.ChangeCurrentPage> onChangeCurrentPage(ShortcutsSection.ChangeCurrentPage handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("change-current-page"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ShortcutsSection.Callbacks.class, "signalShortcutsSectionChangeCurrentPage",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ShortcutsSection.ChangeCurrentPage>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("change-current-page"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link ShortcutsSection.Builder} object constructs a {@link ShortcutsSection} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ShortcutsSection.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Box.Build {
+    public static class Builder extends org.gtk.gtk.Box.Builder {
         
-         /**
-         * A {@link ShortcutsSection.Build} object constructs a {@link ShortcutsSection} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ShortcutsSection} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ShortcutsSection} using {@link ShortcutsSection#castFrom}.
+         * {@link ShortcutsSection}.
          * @return A new instance of {@code ShortcutsSection} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ShortcutsSection construct() {
-            return ShortcutsSection.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ShortcutsSection.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ShortcutsSection build() {
+            return (ShortcutsSection) org.gtk.gobject.GObject.newWithProperties(
+                ShortcutsSection.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -154,7 +146,7 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
          * @param maxHeight The value for the {@code max-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxHeight(int maxHeight) {
+        public Builder setMaxHeight(int maxHeight) {
             names.add("max-height");
             values.add(org.gtk.gobject.Value.create(maxHeight));
             return this;
@@ -169,7 +161,7 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
          * @param sectionName The value for the {@code section-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSectionName(java.lang.String sectionName) {
+        public Builder setSectionName(java.lang.String sectionName) {
             names.add("section-name");
             values.add(org.gtk.gobject.Value.create(sectionName));
             return this;
@@ -184,7 +176,7 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -201,7 +193,7 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
          * @param viewName The value for the {@code view-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setViewName(java.lang.String viewName) {
+        public Builder setViewName(java.lang.String viewName) {
             names.add("view-name");
             values.add(org.gtk.gobject.Value.create(viewName));
             return this;
@@ -215,14 +207,5 @@ public class ShortcutsSection extends org.gtk.gtk.Box implements org.gtk.gtk.Acc
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalShortcutsSectionChangeCurrentPage(MemoryAddress sourceShortcutsSection, int object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ShortcutsSection.ChangeCurrentPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ShortcutsSection(sourceShortcutsSection, Ownership.NONE), object);
-        }
     }
 }

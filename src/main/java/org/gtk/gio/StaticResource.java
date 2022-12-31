@@ -17,21 +17,19 @@ public class StaticResource extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GStaticResource";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.C_LONG.withName("data_len"),
-        Interop.valueLayout.ADDRESS.withName("resource"),
-        Interop.valueLayout.ADDRESS.withName("next"),
-        Interop.valueLayout.ADDRESS.withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.C_LONG.withName("data_len"),
+            Interop.valueLayout.ADDRESS.withName("resource"),
+            Interop.valueLayout.ADDRESS.withName("next"),
+            Interop.valueLayout.ADDRESS.withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,10 +50,12 @@ public class StaticResource extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StaticResource(Addressable address, Ownership ownership) {
+    protected StaticResource(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StaticResource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StaticResource(input, ownership);
     
     /**
      * Finalized a GResource initialized by g_static_resource_init().
@@ -81,7 +81,7 @@ public class StaticResource extends Struct {
      * and is not typically used by other code.
      * @return a {@link Resource}
      */
-    public @NotNull org.gtk.gio.Resource getResource() {
+    public org.gtk.gio.Resource getResource() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_static_resource_get_resource.invokeExact(
@@ -89,7 +89,7 @@ public class StaticResource extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Resource(RESULT, Ownership.NONE);
+        return org.gtk.gio.Resource.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -129,63 +129,67 @@ public class StaticResource extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link StaticResource.Builder} object constructs a {@link StaticResource} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link StaticResource.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private StaticResource struct;
+        private final StaticResource struct;
         
-         /**
-         * A {@link StaticResource.Build} object constructs a {@link StaticResource} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = StaticResource.allocate();
         }
         
          /**
          * Finish building the {@link StaticResource} struct.
          * @return A new instance of {@code StaticResource} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public StaticResource construct() {
+        public StaticResource build() {
             return struct;
         }
         
-        public Build setData(PointerByte data) {
+        public Builder setData(PointerByte data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
             return this;
         }
         
-        public Build setDataLen(long dataLen) {
+        public Builder setDataLen(long dataLen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data_len"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dataLen);
             return this;
         }
         
-        public Build setResource(org.gtk.gio.Resource resource) {
+        public Builder setResource(org.gtk.gio.Resource resource) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("resource"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (resource == null ? MemoryAddress.NULL : resource.handle()));
             return this;
         }
         
-        public Build setNext(org.gtk.gio.StaticResource next) {
+        public Builder setNext(org.gtk.gio.StaticResource next) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : (Addressable) padding));

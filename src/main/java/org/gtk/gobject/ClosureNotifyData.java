@@ -8,15 +8,10 @@ import org.jetbrains.annotations.*;
 public class ClosureNotifyData extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GClosureNotifyData";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.ADDRESS.withName("notify")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -24,7 +19,10 @@ public class ClosureNotifyData extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.ADDRESS.withName("notify")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,7 +42,7 @@ public class ClosureNotifyData extends Struct {
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public java.lang.foreign.MemoryAddress data$get() {
+    public java.lang.foreign.MemoryAddress getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -55,17 +53,17 @@ public class ClosureNotifyData extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(java.lang.foreign.MemoryAddress data) {
+    public void setData(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
     }
     
     /**
      * Get the value of the field {@code notify}
      * @return The value of the field {@code notify}
      */
-    public org.gtk.gobject.ClosureNotify notify$get() {
+    public org.gtk.gobject.ClosureNotify getNotify() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("notify"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -73,53 +71,69 @@ public class ClosureNotifyData extends Struct {
     }
     
     /**
+     * Change the value of the field {@code notify}
+     * @param notify The new value of the field {@code notify}
+     */
+    public void setNotify(org.gtk.gobject.ClosureNotify notify) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+    }
+    
+    /**
      * Create a ClosureNotifyData proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ClosureNotifyData(Addressable address, Ownership ownership) {
+    protected ClosureNotifyData(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ClosureNotifyData> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ClosureNotifyData(input, ownership);
+    
+    /**
+     * A {@link ClosureNotifyData.Builder} object constructs a {@link ClosureNotifyData} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ClosureNotifyData.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ClosureNotifyData struct;
+        private final ClosureNotifyData struct;
         
-         /**
-         * A {@link ClosureNotifyData.Build} object constructs a {@link ClosureNotifyData} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ClosureNotifyData.allocate();
         }
         
          /**
          * Finish building the {@link ClosureNotifyData} struct.
          * @return A new instance of {@code ClosureNotifyData} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ClosureNotifyData construct() {
+        public ClosureNotifyData build() {
             return struct;
         }
         
-        public Build setData(java.lang.foreign.MemoryAddress data) {
+        public Builder setData(java.lang.foreign.MemoryAddress data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
             return this;
         }
         
-        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+        public Builder setNotify(org.gtk.gobject.ClosureNotify notify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
             return this;
         }
     }

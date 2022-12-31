@@ -30,19 +30,17 @@ public class GlyphGeometry extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoGlyphGeometry";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("width"),
-        Interop.valueLayout.C_INT.withName("x_offset"),
-        Interop.valueLayout.C_INT.withName("y_offset")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("width"),
+            Interop.valueLayout.C_INT.withName("x_offset"),
+            Interop.valueLayout.C_INT.withName("y_offset")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -62,7 +60,7 @@ public class GlyphGeometry extends Struct {
      * Get the value of the field {@code width}
      * @return The value of the field {@code width}
      */
-    public org.pango.GlyphUnit width$get() {
+    public org.pango.GlyphUnit getWidth() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -73,17 +71,17 @@ public class GlyphGeometry extends Struct {
      * Change the value of the field {@code width}
      * @param width The new value of the field {@code width}
      */
-    public void width$set(org.pango.GlyphUnit width) {
+    public void setWidth(org.pango.GlyphUnit width) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (width == null ? MemoryAddress.NULL : width.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code x_offset}
      * @return The value of the field {@code x_offset}
      */
-    public org.pango.GlyphUnit xOffset$get() {
+    public org.pango.GlyphUnit getXOffset() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -94,17 +92,17 @@ public class GlyphGeometry extends Struct {
      * Change the value of the field {@code x_offset}
      * @param xOffset The new value of the field {@code x_offset}
      */
-    public void xOffset$set(org.pango.GlyphUnit xOffset) {
+    public void setXOffset(org.pango.GlyphUnit xOffset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xOffset.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xOffset == null ? MemoryAddress.NULL : xOffset.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code y_offset}
      * @return The value of the field {@code y_offset}
      */
-    public org.pango.GlyphUnit yOffset$get() {
+    public org.pango.GlyphUnit getYOffset() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -115,10 +113,10 @@ public class GlyphGeometry extends Struct {
      * Change the value of the field {@code y_offset}
      * @param yOffset The new value of the field {@code y_offset}
      */
-    public void yOffset$set(org.pango.GlyphUnit yOffset) {
+    public void setYOffset(org.pango.GlyphUnit yOffset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yOffset.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yOffset == null ? MemoryAddress.NULL : yOffset.getValue().intValue()));
     }
     
     /**
@@ -126,35 +124,41 @@ public class GlyphGeometry extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GlyphGeometry(Addressable address, Ownership ownership) {
+    protected GlyphGeometry(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GlyphGeometry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GlyphGeometry(input, ownership);
+    
+    /**
+     * A {@link GlyphGeometry.Builder} object constructs a {@link GlyphGeometry} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GlyphGeometry.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GlyphGeometry struct;
+        private final GlyphGeometry struct;
         
-         /**
-         * A {@link GlyphGeometry.Build} object constructs a {@link GlyphGeometry} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GlyphGeometry.allocate();
         }
         
          /**
          * Finish building the {@link GlyphGeometry} struct.
          * @return A new instance of {@code GlyphGeometry} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GlyphGeometry construct() {
+        public GlyphGeometry build() {
             return struct;
         }
         
@@ -163,7 +167,7 @@ public class GlyphGeometry extends Struct {
          * @param width The value for the {@code width} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidth(org.pango.GlyphUnit width) {
+        public Builder setWidth(org.pango.GlyphUnit width) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("width"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (width == null ? MemoryAddress.NULL : width.getValue().intValue()));
@@ -175,7 +179,7 @@ public class GlyphGeometry extends Struct {
          * @param xOffset The value for the {@code xOffset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setXOffset(org.pango.GlyphUnit xOffset) {
+        public Builder setXOffset(org.pango.GlyphUnit xOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x_offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (xOffset == null ? MemoryAddress.NULL : xOffset.getValue().intValue()));
@@ -187,7 +191,7 @@ public class GlyphGeometry extends Struct {
          * @param yOffset The value for the {@code yOffset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYOffset(org.pango.GlyphUnit yOffset) {
+        public Builder setYOffset(org.pango.GlyphUnit yOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y_offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (yOffset == null ? MemoryAddress.NULL : yOffset.getValue().intValue()));

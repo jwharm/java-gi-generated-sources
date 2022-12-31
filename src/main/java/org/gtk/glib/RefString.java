@@ -19,4 +19,14 @@ public class RefString extends io.github.jwharm.javagi.Alias<Byte> {
     public RefString(byte value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static RefString[] fromNativeArray(MemoryAddress address, long length) {
+        RefString[] array = new RefString[(int) length];
+        long bytesSize = Interop.valueLayout.C_BYTE.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new RefString(address.get(Interop.valueLayout.C_BYTE, i * bytesSize));
+        }
+        return array;
+    }
 }

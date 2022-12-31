@@ -12,5 +12,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface SequenceIterCompareFunc {
-        int onSequenceIterCompareFunc(@NotNull org.gtk.glib.SequenceIter a, @NotNull org.gtk.glib.SequenceIter b);
+    int run(org.gtk.glib.SequenceIter a, org.gtk.glib.SequenceIter b);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
+        var RESULT = run(org.gtk.glib.SequenceIter.fromAddress.marshal(a, Ownership.NONE), org.gtk.glib.SequenceIter.fromAddress.marshal(b, Ownership.NONE));
+        return RESULT;
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SequenceIterCompareFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

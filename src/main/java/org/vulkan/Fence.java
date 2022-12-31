@@ -40,8 +40,10 @@ public class Fence extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Fence(Addressable address, Ownership ownership) {
+    protected Fence(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Fence> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Fence(input, ownership);
 }

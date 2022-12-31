@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * non-interleaved (planar) audio buffers. Before using, an audio format
  * must be configured with gst_planar_audio_adapter_configure()
  */
-public class PlanarAudioAdapter extends org.gtk.gobject.Object {
+public class PlanarAudioAdapter extends org.gtk.gobject.GObject {
     
     static {
         GstBadAudio.javagi$ensureInitialized();
@@ -32,33 +32,15 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PlanarAudioAdapter(Addressable address, Ownership ownership) {
+    protected PlanarAudioAdapter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PlanarAudioAdapter if its GType is a (or inherits from) "GstPlanarAudioAdapter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PlanarAudioAdapter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPlanarAudioAdapter", a ClassCastException will be thrown.
-     */
-    public static PlanarAudioAdapter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PlanarAudioAdapter.getType())) {
-            return new PlanarAudioAdapter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPlanarAudioAdapter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PlanarAudioAdapter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlanarAudioAdapter(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_planar_audio_adapter_new.invokeExact();
         } catch (Throwable ERR) {
@@ -108,8 +90,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      * Note that this will internally clear the adapter and re-initialize it.
      * @param info a {@link org.gstreamer.audio.AudioInfo} describing the format of the audio data
      */
-    public void configure(@NotNull org.gstreamer.audio.AudioInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public void configure(org.gstreamer.audio.AudioInfo info) {
         try {
             DowncallHandles.gst_planar_audio_adapter_configure.invokeExact(
                     handle(),
@@ -135,7 +116,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      * flag, or GST_CLOCK_TIME_NONE.
      * @return The DTS at the last discont or GST_CLOCK_TIME_NONE.
      */
-    public @NotNull org.gstreamer.gst.ClockTime dtsAtDiscont() {
+    public org.gstreamer.gst.ClockTime dtsAtDiscont() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_planar_audio_adapter_dts_at_discont.invokeExact(
@@ -180,8 +161,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      *     {@code nsamples} of the adapter, or {@code null} if {@code nsamples} samples are not
      *     available. gst_buffer_unref() when no longer needed.
      */
-    public @Nullable org.gstreamer.gst.Buffer getBuffer(long nsamples, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public @Nullable org.gstreamer.gst.Buffer getBuffer(long nsamples, org.gstreamer.gst.MapFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_planar_audio_adapter_get_buffer.invokeExact(
@@ -191,7 +171,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -222,18 +202,17 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      * @param distance pointer to location for distance, or {@code null}
      * @return The previously seen dts.
      */
-    public @NotNull org.gstreamer.gst.ClockTime prevDts(Out<Long> distance) {
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
+    public org.gstreamer.gst.ClockTime prevDts(Out<Long> distance) {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_planar_audio_adapter_prev_dts.invokeExact(
                     handle(),
-                    (Addressable) distancePOINTER.address());
+                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
@@ -250,17 +229,16 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      * @return The previous seen offset.
      */
     public long prevOffset(Out<Long> distance) {
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_planar_audio_adapter_prev_offset.invokeExact(
                     handle(),
-                    (Addressable) distancePOINTER.address());
+                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -276,18 +254,17 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      * @param distance pointer to location for distance, or {@code null}
      * @return The previously seen pts.
      */
-    public @NotNull org.gstreamer.gst.ClockTime prevPts(Out<Long> distance) {
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
+    public org.gstreamer.gst.ClockTime prevPts(Out<Long> distance) {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_planar_audio_adapter_prev_pts.invokeExact(
                     handle(),
-                    (Addressable) distancePOINTER.address());
+                    (Addressable) (distance == null ? MemoryAddress.NULL : (Addressable) distancePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (distance != null) distance.set(distancePOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new org.gstreamer.gst.ClockTime(RESULT);
     }
     
@@ -296,7 +273,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      * flag, or GST_CLOCK_TIME_NONE.
      * @return The PTS at the last discont or GST_CLOCK_TIME_NONE.
      */
-    public @NotNull org.gstreamer.gst.ClockTime ptsAtDiscont() {
+    public org.gstreamer.gst.ClockTime ptsAtDiscont() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_planar_audio_adapter_pts_at_discont.invokeExact(
@@ -312,8 +289,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      * ownership of the buffer.
      * @param buf a {@link org.gstreamer.gst.Buffer} to queue in the adapter
      */
-    public void push(@NotNull org.gstreamer.gst.Buffer buf) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public void push(org.gstreamer.gst.Buffer buf) {
         try {
             DowncallHandles.gst_planar_audio_adapter_push.invokeExact(
                     handle(),
@@ -340,8 +316,7 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
      *     {@code nsamples} of the adapter, or {@code null} if {@code nsamples} samples are not
      *     available. gst_buffer_unref() when no longer needed.
      */
-    public @Nullable org.gstreamer.gst.Buffer takeBuffer(long nsamples, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public @Nullable org.gstreamer.gst.Buffer takeBuffer(long nsamples, org.gstreamer.gst.MapFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_planar_audio_adapter_take_buffer.invokeExact(
@@ -351,14 +326,14 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_planar_audio_adapter_get_type.invokeExact();
@@ -367,38 +342,40 @@ public class PlanarAudioAdapter extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PlanarAudioAdapter.Builder} object constructs a {@link PlanarAudioAdapter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PlanarAudioAdapter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PlanarAudioAdapter.Build} object constructs a {@link PlanarAudioAdapter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PlanarAudioAdapter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PlanarAudioAdapter} using {@link PlanarAudioAdapter#castFrom}.
+         * {@link PlanarAudioAdapter}.
          * @return A new instance of {@code PlanarAudioAdapter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PlanarAudioAdapter construct() {
-            return PlanarAudioAdapter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PlanarAudioAdapter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PlanarAudioAdapter build() {
+            return (PlanarAudioAdapter) org.gtk.gobject.GObject.newWithProperties(
+                PlanarAudioAdapter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

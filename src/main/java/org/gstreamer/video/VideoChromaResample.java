@@ -40,10 +40,12 @@ public class VideoChromaResample extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoChromaResample(Addressable address, Ownership ownership) {
+    protected VideoChromaResample(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoChromaResample> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoChromaResample(input, ownership);
     
     /**
      * Perform resampling of {@code width} chroma pixels in {@code lines}.
@@ -80,8 +82,6 @@ public class VideoChromaResample extends Struct {
      * @param offset the first line
      */
     public void getInfo(PointerInteger nLines, PointerInteger offset) {
-        java.util.Objects.requireNonNull(nLines, "Parameter 'nLines' must not be null");
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
         try {
             DowncallHandles.gst_video_chroma_resample_get_info.invokeExact(
                     handle(),
@@ -105,11 +105,7 @@ public class VideoChromaResample extends Struct {
      * @return a new {@link VideoChromaResample} that should be freed with
      *     gst_video_chroma_resample_free() after usage.
      */
-    public static @NotNull org.gstreamer.video.VideoChromaResample new_(@NotNull org.gstreamer.video.VideoChromaMethod method, @NotNull org.gstreamer.video.VideoChromaSite site, @NotNull org.gstreamer.video.VideoChromaFlags flags, @NotNull org.gstreamer.video.VideoFormat format, int hFactor, int vFactor) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(site, "Parameter 'site' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.video.VideoChromaResample new_(org.gstreamer.video.VideoChromaMethod method, org.gstreamer.video.VideoChromaSite site, org.gstreamer.video.VideoChromaFlags flags, org.gstreamer.video.VideoFormat format, int hFactor, int vFactor) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_chroma_resample_new.invokeExact(
@@ -122,7 +118,7 @@ public class VideoChromaResample extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoChromaResample(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoChromaResample.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

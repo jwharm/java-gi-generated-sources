@@ -14,25 +14,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Toplevel extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Toplevel if its GType is a (or inherits from) "GdkToplevel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Toplevel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkToplevel", a ClassCastException will be thrown.
-     */
-    public static Toplevel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Toplevel.getType())) {
-            return new ToplevelImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkToplevel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ToplevelImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ToplevelImpl(input, ownership);
     
     /**
      * Begins an interactive move operation.
@@ -45,8 +28,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * @param timestamp timestamp of mouse click that began the drag (use
      *   {@link Event#getTime})
      */
-    default void beginMove(@NotNull org.gtk.gdk.Device device, int button, double x, double y, int timestamp) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    default void beginMove(org.gtk.gdk.Device device, int button, double x, double y, int timestamp) {
         try {
             DowncallHandles.gdk_toplevel_begin_move.invokeExact(
                     handle(),
@@ -72,8 +54,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * @param timestamp timestamp of mouse click that began the drag (use
      *   {@link Event#getTime})
      */
-    default void beginResize(@NotNull org.gtk.gdk.SurfaceEdge edge, @Nullable org.gtk.gdk.Device device, int button, double x, double y, int timestamp) {
-        java.util.Objects.requireNonNull(edge, "Parameter 'edge' must not be null");
+    default void beginResize(org.gtk.gdk.SurfaceEdge edge, @Nullable org.gtk.gdk.Device device, int button, double x, double y, int timestamp) {
         try {
             DowncallHandles.gdk_toplevel_begin_resize.invokeExact(
                     handle(),
@@ -110,7 +91,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * from the {@code GdkToplevelState} enumeration.
      * @return surface state bitfield
      */
-    default @NotNull org.gtk.gdk.ToplevelState getState() {
+    default org.gtk.gdk.ToplevelState getState() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_toplevel_get_state.invokeExact(
@@ -170,7 +151,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -187,7 +168,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -204,8 +185,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * guaranteed to be respected.
      * @param layout the {@code GdkToplevelLayout} object used to layout
      */
-    default void present(@NotNull org.gtk.gdk.ToplevelLayout layout) {
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    default void present(org.gtk.gdk.ToplevelLayout layout) {
         try {
             DowncallHandles.gdk_toplevel_present.invokeExact(
                     handle(),
@@ -242,7 +222,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.gdk_toplevel_set_decorated.invokeExact(
                     handle(),
-                    decorated ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(decorated, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,7 +239,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.gdk_toplevel_set_deletable.invokeExact(
                     handle(),
-                    deletable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(deletable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,8 +257,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * Note that some platforms don't support surface icons.
      * @param surfaces A list of textures to use as icon, of different sizes
      */
-    default void setIconList(@NotNull org.gtk.glib.List surfaces) {
-        java.util.Objects.requireNonNull(surfaces, "Parameter 'surfaces' must not be null");
+    default void setIconList(org.gtk.glib.List surfaces) {
         try {
             DowncallHandles.gdk_toplevel_set_icon_list.invokeExact(
                     handle(),
@@ -304,7 +283,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.gdk_toplevel_set_modal.invokeExact(
                     handle(),
-                    modal ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(modal, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -318,12 +297,11 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * low-level function.
      * @param startupId a string with startup-notification identifier
      */
-    default void setStartupId(@NotNull java.lang.String startupId) {
-        java.util.Objects.requireNonNull(startupId, "Parameter 'startupId' must not be null");
+    default void setStartupId(java.lang.String startupId) {
         try {
             DowncallHandles.gdk_toplevel_set_startup_id.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(startupId));
+                    Marshal.stringToAddress.marshal(startupId, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -336,12 +314,11 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * in lists of windows, etc.
      * @param title title of {@code surface}
      */
-    default void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    default void setTitle(java.lang.String title) {
         try {
             DowncallHandles.gdk_toplevel_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -359,8 +336,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * {@link org.gtk.gtk.Window}.
      * @param parent another toplevel {@code GdkSurface}
      */
-    default void setTransientFor(@NotNull org.gtk.gdk.Surface parent) {
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    default void setTransientFor(org.gtk.gdk.Surface parent) {
         try {
             DowncallHandles.gdk_toplevel_set_transient_for.invokeExact(
                     handle(),
@@ -380,8 +356,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
      * @param event a {@code GdkEvent} to show the menu for
      * @return {@code true} if the window menu was shown and {@code false} otherwise.
      */
-    default boolean showWindowMenu(@NotNull org.gtk.gdk.Event event) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    default boolean showWindowMenu(org.gtk.gdk.Event event) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_toplevel_show_window_menu.invokeExact(
@@ -390,7 +365,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -406,11 +381,10 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    default boolean titlebarGesture(@NotNull org.gtk.gdk.TitlebarGesture gesture) {
-        java.util.Objects.requireNonNull(gesture, "Parameter 'gesture' must not be null");
+    default boolean titlebarGesture(org.gtk.gdk.TitlebarGesture gesture) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_toplevel_titlebar_gesture.invokeExact(
@@ -419,14 +393,14 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_toplevel_get_type.invokeExact();
@@ -438,7 +412,18 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ComputeSize {
-        void signalReceived(Toplevel sourceToplevel, @NotNull org.gtk.gdk.ToplevelSize size);
+        void run(org.gtk.gdk.ToplevelSize size);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceToplevel, MemoryAddress size) {
+            run(org.gtk.gdk.ToplevelSize.fromAddress.marshal(size, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ComputeSize.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -460,16 +445,8 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
     public default Signal<Toplevel.ComputeSize> onComputeSize(Toplevel.ComputeSize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("compute-size"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Toplevel.Callbacks.class, "signalToplevelComputeSize",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Toplevel.ComputeSize>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("compute-size"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -619,17 +596,7 @@ public interface Toplevel extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalToplevelComputeSize(MemoryAddress sourceToplevel, MemoryAddress size, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Toplevel.ComputeSize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Toplevel.ToplevelImpl(sourceToplevel, Ownership.NONE), new org.gtk.gdk.ToplevelSize(size, Ownership.NONE));
-        }
-    }
-    
-    class ToplevelImpl extends org.gtk.gobject.Object implements Toplevel {
+    class ToplevelImpl extends org.gtk.gobject.GObject implements Toplevel {
         
         static {
             Gdk.javagi$ensureInitialized();

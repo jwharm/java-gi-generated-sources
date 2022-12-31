@@ -73,7 +73,7 @@ public enum Gravity implements io.github.jwharm.javagi.Enumeration {
      * @return the gravity of {@code matrix}, which will never be
      * {@link Gravity#AUTO}, or {@link Gravity#SOUTH} if {@code matrix} is {@code null}
      */
-    public static @NotNull org.pango.Gravity getForMatrix(@Nullable org.pango.Matrix matrix) {
+    public static org.pango.Gravity getForMatrix(@Nullable org.pango.Matrix matrix) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_gravity_get_for_matrix.invokeExact(
@@ -98,10 +98,7 @@ public enum Gravity implements io.github.jwharm.javagi.Enumeration {
      * @return resolved gravity suitable to use for a run of text
      * with {@code script}
      */
-    public static @NotNull org.pango.Gravity getForScript(@NotNull org.pango.Script script, @NotNull org.pango.Gravity baseGravity, @NotNull org.pango.GravityHint hint) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
-        java.util.Objects.requireNonNull(baseGravity, "Parameter 'baseGravity' must not be null");
-        java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
+    public static org.pango.Gravity getForScript(org.pango.Script script, org.pango.Gravity baseGravity, org.pango.GravityHint hint) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_gravity_get_for_script.invokeExact(
@@ -137,15 +134,12 @@ public enum Gravity implements io.github.jwharm.javagi.Enumeration {
      * @return resolved gravity suitable to use for a run of text
      * with {@code script} and {@code wide}.
      */
-    public static @NotNull org.pango.Gravity getForScriptAndWidth(@NotNull org.pango.Script script, boolean wide, @NotNull org.pango.Gravity baseGravity, @NotNull org.pango.GravityHint hint) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
-        java.util.Objects.requireNonNull(baseGravity, "Parameter 'baseGravity' must not be null");
-        java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
+    public static org.pango.Gravity getForScriptAndWidth(org.pango.Script script, boolean wide, org.pango.Gravity baseGravity, org.pango.GravityHint hint) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_gravity_get_for_script_and_width.invokeExact(
                     script.getValue(),
-                    wide ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(wide, null).intValue(),
                     baseGravity.getValue(),
                     hint.getValue());
         } catch (Throwable ERR) {
@@ -163,8 +157,7 @@ public enum Gravity implements io.github.jwharm.javagi.Enumeration {
      * @param gravity gravity to query, should not be {@link Gravity#AUTO}
      * @return the rotation value corresponding to {@code gravity}.
      */
-    public static double toRotation(@NotNull org.pango.Gravity gravity) {
-        java.util.Objects.requireNonNull(gravity, "Parameter 'gravity' must not be null");
+    public static double toRotation(org.pango.Gravity gravity) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.pango_gravity_to_rotation.invokeExact(

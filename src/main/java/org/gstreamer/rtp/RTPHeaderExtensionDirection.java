@@ -46,11 +46,15 @@ public class RTPHeaderExtensionDirection extends io.github.jwharm.javagi.Bitfiel
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public RTPHeaderExtensionDirection or(RTPHeaderExtensionDirection mask) {
-        return new RTPHeaderExtensionDirection(this.getValue() | mask.getValue());
+    public RTPHeaderExtensionDirection or(RTPHeaderExtensionDirection... masks) {
+        int value = this.getValue();
+        for (RTPHeaderExtensionDirection arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RTPHeaderExtensionDirection(value);
     }
     
     /**
@@ -60,7 +64,8 @@ public class RTPHeaderExtensionDirection extends io.github.jwharm.javagi.Bitfiel
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static RTPHeaderExtensionDirection combined(RTPHeaderExtensionDirection mask, RTPHeaderExtensionDirection... masks) {
-        int value = mask.getValue();        for (RTPHeaderExtensionDirection arg : masks) {
+        int value = mask.getValue();
+        for (RTPHeaderExtensionDirection arg : masks) {
             value |= arg.getValue();
         }
         return new RTPHeaderExtensionDirection(value);

@@ -33,5 +33,18 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface AudioBaseSinkCustomSlavingCallback {
-        void onAudioBaseSinkCustomSlavingCallback(@NotNull org.gstreamer.audio.AudioBaseSink sink, @NotNull org.gstreamer.gst.ClockTime etime, @NotNull org.gstreamer.gst.ClockTime itime, @NotNull org.gstreamer.gst.ClockTimeDiff requestedSkew, @NotNull org.gstreamer.audio.AudioBaseSinkDiscontReason discontReason);
+    void run(org.gstreamer.audio.AudioBaseSink sink, org.gstreamer.gst.ClockTime etime, org.gstreamer.gst.ClockTime itime, org.gstreamer.gst.ClockTimeDiff requestedSkew, org.gstreamer.audio.AudioBaseSinkDiscontReason discontReason);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress sink, long etime, long itime, MemoryAddress requestedSkew, int discontReason, MemoryAddress userData) {
+        org.gstreamer.gst.ClockTimeDiff requestedSkewALIAS = new org.gstreamer.gst.ClockTimeDiff(requestedSkew.get(Interop.valueLayout.C_LONG, 0));
+        run((org.gstreamer.audio.AudioBaseSink) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(sink)), org.gstreamer.audio.AudioBaseSink.fromAddress).marshal(sink, Ownership.NONE), new org.gstreamer.gst.ClockTime(etime), new org.gstreamer.gst.ClockTime(itime), requestedSkewALIAS, org.gstreamer.audio.AudioBaseSinkDiscontReason.of(discontReason));
+        requestedSkew.set(Interop.valueLayout.C_LONG, 0, requestedSkewALIAS.getValue());
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AudioBaseSinkCustomSlavingCallback.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

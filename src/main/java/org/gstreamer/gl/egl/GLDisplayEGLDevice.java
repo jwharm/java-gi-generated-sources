@@ -18,19 +18,17 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLDisplayEGLDevice";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gl.GLDisplay.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("device"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gl.GLDisplay.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("device"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -38,40 +36,26 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
      * <p>
      * Because GLDisplayEGLDevice is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLDisplayEGLDevice(Addressable address, Ownership ownership) {
+    protected GLDisplayEGLDevice(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLDisplayEGLDevice if its GType is a (or inherits from) "GstGLDisplayEGLDevice".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLDisplayEGLDevice} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLDisplayEGLDevice", a ClassCastException will be thrown.
-     */
-    public static GLDisplayEGLDevice castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLDisplayEGLDevice.getType())) {
-            return new GLDisplayEGLDevice(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLDisplayEGLDevice");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLDisplayEGLDevice> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayEGLDevice(input, ownership);
     
-    private static Addressable constructNew(int deviceIndex) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(int deviceIndex) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_device_new.invokeExact(
                     deviceIndex);
@@ -89,8 +73,8 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
         super(constructNew(deviceIndex), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithEglDevice(@Nullable java.lang.foreign.MemoryAddress device) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithEglDevice(@Nullable java.lang.foreign.MemoryAddress device) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_egl_device_new_with_egl_device.invokeExact(
                     (Addressable) (device == null ? MemoryAddress.NULL : (Addressable) device));
@@ -107,14 +91,15 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
      * @return a new {@link GLDisplayEGLDevice}
      */
     public static GLDisplayEGLDevice newWithEglDevice(@Nullable java.lang.foreign.MemoryAddress device) {
-        return new GLDisplayEGLDevice(constructNewWithEglDevice(device), Ownership.FULL);
+        var RESULT = constructNewWithEglDevice(device);
+        return (org.gstreamer.gl.egl.GLDisplayEGLDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.egl.GLDisplayEGLDevice.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_display_egl_device_get_type.invokeExact();
@@ -123,38 +108,40 @@ public class GLDisplayEGLDevice extends org.gstreamer.gl.GLDisplay {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GLDisplayEGLDevice.Builder} object constructs a {@link GLDisplayEGLDevice} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLDisplayEGLDevice.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gl.GLDisplay.Build {
+    public static class Builder extends org.gstreamer.gl.GLDisplay.Builder {
         
-         /**
-         * A {@link GLDisplayEGLDevice.Build} object constructs a {@link GLDisplayEGLDevice} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLDisplayEGLDevice} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLDisplayEGLDevice} using {@link GLDisplayEGLDevice#castFrom}.
+         * {@link GLDisplayEGLDevice}.
          * @return A new instance of {@code GLDisplayEGLDevice} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLDisplayEGLDevice construct() {
-            return GLDisplayEGLDevice.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLDisplayEGLDevice.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLDisplayEGLDevice build() {
+            return (GLDisplayEGLDevice) org.gtk.gobject.GObject.newWithProperties(
+                GLDisplayEGLDevice.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

@@ -92,40 +92,26 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * <p>
      * Because ColumnView is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ColumnView(Addressable address, Ownership ownership) {
+    protected ColumnView(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ColumnView if its GType is a (or inherits from) "GtkColumnView".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ColumnView} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkColumnView", a ClassCastException will be thrown.
-     */
-    public static ColumnView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ColumnView.getType())) {
-            return new ColumnView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkColumnView");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ColumnView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColumnView(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.SelectionModel model) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.SelectionModel model) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()));
@@ -152,8 +138,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param column a {@code GtkColumnViewColumn} that hasn't been added to a
      *   {@code GtkColumnView} yet
      */
-    public void appendColumn(@NotNull org.gtk.gtk.ColumnViewColumn column) {
-        java.util.Objects.requireNonNull(column, "Parameter 'column' must not be null");
+    public void appendColumn(org.gtk.gtk.ColumnViewColumn column) {
         try {
             DowncallHandles.gtk_column_view_append_column.invokeExact(
                     handle(),
@@ -171,7 +156,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * ::items-changed signal.
      * @return The list managing the columns
      */
-    public @NotNull org.gtk.gio.ListModel getColumns() {
+    public org.gtk.gio.ListModel getColumns() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_column_view_get_columns.invokeExact(
@@ -179,7 +164,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -194,7 +179,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -209,7 +194,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.SelectionModel.SelectionModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.SelectionModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SelectionModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -224,7 +209,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -240,7 +225,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -256,7 +241,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -272,7 +257,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -305,7 +290,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Sorter(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Sorter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Sorter.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -315,8 +300,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param position the position to insert {@code column} at
      * @param column the {@code GtkColumnViewColumn} to insert
      */
-    public void insertColumn(int position, @NotNull org.gtk.gtk.ColumnViewColumn column) {
-        java.util.Objects.requireNonNull(column, "Parameter 'column' must not be null");
+    public void insertColumn(int position, org.gtk.gtk.ColumnViewColumn column) {
         try {
             DowncallHandles.gtk_column_view_insert_column.invokeExact(
                     handle(),
@@ -331,8 +315,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Removes the {@code column} from the list of columns of {@code self}.
      * @param column a {@code GtkColumnViewColumn} that's part of {@code self}
      */
-    public void removeColumn(@NotNull org.gtk.gtk.ColumnViewColumn column) {
-        java.util.Objects.requireNonNull(column, "Parameter 'column' must not be null");
+    public void removeColumn(org.gtk.gtk.ColumnViewColumn column) {
         try {
             DowncallHandles.gtk_column_view_remove_column.invokeExact(
                     handle(),
@@ -350,7 +333,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_column_view_set_enable_rubberband.invokeExact(
                     handle(),
-                    enableRubberband ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enableRubberband, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -380,7 +363,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_column_view_set_reorderable.invokeExact(
                     handle(),
-                    reorderable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(reorderable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -395,7 +378,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_column_view_set_show_column_separators.invokeExact(
                     handle(),
-                    showColumnSeparators ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showColumnSeparators, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,7 +393,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_column_view_set_show_row_separators.invokeExact(
                     handle(),
-                    showRowSeparators ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showRowSeparators, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -425,7 +408,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_column_view_set_single_click_activate.invokeExact(
                     handle(),
-                    singleClickActivate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(singleClickActivate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -447,8 +430,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param column the {@code GtkColumnViewColumn} to sort by
      * @param direction the direction to sort in
      */
-    public void sortByColumn(@Nullable org.gtk.gtk.ColumnViewColumn column, @NotNull org.gtk.gtk.SortType direction) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public void sortByColumn(@Nullable org.gtk.gtk.ColumnViewColumn column, org.gtk.gtk.SortType direction) {
         try {
             DowncallHandles.gtk_column_view_sort_by_column.invokeExact(
                     handle(),
@@ -463,7 +445,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_column_view_get_type.invokeExact();
@@ -475,7 +457,18 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(ColumnView sourceColumnView, int position);
+        void run(int position);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceColumnView, int position) {
+            run(position);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -491,52 +484,46 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public Signal<ColumnView.Activate> onActivate(ColumnView.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColumnView.Callbacks.class, "signalColumnViewActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ColumnView.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link ColumnView.Builder} object constructs a {@link ColumnView} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ColumnView.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link ColumnView.Build} object constructs a {@link ColumnView} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ColumnView} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ColumnView} using {@link ColumnView#castFrom}.
+         * {@link ColumnView}.
          * @return A new instance of {@code ColumnView} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ColumnView construct() {
-            return ColumnView.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ColumnView.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ColumnView build() {
+            return (ColumnView) org.gtk.gobject.GObject.newWithProperties(
+                ColumnView.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -545,7 +532,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param columns The value for the {@code columns} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColumns(org.gtk.gio.ListModel columns) {
+        public Builder setColumns(org.gtk.gio.ListModel columns) {
             names.add("columns");
             values.add(org.gtk.gobject.Value.create(columns));
             return this;
@@ -556,7 +543,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param enableRubberband The value for the {@code enable-rubberband} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnableRubberband(boolean enableRubberband) {
+        public Builder setEnableRubberband(boolean enableRubberband) {
             names.add("enable-rubberband");
             values.add(org.gtk.gobject.Value.create(enableRubberband));
             return this;
@@ -567,7 +554,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gtk.SelectionModel model) {
+        public Builder setModel(org.gtk.gtk.SelectionModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -578,7 +565,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param reorderable The value for the {@code reorderable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReorderable(boolean reorderable) {
+        public Builder setReorderable(boolean reorderable) {
             names.add("reorderable");
             values.add(org.gtk.gobject.Value.create(reorderable));
             return this;
@@ -589,7 +576,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param showColumnSeparators The value for the {@code show-column-separators} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowColumnSeparators(boolean showColumnSeparators) {
+        public Builder setShowColumnSeparators(boolean showColumnSeparators) {
             names.add("show-column-separators");
             values.add(org.gtk.gobject.Value.create(showColumnSeparators));
             return this;
@@ -600,7 +587,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param showRowSeparators The value for the {@code show-row-separators} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowRowSeparators(boolean showRowSeparators) {
+        public Builder setShowRowSeparators(boolean showRowSeparators) {
             names.add("show-row-separators");
             values.add(org.gtk.gobject.Value.create(showRowSeparators));
             return this;
@@ -611,7 +598,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param singleClickActivate The value for the {@code single-click-activate} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSingleClickActivate(boolean singleClickActivate) {
+        public Builder setSingleClickActivate(boolean singleClickActivate) {
             names.add("single-click-activate");
             values.add(org.gtk.gobject.Value.create(singleClickActivate));
             return this;
@@ -622,7 +609,7 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param sorter The value for the {@code sorter} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSorter(org.gtk.gtk.Sorter sorter) {
+        public Builder setSorter(org.gtk.gtk.Sorter sorter) {
             names.add("sorter");
             values.add(org.gtk.gobject.Value.create(sorter));
             return this;
@@ -750,14 +737,5 @@ public class ColumnView extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalColumnViewActivate(MemoryAddress sourceColumnView, int position, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ColumnView.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColumnView(sourceColumnView, Ownership.NONE), position);
-        }
     }
 }

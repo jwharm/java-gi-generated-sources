@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * of elements per page and updating the offset whenever a different page is
  * opened.
  */
-public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class SliceListModel extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -34,33 +34,15 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SliceListModel(Addressable address, Ownership ownership) {
+    protected SliceListModel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SliceListModel if its GType is a (or inherits from) "GtkSliceListModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SliceListModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSliceListModel", a ClassCastException will be thrown.
-     */
-    public static SliceListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SliceListModel.getType())) {
-            return new SliceListModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSliceListModel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SliceListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SliceListModel(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model, int offset, int size) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model, int offset, int size) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_slice_list_model_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()),
@@ -98,7 +80,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -186,7 +168,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_slice_list_model_get_type.invokeExact();
@@ -195,38 +177,40 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SliceListModel.Builder} object constructs a {@link SliceListModel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SliceListModel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SliceListModel.Build} object constructs a {@link SliceListModel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SliceListModel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SliceListModel} using {@link SliceListModel#castFrom}.
+         * {@link SliceListModel}.
          * @return A new instance of {@code SliceListModel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SliceListModel construct() {
-            return SliceListModel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SliceListModel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SliceListModel build() {
+            return (SliceListModel) org.gtk.gobject.GObject.newWithProperties(
+                SliceListModel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -235,7 +219,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -246,7 +230,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gio.ListModel model) {
+        public Builder setModel(org.gtk.gio.ListModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -257,7 +241,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;
@@ -268,7 +252,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
          * @param offset The value for the {@code offset} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(int offset) {
+        public Builder setOffset(int offset) {
             names.add("offset");
             values.add(org.gtk.gobject.Value.create(offset));
             return this;
@@ -279,7 +263,7 @@ public class SliceListModel extends org.gtk.gobject.Object implements org.gtk.gi
          * @param size The value for the {@code size} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(int size) {
+        public Builder setSize(int size) {
             names.add("size");
             values.add(org.gtk.gobject.Value.create(size));
             return this;

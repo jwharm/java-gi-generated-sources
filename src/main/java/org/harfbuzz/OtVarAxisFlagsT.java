@@ -24,11 +24,15 @@ public class OtVarAxisFlagsT extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public OtVarAxisFlagsT or(OtVarAxisFlagsT mask) {
-        return new OtVarAxisFlagsT(this.getValue() | mask.getValue());
+    public OtVarAxisFlagsT or(OtVarAxisFlagsT... masks) {
+        int value = this.getValue();
+        for (OtVarAxisFlagsT arg : masks) {
+            value |= arg.getValue();
+        }
+        return new OtVarAxisFlagsT(value);
     }
     
     /**
@@ -38,7 +42,8 @@ public class OtVarAxisFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static OtVarAxisFlagsT combined(OtVarAxisFlagsT mask, OtVarAxisFlagsT... masks) {
-        int value = mask.getValue();        for (OtVarAxisFlagsT arg : masks) {
+        int value = mask.getValue();
+        for (OtVarAxisFlagsT arg : masks) {
             value |= arg.getValue();
         }
         return new OtVarAxisFlagsT(value);

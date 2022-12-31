@@ -16,25 +16,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Popup extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Popup if its GType is a (or inherits from) "GdkPopup".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Popup} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkPopup", a ClassCastException will be thrown.
-     */
-    public static Popup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Popup.getType())) {
-            return new PopupImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkPopup");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PopupImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PopupImpl(input, ownership);
     
     /**
      * Returns whether this popup is set to hide on outside clicks.
@@ -48,7 +31,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -63,7 +46,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -103,7 +86,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
      * or after the {@code Gdk.Surface::layout} signal is emitted.
      * @return the current rectangle anchor value of {@code popup}
      */
-    default @NotNull org.gtk.gdk.Gravity getRectAnchor() {
+    default org.gtk.gdk.Gravity getRectAnchor() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_popup_get_rect_anchor.invokeExact(
@@ -121,7 +104,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
      * or after the {@code Gdk.Surface::layout} signal is emitted.
      * @return the current surface anchor value of {@code popup}
      */
-    default @NotNull org.gtk.gdk.Gravity getSurfaceAnchor() {
+    default org.gtk.gdk.Gravity getSurfaceAnchor() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_popup_get_surface_anchor.invokeExact(
@@ -153,8 +136,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
      * @param layout the {@code GdkPopupLayout} object used to layout
      * @return {@code false} if it failed to be presented, otherwise {@code true}.
      */
-    default boolean present(int width, int height, @NotNull org.gtk.gdk.PopupLayout layout) {
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    default boolean present(int width, int height, org.gtk.gdk.PopupLayout layout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_popup_present.invokeExact(
@@ -165,14 +147,14 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_popup_get_type.invokeExact();
@@ -242,7 +224,7 @@ public interface Popup extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class PopupImpl extends org.gtk.gobject.Object implements Popup {
+    class PopupImpl extends org.gtk.gobject.GObject implements Popup {
         
         static {
             Gdk.javagi$ensureInitialized();

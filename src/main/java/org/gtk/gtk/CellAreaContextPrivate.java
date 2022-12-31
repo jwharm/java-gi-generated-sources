@@ -40,8 +40,10 @@ public class CellAreaContextPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CellAreaContextPrivate(Addressable address, Ownership ownership) {
+    protected CellAreaContextPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellAreaContextPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaContextPrivate(input, ownership);
 }

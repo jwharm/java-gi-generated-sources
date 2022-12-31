@@ -40,8 +40,10 @@ public class AccelerationStructureMemoryRequirementsTypeNV extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AccelerationStructureMemoryRequirementsTypeNV(Addressable address, Ownership ownership) {
+    protected AccelerationStructureMemoryRequirementsTypeNV(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AccelerationStructureMemoryRequirementsTypeNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AccelerationStructureMemoryRequirementsTypeNV(input, ownership);
 }

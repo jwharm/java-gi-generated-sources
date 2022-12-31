@@ -31,42 +31,20 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CustomSorter(Addressable address, Ownership ownership) {
+    protected CustomSorter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to CustomSorter if its GType is a (or inherits from) "GtkCustomSorter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CustomSorter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCustomSorter", a ClassCastException will be thrown.
-     */
-    public static CustomSorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CustomSorter.getType())) {
-            return new CustomSorter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCustomSorter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CustomSorter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CustomSorter(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.glib.CompareDataFunc sortFunc, @Nullable org.gtk.glib.DestroyNotify userDestroy) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_custom_sorter_new.invokeExact(
-                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) sortFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (userDestroy == null ? MemoryAddress.NULL : (Addressable) userDestroy.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -79,9 +57,10 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      * <p>
      * If {@code sort_func} is {@code null}, all items are considered equal.
      * @param sortFunc the {@code GCompareDataFunc} to use for sorting
+     * @param userDestroy destroy notify for {@code user_data}
      */
-    public CustomSorter(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
-        super(constructNew(sortFunc), Ownership.FULL);
+    public CustomSorter(@Nullable org.gtk.glib.CompareDataFunc sortFunc, @Nullable org.gtk.glib.DestroyNotify userDestroy) {
+        super(constructNew(sortFunc, userDestroy), Ownership.FULL);
     }
     
     /**
@@ -95,18 +74,15 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      * If a previous function was set, its {@code user_destroy} will be
      * called now.
      * @param sortFunc function to sort items
+     * @param userDestroy destroy notify for {@code user_data}
      */
-    public void setSortFunc(@Nullable org.gtk.glib.CompareDataFunc sortFunc) {
+    public void setSortFunc(@Nullable org.gtk.glib.CompareDataFunc sortFunc, org.gtk.glib.DestroyNotify userDestroy) {
         try {
             DowncallHandles.gtk_custom_sorter_set_sort_func.invokeExact(
                     handle(),
-                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : Interop.registerCallback(sortFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (sortFunc == null ? MemoryAddress.NULL : (Addressable) sortFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) userDestroy.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -116,7 +92,7 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_custom_sorter_get_type.invokeExact();
@@ -125,38 +101,40 @@ public class CustomSorter extends org.gtk.gtk.Sorter {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link CustomSorter.Builder} object constructs a {@link CustomSorter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CustomSorter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Sorter.Build {
+    public static class Builder extends org.gtk.gtk.Sorter.Builder {
         
-         /**
-         * A {@link CustomSorter.Build} object constructs a {@link CustomSorter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CustomSorter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CustomSorter} using {@link CustomSorter#castFrom}.
+         * {@link CustomSorter}.
          * @return A new instance of {@code CustomSorter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CustomSorter construct() {
-            return CustomSorter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CustomSorter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CustomSorter build() {
+            return (CustomSorter) org.gtk.gobject.GObject.newWithProperties(
+                CustomSorter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * {@link SocketConnectable} for an example of using the connectable
  * interface.
  */
-public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gio.SocketConnectable {
+public class NetworkService extends org.gtk.gobject.GObject implements org.gtk.gio.SocketConnectable {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,18 +24,16 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
     
     private static final java.lang.String C_TYPE_NAME = "GNetworkService";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -43,41 +41,20 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NetworkService(Addressable address, Ownership ownership) {
+    protected NetworkService(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to NetworkService if its GType is a (or inherits from) "GNetworkService".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code NetworkService} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GNetworkService", a ClassCastException will be thrown.
-     */
-    public static NetworkService castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), NetworkService.getType())) {
-            return new NetworkService(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GNetworkService");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NetworkService> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetworkService(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain) {
-        java.util.Objects.requireNonNull(service, "Parameter 'service' must not be null");
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_service_new.invokeExact(
-                    Interop.allocateNativeString(service),
-                    Interop.allocateNativeString(protocol),
-                    Interop.allocateNativeString(domain));
+                    Marshal.stringToAddress.marshal(service, null),
+                    Marshal.stringToAddress.marshal(protocol, null),
+                    Marshal.stringToAddress.marshal(domain, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -92,7 +69,7 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      * @param protocol the networking protocol to use for {@code service} (eg, "tcp")
      * @param domain the DNS domain to look up the service in
      */
-    public NetworkService(@NotNull java.lang.String service, @NotNull java.lang.String protocol, @NotNull java.lang.String domain) {
+    public NetworkService(java.lang.String service, java.lang.String protocol, java.lang.String domain) {
         super(constructNew(service, protocol, domain), Ownership.FULL);
     }
     
@@ -101,7 +78,7 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      * ASCII-encoded, depending on what {@code srv} was created with.
      * @return {@code srv}'s domain name
      */
-    public @NotNull java.lang.String getDomain() {
+    public java.lang.String getDomain() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_domain.invokeExact(
@@ -109,14 +86,14 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets {@code srv}'s protocol name (eg, "tcp").
      * @return {@code srv}'s protocol name
      */
-    public @NotNull java.lang.String getProtocol() {
+    public java.lang.String getProtocol() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_protocol.invokeExact(
@@ -124,7 +101,7 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -132,7 +109,7 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      * is used as scheme.
      * @return {@code srv}'s scheme name
      */
-    public @NotNull java.lang.String getScheme() {
+    public java.lang.String getScheme() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_scheme.invokeExact(
@@ -140,14 +117,14 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets {@code srv}'s service name (eg, "ldap").
      * @return {@code srv}'s service name
      */
-    public @NotNull java.lang.String getService() {
+    public java.lang.String getService() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_service_get_service.invokeExact(
@@ -155,7 +132,7 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -163,12 +140,11 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      * is used as scheme.
      * @param scheme a URI scheme
      */
-    public void setScheme(@NotNull java.lang.String scheme) {
-        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
+    public void setScheme(java.lang.String scheme) {
         try {
             DowncallHandles.g_network_service_set_scheme.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(scheme));
+                    Marshal.stringToAddress.marshal(scheme, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -178,7 +154,7 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_network_service_get_type.invokeExact();
@@ -187,60 +163,62 @@ public class NetworkService extends org.gtk.gobject.Object implements org.gtk.gi
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link NetworkService.Builder} object constructs a {@link NetworkService} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link NetworkService.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link NetworkService.Build} object constructs a {@link NetworkService} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link NetworkService} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link NetworkService} using {@link NetworkService#castFrom}.
+         * {@link NetworkService}.
          * @return A new instance of {@code NetworkService} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NetworkService construct() {
-            return NetworkService.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    NetworkService.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public NetworkService build() {
+            return (NetworkService) org.gtk.gobject.GObject.newWithProperties(
+                NetworkService.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setDomain(java.lang.String domain) {
+        public Builder setDomain(java.lang.String domain) {
             names.add("domain");
             values.add(org.gtk.gobject.Value.create(domain));
             return this;
         }
         
-        public Build setProtocol(java.lang.String protocol) {
+        public Builder setProtocol(java.lang.String protocol) {
             names.add("protocol");
             values.add(org.gtk.gobject.Value.create(protocol));
             return this;
         }
         
-        public Build setScheme(java.lang.String scheme) {
+        public Builder setScheme(java.lang.String scheme) {
             names.add("scheme");
             values.add(org.gtk.gobject.Value.create(scheme));
             return this;
         }
         
-        public Build setService(java.lang.String service) {
+        public Builder setService(java.lang.String service) {
             names.add("service");
             values.add(org.gtk.gobject.Value.create(service));
             return this;

@@ -16,21 +16,19 @@ public class Node extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GNode";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.ADDRESS.withName("next"),
-        Interop.valueLayout.ADDRESS.withName("prev"),
-        Interop.valueLayout.ADDRESS.withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("children")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.ADDRESS.withName("next"),
+            Interop.valueLayout.ADDRESS.withName("prev"),
+            Interop.valueLayout.ADDRESS.withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("children")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class Node extends Struct {
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public java.lang.foreign.MemoryAddress data$get() {
+    public java.lang.foreign.MemoryAddress getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -61,94 +59,94 @@ public class Node extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(java.lang.foreign.MemoryAddress data) {
+    public void setData(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
     }
     
     /**
      * Get the value of the field {@code next}
      * @return The value of the field {@code next}
      */
-    public org.gtk.glib.Node next$get() {
+    public org.gtk.glib.Node getNext() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code next}
      * @param next The new value of the field {@code next}
      */
-    public void next$set(org.gtk.glib.Node next) {
+    public void setNext(org.gtk.glib.Node next) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
     }
     
     /**
      * Get the value of the field {@code prev}
      * @return The value of the field {@code prev}
      */
-    public org.gtk.glib.Node prev$get() {
+    public org.gtk.glib.Node getPrev() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prev"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code prev}
      * @param prev The new value of the field {@code prev}
      */
-    public void prev$set(org.gtk.glib.Node prev) {
+    public void setPrev(org.gtk.glib.Node prev) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prev"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), prev.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
     }
     
     /**
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gtk.glib.Node parent$get() {
+    public org.gtk.glib.Node getParent() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parent"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code parent}
      * @param parent The new value of the field {@code parent}
      */
-    public void parent$set(org.gtk.glib.Node parent) {
+    public void setParent(org.gtk.glib.Node parent) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parent"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), parent.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
      * Get the value of the field {@code children}
      * @return The value of the field {@code children}
      */
-    public org.gtk.glib.Node children$get() {
+    public org.gtk.glib.Node getChildren() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("children"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code children}
      * @param children The new value of the field {@code children}
      */
-    public void children$set(org.gtk.glib.Node children) {
+    public void setChildren(org.gtk.glib.Node children) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("children"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), children.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (children == null ? MemoryAddress.NULL : children.handle()));
     }
     
     /**
@@ -156,24 +154,25 @@ public class Node extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Node(Addressable address, Ownership ownership) {
+    protected Node(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Node> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Node(input, ownership);
     
     /**
      * Gets the position of the first child of a {@link Node}
      * which contains the given data.
-     * @param data the data to find
      * @return the index of the child of {@code node} which contains
      *     {@code data}, or -1 if the data is not found
      */
-    public int childIndex(@Nullable java.lang.foreign.MemoryAddress data) {
+    public int childIndex() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_node_child_index.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,8 +186,7 @@ public class Node extends Struct {
      * @param child a child of {@code node}
      * @return the position of {@code child} with respect to its siblings
      */
-    public int childPosition(@NotNull org.gtk.glib.Node child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public int childPosition(org.gtk.glib.Node child) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_node_child_position.invokeExact(
@@ -208,19 +206,13 @@ public class Node extends Struct {
      *     {@link TraverseFlags#ALL}, {@link TraverseFlags#LEAVES} and {@link TraverseFlags#NON_LEAVES}
      * @param func the function to call for each visited node
      */
-    public void childrenForeach(@NotNull org.gtk.glib.TraverseFlags flags, @NotNull org.gtk.glib.NodeForeachFunc func) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void childrenForeach(org.gtk.glib.TraverseFlags flags, org.gtk.glib.NodeForeachFunc func) {
         try {
             DowncallHandles.g_node_children_foreach.invokeExact(
                     handle(),
                     flags.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbNodeForeachFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -231,7 +223,7 @@ public class Node extends Struct {
      * nodes, see g_node_copy_deep() if you need that).
      * @return a new {@link Node} containing the same data pointers
      */
-    public @NotNull org.gtk.glib.Node copy() {
+    public org.gtk.glib.Node copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_copy.invokeExact(
@@ -239,7 +231,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -248,22 +240,17 @@ public class Node extends Struct {
      *   or {@code null} to use the original data.
      * @return a new {@link Node} containing copies of the data in {@code node}.
      */
-    public @NotNull org.gtk.glib.Node copyDeep(@NotNull org.gtk.glib.CopyFunc copyFunc) {
-        java.util.Objects.requireNonNull(copyFunc, "Parameter 'copyFunc' must not be null");
+    public org.gtk.glib.Node copyDeep(org.gtk.glib.CopyFunc copyFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_copy_deep.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCopyFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(copyFunc)));
+                    (Addressable) copyFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -303,44 +290,39 @@ public class Node extends Struct {
      *     {@link TraverseType#PRE_ORDER}, {@link TraverseType#POST_ORDER}, or {@link TraverseType#LEVEL_ORDER}
      * @param flags which types of children are to be searched, one of
      *     {@link TraverseFlags#ALL}, {@link TraverseFlags#LEAVES} and {@link TraverseFlags#NON_LEAVES}
-     * @param data the data to find
      * @return the found {@link Node}, or {@code null} if the data is not found
      */
-    public @NotNull org.gtk.glib.Node find(@NotNull org.gtk.glib.TraverseType order, @NotNull org.gtk.glib.TraverseFlags flags, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gtk.glib.Node find(org.gtk.glib.TraverseType order, org.gtk.glib.TraverseFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_find.invokeExact(
                     handle(),
                     order.getValue(),
                     flags.getValue(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Finds the first child of a {@link Node} with the given data.
      * @param flags which types of children are to be searched, one of
      *     {@link TraverseFlags#ALL}, {@link TraverseFlags#LEAVES} and {@link TraverseFlags#NON_LEAVES}
-     * @param data the data to find
      * @return the found child {@link Node}, or {@code null} if the data is not found
      */
-    public @NotNull org.gtk.glib.Node findChild(@NotNull org.gtk.glib.TraverseFlags flags, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gtk.glib.Node findChild(org.gtk.glib.TraverseFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_find_child.invokeExact(
                     handle(),
                     flags.getValue(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -348,7 +330,7 @@ public class Node extends Struct {
      * This could possibly be the node itself.
      * @return the first sibling of {@code node}
      */
-    public @NotNull org.gtk.glib.Node firstSibling() {
+    public org.gtk.glib.Node firstSibling() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_first_sibling.invokeExact(
@@ -356,14 +338,14 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Gets the root of a tree.
      * @return the root of the tree
      */
-    public @NotNull org.gtk.glib.Node getRoot() {
+    public org.gtk.glib.Node getRoot() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_get_root.invokeExact(
@@ -371,7 +353,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -381,8 +363,7 @@ public class Node extends Struct {
      * @param node the {@link Node} to insert
      * @return the inserted {@link Node}
      */
-    public @NotNull org.gtk.glib.Node insert(int position, @NotNull org.gtk.glib.Node node) {
-        java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
+    public org.gtk.glib.Node insert(int position, org.gtk.glib.Node node) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_insert.invokeExact(
@@ -392,7 +373,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -402,9 +383,7 @@ public class Node extends Struct {
      * @param node the {@link Node} to insert
      * @return the inserted {@link Node}
      */
-    public @NotNull org.gtk.glib.Node insertAfter(@NotNull org.gtk.glib.Node sibling, @NotNull org.gtk.glib.Node node) {
-        java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
-        java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
+    public org.gtk.glib.Node insertAfter(org.gtk.glib.Node sibling, org.gtk.glib.Node node) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_insert_after.invokeExact(
@@ -414,7 +393,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -424,9 +403,7 @@ public class Node extends Struct {
      * @param node the {@link Node} to insert
      * @return the inserted {@link Node}
      */
-    public @NotNull org.gtk.glib.Node insertBefore(@NotNull org.gtk.glib.Node sibling, @NotNull org.gtk.glib.Node node) {
-        java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
-        java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
+    public org.gtk.glib.Node insertBefore(org.gtk.glib.Node sibling, org.gtk.glib.Node node) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_insert_before.invokeExact(
@@ -436,7 +413,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -446,8 +423,7 @@ public class Node extends Struct {
      * @param descendant a {@link Node}
      * @return {@code true} if {@code node} is an ancestor of {@code descendant}
      */
-    public boolean isAncestor(@NotNull org.gtk.glib.Node descendant) {
-        java.util.Objects.requireNonNull(descendant, "Parameter 'descendant' must not be null");
+    public boolean isAncestor(org.gtk.glib.Node descendant) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_node_is_ancestor.invokeExact(
@@ -456,14 +432,14 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the last child of a {@link Node}.
      * @return the last child of {@code node}, or {@code null} if {@code node} has no children
      */
-    public @NotNull org.gtk.glib.Node lastChild() {
+    public org.gtk.glib.Node lastChild() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_last_child.invokeExact(
@@ -471,7 +447,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -479,7 +455,7 @@ public class Node extends Struct {
      * This could possibly be the node itself.
      * @return the last sibling of {@code node}
      */
-    public @NotNull org.gtk.glib.Node lastSibling() {
+    public org.gtk.glib.Node lastSibling() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_last_sibling.invokeExact(
@@ -487,7 +463,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -530,8 +506,7 @@ public class Node extends Struct {
      *     {@link TraverseFlags#ALL}, {@link TraverseFlags#LEAVES} and {@link TraverseFlags#NON_LEAVES}
      * @return the number of nodes in the tree
      */
-    public int nNodes(@NotNull org.gtk.glib.TraverseFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public int nNodes(org.gtk.glib.TraverseFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_node_n_nodes.invokeExact(
@@ -550,7 +525,7 @@ public class Node extends Struct {
      * @param n the index of the desired child
      * @return the child of {@code node} at index {@code n}
      */
-    public @NotNull org.gtk.glib.Node nthChild(int n) {
+    public org.gtk.glib.Node nthChild(int n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_nth_child.invokeExact(
@@ -559,7 +534,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -567,8 +542,7 @@ public class Node extends Struct {
      * @param node the {@link Node} to insert
      * @return the inserted {@link Node}
      */
-    public @NotNull org.gtk.glib.Node prepend(@NotNull org.gtk.glib.Node node) {
-        java.util.Objects.requireNonNull(node, "Parameter 'node' must not be null");
+    public org.gtk.glib.Node prepend(org.gtk.glib.Node node) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_prepend.invokeExact(
@@ -577,7 +551,7 @@ public class Node extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -608,22 +582,15 @@ public class Node extends Struct {
      *     If depth is 2, the root and its children are visited. And so on.
      * @param func the function to call for each visited {@link Node}
      */
-    public void traverse(@NotNull org.gtk.glib.TraverseType order, @NotNull org.gtk.glib.TraverseFlags flags, int maxDepth, @NotNull org.gtk.glib.NodeTraverseFunc func) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void traverse(org.gtk.glib.TraverseType order, org.gtk.glib.TraverseFlags flags, int maxDepth, org.gtk.glib.NodeTraverseFunc func) {
         try {
             DowncallHandles.g_node_traverse.invokeExact(
                     handle(),
                     order.getValue(),
                     flags.getValue(),
                     maxDepth,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbNodeTraverseFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -644,18 +611,17 @@ public class Node extends Struct {
     /**
      * Creates a new {@link Node} containing the given data.
      * Used to create the first node in a tree.
-     * @param data the data of the new node
      * @return a new {@link Node}
      */
-    public static @NotNull org.gtk.glib.Node new_(@Nullable java.lang.foreign.MemoryAddress data) {
+    public static org.gtk.glib.Node new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_node_new.invokeExact(
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Node(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Node.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -816,31 +782,35 @@ public class Node extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Node.Builder} object constructs a {@link Node} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Node.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Node struct;
+        private final Node struct;
         
-         /**
-         * A {@link Node.Build} object constructs a {@link Node} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Node.allocate();
         }
         
          /**
          * Finish building the {@link Node} struct.
          * @return A new instance of {@code Node} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Node construct() {
+        public Node build() {
             return struct;
         }
         
@@ -849,7 +819,7 @@ public class Node extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(java.lang.foreign.MemoryAddress data) {
+        public Builder setData(java.lang.foreign.MemoryAddress data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
@@ -862,7 +832,7 @@ public class Node extends Struct {
          * @param next The value for the {@code next} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNext(org.gtk.glib.Node next) {
+        public Builder setNext(org.gtk.glib.Node next) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
@@ -874,7 +844,7 @@ public class Node extends Struct {
          * @param prev The value for the {@code prev} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrev(org.gtk.glib.Node prev) {
+        public Builder setPrev(org.gtk.glib.Node prev) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("prev"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
@@ -887,7 +857,7 @@ public class Node extends Struct {
          * @param parent The value for the {@code parent} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gtk.glib.Node parent) {
+        public Builder setParent(org.gtk.glib.Node parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -901,7 +871,7 @@ public class Node extends Struct {
          * @param children The value for the {@code children} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChildren(org.gtk.glib.Node children) {
+        public Builder setChildren(org.gtk.glib.Node children) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("children"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (children == null ? MemoryAddress.NULL : children.handle()));

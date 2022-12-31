@@ -23,17 +23,15 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
     
     private static final java.lang.String C_TYPE_NAME = "GtkCellRendererText";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.CellRenderer.getMemoryLayout().withName("parent")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.CellRenderer.getMemoryLayout().withName("parent")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -41,40 +39,26 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
      * <p>
      * Because CellRendererText is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CellRendererText(Addressable address, Ownership ownership) {
+    protected CellRendererText(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to CellRendererText if its GType is a (or inherits from) "GtkCellRendererText".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CellRendererText} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCellRendererText", a ClassCastException will be thrown.
-     */
-    public static CellRendererText castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellRendererText.getType())) {
-            return new CellRendererText(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRendererText");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellRendererText> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererText(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_cell_renderer_text_new.invokeExact();
         } catch (Throwable ERR) {
@@ -120,7 +104,7 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_cell_renderer_text_get_type.invokeExact();
@@ -132,7 +116,18 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
     
     @FunctionalInterface
     public interface Edited {
-        void signalReceived(CellRendererText sourceCellRendererText, @NotNull java.lang.String path, @NotNull java.lang.String newText);
+        void run(java.lang.String path, java.lang.String newText);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceCellRendererText, MemoryAddress path, MemoryAddress newText) {
+            run(Marshal.addressToString.marshal(path, null), Marshal.addressToString.marshal(newText, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Edited.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -146,56 +141,50 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
     public Signal<CellRendererText.Edited> onEdited(CellRendererText.Edited handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("edited"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CellRendererText.Callbacks.class, "signalCellRendererTextEdited",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<CellRendererText.Edited>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("edited"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link CellRendererText.Builder} object constructs a {@link CellRendererText} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CellRendererText.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.CellRenderer.Build {
+    public static class Builder extends org.gtk.gtk.CellRenderer.Builder {
         
-         /**
-         * A {@link CellRendererText.Build} object constructs a {@link CellRendererText} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CellRendererText} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CellRendererText} using {@link CellRendererText#castFrom}.
+         * {@link CellRendererText}.
          * @return A new instance of {@code CellRendererText} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CellRendererText construct() {
-            return CellRendererText.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CellRendererText.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CellRendererText build() {
+            return (CellRendererText) org.gtk.gobject.GObject.newWithProperties(
+                CellRendererText.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setAlignSet(boolean alignSet) {
+        public Builder setAlignSet(boolean alignSet) {
             names.add("align-set");
             values.add(org.gtk.gobject.Value.create(alignSet));
             return this;
@@ -210,19 +199,19 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
          * @param alignment The value for the {@code alignment} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAlignment(org.pango.Alignment alignment) {
+        public Builder setAlignment(org.pango.Alignment alignment) {
             names.add("alignment");
             values.add(org.gtk.gobject.Value.create(alignment));
             return this;
         }
         
-        public Build setAttributes(org.pango.AttrList attributes) {
+        public Builder setAttributes(org.pango.AttrList attributes) {
             names.add("attributes");
             values.add(org.gtk.gobject.Value.create(attributes));
             return this;
         }
         
-        public Build setBackground(java.lang.String background) {
+        public Builder setBackground(java.lang.String background) {
             names.add("background");
             values.add(org.gtk.gobject.Value.create(background));
             return this;
@@ -233,25 +222,25 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
          * @param backgroundRgba The value for the {@code background-rgba} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBackgroundRgba(org.gtk.gdk.RGBA backgroundRgba) {
+        public Builder setBackgroundRgba(org.gtk.gdk.RGBA backgroundRgba) {
             names.add("background-rgba");
             values.add(org.gtk.gobject.Value.create(backgroundRgba));
             return this;
         }
         
-        public Build setBackgroundSet(boolean backgroundSet) {
+        public Builder setBackgroundSet(boolean backgroundSet) {
             names.add("background-set");
             values.add(org.gtk.gobject.Value.create(backgroundSet));
             return this;
         }
         
-        public Build setEditable(boolean editable) {
+        public Builder setEditable(boolean editable) {
             names.add("editable");
             values.add(org.gtk.gobject.Value.create(editable));
             return this;
         }
         
-        public Build setEditableSet(boolean editableSet) {
+        public Builder setEditableSet(boolean editableSet) {
             names.add("editable-set");
             values.add(org.gtk.gobject.Value.create(editableSet));
             return this;
@@ -265,43 +254,43 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
          * @param ellipsize The value for the {@code ellipsize} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEllipsize(org.pango.EllipsizeMode ellipsize) {
+        public Builder setEllipsize(org.pango.EllipsizeMode ellipsize) {
             names.add("ellipsize");
             values.add(org.gtk.gobject.Value.create(ellipsize));
             return this;
         }
         
-        public Build setEllipsizeSet(boolean ellipsizeSet) {
+        public Builder setEllipsizeSet(boolean ellipsizeSet) {
             names.add("ellipsize-set");
             values.add(org.gtk.gobject.Value.create(ellipsizeSet));
             return this;
         }
         
-        public Build setFamily(java.lang.String family) {
+        public Builder setFamily(java.lang.String family) {
             names.add("family");
             values.add(org.gtk.gobject.Value.create(family));
             return this;
         }
         
-        public Build setFamilySet(boolean familySet) {
+        public Builder setFamilySet(boolean familySet) {
             names.add("family-set");
             values.add(org.gtk.gobject.Value.create(familySet));
             return this;
         }
         
-        public Build setFont(java.lang.String font) {
+        public Builder setFont(java.lang.String font) {
             names.add("font");
             values.add(org.gtk.gobject.Value.create(font));
             return this;
         }
         
-        public Build setFontDesc(org.pango.FontDescription fontDesc) {
+        public Builder setFontDesc(org.pango.FontDescription fontDesc) {
             names.add("font-desc");
             values.add(org.gtk.gobject.Value.create(fontDesc));
             return this;
         }
         
-        public Build setForeground(java.lang.String foreground) {
+        public Builder setForeground(java.lang.String foreground) {
             names.add("foreground");
             values.add(org.gtk.gobject.Value.create(foreground));
             return this;
@@ -312,31 +301,31 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
          * @param foregroundRgba The value for the {@code foreground-rgba} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setForegroundRgba(org.gtk.gdk.RGBA foregroundRgba) {
+        public Builder setForegroundRgba(org.gtk.gdk.RGBA foregroundRgba) {
             names.add("foreground-rgba");
             values.add(org.gtk.gobject.Value.create(foregroundRgba));
             return this;
         }
         
-        public Build setForegroundSet(boolean foregroundSet) {
+        public Builder setForegroundSet(boolean foregroundSet) {
             names.add("foreground-set");
             values.add(org.gtk.gobject.Value.create(foregroundSet));
             return this;
         }
         
-        public Build setLanguage(java.lang.String language) {
+        public Builder setLanguage(java.lang.String language) {
             names.add("language");
             values.add(org.gtk.gobject.Value.create(language));
             return this;
         }
         
-        public Build setLanguageSet(boolean languageSet) {
+        public Builder setLanguageSet(boolean languageSet) {
             names.add("language-set");
             values.add(org.gtk.gobject.Value.create(languageSet));
             return this;
         }
         
-        public Build setMarkup(java.lang.String markup) {
+        public Builder setMarkup(java.lang.String markup) {
             names.add("markup");
             values.add(org.gtk.gobject.Value.create(markup));
             return this;
@@ -354,7 +343,7 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
          * @param maxWidthChars The value for the {@code max-width-chars} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxWidthChars(int maxWidthChars) {
+        public Builder setMaxWidthChars(int maxWidthChars) {
             names.add("max-width-chars");
             values.add(org.gtk.gobject.Value.create(maxWidthChars));
             return this;
@@ -366,133 +355,133 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
          * @param placeholderText The value for the {@code placeholder-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlaceholderText(java.lang.String placeholderText) {
+        public Builder setPlaceholderText(java.lang.String placeholderText) {
             names.add("placeholder-text");
             values.add(org.gtk.gobject.Value.create(placeholderText));
             return this;
         }
         
-        public Build setRise(int rise) {
+        public Builder setRise(int rise) {
             names.add("rise");
             values.add(org.gtk.gobject.Value.create(rise));
             return this;
         }
         
-        public Build setRiseSet(boolean riseSet) {
+        public Builder setRiseSet(boolean riseSet) {
             names.add("rise-set");
             values.add(org.gtk.gobject.Value.create(riseSet));
             return this;
         }
         
-        public Build setScale(double scale) {
+        public Builder setScale(double scale) {
             names.add("scale");
             values.add(org.gtk.gobject.Value.create(scale));
             return this;
         }
         
-        public Build setScaleSet(boolean scaleSet) {
+        public Builder setScaleSet(boolean scaleSet) {
             names.add("scale-set");
             values.add(org.gtk.gobject.Value.create(scaleSet));
             return this;
         }
         
-        public Build setSingleParagraphMode(boolean singleParagraphMode) {
+        public Builder setSingleParagraphMode(boolean singleParagraphMode) {
             names.add("single-paragraph-mode");
             values.add(org.gtk.gobject.Value.create(singleParagraphMode));
             return this;
         }
         
-        public Build setSize(int size) {
+        public Builder setSize(int size) {
             names.add("size");
             values.add(org.gtk.gobject.Value.create(size));
             return this;
         }
         
-        public Build setSizePoints(double sizePoints) {
+        public Builder setSizePoints(double sizePoints) {
             names.add("size-points");
             values.add(org.gtk.gobject.Value.create(sizePoints));
             return this;
         }
         
-        public Build setSizeSet(boolean sizeSet) {
+        public Builder setSizeSet(boolean sizeSet) {
             names.add("size-set");
             values.add(org.gtk.gobject.Value.create(sizeSet));
             return this;
         }
         
-        public Build setStretch(org.pango.Stretch stretch) {
+        public Builder setStretch(org.pango.Stretch stretch) {
             names.add("stretch");
             values.add(org.gtk.gobject.Value.create(stretch));
             return this;
         }
         
-        public Build setStretchSet(boolean stretchSet) {
+        public Builder setStretchSet(boolean stretchSet) {
             names.add("stretch-set");
             values.add(org.gtk.gobject.Value.create(stretchSet));
             return this;
         }
         
-        public Build setStrikethrough(boolean strikethrough) {
+        public Builder setStrikethrough(boolean strikethrough) {
             names.add("strikethrough");
             values.add(org.gtk.gobject.Value.create(strikethrough));
             return this;
         }
         
-        public Build setStrikethroughSet(boolean strikethroughSet) {
+        public Builder setStrikethroughSet(boolean strikethroughSet) {
             names.add("strikethrough-set");
             values.add(org.gtk.gobject.Value.create(strikethroughSet));
             return this;
         }
         
-        public Build setStyle(org.pango.Style style) {
+        public Builder setStyle(org.pango.Style style) {
             names.add("style");
             values.add(org.gtk.gobject.Value.create(style));
             return this;
         }
         
-        public Build setStyleSet(boolean styleSet) {
+        public Builder setStyleSet(boolean styleSet) {
             names.add("style-set");
             values.add(org.gtk.gobject.Value.create(styleSet));
             return this;
         }
         
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             names.add("text");
             values.add(org.gtk.gobject.Value.create(text));
             return this;
         }
         
-        public Build setUnderline(org.pango.Underline underline) {
+        public Builder setUnderline(org.pango.Underline underline) {
             names.add("underline");
             values.add(org.gtk.gobject.Value.create(underline));
             return this;
         }
         
-        public Build setUnderlineSet(boolean underlineSet) {
+        public Builder setUnderlineSet(boolean underlineSet) {
             names.add("underline-set");
             values.add(org.gtk.gobject.Value.create(underlineSet));
             return this;
         }
         
-        public Build setVariant(org.pango.Variant variant) {
+        public Builder setVariant(org.pango.Variant variant) {
             names.add("variant");
             values.add(org.gtk.gobject.Value.create(variant));
             return this;
         }
         
-        public Build setVariantSet(boolean variantSet) {
+        public Builder setVariantSet(boolean variantSet) {
             names.add("variant-set");
             values.add(org.gtk.gobject.Value.create(variantSet));
             return this;
         }
         
-        public Build setWeight(int weight) {
+        public Builder setWeight(int weight) {
             names.add("weight");
             values.add(org.gtk.gobject.Value.create(weight));
             return this;
         }
         
-        public Build setWeightSet(boolean weightSet) {
+        public Builder setWeightSet(boolean weightSet) {
             names.add("weight-set");
             values.add(org.gtk.gobject.Value.create(weightSet));
             return this;
@@ -505,7 +494,7 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
          * @param widthChars The value for the {@code width-chars} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidthChars(int widthChars) {
+        public Builder setWidthChars(int widthChars) {
             names.add("width-chars");
             values.add(org.gtk.gobject.Value.create(widthChars));
             return this;
@@ -518,7 +507,7 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
          * @param wrapMode The value for the {@code wrap-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWrapMode(org.pango.WrapMode wrapMode) {
+        public Builder setWrapMode(org.pango.WrapMode wrapMode) {
             names.add("wrap-mode");
             values.add(org.gtk.gobject.Value.create(wrapMode));
             return this;
@@ -531,7 +520,7 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
          * @param wrapWidth The value for the {@code wrap-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWrapWidth(int wrapWidth) {
+        public Builder setWrapWidth(int wrapWidth) {
             names.add("wrap-width");
             values.add(org.gtk.gobject.Value.create(wrapWidth));
             return this;
@@ -557,14 +546,5 @@ public class CellRendererText extends org.gtk.gtk.CellRenderer {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalCellRendererTextEdited(MemoryAddress sourceCellRendererText, MemoryAddress path, MemoryAddress newText, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CellRendererText.Edited) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CellRendererText(sourceCellRendererText, Ownership.NONE), Interop.getStringFrom(path), Interop.getStringFrom(newText));
-        }
     }
 }

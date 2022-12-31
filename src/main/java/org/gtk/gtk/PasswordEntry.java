@@ -59,40 +59,26 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * <p>
      * Because PasswordEntry is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PasswordEntry(Addressable address, Ownership ownership) {
+    protected PasswordEntry(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PasswordEntry if its GType is a (or inherits from) "GtkPasswordEntry".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PasswordEntry} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPasswordEntry", a ClassCastException will be thrown.
-     */
-    public static PasswordEntry castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PasswordEntry.getType())) {
-            return new PasswordEntry(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPasswordEntry");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PasswordEntry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PasswordEntry(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_password_entry_new.invokeExact();
         } catch (Throwable ERR) {
@@ -120,7 +106,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -136,7 +122,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -165,7 +151,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
         try {
             DowncallHandles.gtk_password_entry_set_show_peek_icon.invokeExact(
                     handle(),
-                    showPeekIcon ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showPeekIcon, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,7 +161,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_password_entry_get_type.invokeExact();
@@ -187,7 +173,18 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(PasswordEntry sourcePasswordEntry);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePasswordEntry) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -200,52 +197,46 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
     public Signal<PasswordEntry.Activate> onActivate(PasswordEntry.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PasswordEntry.Callbacks.class, "signalPasswordEntryActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PasswordEntry.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link PasswordEntry.Builder} object constructs a {@link PasswordEntry} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PasswordEntry.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link PasswordEntry.Build} object constructs a {@link PasswordEntry} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PasswordEntry} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PasswordEntry} using {@link PasswordEntry#castFrom}.
+         * {@link PasswordEntry}.
          * @return A new instance of {@code PasswordEntry} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PasswordEntry construct() {
-            return PasswordEntry.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PasswordEntry.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PasswordEntry build() {
+            return (PasswordEntry) org.gtk.gobject.GObject.newWithProperties(
+                PasswordEntry.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -254,7 +245,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
          * @param activatesDefault The value for the {@code activates-default} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActivatesDefault(boolean activatesDefault) {
+        public Builder setActivatesDefault(boolean activatesDefault) {
             names.add("activates-default");
             values.add(org.gtk.gobject.Value.create(activatesDefault));
             return this;
@@ -266,7 +257,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
          * @param extraMenu The value for the {@code extra-menu} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
+        public Builder setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
             names.add("extra-menu");
             values.add(org.gtk.gobject.Value.create(extraMenu));
             return this;
@@ -278,7 +269,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
          * @param placeholderText The value for the {@code placeholder-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlaceholderText(java.lang.String placeholderText) {
+        public Builder setPlaceholderText(java.lang.String placeholderText) {
             names.add("placeholder-text");
             values.add(org.gtk.gobject.Value.create(placeholderText));
             return this;
@@ -289,7 +280,7 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
          * @param showPeekIcon The value for the {@code show-peek-icon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowPeekIcon(boolean showPeekIcon) {
+        public Builder setShowPeekIcon(boolean showPeekIcon) {
             names.add("show-peek-icon");
             values.add(org.gtk.gobject.Value.create(showPeekIcon));
             return this;
@@ -333,14 +324,5 @@ public class PasswordEntry extends org.gtk.gtk.Widget implements org.gtk.gtk.Acc
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalPasswordEntryActivate(MemoryAddress sourcePasswordEntry, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PasswordEntry.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PasswordEntry(sourcePasswordEntry, Ownership.NONE));
-        }
     }
 }

@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class Transcoder extends org.gstreamer.gst.Object {
+public class Transcoder extends org.gstreamer.gst.GstObject {
     
     static {
         GstTranscoder.javagi$ensureInitialized();
@@ -27,67 +27,47 @@ public class Transcoder extends org.gstreamer.gst.Object {
      * <p>
      * Because Transcoder is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Transcoder(Addressable address, Ownership ownership) {
+    protected Transcoder(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Transcoder if its GType is a (or inherits from) "GstTranscoder".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Transcoder} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstTranscoder", a ClassCastException will be thrown.
-     */
-    public static Transcoder castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Transcoder.getType())) {
-            return new Transcoder(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstTranscoder");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Transcoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Transcoder(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String sourceUri, @NotNull java.lang.String destUri, @NotNull java.lang.String encodingProfile) {
-        java.util.Objects.requireNonNull(sourceUri, "Parameter 'sourceUri' must not be null");
-        java.util.Objects.requireNonNull(destUri, "Parameter 'destUri' must not be null");
-        java.util.Objects.requireNonNull(encodingProfile, "Parameter 'encodingProfile' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String sourceUri, java.lang.String destUri, java.lang.String encodingProfile) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_new.invokeExact(
-                    Interop.allocateNativeString(sourceUri),
-                    Interop.allocateNativeString(destUri),
-                    Interop.allocateNativeString(encodingProfile));
+                    Marshal.stringToAddress.marshal(sourceUri, null),
+                    Marshal.stringToAddress.marshal(destUri, null),
+                    Marshal.stringToAddress.marshal(encodingProfile, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    public Transcoder(@NotNull java.lang.String sourceUri, @NotNull java.lang.String destUri, @NotNull java.lang.String encodingProfile) {
+    public Transcoder(java.lang.String sourceUri, java.lang.String destUri, java.lang.String encodingProfile) {
         super(constructNew(sourceUri, destUri, encodingProfile), Ownership.NONE);
     }
     
-    private static Addressable constructNewFull(@NotNull java.lang.String sourceUri, @NotNull java.lang.String destUri, @NotNull org.gstreamer.pbutils.EncodingProfile profile) {
-        java.util.Objects.requireNonNull(sourceUri, "Parameter 'sourceUri' must not be null");
-        java.util.Objects.requireNonNull(destUri, "Parameter 'destUri' must not be null");
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFull(java.lang.String sourceUri, java.lang.String destUri, org.gstreamer.pbutils.EncodingProfile profile) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_new_full.invokeExact(
-                    Interop.allocateNativeString(sourceUri),
-                    Interop.allocateNativeString(destUri),
+                    Marshal.stringToAddress.marshal(sourceUri, null),
+                    Marshal.stringToAddress.marshal(destUri, null),
                     profile.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -95,8 +75,9 @@ public class Transcoder extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public static Transcoder newFull(@NotNull java.lang.String sourceUri, @NotNull java.lang.String destUri, @NotNull org.gstreamer.pbutils.EncodingProfile profile) {
-        return new Transcoder(constructNewFull(sourceUri, destUri, profile), Ownership.NONE);
+    public static Transcoder newFull(java.lang.String sourceUri, java.lang.String destUri, org.gstreamer.pbutils.EncodingProfile profile) {
+        var RESULT = constructNewFull(sourceUri, destUri, profile);
+        return (org.gstreamer.transcoder.Transcoder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.transcoder.Transcoder.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     public boolean getAvoidReencoding() {
@@ -107,7 +88,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -115,7 +96,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
      * @return a string containing the URI of the
      * destination of the transcoded stream. g_free() after usage.
      */
-    public @NotNull java.lang.String getDestUri() {
+    public java.lang.String getDestUri() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_dest_uri.invokeExact(
@@ -123,7 +104,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -131,7 +112,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
      * @return the duration of the transcoding media stream, in
      * nanoseconds.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getDuration() {
+    public org.gstreamer.gst.ClockTime getDuration() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_transcoder_get_duration.invokeExact(
@@ -157,7 +138,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
      * fill memory. To avoid that, the bus has to be set "flushing".
      * @return The transcoder message bus instance
      */
-    public @NotNull org.gstreamer.gst.Bus getMessageBus() {
+    public org.gstreamer.gst.Bus getMessageBus() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_message_bus.invokeExact(
@@ -165,10 +146,10 @@ public class Transcoder extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Bus(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Bus) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Bus.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.gst.Element getPipeline() {
+    public org.gstreamer.gst.Element getPipeline() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_pipeline.invokeExact(
@@ -176,10 +157,10 @@ public class Transcoder extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.gst.ClockTime getPosition() {
+    public org.gstreamer.gst.ClockTime getPosition() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_transcoder_get_position.invokeExact(
@@ -222,7 +203,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.transcoder.TranscoderSignalAdapter(RESULT, Ownership.FULL);
+        return (org.gstreamer.transcoder.TranscoderSignalAdapter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.transcoder.TranscoderSignalAdapter.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -230,7 +211,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
      * @return a string containing the URI of the
      * source stream. g_free() after usage.
      */
-    public @NotNull java.lang.String getSourceUri() {
+    public java.lang.String getSourceUri() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_source_uri.invokeExact(
@@ -238,7 +219,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -247,7 +228,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
      * @return The {@link TranscoderSignalAdapter} to connect signal
      * handlers to.
      */
-    public @NotNull org.gstreamer.transcoder.TranscoderSignalAdapter getSyncSignalAdapter() {
+    public org.gstreamer.transcoder.TranscoderSignalAdapter getSyncSignalAdapter() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_get_sync_signal_adapter.invokeExact(
@@ -255,7 +236,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.transcoder.TranscoderSignalAdapter(RESULT, Ownership.FULL);
+        return (org.gstreamer.transcoder.TranscoderSignalAdapter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.transcoder.TranscoderSignalAdapter.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -277,7 +258,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -299,7 +280,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_transcoder_set_avoid_reencoding.invokeExact(
                     handle(),
-                    avoidReencoding ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(avoidReencoding, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +322,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_transcoder_get_type.invokeExact();
@@ -351,8 +332,7 @@ public class Transcoder extends org.gstreamer.gst.Object {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static boolean isTranscoderMessage(@NotNull org.gstreamer.gst.Message msg) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static boolean isTranscoderMessage(org.gstreamer.gst.Message msg) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_transcoder_is_transcoder_message.invokeExact(
@@ -360,40 +340,42 @@ public class Transcoder extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link Transcoder.Builder} object constructs a {@link Transcoder} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Transcoder.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link Transcoder.Build} object constructs a {@link Transcoder} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Transcoder} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Transcoder} using {@link Transcoder#castFrom}.
+         * {@link Transcoder}.
          * @return A new instance of {@code Transcoder} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Transcoder construct() {
-            return Transcoder.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Transcoder.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Transcoder build() {
+            return (Transcoder) org.gtk.gobject.GObject.newWithProperties(
+                Transcoder.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -402,49 +384,49 @@ public class Transcoder extends org.gstreamer.gst.Object {
          * @param avoidReencoding The value for the {@code avoid-reencoding} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAvoidReencoding(boolean avoidReencoding) {
+        public Builder setAvoidReencoding(boolean avoidReencoding) {
             names.add("avoid-reencoding");
             values.add(org.gtk.gobject.Value.create(avoidReencoding));
             return this;
         }
         
-        public Build setDestUri(java.lang.String destUri) {
+        public Builder setDestUri(java.lang.String destUri) {
             names.add("dest-uri");
             values.add(org.gtk.gobject.Value.create(destUri));
             return this;
         }
         
-        public Build setDuration(long duration) {
+        public Builder setDuration(long duration) {
             names.add("duration");
             values.add(org.gtk.gobject.Value.create(duration));
             return this;
         }
         
-        public Build setPipeline(org.gstreamer.gst.Element pipeline) {
+        public Builder setPipeline(org.gstreamer.gst.Element pipeline) {
             names.add("pipeline");
             values.add(org.gtk.gobject.Value.create(pipeline));
             return this;
         }
         
-        public Build setPosition(long position) {
+        public Builder setPosition(long position) {
             names.add("position");
             values.add(org.gtk.gobject.Value.create(position));
             return this;
         }
         
-        public Build setPositionUpdateInterval(int positionUpdateInterval) {
+        public Builder setPositionUpdateInterval(int positionUpdateInterval) {
             names.add("position-update-interval");
             values.add(org.gtk.gobject.Value.create(positionUpdateInterval));
             return this;
         }
         
-        public Build setProfile(org.gstreamer.pbutils.EncodingProfile profile) {
+        public Builder setProfile(org.gstreamer.pbutils.EncodingProfile profile) {
             names.add("profile");
             values.add(org.gtk.gobject.Value.create(profile));
             return this;
         }
         
-        public Build setSrcUri(java.lang.String srcUri) {
+        public Builder setSrcUri(java.lang.String srcUri) {
             names.add("src-uri");
             values.add(org.gtk.gobject.Value.create(srcUri));
             return this;

@@ -40,8 +40,10 @@ public class SparseMemoryBindFlags extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SparseMemoryBindFlags(Addressable address, Ownership ownership) {
+    protected SparseMemoryBindFlags(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SparseMemoryBindFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SparseMemoryBindFlags(input, ownership);
 }

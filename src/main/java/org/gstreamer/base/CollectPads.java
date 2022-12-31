@@ -43,7 +43,7 @@ import org.jetbrains.annotations.*;
  *     Thus these pads may but need not have data when the callback is called.
  *     All pads are in waiting mode by default.
  */
-public class CollectPads extends org.gstreamer.gst.Object {
+public class CollectPads extends org.gstreamer.gst.GstObject {
     
     static {
         GstBase.javagi$ensureInitialized();
@@ -51,21 +51,19 @@ public class CollectPads extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstCollectPads";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        org.gtk.glib.RecMutex.getMemoryLayout().withName("stream_lock"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            org.gtk.glib.RecMutex.getMemoryLayout().withName("stream_lock"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -73,40 +71,26 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * <p>
      * Because CollectPads is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CollectPads(Addressable address, Ownership ownership) {
+    protected CollectPads(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to CollectPads if its GType is a (or inherits from) "GstCollectPads".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CollectPads} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstCollectPads", a ClassCastException will be thrown.
-     */
-    public static CollectPads castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CollectPads.getType())) {
-            return new CollectPads(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstCollectPads");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CollectPads> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CollectPads(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_collect_pads_new.invokeExact();
         } catch (Throwable ERR) {
@@ -158,8 +142,19 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @return a new {@link CollectData} to identify the
      *   new pad. Or {@code null} if wrong parameters are supplied.
      */
-    public @Nullable org.gstreamer.base.CollectData addPad(@NotNull org.gstreamer.gst.Pad pad, int size, @NotNull org.gstreamer.base.CollectDataDestroyNotify destroyNotify, boolean lock) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public @Nullable org.gstreamer.base.CollectData addPad(org.gstreamer.gst.Pad pad, int size, org.gstreamer.base.CollectDataDestroyNotify destroyNotify, boolean lock) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gst_collect_pads_add_pad.invokeExact(
+                    handle(),
+                    pad.handle(),
+                    size,
+                    (Addressable) destroyNotify.toCallback(),
+                    Marshal.booleanToInteger.marshal(lock, null).intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.gstreamer.base.CollectData.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -195,12 +190,8 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @param cdata collect data of corresponding pad
      * @param buf buffer being clipped
      * @param outbuf output buffer with running time, or NULL if clipped
-     * @param userData user data (unused)
      */
-    public @NotNull org.gstreamer.gst.FlowReturn clipRunningTime(@NotNull org.gstreamer.base.CollectData cdata, @NotNull org.gstreamer.gst.Buffer buf, @NotNull Out<org.gstreamer.gst.Buffer> outbuf, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(cdata, "Parameter 'cdata' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
+    public org.gstreamer.gst.FlowReturn clipRunningTime(org.gstreamer.base.CollectData cdata, org.gstreamer.gst.Buffer buf, @Nullable Out<org.gstreamer.gst.Buffer> outbuf) {
         MemorySegment outbufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -208,12 +199,12 @@ public class CollectPads extends org.gstreamer.gst.Object {
                     handle(),
                     cdata.handle(),
                     buf.handle(),
-                    (Addressable) outbufPOINTER.address(),
-                    (Addressable) userData);
+                    (Addressable) (outbuf == null ? MemoryAddress.NULL : (Addressable) outbufPOINTER.address()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outbuf.set(new org.gstreamer.gst.Buffer(outbufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (outbuf != null) outbuf.set(org.gstreamer.gst.Buffer.fromAddress.marshal(outbufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
@@ -225,20 +216,18 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @param event event being processed
      * @param discard process but do not send event downstream
      */
-    public boolean eventDefault(@NotNull org.gstreamer.base.CollectData data, @NotNull org.gstreamer.gst.Event event, boolean discard) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public boolean eventDefault(org.gstreamer.base.CollectData data, org.gstreamer.gst.Event event, boolean discard) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_collect_pads_event_default.invokeExact(
                     handle(),
                     data.handle(),
                     event.handle(),
-                    discard ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(discard, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -253,8 +242,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @return The number of bytes flushed This can be less than {@code size} and
      * is 0 if the pad was end-of-stream.
      */
-    public int flush(@NotNull org.gstreamer.base.CollectData data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public int flush(org.gstreamer.base.CollectData data, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_collect_pads_flush.invokeExact(
@@ -277,8 +265,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @return The buffer in {@code data} or {@code null} if no
      * buffer is queued. should unref the buffer after usage.
      */
-    public @Nullable org.gstreamer.gst.Buffer peek(@NotNull org.gstreamer.base.CollectData data) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public @Nullable org.gstreamer.gst.Buffer peek(org.gstreamer.base.CollectData data) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_collect_pads_peek.invokeExact(
@@ -287,7 +274,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -300,8 +287,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @return The buffer in {@code data} or {@code null} if no
      * buffer was queued. You should unref the buffer after usage.
      */
-    public @Nullable org.gstreamer.gst.Buffer pop(@NotNull org.gstreamer.base.CollectData data) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public @Nullable org.gstreamer.gst.Buffer pop(org.gstreamer.base.CollectData data) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_collect_pads_pop.invokeExact(
@@ -310,7 +296,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -321,20 +307,18 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @param query query being processed
      * @param discard process but do not send event downstream
      */
-    public boolean queryDefault(@NotNull org.gstreamer.base.CollectData data, @NotNull org.gstreamer.gst.Query query, boolean discard) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public boolean queryDefault(org.gstreamer.base.CollectData data, org.gstreamer.gst.Query query, boolean discard) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_collect_pads_query_default.invokeExact(
                     handle(),
                     data.handle(),
                     query.handle(),
-                    discard ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(discard, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -350,8 +334,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * be less that requested. A return of {@code null} signals that the pad is
      * end-of-stream. Unref the buffer after use.
      */
-    public @Nullable org.gstreamer.gst.Buffer readBuffer(@NotNull org.gstreamer.base.CollectData data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public @Nullable org.gstreamer.gst.Buffer readBuffer(org.gstreamer.base.CollectData data, int size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_collect_pads_read_buffer.invokeExact(
@@ -361,7 +344,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -375,8 +358,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @param pad the pad to remove
      * @return {@code true} if the pad could be removed.
      */
-    public boolean removePad(@NotNull org.gstreamer.gst.Pad pad) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public boolean removePad(org.gstreamer.gst.Pad pad) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_collect_pads_remove_pad.invokeExact(
@@ -385,7 +367,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -397,17 +379,12 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * MT safe.
      * @param func the function to set
      */
-    public void setBufferFunction(@NotNull org.gstreamer.base.CollectPadsBufferFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setBufferFunction(org.gstreamer.base.CollectPadsBufferFunction func) {
         try {
             DowncallHandles.gst_collect_pads_set_buffer_function.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbCollectPadsBufferFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -418,17 +395,12 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * on a pad managed by {@code pads}. See {@link CollectPadsClipFunction} for more info.
      * @param clipfunc clip function to install
      */
-    public void setClipFunction(@NotNull org.gstreamer.base.CollectPadsClipFunction clipfunc) {
-        java.util.Objects.requireNonNull(clipfunc, "Parameter 'clipfunc' must not be null");
+    public void setClipFunction(org.gstreamer.base.CollectPadsClipFunction clipfunc) {
         try {
             DowncallHandles.gst_collect_pads_set_clip_function.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbCollectPadsClipFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(clipfunc)));
+                    (Addressable) clipfunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -440,17 +412,12 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * MT safe.
      * @param func the function to set
      */
-    public void setCompareFunction(@NotNull org.gstreamer.base.CollectPadsCompareFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setCompareFunction(org.gstreamer.base.CollectPadsCompareFunction func) {
         try {
             DowncallHandles.gst_collect_pads_set_compare_function.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbCollectPadsCompareFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, long.class, MemoryAddress.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -467,17 +434,12 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * MT safe.
      * @param func the function to set
      */
-    public void setEventFunction(@NotNull org.gstreamer.base.CollectPadsEventFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setEventFunction(org.gstreamer.base.CollectPadsEventFunction func) {
         try {
             DowncallHandles.gst_collect_pads_set_event_function.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbCollectPadsEventFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -489,17 +451,12 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * handling. See {@link CollectPadsFlushFunction} for more info.
      * @param func flush function to install
      */
-    public void setFlushFunction(@NotNull org.gstreamer.base.CollectPadsFlushFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setFlushFunction(org.gstreamer.base.CollectPadsFlushFunction func) {
         try {
             DowncallHandles.gst_collect_pads_set_flush_function.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbCollectPadsFlushFunction",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -519,7 +476,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_collect_pads_set_flushing.invokeExact(
                     handle(),
-                    flushing ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flushing, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -539,17 +496,12 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * MT safe.
      * @param func the function to set
      */
-    public void setFunction(@NotNull org.gstreamer.base.CollectPadsFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setFunction(org.gstreamer.base.CollectPadsFunction func) {
         try {
             DowncallHandles.gst_collect_pads_set_function.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbCollectPadsFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -566,17 +518,12 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * MT safe.
      * @param func the function to set
      */
-    public void setQueryFunction(@NotNull org.gstreamer.base.CollectPadsQueryFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setQueryFunction(org.gstreamer.base.CollectPadsQueryFunction func) {
         try {
             DowncallHandles.gst_collect_pads_set_query_function.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbCollectPadsQueryFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -595,13 +542,12 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @param waiting boolean indicating whether this pad should operate
      *           in waiting or non-waiting mode
      */
-    public void setWaiting(@NotNull org.gstreamer.base.CollectData data, boolean waiting) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void setWaiting(org.gstreamer.base.CollectData data, boolean waiting) {
         try {
             DowncallHandles.gst_collect_pads_set_waiting.invokeExact(
                     handle(),
                     data.handle(),
-                    waiting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(waiting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -614,9 +560,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * @param pad src {@link org.gstreamer.gst.Pad} that received the event
      * @param event event being processed
      */
-    public boolean srcEventDefault(@NotNull org.gstreamer.gst.Pad pad, @NotNull org.gstreamer.gst.Event event) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public boolean srcEventDefault(org.gstreamer.gst.Pad pad, org.gstreamer.gst.Event event) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_collect_pads_src_event_default.invokeExact(
@@ -626,7 +570,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -672,8 +616,7 @@ public class CollectPads extends org.gstreamer.gst.Object {
      * be less that requested. A return of {@code null} signals that the pad is
      * end-of-stream. Unref the buffer after use.
      */
-    public @Nullable org.gstreamer.gst.Buffer takeBuffer(@NotNull org.gstreamer.base.CollectData data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public @Nullable org.gstreamer.gst.Buffer takeBuffer(org.gstreamer.base.CollectData data, int size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_collect_pads_take_buffer.invokeExact(
@@ -683,14 +626,14 @@ public class CollectPads extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_collect_pads_get_type.invokeExact();
@@ -699,38 +642,40 @@ public class CollectPads extends org.gstreamer.gst.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link CollectPads.Builder} object constructs a {@link CollectPads} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CollectPads.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link CollectPads.Build} object constructs a {@link CollectPads} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CollectPads} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CollectPads} using {@link CollectPads#castFrom}.
+         * {@link CollectPads}.
          * @return A new instance of {@code CollectPads} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CollectPads construct() {
-            return CollectPads.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CollectPads.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CollectPads build() {
+            return (CollectPads) org.gtk.gobject.GObject.newWithProperties(
+                CollectPads.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

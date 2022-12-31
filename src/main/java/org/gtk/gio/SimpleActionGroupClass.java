@@ -13,18 +13,16 @@ public class SimpleActionGroupClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GSimpleActionGroupClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
-        MemoryLayout.sequenceLayout(12, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.ObjectClass.getMemoryLayout().withName("parent_class"),
+            MemoryLayout.sequenceLayout(12, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,46 +43,52 @@ public class SimpleActionGroupClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SimpleActionGroupClass(Addressable address, Ownership ownership) {
+    protected SimpleActionGroupClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SimpleActionGroupClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleActionGroupClass(input, ownership);
+    
+    /**
+     * A {@link SimpleActionGroupClass.Builder} object constructs a {@link SimpleActionGroupClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SimpleActionGroupClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SimpleActionGroupClass struct;
+        private final SimpleActionGroupClass struct;
         
-         /**
-         * A {@link SimpleActionGroupClass.Build} object constructs a {@link SimpleActionGroupClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SimpleActionGroupClass.allocate();
         }
         
          /**
          * Finish building the {@link SimpleActionGroupClass} struct.
          * @return A new instance of {@code SimpleActionGroupClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SimpleActionGroupClass construct() {
+        public SimpleActionGroupClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gobject.ObjectClass parentClass) {
+        public Builder setParentClass(org.gtk.gobject.ObjectClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));

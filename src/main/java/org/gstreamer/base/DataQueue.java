@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * also provides size-related functionality. This object should be used for
  * any {@link org.gstreamer.gst.Element} that wishes to provide some sort of queueing functionality.
  */
-public class DataQueue extends org.gtk.gobject.Object {
+public class DataQueue extends org.gtk.gobject.GObject {
     
     static {
         GstBase.javagi$ensureInitialized();
@@ -18,19 +18,17 @@ public class DataQueue extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstDataQueue";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -38,54 +36,21 @@ public class DataQueue extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DataQueue(Addressable address, Ownership ownership) {
+    protected DataQueue(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DataQueue if its GType is a (or inherits from) "GstDataQueue".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DataQueue} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstDataQueue", a ClassCastException will be thrown.
-     */
-    public static DataQueue castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DataQueue.getType())) {
-            return new DataQueue(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstDataQueue");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DataQueue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DataQueue(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.base.DataQueueCheckFullFunction checkfull, @NotNull org.gstreamer.base.DataQueueFullCallback fullcallback, @NotNull org.gstreamer.base.DataQueueEmptyCallback emptycallback) {
-        java.util.Objects.requireNonNull(checkfull, "Parameter 'checkfull' must not be null");
-        java.util.Objects.requireNonNull(fullcallback, "Parameter 'fullcallback' must not be null");
-        java.util.Objects.requireNonNull(emptycallback, "Parameter 'emptycallback' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.base.DataQueueCheckFullFunction checkfull, org.gstreamer.base.DataQueueFullCallback fullcallback, org.gstreamer.base.DataQueueEmptyCallback emptycallback) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_data_queue_new.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbDataQueueCheckFullFunction",
-                            MethodType.methodType(int.class, MemoryAddress.class, int.class, int.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbDataQueueFullCallback",
-                            MethodType.methodType(int.class, MemoryAddress.class, int.class, int.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstBase.Callbacks.class, "cbDataQueueEmptyCallback",
-                            MethodType.methodType(int.class, MemoryAddress.class, int.class, int.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(checkfull)));
+                    (Addressable) checkfull.toCallback(),
+                    (Addressable) fullcallback.toCallback(),
+                    (Addressable) emptycallback.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -102,17 +67,16 @@ public class DataQueue extends org.gtk.gobject.Object {
      * @param fullcallback the callback which will be called when the queue is considered full.
      * @param emptycallback the callback which will be called when the queue is considered empty.
      */
-    public DataQueue(@NotNull org.gstreamer.base.DataQueueCheckFullFunction checkfull, @NotNull org.gstreamer.base.DataQueueFullCallback fullcallback, @NotNull org.gstreamer.base.DataQueueEmptyCallback emptycallback) {
+    public DataQueue(org.gstreamer.base.DataQueueCheckFullFunction checkfull, org.gstreamer.base.DataQueueFullCallback fullcallback, org.gstreamer.base.DataQueueEmptyCallback emptycallback) {
         super(constructNew(checkfull, fullcallback, emptycallback), Ownership.FULL);
     }
     
     /**
-     * Pop and unref the head-most {@link org.gstreamer.gst.MiniObject} with the given {@link org.gtk.gobject.Type}.
-     * @param type The {@link org.gtk.gobject.Type} of the item to drop.
+     * Pop and unref the head-most {@link org.gstreamer.gst.MiniObject} with the given {@link org.gtk.glib.Type}.
+     * @param type The {@link org.gtk.glib.Type} of the item to drop.
      * @return {@code true} if an element was removed.
      */
-    public boolean dropHead(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public boolean dropHead(org.gtk.glib.Type type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_data_queue_drop_head.invokeExact(
@@ -121,7 +85,7 @@ public class DataQueue extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -142,8 +106,7 @@ public class DataQueue extends org.gtk.gobject.Object {
      * Get the current level of the queue.
      * @param level the location to store the result
      */
-    public void getLevel(@NotNull org.gstreamer.base.DataQueueSize level) {
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
+    public void getLevel(org.gstreamer.base.DataQueueSize level) {
         try {
             DowncallHandles.gst_data_queue_get_level.invokeExact(
                     handle(),
@@ -166,7 +129,7 @@ public class DataQueue extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -183,7 +146,7 @@ public class DataQueue extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -207,8 +170,7 @@ public class DataQueue extends org.gtk.gobject.Object {
      * @param item pointer to store the returned {@link DataQueueItem}.
      * @return {@code true} if an {@code item} was successfully retrieved from the {@code queue}.
      */
-    public boolean peek(@NotNull Out<org.gstreamer.base.DataQueueItem> item) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
+    public boolean peek(Out<org.gstreamer.base.DataQueueItem> item) {
         MemorySegment itemPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -218,8 +180,8 @@ public class DataQueue extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        item.set(new org.gstreamer.base.DataQueueItem(itemPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        item.set(org.gstreamer.base.DataQueueItem.fromAddress.marshal(itemPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -230,8 +192,7 @@ public class DataQueue extends org.gtk.gobject.Object {
      * @param item pointer to store the returned {@link DataQueueItem}.
      * @return {@code true} if an {@code item} was successfully retrieved from the {@code queue}.
      */
-    public boolean pop(@NotNull Out<org.gstreamer.base.DataQueueItem> item) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
+    public boolean pop(Out<org.gstreamer.base.DataQueueItem> item) {
         MemorySegment itemPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -241,8 +202,8 @@ public class DataQueue extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        item.set(new org.gstreamer.base.DataQueueItem(itemPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        item.set(org.gstreamer.base.DataQueueItem.fromAddress.marshal(itemPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -258,8 +219,7 @@ public class DataQueue extends org.gtk.gobject.Object {
      * @param item a {@link DataQueueItem}.
      * @return {@code true} if the {@code item} was successfully pushed on the {@code queue}.
      */
-    public boolean push(@NotNull org.gstreamer.base.DataQueueItem item) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
+    public boolean push(org.gstreamer.base.DataQueueItem item) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_data_queue_push.invokeExact(
@@ -268,7 +228,7 @@ public class DataQueue extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -284,8 +244,7 @@ public class DataQueue extends org.gtk.gobject.Object {
      * @param item a {@link DataQueueItem}.
      * @return {@code true} if the {@code item} was successfully pushed on the {@code queue}.
      */
-    public boolean pushForce(@NotNull org.gstreamer.base.DataQueueItem item) {
-        java.util.Objects.requireNonNull(item, "Parameter 'item' must not be null");
+    public boolean pushForce(org.gstreamer.base.DataQueueItem item) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_data_queue_push_force.invokeExact(
@@ -294,7 +253,7 @@ public class DataQueue extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -311,7 +270,7 @@ public class DataQueue extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gst_data_queue_set_flushing.invokeExact(
                     handle(),
-                    flushing ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flushing, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -321,7 +280,7 @@ public class DataQueue extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_data_queue_get_type.invokeExact();
@@ -333,7 +292,18 @@ public class DataQueue extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Empty {
-        void signalReceived(DataQueue sourceDataQueue);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDataQueue) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Empty.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -347,16 +317,8 @@ public class DataQueue extends org.gtk.gobject.Object {
     public Signal<DataQueue.Empty> onEmpty(DataQueue.Empty handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("empty"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DataQueue.Callbacks.class, "signalDataQueueEmpty",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DataQueue.Empty>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("empty"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -364,7 +326,18 @@ public class DataQueue extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Full {
-        void signalReceived(DataQueue sourceDataQueue);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDataQueue) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Full.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -378,68 +351,62 @@ public class DataQueue extends org.gtk.gobject.Object {
     public Signal<DataQueue.Full> onFull(DataQueue.Full handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("full"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DataQueue.Callbacks.class, "signalDataQueueFull",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DataQueue.Full>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("full"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DataQueue.Builder} object constructs a {@link DataQueue} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DataQueue.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DataQueue.Build} object constructs a {@link DataQueue} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DataQueue} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DataQueue} using {@link DataQueue#castFrom}.
+         * {@link DataQueue}.
          * @return A new instance of {@code DataQueue} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DataQueue construct() {
-            return DataQueue.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DataQueue.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DataQueue build() {
+            return (DataQueue) org.gtk.gobject.GObject.newWithProperties(
+                DataQueue.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setCurrentLevelBytes(int currentLevelBytes) {
+        public Builder setCurrentLevelBytes(int currentLevelBytes) {
             names.add("current-level-bytes");
             values.add(org.gtk.gobject.Value.create(currentLevelBytes));
             return this;
         }
         
-        public Build setCurrentLevelTime(long currentLevelTime) {
+        public Builder setCurrentLevelTime(long currentLevelTime) {
             names.add("current-level-time");
             values.add(org.gtk.gobject.Value.create(currentLevelTime));
             return this;
         }
         
-        public Build setCurrentLevelVisible(int currentLevelVisible) {
+        public Builder setCurrentLevelVisible(int currentLevelVisible) {
             names.add("current-level-visible");
             values.add(org.gtk.gobject.Value.create(currentLevelVisible));
             return this;
@@ -525,20 +492,5 @@ public class DataQueue extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalDataQueueEmpty(MemoryAddress sourceDataQueue, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DataQueue.Empty) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DataQueue(sourceDataQueue, Ownership.NONE));
-        }
-        
-        public static void signalDataQueueFull(MemoryAddress sourceDataQueue, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DataQueue.Full) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DataQueue(sourceDataQueue, Ownership.NONE));
-        }
     }
 }

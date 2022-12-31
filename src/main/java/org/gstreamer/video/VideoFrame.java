@@ -16,26 +16,24 @@ public class VideoFrame extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoFrame";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.video.VideoInfo.getMemoryLayout().withName("info"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("buffer"),
-        Interop.valueLayout.ADDRESS.withName("meta"),
-        Interop.valueLayout.C_INT.withName("id"),
-        MemoryLayout.paddingLayout(224),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("data"),
-        MemoryLayout.sequenceLayout(4, org.gstreamer.gst.MapInfo.getMemoryLayout()).withName("map"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.video.VideoInfo.getMemoryLayout().withName("info"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("buffer"),
+            Interop.valueLayout.ADDRESS.withName("meta"),
+            Interop.valueLayout.C_INT.withName("id"),
+            MemoryLayout.paddingLayout(224),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("data"),
+            MemoryLayout.sequenceLayout(4, org.gstreamer.gst.MapInfo.getMemoryLayout()).withName("map"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,16 +53,26 @@ public class VideoFrame extends Struct {
      * Get the value of the field {@code info}
      * @return The value of the field {@code info}
      */
-    public org.gstreamer.video.VideoInfo info$get() {
+    public org.gstreamer.video.VideoInfo getInfo() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("info"));
-        return new org.gstreamer.video.VideoInfo(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code info}
+     * @param info The new value of the field {@code info}
+     */
+    public void setInfo(org.gstreamer.video.VideoInfo info) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("info"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
     }
     
     /**
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public org.gstreamer.video.VideoFrameFlags flags$get() {
+    public org.gstreamer.video.VideoFrameFlags getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -75,38 +83,38 @@ public class VideoFrame extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(org.gstreamer.video.VideoFrameFlags flags) {
+    public void setFlags(org.gstreamer.video.VideoFrameFlags flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
     }
     
     /**
      * Get the value of the field {@code buffer}
      * @return The value of the field {@code buffer}
      */
-    public org.gstreamer.gst.Buffer buffer$get() {
+    public org.gstreamer.gst.Buffer getBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code buffer}
      * @param buffer The new value of the field {@code buffer}
      */
-    public void buffer$set(org.gstreamer.gst.Buffer buffer) {
+    public void setBuffer(org.gstreamer.gst.Buffer buffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), buffer.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
     }
     
     /**
      * Get the value of the field {@code meta}
      * @return The value of the field {@code meta}
      */
-    public java.lang.foreign.MemoryAddress meta$get() {
+    public java.lang.foreign.MemoryAddress getMeta() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("meta"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -117,17 +125,17 @@ public class VideoFrame extends Struct {
      * Change the value of the field {@code meta}
      * @param meta The new value of the field {@code meta}
      */
-    public void meta$set(java.lang.foreign.MemoryAddress meta) {
+    public void setMeta(java.lang.foreign.MemoryAddress meta) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("meta"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) meta);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : (Addressable) meta));
     }
     
     /**
      * Get the value of the field {@code id}
      * @return The value of the field {@code id}
      */
-    public int id$get() {
+    public int getId() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -138,10 +146,52 @@ public class VideoFrame extends Struct {
      * Change the value of the field {@code id}
      * @param id The new value of the field {@code id}
      */
-    public void id$set(int id) {
+    public void setId(int id) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), id);
+    }
+    
+    /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public java.lang.foreign.MemoryAddress[] getData() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getAddressArrayFrom(RESULT, 4);
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void setData(java.lang.foreign.MemoryAddress[] data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code map}
+     * @return The value of the field {@code map}
+     */
+    public org.gstreamer.gst.MapInfo[] getMap() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("map"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.gst.MapInfo>(RESULT, org.gstreamer.gst.MapInfo.fromAddress).toArray((int) 4, org.gstreamer.gst.MapInfo.class);
+    }
+    
+    /**
+     * Change the value of the field {@code map}
+     * @param map The new value of the field {@code map}
+     */
+    public void setMap(org.gstreamer.gst.MapInfo[] map) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("map"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : Interop.allocateNativeArray(map, org.gstreamer.gst.MapInfo.getMemoryLayout(), false)));
     }
     
     /**
@@ -149,10 +199,12 @@ public class VideoFrame extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoFrame(Addressable address, Ownership ownership) {
+    protected VideoFrame(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoFrame> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoFrame(input, ownership);
     
     /**
      * Copy the contents from {@code src} to {@code dest}.
@@ -162,8 +214,7 @@ public class VideoFrame extends Struct {
      * @param src a {@link VideoFrame}
      * @return TRUE if the contents could be copied.
      */
-    public boolean copy(@NotNull org.gstreamer.video.VideoFrame src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public boolean copy(org.gstreamer.video.VideoFrame src) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_frame_copy.invokeExact(
@@ -172,7 +223,7 @@ public class VideoFrame extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -184,8 +235,7 @@ public class VideoFrame extends Struct {
      * @param plane a plane
      * @return TRUE if the contents could be copied.
      */
-    public boolean copyPlane(@NotNull org.gstreamer.video.VideoFrame src, int plane) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public boolean copyPlane(org.gstreamer.video.VideoFrame src, int plane) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_frame_copy_plane.invokeExact(
@@ -195,7 +245,7 @@ public class VideoFrame extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -259,11 +309,7 @@ public class VideoFrame extends Struct {
      * @param flags {@link org.gstreamer.gst.MapFlags}
      * @return {@code true} on success.
      */
-    public static boolean map(@NotNull org.gstreamer.video.VideoFrame frame, @NotNull org.gstreamer.video.VideoInfo info, @NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(frame, "Parameter 'frame' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean map(org.gstreamer.video.VideoFrame frame, org.gstreamer.video.VideoInfo info, org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.MapFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_frame_map.invokeExact(
@@ -274,7 +320,7 @@ public class VideoFrame extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -293,11 +339,7 @@ public class VideoFrame extends Struct {
      * @param flags {@link org.gstreamer.gst.MapFlags}
      * @return {@code true} on success.
      */
-    public static boolean mapId(@NotNull org.gstreamer.video.VideoFrame frame, @NotNull org.gstreamer.video.VideoInfo info, @NotNull org.gstreamer.gst.Buffer buffer, int id, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(frame, "Parameter 'frame' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean mapId(org.gstreamer.video.VideoFrame frame, org.gstreamer.video.VideoInfo info, org.gstreamer.gst.Buffer buffer, int id, org.gstreamer.gst.MapFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_frame_map_id.invokeExact(
@@ -309,7 +351,7 @@ public class VideoFrame extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -344,31 +386,35 @@ public class VideoFrame extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoFrame.Builder} object constructs a {@link VideoFrame} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoFrame.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoFrame struct;
+        private final VideoFrame struct;
         
-         /**
-         * A {@link VideoFrame.Build} object constructs a {@link VideoFrame} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoFrame.allocate();
         }
         
          /**
          * Finish building the {@link VideoFrame} struct.
          * @return A new instance of {@code VideoFrame} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoFrame construct() {
+        public VideoFrame build() {
             return struct;
         }
         
@@ -377,7 +423,7 @@ public class VideoFrame extends Struct {
          * @param info The value for the {@code info} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInfo(org.gstreamer.video.VideoInfo info) {
+        public Builder setInfo(org.gstreamer.video.VideoInfo info) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
@@ -389,7 +435,7 @@ public class VideoFrame extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gstreamer.video.VideoFrameFlags flags) {
+        public Builder setFlags(org.gstreamer.video.VideoFrameFlags flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
@@ -401,7 +447,7 @@ public class VideoFrame extends Struct {
          * @param buffer The value for the {@code buffer} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBuffer(org.gstreamer.gst.Buffer buffer) {
+        public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
@@ -413,7 +459,7 @@ public class VideoFrame extends Struct {
          * @param meta The value for the {@code meta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMeta(java.lang.foreign.MemoryAddress meta) {
+        public Builder setMeta(java.lang.foreign.MemoryAddress meta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : (Addressable) meta));
@@ -426,7 +472,7 @@ public class VideoFrame extends Struct {
          * @param id The value for the {@code id} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setId(int id) {
+        public Builder setId(int id) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), id);
@@ -438,7 +484,7 @@ public class VideoFrame extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(java.lang.foreign.MemoryAddress[] data) {
+        public Builder setData(java.lang.foreign.MemoryAddress[] data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
@@ -450,14 +496,14 @@ public class VideoFrame extends Struct {
          * @param map The value for the {@code map} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMap(org.gstreamer.gst.MapInfo[] map) {
+        public Builder setMap(org.gstreamer.gst.MapInfo[] map) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : Interop.allocateNativeArray(map, org.gstreamer.gst.MapInfo.getMemoryLayout(), false)));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

@@ -16,20 +16,18 @@ public class MIKEYPayloadKEMAC extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMIKEYPayloadKEMAC";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.sdp.MIKEYPayload.getMemoryLayout().withName("pt"),
-        Interop.valueLayout.C_INT.withName("enc_alg"),
-        Interop.valueLayout.C_INT.withName("mac_alg"),
-        Interop.valueLayout.ADDRESS.withName("subpayloads")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.sdp.MIKEYPayload.getMemoryLayout().withName("pt"),
+            Interop.valueLayout.C_INT.withName("enc_alg"),
+            Interop.valueLayout.C_INT.withName("mac_alg"),
+            Interop.valueLayout.ADDRESS.withName("subpayloads")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,16 +47,26 @@ public class MIKEYPayloadKEMAC extends Struct {
      * Get the value of the field {@code pt}
      * @return The value of the field {@code pt}
      */
-    public org.gstreamer.sdp.MIKEYPayload pt$get() {
+    public org.gstreamer.sdp.MIKEYPayload getPt() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("pt"));
-        return new org.gstreamer.sdp.MIKEYPayload(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.MIKEYPayload.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code pt}
+     * @param pt The new value of the field {@code pt}
+     */
+    public void setPt(org.gstreamer.sdp.MIKEYPayload pt) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pt"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
     }
     
     /**
      * Get the value of the field {@code enc_alg}
      * @return The value of the field {@code enc_alg}
      */
-    public org.gstreamer.sdp.MIKEYEncAlg encAlg$get() {
+    public org.gstreamer.sdp.MIKEYEncAlg getEncAlg() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("enc_alg"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -69,17 +77,17 @@ public class MIKEYPayloadKEMAC extends Struct {
      * Change the value of the field {@code enc_alg}
      * @param encAlg The new value of the field {@code enc_alg}
      */
-    public void encAlg$set(org.gstreamer.sdp.MIKEYEncAlg encAlg) {
+    public void setEncAlg(org.gstreamer.sdp.MIKEYEncAlg encAlg) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("enc_alg"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), encAlg.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encAlg == null ? MemoryAddress.NULL : encAlg.getValue()));
     }
     
     /**
      * Get the value of the field {@code mac_alg}
      * @return The value of the field {@code mac_alg}
      */
-    public org.gstreamer.sdp.MIKEYMacAlg macAlg$get() {
+    public org.gstreamer.sdp.MIKEYMacAlg getMacAlg() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mac_alg"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -90,10 +98,31 @@ public class MIKEYPayloadKEMAC extends Struct {
      * Change the value of the field {@code mac_alg}
      * @param macAlg The new value of the field {@code mac_alg}
      */
-    public void macAlg$set(org.gstreamer.sdp.MIKEYMacAlg macAlg) {
+    public void setMacAlg(org.gstreamer.sdp.MIKEYMacAlg macAlg) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mac_alg"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), macAlg.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (macAlg == null ? MemoryAddress.NULL : macAlg.getValue()));
+    }
+    
+    /**
+     * Get the value of the field {@code subpayloads}
+     * @return The value of the field {@code subpayloads}
+     */
+    public PointerAddress getSubpayloads() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("subpayloads"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code subpayloads}
+     * @param subpayloads The new value of the field {@code subpayloads}
+     */
+    public void setSubpayloads(java.lang.foreign.MemoryAddress[] subpayloads) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("subpayloads"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (subpayloads == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subpayloads, false)));
     }
     
     /**
@@ -101,35 +130,41 @@ public class MIKEYPayloadKEMAC extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MIKEYPayloadKEMAC(Addressable address, Ownership ownership) {
+    protected MIKEYPayloadKEMAC(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MIKEYPayloadKEMAC> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYPayloadKEMAC(input, ownership);
+    
+    /**
+     * A {@link MIKEYPayloadKEMAC.Builder} object constructs a {@link MIKEYPayloadKEMAC} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link MIKEYPayloadKEMAC.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private MIKEYPayloadKEMAC struct;
+        private final MIKEYPayloadKEMAC struct;
         
-         /**
-         * A {@link MIKEYPayloadKEMAC.Build} object constructs a {@link MIKEYPayloadKEMAC} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = MIKEYPayloadKEMAC.allocate();
         }
         
          /**
          * Finish building the {@link MIKEYPayloadKEMAC} struct.
          * @return A new instance of {@code MIKEYPayloadKEMAC} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MIKEYPayloadKEMAC construct() {
+        public MIKEYPayloadKEMAC build() {
             return struct;
         }
         
@@ -138,7 +173,7 @@ public class MIKEYPayloadKEMAC extends Struct {
          * @param pt The value for the {@code pt} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPt(org.gstreamer.sdp.MIKEYPayload pt) {
+        public Builder setPt(org.gstreamer.sdp.MIKEYPayload pt) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pt"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
@@ -150,7 +185,7 @@ public class MIKEYPayloadKEMAC extends Struct {
          * @param encAlg The value for the {@code encAlg} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEncAlg(org.gstreamer.sdp.MIKEYEncAlg encAlg) {
+        public Builder setEncAlg(org.gstreamer.sdp.MIKEYEncAlg encAlg) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("enc_alg"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encAlg == null ? MemoryAddress.NULL : encAlg.getValue()));
@@ -162,7 +197,7 @@ public class MIKEYPayloadKEMAC extends Struct {
          * @param macAlg The value for the {@code macAlg} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMacAlg(org.gstreamer.sdp.MIKEYMacAlg macAlg) {
+        public Builder setMacAlg(org.gstreamer.sdp.MIKEYMacAlg macAlg) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mac_alg"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (macAlg == null ? MemoryAddress.NULL : macAlg.getValue()));
@@ -174,7 +209,7 @@ public class MIKEYPayloadKEMAC extends Struct {
          * @param subpayloads The value for the {@code subpayloads} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSubpayloads(java.lang.foreign.MemoryAddress[] subpayloads) {
+        public Builder setSubpayloads(java.lang.foreign.MemoryAddress[] subpayloads) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("subpayloads"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (subpayloads == null ? MemoryAddress.NULL : Interop.allocateNativeArray(subpayloads, false)));

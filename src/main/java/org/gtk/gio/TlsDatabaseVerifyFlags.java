@@ -24,11 +24,15 @@ public class TlsDatabaseVerifyFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TlsDatabaseVerifyFlags or(TlsDatabaseVerifyFlags mask) {
-        return new TlsDatabaseVerifyFlags(this.getValue() | mask.getValue());
+    public TlsDatabaseVerifyFlags or(TlsDatabaseVerifyFlags... masks) {
+        int value = this.getValue();
+        for (TlsDatabaseVerifyFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new TlsDatabaseVerifyFlags(value);
     }
     
     /**
@@ -38,7 +42,8 @@ public class TlsDatabaseVerifyFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TlsDatabaseVerifyFlags combined(TlsDatabaseVerifyFlags mask, TlsDatabaseVerifyFlags... masks) {
-        int value = mask.getValue();        for (TlsDatabaseVerifyFlags arg : masks) {
+        int value = mask.getValue();
+        for (TlsDatabaseVerifyFlags arg : masks) {
             value |= arg.getValue();
         }
         return new TlsDatabaseVerifyFlags(value);

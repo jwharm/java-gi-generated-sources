@@ -10,5 +10,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface AttrFilterFunc {
-        boolean onAttrFilterFunc(@NotNull org.pango.Attribute attribute);
+    boolean run(org.pango.Attribute attribute);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress attribute, MemoryAddress userData) {
+        var RESULT = run(org.pango.Attribute.fromAddress.marshal(attribute, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AttrFilterFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

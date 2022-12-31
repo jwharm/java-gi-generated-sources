@@ -43,11 +43,15 @@ public class StreamFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public StreamFlags or(StreamFlags mask) {
-        return new StreamFlags(this.getValue() | mask.getValue());
+    public StreamFlags or(StreamFlags... masks) {
+        int value = this.getValue();
+        for (StreamFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new StreamFlags(value);
     }
     
     /**
@@ -57,7 +61,8 @@ public class StreamFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static StreamFlags combined(StreamFlags mask, StreamFlags... masks) {
-        int value = mask.getValue();        for (StreamFlags arg : masks) {
+        int value = mask.getValue();
+        for (StreamFlags arg : masks) {
             value |= arg.getValue();
         }
         return new StreamFlags(value);

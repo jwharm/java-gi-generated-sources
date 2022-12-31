@@ -40,8 +40,10 @@ public class PhysicalDeviceDiscardRectanglePropertiesEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceDiscardRectanglePropertiesEXT(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceDiscardRectanglePropertiesEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceDiscardRectanglePropertiesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceDiscardRectanglePropertiesEXT(input, ownership);
 }

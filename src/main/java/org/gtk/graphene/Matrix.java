@@ -19,17 +19,15 @@ public class Matrix extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_matrix_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Simd4X4F.getMemoryLayout().withName("value")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Simd4X4F.getMemoryLayout().withName("value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,13 +48,15 @@ public class Matrix extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Matrix(Addressable address, Ownership ownership) {
+    protected Matrix(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Matrix> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Matrix(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -70,7 +70,8 @@ public class Matrix extends Struct {
      * @return the newly allocated matrix
      */
     public static Matrix alloc() {
-        return new Matrix(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -88,12 +89,7 @@ public class Matrix extends Struct {
      * @param perspective the perspective vector
      * @return {@code true} if the matrix could be decomposed
      */
-    public boolean decompose(@NotNull org.gtk.graphene.Vec3 translate, @NotNull org.gtk.graphene.Vec3 scale, @NotNull org.gtk.graphene.Quaternion rotate, @NotNull org.gtk.graphene.Vec3 shear, @NotNull org.gtk.graphene.Vec4 perspective) {
-        java.util.Objects.requireNonNull(translate, "Parameter 'translate' must not be null");
-        java.util.Objects.requireNonNull(scale, "Parameter 'scale' must not be null");
-        java.util.Objects.requireNonNull(rotate, "Parameter 'rotate' must not be null");
-        java.util.Objects.requireNonNull(shear, "Parameter 'shear' must not be null");
-        java.util.Objects.requireNonNull(perspective, "Parameter 'perspective' must not be null");
+    public boolean decompose(org.gtk.graphene.Vec3 translate, org.gtk.graphene.Vec3 scale, org.gtk.graphene.Quaternion rotate, org.gtk.graphene.Vec3 shear, org.gtk.graphene.Vec4 perspective) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_matrix_decompose.invokeExact(
@@ -129,8 +125,7 @@ public class Matrix extends Struct {
      * @param b a {@link Matrix}
      * @return {@code true} if the two matrices are equal, and {@code false} otherwise
      */
-    public boolean equal(@NotNull org.gtk.graphene.Matrix b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Matrix b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_matrix_equal.invokeExact(
@@ -168,8 +163,7 @@ public class Matrix extends Struct {
      * @param b a {@link Matrix}
      * @return {@code true} if the matrices are equal. and {@code false} otherwise
      */
-    public boolean equalFast(@NotNull org.gtk.graphene.Matrix b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equalFast(org.gtk.graphene.Matrix b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_matrix_equal_fast.invokeExact(
@@ -199,8 +193,7 @@ public class Matrix extends Struct {
      * @param res return location for the {@link Vec4}
      *   that is used to store the row vector
      */
-    public void getRow(int index, @NotNull org.gtk.graphene.Vec4 res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void getRow(int index, org.gtk.graphene.Vec4 res) {
         try {
             DowncallHandles.graphene_matrix_get_row.invokeExact(
                     handle(),
@@ -341,7 +334,7 @@ public class Matrix extends Struct {
      * @param y0 the y0 member
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initFrom2d(double xx, double yx, double xy, double yy, double x0, double y0) {
+    public org.gtk.graphene.Matrix initFrom2d(double xx, double yx, double xy, double yy, double x0, double y0) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_2d.invokeExact(
@@ -355,7 +348,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -365,8 +358,7 @@ public class Matrix extends Struct {
      *   point values
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initFromFloat(@NotNull float[] v) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+    public org.gtk.graphene.Matrix initFromFloat(float[] v) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_float.invokeExact(
@@ -375,7 +367,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -384,8 +376,7 @@ public class Matrix extends Struct {
      * @param src a {@link Matrix}
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initFromMatrix(@NotNull org.gtk.graphene.Matrix src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Matrix initFromMatrix(org.gtk.graphene.Matrix src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_matrix.invokeExact(
@@ -394,7 +385,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -406,11 +397,7 @@ public class Matrix extends Struct {
      * @param v3 the fourth row vector
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initFromVec4(@NotNull org.gtk.graphene.Vec4 v0, @NotNull org.gtk.graphene.Vec4 v1, @NotNull org.gtk.graphene.Vec4 v2, @NotNull org.gtk.graphene.Vec4 v3) {
-        java.util.Objects.requireNonNull(v0, "Parameter 'v0' must not be null");
-        java.util.Objects.requireNonNull(v1, "Parameter 'v1' must not be null");
-        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
-        java.util.Objects.requireNonNull(v3, "Parameter 'v3' must not be null");
+    public org.gtk.graphene.Matrix initFromVec4(org.gtk.graphene.Vec4 v0, org.gtk.graphene.Vec4 v1, org.gtk.graphene.Vec4 v2, org.gtk.graphene.Vec4 v3) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_from_vec4.invokeExact(
@@ -422,7 +409,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -437,7 +424,7 @@ public class Matrix extends Struct {
      * @param zFar distance of the far clipping plane
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
+    public org.gtk.graphene.Matrix initFrustum(float left, float right, float bottom, float top, float zNear, float zFar) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_frustum.invokeExact(
@@ -451,14 +438,14 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Initializes a {@link Matrix} with the identity matrix.
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initIdentity() {
+    public org.gtk.graphene.Matrix initIdentity() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_identity.invokeExact(
@@ -466,7 +453,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -492,10 +479,7 @@ public class Matrix extends Struct {
      *   this is the graphene_vec3_y_axis() vector
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initLookAt(@NotNull org.gtk.graphene.Vec3 eye, @NotNull org.gtk.graphene.Vec3 center, @NotNull org.gtk.graphene.Vec3 up) {
-        java.util.Objects.requireNonNull(eye, "Parameter 'eye' must not be null");
-        java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
-        java.util.Objects.requireNonNull(up, "Parameter 'up' must not be null");
+    public org.gtk.graphene.Matrix initLookAt(org.gtk.graphene.Vec3 eye, org.gtk.graphene.Vec3 center, org.gtk.graphene.Vec3 up) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_look_at.invokeExact(
@@ -506,7 +490,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -519,7 +503,7 @@ public class Matrix extends Struct {
      * @param zFar the distance of the far clipping plane
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initOrtho(float left, float right, float top, float bottom, float zNear, float zFar) {
+    public org.gtk.graphene.Matrix initOrtho(float left, float right, float top, float bottom, float zNear, float zFar) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_ortho.invokeExact(
@@ -533,7 +517,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -544,7 +528,7 @@ public class Matrix extends Struct {
      * @param zFar the far Z plane
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initPerspective(float fovy, float aspect, float zNear, float zFar) {
+    public org.gtk.graphene.Matrix initPerspective(float fovy, float aspect, float zNear, float zFar) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_perspective.invokeExact(
@@ -556,7 +540,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -566,8 +550,7 @@ public class Matrix extends Struct {
      * @param axis the axis vector as a {@link Vec3}
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initRotate(float angle, @NotNull org.gtk.graphene.Vec3 axis) {
-        java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
+    public org.gtk.graphene.Matrix initRotate(float angle, org.gtk.graphene.Vec3 axis) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_rotate.invokeExact(
@@ -577,7 +560,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -587,7 +570,7 @@ public class Matrix extends Struct {
      * @param z the scale factor on the Z axis
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initScale(float x, float y, float z) {
+    public org.gtk.graphene.Matrix initScale(float x, float y, float z) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_scale.invokeExact(
@@ -598,7 +581,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -608,7 +591,7 @@ public class Matrix extends Struct {
      * @param ySkew skew factor, in radians, on the Y axis
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initSkew(float xSkew, float ySkew) {
+    public org.gtk.graphene.Matrix initSkew(float xSkew, float ySkew) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_skew.invokeExact(
@@ -618,7 +601,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -627,8 +610,7 @@ public class Matrix extends Struct {
      * @param p the translation coordinates
      * @return the initialized matrix
      */
-    public @NotNull org.gtk.graphene.Matrix initTranslate(@NotNull org.gtk.graphene.Point3D p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public org.gtk.graphene.Matrix initTranslate(org.gtk.graphene.Point3D p) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_matrix_init_translate.invokeExact(
@@ -637,7 +619,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Matrix(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -652,9 +634,7 @@ public class Matrix extends Struct {
      * @param res return location for the
      *   interpolated matrix
      */
-    public void interpolate(@NotNull org.gtk.graphene.Matrix b, double factor, @NotNull org.gtk.graphene.Matrix res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void interpolate(org.gtk.graphene.Matrix b, double factor, org.gtk.graphene.Matrix res) {
         try {
             DowncallHandles.graphene_matrix_interpolate.invokeExact(
                     handle(),
@@ -672,8 +652,7 @@ public class Matrix extends Struct {
      *   inverse matrix
      * @return {@code true} if the matrix is invertible
      */
-    public boolean inverse(@NotNull org.gtk.graphene.Matrix res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean inverse(org.gtk.graphene.Matrix res) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_matrix_inverse.invokeExact(
@@ -756,9 +735,7 @@ public class Matrix extends Struct {
      * @param res return location for the matrix
      *   result
      */
-    public void multiply(@NotNull org.gtk.graphene.Matrix b, @NotNull org.gtk.graphene.Matrix res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void multiply(org.gtk.graphene.Matrix b, org.gtk.graphene.Matrix res) {
         try {
             DowncallHandles.graphene_matrix_multiply.invokeExact(
                     handle(),
@@ -778,8 +755,7 @@ public class Matrix extends Struct {
      * @return {@code true} if the two matrices are near each other, and
      *   {@code false} otherwise
      */
-    public boolean near(@NotNull org.gtk.graphene.Matrix b, float epsilon) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean near(org.gtk.graphene.Matrix b, float epsilon) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_matrix_near.invokeExact(
@@ -796,8 +772,7 @@ public class Matrix extends Struct {
      * Normalizes the given {@link Matrix}.
      * @param res return location for the normalized matrix
      */
-    public void normalize(@NotNull org.gtk.graphene.Matrix res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void normalize(org.gtk.graphene.Matrix res) {
         try {
             DowncallHandles.graphene_matrix_normalize.invokeExact(
                     handle(),
@@ -813,8 +788,7 @@ public class Matrix extends Struct {
      * @param res return location for the
      *   perspective matrix
      */
-    public void perspective(float depth, @NotNull org.gtk.graphene.Matrix res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void perspective(float depth, org.gtk.graphene.Matrix res) {
         try {
             DowncallHandles.graphene_matrix_perspective.invokeExact(
                     handle(),
@@ -846,9 +820,7 @@ public class Matrix extends Struct {
      * @param res return location for the projected
      *   point
      */
-    public void projectPoint(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Point res) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void projectPoint(org.gtk.graphene.Point p, org.gtk.graphene.Point res) {
         try {
             DowncallHandles.graphene_matrix_project_point.invokeExact(
                     handle(),
@@ -867,9 +839,7 @@ public class Matrix extends Struct {
      * @param res return location for the projected
      *   rectangle
      */
-    public void projectRect(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Quad res) {
-        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void projectRect(org.gtk.graphene.Rect r, org.gtk.graphene.Quad res) {
         try {
             DowncallHandles.graphene_matrix_project_rect.invokeExact(
                     handle(),
@@ -889,9 +859,7 @@ public class Matrix extends Struct {
      * @param res return location for the projected
      *   rectangle
      */
-    public void projectRectBounds(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void projectRectBounds(org.gtk.graphene.Rect r, org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_matrix_project_rect_bounds.invokeExact(
                     handle(),
@@ -911,8 +879,7 @@ public class Matrix extends Struct {
      * @param angle the rotation angle, in degrees
      * @param axis the rotation axis, as a {@link Vec3}
      */
-    public void rotate(float angle, @NotNull org.gtk.graphene.Vec3 axis) {
-        java.util.Objects.requireNonNull(axis, "Parameter 'axis' must not be null");
+    public void rotate(float angle, org.gtk.graphene.Vec3 axis) {
         try {
             DowncallHandles.graphene_matrix_rotate.invokeExact(
                     handle(),
@@ -928,8 +895,7 @@ public class Matrix extends Struct {
      * {@link Euler}.
      * @param e a rotation described by a {@link Euler}
      */
-    public void rotateEuler(@NotNull org.gtk.graphene.Euler e) {
-        java.util.Objects.requireNonNull(e, "Parameter 'e' must not be null");
+    public void rotateEuler(org.gtk.graphene.Euler e) {
         try {
             DowncallHandles.graphene_matrix_rotate_euler.invokeExact(
                     handle(),
@@ -947,8 +913,7 @@ public class Matrix extends Struct {
      * then multiplying {@code m} with the rotation matrix.
      * @param q a rotation described by a {@link Quaternion}
      */
-    public void rotateQuaternion(@NotNull org.gtk.graphene.Quaternion q) {
-        java.util.Objects.requireNonNull(q, "Parameter 'q' must not be null");
+    public void rotateQuaternion(org.gtk.graphene.Quaternion q) {
         try {
             DowncallHandles.graphene_matrix_rotate_quaternion.invokeExact(
                     handle(),
@@ -1096,17 +1061,11 @@ public class Matrix extends Struct {
      *   transformation matrix
      */
     public boolean to2d(Out<Double> xx, Out<Double> yx, Out<Double> xy, Out<Double> yy, Out<Double> x0, Out<Double> y0) {
-        java.util.Objects.requireNonNull(xx, "Parameter 'xx' must not be null");
         MemorySegment xxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(yx, "Parameter 'yx' must not be null");
         MemorySegment yxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(xy, "Parameter 'xy' must not be null");
         MemorySegment xyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(yy, "Parameter 'yy' must not be null");
         MemorySegment yyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(x0, "Parameter 'x0' must not be null");
         MemorySegment x0POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y0, "Parameter 'y0' must not be null");
         MemorySegment y0POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         boolean RESULT;
         try {
@@ -1137,8 +1096,7 @@ public class Matrix extends Struct {
      *   for an array of floating point values. The array must be capable
      *   of holding at least 16 values.
      */
-    public void toFloat(@NotNull Out<float[]> v) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+    public void toFloat(Out<float[]> v) {
         MemorySegment vPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.graphene_matrix_to_float.invokeExact(
@@ -1161,9 +1119,7 @@ public class Matrix extends Struct {
      * @param res return location for the bounds
      *   of the transformed rectangle
      */
-    public void transformBounds(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transformBounds(org.gtk.graphene.Rect r, org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_matrix_transform_bounds.invokeExact(
                     handle(),
@@ -1183,9 +1139,7 @@ public class Matrix extends Struct {
      * @param res return location for the bounds
      *   of the transformed box
      */
-    public void transformBox(@NotNull org.gtk.graphene.Box b, @NotNull org.gtk.graphene.Box res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transformBox(org.gtk.graphene.Box b, org.gtk.graphene.Box res) {
         try {
             DowncallHandles.graphene_matrix_transform_box.invokeExact(
                     handle(),
@@ -1208,9 +1162,7 @@ public class Matrix extends Struct {
      * @param res return location for the
      *   transformed {@link Point}
      */
-    public void transformPoint(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Point res) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transformPoint(org.gtk.graphene.Point p, org.gtk.graphene.Point res) {
         try {
             DowncallHandles.graphene_matrix_transform_point.invokeExact(
                     handle(),
@@ -1232,9 +1184,7 @@ public class Matrix extends Struct {
      * @param p a {@link Point3D}
      * @param res return location for the result
      */
-    public void transformPoint3d(@NotNull org.gtk.graphene.Point3D p, @NotNull org.gtk.graphene.Point3D res) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transformPoint3d(org.gtk.graphene.Point3D p, org.gtk.graphene.Point3D res) {
         try {
             DowncallHandles.graphene_matrix_transform_point3d.invokeExact(
                     handle(),
@@ -1251,9 +1201,7 @@ public class Matrix extends Struct {
      * @param res return location for the
      *   transformed ray
      */
-    public void transformRay(@NotNull org.gtk.graphene.Ray r, @NotNull org.gtk.graphene.Ray res) {
-        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transformRay(org.gtk.graphene.Ray r, org.gtk.graphene.Ray res) {
         try {
             DowncallHandles.graphene_matrix_transform_ray.invokeExact(
                     handle(),
@@ -1274,9 +1222,7 @@ public class Matrix extends Struct {
      * @param res return location for the
      *   transformed quad
      */
-    public void transformRect(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Quad res) {
-        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transformRect(org.gtk.graphene.Rect r, org.gtk.graphene.Quad res) {
         try {
             DowncallHandles.graphene_matrix_transform_rect.invokeExact(
                     handle(),
@@ -1294,9 +1240,7 @@ public class Matrix extends Struct {
      * @param res return location for the bounds
      *   of the transformed sphere
      */
-    public void transformSphere(@NotNull org.gtk.graphene.Sphere s, @NotNull org.gtk.graphene.Sphere res) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transformSphere(org.gtk.graphene.Sphere s, org.gtk.graphene.Sphere res) {
         try {
             DowncallHandles.graphene_matrix_transform_sphere.invokeExact(
                     handle(),
@@ -1318,9 +1262,7 @@ public class Matrix extends Struct {
      * @param v a {@link Vec3}
      * @param res return location for a {@link Vec3}
      */
-    public void transformVec3(@NotNull org.gtk.graphene.Vec3 v, @NotNull org.gtk.graphene.Vec3 res) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transformVec3(org.gtk.graphene.Vec3 v, org.gtk.graphene.Vec3 res) {
         try {
             DowncallHandles.graphene_matrix_transform_vec3.invokeExact(
                     handle(),
@@ -1338,9 +1280,7 @@ public class Matrix extends Struct {
      * @param v a {@link Vec4}
      * @param res return location for a {@link Vec4}
      */
-    public void transformVec4(@NotNull org.gtk.graphene.Vec4 v, @NotNull org.gtk.graphene.Vec4 res) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transformVec4(org.gtk.graphene.Vec4 v, org.gtk.graphene.Vec4 res) {
         try {
             DowncallHandles.graphene_matrix_transform_vec4.invokeExact(
                     handle(),
@@ -1359,8 +1299,7 @@ public class Matrix extends Struct {
      * then multiplying {@code m} with the translation matrix.
      * @param pos a {@link Point3D}
      */
-    public void translate(@NotNull org.gtk.graphene.Point3D pos) {
-        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+    public void translate(org.gtk.graphene.Point3D pos) {
         try {
             DowncallHandles.graphene_matrix_translate.invokeExact(
                     handle(),
@@ -1375,8 +1314,7 @@ public class Matrix extends Struct {
      * @param res return location for the
      *   transposed matrix
      */
-    public void transpose(@NotNull org.gtk.graphene.Matrix res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transpose(org.gtk.graphene.Matrix res) {
         try {
             DowncallHandles.graphene_matrix_transpose.invokeExact(
                     handle(),
@@ -1395,10 +1333,7 @@ public class Matrix extends Struct {
      * @param res return location for the unprojected
      *   point
      */
-    public void unprojectPoint3d(@NotNull org.gtk.graphene.Matrix modelview, @NotNull org.gtk.graphene.Point3D point, @NotNull org.gtk.graphene.Point3D res) {
-        java.util.Objects.requireNonNull(modelview, "Parameter 'modelview' must not be null");
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void unprojectPoint3d(org.gtk.graphene.Matrix modelview, org.gtk.graphene.Point3D point, org.gtk.graphene.Point3D res) {
         try {
             DowncallHandles.graphene_matrix_unproject_point3d.invokeExact(
                     handle(),
@@ -1418,10 +1353,7 @@ public class Matrix extends Struct {
      * @param res return location for the
      *   untransformed rectangle
      */
-    public void untransformBounds(@NotNull org.gtk.graphene.Rect r, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void untransformBounds(org.gtk.graphene.Rect r, org.gtk.graphene.Rect bounds, org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_matrix_untransform_bounds.invokeExact(
                     handle(),
@@ -1442,10 +1374,7 @@ public class Matrix extends Struct {
      *   untransformed point
      * @return {@code true} if the point was successfully untransformed
      */
-    public boolean untransformPoint(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Point res) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean untransformPoint(org.gtk.graphene.Point p, org.gtk.graphene.Rect bounds, org.gtk.graphene.Point res) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_matrix_untransform_point.invokeExact(
@@ -1863,35 +1792,39 @@ public class Matrix extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Matrix.Builder} object constructs a {@link Matrix} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Matrix.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Matrix struct;
+        private final Matrix struct;
         
-         /**
-         * A {@link Matrix.Build} object constructs a {@link Matrix} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Matrix.allocate();
         }
         
          /**
          * Finish building the {@link Matrix} struct.
          * @return A new instance of {@code Matrix} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Matrix construct() {
+        public Matrix build() {
             return struct;
         }
         
-        public Build setValue(org.gtk.graphene.Simd4X4F value) {
+        public Builder setValue(org.gtk.graphene.Simd4X4F value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));

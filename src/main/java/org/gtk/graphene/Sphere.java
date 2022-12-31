@@ -17,18 +17,16 @@ public class Sphere extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_sphere_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("center"),
-        Interop.valueLayout.C_FLOAT.withName("radius")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("center"),
+            Interop.valueLayout.C_FLOAT.withName("radius")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,13 +47,15 @@ public class Sphere extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Sphere(Addressable address, Ownership ownership) {
+    protected Sphere(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Sphere> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Sphere(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -72,7 +72,8 @@ public class Sphere extends Struct {
      *   graphene_sphere_free() to free the resources allocated by this function
      */
     public static Sphere alloc() {
-        return new Sphere(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -81,8 +82,7 @@ public class Sphere extends Struct {
      * @param point a {@link Point3D}
      * @return {@code true} if the sphere contains the point
      */
-    public boolean containsPoint(@NotNull org.gtk.graphene.Point3D point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public boolean containsPoint(org.gtk.graphene.Point3D point) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_sphere_contains_point.invokeExact(
@@ -100,8 +100,7 @@ public class Sphere extends Struct {
      * @param point a {@link Point3D}
      * @return the distance of the point
      */
-    public float distance(@NotNull org.gtk.graphene.Point3D point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public float distance(org.gtk.graphene.Point3D point) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_sphere_distance.invokeExact(
@@ -118,8 +117,7 @@ public class Sphere extends Struct {
      * @param b a {@link Sphere}
      * @return {@code true} if the spheres are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Sphere b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Sphere b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_sphere_equal.invokeExact(
@@ -148,8 +146,7 @@ public class Sphere extends Struct {
      * given {@link Sphere}.
      * @param box return location for the bounding box
      */
-    public void getBoundingBox(@NotNull org.gtk.graphene.Box box) {
-        java.util.Objects.requireNonNull(box, "Parameter 'box' must not be null");
+    public void getBoundingBox(org.gtk.graphene.Box box) {
         try {
             DowncallHandles.graphene_sphere_get_bounding_box.invokeExact(
                     handle(),
@@ -164,8 +161,7 @@ public class Sphere extends Struct {
      * @param center return location for the coordinates of
      *   the center
      */
-    public void getCenter(@NotNull org.gtk.graphene.Point3D center) {
-        java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
+    public void getCenter(org.gtk.graphene.Point3D center) {
         try {
             DowncallHandles.graphene_sphere_get_center.invokeExact(
                     handle(),
@@ -196,7 +192,7 @@ public class Sphere extends Struct {
      * @param radius the radius of the sphere
      * @return the initialized {@link Sphere}
      */
-    public @NotNull org.gtk.graphene.Sphere init(@Nullable org.gtk.graphene.Point3D center, float radius) {
+    public org.gtk.graphene.Sphere init(@Nullable org.gtk.graphene.Point3D center, float radius) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init.invokeExact(
@@ -206,7 +202,7 @@ public class Sphere extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Sphere(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -220,8 +216,7 @@ public class Sphere extends Struct {
      * @param center the center of the sphere
      * @return the initialized {@link Sphere}
      */
-    public @NotNull org.gtk.graphene.Sphere initFromPoints(int nPoints, @NotNull org.gtk.graphene.Point3D[] points, @Nullable org.gtk.graphene.Point3D center) {
-        java.util.Objects.requireNonNull(points, "Parameter 'points' must not be null");
+    public org.gtk.graphene.Sphere initFromPoints(int nPoints, org.gtk.graphene.Point3D[] points, @Nullable org.gtk.graphene.Point3D center) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_points.invokeExact(
@@ -232,7 +227,7 @@ public class Sphere extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Sphere(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -246,8 +241,7 @@ public class Sphere extends Struct {
      * @param center the center of the sphere
      * @return the initialized {@link Sphere}
      */
-    public @NotNull org.gtk.graphene.Sphere initFromVectors(int nVectors, @NotNull org.gtk.graphene.Vec3[] vectors, @Nullable org.gtk.graphene.Point3D center) {
-        java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
+    public org.gtk.graphene.Sphere initFromVectors(int nVectors, org.gtk.graphene.Vec3[] vectors, @Nullable org.gtk.graphene.Point3D center) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_sphere_init_from_vectors.invokeExact(
@@ -258,7 +252,7 @@ public class Sphere extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Sphere(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Sphere.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -282,9 +276,7 @@ public class Sphere extends Struct {
      * @param point the coordinates of the translation
      * @param res return location for the translated sphere
      */
-    public void translate(@NotNull org.gtk.graphene.Point3D point, @NotNull org.gtk.graphene.Sphere res) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void translate(org.gtk.graphene.Point3D point, org.gtk.graphene.Sphere res) {
         try {
             DowncallHandles.graphene_sphere_translate.invokeExact(
                     handle(),
@@ -375,42 +367,46 @@ public class Sphere extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Sphere.Builder} object constructs a {@link Sphere} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Sphere.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Sphere struct;
+        private final Sphere struct;
         
-         /**
-         * A {@link Sphere.Build} object constructs a {@link Sphere} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Sphere.allocate();
         }
         
          /**
          * Finish building the {@link Sphere} struct.
          * @return A new instance of {@code Sphere} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Sphere construct() {
+        public Sphere build() {
             return struct;
         }
         
-        public Build setCenter(org.gtk.graphene.Vec3 center) {
+        public Builder setCenter(org.gtk.graphene.Vec3 center) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("center"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (center == null ? MemoryAddress.NULL : center.handle()));
             return this;
         }
         
-        public Build setRadius(float radius) {
+        public Builder setRadius(float radius) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("radius"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), radius);

@@ -16,18 +16,16 @@ public class PatProgram extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsPatProgram";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("program_number"),
-        Interop.valueLayout.C_SHORT.withName("network_or_program_map_PID")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("program_number"),
+            Interop.valueLayout.C_SHORT.withName("network_or_program_map_PID")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,7 +45,7 @@ public class PatProgram extends Struct {
      * Get the value of the field {@code program_number}
      * @return The value of the field {@code program_number}
      */
-    public short programNumber$get() {
+    public short getProgramNumber() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -58,7 +56,7 @@ public class PatProgram extends Struct {
      * Change the value of the field {@code program_number}
      * @param programNumber The new value of the field {@code program_number}
      */
-    public void programNumber$set(short programNumber) {
+    public void setProgramNumber(short programNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), programNumber);
@@ -68,7 +66,7 @@ public class PatProgram extends Struct {
      * Get the value of the field {@code network_or_program_map_PID}
      * @return The value of the field {@code network_or_program_map_PID}
      */
-    public short networkOrProgramMapPID$get() {
+    public short getNetworkOrProgramMapPID() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("network_or_program_map_PID"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -79,7 +77,7 @@ public class PatProgram extends Struct {
      * Change the value of the field {@code network_or_program_map_PID}
      * @param networkOrProgramMapPID The new value of the field {@code network_or_program_map_PID}
      */
-    public void networkOrProgramMapPID$set(short networkOrProgramMapPID) {
+    public void setNetworkOrProgramMapPID(short networkOrProgramMapPID) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("network_or_program_map_PID"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), networkOrProgramMapPID);
@@ -90,13 +88,15 @@ public class PatProgram extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PatProgram(Addressable address, Ownership ownership) {
+    protected PatProgram(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PatProgram> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PatProgram(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_pat_program_new.invokeExact();
         } catch (Throwable ERR) {
@@ -120,31 +120,35 @@ public class PatProgram extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link PatProgram.Builder} object constructs a {@link PatProgram} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link PatProgram.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private PatProgram struct;
+        private final PatProgram struct;
         
-         /**
-         * A {@link PatProgram.Build} object constructs a {@link PatProgram} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = PatProgram.allocate();
         }
         
          /**
          * Finish building the {@link PatProgram} struct.
          * @return A new instance of {@code PatProgram} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PatProgram construct() {
+        public PatProgram build() {
             return struct;
         }
         
@@ -153,7 +157,7 @@ public class PatProgram extends Struct {
          * @param programNumber The value for the {@code programNumber} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProgramNumber(short programNumber) {
+        public Builder setProgramNumber(short programNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), programNumber);
@@ -165,7 +169,7 @@ public class PatProgram extends Struct {
          * @param networkOrProgramMapPID The value for the {@code networkOrProgramMapPID} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNetworkOrProgramMapPID(short networkOrProgramMapPID) {
+        public Builder setNetworkOrProgramMapPID(short networkOrProgramMapPID) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("network_or_program_map_PID"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), networkOrProgramMapPID);

@@ -10,5 +10,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface MemoryUnmapFunction {
-        void onMemoryUnmapFunction(@NotNull org.gstreamer.gst.Memory mem);
+    void run(org.gstreamer.gst.Memory mem);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress mem) {
+        run(org.gstreamer.gst.Memory.fromAddress.marshal(mem, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MemoryUnmapFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

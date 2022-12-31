@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * The GString struct contains the public fields of a GString.
  */
-public class String extends Struct {
+public class GString extends Struct {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -16,30 +16,28 @@ public class String extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GString";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("str"),
-        Interop.valueLayout.C_LONG.withName("len"),
-        Interop.valueLayout.C_LONG.withName("allocated_len")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("str"),
+            Interop.valueLayout.C_LONG.withName("len"),
+            Interop.valueLayout.C_LONG.withName("allocated_len")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
     
     /**
-     * Allocate a new {@link String}
-     * @return A new, uninitialized @{link String}
+     * Allocate a new {@link GString}
+     * @return A new, uninitialized @{link GString}
      */
-    public static String allocate() {
+    public static GString allocate() {
         MemorySegment segment = Interop.getAllocator().allocate(getMemoryLayout());
-        String newInstance = new String(segment.address(), Ownership.NONE);
+        GString newInstance = new GString(segment.address(), Ownership.NONE);
         newInstance.allocatedMemorySegment = segment;
         return newInstance;
     }
@@ -48,28 +46,28 @@ public class String extends Struct {
      * Get the value of the field {@code str}
      * @return The value of the field {@code str}
      */
-    public java.lang.String str$get() {
+    public java.lang.String getStr() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("str"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code str}
      * @param str The new value of the field {@code str}
      */
-    public void str$set(java.lang.String str) {
+    public void setStr(java.lang.String str) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("str"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(str));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, null)));
     }
     
     /**
      * Get the value of the field {@code len}
      * @return The value of the field {@code len}
      */
-    public long len$get() {
+    public long getLen() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class String extends Struct {
      * Change the value of the field {@code len}
      * @param len The new value of the field {@code len}
      */
-    public void len$set(long len) {
+    public void setLen(long len) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
@@ -90,7 +88,7 @@ public class String extends Struct {
      * Get the value of the field {@code allocated_len}
      * @return The value of the field {@code allocated_len}
      */
-    public long allocatedLen$get() {
+    public long getAllocatedLen() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -101,27 +99,29 @@ public class String extends Struct {
      * Change the value of the field {@code allocated_len}
      * @param allocatedLen The new value of the field {@code allocated_len}
      */
-    public void allocatedLen$set(long allocatedLen) {
+    public void setAllocatedLen(long allocatedLen) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocatedLen);
     }
     
     /**
-     * Create a String proxy instance for the provided memory address.
+     * Create a GString proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public String(Addressable address, Ownership ownership) {
+    protected GString(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable java.lang.String init) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GString> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GString(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String init) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_new.invokeExact(
-                    (Addressable) (init == null ? MemoryAddress.NULL : Interop.allocateNativeString(init)));
+                    (Addressable) (init == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(init, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,20 +129,19 @@ public class String extends Struct {
     }
     
     /**
-     * Creates a new {@link String}, initialized with the given string.
+     * Creates a new {@link GString}, initialized with the given string.
      * @param init the initial text to copy into the string, or {@code null} to
      *   start with an empty string
      */
-    public String(@Nullable java.lang.String init) {
+    public GString(@Nullable java.lang.String init) {
         super(constructNew(init), Ownership.FULL);
     }
     
-    private static Addressable constructNewLen(@NotNull java.lang.String init, long len) {
-        java.util.Objects.requireNonNull(init, "Parameter 'init' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewLen(java.lang.String init, long len) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_new_len.invokeExact(
-                    Interop.allocateNativeString(init),
+                    Marshal.stringToAddress.marshal(init, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -151,7 +150,7 @@ public class String extends Struct {
     }
     
     /**
-     * Creates a new {@link String} with {@code len} bytes of the {@code init} buffer.
+     * Creates a new {@link GString} with {@code len} bytes of the {@code init} buffer.
      * Because a length is provided, {@code init} need not be nul-terminated,
      * and can contain embedded nul bytes.
      * <p>
@@ -160,14 +159,15 @@ public class String extends Struct {
      * bytes.
      * @param init initial contents of the string
      * @param len length of {@code init} to use
-     * @return a new {@link String}
+     * @return a new {@link GString}
      */
-    public static String newLen(@NotNull java.lang.String init, long len) {
-        return new String(constructNewLen(init, len), Ownership.FULL);
+    public static GString newLen(java.lang.String init, long len) {
+        var RESULT = constructNewLen(init, len);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructSizedNew(long dflSize) {
-        Addressable RESULT;
+    private static MemoryAddress constructSizedNew(long dflSize) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_sized_new.invokeExact(
                     dflSize);
@@ -178,43 +178,43 @@ public class String extends Struct {
     }
     
     /**
-     * Creates a new {@link String}, with enough space for {@code dfl_size}
+     * Creates a new {@link GString}, with enough space for {@code dfl_size}
      * bytes. This is useful if you are going to add a lot of
      * text to the string and don't want it to be reallocated
      * too often.
      * @param dflSize the default size of the space allocated to hold the string
-     * @return the new {@link String}
+     * @return the new {@link GString}
      */
-    public static String sizedNew(long dflSize) {
-        return new String(constructSizedNew(dflSize), Ownership.FULL);
+    public static GString sizedNew(long dflSize) {
+        var RESULT = constructSizedNew(dflSize);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
-     * Adds a string onto the end of a {@link String}, expanding
+     * Adds a string onto the end of a {@link GString}, expanding
      * it if necessary.
      * @param val the string to append onto the end of {@code string}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String append(@NotNull java.lang.String val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public org.gtk.glib.GString append(java.lang.String val) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_append.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(val));
+                    Marshal.stringToAddress.marshal(val, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Adds a byte onto the end of a {@link String}, expanding
+     * Adds a byte onto the end of a {@link GString}, expanding
      * it if necessary.
      * @param c the byte to append onto the end of {@code string}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String appendC(byte c) {
+    public org.gtk.glib.GString appendC(byte c) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_append_c.invokeExact(
@@ -223,7 +223,7 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -240,33 +240,31 @@ public class String extends Struct {
      * @param len number of bytes of {@code val} to use, or -1 for all of {@code val}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String appendLen(@NotNull java.lang.String val, long len) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public org.gtk.glib.GString appendLen(java.lang.String val, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_append_len.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(val),
+                    Marshal.stringToAddress.marshal(val, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Appends a formatted string onto the end of a {@link String}.
+     * Appends a formatted string onto the end of a {@link GString}.
      * This function is similar to g_string_printf() except
-     * that the text is appended to the {@link String}.
+     * that the text is appended to the {@link GString}.
      * @param format the string format. See the printf() documentation
      * @param varargs the parameters to insert into the format string
      */
-    public void appendPrintf(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void appendPrintf(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_string_append_printf.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -279,7 +277,7 @@ public class String extends Struct {
      * @param wc a Unicode character
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String appendUnichar(int wc) {
+    public org.gtk.glib.GString appendUnichar(int wc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_append_unichar.invokeExact(
@@ -288,7 +286,7 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -300,37 +298,33 @@ public class String extends Struct {
      * @param allowUtf8 set {@code true} if the escaped string may include UTF8 characters
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String appendUriEscaped(@NotNull java.lang.String unescaped, @NotNull java.lang.String reservedCharsAllowed, boolean allowUtf8) {
-        java.util.Objects.requireNonNull(unescaped, "Parameter 'unescaped' must not be null");
-        java.util.Objects.requireNonNull(reservedCharsAllowed, "Parameter 'reservedCharsAllowed' must not be null");
+    public org.gtk.glib.GString appendUriEscaped(java.lang.String unescaped, java.lang.String reservedCharsAllowed, boolean allowUtf8) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_append_uri_escaped.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(unescaped),
-                    Interop.allocateNativeString(reservedCharsAllowed),
-                    allowUtf8 ? 1 : 0);
+                    Marshal.stringToAddress.marshal(unescaped, null),
+                    Marshal.stringToAddress.marshal(reservedCharsAllowed, null),
+                    Marshal.booleanToInteger.marshal(allowUtf8, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Appends a formatted string onto the end of a {@link String}.
+     * Appends a formatted string onto the end of a {@link GString}.
      * This function is similar to g_string_append_printf()
      * except that the arguments to the format string are passed
      * as a va_list.
      * @param format the string format. See the printf() documentation
      * @param args the list of arguments to insert in the output
      */
-    public void appendVprintf(@NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public void appendVprintf(java.lang.String format, VaList args) {
         try {
             DowncallHandles.g_string_append_vprintf.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -343,7 +337,7 @@ public class String extends Struct {
      *     uppercase characters converted to lowercase in place,
      *     with semantics that exactly match g_ascii_tolower().
      */
-    public @NotNull org.gtk.glib.String asciiDown() {
+    public org.gtk.glib.GString asciiDown() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_down.invokeExact(
@@ -351,7 +345,7 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -360,7 +354,7 @@ public class String extends Struct {
      *     lowercase characters converted to uppercase in place,
      *     with semantics that exactly match g_ascii_toupper().
      */
-    public @NotNull org.gtk.glib.String asciiUp() {
+    public org.gtk.glib.GString asciiUp() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_ascii_up.invokeExact(
@@ -368,39 +362,38 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Copies the bytes from a string into a {@link String},
+     * Copies the bytes from a string into a {@link GString},
      * destroying any previous contents. It is rather like
      * the standard strcpy() function, except that you do not
      * have to worry about having enough space to copy the string.
      * @param rval the string to copy into {@code string}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String assign(@NotNull java.lang.String rval) {
-        java.util.Objects.requireNonNull(rval, "Parameter 'rval' must not be null");
+    public org.gtk.glib.GString assign(java.lang.String rval) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_assign.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(rval));
+                    Marshal.stringToAddress.marshal(rval, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Converts a {@link String} to lowercase.
-     * @return the {@link String}
+     * Converts a {@link GString} to lowercase.
+     * @return the {@link GString}
      * @deprecated This function uses the locale-specific
      *     tolower() function, which is almost never the right thing.
      *     Use g_string_ascii_down() or g_utf8_strdown() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.glib.String down() {
+    public org.gtk.glib.GString down() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_down.invokeExact(
@@ -408,18 +401,17 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Compares two strings for equality, returning {@code true} if they are equal.
      * For use with {@link HashTable}.
-     * @param v2 another {@link String}
+     * @param v2 another {@link GString}
      * @return {@code true} if the strings are the same length and contain the
      *     same bytes
      */
-    public boolean equal(@NotNull org.gtk.glib.String v2) {
-        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
+    public boolean equal(org.gtk.glib.GString v2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_string_equal.invokeExact(
@@ -428,18 +420,18 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
-     * Removes {@code len} bytes from a {@link String}, starting at position {@code pos}.
-     * The rest of the {@link String} is shifted down to fill the gap.
+     * Removes {@code len} bytes from a {@link GString}, starting at position {@code pos}.
+     * The rest of the {@link GString} is shifted down to fill the gap.
      * @param pos the position of the content to remove
      * @param len the number of bytes to remove, or -1 to remove all
      *       following bytes
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String erase(long pos, long len) {
+    public org.gtk.glib.GString erase(long pos, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_erase.invokeExact(
@@ -449,11 +441,11 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Frees the memory allocated for the {@link String}.
+     * Frees the memory allocated for the {@link GString}.
      * If {@code free_segment} is {@code true} it also frees the character data.  If
      * it's {@code false}, the caller gains ownership of the buffer and must
      * free it after use with g_free().
@@ -466,26 +458,26 @@ public class String extends Struct {
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_free.invokeExact(
                     handle(),
-                    freeSegment ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(freeSegment, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Transfers ownership of the contents of {@code string} to a newly allocated
-     * {@link Bytes}.  The {@link String} structure itself is deallocated, and it is
+     * {@link Bytes}.  The {@link GString} structure itself is deallocated, and it is
      * therefore invalid to use {@code string} after invoking this function.
      * <p>
-     * Note that while {@link String} ensures that its buffer always has a
+     * Note that while {@link GString} ensures that its buffer always has a
      * trailing nul character (not reflected in its "len"), the returned
      * {@link Bytes} does not include this extra nul; i.e. it has length exactly
      * equal to the "len" member.
      * @return A newly allocated {@link Bytes} containing contents of {@code string}; {@code string} itself is freed
      */
-    public @NotNull org.gtk.glib.Bytes freeToBytes() {
+    public org.gtk.glib.Bytes freeToBytes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_free_to_bytes.invokeExact(
@@ -494,7 +486,7 @@ public class String extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -513,33 +505,32 @@ public class String extends Struct {
     }
     
     /**
-     * Inserts a copy of a string into a {@link String},
+     * Inserts a copy of a string into a {@link GString},
      * expanding it if necessary.
      * @param pos the position to insert the copy of the string
      * @param val the string to insert
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String insert(long pos, @NotNull java.lang.String val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public org.gtk.glib.GString insert(long pos, java.lang.String val) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_insert.invokeExact(
                     handle(),
                     pos,
-                    Interop.allocateNativeString(val));
+                    Marshal.stringToAddress.marshal(val, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Inserts a byte into a {@link String}, expanding it if necessary.
+     * Inserts a byte into a {@link GString}, expanding it if necessary.
      * @param pos the position to insert the byte
      * @param c the byte to insert
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String insertC(long pos, byte c) {
+    public org.gtk.glib.GString insertC(long pos, byte c) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_insert_c.invokeExact(
@@ -549,7 +540,7 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -569,19 +560,18 @@ public class String extends Struct {
      * @param len number of bytes of {@code val} to insert, or -1 for all of {@code val}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String insertLen(long pos, @NotNull java.lang.String val, long len) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public org.gtk.glib.GString insertLen(long pos, java.lang.String val, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_insert_len.invokeExact(
                     handle(),
                     pos,
-                    Interop.allocateNativeString(val),
+                    Marshal.stringToAddress.marshal(val, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -592,7 +582,7 @@ public class String extends Struct {
      * @param wc a Unicode character
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String insertUnichar(long pos, int wc) {
+    public org.gtk.glib.GString insertUnichar(long pos, int wc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_insert_unichar.invokeExact(
@@ -602,7 +592,7 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -611,18 +601,17 @@ public class String extends Struct {
      * @param val the string that will overwrite the {@code string} starting at {@code pos}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String overwrite(long pos, @NotNull java.lang.String val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public org.gtk.glib.GString overwrite(long pos, java.lang.String val) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite.invokeExact(
                     handle(),
                     pos,
-                    Interop.allocateNativeString(val));
+                    Marshal.stringToAddress.marshal(val, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -633,47 +622,45 @@ public class String extends Struct {
      * @param len the number of bytes to write from {@code val}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String overwriteLen(long pos, @NotNull java.lang.String val, long len) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public org.gtk.glib.GString overwriteLen(long pos, java.lang.String val, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_overwrite_len.invokeExact(
                     handle(),
                     pos,
-                    Interop.allocateNativeString(val),
+                    Marshal.stringToAddress.marshal(val, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Adds a string on to the start of a {@link String},
+     * Adds a string on to the start of a {@link GString},
      * expanding it if necessary.
      * @param val the string to prepend on the start of {@code string}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String prepend(@NotNull java.lang.String val) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public org.gtk.glib.GString prepend(java.lang.String val) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_prepend.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(val));
+                    Marshal.stringToAddress.marshal(val, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Adds a byte onto the start of a {@link String},
+     * Adds a byte onto the start of a {@link GString},
      * expanding it if necessary.
-     * @param c the byte to prepend on the start of the {@link String}
+     * @param c the byte to prepend on the start of the {@link GString}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String prependC(byte c) {
+    public org.gtk.glib.GString prependC(byte c) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_c.invokeExact(
@@ -682,7 +669,7 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -699,18 +686,17 @@ public class String extends Struct {
      * @param len number of bytes in {@code val} to prepend, or -1 for all of {@code val}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String prependLen(@NotNull java.lang.String val, long len) {
-        java.util.Objects.requireNonNull(val, "Parameter 'val' must not be null");
+    public org.gtk.glib.GString prependLen(java.lang.String val, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_len.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(val),
+                    Marshal.stringToAddress.marshal(val, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -719,7 +705,7 @@ public class String extends Struct {
      * @param wc a Unicode character
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String prependUnichar(int wc) {
+    public org.gtk.glib.GString prependUnichar(int wc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_prepend_unichar.invokeExact(
@@ -728,24 +714,23 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Writes a formatted string into a {@link String}.
+     * Writes a formatted string into a {@link GString}.
      * This is similar to the standard sprintf() function,
-     * except that the {@link String} buffer automatically expands
+     * except that the {@link GString} buffer automatically expands
      * to contain the results. The previous contents of the
-     * {@link String} are destroyed.
+     * {@link GString} are destroyed.
      * @param format the string format. See the printf() documentation
      * @param varargs the parameters to insert into the format string
      */
-    public void printf(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void printf(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_string_printf.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -753,8 +738,8 @@ public class String extends Struct {
     }
     
     /**
-     * Replaces the string {@code find} with the string {@code replace} in a {@link String} up to
-     * {@code limit} times. If the number of instances of {@code find} in the {@link String} is
+     * Replaces the string {@code find} with the string {@code replace} in a {@link GString} up to
+     * {@code limit} times. If the number of instances of {@code find} in the {@link GString} is
      * less than {@code limit}, all instances are replaced. If {@code limit} is {@code 0},
      * all instances of {@code find} are replaced.
      * <p>
@@ -768,15 +753,13 @@ public class String extends Struct {
      * no limit
      * @return the number of find and replace operations performed.
      */
-    public int replace(@NotNull java.lang.String find, @NotNull java.lang.String replace, int limit) {
-        java.util.Objects.requireNonNull(find, "Parameter 'find' must not be null");
-        java.util.Objects.requireNonNull(replace, "Parameter 'replace' must not be null");
+    public int replace(java.lang.String find, java.lang.String replace, int limit) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_string_replace.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(find),
-                    Interop.allocateNativeString(replace),
+                    Marshal.stringToAddress.marshal(find, null),
+                    Marshal.stringToAddress.marshal(replace, null),
                     limit);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -785,7 +768,7 @@ public class String extends Struct {
     }
     
     /**
-     * Sets the length of a {@link String}. If the length is less than
+     * Sets the length of a {@link GString}. If the length is less than
      * the current length, the string will be truncated. If the
      * length is greater than the current length, the contents
      * of the newly added area are undefined. (However, as
@@ -793,7 +776,7 @@ public class String extends Struct {
      * @param len the new length
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String setSize(long len) {
+    public org.gtk.glib.GString setSize(long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_set_size.invokeExact(
@@ -802,7 +785,7 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -810,7 +793,7 @@ public class String extends Struct {
      * @param len the new size of {@code string}
      * @return {@code string}
      */
-    public @NotNull org.gtk.glib.String truncate(long len) {
+    public org.gtk.glib.GString truncate(long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_truncate.invokeExact(
@@ -819,18 +802,18 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Converts a {@link String} to uppercase.
+     * Converts a {@link GString} to uppercase.
      * @return {@code string}
      * @deprecated This function uses the locale-specific
      *     toupper() function, which is almost never the right thing.
      *     Use g_string_ascii_up() or g_utf8_strup() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.glib.String up() {
+    public org.gtk.glib.GString up() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_up.invokeExact(
@@ -838,23 +821,21 @@ public class String extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.String(RESULT, Ownership.NONE);
+        return org.gtk.glib.GString.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
-     * Writes a formatted string into a {@link String}.
+     * Writes a formatted string into a {@link GString}.
      * This function is similar to g_string_printf() except that
      * the arguments to the format string are passed as a va_list.
      * @param format the string format. See the printf() documentation
      * @param args the parameters to insert into the format string
      */
-    public void vprintf(@NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public void vprintf(java.lang.String format, VaList args) {
         try {
             DowncallHandles.g_string_vprintf.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1073,31 +1054,35 @@ public class String extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GString.Builder} object constructs a {@link GString} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GString.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private String struct;
+        private final GString struct;
         
-         /**
-         * A {@link String.Build} object constructs a {@link String} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = String.allocate();
+        private Builder() {
+            struct = GString.allocate();
         }
         
          /**
-         * Finish building the {@link String} struct.
-         * @return A new instance of {@code String} with the fields 
-         *         that were set in the Build object.
+         * Finish building the {@link GString} struct.
+         * @return A new instance of {@code GString} with the fields 
+         *         that were set in the Builder object.
          */
-        public String construct() {
+        public GString build() {
             return struct;
         }
         
@@ -1108,10 +1093,10 @@ public class String extends Struct {
          * @param str The value for the {@code str} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStr(java.lang.String str) {
+        public Builder setStr(java.lang.String str) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("str"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, null)));
             return this;
         }
         
@@ -1121,7 +1106,7 @@ public class String extends Struct {
          * @param len The value for the {@code len} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLen(long len) {
+        public Builder setLen(long len) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("len"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
@@ -1134,7 +1119,7 @@ public class String extends Struct {
          * @param allocatedLen The value for the {@code allocatedLen} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllocatedLen(long allocatedLen) {
+        public Builder setAllocatedLen(long allocatedLen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("allocated_len"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocatedLen);

@@ -114,11 +114,15 @@ public class GlyphFlagsT extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public GlyphFlagsT or(GlyphFlagsT mask) {
-        return new GlyphFlagsT(this.getValue() | mask.getValue());
+    public GlyphFlagsT or(GlyphFlagsT... masks) {
+        int value = this.getValue();
+        for (GlyphFlagsT arg : masks) {
+            value |= arg.getValue();
+        }
+        return new GlyphFlagsT(value);
     }
     
     /**
@@ -128,7 +132,8 @@ public class GlyphFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static GlyphFlagsT combined(GlyphFlagsT mask, GlyphFlagsT... masks) {
-        int value = mask.getValue();        for (GlyphFlagsT arg : masks) {
+        int value = mask.getValue();
+        for (GlyphFlagsT arg : masks) {
             value |= arg.getValue();
         }
         return new GlyphFlagsT(value);

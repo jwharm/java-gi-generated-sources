@@ -34,11 +34,15 @@ public class PaintableFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PaintableFlags or(PaintableFlags mask) {
-        return new PaintableFlags(this.getValue() | mask.getValue());
+    public PaintableFlags or(PaintableFlags... masks) {
+        int value = this.getValue();
+        for (PaintableFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new PaintableFlags(value);
     }
     
     /**
@@ -48,7 +52,8 @@ public class PaintableFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PaintableFlags combined(PaintableFlags mask, PaintableFlags... masks) {
-        int value = mask.getValue();        for (PaintableFlags arg : masks) {
+        int value = mask.getValue();
+        for (PaintableFlags arg : masks) {
             value |= arg.getValue();
         }
         return new PaintableFlags(value);

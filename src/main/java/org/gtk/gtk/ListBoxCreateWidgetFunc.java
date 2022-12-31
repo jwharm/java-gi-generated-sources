@@ -14,5 +14,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ListBoxCreateWidgetFunc {
-        org.gtk.gtk.Widget onListBoxCreateWidgetFunc(@NotNull org.gtk.gobject.Object item);
+    org.gtk.gtk.Widget run(org.gtk.gobject.GObject item);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress item, MemoryAddress userData) {
+        var RESULT = run((org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(item)), org.gtk.gobject.GObject.fromAddress).marshal(item, Ownership.NONE));
+        return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ListBoxCreateWidgetFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

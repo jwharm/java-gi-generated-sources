@@ -11,5 +11,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TagForeachFunc {
-        void onTagForeachFunc(@NotNull org.gstreamer.gst.TagList list, @NotNull java.lang.String tag);
+    void run(org.gstreamer.gst.TagList list, java.lang.String tag);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress list, MemoryAddress tag, MemoryAddress userData) {
+        run(org.gstreamer.gst.TagList.fromAddress.marshal(list, Ownership.NONE), Marshal.addressToString.marshal(tag, null));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TagForeachFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

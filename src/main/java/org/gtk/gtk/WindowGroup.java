@@ -23,7 +23,7 @@ import org.jetbrains.annotations.*;
  * group; when all window have been removed, the window group will be
  * freed.
  */
-public class WindowGroup extends org.gtk.gobject.Object {
+public class WindowGroup extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -31,18 +31,16 @@ public class WindowGroup extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkWindowGroup";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -50,33 +48,15 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WindowGroup(Addressable address, Ownership ownership) {
+    protected WindowGroup(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to WindowGroup if its GType is a (or inherits from) "GtkWindowGroup".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code WindowGroup} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkWindowGroup", a ClassCastException will be thrown.
-     */
-    public static WindowGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), WindowGroup.getType())) {
-            return new WindowGroup(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkWindowGroup");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WindowGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WindowGroup(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_window_group_new.invokeExact();
         } catch (Throwable ERR) {
@@ -99,8 +79,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * Adds a window to a {@code GtkWindowGroup}.
      * @param window the {@code GtkWindow} to add
      */
-    public void addWindow(@NotNull org.gtk.gtk.Window window) {
-        java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
+    public void addWindow(org.gtk.gtk.Window window) {
         try {
             DowncallHandles.gtk_window_group_add_window.invokeExact(
                     handle(),
@@ -115,7 +94,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * @return A
      *   newly-allocated list of windows inside the group.
      */
-    public @NotNull org.gtk.glib.List listWindows() {
+    public org.gtk.glib.List listWindows() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_window_group_list_windows.invokeExact(
@@ -123,15 +102,14 @@ public class WindowGroup extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
      * Removes a window from a {@code GtkWindowGroup}.
      * @param window the {@code GtkWindow} to remove
      */
-    public void removeWindow(@NotNull org.gtk.gtk.Window window) {
-        java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
+    public void removeWindow(org.gtk.gtk.Window window) {
         try {
             DowncallHandles.gtk_window_group_remove_window.invokeExact(
                     handle(),
@@ -145,7 +123,7 @@ public class WindowGroup extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_window_group_get_type.invokeExact();
@@ -154,38 +132,40 @@ public class WindowGroup extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link WindowGroup.Builder} object constructs a {@link WindowGroup} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link WindowGroup.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link WindowGroup.Build} object constructs a {@link WindowGroup} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link WindowGroup} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link WindowGroup} using {@link WindowGroup#castFrom}.
+         * {@link WindowGroup}.
          * @return A new instance of {@code WindowGroup} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public WindowGroup construct() {
-            return WindowGroup.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    WindowGroup.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public WindowGroup build() {
+            return (WindowGroup) org.gtk.gobject.GObject.newWithProperties(
+                WindowGroup.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * for modifying the color balance implemented by an element providing the
  * {@link ColorBalance} interface. For example, Hue or Saturation.
  */
-public class ColorBalanceChannel extends org.gtk.gobject.Object {
+public class ColorBalanceChannel extends org.gtk.gobject.GObject {
     
     static {
         GstVideo.javagi$ensureInitialized();
@@ -18,21 +18,19 @@ public class ColorBalanceChannel extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstColorBalanceChannel";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("label"),
-        Interop.valueLayout.C_INT.withName("min_value"),
-        Interop.valueLayout.C_INT.withName("max_value"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("label"),
+            Interop.valueLayout.C_INT.withName("min_value"),
+            Interop.valueLayout.C_INT.withName("max_value"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -40,36 +38,18 @@ public class ColorBalanceChannel extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ColorBalanceChannel(Addressable address, Ownership ownership) {
+    protected ColorBalanceChannel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ColorBalanceChannel if its GType is a (or inherits from) "GstColorBalanceChannel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ColorBalanceChannel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstColorBalanceChannel", a ClassCastException will be thrown.
-     */
-    public static ColorBalanceChannel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ColorBalanceChannel.getType())) {
-            return new ColorBalanceChannel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstColorBalanceChannel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ColorBalanceChannel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorBalanceChannel(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_color_balance_channel_get_type.invokeExact();
@@ -81,7 +61,18 @@ public class ColorBalanceChannel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ValueChanged {
-        void signalReceived(ColorBalanceChannel sourceColorBalanceChannel, int value);
+        void run(int value);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceColorBalanceChannel, int value) {
+            run(value);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -92,52 +83,46 @@ public class ColorBalanceChannel extends org.gtk.gobject.Object {
     public Signal<ColorBalanceChannel.ValueChanged> onValueChanged(ColorBalanceChannel.ValueChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("value-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColorBalanceChannel.Callbacks.class, "signalColorBalanceChannelValueChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ColorBalanceChannel.ValueChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("value-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link ColorBalanceChannel.Builder} object constructs a {@link ColorBalanceChannel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ColorBalanceChannel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ColorBalanceChannel.Build} object constructs a {@link ColorBalanceChannel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ColorBalanceChannel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ColorBalanceChannel} using {@link ColorBalanceChannel#castFrom}.
+         * {@link ColorBalanceChannel}.
          * @return A new instance of {@code ColorBalanceChannel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ColorBalanceChannel construct() {
-            return ColorBalanceChannel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ColorBalanceChannel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ColorBalanceChannel build() {
+            return (ColorBalanceChannel) org.gtk.gobject.GObject.newWithProperties(
+                ColorBalanceChannel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -149,14 +134,5 @@ public class ColorBalanceChannel extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalColorBalanceChannelValueChanged(MemoryAddress sourceColorBalanceChannel, int value, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ColorBalanceChannel.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorBalanceChannel(sourceColorBalanceChannel, Ownership.NONE), value);
-        }
     }
 }

@@ -44,14 +44,15 @@ public class FileList extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FileList(Addressable address, Ownership ownership) {
+    protected FileList(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewFromArray(@NotNull org.gtk.gio.File[] files, long nFiles) {
-        java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FileList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileList(input, ownership);
+    
+    private static MemoryAddress constructNewFromArray(org.gtk.gio.File[] files, long nFiles) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_new_from_array.invokeExact(
                     Interop.allocateNativeArray(files, false),
@@ -70,13 +71,13 @@ public class FileList extends Struct {
      * @param nFiles the number of files in the array
      * @return the newly create files list
      */
-    public static FileList newFromArray(@NotNull org.gtk.gio.File[] files, long nFiles) {
-        return new FileList(constructNewFromArray(files, nFiles), Ownership.FULL);
+    public static FileList newFromArray(org.gtk.gio.File[] files, long nFiles) {
+        var RESULT = constructNewFromArray(files, nFiles);
+        return org.gtk.gdk.FileList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromList(@NotNull org.gtk.glib.SList files) {
-        java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromList(org.gtk.glib.SList files) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_new_from_list.invokeExact(
                     files.handle());
@@ -94,8 +95,9 @@ public class FileList extends Struct {
      * @param files a list of files
      * @return the newly created files list
      */
-    public static FileList newFromList(@NotNull org.gtk.glib.SList files) {
-        return new FileList(constructNewFromList(files), Ownership.FULL);
+    public static FileList newFromList(org.gtk.glib.SList files) {
+        var RESULT = constructNewFromList(files);
+        return org.gtk.gdk.FileList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -104,7 +106,7 @@ public class FileList extends Struct {
      * This function is meant for language bindings.
      * @return the files inside the list
      */
-    public @NotNull org.gtk.glib.SList getFiles() {
+    public org.gtk.glib.SList getFiles() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_file_list_get_files.invokeExact(
@@ -112,7 +114,7 @@ public class FileList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     private static class DowncallHandles {

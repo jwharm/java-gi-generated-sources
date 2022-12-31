@@ -31,7 +31,7 @@ import org.jetbrains.annotations.*;
  *  example of such a function is X11's XInitThreads\\().
  * </blockquote>
  */
-public class GLDisplay extends org.gstreamer.gst.Object {
+public class GLDisplay extends org.gstreamer.gst.GstObject {
     
     static {
         GstGL.javagi$ensureInitialized();
@@ -39,24 +39,22 @@ public class GLDisplay extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLDisplay";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.C_INT.withName("type"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("windows"),
-        Interop.valueLayout.ADDRESS.withName("main_context"),
-        Interop.valueLayout.ADDRESS.withName("main_loop"),
-        Interop.valueLayout.ADDRESS.withName("event_source"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.C_INT.withName("type"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("windows"),
+            Interop.valueLayout.ADDRESS.withName("main_context"),
+            Interop.valueLayout.ADDRESS.withName("main_loop"),
+            Interop.valueLayout.ADDRESS.withName("event_source"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -64,40 +62,26 @@ public class GLDisplay extends org.gstreamer.gst.Object {
      * <p>
      * Because GLDisplay is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLDisplay(Addressable address, Ownership ownership) {
+    protected GLDisplay(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLDisplay if its GType is a (or inherits from) "GstGLDisplay".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLDisplay} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLDisplay", a ClassCastException will be thrown.
-     */
-    public static GLDisplay castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLDisplay.getType())) {
-            return new GLDisplay(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLDisplay");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLDisplay> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplay(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_new.invokeExact();
         } catch (Throwable ERR) {
@@ -110,9 +94,8 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithType(@NotNull org.gstreamer.gl.GLDisplayType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithType(org.gstreamer.gl.GLDisplayType type) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_new_with_type.invokeExact(
                     type.getValue());
@@ -131,12 +114,12 @@ public class GLDisplay extends org.gstreamer.gst.Object {
      * @return a new {@link GLDisplay} or {@code null} if {@code type} is
      *          not supported
      */
-    public static GLDisplay newWithType(@NotNull org.gstreamer.gl.GLDisplayType type) {
-        return new GLDisplay(constructNewWithType(type), Ownership.FULL);
+    public static GLDisplay newWithType(org.gstreamer.gl.GLDisplayType type) {
+        var RESULT = constructNewWithType(type);
+        return (org.gstreamer.gl.GLDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLDisplay.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public boolean addContext(@NotNull org.gstreamer.gl.GLContext context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public boolean addContext(org.gstreamer.gl.GLContext context) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_display_add_context.invokeExact(
@@ -145,7 +128,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -155,9 +138,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
      * @return whether a new context could be created.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean createContext(@NotNull org.gstreamer.gl.GLContext otherContext, @NotNull Out<org.gstreamer.gl.GLContext> pContext) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(otherContext, "Parameter 'otherContext' must not be null");
-        java.util.Objects.requireNonNull(pContext, "Parameter 'pContext' must not be null");
+    public boolean createContext(org.gstreamer.gl.GLContext otherContext, Out<org.gstreamer.gl.GLContext> pContext) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment pContextPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -173,11 +154,11 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        pContext.set(new org.gstreamer.gl.GLContext(pContextPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        pContext.set((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pContextPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gl.GLContext.fromAddress).marshal(pContextPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull org.gstreamer.gl.GLWindow createWindow() {
+    public org.gstreamer.gl.GLWindow createWindow() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_create_window.invokeExact(
@@ -185,7 +166,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLWindow(RESULT, Ownership.FULL);
+        return (org.gstreamer.gl.GLWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLWindow.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -195,8 +176,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
      * API supported by a {@link GLContext}.
      * @param glApi a {@link GLAPI} to filter with
      */
-    public void filterGlApi(@NotNull org.gstreamer.gl.GLAPI glApi) {
-        java.util.Objects.requireNonNull(glApi, "Parameter 'glApi' must not be null");
+    public void filterGlApi(org.gstreamer.gl.GLAPI glApi) {
         try {
             DowncallHandles.gst_gl_display_filter_gl_api.invokeExact(
                     handle(),
@@ -216,29 +196,24 @@ public class GLDisplay extends org.gstreamer.gst.Object {
      * @return The first {@link GLWindow} that causes a match
      *          from {@code compare_func}
      */
-    public @NotNull org.gstreamer.gl.GLWindow findWindow(@NotNull org.gtk.glib.CompareFunc compareFunc) {
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public org.gstreamer.gl.GLWindow findWindow(org.gtk.glib.CompareFunc compareFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_find_window.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(compareFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstGL.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) compareFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLWindow(RESULT, Ownership.NONE);
+        return (org.gstreamer.gl.GLWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLWindow.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * see gst_gl_display_filter_gl_api() for what the returned value represents
      * @return the {@link GLAPI} configured for {@code display}
      */
-    public @NotNull org.gstreamer.gl.GLAPI getGlApi() {
+    public org.gstreamer.gl.GLAPI getGlApi() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_display_get_gl_api.invokeExact(
@@ -249,7 +224,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         return new org.gstreamer.gl.GLAPI(RESULT);
     }
     
-    public @NotNull org.gstreamer.gl.GLAPI getGlApiUnlocked() {
+    public org.gstreamer.gl.GLAPI getGlApiUnlocked() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_display_get_gl_api_unlocked.invokeExact(
@@ -260,8 +235,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         return new org.gstreamer.gl.GLAPI(RESULT);
     }
     
-    public @NotNull org.gstreamer.gl.GLContext getGlContextForThread(@NotNull org.gtk.glib.Thread thread) {
-        java.util.Objects.requireNonNull(thread, "Parameter 'thread' must not be null");
+    public org.gstreamer.gl.GLContext getGlContextForThread(org.gtk.glib.Thread thread) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_get_gl_context_for_thread.invokeExact(
@@ -270,7 +244,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLContext(RESULT, Ownership.FULL);
+        return (org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLContext.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     public long getHandle() {
@@ -284,7 +258,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public @NotNull org.gstreamer.gl.GLDisplayType getHandleType() {
+    public org.gstreamer.gl.GLDisplayType getHandleType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_display_get_handle_type.invokeExact(
@@ -299,8 +273,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
      * Must be called with the object lock held.
      * @param context the {@link GLContext} to remove
      */
-    public void removeContext(@NotNull org.gstreamer.gl.GLContext context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void removeContext(org.gstreamer.gl.GLContext context) {
         try {
             DowncallHandles.gst_gl_display_remove_context.invokeExact(
                     handle(),
@@ -310,8 +283,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         }
     }
     
-    public boolean removeWindow(@NotNull org.gstreamer.gl.GLWindow window) {
-        java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
+    public boolean removeWindow(org.gstreamer.gl.GLWindow window) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_display_remove_window.invokeExact(
@@ -320,7 +292,7 @@ public class GLDisplay extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -331,29 +303,24 @@ public class GLDisplay extends org.gstreamer.gst.Object {
      * @return The first {@link GLWindow} that causes a match
      *          from {@code compare_func}
      */
-    public @NotNull org.gstreamer.gl.GLWindow retrieveWindow(@NotNull org.gtk.glib.CompareFunc compareFunc) {
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public org.gstreamer.gl.GLWindow retrieveWindow(org.gtk.glib.CompareFunc compareFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_retrieve_window.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(compareFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstGL.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) compareFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLWindow(RESULT, Ownership.FULL);
+        return (org.gstreamer.gl.GLWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLWindow.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_display_get_type.invokeExact();
@@ -365,7 +332,19 @@ public class GLDisplay extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface CreateContext {
-        void signalReceived(GLDisplay sourceGLDisplay, @NotNull org.gstreamer.gl.GLContext context);
+        org.gstreamer.gl.GLContext run(org.gstreamer.gl.GLContext context);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceGLDisplay, MemoryAddress context) {
+            var RESULT = run((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gstreamer.gl.GLContext.fromAddress).marshal(context, Ownership.NONE));
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateContext.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -378,52 +357,46 @@ public class GLDisplay extends org.gstreamer.gst.Object {
     public Signal<GLDisplay.CreateContext> onCreateContext(GLDisplay.CreateContext handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("create-context"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(GLDisplay.Callbacks.class, "signalGLDisplayCreateContext",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<GLDisplay.CreateContext>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("create-context"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link GLDisplay.Builder} object constructs a {@link GLDisplay} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLDisplay.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link GLDisplay.Build} object constructs a {@link GLDisplay} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLDisplay} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLDisplay} using {@link GLDisplay#castFrom}.
+         * {@link GLDisplay}.
          * @return A new instance of {@code GLDisplay} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLDisplay construct() {
-            return GLDisplay.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLDisplay.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLDisplay build() {
+            return (GLDisplay) org.gtk.gobject.GObject.newWithProperties(
+                GLDisplay.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -525,14 +498,5 @@ public class GLDisplay extends org.gstreamer.gst.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalGLDisplayCreateContext(MemoryAddress sourceGLDisplay, MemoryAddress context, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GLDisplay.CreateContext) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new GLDisplay(sourceGLDisplay, Ownership.NONE), new org.gstreamer.gl.GLContext(context, Ownership.NONE));
-        }
     }
 }

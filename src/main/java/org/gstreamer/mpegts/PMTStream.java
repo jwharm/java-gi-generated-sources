@@ -16,21 +16,19 @@ public class PMTStream extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsPMTStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("stream_type"),
-        MemoryLayout.paddingLayout(8),
-        Interop.valueLayout.C_SHORT.withName("pid"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("descriptors")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("stream_type"),
+            MemoryLayout.paddingLayout(8),
+            Interop.valueLayout.C_SHORT.withName("pid"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("descriptors")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class PMTStream extends Struct {
      * Get the value of the field {@code stream_type}
      * @return The value of the field {@code stream_type}
      */
-    public byte streamType$get() {
+    public byte getStreamType() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stream_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -61,7 +59,7 @@ public class PMTStream extends Struct {
      * Change the value of the field {@code stream_type}
      * @param streamType The new value of the field {@code stream_type}
      */
-    public void streamType$set(byte streamType) {
+    public void setStreamType(byte streamType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stream_type"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), streamType);
@@ -71,7 +69,7 @@ public class PMTStream extends Struct {
      * Get the value of the field {@code pid}
      * @return The value of the field {@code pid}
      */
-    public short pid$get() {
+    public short getPid() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pid"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -82,10 +80,31 @@ public class PMTStream extends Struct {
      * Change the value of the field {@code pid}
      * @param pid The new value of the field {@code pid}
      */
-    public void pid$set(short pid) {
+    public void setPid(short pid) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pid"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pid);
+    }
+    
+    /**
+     * Get the value of the field {@code descriptors}
+     * @return The value of the field {@code descriptors}
+     */
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code descriptors}
+     * @param descriptors The new value of the field {@code descriptors}
+     */
+    public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
     }
     
     /**
@@ -93,13 +112,15 @@ public class PMTStream extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PMTStream(Addressable address, Ownership ownership) {
+    protected PMTStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PMTStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PMTStream(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_pmt_stream_new.invokeExact();
         } catch (Throwable ERR) {
@@ -123,31 +144,35 @@ public class PMTStream extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link PMTStream.Builder} object constructs a {@link PMTStream} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link PMTStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private PMTStream struct;
+        private final PMTStream struct;
         
-         /**
-         * A {@link PMTStream.Build} object constructs a {@link PMTStream} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = PMTStream.allocate();
         }
         
          /**
          * Finish building the {@link PMTStream} struct.
          * @return A new instance of {@code PMTStream} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PMTStream construct() {
+        public PMTStream build() {
             return struct;
         }
         
@@ -156,7 +181,7 @@ public class PMTStream extends Struct {
          * @param streamType The value for the {@code streamType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStreamType(byte streamType) {
+        public Builder setStreamType(byte streamType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("stream_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), streamType);
@@ -168,7 +193,7 @@ public class PMTStream extends Struct {
          * @param pid The value for the {@code pid} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPid(short pid) {
+        public Builder setPid(short pid) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pid"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pid);
@@ -181,7 +206,7 @@ public class PMTStream extends Struct {
          * @param descriptors The value for the {@code descriptors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));

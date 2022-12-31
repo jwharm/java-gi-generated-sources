@@ -40,8 +40,10 @@ public class SurfaceCapabilitiesKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SurfaceCapabilitiesKHR(Addressable address, Ownership ownership) {
+    protected SurfaceCapabilitiesKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SurfaceCapabilitiesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SurfaceCapabilitiesKHR(input, ownership);
 }

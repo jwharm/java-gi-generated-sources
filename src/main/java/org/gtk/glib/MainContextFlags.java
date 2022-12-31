@@ -33,11 +33,15 @@ public class MainContextFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public MainContextFlags or(MainContextFlags mask) {
-        return new MainContextFlags(this.getValue() | mask.getValue());
+    public MainContextFlags or(MainContextFlags... masks) {
+        int value = this.getValue();
+        for (MainContextFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new MainContextFlags(value);
     }
     
     /**
@@ -47,7 +51,8 @@ public class MainContextFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static MainContextFlags combined(MainContextFlags mask, MainContextFlags... masks) {
-        int value = mask.getValue();        for (MainContextFlags arg : masks) {
+        int value = mask.getValue();
+        for (MainContextFlags arg : masks) {
             value |= arg.getValue();
         }
         return new MainContextFlags(value);

@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class VulkanSwapper extends org.gstreamer.gst.Object {
+public class VulkanSwapper extends org.gstreamer.gst.GstObject {
     
     static {
         GstVulkan.javagi$ensureInitialized();
@@ -13,22 +13,20 @@ public class VulkanSwapper extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanSwapper";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("device"),
-        Interop.valueLayout.ADDRESS.withName("window"),
-        Interop.valueLayout.ADDRESS.withName("queue"),
-        Interop.valueLayout.ADDRESS.withName("cmd_pool"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("device"),
+            Interop.valueLayout.ADDRESS.withName("window"),
+            Interop.valueLayout.ADDRESS.withName("queue"),
+            Interop.valueLayout.ADDRESS.withName("cmd_pool"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -36,42 +34,26 @@ public class VulkanSwapper extends org.gstreamer.gst.Object {
      * <p>
      * Because VulkanSwapper is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanSwapper(Addressable address, Ownership ownership) {
+    protected VulkanSwapper(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VulkanSwapper if its GType is a (or inherits from) "GstVulkanSwapper".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VulkanSwapper} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVulkanSwapper", a ClassCastException will be thrown.
-     */
-    public static VulkanSwapper castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VulkanSwapper.getType())) {
-            return new VulkanSwapper(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVulkanSwapper");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanSwapper> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanSwapper(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.vulkan.VulkanDevice device, @NotNull org.gstreamer.vulkan.VulkanWindow window) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.vulkan.VulkanDevice device, org.gstreamer.vulkan.VulkanWindow window) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_swapper_new.invokeExact(
                     device.handle(),
@@ -82,12 +64,11 @@ public class VulkanSwapper extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public VulkanSwapper(@NotNull org.gstreamer.vulkan.VulkanDevice device, @NotNull org.gstreamer.vulkan.VulkanWindow window) {
+    public VulkanSwapper(org.gstreamer.vulkan.VulkanDevice device, org.gstreamer.vulkan.VulkanWindow window) {
         super(constructNew(device, window), Ownership.NONE);
     }
     
-    public boolean chooseQueue(@NotNull org.gstreamer.vulkan.VulkanQueue availableQueue) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(availableQueue, "Parameter 'availableQueue' must not be null");
+    public boolean chooseQueue(org.gstreamer.vulkan.VulkanQueue availableQueue) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -101,10 +82,10 @@ public class VulkanSwapper extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull org.gstreamer.gst.Caps getSupportedCaps() throws io.github.jwharm.javagi.GErrorException {
+    public org.gstreamer.gst.Caps getSupportedCaps() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -117,7 +98,7 @@ public class VulkanSwapper extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public void getSurfaceRectangles(@Nullable org.gstreamer.video.VideoRectangle inputImage, @Nullable org.gstreamer.video.VideoRectangle surfaceLocation, @Nullable org.gstreamer.video.VideoRectangle displayRect) {
@@ -132,8 +113,7 @@ public class VulkanSwapper extends org.gstreamer.gst.Object {
         }
     }
     
-    public boolean renderBuffer(@NotNull org.gstreamer.gst.Buffer buffer) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public boolean renderBuffer(org.gstreamer.gst.Buffer buffer) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -147,11 +127,10 @@ public class VulkanSwapper extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public boolean setCaps(@NotNull org.gstreamer.gst.Caps caps) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean setCaps(org.gstreamer.gst.Caps caps) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -165,14 +144,14 @@ public class VulkanSwapper extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_vulkan_swapper_get_type.invokeExact();
@@ -181,48 +160,50 @@ public class VulkanSwapper extends org.gstreamer.gst.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link VulkanSwapper.Builder} object constructs a {@link VulkanSwapper} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VulkanSwapper.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link VulkanSwapper.Build} object constructs a {@link VulkanSwapper} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanSwapper} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VulkanSwapper} using {@link VulkanSwapper#castFrom}.
+         * {@link VulkanSwapper}.
          * @return A new instance of {@code VulkanSwapper} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanSwapper construct() {
-            return VulkanSwapper.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VulkanSwapper.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VulkanSwapper build() {
+            return (VulkanSwapper) org.gtk.gobject.GObject.newWithProperties(
+                VulkanSwapper.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setForceAspectRatio(boolean forceAspectRatio) {
+        public Builder setForceAspectRatio(boolean forceAspectRatio) {
             names.add("force-aspect-ratio");
             values.add(org.gtk.gobject.Value.create(forceAspectRatio));
             return this;
         }
         
-        public Build setPixelAspectRatio(org.gstreamer.gst.Fraction pixelAspectRatio) {
+        public Builder setPixelAspectRatio(org.gstreamer.gst.Fraction pixelAspectRatio) {
             names.add("pixel-aspect-ratio");
             values.add(org.gtk.gobject.Value.create(pixelAspectRatio));
             return this;

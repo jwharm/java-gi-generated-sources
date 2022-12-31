@@ -13,17 +13,15 @@ public class Vp9Dpb extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVp9Dpb";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("pic_list")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("pic_list")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -40,21 +38,43 @@ public class Vp9Dpb extends Struct {
     }
     
     /**
+     * Get the value of the field {@code pic_list}
+     * @return The value of the field {@code pic_list}
+     */
+    public org.gstreamer.codecs.Vp9Picture[] getPicList() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.codecs.Vp9Picture>(RESULT, org.gstreamer.codecs.Vp9Picture.fromAddress).toArray((int) 8, org.gstreamer.codecs.Vp9Picture.class);
+    }
+    
+    /**
+     * Change the value of the field {@code pic_list}
+     * @param picList The new value of the field {@code pic_list}
+     */
+    public void setPicList(org.gstreamer.codecs.Vp9Picture[] picList) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.Vp9Picture.getMemoryLayout(), false)));
+    }
+    
+    /**
      * Create a Vp9Dpb proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Vp9Dpb(Addressable address, Ownership ownership) {
+    protected Vp9Dpb(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Vp9Dpb> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp9Dpb(input, ownership);
     
     /**
      * Store the {@code picture}
      * @param picture a {@link Vp9Picture}
      */
-    public void add(@NotNull org.gstreamer.codecs.Vp9Picture picture) {
-        java.util.Objects.requireNonNull(picture, "Parameter 'picture' must not be null");
+    public void add(org.gstreamer.codecs.Vp9Picture picture) {
         try {
             DowncallHandles.gst_vp9_dpb_add.invokeExact(
                     handle(),
@@ -93,14 +113,14 @@ public class Vp9Dpb extends Struct {
      * Create new {@link Vp9Dpb}
      * @return a new {@link Vp9Dpb}
      */
-    public static @NotNull org.gstreamer.codecs.Vp9Dpb new_() {
+    public static org.gstreamer.codecs.Vp9Dpb new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vp9_dpb_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.Vp9Dpb(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.Vp9Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -129,38 +149,42 @@ public class Vp9Dpb extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Vp9Dpb.Builder} object constructs a {@link Vp9Dpb} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Vp9Dpb.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Vp9Dpb struct;
+        private final Vp9Dpb struct;
         
-         /**
-         * A {@link Vp9Dpb.Build} object constructs a {@link Vp9Dpb} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Vp9Dpb.allocate();
         }
         
          /**
          * Finish building the {@link Vp9Dpb} struct.
          * @return A new instance of {@code Vp9Dpb} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Vp9Dpb construct() {
+        public Vp9Dpb build() {
             return struct;
         }
         
-        public Build setPicList(org.gstreamer.codecs.Vp9Picture[] picList) {
+        public Builder setPicList(org.gstreamer.codecs.Vp9Picture[] picList) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.Vp9Picture.getMemoryLayout(), false)));
             return this;
         }
     }

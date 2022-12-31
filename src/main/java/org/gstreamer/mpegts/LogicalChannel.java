@@ -13,20 +13,18 @@ public class LogicalChannel extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsLogicalChannel";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("service_id"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.C_INT.withName("visible_service"),
-        Interop.valueLayout.C_SHORT.withName("logical_channel_number")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("service_id"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.C_INT.withName("visible_service"),
+            Interop.valueLayout.C_SHORT.withName("logical_channel_number")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -46,7 +44,7 @@ public class LogicalChannel extends Struct {
      * Get the value of the field {@code service_id}
      * @return The value of the field {@code service_id}
      */
-    public short serviceId$get() {
+    public short getServiceId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -57,7 +55,7 @@ public class LogicalChannel extends Struct {
      * Change the value of the field {@code service_id}
      * @param serviceId The new value of the field {@code service_id}
      */
-    public void serviceId$set(short serviceId) {
+    public void setServiceId(short serviceId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
@@ -67,28 +65,28 @@ public class LogicalChannel extends Struct {
      * Get the value of the field {@code visible_service}
      * @return The value of the field {@code visible_service}
      */
-    public boolean visibleService$get() {
+    public boolean getVisibleService() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("visible_service"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code visible_service}
      * @param visibleService The new value of the field {@code visible_service}
      */
-    public void visibleService$set(boolean visibleService) {
+    public void setVisibleService(boolean visibleService) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("visible_service"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), visibleService ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(visibleService, null).intValue());
     }
     
     /**
      * Get the value of the field {@code logical_channel_number}
      * @return The value of the field {@code logical_channel_number}
      */
-    public short logicalChannelNumber$get() {
+    public short getLogicalChannelNumber() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("logical_channel_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -99,7 +97,7 @@ public class LogicalChannel extends Struct {
      * Change the value of the field {@code logical_channel_number}
      * @param logicalChannelNumber The new value of the field {@code logical_channel_number}
      */
-    public void logicalChannelNumber$set(short logicalChannelNumber) {
+    public void setLogicalChannelNumber(short logicalChannelNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("logical_channel_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), logicalChannelNumber);
@@ -110,53 +108,59 @@ public class LogicalChannel extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LogicalChannel(Addressable address, Ownership ownership) {
+    protected LogicalChannel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LogicalChannel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LogicalChannel(input, ownership);
+    
+    /**
+     * A {@link LogicalChannel.Builder} object constructs a {@link LogicalChannel} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link LogicalChannel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private LogicalChannel struct;
+        private final LogicalChannel struct;
         
-         /**
-         * A {@link LogicalChannel.Build} object constructs a {@link LogicalChannel} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = LogicalChannel.allocate();
         }
         
          /**
          * Finish building the {@link LogicalChannel} struct.
          * @return A new instance of {@code LogicalChannel} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public LogicalChannel construct() {
+        public LogicalChannel build() {
             return struct;
         }
         
-        public Build setServiceId(short serviceId) {
+        public Builder setServiceId(short serviceId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
             return this;
         }
         
-        public Build setVisibleService(boolean visibleService) {
+        public Builder setVisibleService(boolean visibleService) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("visible_service"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), visibleService ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(visibleService, null).intValue());
             return this;
         }
         
-        public Build setLogicalChannelNumber(short logicalChannelNumber) {
+        public Builder setLogicalChannelNumber(short logicalChannelNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("logical_channel_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), logicalChannelNumber);

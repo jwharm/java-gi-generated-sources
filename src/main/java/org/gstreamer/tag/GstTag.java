@@ -14,7 +14,15 @@ public final class GstTag {
         System.loadLibrary("gsttag-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * AcoustID Fingerprint (Chromaprint)
@@ -311,16 +319,15 @@ public final class GstTag {
      * @return TRUE if the two- or three-letter language code in {@code lang_code}
      *     is a valid ISO-639 language code.
      */
-    public static boolean tagCheckLanguageCode(@NotNull java.lang.String langCode) {
-        java.util.Objects.requireNonNull(langCode, "Parameter 'langCode' must not be null");
+    public static boolean tagCheckLanguageCode(java.lang.String langCode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_check_language_code.invokeExact(
-                    Interop.allocateNativeString(langCode));
+                    Marshal.stringToAddress.marshal(langCode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -337,9 +344,7 @@ public final class GstTag {
      * @param envVars a NULL-terminated string array of environment variable names, or NULL
      * @return a newly-allocated string in UTF-8 encoding, or NULL
      */
-    public static @NotNull java.lang.String tagFreeformStringToUtf8(@NotNull byte[] data, int size, @NotNull java.lang.String[] envVars) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(envVars, "Parameter 'envVars' must not be null");
+    public static java.lang.String tagFreeformStringToUtf8(byte[] data, int size, java.lang.String[] envVars) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_freeform_string_to_utf8.invokeExact(
@@ -349,7 +354,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -357,16 +362,15 @@ public final class GstTag {
      * @param id3Tag ID3v2 tag to convert to GStreamer tag
      * @return The corresponding GStreamer tag or NULL if none exists.
      */
-    public static @NotNull java.lang.String tagFromId3Tag(@NotNull java.lang.String id3Tag) {
-        java.util.Objects.requireNonNull(id3Tag, "Parameter 'id3Tag' must not be null");
+    public static java.lang.String tagFromId3Tag(java.lang.String id3Tag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_from_id3_tag.invokeExact(
-                    Interop.allocateNativeString(id3Tag));
+                    Marshal.stringToAddress.marshal(id3Tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -376,18 +380,16 @@ public final class GstTag {
      * @param id3UserTag ID3v2 user tag to convert to GStreamer tag
      * @return The corresponding GStreamer tag or NULL if none exists.
      */
-    public static @NotNull java.lang.String tagFromId3UserTag(@NotNull java.lang.String type, @NotNull java.lang.String id3UserTag) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(id3UserTag, "Parameter 'id3UserTag' must not be null");
+    public static java.lang.String tagFromId3UserTag(java.lang.String type, java.lang.String id3UserTag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_from_id3_user_tag.invokeExact(
-                    Interop.allocateNativeString(type),
-                    Interop.allocateNativeString(id3UserTag));
+                    Marshal.stringToAddress.marshal(type, null),
+                    Marshal.stringToAddress.marshal(id3UserTag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -395,16 +397,15 @@ public final class GstTag {
      * @param vorbisTag vorbiscomment tag to convert to GStreamer tag
      * @return The corresponding GStreamer tag or NULL if none exists.
      */
-    public static @NotNull java.lang.String tagFromVorbisTag(@NotNull java.lang.String vorbisTag) {
-        java.util.Objects.requireNonNull(vorbisTag, "Parameter 'vorbisTag' must not be null");
+    public static java.lang.String tagFromVorbisTag(java.lang.String vorbisTag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_from_vorbis_tag.invokeExact(
-                    Interop.allocateNativeString(vorbisTag));
+                    Marshal.stringToAddress.marshal(vorbisTag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -413,8 +414,7 @@ public final class GstTag {
      * @param buffer buffer holding ID3v2 tag (or at least the start of one)
      * @return Size of tag, or 0 if header is invalid or too small.
      */
-    public static int tagGetId3v2TagSize(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static int tagGetId3v2TagSize(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_get_id3v2_tag_size.invokeExact(
@@ -436,16 +436,15 @@ public final class GstTag {
      *     or NULL if no mapping is known. The returned string must not be
      *     modified or freed.
      */
-    public static @NotNull java.lang.String tagGetLanguageCodeIso6391(@NotNull java.lang.String langCode) {
-        java.util.Objects.requireNonNull(langCode, "Parameter 'langCode' must not be null");
+    public static java.lang.String tagGetLanguageCodeIso6391(java.lang.String langCode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_language_code_iso_639_1.invokeExact(
-                    Interop.allocateNativeString(langCode));
+                    Marshal.stringToAddress.marshal(langCode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -463,16 +462,15 @@ public final class GstTag {
      *     or NULL if no mapping is known. The returned string must not be
      *     modified or freed.
      */
-    public static @NotNull java.lang.String tagGetLanguageCodeIso6392B(@NotNull java.lang.String langCode) {
-        java.util.Objects.requireNonNull(langCode, "Parameter 'langCode' must not be null");
+    public static java.lang.String tagGetLanguageCodeIso6392B(java.lang.String langCode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_language_code_iso_639_2B.invokeExact(
-                    Interop.allocateNativeString(langCode));
+                    Marshal.stringToAddress.marshal(langCode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -490,16 +488,15 @@ public final class GstTag {
      *     or NULL if no mapping is known. The returned string must not be
      *     modified or freed.
      */
-    public static @NotNull java.lang.String tagGetLanguageCodeIso6392T(@NotNull java.lang.String langCode) {
-        java.util.Objects.requireNonNull(langCode, "Parameter 'langCode' must not be null");
+    public static java.lang.String tagGetLanguageCodeIso6392T(java.lang.String langCode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_language_code_iso_639_2T.invokeExact(
-                    Interop.allocateNativeString(langCode));
+                    Marshal.stringToAddress.marshal(langCode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -510,7 +507,7 @@ public final class GstTag {
      * @return NULL-terminated string array with two-letter
      *     language codes. Free with g_strfreev() when no longer needed.
      */
-    public static @NotNull PointerString tagGetLanguageCodes() {
+    public static PointerString tagGetLanguageCodes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_language_codes.invokeExact();
@@ -533,16 +530,15 @@ public final class GstTag {
      *     modified and does not need to freed; it will stay valid until the
      *     application is terminated.
      */
-    public static @NotNull java.lang.String tagGetLanguageName(@NotNull java.lang.String languageCode) {
-        java.util.Objects.requireNonNull(languageCode, "Parameter 'languageCode' must not be null");
+    public static java.lang.String tagGetLanguageName(java.lang.String languageCode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_language_name.invokeExact(
-                    Interop.allocateNativeString(languageCode));
+                    Marshal.stringToAddress.marshal(languageCode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -553,16 +549,15 @@ public final class GstTag {
      * @return the description of the license, or NULL if the license is unknown
      *    or a description is not available.
      */
-    public static @NotNull java.lang.String tagGetLicenseDescription(@NotNull java.lang.String licenseRef) {
-        java.util.Objects.requireNonNull(licenseRef, "Parameter 'licenseRef' must not be null");
+    public static java.lang.String tagGetLicenseDescription(java.lang.String licenseRef) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_license_description.invokeExact(
-                    Interop.allocateNativeString(licenseRef));
+                    Marshal.stringToAddress.marshal(licenseRef, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -572,12 +567,11 @@ public final class GstTag {
      *     e.g. "http://creativecommons.org/licenses/by-nc-nd/2.0/"
      * @return the flags of the license, or 0 if the license is unknown
      */
-    public static @NotNull org.gstreamer.tag.TagLicenseFlags tagGetLicenseFlags(@NotNull java.lang.String licenseRef) {
-        java.util.Objects.requireNonNull(licenseRef, "Parameter 'licenseRef' must not be null");
+    public static org.gstreamer.tag.TagLicenseFlags tagGetLicenseFlags(java.lang.String licenseRef) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_get_license_flags.invokeExact(
-                    Interop.allocateNativeString(licenseRef));
+                    Marshal.stringToAddress.marshal(licenseRef, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -597,16 +591,15 @@ public final class GstTag {
      * @return the jurisdiction code of the license, or NULL if the license is
      *    unknown or is not specific to a particular jurisdiction.
      */
-    public static @NotNull java.lang.String tagGetLicenseJurisdiction(@NotNull java.lang.String licenseRef) {
-        java.util.Objects.requireNonNull(licenseRef, "Parameter 'licenseRef' must not be null");
+    public static java.lang.String tagGetLicenseJurisdiction(java.lang.String licenseRef) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_license_jurisdiction.invokeExact(
-                    Interop.allocateNativeString(licenseRef));
+                    Marshal.stringToAddress.marshal(licenseRef, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -616,16 +609,15 @@ public final class GstTag {
      *     e.g. "http://creativecommons.org/licenses/by-nc-nd/2.0/"
      * @return the nick name of the license, or NULL if the license is unknown
      */
-    public static @NotNull java.lang.String tagGetLicenseNick(@NotNull java.lang.String licenseRef) {
-        java.util.Objects.requireNonNull(licenseRef, "Parameter 'licenseRef' must not be null");
+    public static java.lang.String tagGetLicenseNick(java.lang.String licenseRef) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_license_nick.invokeExact(
-                    Interop.allocateNativeString(licenseRef));
+                    Marshal.stringToAddress.marshal(licenseRef, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -636,16 +628,15 @@ public final class GstTag {
      * @return the title of the license, or NULL if the license is unknown or
      *    no title is available.
      */
-    public static @NotNull java.lang.String tagGetLicenseTitle(@NotNull java.lang.String licenseRef) {
-        java.util.Objects.requireNonNull(licenseRef, "Parameter 'licenseRef' must not be null");
+    public static java.lang.String tagGetLicenseTitle(java.lang.String licenseRef) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_license_title.invokeExact(
-                    Interop.allocateNativeString(licenseRef));
+                    Marshal.stringToAddress.marshal(licenseRef, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -655,16 +646,15 @@ public final class GstTag {
      * @return the version of the license, or NULL if the license is not known or
      *    has no version
      */
-    public static @NotNull java.lang.String tagGetLicenseVersion(@NotNull java.lang.String licenseRef) {
-        java.util.Objects.requireNonNull(licenseRef, "Parameter 'licenseRef' must not be null");
+    public static java.lang.String tagGetLicenseVersion(java.lang.String licenseRef) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_license_version.invokeExact(
-                    Interop.allocateNativeString(licenseRef));
+                    Marshal.stringToAddress.marshal(licenseRef, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -675,7 +665,7 @@ public final class GstTag {
      * @return NULL-terminated array of license strings. Free
      *     with g_strfreev() when no longer needed.
      */
-    public static @NotNull PointerString tagGetLicenses() {
+    public static PointerString tagGetLicenses() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_get_licenses.invokeExact();
@@ -705,7 +695,7 @@ public final class GstTag {
      * @param id ID of genre to query
      * @return the genre or NULL if no genre is associated with that ID.
      */
-    public static @NotNull java.lang.String tagId3GenreGet(int id) {
+    public static java.lang.String tagId3GenreGet(int id) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_id3_genre_get.invokeExact(
@@ -713,7 +703,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -746,9 +736,7 @@ public final class GstTag {
      *     for preview images)
      * @return a newly-allocated image sample for use in tag lists, or NULL
      */
-    public static @NotNull org.gstreamer.gst.Sample tagImageDataToImageSample(@NotNull byte[] imageData, int imageDataLen, @NotNull org.gstreamer.tag.TagImageType imageType) {
-        java.util.Objects.requireNonNull(imageData, "Parameter 'imageData' must not be null");
-        java.util.Objects.requireNonNull(imageType, "Parameter 'imageType' must not be null");
+    public static org.gstreamer.gst.Sample tagImageDataToImageSample(byte[] imageData, int imageDataLen, org.gstreamer.tag.TagImageType imageType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_image_data_to_image_sample.invokeExact(
@@ -758,7 +746,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Sample(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -772,9 +760,7 @@ public final class GstTag {
      *    the APIC frame (0 = unknown/other)
      * @return {@code true} if the image was processed, otherwise {@code false}
      */
-    public static boolean tagListAddId3Image(@NotNull org.gstreamer.gst.TagList tagList, @NotNull byte[] imageData, int imageDataLen, int id3PictureType) {
-        java.util.Objects.requireNonNull(tagList, "Parameter 'tagList' must not be null");
-        java.util.Objects.requireNonNull(imageData, "Parameter 'imageData' must not be null");
+    public static boolean tagListAddId3Image(org.gstreamer.gst.TagList tagList, byte[] imageData, int imageDataLen, int id3PictureType) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_add_id3_image.invokeExact(
@@ -785,7 +771,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -798,8 +784,7 @@ public final class GstTag {
      * @param baseOffset Offset from the tiff header to this buffer
      * @return The parsed taglist
      */
-    public static @NotNull org.gstreamer.gst.TagList tagListFromExifBuffer(@NotNull org.gstreamer.gst.Buffer buffer, int byteOrder, int baseOffset) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gst.TagList tagListFromExifBuffer(org.gstreamer.gst.Buffer buffer, int byteOrder, int baseOffset) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_from_exif_buffer.invokeExact(
@@ -809,7 +794,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -817,8 +802,7 @@ public final class GstTag {
      * @param buffer The exif buffer
      * @return The taglist
      */
-    public static @NotNull org.gstreamer.gst.TagList tagListFromExifBufferWithTiffHeader(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gst.TagList tagListFromExifBufferWithTiffHeader(org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_from_exif_buffer_with_tiff_header.invokeExact(
@@ -826,7 +810,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -836,8 +820,7 @@ public final class GstTag {
      * @return A new {@link org.gstreamer.gst.TagList} with all tags that could be extracted from the
      *          given vorbiscomment buffer or NULL on error.
      */
-    public static @NotNull org.gstreamer.gst.TagList tagListFromId3v2Tag(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gst.TagList tagListFromId3v2Tag(org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_from_id3v2_tag.invokeExact(
@@ -845,7 +828,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -860,10 +843,7 @@ public final class GstTag {
      * @return A new {@link org.gstreamer.gst.TagList} with all tags that could be extracted from the
      *          given vorbiscomment buffer or NULL on error.
      */
-    public static @NotNull org.gstreamer.gst.TagList tagListFromVorbiscomment(@NotNull byte[] data, long size, @NotNull byte[] idData, int idDataLength, @NotNull Out<java.lang.String> vendorString) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(idData, "Parameter 'idData' must not be null");
-        java.util.Objects.requireNonNull(vendorString, "Parameter 'vendorString' must not be null");
+    public static org.gstreamer.gst.TagList tagListFromVorbiscomment(byte[] data, long size, byte[] idData, int idDataLength, @Nullable Out<java.lang.String> vendorString) {
         MemorySegment vendorStringPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -872,12 +852,12 @@ public final class GstTag {
                     size,
                     Interop.allocateNativeArray(idData, false),
                     idDataLength,
-                    (Addressable) vendorStringPOINTER.address());
+                    (Addressable) (vendorString == null ? MemoryAddress.NULL : (Addressable) vendorStringPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        vendorString.set(Interop.getStringFrom(vendorStringPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.FULL);
+        if (vendorString != null) vendorString.set(Marshal.addressToString.marshal(vendorStringPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -891,10 +871,7 @@ public final class GstTag {
      * @return A new {@link org.gstreamer.gst.TagList} with all tags that could be extracted from the
      *          given vorbiscomment buffer or NULL on error.
      */
-    public static @NotNull org.gstreamer.gst.TagList tagListFromVorbiscommentBuffer(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull byte[] idData, int idDataLength, @NotNull Out<java.lang.String> vendorString) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(idData, "Parameter 'idData' must not be null");
-        java.util.Objects.requireNonNull(vendorString, "Parameter 'vendorString' must not be null");
+    public static org.gstreamer.gst.TagList tagListFromVorbiscommentBuffer(org.gstreamer.gst.Buffer buffer, byte[] idData, int idDataLength, @Nullable Out<java.lang.String> vendorString) {
         MemorySegment vendorStringPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -902,12 +879,12 @@ public final class GstTag {
                     buffer.handle(),
                     Interop.allocateNativeArray(idData, false),
                     idDataLength,
-                    (Addressable) vendorStringPOINTER.address());
+                    (Addressable) (vendorString == null ? MemoryAddress.NULL : (Addressable) vendorStringPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        vendorString.set(Interop.getStringFrom(vendorStringPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.FULL);
+        if (vendorString != null) vendorString.set(Marshal.addressToString.marshal(vendorStringPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -915,8 +892,7 @@ public final class GstTag {
      * @param buffer buffer
      * @return new taglist or {@code null}, free the list when done
      */
-    public static @NotNull org.gstreamer.gst.TagList tagListFromXmpBuffer(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gst.TagList tagListFromXmpBuffer(org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_from_xmp_buffer.invokeExact(
@@ -924,7 +900,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -933,8 +909,7 @@ public final class GstTag {
      * @param data 128 bytes of data containing the ID3v1 tag
      * @return A new tag list or NULL if the data was not an ID3v1 tag.
      */
-    public static @NotNull org.gstreamer.gst.TagList tagListNewFromId3v1(@NotNull byte[] data) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.gst.TagList tagListNewFromId3v1(byte[] data) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new_from_id3v1.invokeExact(
@@ -942,7 +917,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -953,8 +928,7 @@ public final class GstTag {
      * @param baseOffset Offset from the tiff header first byte
      * @return A GstBuffer containing the tag entries followed by the tag data
      */
-    public static @NotNull org.gstreamer.gst.Buffer tagListToExifBuffer(@NotNull org.gstreamer.gst.TagList taglist, int byteOrder, int baseOffset) {
-        java.util.Objects.requireNonNull(taglist, "Parameter 'taglist' must not be null");
+    public static org.gstreamer.gst.Buffer tagListToExifBuffer(org.gstreamer.gst.TagList taglist, int byteOrder, int baseOffset) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_to_exif_buffer.invokeExact(
@@ -964,7 +938,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -973,8 +947,7 @@ public final class GstTag {
      * @param taglist The taglist
      * @return A GstBuffer containing the data
      */
-    public static @NotNull org.gstreamer.gst.Buffer tagListToExifBufferWithTiffHeader(@NotNull org.gstreamer.gst.TagList taglist) {
-        java.util.Objects.requireNonNull(taglist, "Parameter 'taglist' must not be null");
+    public static org.gstreamer.gst.Buffer tagListToExifBufferWithTiffHeader(org.gstreamer.gst.TagList taglist) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_to_exif_buffer_with_tiff_header.invokeExact(
@@ -982,7 +955,7 @@ public final class GstTag {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -994,20 +967,18 @@ public final class GstTag {
      * @return A new {@link org.gstreamer.gst.Buffer} containing a vorbiscomment buffer with all tags
      *          that could be converted from the given tag list.
      */
-    public static @NotNull org.gstreamer.gst.Buffer tagListToVorbiscommentBuffer(@NotNull org.gstreamer.gst.TagList list, @NotNull byte[] idData, int idDataLength, @Nullable java.lang.String vendorString) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(idData, "Parameter 'idData' must not be null");
+    public static org.gstreamer.gst.Buffer tagListToVorbiscommentBuffer(org.gstreamer.gst.TagList list, byte[] idData, int idDataLength, @Nullable java.lang.String vendorString) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_to_vorbiscomment_buffer.invokeExact(
                     list.handle(),
                     Interop.allocateNativeArray(idData, false),
                     idDataLength,
-                    (Addressable) (vendorString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vendorString)));
+                    (Addressable) (vendorString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(vendorString, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1019,19 +990,17 @@ public final class GstTag {
      * @param schemas {@code null} terminated array of schemas to be used on serialization
      * @return new buffer or {@code null}, unref the buffer when done
      */
-    public static @NotNull org.gstreamer.gst.Buffer tagListToXmpBuffer(@NotNull org.gstreamer.gst.TagList list, boolean readOnly, @NotNull java.lang.String[] schemas) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(schemas, "Parameter 'schemas' must not be null");
+    public static org.gstreamer.gst.Buffer tagListToXmpBuffer(org.gstreamer.gst.TagList list, boolean readOnly, java.lang.String[] schemas) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_to_xmp_buffer.invokeExact(
                     list.handle(),
-                    readOnly ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(readOnly, null).intValue(),
                     Interop.allocateNativeArray(schemas, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1049,27 +1018,25 @@ public final class GstTag {
      * @param failIfNoKey whether to fail if strings are not in key=value form
      * @return TRUE if the string could be parsed, otherwise FALSE
      */
-    public static boolean tagParseExtendedComment(@NotNull java.lang.String extComment, @Nullable Out<java.lang.String> key, @Nullable Out<java.lang.String> lang, @NotNull Out<java.lang.String> value, boolean failIfNoKey) {
-        java.util.Objects.requireNonNull(extComment, "Parameter 'extComment' must not be null");
+    public static boolean tagParseExtendedComment(java.lang.String extComment, @Nullable Out<java.lang.String> key, @Nullable Out<java.lang.String> lang, Out<java.lang.String> value, boolean failIfNoKey) {
         MemorySegment keyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment langPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_parse_extended_comment.invokeExact(
-                    Interop.allocateNativeString(extComment),
+                    Marshal.stringToAddress.marshal(extComment, null),
                     (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) keyPOINTER.address()),
                     (Addressable) (lang == null ? MemoryAddress.NULL : (Addressable) langPOINTER.address()),
                     (Addressable) valuePOINTER.address(),
-                    failIfNoKey ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(failIfNoKey, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (key != null) key.set(Interop.getStringFrom(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (lang != null) lang.set(Interop.getStringFrom(langPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        value.set(Interop.getStringFrom(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (key != null) key.set(Marshal.addressToString.marshal(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (lang != null) lang.set(Marshal.addressToString.marshal(langPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1090,16 +1057,15 @@ public final class GstTag {
      * @param gstTag GStreamer tag to convert to vorbiscomment tag
      * @return The corresponding ID3v2 tag or NULL if none exists.
      */
-    public static @NotNull java.lang.String tagToId3Tag(@NotNull java.lang.String gstTag) {
-        java.util.Objects.requireNonNull(gstTag, "Parameter 'gstTag' must not be null");
+    public static java.lang.String tagToId3Tag(java.lang.String gstTag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_to_id3_tag.invokeExact(
-                    Interop.allocateNativeString(gstTag));
+                    Marshal.stringToAddress.marshal(gstTag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1111,18 +1077,16 @@ public final class GstTag {
      *     key=value strings. Free with g_list_foreach (list, (GFunc) g_free, NULL)
      *     plus g_list_free (list)
      */
-    public static @NotNull org.gtk.glib.List tagToVorbisComments(@NotNull org.gstreamer.gst.TagList list, @NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static org.gtk.glib.List tagToVorbisComments(org.gstreamer.gst.TagList list, java.lang.String tag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_to_vorbis_comments.invokeExact(
                     list.handle(),
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1130,16 +1094,15 @@ public final class GstTag {
      * @param gstTag GStreamer tag to convert to vorbiscomment tag
      * @return The corresponding vorbiscomment tag or NULL if none exists.
      */
-    public static @NotNull java.lang.String tagToVorbisTag(@NotNull java.lang.String gstTag) {
-        java.util.Objects.requireNonNull(gstTag, "Parameter 'gstTag' must not be null");
+    public static java.lang.String tagToVorbisTag(java.lang.String gstTag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_to_vorbis_tag.invokeExact(
-                    Interop.allocateNativeString(gstTag));
+                    Marshal.stringToAddress.marshal(gstTag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1147,7 +1110,7 @@ public final class GstTag {
      * @return a {@code null} terminated array of strings with the
      *     schema names
      */
-    public static @NotNull PointerString tagXmpListSchemas() {
+    public static PointerString tagXmpListSchemas() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_xmp_list_schemas.invokeExact();
@@ -1168,15 +1131,12 @@ public final class GstTag {
      * @param tag a vorbiscomment tag string (key in key=value), must be valid UTF-8
      * @param value a vorbiscomment value string (value in key=value), must be valid UTF-8
      */
-    public static void vorbisTagAdd(@NotNull org.gstreamer.gst.TagList list, @NotNull java.lang.String tag, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void vorbisTagAdd(org.gstreamer.gst.TagList list, java.lang.String tag, java.lang.String value) {
         try {
             DowncallHandles.gst_vorbis_tag_add.invokeExact(
                     list.handle(),
-                    Interop.allocateNativeString(tag),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(tag, null),
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

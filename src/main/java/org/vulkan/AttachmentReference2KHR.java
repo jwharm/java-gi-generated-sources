@@ -40,8 +40,10 @@ public class AttachmentReference2KHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AttachmentReference2KHR(Addressable address, Ownership ownership) {
+    protected AttachmentReference2KHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AttachmentReference2KHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttachmentReference2KHR(input, ownership);
 }

@@ -44,7 +44,7 @@ import org.jetbrains.annotations.*;
  * It is possible, as well, to ignore the 2-D setup,
  * and simply treat the results of a {@code PangoLayout} as a list of lines.
  */
-public class Layout extends org.gtk.gobject.Object {
+public class Layout extends org.gtk.gobject.GObject {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -66,34 +66,15 @@ public class Layout extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Layout(Addressable address, Ownership ownership) {
+    protected Layout(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Layout if its GType is a (or inherits from) "PangoLayout".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Layout} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "PangoLayout", a ClassCastException will be thrown.
-     */
-    public static Layout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Layout.getType())) {
-            return new Layout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoLayout");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Layout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Layout(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.pango.Context context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.pango.Context context) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_layout_new.invokeExact(
                     context.handle());
@@ -108,7 +89,7 @@ public class Layout extends org.gtk.gobject.Object {
      * default values for a particular {@code PangoContext}.
      * @param context a {@code PangoContext}
      */
-    public Layout(@NotNull org.pango.Context context) {
+    public Layout(org.pango.Context context) {
         super(constructNew(context), Ownership.FULL);
     }
     
@@ -135,7 +116,7 @@ public class Layout extends org.gtk.gobject.Object {
      * are all copied by value.
      * @return the newly allocated {@code PangoLayout}
      */
-    public @NotNull org.pango.Layout copy() {
+    public org.pango.Layout copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_layout_copy.invokeExact(
@@ -143,7 +124,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(RESULT, Ownership.FULL);
+        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -151,7 +132,7 @@ public class Layout extends org.gtk.gobject.Object {
      * positioned within the horizontal space available.
      * @return the alignment
      */
-    public @NotNull org.pango.Alignment getAlignment() {
+    public org.pango.Alignment getAlignment() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_layout_get_alignment.invokeExact(
@@ -174,7 +155,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.NONE);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -193,7 +174,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -227,15 +208,13 @@ public class Layout extends org.gtk.gobject.Object {
      * @param strongPos location to store the strong cursor position
      * @param weakPos location to store the weak cursor position
      */
-    public void getCaretPos(int index, @NotNull org.pango.Rectangle strongPos, @NotNull org.pango.Rectangle weakPos) {
-        java.util.Objects.requireNonNull(strongPos, "Parameter 'strongPos' must not be null");
-        java.util.Objects.requireNonNull(weakPos, "Parameter 'weakPos' must not be null");
+    public void getCaretPos(int index, @Nullable org.pango.Rectangle strongPos, @Nullable org.pango.Rectangle weakPos) {
         try {
             DowncallHandles.pango_layout_get_caret_pos.invokeExact(
                     handle(),
                     index,
-                    strongPos.handle(),
-                    weakPos.handle());
+                    (Addressable) (strongPos == null ? MemoryAddress.NULL : strongPos.handle()),
+                    (Addressable) (weakPos == null ? MemoryAddress.NULL : weakPos.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -262,7 +241,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Retrieves the {@code PangoContext} used for this layout.
      * @return the {@code PangoContext} for the layout
      */
-    public @NotNull org.pango.Context getContext() {
+    public org.pango.Context getContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_context.invokeExact(
@@ -270,7 +249,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(RESULT, Ownership.NONE);
+        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -305,15 +284,13 @@ public class Layout extends org.gtk.gobject.Object {
      * @param strongPos location to store the strong cursor position
      * @param weakPos location to store the weak cursor position
      */
-    public void getCursorPos(int index, @NotNull org.pango.Rectangle strongPos, @NotNull org.pango.Rectangle weakPos) {
-        java.util.Objects.requireNonNull(strongPos, "Parameter 'strongPos' must not be null");
-        java.util.Objects.requireNonNull(weakPos, "Parameter 'weakPos' must not be null");
+    public void getCursorPos(int index, @Nullable org.pango.Rectangle strongPos, @Nullable org.pango.Rectangle weakPos) {
         try {
             DowncallHandles.pango_layout_get_cursor_pos.invokeExact(
                     handle(),
                     index,
-                    strongPos.handle(),
-                    weakPos.handle());
+                    (Addressable) (strongPos == null ? MemoryAddress.NULL : strongPos.handle()),
+                    (Addressable) (weakPos == null ? MemoryAddress.NULL : weakPos.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,7 +301,7 @@ public class Layout extends org.gtk.gobject.Object {
      * @param index the byte index of the char
      * @return the text direction at {@code index}
      */
-    public @NotNull org.pango.Direction getDirection(int index) {
+    public org.pango.Direction getDirection(int index) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_layout_get_direction.invokeExact(
@@ -345,7 +322,7 @@ public class Layout extends org.gtk.gobject.Object {
      * paragraphs were actually ellipsized.
      * @return the current ellipsization mode for {@code layout}
      */
-    public @NotNull org.pango.EllipsizeMode getEllipsize() {
+    public org.pango.EllipsizeMode getEllipsize() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_layout_get_ellipsize.invokeExact(
@@ -372,14 +349,12 @@ public class Layout extends org.gtk.gobject.Object {
      * @param logicalRect rectangle used to store the logical
      *   extents of the layout
      */
-    public void getExtents(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void getExtents(@Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_layout_get_extents.invokeExact(
                     handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -399,7 +374,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontDescription(RESULT, Ownership.NONE);
+        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -441,7 +416,7 @@ public class Layout extends org.gtk.gobject.Object {
      * Returns an iterator to iterate over the visual extents of the layout.
      * @return the new {@code PangoLayoutIter}
      */
-    public @NotNull org.pango.LayoutIter getIter() {
+    public org.pango.LayoutIter getIter() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_iter.invokeExact(
@@ -449,7 +424,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutIter(RESULT, Ownership.FULL);
+        return org.pango.LayoutIter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -465,7 +440,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -481,7 +456,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -505,7 +480,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutLine(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -545,7 +520,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutLine(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -574,7 +549,7 @@ public class Layout extends org.gtk.gobject.Object {
      *   {@code PangoLayout} and must be used with care. It will become invalid on any
      *   change to the layout's text or properties.
      */
-    public @NotNull org.gtk.glib.SList getLines() {
+    public org.gtk.glib.SList getLines() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_lines.invokeExact(
@@ -582,7 +557,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.NONE);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -597,7 +572,7 @@ public class Layout extends org.gtk.gobject.Object {
      *   change to the layout's text or properties. No changes should be made to
      *   the lines.
      */
-    public @NotNull org.gtk.glib.SList getLinesReadonly() {
+    public org.gtk.glib.SList getLinesReadonly() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_lines_readonly.invokeExact(
@@ -605,7 +580,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.NONE);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -619,10 +594,8 @@ public class Layout extends org.gtk.gobject.Object {
      *   corresponding to both the position before the first character
      *   and the position after the last character.)
      */
-    public void getLogAttrs(@NotNull Out<org.pango.LogAttr[]> attrs, Out<Integer> nAttrs) {
-        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
+    public void getLogAttrs(Out<org.pango.LogAttr[]> attrs, Out<Integer> nAttrs) {
         MemorySegment attrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(nAttrs, "Parameter 'nAttrs' must not be null");
         MemorySegment nAttrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_get_log_attrs.invokeExact(
@@ -636,7 +609,7 @@ public class Layout extends org.gtk.gobject.Object {
         org.pango.LogAttr[] attrsARRAY = new org.pango.LogAttr[nAttrs.get().intValue()];
         for (int I = 0; I < nAttrs.get().intValue(); I++) {
             var OBJ = attrsPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            attrsARRAY[I] = new org.pango.LogAttr(OBJ, Ownership.CONTAINER);
+            attrsARRAY[I] = org.pango.LogAttr.fromAddress.marshal(OBJ, Ownership.CONTAINER);
         }
         attrs.set(attrsARRAY);
     }
@@ -657,8 +630,7 @@ public class Layout extends org.gtk.gobject.Object {
      *   the array
      * @return an array of logical attributes
      */
-    public @NotNull org.pango.LogAttr[] getLogAttrsReadonly(Out<Integer> nAttrs) {
-        java.util.Objects.requireNonNull(nAttrs, "Parameter 'nAttrs' must not be null");
+    public org.pango.LogAttr[] getLogAttrsReadonly(Out<Integer> nAttrs) {
         MemorySegment nAttrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -672,7 +644,7 @@ public class Layout extends org.gtk.gobject.Object {
         org.pango.LogAttr[] resultARRAY = new org.pango.LogAttr[nAttrs.get().intValue()];
         for (int I = 0; I < nAttrs.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.pango.LogAttr(OBJ, Ownership.NONE);
+            resultARRAY[I] = org.pango.LogAttr.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -689,14 +661,12 @@ public class Layout extends org.gtk.gobject.Object {
      * @param logicalRect rectangle used to store the logical
      *   extents of the layout
      */
-    public void getPixelExtents(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void getPixelExtents(@Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_layout_get_pixel_extents.invokeExact(
                     handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -713,20 +683,18 @@ public class Layout extends org.gtk.gobject.Object {
      * @param height location to store the logical height
      */
     public void getPixelSize(Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_get_pixel_size.invokeExact(
                     handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -770,7 +738,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -782,20 +750,18 @@ public class Layout extends org.gtk.gobject.Object {
      * @param height location to store the logical height
      */
     public void getSize(Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_get_size.invokeExact(
                     handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -830,7 +796,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(RESULT, Ownership.FULL);
+        return org.pango.TabArray.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -839,7 +805,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The returned text should not be freed or modified.
      * @return the text in the {@code layout}
      */
-    public @NotNull java.lang.String getText() {
+    public java.lang.String getText() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_layout_get_text.invokeExact(
@@ -847,7 +813,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -892,7 +858,7 @@ public class Layout extends org.gtk.gobject.Object {
      * any paragraphs were actually wrapped.
      * @return active wrap mode.
      */
-    public @NotNull org.pango.WrapMode getWrap() {
+    public org.pango.WrapMode getWrap() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_layout_get_wrap.invokeExact(
@@ -917,22 +883,20 @@ public class Layout extends org.gtk.gobject.Object {
      *   ({@code PANGO_SCALE} units per device unit)
      */
     public void indexToLineX(int index, boolean trailing, Out<Integer> line, Out<Integer> xPos) {
-        java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
         MemorySegment linePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(xPos, "Parameter 'xPos' must not be null");
         MemorySegment xPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_index_to_line_x.invokeExact(
                     handle(),
                     index,
-                    trailing ? 1 : 0,
-                    (Addressable) linePOINTER.address(),
-                    (Addressable) xPosPOINTER.address());
+                    Marshal.booleanToInteger.marshal(trailing, null).intValue(),
+                    (Addressable) (line == null ? MemoryAddress.NULL : (Addressable) linePOINTER.address()),
+                    (Addressable) (xPos == null ? MemoryAddress.NULL : (Addressable) xPosPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        line.set(linePOINTER.get(Interop.valueLayout.C_INT, 0));
-        xPos.set(xPosPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (line != null) line.set(linePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (xPos != null) xPos.set(xPosPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -946,8 +910,7 @@ public class Layout extends org.gtk.gobject.Object {
      * @param index byte index within {@code layout}
      * @param pos rectangle in which to store the position of the grapheme
      */
-    public void indexToPos(int index, @NotNull org.pango.Rectangle pos) {
-        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+    public void indexToPos(int index, org.pango.Rectangle pos) {
         try {
             DowncallHandles.pango_layout_index_to_pos.invokeExact(
                     handle(),
@@ -976,7 +939,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -997,7 +960,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1037,14 +1000,12 @@ public class Layout extends org.gtk.gobject.Object {
      *   the cursor should be displayed.
      */
     public void moveCursorVisually(boolean strong, int oldIndex, int oldTrailing, int direction, Out<Integer> newIndex, Out<Integer> newTrailing) {
-        java.util.Objects.requireNonNull(newIndex, "Parameter 'newIndex' must not be null");
         MemorySegment newIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(newTrailing, "Parameter 'newTrailing' must not be null");
         MemorySegment newTrailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_move_cursor_visually.invokeExact(
                     handle(),
-                    strong ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(strong, null).intValue(),
                     oldIndex,
                     oldTrailing,
                     direction,
@@ -1069,8 +1030,7 @@ public class Layout extends org.gtk.gobject.Object {
      * @param flags {@code PangoLayoutSerializeFlags}
      * @return a {@code GBytes} containing the serialized form of {@code layout}
      */
-    public @NotNull org.gtk.glib.Bytes serialize(@NotNull org.pango.LayoutSerializeFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gtk.glib.Bytes serialize(org.pango.LayoutSerializeFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_layout_serialize.invokeExact(
@@ -1079,7 +1039,7 @@ public class Layout extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1089,8 +1049,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The default alignment is {@link Alignment#LEFT}.
      * @param alignment the alignment
      */
-    public void setAlignment(@NotNull org.pango.Alignment alignment) {
-        java.util.Objects.requireNonNull(alignment, "Parameter 'alignment' must not be null");
+    public void setAlignment(org.pango.Alignment alignment) {
         try {
             DowncallHandles.pango_layout_set_alignment.invokeExact(
                     handle(),
@@ -1140,7 +1099,7 @@ public class Layout extends org.gtk.gobject.Object {
         try {
             DowncallHandles.pango_layout_set_auto_dir.invokeExact(
                     handle(),
-                    autoDir ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(autoDir, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1164,8 +1123,7 @@ public class Layout extends org.gtk.gobject.Object {
      * See {@link Layout#setHeight} for details.
      * @param ellipsize the new ellipsization mode for {@code layout}
      */
-    public void setEllipsize(@NotNull org.pango.EllipsizeMode ellipsize) {
-        java.util.Objects.requireNonNull(ellipsize, "Parameter 'ellipsize' must not be null");
+    public void setEllipsize(org.pango.EllipsizeMode ellipsize) {
         try {
             DowncallHandles.pango_layout_set_ellipsize.invokeExact(
                     handle(),
@@ -1279,7 +1237,7 @@ public class Layout extends org.gtk.gobject.Object {
         try {
             DowncallHandles.pango_layout_set_justify.invokeExact(
                     handle(),
-                    justify ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(justify, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1299,7 +1257,7 @@ public class Layout extends org.gtk.gobject.Object {
         try {
             DowncallHandles.pango_layout_set_justify_last_line.invokeExact(
                     handle(),
-                    justify ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(justify, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1347,12 +1305,11 @@ public class Layout extends org.gtk.gobject.Object {
      * @param length length of marked-up text in bytes, or -1 if {@code markup} is
      *   {@code NUL}-terminated
      */
-    public void setMarkup(@NotNull java.lang.String markup, int length) {
-        java.util.Objects.requireNonNull(markup, "Parameter 'markup' must not be null");
+    public void setMarkup(java.lang.String markup, int length) {
         try {
             DowncallHandles.pango_layout_set_markup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(markup),
+                    Marshal.stringToAddress.marshal(markup, null),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1380,21 +1337,19 @@ public class Layout extends org.gtk.gobject.Object {
      * @param accelChar return location
      *   for first located accelerator
      */
-    public void setMarkupWithAccel(@NotNull java.lang.String markup, int length, int accelMarker, Out<Integer> accelChar) {
-        java.util.Objects.requireNonNull(markup, "Parameter 'markup' must not be null");
-        java.util.Objects.requireNonNull(accelChar, "Parameter 'accelChar' must not be null");
+    public void setMarkupWithAccel(java.lang.String markup, int length, int accelMarker, Out<Integer> accelChar) {
         MemorySegment accelCharPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_set_markup_with_accel.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(markup),
+                    Marshal.stringToAddress.marshal(markup, null),
                     length,
                     accelMarker,
-                    (Addressable) accelCharPOINTER.address());
+                    (Addressable) (accelChar == null ? MemoryAddress.NULL : (Addressable) accelCharPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        accelChar.set(accelCharPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (accelChar != null) accelChar.set(accelCharPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1412,7 +1367,7 @@ public class Layout extends org.gtk.gobject.Object {
         try {
             DowncallHandles.pango_layout_set_single_paragraph_mode.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1490,12 +1445,11 @@ public class Layout extends org.gtk.gobject.Object {
      *   The text will also be truncated on encountering a nul-termination
      *   even when {@code length} is positive.
      */
-    public void setText(@NotNull java.lang.String text, int length) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public void setText(java.lang.String text, int length) {
         try {
             DowncallHandles.pango_layout_set_text.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1530,8 +1484,7 @@ public class Layout extends org.gtk.gobject.Object {
      * The default value is {@link WrapMode#WORD}.
      * @param wrap the wrap mode
      */
-    public void setWrap(@NotNull org.pango.WrapMode wrap) {
-        java.util.Objects.requireNonNull(wrap, "Parameter 'wrap' must not be null");
+    public void setWrap(org.pango.WrapMode wrap) {
         try {
             DowncallHandles.pango_layout_set_wrap.invokeExact(
                     handle(),
@@ -1556,16 +1509,14 @@ public class Layout extends org.gtk.gobject.Object {
      * @return {@code true} if saving was successful
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean writeToFile(@NotNull org.pango.LayoutSerializeFlags flags, @NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public boolean writeToFile(org.pango.LayoutSerializeFlags flags, java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_layout_write_to_file.invokeExact(
                     handle(),
                     flags.getValue(),
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1573,7 +1524,7 @@ public class Layout extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1596,9 +1547,7 @@ public class Layout extends org.gtk.gobject.Object {
      * @return {@code true} if the coordinates were inside text, {@code false} otherwise
      */
     public boolean xyToIndex(int x, int y, Out<Integer> index, Out<Integer> trailing) {
-        java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(trailing, "Parameter 'trailing' must not be null");
         MemorySegment trailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1613,14 +1562,14 @@ public class Layout extends org.gtk.gobject.Object {
         }
         index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
         trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.pango_layout_get_type.invokeExact();
@@ -1644,10 +1593,7 @@ public class Layout extends org.gtk.gobject.Object {
      * @return a new {@code PangoLayout}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @Nullable org.pango.Layout deserialize(@NotNull org.pango.Context context, @NotNull org.gtk.glib.Bytes bytes, @NotNull org.pango.LayoutDeserializeFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static @Nullable org.pango.Layout deserialize(org.pango.Context context, org.gtk.glib.Bytes bytes, org.pango.LayoutDeserializeFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -1662,40 +1608,42 @@ public class Layout extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.pango.Layout(RESULT, Ownership.FULL);
+        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link Layout.Builder} object constructs a {@link Layout} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Layout.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Layout.Build} object constructs a {@link Layout} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Layout} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Layout} using {@link Layout#castFrom}.
+         * {@link Layout}.
          * @return A new instance of {@code Layout} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Layout construct() {
-            return Layout.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Layout.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Layout build() {
+            return (Layout) org.gtk.gobject.GObject.newWithProperties(
+                Layout.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

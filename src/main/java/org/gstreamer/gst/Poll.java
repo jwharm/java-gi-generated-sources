@@ -65,18 +65,19 @@ public class Poll extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Poll(Addressable address, Ownership ownership) {
+    protected Poll(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Poll> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Poll(input, ownership);
     
     /**
      * Add a file descriptor to the file descriptor set.
      * @param fd a file descriptor.
      * @return {@code true} if the file descriptor was successfully added to the set.
      */
-    public boolean addFd(@NotNull org.gstreamer.gst.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean addFd(org.gstreamer.gst.PollFD fd) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_add_fd.invokeExact(
@@ -85,7 +86,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -93,8 +94,7 @@ public class Poll extends Struct {
      * @param fd a file descriptor.
      * @return {@code true} if the descriptor has data to be read.
      */
-    public boolean fdCanRead(@NotNull org.gstreamer.gst.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean fdCanRead(org.gstreamer.gst.PollFD fd) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_fd_can_read.invokeExact(
@@ -103,7 +103,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -111,8 +111,7 @@ public class Poll extends Struct {
      * @param fd a file descriptor.
      * @return {@code true} if the descriptor can be used for writing.
      */
-    public boolean fdCanWrite(@NotNull org.gstreamer.gst.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean fdCanWrite(org.gstreamer.gst.PollFD fd) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_fd_can_write.invokeExact(
@@ -121,7 +120,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -133,18 +132,17 @@ public class Poll extends Struct {
      * @param active a new status.
      * @return {@code true} if the descriptor was successfully updated.
      */
-    public boolean fdCtlPri(@NotNull org.gstreamer.gst.PollFD fd, boolean active) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean fdCtlPri(org.gstreamer.gst.PollFD fd, boolean active) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_fd_ctl_pri.invokeExact(
                     handle(),
                     fd.handle(),
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -154,18 +152,17 @@ public class Poll extends Struct {
      * @param active a new status.
      * @return {@code true} if the descriptor was successfully updated.
      */
-    public boolean fdCtlRead(@NotNull org.gstreamer.gst.PollFD fd, boolean active) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean fdCtlRead(org.gstreamer.gst.PollFD fd, boolean active) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_fd_ctl_read.invokeExact(
                     handle(),
                     fd.handle(),
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -175,18 +172,17 @@ public class Poll extends Struct {
      * @param active a new status.
      * @return {@code true} if the descriptor was successfully updated.
      */
-    public boolean fdCtlWrite(@NotNull org.gstreamer.gst.PollFD fd, boolean active) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean fdCtlWrite(org.gstreamer.gst.PollFD fd, boolean active) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_fd_ctl_write.invokeExact(
                     handle(),
                     fd.handle(),
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -194,8 +190,7 @@ public class Poll extends Struct {
      * @param fd a file descriptor.
      * @return {@code true} if the connection was closed.
      */
-    public boolean fdHasClosed(@NotNull org.gstreamer.gst.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean fdHasClosed(org.gstreamer.gst.PollFD fd) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_fd_has_closed.invokeExact(
@@ -204,7 +199,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -212,8 +207,7 @@ public class Poll extends Struct {
      * @param fd a file descriptor.
      * @return {@code true} if the descriptor has an error.
      */
-    public boolean fdHasError(@NotNull org.gstreamer.gst.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean fdHasError(org.gstreamer.gst.PollFD fd) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_fd_has_error.invokeExact(
@@ -222,7 +216,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -232,8 +226,7 @@ public class Poll extends Struct {
      * @param fd a file descriptor.
      * @return {@code true} if the descriptor has an exceptional condition.
      */
-    public boolean fdHasPri(@NotNull org.gstreamer.gst.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean fdHasPri(org.gstreamer.gst.PollFD fd) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_fd_has_pri.invokeExact(
@@ -242,7 +235,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -256,8 +249,7 @@ public class Poll extends Struct {
      * the re-enabling operations.
      * @param fd a file descriptor.
      */
-    public void fdIgnored(@NotNull org.gstreamer.gst.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public void fdIgnored(org.gstreamer.gst.PollFD fd) {
         try {
             DowncallHandles.gst_poll_fd_ignored.invokeExact(
                     handle(),
@@ -285,8 +277,7 @@ public class Poll extends Struct {
      * integrating with a GSource and GMainLoop.
      * @param fd a {@link org.gtk.glib.PollFD}
      */
-    public void getReadGpollfd(@NotNull org.gtk.glib.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public void getReadGpollfd(org.gtk.glib.PollFD fd) {
         try {
             DowncallHandles.gst_poll_get_read_gpollfd.invokeExact(
                     handle(),
@@ -314,7 +305,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -322,8 +313,7 @@ public class Poll extends Struct {
      * @param fd a file descriptor.
      * @return {@code true} if the file descriptor was successfully removed from the set.
      */
-    public boolean removeFd(@NotNull org.gstreamer.gst.PollFD fd) {
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
+    public boolean removeFd(org.gstreamer.gst.PollFD fd) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_remove_fd.invokeExact(
@@ -332,7 +322,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -368,11 +358,11 @@ public class Poll extends Struct {
         try {
             RESULT = (int) DowncallHandles.gst_poll_set_controllable.invokeExact(
                     handle(),
-                    controllable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(controllable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -389,7 +379,7 @@ public class Poll extends Struct {
         try {
             DowncallHandles.gst_poll_set_flushing.invokeExact(
                     handle(),
-                    flushing ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flushing, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,8 +401,7 @@ public class Poll extends Struct {
      * activity was detected after {@code timeout}. If an error occurs, -1 is returned
      * and errno is set.
      */
-    public int wait_(@NotNull org.gstreamer.gst.ClockTime timeout) {
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public int wait_(org.gstreamer.gst.ClockTime timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_poll_wait.invokeExact(
@@ -448,7 +437,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -465,11 +454,11 @@ public class Poll extends Struct {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_poll_new.invokeExact(
-                    controllable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(controllable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Poll(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Poll.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -490,7 +479,7 @@ public class Poll extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Poll(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Poll.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

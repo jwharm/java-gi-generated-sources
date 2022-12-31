@@ -40,8 +40,10 @@ public class EncodingAudioProfileClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EncodingAudioProfileClass(Addressable address, Ownership ownership) {
+    protected EncodingAudioProfileClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EncodingAudioProfileClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EncodingAudioProfileClass(input, ownership);
 }

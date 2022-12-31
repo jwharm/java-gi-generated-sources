@@ -45,10 +45,12 @@ public class AsyncQueue extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AsyncQueue(Addressable address, Ownership ownership) {
+    protected AsyncQueue(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AsyncQueue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AsyncQueue(input, ownership);
     
     /**
      * Returns the length of the queue.
@@ -152,13 +154,12 @@ public class AsyncQueue extends Struct {
     
     /**
      * Pushes the {@code data} into the {@code queue}. {@code data} must not be {@code null}.
-     * @param data {@code data} to push into the {@code queue}
      */
-    public void push(@Nullable java.lang.foreign.MemoryAddress data) {
+    public void push() {
         try {
             DowncallHandles.g_async_queue_push.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,18 +214,13 @@ public class AsyncQueue extends Struct {
      * For an example of {@code func} see g_async_queue_sort().
      * @param func the {@link CompareDataFunc} is used to sort {@code queue}
      */
-    public void pushSorted(@NotNull org.gtk.glib.CompareDataFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void pushSorted(org.gtk.glib.CompareDataFunc func) {
         try {
             DowncallHandles.g_async_queue_push_sorted.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(func)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -248,18 +244,13 @@ public class AsyncQueue extends Struct {
      * For an example of {@code func} see g_async_queue_sort().
      * @param func the {@link CompareDataFunc} is used to sort {@code queue}
      */
-    public void pushSortedUnlocked(@NotNull org.gtk.glib.CompareDataFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void pushSortedUnlocked(org.gtk.glib.CompareDataFunc func) {
         try {
             DowncallHandles.g_async_queue_push_sorted_unlocked.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(func)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -269,13 +260,12 @@ public class AsyncQueue extends Struct {
      * Pushes the {@code data} into the {@code queue}. {@code data} must not be {@code null}.
      * <p>
      * This function must be called while holding the {@code queue}'s lock.
-     * @param data {@code data} to push into the {@code queue}
      */
-    public void pushUnlocked(@Nullable java.lang.foreign.MemoryAddress data) {
+    public void pushUnlocked() {
         try {
             DowncallHandles.g_async_queue_push_unlocked.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,7 +276,7 @@ public class AsyncQueue extends Struct {
      * You do not need to hold the lock to call this function.
      * @return the {@code queue} that was passed in (since 2.6)
      */
-    public @NotNull org.gtk.glib.AsyncQueue ref() {
+    public org.gtk.glib.AsyncQueue ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_async_queue_ref.invokeExact(
@@ -294,7 +284,7 @@ public class AsyncQueue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.AsyncQueue(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.AsyncQueue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -327,7 +317,7 @@ public class AsyncQueue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -346,7 +336,7 @@ public class AsyncQueue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -374,17 +364,12 @@ public class AsyncQueue extends Struct {
      * }</pre>
      * @param func the {@link CompareDataFunc} is used to sort {@code queue}
      */
-    public void sort(@NotNull org.gtk.glib.CompareDataFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void sort(org.gtk.glib.CompareDataFunc func) {
         try {
             DowncallHandles.g_async_queue_sort.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -402,17 +387,12 @@ public class AsyncQueue extends Struct {
      * This function must be called while holding the {@code queue}'s lock.
      * @param func the {@link CompareDataFunc} is used to sort {@code queue}
      */
-    public void sortUnlocked(@NotNull org.gtk.glib.CompareDataFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void sortUnlocked(org.gtk.glib.CompareDataFunc func) {
         try {
             DowncallHandles.g_async_queue_sort_unlocked.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -432,8 +412,7 @@ public class AsyncQueue extends Struct {
      * @deprecated use g_async_queue_timeout_pop().
      */
     @Deprecated
-    public @Nullable java.lang.foreign.MemoryAddress timedPop(@NotNull org.gtk.glib.TimeVal endTime) {
-        java.util.Objects.requireNonNull(endTime, "Parameter 'endTime' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress timedPop(org.gtk.glib.TimeVal endTime) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timed_pop.invokeExact(
@@ -461,8 +440,7 @@ public class AsyncQueue extends Struct {
      * @deprecated use g_async_queue_timeout_pop_unlocked().
      */
     @Deprecated
-    public @Nullable java.lang.foreign.MemoryAddress timedPopUnlocked(@NotNull org.gtk.glib.TimeVal endTime) {
-        java.util.Objects.requireNonNull(endTime, "Parameter 'endTime' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress timedPopUnlocked(org.gtk.glib.TimeVal endTime) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_async_queue_timed_pop_unlocked.invokeExact(
@@ -610,14 +588,14 @@ public class AsyncQueue extends Struct {
      * Creates a new asynchronous queue.
      * @return a new {@link AsyncQueue}. Free with g_async_queue_unref()
      */
-    public static @NotNull org.gtk.glib.AsyncQueue new_() {
+    public static org.gtk.glib.AsyncQueue new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_async_queue_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.AsyncQueue(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.AsyncQueue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -627,8 +605,15 @@ public class AsyncQueue extends Struct {
      * @param itemFreeFunc function to free queue elements
      * @return a new {@link AsyncQueue}. Free with g_async_queue_unref()
      */
-    public static @NotNull org.gtk.glib.AsyncQueue newFull(@Nullable org.gtk.glib.DestroyNotify itemFreeFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gtk.glib.AsyncQueue newFull(@Nullable org.gtk.glib.DestroyNotify itemFreeFunc) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_async_queue_new_full.invokeExact(
+                    (Addressable) (itemFreeFunc == null ? MemoryAddress.NULL : (Addressable) itemFreeFunc.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.gtk.glib.AsyncQueue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

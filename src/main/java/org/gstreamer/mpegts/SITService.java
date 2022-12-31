@@ -17,20 +17,18 @@ public class SITService extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsSITService";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("service_id"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.C_INT.withName("running_status"),
-        Interop.valueLayout.ADDRESS.withName("descriptors")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("service_id"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.C_INT.withName("running_status"),
+            Interop.valueLayout.ADDRESS.withName("descriptors")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class SITService extends Struct {
      * Get the value of the field {@code service_id}
      * @return The value of the field {@code service_id}
      */
-    public short serviceId$get() {
+    public short getServiceId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -61,7 +59,7 @@ public class SITService extends Struct {
      * Change the value of the field {@code service_id}
      * @param serviceId The new value of the field {@code service_id}
      */
-    public void serviceId$set(short serviceId) {
+    public void setServiceId(short serviceId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
@@ -71,7 +69,7 @@ public class SITService extends Struct {
      * Get the value of the field {@code running_status}
      * @return The value of the field {@code running_status}
      */
-    public org.gstreamer.mpegts.RunningStatus runningStatus$get() {
+    public org.gstreamer.mpegts.RunningStatus getRunningStatus() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -82,10 +80,31 @@ public class SITService extends Struct {
      * Change the value of the field {@code running_status}
      * @param runningStatus The new value of the field {@code running_status}
      */
-    public void runningStatus$set(org.gstreamer.mpegts.RunningStatus runningStatus) {
+    public void setRunningStatus(org.gstreamer.mpegts.RunningStatus runningStatus) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), runningStatus.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runningStatus == null ? MemoryAddress.NULL : runningStatus.getValue()));
+    }
+    
+    /**
+     * Get the value of the field {@code descriptors}
+     * @return The value of the field {@code descriptors}
+     */
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code descriptors}
+     * @param descriptors The new value of the field {@code descriptors}
+     */
+    public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
     }
     
     /**
@@ -93,35 +112,41 @@ public class SITService extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SITService(Addressable address, Ownership ownership) {
+    protected SITService(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SITService> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SITService(input, ownership);
+    
+    /**
+     * A {@link SITService.Builder} object constructs a {@link SITService} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SITService.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SITService struct;
+        private final SITService struct;
         
-         /**
-         * A {@link SITService.Build} object constructs a {@link SITService} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SITService.allocate();
         }
         
          /**
          * Finish building the {@link SITService} struct.
          * @return A new instance of {@code SITService} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SITService construct() {
+        public SITService build() {
             return struct;
         }
         
@@ -130,7 +155,7 @@ public class SITService extends Struct {
          * @param serviceId The value for the {@code serviceId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setServiceId(short serviceId) {
+        public Builder setServiceId(short serviceId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
@@ -142,7 +167,7 @@ public class SITService extends Struct {
          * @param runningStatus The value for the {@code runningStatus} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRunningStatus(org.gstreamer.mpegts.RunningStatus runningStatus) {
+        public Builder setRunningStatus(org.gstreamer.mpegts.RunningStatus runningStatus) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runningStatus == null ? MemoryAddress.NULL : runningStatus.getValue()));
@@ -154,7 +179,7 @@ public class SITService extends Struct {
          * @param descriptors The value for the {@code descriptors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));

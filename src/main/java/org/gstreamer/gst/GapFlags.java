@@ -26,11 +26,15 @@ public class GapFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public GapFlags or(GapFlags mask) {
-        return new GapFlags(this.getValue() | mask.getValue());
+    public GapFlags or(GapFlags... masks) {
+        int value = this.getValue();
+        for (GapFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new GapFlags(value);
     }
     
     /**
@@ -40,7 +44,8 @@ public class GapFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static GapFlags combined(GapFlags mask, GapFlags... masks) {
-        int value = mask.getValue();        for (GapFlags arg : masks) {
+        int value = mask.getValue();
+        for (GapFlags arg : masks) {
             value |= arg.getValue();
         }
         return new GapFlags(value);

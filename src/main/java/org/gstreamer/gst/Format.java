@@ -69,12 +69,11 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
      * @return The format with {@code nick} or GST_FORMAT_UNDEFINED
      * if the format was not registered.
      */
-    public static @NotNull org.gstreamer.gst.Format getByNick(@NotNull java.lang.String nick) {
-        java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
+    public static org.gstreamer.gst.Format getByNick(java.lang.String nick) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_format_get_by_nick.invokeExact(
-                    Interop.allocateNativeString(nick));
+                    Marshal.stringToAddress.marshal(nick, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -89,8 +88,7 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
      * <p>
      * MT safe.
      */
-    public static @Nullable org.gstreamer.gst.FormatDefinition getDetails(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static @Nullable org.gstreamer.gst.FormatDefinition getDetails(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_format_get_details.invokeExact(
@@ -98,7 +96,7 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.FormatDefinition(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.FormatDefinition.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -107,8 +105,7 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
      * @return a reference to the static name of the format
      * or {@code null} if the format is unknown.
      */
-    public static @Nullable java.lang.String getName(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static @Nullable java.lang.String getName(org.gstreamer.gst.Format format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_format_get_name.invokeExact(
@@ -116,7 +113,7 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -124,14 +121,14 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
      * only.
      * @return a GstIterator of {@link FormatDefinition}.
      */
-    public static @NotNull org.gstreamer.gst.Iterator iterateDefinitions() {
+    public static org.gstreamer.gst.Iterator iterateDefinitions() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_format_iterate_definitions.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Iterator(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Iterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -144,14 +141,12 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
      * <p>
      * MT safe.
      */
-    public static @NotNull org.gstreamer.gst.Format register(@NotNull java.lang.String nick, @NotNull java.lang.String description) {
-        java.util.Objects.requireNonNull(nick, "Parameter 'nick' must not be null");
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
+    public static org.gstreamer.gst.Format register(java.lang.String nick, java.lang.String description) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_format_register.invokeExact(
-                    Interop.allocateNativeString(nick),
-                    Interop.allocateNativeString(description));
+                    Marshal.stringToAddress.marshal(nick, null),
+                    Marshal.stringToAddress.marshal(description, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -164,8 +159,7 @@ public enum Format implements io.github.jwharm.javagi.Enumeration {
      * @return the quark associated with the format or 0 if the format
      * is unknown.
      */
-    public static @NotNull org.gtk.glib.Quark toQuark(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gtk.glib.Quark toQuark(org.gstreamer.gst.Format format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_format_to_quark.invokeExact(

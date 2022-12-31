@@ -24,22 +24,20 @@ public class Matrix extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoMatrix";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_DOUBLE.withName("xx"),
-        Interop.valueLayout.C_DOUBLE.withName("xy"),
-        Interop.valueLayout.C_DOUBLE.withName("yx"),
-        Interop.valueLayout.C_DOUBLE.withName("yy"),
-        Interop.valueLayout.C_DOUBLE.withName("x0"),
-        Interop.valueLayout.C_DOUBLE.withName("y0")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_DOUBLE.withName("xx"),
+            Interop.valueLayout.C_DOUBLE.withName("xy"),
+            Interop.valueLayout.C_DOUBLE.withName("yx"),
+            Interop.valueLayout.C_DOUBLE.withName("yy"),
+            Interop.valueLayout.C_DOUBLE.withName("x0"),
+            Interop.valueLayout.C_DOUBLE.withName("y0")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -59,7 +57,7 @@ public class Matrix extends Struct {
      * Get the value of the field {@code xx}
      * @return The value of the field {@code xx}
      */
-    public double xx$get() {
+    public double getXx() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("xx"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -70,7 +68,7 @@ public class Matrix extends Struct {
      * Change the value of the field {@code xx}
      * @param xx The new value of the field {@code xx}
      */
-    public void xx$set(double xx) {
+    public void setXx(double xx) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("xx"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xx);
@@ -80,7 +78,7 @@ public class Matrix extends Struct {
      * Get the value of the field {@code xy}
      * @return The value of the field {@code xy}
      */
-    public double xy$get() {
+    public double getXy() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("xy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -91,7 +89,7 @@ public class Matrix extends Struct {
      * Change the value of the field {@code xy}
      * @param xy The new value of the field {@code xy}
      */
-    public void xy$set(double xy) {
+    public void setXy(double xy) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("xy"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), xy);
@@ -101,7 +99,7 @@ public class Matrix extends Struct {
      * Get the value of the field {@code yx}
      * @return The value of the field {@code yx}
      */
-    public double yx$get() {
+    public double getYx() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("yx"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -112,7 +110,7 @@ public class Matrix extends Struct {
      * Change the value of the field {@code yx}
      * @param yx The new value of the field {@code yx}
      */
-    public void yx$set(double yx) {
+    public void setYx(double yx) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("yx"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yx);
@@ -122,7 +120,7 @@ public class Matrix extends Struct {
      * Get the value of the field {@code yy}
      * @return The value of the field {@code yy}
      */
-    public double yy$get() {
+    public double getYy() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("yy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -133,7 +131,7 @@ public class Matrix extends Struct {
      * Change the value of the field {@code yy}
      * @param yy The new value of the field {@code yy}
      */
-    public void yy$set(double yy) {
+    public void setYy(double yy) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("yy"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), yy);
@@ -143,7 +141,7 @@ public class Matrix extends Struct {
      * Get the value of the field {@code x0}
      * @return The value of the field {@code x0}
      */
-    public double x0$get() {
+    public double getX0() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x0"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -154,7 +152,7 @@ public class Matrix extends Struct {
      * Change the value of the field {@code x0}
      * @param x0 The new value of the field {@code x0}
      */
-    public void x0$set(double x0) {
+    public void setX0(double x0) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x0"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x0);
@@ -164,7 +162,7 @@ public class Matrix extends Struct {
      * Get the value of the field {@code y0}
      * @return The value of the field {@code y0}
      */
-    public double y0$get() {
+    public double getY0() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y0"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -175,7 +173,7 @@ public class Matrix extends Struct {
      * Change the value of the field {@code y0}
      * @param y0 The new value of the field {@code y0}
      */
-    public void y0$set(double y0) {
+    public void setY0(double y0) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y0"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y0);
@@ -186,10 +184,12 @@ public class Matrix extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Matrix(Addressable address, Ownership ownership) {
+    protected Matrix(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Matrix> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Matrix(input, ownership);
     
     /**
      * Changes the transformation represented by {@code matrix} to be the
@@ -197,8 +197,7 @@ public class Matrix extends Struct {
      * given by {@code new_matrix} then applying the original transformation.
      * @param newMatrix a {@code PangoMatrix}
      */
-    public void concat(@NotNull org.pango.Matrix newMatrix) {
-        java.util.Objects.requireNonNull(newMatrix, "Parameter 'newMatrix' must not be null");
+    public void concat(org.pango.Matrix newMatrix) {
         try {
             DowncallHandles.pango_matrix_concat.invokeExact(
                     handle(),
@@ -220,7 +219,7 @@ public class Matrix extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Matrix(RESULT, Ownership.FULL);
+        return org.pango.Matrix.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -267,20 +266,18 @@ public class Matrix extends Struct {
      * @param yscale output scale factor perpendicular to the x direction
      */
     public void getFontScaleFactors(Out<Double> xscale, Out<Double> yscale) {
-        java.util.Objects.requireNonNull(xscale, "Parameter 'xscale' must not be null");
         MemorySegment xscalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(yscale, "Parameter 'yscale' must not be null");
         MemorySegment yscalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.pango_matrix_get_font_scale_factors.invokeExact(
                     handle(),
-                    (Addressable) xscalePOINTER.address(),
-                    (Addressable) yscalePOINTER.address());
+                    (Addressable) (xscale == null ? MemoryAddress.NULL : (Addressable) xscalePOINTER.address()),
+                    (Addressable) (yscale == null ? MemoryAddress.NULL : (Addressable) yscalePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xscale.set(xscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        yscale.set(yscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (xscale != null) xscale.set(xscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (yscale != null) yscale.set(yscalePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -359,9 +356,7 @@ public class Matrix extends Struct {
      * @param dy in/out Y component of a distance vector
      */
     public void transformDistance(Out<Double> dx, Out<Double> dy) {
-        java.util.Objects.requireNonNull(dx, "Parameter 'dx' must not be null");
         MemorySegment dxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(dy, "Parameter 'dy' must not be null");
         MemorySegment dyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.pango_matrix_transform_distance.invokeExact(
@@ -388,12 +383,11 @@ public class Matrix extends Struct {
      * using {@link Pango#extentsToPixels}'s first argument.
      * @param rect in/out bounding box in device units
      */
-    public void transformPixelRectangle(@NotNull org.pango.Rectangle rect) {
-        java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
+    public void transformPixelRectangle(@Nullable org.pango.Rectangle rect) {
         try {
             DowncallHandles.pango_matrix_transform_pixel_rectangle.invokeExact(
                     handle(),
-                    rect.handle());
+                    (Addressable) (rect == null ? MemoryAddress.NULL : rect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,9 +400,7 @@ public class Matrix extends Struct {
      * @param y in/out Y position
      */
     public void transformPoint(Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.pango_matrix_transform_point.invokeExact(
@@ -443,12 +435,11 @@ public class Matrix extends Struct {
      * example).
      * @param rect in/out bounding box in Pango units
      */
-    public void transformRectangle(@NotNull org.pango.Rectangle rect) {
-        java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
+    public void transformRectangle(@Nullable org.pango.Rectangle rect) {
         try {
             DowncallHandles.pango_matrix_transform_rectangle.invokeExact(
                     handle(),
-                    rect.handle());
+                    (Addressable) (rect == null ? MemoryAddress.NULL : rect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -553,31 +544,35 @@ public class Matrix extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Matrix.Builder} object constructs a {@link Matrix} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Matrix.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Matrix struct;
+        private final Matrix struct;
         
-         /**
-         * A {@link Matrix.Build} object constructs a {@link Matrix} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Matrix.allocate();
         }
         
          /**
          * Finish building the {@link Matrix} struct.
          * @return A new instance of {@code Matrix} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Matrix construct() {
+        public Matrix build() {
             return struct;
         }
         
@@ -586,7 +581,7 @@ public class Matrix extends Struct {
          * @param xx The value for the {@code xx} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setXx(double xx) {
+        public Builder setXx(double xx) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("xx"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), xx);
@@ -598,7 +593,7 @@ public class Matrix extends Struct {
          * @param xy The value for the {@code xy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setXy(double xy) {
+        public Builder setXy(double xy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("xy"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), xy);
@@ -610,7 +605,7 @@ public class Matrix extends Struct {
          * @param yx The value for the {@code yx} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYx(double yx) {
+        public Builder setYx(double yx) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("yx"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), yx);
@@ -622,7 +617,7 @@ public class Matrix extends Struct {
          * @param yy The value for the {@code yy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYy(double yy) {
+        public Builder setYy(double yy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("yy"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), yy);
@@ -634,7 +629,7 @@ public class Matrix extends Struct {
          * @param x0 The value for the {@code x0} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setX0(double x0) {
+        public Builder setX0(double x0) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x0"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x0);
@@ -646,7 +641,7 @@ public class Matrix extends Struct {
          * @param y0 The value for the {@code y0} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setY0(double y0) {
+        public Builder setY0(double y0) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y0"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y0);

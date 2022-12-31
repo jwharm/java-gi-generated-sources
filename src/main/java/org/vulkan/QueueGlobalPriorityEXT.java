@@ -40,8 +40,10 @@ public class QueueGlobalPriorityEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public QueueGlobalPriorityEXT(Addressable address, Ownership ownership) {
+    protected QueueGlobalPriorityEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, QueueGlobalPriorityEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new QueueGlobalPriorityEXT(input, ownership);
 }

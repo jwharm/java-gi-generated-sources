@@ -53,8 +53,7 @@ public enum RTSPVersion implements io.github.jwharm.javagi.Enumeration {
      * @param version a {@link RTSPVersion}
      * @return a string representation of {@code version}.
      */
-    public static @NotNull java.lang.String asText(@NotNull org.gstreamer.rtsp.RTSPVersion version) {
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
+    public static java.lang.String asText(org.gstreamer.rtsp.RTSPVersion version) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_version_as_text.invokeExact(
@@ -62,7 +61,7 @@ public enum RTSPVersion implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

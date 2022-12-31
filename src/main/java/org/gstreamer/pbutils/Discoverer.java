@@ -23,7 +23,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * All the information is returned in a {@link DiscovererInfo} structure.
  */
-public class Discoverer extends org.gtk.gobject.Object {
+public class Discoverer extends org.gtk.gobject.GObject {
     
     static {
         GstPbutils.javagi$ensureInitialized();
@@ -31,19 +31,17 @@ public class Discoverer extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstDiscoverer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -51,35 +49,16 @@ public class Discoverer extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Discoverer(Addressable address, Ownership ownership) {
+    protected Discoverer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Discoverer if its GType is a (or inherits from) "GstDiscoverer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Discoverer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstDiscoverer", a ClassCastException will be thrown.
-     */
-    public static Discoverer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Discoverer.getType())) {
-            return new Discoverer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstDiscoverer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Discoverer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Discoverer(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gst.ClockTime timeout) throws GErrorException {
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    private static MemoryAddress constructNew(org.gstreamer.gst.ClockTime timeout) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_new.invokeExact(
                     timeout.getValue().longValue(),
@@ -99,7 +78,7 @@ public class Discoverer extends org.gtk.gobject.Object {
      *     one second ({@code GST_SECOND}) and one hour (3600 * {@code GST_SECOND})
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public Discoverer(@NotNull org.gstreamer.gst.ClockTime timeout) throws GErrorException {
+    public Discoverer(org.gstreamer.gst.ClockTime timeout) throws GErrorException {
         super(constructNew(timeout), Ownership.FULL);
     }
     
@@ -113,14 +92,13 @@ public class Discoverer extends org.gtk.gobject.Object {
      * error occurred.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gstreamer.pbutils.DiscovererInfo discoverUri(@NotNull java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public org.gstreamer.pbutils.DiscovererInfo discoverUri(java.lang.String uri) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_discoverer_discover_uri.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -128,7 +106,7 @@ public class Discoverer extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.pbutils.DiscovererInfo(RESULT, Ownership.FULL);
+        return (org.gstreamer.pbutils.DiscovererInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.pbutils.DiscovererInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -142,17 +120,16 @@ public class Discoverer extends org.gtk.gobject.Object {
      * @return {@code true} if the {@code uri} was successfully appended to the list of pending
      * uris, else {@code false}
      */
-    public boolean discoverUriAsync(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public boolean discoverUriAsync(java.lang.String uri) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_discoverer_discover_uri_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -186,7 +163,7 @@ public class Discoverer extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_discoverer_get_type.invokeExact();
@@ -198,7 +175,18 @@ public class Discoverer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Discovered {
-        void signalReceived(Discoverer sourceDiscoverer, @NotNull org.gstreamer.pbutils.DiscovererInfo info, @Nullable org.gtk.glib.Error error);
+        void run(org.gstreamer.pbutils.DiscovererInfo info, @Nullable org.gtk.glib.Error error);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDiscoverer, MemoryAddress info, MemoryAddress error) {
+            run((org.gstreamer.pbutils.DiscovererInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(info)), org.gstreamer.pbutils.DiscovererInfo.fromAddress).marshal(info, Ownership.NONE), org.gtk.glib.Error.fromAddress.marshal(error, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Discovered.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -213,16 +201,8 @@ public class Discoverer extends org.gtk.gobject.Object {
     public Signal<Discoverer.Discovered> onDiscovered(Discoverer.Discovered handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("discovered"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Discoverer.Callbacks.class, "signalDiscovererDiscovered",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Discoverer.Discovered>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("discovered"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +210,18 @@ public class Discoverer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Finished {
-        void signalReceived(Discoverer sourceDiscoverer);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDiscoverer) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Finished.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -241,16 +232,8 @@ public class Discoverer extends org.gtk.gobject.Object {
     public Signal<Discoverer.Finished> onFinished(Discoverer.Finished handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("finished"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Discoverer.Callbacks.class, "signalDiscovererFinished",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Discoverer.Finished>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("finished"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,7 +241,18 @@ public class Discoverer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface SourceSetup {
-        void signalReceived(Discoverer sourceDiscoverer, @NotNull org.gstreamer.gst.Element source);
+        void run(org.gstreamer.gst.Element source);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDiscoverer, MemoryAddress source) {
+            run((org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(source)), org.gstreamer.gst.Element.fromAddress).marshal(source, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SourceSetup.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -275,16 +269,8 @@ public class Discoverer extends org.gtk.gobject.Object {
     public Signal<Discoverer.SourceSetup> onSourceSetup(Discoverer.SourceSetup handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("source-setup"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Discoverer.Callbacks.class, "signalDiscovererSourceSetup",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Discoverer.SourceSetup>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("source-setup"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -292,7 +278,18 @@ public class Discoverer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Starting {
-        void signalReceived(Discoverer sourceDiscoverer);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDiscoverer) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Starting.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -303,52 +300,46 @@ public class Discoverer extends org.gtk.gobject.Object {
     public Signal<Discoverer.Starting> onStarting(Discoverer.Starting handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("starting"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Discoverer.Callbacks.class, "signalDiscovererStarting",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Discoverer.Starting>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("starting"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Discoverer.Builder} object constructs a {@link Discoverer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Discoverer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Discoverer.Build} object constructs a {@link Discoverer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Discoverer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Discoverer} using {@link Discoverer#castFrom}.
+         * {@link Discoverer}.
          * @return A new instance of {@code Discoverer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Discoverer construct() {
-            return Discoverer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Discoverer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Discoverer build() {
+            return (Discoverer) org.gtk.gobject.GObject.newWithProperties(
+                Discoverer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -361,13 +352,13 @@ public class Discoverer extends org.gtk.gobject.Object {
          * @param timeout The value for the {@code timeout} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTimeout(long timeout) {
+        public Builder setTimeout(long timeout) {
             names.add("timeout");
             values.add(org.gtk.gobject.Value.create(timeout));
             return this;
         }
         
-        public Build setUseCache(boolean useCache) {
+        public Builder setUseCache(boolean useCache) {
             names.add("use-cache");
             values.add(org.gtk.gobject.Value.create(useCache));
             return this;
@@ -411,32 +402,5 @@ public class Discoverer extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalDiscovererDiscovered(MemoryAddress sourceDiscoverer, MemoryAddress info, MemoryAddress error, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Discoverer.Discovered) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Discoverer(sourceDiscoverer, Ownership.NONE), new org.gstreamer.pbutils.DiscovererInfo(info, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
-        }
-        
-        public static void signalDiscovererFinished(MemoryAddress sourceDiscoverer, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Discoverer.Finished) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Discoverer(sourceDiscoverer, Ownership.NONE));
-        }
-        
-        public static void signalDiscovererSourceSetup(MemoryAddress sourceDiscoverer, MemoryAddress source, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Discoverer.SourceSetup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Discoverer(sourceDiscoverer, Ownership.NONE), new org.gstreamer.gst.Element(source, Ownership.NONE));
-        }
-        
-        public static void signalDiscovererStarting(MemoryAddress sourceDiscoverer, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Discoverer.Starting) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Discoverer(sourceDiscoverer, Ownership.NONE));
-        }
     }
 }

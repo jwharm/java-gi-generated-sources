@@ -13,5 +13,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface AudioFormatUnpack {
-        void onAudioFormatUnpack(@NotNull org.gstreamer.audio.AudioFormatInfo info, @NotNull org.gstreamer.audio.AudioPackFlags flags, @NotNull PointerByte dest, @NotNull PointerByte data, int length);
+    void run(org.gstreamer.audio.AudioFormatInfo info, org.gstreamer.audio.AudioPackFlags flags, PointerByte dest, PointerByte data, int length);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress info, int flags, MemoryAddress dest, MemoryAddress data, int length) {
+        run(org.gstreamer.audio.AudioFormatInfo.fromAddress.marshal(info, Ownership.NONE), new org.gstreamer.audio.AudioPackFlags(flags), new PointerByte(dest), new PointerByte(data), length);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AudioFormatUnpack.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

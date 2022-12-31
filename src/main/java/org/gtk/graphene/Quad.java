@@ -20,17 +20,15 @@ public class Quad extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_quad_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        MemoryLayout.sequenceLayout(4, org.gtk.graphene.Point.getMemoryLayout()).withName("points")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            MemoryLayout.sequenceLayout(4, org.gtk.graphene.Point.getMemoryLayout()).withName("points")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,13 +49,15 @@ public class Quad extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Quad(Addressable address, Ownership ownership) {
+    protected Quad(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Quad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Quad(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quad_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -73,15 +73,15 @@ public class Quad extends Struct {
      * @return the newly created {@link Quad} instance
      */
     public static Quad alloc() {
-        return new Quad(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Computes the bounding rectangle of {@code q} and places it into {@code r}.
      * @param r return location for a {@link Rect}
      */
-    public void bounds(@NotNull org.gtk.graphene.Rect r) {
-        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
+    public void bounds(org.gtk.graphene.Rect r) {
         try {
             DowncallHandles.graphene_quad_bounds.invokeExact(
                     handle(),
@@ -96,8 +96,7 @@ public class Quad extends Struct {
      * @param p a {@link Point}
      * @return {@code true} if the point is inside the {@link Quad}
      */
-    public boolean contains(@NotNull org.gtk.graphene.Point p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public boolean contains(org.gtk.graphene.Point p) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_quad_contains.invokeExact(
@@ -126,7 +125,7 @@ public class Quad extends Struct {
      * @param index the index of the point to retrieve
      * @return a {@link Point}
      */
-    public @NotNull org.gtk.graphene.Point getPoint(int index) {
+    public org.gtk.graphene.Point getPoint(int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quad_get_point.invokeExact(
@@ -135,7 +134,7 @@ public class Quad extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -146,11 +145,7 @@ public class Quad extends Struct {
      * @param p4 the fourth point of the quadrilateral
      * @return the initialized {@link Quad}
      */
-    public @NotNull org.gtk.graphene.Quad init(@NotNull org.gtk.graphene.Point p1, @NotNull org.gtk.graphene.Point p2, @NotNull org.gtk.graphene.Point p3, @NotNull org.gtk.graphene.Point p4) {
-        java.util.Objects.requireNonNull(p1, "Parameter 'p1' must not be null");
-        java.util.Objects.requireNonNull(p2, "Parameter 'p2' must not be null");
-        java.util.Objects.requireNonNull(p3, "Parameter 'p3' must not be null");
-        java.util.Objects.requireNonNull(p4, "Parameter 'p4' must not be null");
+    public org.gtk.graphene.Quad init(org.gtk.graphene.Point p1, org.gtk.graphene.Point p2, org.gtk.graphene.Point p3, org.gtk.graphene.Point p4) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init.invokeExact(
@@ -162,7 +157,7 @@ public class Quad extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quad(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -170,8 +165,7 @@ public class Quad extends Struct {
      * @param points an array of 4 {@link Point}
      * @return the initialized {@link Quad}
      */
-    public @NotNull org.gtk.graphene.Quad initFromPoints(@NotNull org.gtk.graphene.Point[] points) {
-        java.util.Objects.requireNonNull(points, "Parameter 'points' must not be null");
+    public org.gtk.graphene.Quad initFromPoints(org.gtk.graphene.Point[] points) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init_from_points.invokeExact(
@@ -180,7 +174,7 @@ public class Quad extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quad(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -189,8 +183,7 @@ public class Quad extends Struct {
      * @param r a {@link Rect}
      * @return the initialized {@link Quad}
      */
-    public @NotNull org.gtk.graphene.Quad initFromRect(@NotNull org.gtk.graphene.Rect r) {
-        java.util.Objects.requireNonNull(r, "Parameter 'r' must not be null");
+    public org.gtk.graphene.Quad initFromRect(org.gtk.graphene.Rect r) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_quad_init_from_rect.invokeExact(
@@ -199,7 +192,7 @@ public class Quad extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Quad(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Quad.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -252,35 +245,39 @@ public class Quad extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Quad.Builder} object constructs a {@link Quad} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Quad.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Quad struct;
+        private final Quad struct;
         
-         /**
-         * A {@link Quad.Build} object constructs a {@link Quad} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Quad.allocate();
         }
         
          /**
          * Finish building the {@link Quad} struct.
          * @return A new instance of {@code Quad} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Quad construct() {
+        public Quad build() {
             return struct;
         }
         
-        public Build setPoints(org.gtk.graphene.Point[] points) {
+        public Builder setPoints(org.gtk.graphene.Point[] points) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("points"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (points == null ? MemoryAddress.NULL : Interop.allocateNativeArray(points, org.gtk.graphene.Point.getMemoryLayout(), false)));

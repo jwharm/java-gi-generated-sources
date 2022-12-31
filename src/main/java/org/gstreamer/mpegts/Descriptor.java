@@ -19,22 +19,20 @@ public class Descriptor extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDescriptor";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("tag"),
-        Interop.valueLayout.C_BYTE.withName("tag_extension"),
-        Interop.valueLayout.C_BYTE.withName("length"),
-        MemoryLayout.paddingLayout(40),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("tag"),
+            Interop.valueLayout.C_BYTE.withName("tag_extension"),
+            Interop.valueLayout.C_BYTE.withName("length"),
+            MemoryLayout.paddingLayout(40),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -54,7 +52,7 @@ public class Descriptor extends Struct {
      * Get the value of the field {@code tag}
      * @return The value of the field {@code tag}
      */
-    public byte tag$get() {
+    public byte getTag() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tag"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,7 +63,7 @@ public class Descriptor extends Struct {
      * Change the value of the field {@code tag}
      * @param tag The new value of the field {@code tag}
      */
-    public void tag$set(byte tag) {
+    public void setTag(byte tag) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tag"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tag);
@@ -75,7 +73,7 @@ public class Descriptor extends Struct {
      * Get the value of the field {@code tag_extension}
      * @return The value of the field {@code tag_extension}
      */
-    public byte tagExtension$get() {
+    public byte getTagExtension() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tag_extension"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,7 +84,7 @@ public class Descriptor extends Struct {
      * Change the value of the field {@code tag_extension}
      * @param tagExtension The new value of the field {@code tag_extension}
      */
-    public void tagExtension$set(byte tagExtension) {
+    public void setTagExtension(byte tagExtension) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tag_extension"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tagExtension);
@@ -96,7 +94,7 @@ public class Descriptor extends Struct {
      * Get the value of the field {@code length}
      * @return The value of the field {@code length}
      */
-    public byte length$get() {
+    public byte getLength() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -107,7 +105,7 @@ public class Descriptor extends Struct {
      * Change the value of the field {@code length}
      * @param length The new value of the field {@code length}
      */
-    public void length$set(byte length) {
+    public void setLength(byte length) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
@@ -117,7 +115,7 @@ public class Descriptor extends Struct {
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public PointerByte data$get() {
+    public PointerByte getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -128,10 +126,10 @@ public class Descriptor extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(PointerByte data) {
+    public void setData(PointerByte data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
     }
     
     /**
@@ -139,10 +137,12 @@ public class Descriptor extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Descriptor(Addressable address, Ownership ownership) {
+    protected Descriptor(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Descriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Descriptor(input, ownership);
     
     /**
      * Frees {@code desc}
@@ -161,8 +161,16 @@ public class Descriptor extends Struct {
      * @param list the list of audio preselection
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseAudioPreselectionList(@NotNull Out<org.gstreamer.mpegts.AudioPreselectionDescriptor[]> list) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseAudioPreselectionList(org.gstreamer.mpegts.AudioPreselectionDescriptor[] list) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_audio_preselection_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(list, org.gstreamer.mpegts.AudioPreselectionDescriptor.getMemoryLayout(), false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -173,14 +181,10 @@ public class Descriptor extends Struct {
      * @param privateDataSize The size of {@code private_data} in bytes
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseCa(Out<Short> caSystemId, Out<Short> caPid, @NotNull Out<byte[]> privateData, Out<Long> privateDataSize) {
-        java.util.Objects.requireNonNull(caSystemId, "Parameter 'caSystemId' must not be null");
+    public boolean parseCa(Out<Short> caSystemId, Out<Short> caPid, Out<byte[]> privateData, Out<Long> privateDataSize) {
         MemorySegment caSystemIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        java.util.Objects.requireNonNull(caPid, "Parameter 'caPid' must not be null");
         MemorySegment caPidPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        java.util.Objects.requireNonNull(privateData, "Parameter 'privateData' must not be null");
         MemorySegment privateDataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(privateDataSize, "Parameter 'privateDataSize' must not be null");
         MemorySegment privateDataSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -188,16 +192,16 @@ public class Descriptor extends Struct {
                     handle(),
                     (Addressable) caSystemIdPOINTER.address(),
                     (Addressable) caPidPOINTER.address(),
-                    (Addressable) privateDataPOINTER.address(),
-                    (Addressable) privateDataSizePOINTER.address());
+                    (Addressable) (privateData == null ? MemoryAddress.NULL : (Addressable) privateDataPOINTER.address()),
+                    (Addressable) (privateDataSize == null ? MemoryAddress.NULL : (Addressable) privateDataSizePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         caSystemId.set(caSystemIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
         caPid.set(caPidPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        privateDataSize.set(privateDataSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (privateDataSize != null) privateDataSize.set(privateDataSizePOINTER.get(Interop.valueLayout.C_LONG, 0));
         privateData.set(MemorySegment.ofAddress(privateDataPOINTER.get(Interop.valueLayout.ADDRESS, 0), privateDataSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -205,8 +209,7 @@ public class Descriptor extends Struct {
      * @param res the {@link CableDeliverySystemDescriptor} to fill
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseCableDeliverySystem(@NotNull org.gstreamer.mpegts.CableDeliverySystemDescriptor res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseCableDeliverySystem(org.gstreamer.mpegts.CableDeliverySystemDescriptor res) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_cable_delivery_system.invokeExact(
@@ -215,7 +218,7 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -223,19 +226,18 @@ public class Descriptor extends Struct {
      * @param bouquetName the bouquet name
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseDvbBouquetName(@NotNull Out<java.lang.String> bouquetName) {
-        java.util.Objects.requireNonNull(bouquetName, "Parameter 'bouquetName' must not be null");
+    public boolean parseDvbBouquetName(@Nullable Out<java.lang.String> bouquetName) {
         MemorySegment bouquetNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_bouquet_name.invokeExact(
                     handle(),
-                    (Addressable) bouquetNamePOINTER.address());
+                    (Addressable) (bouquetName == null ? MemoryAddress.NULL : (Addressable) bouquetNamePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bouquetName.set(Interop.getStringFrom(bouquetNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (bouquetName != null) bouquetName.set(Marshal.addressToString.marshal(bouquetNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -245,8 +247,16 @@ public class Descriptor extends Struct {
      * are found in http://www.dvbservices.com
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbCaIdentifier(@NotNull Out<short[]> list) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseDvbCaIdentifier(short[] list) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_ca_identifier.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(list, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -254,8 +264,7 @@ public class Descriptor extends Struct {
      * @param res the {@link ComponentDescriptor} to fill
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseDvbComponent(@NotNull Out<org.gstreamer.mpegts.ComponentDescriptor> res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseDvbComponent(Out<org.gstreamer.mpegts.ComponentDescriptor> res) {
         MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -265,8 +274,8 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gstreamer.mpegts.ComponentDescriptor(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        res.set(org.gstreamer.mpegts.ComponentDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -274,8 +283,16 @@ public class Descriptor extends Struct {
      * @param content {@link Content}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbContent(@NotNull Out<org.gstreamer.mpegts.Content[]> content) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseDvbContent(org.gstreamer.mpegts.Content[] content) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_content.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(content, org.gstreamer.mpegts.Content.getMemoryLayout(), false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -283,8 +300,7 @@ public class Descriptor extends Struct {
      * @param res {@link DataBroadcastDescriptor}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbDataBroadcast(@NotNull Out<org.gstreamer.mpegts.DataBroadcastDescriptor> res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseDvbDataBroadcast(Out<org.gstreamer.mpegts.DataBroadcastDescriptor> res) {
         MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -294,8 +310,8 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gstreamer.mpegts.DataBroadcastDescriptor(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        res.set(org.gstreamer.mpegts.DataBroadcastDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -305,12 +321,9 @@ public class Descriptor extends Struct {
      * @param len the length of {@code id_selector_bytes}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbDataBroadcastId(Out<Short> dataBroadcastId, @NotNull Out<byte[]> idSelectorBytes, Out<Byte> len) {
-        java.util.Objects.requireNonNull(dataBroadcastId, "Parameter 'dataBroadcastId' must not be null");
+    public boolean parseDvbDataBroadcastId(Out<Short> dataBroadcastId, Out<byte[]> idSelectorBytes, Out<Byte> len) {
         MemorySegment dataBroadcastIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        java.util.Objects.requireNonNull(idSelectorBytes, "Parameter 'idSelectorBytes' must not be null");
         MemorySegment idSelectorBytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -325,7 +338,7 @@ public class Descriptor extends Struct {
         dataBroadcastId.set(dataBroadcastIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
         len.set(lenPOINTER.get(Interop.valueLayout.C_BYTE, 0));
         idSelectorBytes.set(MemorySegment.ofAddress(idSelectorBytesPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -333,8 +346,7 @@ public class Descriptor extends Struct {
      * @param res the {@link ExtendedEventDescriptor} to fill
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseDvbExtendedEvent(@NotNull Out<org.gstreamer.mpegts.ExtendedEventDescriptor> res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseDvbExtendedEvent(Out<org.gstreamer.mpegts.ExtendedEventDescriptor> res) {
         MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -344,8 +356,8 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gstreamer.mpegts.ExtendedEventDescriptor(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        res.set(org.gstreamer.mpegts.ExtendedEventDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -355,8 +367,19 @@ public class Descriptor extends Struct {
      * depending on {@code offset}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbFrequencyList(Out<Boolean> offset, @NotNull Out<int[]> list) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseDvbFrequencyList(Out<Boolean> offset, int[] list) {
+        MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_frequency_list.invokeExact(
+                    handle(),
+                    (Addressable) offsetPOINTER.address(),
+                    Interop.allocateNativeArray(list, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        offset.set(offsetPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -364,8 +387,7 @@ public class Descriptor extends Struct {
      * @param res the {@link DVBLinkageDescriptor} to fill
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseDvbLinkage(@NotNull Out<org.gstreamer.mpegts.DVBLinkageDescriptor> res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseDvbLinkage(Out<org.gstreamer.mpegts.DVBLinkageDescriptor> res) {
         MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -375,8 +397,8 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gstreamer.mpegts.DVBLinkageDescriptor(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        res.set(org.gstreamer.mpegts.DVBLinkageDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -384,8 +406,16 @@ public class Descriptor extends Struct {
      * @param bouquetNameItems a {@link DvbMultilingualBouquetNameItem}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbMultilingualBouquetName(@NotNull Out<org.gstreamer.mpegts.DvbMultilingualBouquetNameItem[]> bouquetNameItems) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseDvbMultilingualBouquetName(org.gstreamer.mpegts.DvbMultilingualBouquetNameItem[] bouquetNameItems) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_bouquet_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(bouquetNameItems, org.gstreamer.mpegts.DvbMultilingualBouquetNameItem.getMemoryLayout(), false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -394,8 +424,19 @@ public class Descriptor extends Struct {
      * @param componentDescriptionItems a {@link DvbMultilingualComponentItem}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbMultilingualComponent(Out<Byte> componentTag, @NotNull Out<org.gstreamer.mpegts.DvbMultilingualComponentItem[]> componentDescriptionItems) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseDvbMultilingualComponent(Out<Byte> componentTag, org.gstreamer.mpegts.DvbMultilingualComponentItem[] componentDescriptionItems) {
+        MemorySegment componentTagPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_component.invokeExact(
+                    handle(),
+                    (Addressable) componentTagPOINTER.address(),
+                    Interop.allocateNativeArray(componentDescriptionItems, org.gstreamer.mpegts.DvbMultilingualComponentItem.getMemoryLayout(), false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        componentTag.set(componentTagPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -403,8 +444,16 @@ public class Descriptor extends Struct {
      * @param networkNameItems a {@link DvbMultilingualNetworkNameItem}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbMultilingualNetworkName(@NotNull Out<org.gstreamer.mpegts.DvbMultilingualNetworkNameItem[]> networkNameItems) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseDvbMultilingualNetworkName(org.gstreamer.mpegts.DvbMultilingualNetworkNameItem[] networkNameItems) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_network_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(networkNameItems, org.gstreamer.mpegts.DvbMultilingualNetworkNameItem.getMemoryLayout(), false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -412,8 +461,16 @@ public class Descriptor extends Struct {
      * @param serviceNameItems a {@link DvbMultilingualServiceNameItem}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbMultilingualServiceName(@NotNull Out<org.gstreamer.mpegts.DvbMultilingualServiceNameItem[]> serviceNameItems) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseDvbMultilingualServiceName(org.gstreamer.mpegts.DvbMultilingualServiceNameItem[] serviceNameItems) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_multilingual_service_name.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(serviceNameItems, org.gstreamer.mpegts.DvbMultilingualServiceNameItem.getMemoryLayout(), false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -421,8 +478,7 @@ public class Descriptor extends Struct {
      * @param name the extracted name
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbNetworkName(@NotNull Out<java.lang.String> name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean parseDvbNetworkName(Out<java.lang.String> name) {
         MemorySegment namePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -432,8 +488,8 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        name.set(Interop.getStringFrom(namePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        name.set(Marshal.addressToString.marshal(namePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -441,8 +497,16 @@ public class Descriptor extends Struct {
      * @param rating {@link DVBParentalRatingItem}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbParentalRating(@NotNull Out<org.gstreamer.mpegts.DVBParentalRatingItem[]> rating) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseDvbParentalRating(org.gstreamer.mpegts.DVBParentalRatingItem[] rating) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_parental_rating.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(rating, org.gstreamer.mpegts.DVBParentalRatingItem.getMemoryLayout(), false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -453,27 +517,24 @@ public class Descriptor extends Struct {
      * @param length length of {@code private_data}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbPrivateDataSpecifier(Out<Integer> privateDataSpecifier, @NotNull Out<byte[]> privateData, Out<Byte> length) {
-        java.util.Objects.requireNonNull(privateDataSpecifier, "Parameter 'privateDataSpecifier' must not be null");
+    public boolean parseDvbPrivateDataSpecifier(Out<Integer> privateDataSpecifier, Out<byte[]> privateData, Out<Byte> length) {
         MemorySegment privateDataSpecifierPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(privateData, "Parameter 'privateData' must not be null");
         MemorySegment privateDataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_private_data_specifier.invokeExact(
                     handle(),
                     (Addressable) privateDataSpecifierPOINTER.address(),
-                    (Addressable) privateDataPOINTER.address(),
-                    (Addressable) lengthPOINTER.address());
+                    (Addressable) (privateData == null ? MemoryAddress.NULL : (Addressable) privateDataPOINTER.address()),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         privateDataSpecifier.set(privateDataSpecifierPOINTER.get(Interop.valueLayout.C_INT, 0));
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_BYTE, 0));
         privateData.set(MemorySegment.ofAddress(privateDataPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -485,8 +546,7 @@ public class Descriptor extends Struct {
      * administered by the DVB Common Scrambling Algorithm Custodian.
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbScrambling(@NotNull Out<org.gstreamer.mpegts.DVBScramblingModeType> scramblingMode) {
-        java.util.Objects.requireNonNull(scramblingMode, "Parameter 'scramblingMode' must not be null");
+    public boolean parseDvbScrambling(Out<org.gstreamer.mpegts.DVBScramblingModeType> scramblingMode) {
         MemorySegment scramblingModePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -497,7 +557,7 @@ public class Descriptor extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         scramblingMode.set(org.gstreamer.mpegts.DVBScramblingModeType.of(scramblingModePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -507,27 +567,24 @@ public class Descriptor extends Struct {
      * @param providerName the provider name
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseDvbService(@NotNull Out<org.gstreamer.mpegts.DVBServiceType> serviceType, @NotNull Out<java.lang.String> serviceName, @NotNull Out<java.lang.String> providerName) {
-        java.util.Objects.requireNonNull(serviceType, "Parameter 'serviceType' must not be null");
+    public boolean parseDvbService(@Nullable Out<org.gstreamer.mpegts.DVBServiceType> serviceType, @Nullable Out<java.lang.String> serviceName, @Nullable Out<java.lang.String> providerName) {
         MemorySegment serviceTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(serviceName, "Parameter 'serviceName' must not be null");
         MemorySegment serviceNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(providerName, "Parameter 'providerName' must not be null");
         MemorySegment providerNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_service.invokeExact(
                     handle(),
-                    (Addressable) serviceTypePOINTER.address(),
-                    (Addressable) serviceNamePOINTER.address(),
-                    (Addressable) providerNamePOINTER.address());
+                    (Addressable) (serviceType == null ? MemoryAddress.NULL : (Addressable) serviceTypePOINTER.address()),
+                    (Addressable) (serviceName == null ? MemoryAddress.NULL : (Addressable) serviceNamePOINTER.address()),
+                    (Addressable) (providerName == null ? MemoryAddress.NULL : (Addressable) providerNamePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        serviceType.set(org.gstreamer.mpegts.DVBServiceType.of(serviceTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        serviceName.set(Interop.getStringFrom(serviceNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        providerName.set(Interop.getStringFrom(providerNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (serviceType != null) serviceType.set(org.gstreamer.mpegts.DVBServiceType.of(serviceTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (serviceName != null) serviceName.set(Marshal.addressToString.marshal(serviceNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (providerName != null) providerName.set(Marshal.addressToString.marshal(providerNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -535,8 +592,16 @@ public class Descriptor extends Struct {
      * @param list the list of services
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbServiceList(@NotNull Out<org.gstreamer.mpegts.DVBServiceListItem[]> list) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean parseDvbServiceList(org.gstreamer.mpegts.DVBServiceListItem[] list) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_service_list.invokeExact(
+                    handle(),
+                    Interop.allocateNativeArray(list, org.gstreamer.mpegts.DVBServiceListItem.getMemoryLayout(), false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -546,27 +611,24 @@ public class Descriptor extends Struct {
      * @param text the event text
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseDvbShortEvent(@NotNull Out<java.lang.String> languageCode, @NotNull Out<java.lang.String> eventName, @NotNull Out<java.lang.String> text) {
-        java.util.Objects.requireNonNull(languageCode, "Parameter 'languageCode' must not be null");
+    public boolean parseDvbShortEvent(@Nullable Out<java.lang.String> languageCode, @Nullable Out<java.lang.String> eventName, @Nullable Out<java.lang.String> text) {
         MemorySegment languageCodePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(eventName, "Parameter 'eventName' must not be null");
         MemorySegment eventNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_short_event.invokeExact(
                     handle(),
-                    (Addressable) languageCodePOINTER.address(),
-                    (Addressable) eventNamePOINTER.address(),
-                    (Addressable) textPOINTER.address());
+                    (Addressable) (languageCode == null ? MemoryAddress.NULL : (Addressable) languageCodePOINTER.address()),
+                    (Addressable) (eventName == null ? MemoryAddress.NULL : (Addressable) eventNamePOINTER.address()),
+                    (Addressable) (text == null ? MemoryAddress.NULL : (Addressable) textPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        languageCode.set(Interop.getStringFrom(languageCodePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        eventName.set(Interop.getStringFrom(eventNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        text.set(Interop.getStringFrom(textPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (languageCode != null) languageCode.set(Marshal.addressToString.marshal(languageCodePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (eventName != null) eventName.set(Marshal.addressToString.marshal(eventNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (text != null) text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -575,7 +637,6 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbStreamIdentifier(Out<Byte> componentTag) {
-        java.util.Objects.requireNonNull(componentTag, "Parameter 'componentTag' must not be null");
         MemorySegment componentTagPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -586,7 +647,7 @@ public class Descriptor extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         componentTag.set(componentTagPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -595,7 +656,6 @@ public class Descriptor extends Struct {
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
     public boolean parseDvbStuffing(Out<Byte> stuffingBytes) {
-        java.util.Objects.requireNonNull(stuffingBytes, "Parameter 'stuffingBytes' must not be null");
         MemorySegment stuffingBytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
@@ -606,7 +666,7 @@ public class Descriptor extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         stuffingBytes.set(stuffingBytesPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -621,14 +681,10 @@ public class Descriptor extends Struct {
      * @param ancillaryPageId the ancillary page id
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseDvbSubtitlingIdx(int idx, @NotNull Out<java.lang.String> lang, Out<Byte> type, Out<Short> compositionPageId, Out<Short> ancillaryPageId) {
-        java.util.Objects.requireNonNull(lang, "Parameter 'lang' must not be null");
+    public boolean parseDvbSubtitlingIdx(int idx, Out<java.lang.String> lang, Out<Byte> type, Out<Short> compositionPageId, Out<Short> ancillaryPageId) {
         MemorySegment langPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
         MemorySegment typePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(compositionPageId, "Parameter 'compositionPageId' must not be null");
         MemorySegment compositionPageIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        java.util.Objects.requireNonNull(ancillaryPageId, "Parameter 'ancillaryPageId' must not be null");
         MemorySegment ancillaryPageIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
@@ -636,17 +692,17 @@ public class Descriptor extends Struct {
                     handle(),
                     idx,
                     (Addressable) langPOINTER.address(),
-                    (Addressable) typePOINTER.address(),
-                    (Addressable) compositionPageIdPOINTER.address(),
-                    (Addressable) ancillaryPageIdPOINTER.address());
+                    (Addressable) (type == null ? MemoryAddress.NULL : (Addressable) typePOINTER.address()),
+                    (Addressable) (compositionPageId == null ? MemoryAddress.NULL : (Addressable) compositionPageIdPOINTER.address()),
+                    (Addressable) (ancillaryPageId == null ? MemoryAddress.NULL : (Addressable) ancillaryPageIdPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        lang.set(Interop.getStringFrom(langPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        type.set(typePOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        compositionPageId.set(compositionPageIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        ancillaryPageId.set(ancillaryPageIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return RESULT != 0;
+        lang.set(Marshal.addressToString.marshal(langPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (type != null) type.set(typePOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (compositionPageId != null) compositionPageId.set(compositionPageIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+        if (ancillaryPageId != null) ancillaryPageId.set(ancillaryPageIdPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public int parseDvbSubtitlingNb() {
@@ -665,8 +721,7 @@ public class Descriptor extends Struct {
      * @param res {@link T2DeliverySystemDescriptor}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseDvbT2DeliverySystem(@NotNull Out<org.gstreamer.mpegts.T2DeliverySystemDescriptor> res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseDvbT2DeliverySystem(Out<org.gstreamer.mpegts.T2DeliverySystemDescriptor> res) {
         MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -676,8 +731,8 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gstreamer.mpegts.T2DeliverySystemDescriptor(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        res.set(org.gstreamer.mpegts.T2DeliverySystemDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -687,32 +742,28 @@ public class Descriptor extends Struct {
      * @param teletextType {@link DVBTeletextType}
      * @return FALSE on out-of-bounds and errors
      */
-    public boolean parseDvbTeletextIdx(int idx, @NotNull Out<java.lang.String> languageCode, @NotNull Out<org.gstreamer.mpegts.DVBTeletextType> teletextType, Out<Byte> magazineNumber, Out<Byte> pageNumber) {
-        java.util.Objects.requireNonNull(languageCode, "Parameter 'languageCode' must not be null");
+    public boolean parseDvbTeletextIdx(int idx, @Nullable Out<java.lang.String> languageCode, @Nullable Out<org.gstreamer.mpegts.DVBTeletextType> teletextType, Out<Byte> magazineNumber, Out<Byte> pageNumber) {
         MemorySegment languageCodePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(teletextType, "Parameter 'teletextType' must not be null");
         MemorySegment teletextTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(magazineNumber, "Parameter 'magazineNumber' must not be null");
         MemorySegment magazineNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(pageNumber, "Parameter 'pageNumber' must not be null");
         MemorySegment pageNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_dvb_teletext_idx.invokeExact(
                     handle(),
                     idx,
-                    (Addressable) languageCodePOINTER.address(),
-                    (Addressable) teletextTypePOINTER.address(),
-                    (Addressable) magazineNumberPOINTER.address(),
-                    (Addressable) pageNumberPOINTER.address());
+                    (Addressable) (languageCode == null ? MemoryAddress.NULL : (Addressable) languageCodePOINTER.address()),
+                    (Addressable) (teletextType == null ? MemoryAddress.NULL : (Addressable) teletextTypePOINTER.address()),
+                    (Addressable) (magazineNumber == null ? MemoryAddress.NULL : (Addressable) magazineNumberPOINTER.address()),
+                    (Addressable) (pageNumber == null ? MemoryAddress.NULL : (Addressable) pageNumberPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        languageCode.set(Interop.getStringFrom(languageCodePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        teletextType.set(org.gstreamer.mpegts.DVBTeletextType.of(teletextTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        magazineNumber.set(magazineNumberPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        pageNumber.set(pageNumberPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        if (languageCode != null) languageCode.set(Marshal.addressToString.marshal(languageCodePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (teletextType != null) teletextType.set(org.gstreamer.mpegts.DVBTeletextType.of(teletextTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (magazineNumber != null) magazineNumber.set(magazineNumberPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (pageNumber != null) pageNumber.set(pageNumberPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -738,8 +789,7 @@ public class Descriptor extends Struct {
      * @param res the {@link ISO639LanguageDescriptor} to fill
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseIso639Language(@NotNull Out<org.gstreamer.mpegts.ISO639LanguageDescriptor> res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseIso639Language(Out<org.gstreamer.mpegts.ISO639LanguageDescriptor> res) {
         MemorySegment resPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -749,8 +799,8 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        res.set(new org.gstreamer.mpegts.ISO639LanguageDescriptor(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        res.set(org.gstreamer.mpegts.ISO639LanguageDescriptor.fromAddress.marshal(resPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -763,10 +813,8 @@ public class Descriptor extends Struct {
      * @param audioType the {@link Iso639AudioType} to set
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseIso639LanguageIdx(int idx, @NotNull Out<java.lang.String> lang, @NotNull Out<org.gstreamer.mpegts.Iso639AudioType> audioType) {
-        java.util.Objects.requireNonNull(lang, "Parameter 'lang' must not be null");
+    public boolean parseIso639LanguageIdx(int idx, Out<java.lang.String> lang, @Nullable Out<org.gstreamer.mpegts.Iso639AudioType> audioType) {
         MemorySegment langPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(audioType, "Parameter 'audioType' must not be null");
         MemorySegment audioTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -774,13 +822,13 @@ public class Descriptor extends Struct {
                     handle(),
                     idx,
                     (Addressable) langPOINTER.address(),
-                    (Addressable) audioTypePOINTER.address());
+                    (Addressable) (audioType == null ? MemoryAddress.NULL : (Addressable) audioTypePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        lang.set(Interop.getStringFrom(langPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        audioType.set(org.gstreamer.mpegts.Iso639AudioType.of(audioTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        lang.set(Marshal.addressToString.marshal(langPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (audioType != null) audioType.set(org.gstreamer.mpegts.Iso639AudioType.of(audioTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public int parseIso639LanguageNb() {
@@ -799,8 +847,7 @@ public class Descriptor extends Struct {
      * @param res the {@link LogicalChannelDescriptor} to fill
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseLogicalChannel(@NotNull org.gstreamer.mpegts.LogicalChannelDescriptor res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseLogicalChannel(org.gstreamer.mpegts.LogicalChannelDescriptor res) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_logical_channel.invokeExact(
@@ -809,7 +856,7 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -819,27 +866,24 @@ public class Descriptor extends Struct {
      * @param additionalInfoLength The size of {@code additional_info} in bytes.
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseRegistration(Out<Integer> registrationId, @NotNull Out<byte[]> additionalInfo, Out<Long> additionalInfoLength) {
-        java.util.Objects.requireNonNull(registrationId, "Parameter 'registrationId' must not be null");
+    public boolean parseRegistration(Out<Integer> registrationId, Out<byte[]> additionalInfo, Out<Long> additionalInfoLength) {
         MemorySegment registrationIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(additionalInfo, "Parameter 'additionalInfo' must not be null");
         MemorySegment additionalInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(additionalInfoLength, "Parameter 'additionalInfoLength' must not be null");
         MemorySegment additionalInfoLengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_registration.invokeExact(
                     handle(),
                     (Addressable) registrationIdPOINTER.address(),
-                    (Addressable) additionalInfoPOINTER.address(),
-                    (Addressable) additionalInfoLengthPOINTER.address());
+                    (Addressable) (additionalInfo == null ? MemoryAddress.NULL : (Addressable) additionalInfoPOINTER.address()),
+                    (Addressable) (additionalInfoLength == null ? MemoryAddress.NULL : (Addressable) additionalInfoLengthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         registrationId.set(registrationIdPOINTER.get(Interop.valueLayout.C_INT, 0));
-        additionalInfoLength.set(additionalInfoLengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (additionalInfoLength != null) additionalInfoLength.set(additionalInfoLengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         additionalInfo.set(MemorySegment.ofAddress(additionalInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), additionalInfoLength.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -847,8 +891,7 @@ public class Descriptor extends Struct {
      * @param res the {@link SatelliteDeliverySystemDescriptor} to fill
      * @return {@code true} if parsing succeeded, else {@code false}.
      */
-    public boolean parseSatelliteDeliverySystem(@NotNull org.gstreamer.mpegts.SatelliteDeliverySystemDescriptor res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseSatelliteDeliverySystem(org.gstreamer.mpegts.SatelliteDeliverySystemDescriptor res) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_satellite_delivery_system.invokeExact(
@@ -857,7 +900,7 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -865,8 +908,7 @@ public class Descriptor extends Struct {
      * @param res {@link TerrestrialDeliverySystemDescriptor}
      * @return {@code true} if the parsing happened correctly, else {@code false}.
      */
-    public boolean parseTerrestrialDeliverySystem(@NotNull org.gstreamer.mpegts.TerrestrialDeliverySystemDescriptor res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean parseTerrestrialDeliverySystem(org.gstreamer.mpegts.TerrestrialDeliverySystemDescriptor res) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_descriptor_parse_terrestrial_delivery_system.invokeExact(
@@ -875,7 +917,7 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -885,8 +927,7 @@ public class Descriptor extends Struct {
      * @param length length of {@code data}
      * @return {@link Descriptor}
      */
-    public static @NotNull org.gstreamer.mpegts.Descriptor fromCustom(byte tag, @NotNull byte[] data, long length) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.mpegts.Descriptor fromCustom(byte tag, byte[] data, long length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_custom.invokeExact(
@@ -896,7 +937,7 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Descriptor(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -907,8 +948,7 @@ public class Descriptor extends Struct {
      * @param length length of {@code data}
      * @return {@link Descriptor}
      */
-    public static @NotNull org.gstreamer.mpegts.Descriptor fromCustomWithExtension(byte tag, byte tagExtension, @NotNull byte[] data, long length) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.mpegts.Descriptor fromCustomWithExtension(byte tag, byte tagExtension, byte[] data, long length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_custom_with_extension.invokeExact(
@@ -919,7 +959,7 @@ public class Descriptor extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Descriptor(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -929,16 +969,15 @@ public class Descriptor extends Struct {
      * @param name the network name to set
      * @return the {@link Descriptor} or {@code null} on fail
      */
-    public static @NotNull org.gstreamer.mpegts.Descriptor fromDvbNetworkName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gstreamer.mpegts.Descriptor fromDvbNetworkName(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_dvb_network_name.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Descriptor(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -950,33 +989,31 @@ public class Descriptor extends Struct {
      * @param serviceProvider Name of the service provider
      * @return the {@link Descriptor} or {@code null} on fail
      */
-    public static @NotNull org.gstreamer.mpegts.Descriptor fromDvbService(@NotNull org.gstreamer.mpegts.DVBServiceType serviceType, @Nullable java.lang.String serviceName, @Nullable java.lang.String serviceProvider) {
-        java.util.Objects.requireNonNull(serviceType, "Parameter 'serviceType' must not be null");
+    public static org.gstreamer.mpegts.Descriptor fromDvbService(org.gstreamer.mpegts.DVBServiceType serviceType, @Nullable java.lang.String serviceName, @Nullable java.lang.String serviceProvider) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_dvb_service.invokeExact(
                     serviceType.getValue(),
-                    (Addressable) (serviceName == null ? MemoryAddress.NULL : Interop.allocateNativeString(serviceName)),
-                    (Addressable) (serviceProvider == null ? MemoryAddress.NULL : Interop.allocateNativeString(serviceProvider)));
+                    (Addressable) (serviceName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(serviceName, null)),
+                    (Addressable) (serviceProvider == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(serviceProvider, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Descriptor(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.mpegts.Descriptor fromDvbSubtitling(@NotNull java.lang.String lang, byte type, short composition, short ancillary) {
-        java.util.Objects.requireNonNull(lang, "Parameter 'lang' must not be null");
+    public static org.gstreamer.mpegts.Descriptor fromDvbSubtitling(java.lang.String lang, byte type, short composition, short ancillary) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_dvb_subtitling.invokeExact(
-                    Interop.allocateNativeString(lang),
+                    Marshal.stringToAddress.marshal(lang, null),
                     type,
                     composition,
                     ancillary);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Descriptor(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -985,16 +1022,15 @@ public class Descriptor extends Struct {
      * @param language ISO-639-2 language 3-char code
      * @return {@link Descriptor}, {@code null} on failure
      */
-    public static @NotNull org.gstreamer.mpegts.Descriptor fromIso639Language(@NotNull java.lang.String language) {
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+    public static org.gstreamer.mpegts.Descriptor fromIso639Language(java.lang.String language) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_iso_639_language.invokeExact(
-                    Interop.allocateNativeString(language));
+                    Marshal.stringToAddress.marshal(language, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Descriptor(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1004,22 +1040,20 @@ public class Descriptor extends Struct {
      * @param additionalInfoLength length of the optional {@code additional_info}
      * @return {@link Descriptor}, {@code null} on failure
      */
-    public static @NotNull org.gstreamer.mpegts.Descriptor fromRegistration(@NotNull java.lang.String formatIdentifier, @Nullable byte[] additionalInfo, long additionalInfoLength) {
-        java.util.Objects.requireNonNull(formatIdentifier, "Parameter 'formatIdentifier' must not be null");
+    public static org.gstreamer.mpegts.Descriptor fromRegistration(java.lang.String formatIdentifier, byte[] additionalInfo, long additionalInfoLength) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_descriptor_from_registration.invokeExact(
-                    Interop.allocateNativeString(formatIdentifier),
+                    Marshal.stringToAddress.marshal(formatIdentifier, null),
                     (Addressable) (additionalInfo == null ? MemoryAddress.NULL : Interop.allocateNativeArray(additionalInfo, false)),
                     additionalInfoLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Descriptor(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Descriptor.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static void parseAudioPreselectionDump(@NotNull org.gstreamer.mpegts.AudioPreselectionDescriptor source) {
-        java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
+    public static void parseAudioPreselectionDump(org.gstreamer.mpegts.AudioPreselectionDescriptor source) {
         try {
             DowncallHandles.gst_mpegts_descriptor_parse_audio_preselection_dump.invokeExact(
                     source.handle());
@@ -1028,8 +1062,7 @@ public class Descriptor extends Struct {
         }
     }
     
-    public static void parseAudioPreselectionFree(@NotNull org.gstreamer.mpegts.AudioPreselectionDescriptor source) {
-        java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
+    public static void parseAudioPreselectionFree(org.gstreamer.mpegts.AudioPreselectionDescriptor source) {
         try {
             DowncallHandles.gst_mpegts_descriptor_parse_audio_preselection_free.invokeExact(
                     source.handle());
@@ -1322,31 +1355,35 @@ public class Descriptor extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Descriptor.Builder} object constructs a {@link Descriptor} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Descriptor.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Descriptor struct;
+        private final Descriptor struct;
         
-         /**
-         * A {@link Descriptor.Build} object constructs a {@link Descriptor} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Descriptor.allocate();
         }
         
          /**
          * Finish building the {@link Descriptor} struct.
          * @return A new instance of {@code Descriptor} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Descriptor construct() {
+        public Descriptor build() {
             return struct;
         }
         
@@ -1355,7 +1392,7 @@ public class Descriptor extends Struct {
          * @param tag The value for the {@code tag} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTag(byte tag) {
+        public Builder setTag(byte tag) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tag"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tag);
@@ -1367,7 +1404,7 @@ public class Descriptor extends Struct {
          * @param tagExtension The value for the {@code tagExtension} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTagExtension(byte tagExtension) {
+        public Builder setTagExtension(byte tagExtension) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tag_extension"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tagExtension);
@@ -1379,7 +1416,7 @@ public class Descriptor extends Struct {
          * @param length The value for the {@code length} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLength(byte length) {
+        public Builder setLength(byte length) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("length"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
@@ -1392,14 +1429,14 @@ public class Descriptor extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(PointerByte data) {
+        public Builder setData(PointerByte data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

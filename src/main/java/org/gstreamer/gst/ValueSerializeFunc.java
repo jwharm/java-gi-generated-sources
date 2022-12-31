@@ -12,5 +12,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ValueSerializeFunc {
-        java.lang.String onValueSerializeFunc(@NotNull org.gtk.gobject.Value value1);
+    java.lang.String run(org.gtk.gobject.Value value1);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress value1) {
+        var RESULT = run(org.gtk.gobject.Value.fromAddress.marshal(value1, Ownership.NONE));
+        return RESULT == null ? MemoryAddress.NULL.address() : (Marshal.stringToAddress.marshal(RESULT, null)).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueSerializeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

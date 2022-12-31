@@ -28,18 +28,16 @@ public class Rect extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_rect_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Point.getMemoryLayout().withName("origin"),
-        org.gtk.graphene.Size.getMemoryLayout().withName("size")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Point.getMemoryLayout().withName("origin"),
+            org.gtk.graphene.Size.getMemoryLayout().withName("size")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -59,18 +57,38 @@ public class Rect extends Struct {
      * Get the value of the field {@code origin}
      * @return The value of the field {@code origin}
      */
-    public org.gtk.graphene.Point origin$get() {
+    public org.gtk.graphene.Point getOrigin() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("origin"));
-        return new org.gtk.graphene.Point(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.graphene.Point.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code origin}
+     * @param origin The new value of the field {@code origin}
+     */
+    public void setOrigin(org.gtk.graphene.Point origin) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("origin"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
     }
     
     /**
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public org.gtk.graphene.Size size$get() {
+    public org.gtk.graphene.Size getSize() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("size"));
-        return new org.gtk.graphene.Size(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.graphene.Size.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code size}
+     * @param size The new value of the field {@code size}
+     */
+    public void setSize(org.gtk.graphene.Size size) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("size"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size == null ? MemoryAddress.NULL : size.handle()));
     }
     
     /**
@@ -78,18 +96,19 @@ public class Rect extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Rect(Addressable address, Ownership ownership) {
+    protected Rect(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Rect> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Rect(input, ownership);
     
     /**
      * Checks whether a {@link Rect} contains the given coordinates.
      * @param p a {@link Point}
      * @return {@code true} if the rectangle contains the point
      */
-    public boolean containsPoint(@NotNull org.gtk.graphene.Point p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public boolean containsPoint(org.gtk.graphene.Point p) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_rect_contains_point.invokeExact(
@@ -107,8 +126,7 @@ public class Rect extends Struct {
      * @param b a {@link Rect}
      * @return {@code true} if the rectangle {@code a} fully contains {@code b}
      */
-    public boolean containsRect(@NotNull org.gtk.graphene.Rect b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean containsRect(org.gtk.graphene.Rect b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_rect_contains_rect.invokeExact(
@@ -125,8 +143,7 @@ public class Rect extends Struct {
      * @param b a {@link Rect}
      * @return {@code true} if the rectangles are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Rect b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Rect b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_rect_equal.invokeExact(
@@ -143,9 +160,7 @@ public class Rect extends Struct {
      * @param p a {@link Point}
      * @param res return location for the expanded rectangle
      */
-    public void expand(@NotNull org.gtk.graphene.Point p, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void expand(org.gtk.graphene.Point p, org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_rect_expand.invokeExact(
                     handle(),
@@ -187,8 +202,7 @@ public class Rect extends Struct {
      * Retrieves the coordinates of the bottom-left corner of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getBottomLeft(@NotNull org.gtk.graphene.Point p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public void getBottomLeft(org.gtk.graphene.Point p) {
         try {
             DowncallHandles.graphene_rect_get_bottom_left.invokeExact(
                     handle(),
@@ -202,8 +216,7 @@ public class Rect extends Struct {
      * Retrieves the coordinates of the bottom-right corner of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getBottomRight(@NotNull org.gtk.graphene.Point p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public void getBottomRight(org.gtk.graphene.Point p) {
         try {
             DowncallHandles.graphene_rect_get_bottom_right.invokeExact(
                     handle(),
@@ -217,8 +230,7 @@ public class Rect extends Struct {
      * Retrieves the coordinates of the center of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getCenter(@NotNull org.gtk.graphene.Point p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public void getCenter(org.gtk.graphene.Point p) {
         try {
             DowncallHandles.graphene_rect_get_center.invokeExact(
                     handle(),
@@ -247,8 +259,7 @@ public class Rect extends Struct {
      * Retrieves the coordinates of the top-left corner of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getTopLeft(@NotNull org.gtk.graphene.Point p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public void getTopLeft(org.gtk.graphene.Point p) {
         try {
             DowncallHandles.graphene_rect_get_top_left.invokeExact(
                     handle(),
@@ -262,8 +273,7 @@ public class Rect extends Struct {
      * Retrieves the coordinates of the top-right corner of the given rectangle.
      * @param p return location for a {@link Point}
      */
-    public void getTopRight(@NotNull org.gtk.graphene.Point p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public void getTopRight(org.gtk.graphene.Point p) {
         try {
             DowncallHandles.graphene_rect_get_top_right.invokeExact(
                     handle(),
@@ -278,8 +288,7 @@ public class Rect extends Struct {
      * @param vertices return location for an array
      *  of 4 {@link Vec2}
      */
-    public void getVertices(@NotNull Out<org.gtk.graphene.Vec2[]> vertices) {
-        java.util.Objects.requireNonNull(vertices, "Parameter 'vertices' must not be null");
+    public void getVertices(Out<org.gtk.graphene.Vec2[]> vertices) {
         MemorySegment verticesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.graphene_rect_get_vertices.invokeExact(
@@ -291,7 +300,7 @@ public class Rect extends Struct {
         org.gtk.graphene.Vec2[] verticesARRAY = new org.gtk.graphene.Vec2[4];
         for (int I = 0; I < 4; I++) {
             var OBJ = verticesPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            verticesARRAY[I] = new org.gtk.graphene.Vec2(OBJ, Ownership.NONE);
+            verticesARRAY[I] = org.gtk.graphene.Vec2.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         vertices.set(verticesARRAY);
     }
@@ -354,7 +363,7 @@ public class Rect extends Struct {
      * @param height the height of the {@code graphene_rect_t}.size
      * @return the initialized rectangle
      */
-    public @NotNull org.gtk.graphene.Rect init(float x, float y, float width, float height) {
+    public org.gtk.graphene.Rect init(float x, float y, float width, float height) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_init.invokeExact(
@@ -366,7 +375,7 @@ public class Rect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -377,8 +386,7 @@ public class Rect extends Struct {
      * @param src a {@link Rect}
      * @return the initialized rectangle
      */
-    public @NotNull org.gtk.graphene.Rect initFromRect(@NotNull org.gtk.graphene.Rect src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Rect initFromRect(org.gtk.graphene.Rect src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_init_from_rect.invokeExact(
@@ -387,7 +395,7 @@ public class Rect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -409,7 +417,7 @@ public class Rect extends Struct {
      * @param dY the vertical inset
      * @return the inset rectangle
      */
-    public @NotNull org.gtk.graphene.Rect inset(float dX, float dY) {
+    public org.gtk.graphene.Rect inset(float dX, float dY) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_inset.invokeExact(
@@ -419,7 +427,7 @@ public class Rect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -441,8 +449,7 @@ public class Rect extends Struct {
      * @param dY the vertical inset
      * @param res return location for the inset rectangle
      */
-    public void insetR(float dX, float dY, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void insetR(float dX, float dY, org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_rect_inset_r.invokeExact(
                     handle(),
@@ -462,9 +469,7 @@ public class Rect extends Struct {
      * @param res return location for the
      *   interpolated rectangle
      */
-    public void interpolate(@NotNull org.gtk.graphene.Rect b, double factor, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void interpolate(org.gtk.graphene.Rect b, double factor, org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_rect_interpolate.invokeExact(
                     handle(),
@@ -490,15 +495,13 @@ public class Rect extends Struct {
      *   a {@link Rect}
      * @return {@code true} if the two rectangles intersect
      */
-    public boolean intersection(@NotNull org.gtk.graphene.Rect b, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean intersection(org.gtk.graphene.Rect b, @Nullable org.gtk.graphene.Rect res) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_rect_intersection.invokeExact(
                     handle(),
                     b.handle(),
-                    res.handle());
+                    (Addressable) (res == null ? MemoryAddress.NULL : res.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -513,7 +516,7 @@ public class Rect extends Struct {
      * the rectangle.
      * @return the normalized rectangle
      */
-    public @NotNull org.gtk.graphene.Rect normalize() {
+    public org.gtk.graphene.Rect normalize() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_normalize.invokeExact(
@@ -521,7 +524,7 @@ public class Rect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -533,8 +536,7 @@ public class Rect extends Struct {
      * @param res the return location for the
      *   normalized rectangle
      */
-    public void normalizeR(@NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void normalizeR(org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_rect_normalize_r.invokeExact(
                     handle(),
@@ -552,7 +554,7 @@ public class Rect extends Struct {
      * @param dY the vertical offset
      * @return the offset rectangle
      */
-    public @NotNull org.gtk.graphene.Rect offset(float dX, float dY) {
+    public org.gtk.graphene.Rect offset(float dX, float dY) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_offset.invokeExact(
@@ -562,7 +564,7 @@ public class Rect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -574,8 +576,7 @@ public class Rect extends Struct {
      * @param res return location for the offset
      *   rectangle
      */
-    public void offsetR(float dX, float dY, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void offsetR(float dX, float dY, org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_rect_offset_r.invokeExact(
                     handle(),
@@ -602,8 +603,7 @@ public class Rect extends Struct {
      * @deprecated Use graphene_rect_round_extents() instead
      */
     @Deprecated
-    public void round(@NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void round(org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_rect_round.invokeExact(
                     handle(),
@@ -638,8 +638,7 @@ public class Rect extends Struct {
      * @param res return location for the
      *   rectangle with rounded extents
      */
-    public void roundExtents(@NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void roundExtents(org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_rect_round_extents.invokeExact(
                     handle(),
@@ -657,7 +656,7 @@ public class Rect extends Struct {
      * @deprecated Use graphene_rect_round() instead
      */
     @Deprecated
-    public @NotNull org.gtk.graphene.Rect roundToPixel() {
+    public org.gtk.graphene.Rect roundToPixel() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_round_to_pixel.invokeExact(
@@ -665,7 +664,7 @@ public class Rect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -676,8 +675,7 @@ public class Rect extends Struct {
      * @param res return location for the
      *   scaled rectangle
      */
-    public void scale(float sH, float sV, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void scale(float sH, float sV, org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_rect_scale.invokeExact(
                     handle(),
@@ -698,9 +696,7 @@ public class Rect extends Struct {
      * @param b a {@link Rect}
      * @param res return location for a {@link Rect}
      */
-    public void union(@NotNull org.gtk.graphene.Rect b, @NotNull org.gtk.graphene.Rect res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void union(org.gtk.graphene.Rect b, org.gtk.graphene.Rect res) {
         try {
             DowncallHandles.graphene_rect_union.invokeExact(
                     handle(),
@@ -717,14 +713,14 @@ public class Rect extends Struct {
      * The contents of the returned rectangle are undefined.
      * @return the newly allocated rectangle
      */
-    public static @NotNull org.gtk.graphene.Rect alloc() {
+    public static org.gtk.graphene.Rect alloc() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_alloc.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.FULL);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -732,14 +728,14 @@ public class Rect extends Struct {
      * a size of 0, 0.
      * @return a fixed rectangle
      */
-    public static @NotNull org.gtk.graphene.Rect zero() {
+    public static org.gtk.graphene.Rect zero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -942,31 +938,35 @@ public class Rect extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Rect.Builder} object constructs a {@link Rect} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Rect.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Rect struct;
+        private final Rect struct;
         
-         /**
-         * A {@link Rect.Build} object constructs a {@link Rect} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Rect.allocate();
         }
         
          /**
          * Finish building the {@link Rect} struct.
          * @return A new instance of {@code Rect} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Rect construct() {
+        public Rect build() {
             return struct;
         }
         
@@ -975,7 +975,7 @@ public class Rect extends Struct {
          * @param origin The value for the {@code origin} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOrigin(org.gtk.graphene.Point origin) {
+        public Builder setOrigin(org.gtk.graphene.Point origin) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("origin"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (origin == null ? MemoryAddress.NULL : origin.handle()));
@@ -987,7 +987,7 @@ public class Rect extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(org.gtk.graphene.Size size) {
+        public Builder setSize(org.gtk.graphene.Size size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size == null ? MemoryAddress.NULL : size.handle()));

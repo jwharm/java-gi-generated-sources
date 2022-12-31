@@ -115,20 +115,18 @@ public enum VideoMultiviewMode implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static @NotNull org.gstreamer.video.VideoMultiviewMode fromCapsString(@NotNull java.lang.String capsMviewMode) {
-        java.util.Objects.requireNonNull(capsMviewMode, "Parameter 'capsMviewMode' must not be null");
+    public static org.gstreamer.video.VideoMultiviewMode fromCapsString(java.lang.String capsMviewMode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_multiview_mode_from_caps_string.invokeExact(
-                    Interop.allocateNativeString(capsMviewMode));
+                    Marshal.stringToAddress.marshal(capsMviewMode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return org.gstreamer.video.VideoMultiviewMode.of(RESULT);
     }
     
-    public static @NotNull java.lang.String toCapsString(@NotNull org.gstreamer.video.VideoMultiviewMode mviewMode) {
-        java.util.Objects.requireNonNull(mviewMode, "Parameter 'mviewMode' must not be null");
+    public static java.lang.String toCapsString(org.gstreamer.video.VideoMultiviewMode mviewMode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_multiview_mode_to_caps_string.invokeExact(
@@ -136,7 +134,7 @@ public enum VideoMultiviewMode implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

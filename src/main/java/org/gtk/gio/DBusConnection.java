@@ -49,11 +49,11 @@ import org.jetbrains.annotations.*;
  * <a href="https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-unix-fd-client.c">gdbus-unix-fd-client.c</a>
  * <p>
  * <strong>An example for exporting a GObject # {#gdbus-export}</strong><br/>
- * Here is an example for exporting a {@link org.gtk.gobject.Object}:
+ * Here is an example for exporting a {@link org.gtk.gobject.GObject}:
  * <a href="https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gdbus-example-export.c">gdbus-example-export.c</a>
  * @version 2.26
  */
-public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gio.AsyncInitable, org.gtk.gio.Initable {
+public class DBusConnection extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncInitable, org.gtk.gio.Initable {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -75,35 +75,16 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusConnection(Addressable address, Ownership ownership) {
+    protected DBusConnection(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DBusConnection if its GType is a (or inherits from) "GDBusConnection".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DBusConnection} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDBusConnection", a ClassCastException will be thrown.
-     */
-    public static DBusConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusConnection.getType())) {
-            return new DBusConnection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusConnection");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusConnection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusConnection(input, ownership);
     
-    private static Addressable constructNewFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    private static MemoryAddress constructNewFinish(org.gtk.gio.AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_new_finish.invokeExact(
                     res.handle(),
@@ -125,14 +106,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static DBusConnection newFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
-        return new DBusConnection(constructNewFinish(res), Ownership.FULL);
+    public static DBusConnection newFinish(org.gtk.gio.AsyncResult res) throws GErrorException {
+        var RESULT = constructNewFinish(res);
+        return (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewForAddressFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    private static MemoryAddress constructNewForAddressFinish(org.gtk.gio.AsyncResult res) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_new_for_address_finish.invokeExact(
                     res.handle(),
@@ -154,18 +135,17 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     Free with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static DBusConnection newForAddressFinish(@NotNull org.gtk.gio.AsyncResult res) throws GErrorException {
-        return new DBusConnection(constructNewForAddressFinish(res), Ownership.FULL);
+    public static DBusConnection newForAddressFinish(org.gtk.gio.AsyncResult res) throws GErrorException {
+        var RESULT = constructNewForAddressFinish(res);
+        return (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewForAddressSync(@NotNull java.lang.String address, @NotNull org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    private static MemoryAddress constructNewForAddressSync(java.lang.String address, org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_new_for_address_sync.invokeExact(
-                    Interop.allocateNativeString(address),
+                    Marshal.stringToAddress.marshal(address, null),
                     flags.getValue(),
                     (Addressable) (observer == null ? MemoryAddress.NULL : observer.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -205,19 +185,18 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     Free with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static DBusConnection newForAddressSync(@NotNull java.lang.String address, @NotNull org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        return new DBusConnection(constructNewForAddressSync(address, flags, observer, cancellable), Ownership.FULL);
+    public static DBusConnection newForAddressSync(java.lang.String address, org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        var RESULT = constructNewForAddressSync(address, flags, observer, cancellable);
+        return (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSync(@NotNull org.gtk.gio.IOStream stream, @Nullable java.lang.String guid, @NotNull org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    private static MemoryAddress constructNewSync(org.gtk.gio.IOStream stream, @Nullable java.lang.String guid, org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_new_sync.invokeExact(
                     stream.handle(),
-                    (Addressable) (guid == null ? MemoryAddress.NULL : Interop.allocateNativeString(guid)),
+                    (Addressable) (guid == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(guid, null)),
                     flags.getValue(),
                     (Addressable) (observer == null ? MemoryAddress.NULL : observer.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -256,8 +235,9 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     Free with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static DBusConnection newSync(@NotNull org.gtk.gio.IOStream stream, @Nullable java.lang.String guid, @NotNull org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
-        return new DBusConnection(constructNewSync(stream, guid, flags, observer, cancellable), Ownership.FULL);
+    public static DBusConnection newSync(org.gtk.gio.IOStream stream, @Nullable java.lang.String guid, org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable) throws GErrorException {
+        var RESULT = constructNewSync(stream, guid, flags, observer, cancellable);
+        return (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -289,22 +269,19 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * filter is removed, and may be called after {@code connection} has been
      * destroyed.)
      * @param filterFunction a filter function
+     * @param userDataFreeFunc function to free {@code user_data} with when filter
+     *     is removed or {@code null}
      * @return a filter identifier that can be used with
      *     g_dbus_connection_remove_filter()
      */
-    public int addFilter(@NotNull org.gtk.gio.DBusMessageFilterFunction filterFunction) {
-        java.util.Objects.requireNonNull(filterFunction, "Parameter 'filterFunction' must not be null");
+    public int addFilter(org.gtk.gio.DBusMessageFilterFunction filterFunction, org.gtk.glib.DestroyNotify userDataFreeFunc) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_connection_add_filter.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbDBusMessageFilterFunction",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(filterFunction)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) filterFunction.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) userDataFreeFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,29 +351,21 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     is satisfied or {@code null} if you don't care about the result of the
      *     method invocation
      */
-    public void call(@Nullable java.lang.String busName, @NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName, @NotNull java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, @NotNull org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
-        java.util.Objects.requireNonNull(methodName, "Parameter 'methodName' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void call(@Nullable java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_dbus_connection_call.invokeExact(
                     handle(),
-                    (Addressable) (busName == null ? MemoryAddress.NULL : Interop.allocateNativeString(busName)),
-                    Interop.allocateNativeString(objectPath),
-                    Interop.allocateNativeString(interfaceName),
-                    Interop.allocateNativeString(methodName),
+                    (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, null)),
+                    Marshal.stringToAddress.marshal(objectPath, null),
+                    Marshal.stringToAddress.marshal(interfaceName, null),
+                    Marshal.stringToAddress.marshal(methodName, null),
                     (Addressable) (parameters == null ? MemoryAddress.NULL : parameters.handle()),
                     (Addressable) (replyType == null ? MemoryAddress.NULL : replyType.handle()),
                     flags.getValue(),
                     timeoutMsec,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -409,8 +378,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     {@link org.gtk.glib.Variant} tuple with return values. Free with g_variant_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Variant callFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public org.gtk.glib.Variant callFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -424,7 +392,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -480,20 +448,16 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     {@link org.gtk.glib.Variant} tuple with return values. Free with g_variant_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Variant callSync(@Nullable java.lang.String busName, @NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName, @NotNull java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, @NotNull org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
-        java.util.Objects.requireNonNull(methodName, "Parameter 'methodName' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gtk.glib.Variant callSync(@Nullable java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_call_sync.invokeExact(
                     handle(),
-                    (Addressable) (busName == null ? MemoryAddress.NULL : Interop.allocateNativeString(busName)),
-                    Interop.allocateNativeString(objectPath),
-                    Interop.allocateNativeString(interfaceName),
-                    Interop.allocateNativeString(methodName),
+                    (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, null)),
+                    Marshal.stringToAddress.marshal(objectPath, null),
+                    Marshal.stringToAddress.marshal(interfaceName, null),
+                    Marshal.stringToAddress.marshal(methodName, null),
                     (Addressable) (parameters == null ? MemoryAddress.NULL : parameters.handle()),
                     (Addressable) (replyType == null ? MemoryAddress.NULL : replyType.handle()),
                     flags.getValue(),
@@ -506,7 +470,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -542,30 +506,22 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     satisfied or {@code null} if you don't * care about the result of the
      *     method invocation
      */
-    public void callWithUnixFdList(@Nullable java.lang.String busName, @NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName, @NotNull java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, @NotNull org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.UnixFDList fdList, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
-        java.util.Objects.requireNonNull(methodName, "Parameter 'methodName' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void callWithUnixFdList(@Nullable java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.UnixFDList fdList, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_dbus_connection_call_with_unix_fd_list.invokeExact(
                     handle(),
-                    (Addressable) (busName == null ? MemoryAddress.NULL : Interop.allocateNativeString(busName)),
-                    Interop.allocateNativeString(objectPath),
-                    Interop.allocateNativeString(interfaceName),
-                    Interop.allocateNativeString(methodName),
+                    (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, null)),
+                    Marshal.stringToAddress.marshal(objectPath, null),
+                    Marshal.stringToAddress.marshal(interfaceName, null),
+                    Marshal.stringToAddress.marshal(methodName, null),
                     (Addressable) (parameters == null ? MemoryAddress.NULL : parameters.handle()),
                     (Addressable) (replyType == null ? MemoryAddress.NULL : replyType.handle()),
                     flags.getValue(),
                     timeoutMsec,
                     (Addressable) (fdList == null ? MemoryAddress.NULL : fdList.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -591,16 +547,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     {@link org.gtk.glib.Variant} tuple with return values. Free with g_variant_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Variant callWithUnixFdListFinish(@NotNull Out<org.gtk.gio.UnixFDList> outFdList, @NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(outFdList, "Parameter 'outFdList' must not be null");
+    public org.gtk.glib.Variant callWithUnixFdListFinish(@Nullable Out<org.gtk.gio.UnixFDList> outFdList, org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment outFdListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_call_with_unix_fd_list_finish.invokeExact(
                     handle(),
-                    (Addressable) outFdListPOINTER.address(),
+                    (Addressable) (outFdList == null ? MemoryAddress.NULL : (Addressable) outFdListPOINTER.address()),
                     res.handle(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -609,8 +563,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outFdList.set(new org.gtk.gio.UnixFDList(outFdListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        if (outFdList != null) outFdList.set((org.gtk.gio.UnixFDList) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(outFdListPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gio.UnixFDList.fromAddress).marshal(outFdListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -637,28 +591,23 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     {@link org.gtk.glib.Variant} tuple with return values. Free with g_variant_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Variant callWithUnixFdListSync(@Nullable java.lang.String busName, @NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName, @NotNull java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, @NotNull org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.UnixFDList fdList, @NotNull Out<org.gtk.gio.UnixFDList> outFdList, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
-        java.util.Objects.requireNonNull(methodName, "Parameter 'methodName' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(outFdList, "Parameter 'outFdList' must not be null");
+    public org.gtk.glib.Variant callWithUnixFdListSync(@Nullable java.lang.String busName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String methodName, @Nullable org.gtk.glib.Variant parameters, @Nullable org.gtk.glib.VariantType replyType, org.gtk.gio.DBusCallFlags flags, int timeoutMsec, @Nullable org.gtk.gio.UnixFDList fdList, @Nullable Out<org.gtk.gio.UnixFDList> outFdList, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment outFdListPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_call_with_unix_fd_list_sync.invokeExact(
                     handle(),
-                    (Addressable) (busName == null ? MemoryAddress.NULL : Interop.allocateNativeString(busName)),
-                    Interop.allocateNativeString(objectPath),
-                    Interop.allocateNativeString(interfaceName),
-                    Interop.allocateNativeString(methodName),
+                    (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, null)),
+                    Marshal.stringToAddress.marshal(objectPath, null),
+                    Marshal.stringToAddress.marshal(interfaceName, null),
+                    Marshal.stringToAddress.marshal(methodName, null),
                     (Addressable) (parameters == null ? MemoryAddress.NULL : parameters.handle()),
                     (Addressable) (replyType == null ? MemoryAddress.NULL : replyType.handle()),
                     flags.getValue(),
                     timeoutMsec,
                     (Addressable) (fdList == null ? MemoryAddress.NULL : fdList.handle()),
-                    (Addressable) outFdListPOINTER.address(),
+                    (Addressable) (outFdList == null ? MemoryAddress.NULL : (Addressable) outFdListPOINTER.address()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -667,8 +616,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outFdList.set(new org.gtk.gio.UnixFDList(outFdListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        if (outFdList != null) outFdList.set((org.gtk.gio.UnixFDList) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(outFdListPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gio.UnixFDList.fromAddress).marshal(outFdListPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -705,12 +654,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
             DowncallHandles.g_dbus_connection_close.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -723,8 +668,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @return {@code true} if the operation succeeded, {@code false} if {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean closeFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean closeFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -738,7 +682,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -764,7 +708,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -785,19 +729,16 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @return {@code true} unless {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean emitSignal(@Nullable java.lang.String destinationBusName, @NotNull java.lang.String objectPath, @NotNull java.lang.String interfaceName, @NotNull java.lang.String signalName, @Nullable org.gtk.glib.Variant parameters) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
-        java.util.Objects.requireNonNull(signalName, "Parameter 'signalName' must not be null");
+    public boolean emitSignal(@Nullable java.lang.String destinationBusName, java.lang.String objectPath, java.lang.String interfaceName, java.lang.String signalName, @Nullable org.gtk.glib.Variant parameters) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_connection_emit_signal.invokeExact(
                     handle(),
-                    (Addressable) (destinationBusName == null ? MemoryAddress.NULL : Interop.allocateNativeString(destinationBusName)),
-                    Interop.allocateNativeString(objectPath),
-                    Interop.allocateNativeString(interfaceName),
-                    Interop.allocateNativeString(signalName),
+                    (Addressable) (destinationBusName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(destinationBusName, null)),
+                    Marshal.stringToAddress.marshal(objectPath, null),
+                    Marshal.stringToAddress.marshal(interfaceName, null),
+                    Marshal.stringToAddress.marshal(signalName, null),
                     (Addressable) (parameters == null ? MemoryAddress.NULL : parameters.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -806,7 +747,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -836,15 +777,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @return the ID of the export (never zero), or 0 in case of failure
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int exportActionGroup(@NotNull java.lang.String objectPath, @NotNull org.gtk.gio.ActionGroup actionGroup) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(actionGroup, "Parameter 'actionGroup' must not be null");
+    public int exportActionGroup(java.lang.String objectPath, org.gtk.gio.ActionGroup actionGroup) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_connection_export_action_group.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(objectPath),
+                    Marshal.stringToAddress.marshal(objectPath, null),
                     actionGroup.handle(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -874,15 +813,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @return the ID of the export (never zero), or 0 in case of failure
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int exportMenuModel(@NotNull java.lang.String objectPath, @NotNull org.gtk.gio.MenuModel menu) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(menu, "Parameter 'menu' must not be null");
+    public int exportMenuModel(java.lang.String objectPath, org.gtk.gio.MenuModel menu) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_connection_export_menu_model.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(objectPath),
+                    Marshal.stringToAddress.marshal(objectPath, null),
                     menu.handle(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -918,12 +855,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
             DowncallHandles.g_dbus_connection_flush.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -936,8 +869,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @return {@code true} if the operation succeeded, {@code false} if {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean flushFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean flushFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -951,7 +883,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -977,14 +909,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the capabilities negotiated with the remote peer
      * @return zero or more flags from the {@link DBusCapabilityFlags} enumeration
      */
-    public @NotNull org.gtk.gio.DBusCapabilityFlags getCapabilities() {
+    public org.gtk.gio.DBusCapabilityFlags getCapabilities() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_connection_get_capabilities.invokeExact(
@@ -1010,14 +942,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the flags used to construct this connection
      * @return zero or more flags from the {@link DBusConnectionFlags} enumeration
      */
-    public @NotNull org.gtk.gio.DBusConnectionFlags getFlags() {
+    public org.gtk.gio.DBusConnectionFlags getFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_connection_get_flags.invokeExact(
@@ -1034,7 +966,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @return The GUID. Do not free this string, it is owned by
      *     {@code connection}.
      */
-    public @NotNull java.lang.String getGuid() {
+    public java.lang.String getGuid() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_get_guid.invokeExact(
@@ -1042,7 +974,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1086,7 +1018,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Credentials(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Credentials) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Credentials.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1097,7 +1029,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * the stream directly.
      * @return the stream used for IO
      */
-    public @NotNull org.gtk.gio.IOStream getStream() {
+    public org.gtk.gio.IOStream getStream() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_connection_get_stream.invokeExact(
@@ -1105,7 +1037,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.IOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.IOStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1124,7 +1056,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1139,78 +1071,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
-    }
-    
-    /**
-     * Registers callbacks for exported objects at {@code object_path} with the
-     * D-Bus interface that is described in {@code interface_info}.
-     * <p>
-     * Calls to functions in {@code vtable} (and {@code user_data_free_func}) will happen
-     * in the
-     * [thread-default main context][g-main-context-push-thread-default]
-     * of the thread you are calling this method from.
-     * <p>
-     * Note that all {@link org.gtk.glib.Variant} values passed to functions in {@code vtable} will match
-     * the signature given in {@code interface_info} - if a remote caller passes
-     * incorrect values, the {@code org.freedesktop.DBus.Error.InvalidArgs}
-     * is returned to the remote caller.
-     * <p>
-     * Additionally, if the remote caller attempts to invoke methods or
-     * access properties not mentioned in {@code interface_info} the
-     * {@code org.freedesktop.DBus.Error.UnknownMethod} resp.
-     * {@code org.freedesktop.DBus.Error.InvalidArgs} errors
-     * are returned to the caller.
-     * <p>
-     * It is considered a programming error if the
-     * {@link DBusInterfaceGetPropertyFunc} function in {@code vtable} returns a
-     * {@link org.gtk.glib.Variant} of incorrect type.
-     * <p>
-     * If an existing callback is already registered at {@code object_path} and
-     * {@code interface_name}, then {@code error} is set to {@link IOErrorEnum#EXISTS}.
-     * <p>
-     * GDBus automatically implements the standard D-Bus interfaces
-     * org.freedesktop.DBus.Properties, org.freedesktop.DBus.Introspectable
-     * and org.freedesktop.Peer, so you don't have to implement those for the
-     * objects you export. You can implement org.freedesktop.DBus.Properties
-     * yourself, e.g. to handle getting and setting of properties asynchronously.
-     * <p>
-     * Note that the reference count on {@code interface_info} will be
-     * incremented by 1 (unless allocated statically, e.g. if the
-     * reference count is -1, see g_dbus_interface_info_ref()) for as long
-     * as the object is exported. Also note that {@code vtable} will be copied.
-     * <p>
-     * See this [server][gdbus-server] for an example of how to use this method.
-     * @param objectPath the object path to register at
-     * @param interfaceInfo introspection data for the interface
-     * @param vtable a {@link DBusInterfaceVTable} to call into or {@code null}
-     * @param userData data to pass to functions in {@code vtable}
-     * @param userDataFreeFunc function to call when the object path is unregistered
-     * @return 0 if {@code error} is set, otherwise a registration id (never 0)
-     *     that can be used with g_dbus_connection_unregister_object()
-     * @throws GErrorException See {@link org.gtk.glib.Error}
-     */
-    public int registerObject(@NotNull java.lang.String objectPath, @NotNull org.gtk.gio.DBusInterfaceInfo interfaceInfo, @Nullable org.gtk.gio.DBusInterfaceVTable vtable, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify userDataFreeFunc) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(interfaceInfo, "Parameter 'interfaceInfo' must not be null");
-        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.g_dbus_connection_register_object.invokeExact(
-                    handle(),
-                    Interop.allocateNativeString(objectPath),
-                    interfaceInfo.handle(),
-                    (Addressable) (vtable == null ? MemoryAddress.NULL : vtable.handle()),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol(),
-                    (Addressable) GERROR);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        if (GErrorException.isErrorSet(GERROR)) {
-            throw new GErrorException(GERROR);
-        }
-        return RESULT;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1225,15 +1086,13 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * that can be used with g_dbus_connection_unregister_object() .
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int registerObjectWithClosures(@NotNull java.lang.String objectPath, @NotNull org.gtk.gio.DBusInterfaceInfo interfaceInfo, @Nullable org.gtk.gobject.Closure methodCallClosure, @Nullable org.gtk.gobject.Closure getPropertyClosure, @Nullable org.gtk.gobject.Closure setPropertyClosure) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(interfaceInfo, "Parameter 'interfaceInfo' must not be null");
+    public int registerObject(java.lang.String objectPath, org.gtk.gio.DBusInterfaceInfo interfaceInfo, @Nullable org.gtk.gobject.Closure methodCallClosure, @Nullable org.gtk.gobject.Closure getPropertyClosure, @Nullable org.gtk.gobject.Closure setPropertyClosure) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_connection_register_object_with_closures.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(objectPath),
+                    Marshal.stringToAddress.marshal(objectPath, null),
                     interfaceInfo.handle(),
                     (Addressable) (methodCallClosure == null ? MemoryAddress.NULL : methodCallClosure.handle()),
                     (Addressable) (getPropertyClosure == null ? MemoryAddress.NULL : getPropertyClosure.handle()),
@@ -1287,26 +1146,22 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @param vtable a {@link DBusSubtreeVTable} to enumerate, introspect and
      *     dispatch nodes in the subtree
      * @param flags flags used to fine tune the behavior of the subtree
-     * @param userData data to pass to functions in {@code vtable}
      * @param userDataFreeFunc function to call when the subtree is unregistered
      * @return 0 if {@code error} is set, otherwise a subtree registration ID (never 0)
      * that can be used with g_dbus_connection_unregister_subtree()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int registerSubtree(@NotNull java.lang.String objectPath, @NotNull org.gtk.gio.DBusSubtreeVTable vtable, @NotNull org.gtk.gio.DBusSubtreeFlags flags, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify userDataFreeFunc) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        java.util.Objects.requireNonNull(vtable, "Parameter 'vtable' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public int registerSubtree(java.lang.String objectPath, org.gtk.gio.DBusSubtreeVTable vtable, org.gtk.gio.DBusSubtreeFlags flags, org.gtk.glib.DestroyNotify userDataFreeFunc) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_connection_register_subtree.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(objectPath),
+                    Marshal.stringToAddress.marshal(objectPath, null),
                     vtable.handle(),
                     flags.getValue(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) userDataFreeFunc.toCallback(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1368,10 +1223,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     transmission, {@code false} if {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean sendMessage(@NotNull org.gtk.gio.DBusMessage message, @NotNull org.gtk.gio.DBusSendMessageFlags flags, Out<Integer> outSerial) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(outSerial, "Parameter 'outSerial' must not be null");
+    public boolean sendMessage(org.gtk.gio.DBusMessage message, org.gtk.gio.DBusSendMessageFlags flags, Out<Integer> outSerial) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment outSerialPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -1380,7 +1232,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
                     handle(),
                     message.handle(),
                     flags.getValue(),
-                    (Addressable) outSerialPOINTER.address(),
+                    (Addressable) (outSerial == null ? MemoryAddress.NULL : (Addressable) outSerialPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1388,8 +1240,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outSerial.set(outSerialPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (outSerial != null) outSerial.set(outSerialPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1432,10 +1284,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @param callback a {@link AsyncReadyCallback} to call when the request
      *     is satisfied or {@code null} if you don't care about the result
      */
-    public void sendMessageWithReply(@NotNull org.gtk.gio.DBusMessage message, @NotNull org.gtk.gio.DBusSendMessageFlags flags, int timeoutMsec, Out<Integer> outSerial, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(outSerial, "Parameter 'outSerial' must not be null");
+    public void sendMessageWithReply(org.gtk.gio.DBusMessage message, org.gtk.gio.DBusSendMessageFlags flags, int timeoutMsec, Out<Integer> outSerial, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         MemorySegment outSerialPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.g_dbus_connection_send_message_with_reply.invokeExact(
@@ -1443,18 +1292,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
                     message.handle(),
                     flags.getValue(),
                     timeoutMsec,
-                    (Addressable) outSerialPOINTER.address(),
+                    (Addressable) (outSerial == null ? MemoryAddress.NULL : (Addressable) outSerialPOINTER.address()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outSerial.set(outSerialPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (outSerial != null) outSerial.set(outSerialPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1473,8 +1318,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @return a locked {@link DBusMessage} or {@code null} if {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gio.DBusMessage sendMessageWithReplyFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public org.gtk.gio.DBusMessage sendMessageWithReplyFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -1488,7 +1332,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.DBusMessage(RESULT, Ownership.FULL);
+        return (org.gtk.gio.DBusMessage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusMessage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1533,10 +1377,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      *     to {@code message} or {@code null} if {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gio.DBusMessage sendMessageWithReplySync(@NotNull org.gtk.gio.DBusMessage message, @NotNull org.gtk.gio.DBusSendMessageFlags flags, int timeoutMsec, Out<Integer> outSerial, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(outSerial, "Parameter 'outSerial' must not be null");
+    public org.gtk.gio.DBusMessage sendMessageWithReplySync(org.gtk.gio.DBusMessage message, org.gtk.gio.DBusSendMessageFlags flags, int timeoutMsec, Out<Integer> outSerial, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment outSerialPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -1546,7 +1387,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
                     message.handle(),
                     flags.getValue(),
                     timeoutMsec,
-                    (Addressable) outSerialPOINTER.address(),
+                    (Addressable) (outSerial == null ? MemoryAddress.NULL : (Addressable) outSerialPOINTER.address()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -1555,8 +1396,8 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outSerial.set(outSerialPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return new org.gtk.gio.DBusMessage(RESULT, Ownership.FULL);
+        if (outSerial != null) outSerial.set(outSerialPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return (org.gtk.gio.DBusMessage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusMessage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1577,7 +1418,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         try {
             DowncallHandles.g_dbus_connection_set_exit_on_close.invokeExact(
                     handle(),
-                    exitOnClose ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(exitOnClose, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1616,12 +1457,12 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * g_dbus_connection_signal_unsubscribe() has been called in another thread.
      * Due to this, {@code user_data} should have a strong reference which is freed with
      * {@code user_data_free_func}, rather than pointing to data whose lifecycle is tied
-     * to the signal subscription. For example, if a {@link org.gtk.gobject.Object} is used to store the
+     * to the signal subscription. For example, if a {@link org.gtk.gobject.GObject} is used to store the
      * subscription ID from g_dbus_connection_signal_subscribe(), a strong reference
-     * to that {@link org.gtk.gobject.Object} must be passed to {@code user_data}, and g_object_unref() passed to
+     * to that {@link org.gtk.gobject.GObject} must be passed to {@code user_data}, and g_object_unref() passed to
      * {@code user_data_free_func}. You are responsible for breaking the resulting
      * reference count cycle by explicitly unsubscribing from the signal when
-     * dropping the last external reference to the {@link org.gtk.gobject.Object}. Alternatively, a weak
+     * dropping the last external reference to the {@link org.gtk.gobject.GObject}. Alternatively, a weak
      * reference may be used.
      * <p>
      * It is guaranteed that if you unsubscribe from a signal using
@@ -1646,28 +1487,24 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @param flags {@link DBusSignalFlags} describing how arg0 is used in subscribing to the
      *     signal
      * @param callback callback to invoke when there is a signal matching the requested data
+     * @param userDataFreeFunc function to free {@code user_data} with when
+     *     subscription is removed or {@code null}
      * @return a subscription identifier that can be used with g_dbus_connection_signal_unsubscribe()
      */
-    public int signalSubscribe(@Nullable java.lang.String sender, @Nullable java.lang.String interfaceName, @Nullable java.lang.String member, @Nullable java.lang.String objectPath, @Nullable java.lang.String arg0, @NotNull org.gtk.gio.DBusSignalFlags flags, @NotNull org.gtk.gio.DBusSignalCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public int signalSubscribe(@Nullable java.lang.String sender, @Nullable java.lang.String interfaceName, @Nullable java.lang.String member, @Nullable java.lang.String objectPath, @Nullable java.lang.String arg0, org.gtk.gio.DBusSignalFlags flags, org.gtk.gio.DBusSignalCallback callback, @Nullable org.gtk.glib.DestroyNotify userDataFreeFunc) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_connection_signal_subscribe.invokeExact(
                     handle(),
-                    (Addressable) (sender == null ? MemoryAddress.NULL : Interop.allocateNativeString(sender)),
-                    (Addressable) (interfaceName == null ? MemoryAddress.NULL : Interop.allocateNativeString(interfaceName)),
-                    (Addressable) (member == null ? MemoryAddress.NULL : Interop.allocateNativeString(member)),
-                    (Addressable) (objectPath == null ? MemoryAddress.NULL : Interop.allocateNativeString(objectPath)),
-                    (Addressable) (arg0 == null ? MemoryAddress.NULL : Interop.allocateNativeString(arg0)),
+                    (Addressable) (sender == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sender, null)),
+                    (Addressable) (interfaceName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(interfaceName, null)),
+                    (Addressable) (member == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(member, null)),
+                    (Addressable) (objectPath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(objectPath, null)),
+                    (Addressable) (arg0 == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(arg0, null)),
                     flags.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbDBusSignalCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (userDataFreeFunc == null ? MemoryAddress.NULL : (Addressable) userDataFreeFunc.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1768,7 +1605,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1786,14 +1623,14 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dbus_connection_get_type.invokeExact();
@@ -1831,22 +1668,16 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @param cancellable a {@link Cancellable} or {@code null}
      * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied
      */
-    public static void new_(@NotNull org.gtk.gio.IOStream stream, @Nullable java.lang.String guid, @NotNull org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static void new_(org.gtk.gio.IOStream stream, @Nullable java.lang.String guid, org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_dbus_connection_new.invokeExact(
                     stream.handle(),
-                    (Addressable) (guid == null ? MemoryAddress.NULL : Interop.allocateNativeString(guid)),
+                    (Addressable) (guid == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(guid, null)),
                     flags.getValue(),
                     (Addressable) (observer == null ? MemoryAddress.NULL : observer.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1881,21 +1712,15 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
      * @param cancellable a {@link Cancellable} or {@code null}
      * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied
      */
-    public static void newForAddress(@NotNull java.lang.String address, @NotNull org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static void newForAddress(java.lang.String address, org.gtk.gio.DBusConnectionFlags flags, @Nullable org.gtk.gio.DBusAuthObserver observer, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_dbus_connection_new_for_address.invokeExact(
-                    Interop.allocateNativeString(address),
+                    Marshal.stringToAddress.marshal(address, null),
                     flags.getValue(),
                     (Addressable) (observer == null ? MemoryAddress.NULL : observer.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1903,7 +1728,18 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
     
     @FunctionalInterface
     public interface Closed {
-        void signalReceived(DBusConnection sourceDBusConnection, boolean remotePeerVanished, @Nullable org.gtk.glib.Error error);
+        void run(boolean remotePeerVanished, @Nullable org.gtk.glib.Error error);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDBusConnection, int remotePeerVanished, MemoryAddress error) {
+            run(Marshal.integerToBoolean.marshal(remotePeerVanished, null).booleanValue(), org.gtk.glib.Error.fromAddress.marshal(error, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Closed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1932,52 +1768,46 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
     public Signal<DBusConnection.Closed> onClosed(DBusConnection.Closed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("closed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusConnection.Callbacks.class, "signalDBusConnectionClosed",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DBusConnection.Closed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("closed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DBusConnection.Builder} object constructs a {@link DBusConnection} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DBusConnection.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DBusConnection.Build} object constructs a {@link DBusConnection} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DBusConnection} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DBusConnection} using {@link DBusConnection#castFrom}.
+         * {@link DBusConnection}.
          * @return A new instance of {@code DBusConnection} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusConnection construct() {
-            return DBusConnection.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DBusConnection.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DBusConnection build() {
+            return (DBusConnection) org.gtk.gobject.GObject.newWithProperties(
+                DBusConnection.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1987,7 +1817,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
          * @param address The value for the {@code address} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAddress(java.lang.String address) {
+        public Builder setAddress(java.lang.String address) {
             names.add("address");
             values.add(org.gtk.gobject.Value.create(address));
             return this;
@@ -1998,7 +1828,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
          * @param authenticationObserver The value for the {@code authentication-observer} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAuthenticationObserver(org.gtk.gio.DBusAuthObserver authenticationObserver) {
+        public Builder setAuthenticationObserver(org.gtk.gio.DBusAuthObserver authenticationObserver) {
             names.add("authentication-observer");
             values.add(org.gtk.gobject.Value.create(authenticationObserver));
             return this;
@@ -2010,7 +1840,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
          * @param capabilities The value for the {@code capabilities} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCapabilities(org.gtk.gio.DBusCapabilityFlags capabilities) {
+        public Builder setCapabilities(org.gtk.gio.DBusCapabilityFlags capabilities) {
             names.add("capabilities");
             values.add(org.gtk.gobject.Value.create(capabilities));
             return this;
@@ -2021,7 +1851,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
          * @param closed The value for the {@code closed} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClosed(boolean closed) {
+        public Builder setClosed(boolean closed) {
             names.add("closed");
             values.add(org.gtk.gobject.Value.create(closed));
             return this;
@@ -2037,7 +1867,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
          * @param exitOnClose The value for the {@code exit-on-close} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExitOnClose(boolean exitOnClose) {
+        public Builder setExitOnClose(boolean exitOnClose) {
             names.add("exit-on-close");
             values.add(org.gtk.gobject.Value.create(exitOnClose));
             return this;
@@ -2048,7 +1878,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
          * @param flags The value for the {@code flags} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gtk.gio.DBusConnectionFlags flags) {
+        public Builder setFlags(org.gtk.gio.DBusConnectionFlags flags) {
             names.add("flags");
             values.add(org.gtk.gobject.Value.create(flags));
             return this;
@@ -2080,7 +1910,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
          * @param guid The value for the {@code guid} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGuid(java.lang.String guid) {
+        public Builder setGuid(java.lang.String guid) {
             names.add("guid");
             values.add(org.gtk.gobject.Value.create(guid));
             return this;
@@ -2098,7 +1928,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
          * @param stream The value for the {@code stream} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStream(org.gtk.gio.IOStream stream) {
+        public Builder setStream(org.gtk.gio.IOStream stream) {
             names.add("stream");
             values.add(org.gtk.gobject.Value.create(stream));
             return this;
@@ -2110,7 +1940,7 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
          * @param uniqueName The value for the {@code unique-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUniqueName(java.lang.String uniqueName) {
+        public Builder setUniqueName(java.lang.String uniqueName) {
             names.add("unique-name");
             values.add(org.gtk.gobject.Value.create(uniqueName));
             return this;
@@ -2293,12 +2123,6 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
             false
         );
         
-        private static final MethodHandle g_dbus_connection_register_object = Interop.downcallHandle(
-            "g_dbus_connection_register_object",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
-        );
-        
         private static final MethodHandle g_dbus_connection_register_object_with_closures = Interop.downcallHandle(
             "g_dbus_connection_register_object_with_closures",
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
@@ -2406,14 +2230,5 @@ public class DBusConnection extends org.gtk.gobject.Object implements org.gtk.gi
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalDBusConnectionClosed(MemoryAddress sourceDBusConnection, int remotePeerVanished, MemoryAddress error, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DBusConnection.Closed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DBusConnection(sourceDBusConnection, Ownership.NONE), remotePeerVanished != 0, new org.gtk.glib.Error(error, Ownership.NONE));
-        }
     }
 }

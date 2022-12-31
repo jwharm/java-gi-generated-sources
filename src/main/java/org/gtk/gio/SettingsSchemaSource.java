@@ -44,20 +44,21 @@ public class SettingsSchemaSource extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SettingsSchemaSource(Addressable address, Ownership ownership) {
+    protected SettingsSchemaSource(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewFromDirectory(@NotNull java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
-        java.util.Objects.requireNonNull(directory, "Parameter 'directory' must not be null");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SettingsSchemaSource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SettingsSchemaSource(input, ownership);
+    
+    private static MemoryAddress constructNewFromDirectory(java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_new_from_directory.invokeExact(
-                    Interop.allocateNativeString(directory),
+                    Marshal.stringToAddress.marshal(directory, null),
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
-                    trusted ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(trusted, null).intValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -105,8 +106,9 @@ public class SettingsSchemaSource extends Struct {
      * @param trusted {@code true}, if the directory is trusted
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static SettingsSchemaSource newFromDirectory(@NotNull java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
-        return new SettingsSchemaSource(constructNewFromDirectory(directory, parent, trusted), Ownership.FULL);
+    public static SettingsSchemaSource newFromDirectory(java.lang.String directory, @Nullable org.gtk.gio.SettingsSchemaSource parent, boolean trusted) throws GErrorException {
+        var RESULT = constructNewFromDirectory(directory, parent, trusted);
+        return org.gtk.gio.SettingsSchemaSource.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -128,8 +130,16 @@ public class SettingsSchemaSource extends Struct {
      * @param relocatable the list
      *   of relocatable schemas, in no defined order
      */
-    public void listSchemas(boolean recursive, @NotNull Out<java.lang.String[]> nonRelocatable, @NotNull Out<java.lang.String[]> relocatable) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void listSchemas(boolean recursive, java.lang.String[] nonRelocatable, java.lang.String[] relocatable) {
+        try {
+            DowncallHandles.g_settings_schema_source_list_schemas.invokeExact(
+                    handle(),
+                    Marshal.booleanToInteger.marshal(recursive, null).intValue(),
+                    Interop.allocateNativeArray(nonRelocatable, false),
+                    Interop.allocateNativeArray(relocatable, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -147,25 +157,24 @@ public class SettingsSchemaSource extends Struct {
      * @param recursive {@code true} if the lookup should be recursive
      * @return a new {@link SettingsSchema}
      */
-    public @Nullable org.gtk.gio.SettingsSchema lookup(@NotNull java.lang.String schemaId, boolean recursive) {
-        java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
+    public @Nullable org.gtk.gio.SettingsSchema lookup(java.lang.String schemaId, boolean recursive) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_lookup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(schemaId),
-                    recursive ? 1 : 0);
+                    Marshal.stringToAddress.marshal(schemaId, null),
+                    Marshal.booleanToInteger.marshal(recursive, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchema(RESULT, Ownership.FULL);
+        return org.gtk.gio.SettingsSchema.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Increase the reference count of {@code source}, returning a new reference.
      * @return a new reference to {@code source}
      */
-    public @NotNull org.gtk.gio.SettingsSchemaSource ref() {
+    public org.gtk.gio.SettingsSchemaSource ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_schema_source_ref.invokeExact(
@@ -173,7 +182,7 @@ public class SettingsSchemaSource extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchemaSource(RESULT, Ownership.FULL);
+        return org.gtk.gio.SettingsSchemaSource.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -211,7 +220,7 @@ public class SettingsSchemaSource extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsSchemaSource(RESULT, Ownership.NONE);
+        return org.gtk.gio.SettingsSchemaSource.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {

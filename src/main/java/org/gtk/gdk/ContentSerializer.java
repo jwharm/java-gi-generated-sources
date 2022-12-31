@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * Also see {@link ContentDeserializer}.
  */
-public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk.gio.AsyncResult {
+public class ContentSerializer extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncResult {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -41,30 +41,12 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ContentSerializer(Addressable address, Ownership ownership) {
+    protected ContentSerializer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ContentSerializer if its GType is a (or inherits from) "GdkContentSerializer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ContentSerializer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkContentSerializer", a ClassCastException will be thrown.
-     */
-    public static ContentSerializer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ContentSerializer.getType())) {
-            return new ContentSerializer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkContentSerializer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ContentSerializer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ContentSerializer(input, ownership);
     
     /**
      * Gets the cancellable for the current operation.
@@ -80,14 +62,14 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Cancellable(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Cancellable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the {@code GType} to of the object to serialize.
      * @return the {@code GType} for the current operation
      */
-    public @NotNull org.gtk.glib.Type getGtype() {
+    public org.gtk.glib.Type getGtype() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_content_serializer_get_gtype.invokeExact(
@@ -102,7 +84,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * Gets the mime type to serialize to.
      * @return the mime type for the current operation
      */
-    public @NotNull java.lang.String getMimeType() {
+    public java.lang.String getMimeType() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_mime_type.invokeExact(
@@ -110,7 +92,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -119,7 +101,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * This is the stream that was passed to {@link Gdk#contentSerializeAsync}.
      * @return the output stream for the current operation
      */
-    public @NotNull org.gtk.gio.OutputStream getOutputStream() {
+    public org.gtk.gio.OutputStream getOutputStream() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_output_stream.invokeExact(
@@ -127,7 +109,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.OutputStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.OutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.OutputStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -183,7 +165,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * Gets the {@code GValue} to read the object to serialize from.
      * @return the {@code GValue} for the current operation
      */
-    public @NotNull org.gtk.gobject.Value getValue() {
+    public org.gtk.gobject.Value getValue() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_serializer_get_value.invokeExact(
@@ -191,7 +173,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -200,8 +182,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * This function consumes {@code error}.
      * @param error a {@code GError}
      */
-    public void returnError(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public void returnError(org.gtk.glib.Error error) {
         try {
             DowncallHandles.gdk_content_serializer_return_error.invokeExact(
                     handle(),
@@ -226,15 +207,14 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
     
     /**
      * Associate data with the current serialization operation.
-     * @param data data to associate with this operation
      * @param notify destroy notify for {@code data}
      */
-    public void setTaskData(@Nullable java.lang.foreign.MemoryAddress data, @NotNull org.gtk.glib.DestroyNotify notify) {
+    public void setTaskData(org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gdk_content_serializer_set_task_data.invokeExact(
                     handle(),
-                    (Addressable) data,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -244,7 +224,7 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_content_serializer_get_type.invokeExact();
@@ -253,38 +233,40 @@ public class ContentSerializer extends org.gtk.gobject.Object implements org.gtk
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ContentSerializer.Builder} object constructs a {@link ContentSerializer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ContentSerializer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ContentSerializer.Build} object constructs a {@link ContentSerializer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ContentSerializer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ContentSerializer} using {@link ContentSerializer#castFrom}.
+         * {@link ContentSerializer}.
          * @return A new instance of {@code ContentSerializer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ContentSerializer construct() {
-            return ContentSerializer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ContentSerializer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ContentSerializer build() {
+            return (ContentSerializer) org.gtk.gobject.GObject.newWithProperties(
+                ContentSerializer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

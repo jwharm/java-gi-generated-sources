@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.Object implements org.gstreamer.player.PlayerVideoRenderer {
+public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.GObject implements org.gstreamer.player.PlayerVideoRenderer {
     
     static {
         GstPlayer.javagi$ensureInitialized();
@@ -27,30 +27,12 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.Object impl
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PlayerVideoOverlayVideoRenderer(Addressable address, Ownership ownership) {
+    protected PlayerVideoOverlayVideoRenderer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PlayerVideoOverlayVideoRenderer if its GType is a (or inherits from) "GstPlayerVideoOverlayVideoRenderer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PlayerVideoOverlayVideoRenderer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPlayerVideoOverlayVideoRenderer", a ClassCastException will be thrown.
-     */
-    public static PlayerVideoOverlayVideoRenderer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PlayerVideoOverlayVideoRenderer.getType())) {
-            return new PlayerVideoOverlayVideoRenderer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPlayerVideoOverlayVideoRenderer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PlayerVideoOverlayVideoRenderer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerVideoOverlayVideoRenderer(input, ownership);
     
     /**
      * Tell an overlay that it has been exposed. This will redraw the current frame
@@ -74,28 +56,24 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.Object impl
      * @param height the height of the render area inside the window
      */
     public void getRenderRectangle(Out<Integer> x, Out<Integer> y, Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_player_video_overlay_video_renderer_get_render_rectangle.invokeExact(
                     handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()),
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_INT, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_INT, 0));
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     public @Nullable java.lang.foreign.MemoryAddress getWindowHandle() {
@@ -157,7 +135,7 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.Object impl
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_player_video_overlay_video_renderer_get_type.invokeExact();
@@ -167,7 +145,7 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.Object impl
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.player.PlayerVideoRenderer new_(@Nullable java.lang.foreign.MemoryAddress windowHandle) {
+    public static org.gstreamer.player.PlayerVideoRenderer new_(@Nullable java.lang.foreign.MemoryAddress windowHandle) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_video_overlay_video_renderer_new.invokeExact(
@@ -175,11 +153,10 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.Object impl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.player.PlayerVideoRenderer.PlayerVideoRendererImpl(RESULT, Ownership.FULL);
+        return (org.gstreamer.player.PlayerVideoRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.player.PlayerVideoRenderer.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.player.PlayerVideoRenderer newWithSink(@Nullable java.lang.foreign.MemoryAddress windowHandle, @NotNull org.gstreamer.gst.Element videoSink) {
-        java.util.Objects.requireNonNull(videoSink, "Parameter 'videoSink' must not be null");
+    public static org.gstreamer.player.PlayerVideoRenderer newWithSink(@Nullable java.lang.foreign.MemoryAddress windowHandle, org.gstreamer.gst.Element videoSink) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_video_overlay_video_renderer_new_with_sink.invokeExact(
@@ -188,50 +165,52 @@ public class PlayerVideoOverlayVideoRenderer extends org.gtk.gobject.Object impl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.player.PlayerVideoRenderer.PlayerVideoRendererImpl(RESULT, Ownership.FULL);
+        return (org.gstreamer.player.PlayerVideoRenderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.player.PlayerVideoRenderer.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link PlayerVideoOverlayVideoRenderer.Builder} object constructs a {@link PlayerVideoOverlayVideoRenderer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PlayerVideoOverlayVideoRenderer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PlayerVideoOverlayVideoRenderer.Build} object constructs a {@link PlayerVideoOverlayVideoRenderer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PlayerVideoOverlayVideoRenderer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PlayerVideoOverlayVideoRenderer} using {@link PlayerVideoOverlayVideoRenderer#castFrom}.
+         * {@link PlayerVideoOverlayVideoRenderer}.
          * @return A new instance of {@code PlayerVideoOverlayVideoRenderer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PlayerVideoOverlayVideoRenderer construct() {
-            return PlayerVideoOverlayVideoRenderer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PlayerVideoOverlayVideoRenderer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PlayerVideoOverlayVideoRenderer build() {
+            return (PlayerVideoOverlayVideoRenderer) org.gtk.gobject.GObject.newWithProperties(
+                PlayerVideoOverlayVideoRenderer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setVideoSink(org.gstreamer.gst.Element videoSink) {
+        public Builder setVideoSink(org.gstreamer.gst.Element videoSink) {
             names.add("video-sink");
             values.add(org.gtk.gobject.Value.create(videoSink));
             return this;
         }
         
-        public Build setWindowHandle(java.lang.foreign.MemoryAddress windowHandle) {
+        public Builder setWindowHandle(java.lang.foreign.MemoryAddress windowHandle) {
             names.add("window-handle");
             values.add(org.gtk.gobject.Value.create(windowHandle));
             return this;

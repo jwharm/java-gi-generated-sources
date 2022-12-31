@@ -19,18 +19,16 @@ public class VariationT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "hb_variation_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("tag"),
-        Interop.valueLayout.C_FLOAT.withName("value")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("tag"),
+            Interop.valueLayout.C_FLOAT.withName("value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class VariationT extends Struct {
      * Get the value of the field {@code tag}
      * @return The value of the field {@code tag}
      */
-    public org.harfbuzz.TagT tag$get() {
+    public org.harfbuzz.TagT getTag() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tag"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -61,17 +59,17 @@ public class VariationT extends Struct {
      * Change the value of the field {@code tag}
      * @param tag The new value of the field {@code tag}
      */
-    public void tag$set(org.harfbuzz.TagT tag) {
+    public void setTag(org.harfbuzz.TagT tag) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tag.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code value}
      * @return The value of the field {@code value}
      */
-    public float value$get() {
+    public float getValue() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -82,7 +80,7 @@ public class VariationT extends Struct {
      * Change the value of the field {@code value}
      * @param value The new value of the field {@code value}
      */
-    public void value$set(float value) {
+    public void setValue(float value) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
@@ -93,10 +91,12 @@ public class VariationT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VariationT(Addressable address, Ownership ownership) {
+    protected VariationT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VariationT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VariationT(input, ownership);
     
     /**
      * Converts an {@link VariationT} into a {@code NULL}-terminated string in the format
@@ -105,23 +105,20 @@ public class VariationT extends Struct {
      * @param buf output string
      * @param size the allocated size of {@code buf}
      */
-    public void String(@NotNull Out<java.lang.String[]> buf, Out<Integer> size) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public void String(Out<java.lang.String[]> buf, int size) {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_variation_to_string.invokeExact(
                     handle(),
                     (Addressable) bufPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        java.lang.String[] bufARRAY = new java.lang.String[size.get().intValue()];
-        for (int I = 0; I < size.get().intValue(); I++) {
+        java.lang.String[] bufARRAY = new java.lang.String[size];
+        for (int I = 0; I < size; I++) {
             var OBJ = bufPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            bufARRAY[I] = Interop.getStringFrom(OBJ);
+            bufARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         buf.set(bufARRAY);
     }
@@ -134,31 +131,35 @@ public class VariationT extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VariationT.Builder} object constructs a {@link VariationT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VariationT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VariationT struct;
+        private final VariationT struct;
         
-         /**
-         * A {@link VariationT.Build} object constructs a {@link VariationT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VariationT.allocate();
         }
         
          /**
          * Finish building the {@link VariationT} struct.
          * @return A new instance of {@code VariationT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VariationT construct() {
+        public VariationT build() {
             return struct;
         }
         
@@ -167,7 +168,7 @@ public class VariationT extends Struct {
          * @param tag The value for the {@code tag} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTag(org.harfbuzz.TagT tag) {
+        public Builder setTag(org.harfbuzz.TagT tag) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tag"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tag == null ? MemoryAddress.NULL : tag.getValue().intValue()));
@@ -179,7 +180,7 @@ public class VariationT extends Struct {
          * @param value The value for the {@code value} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(float value) {
+        public Builder setValue(float value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);

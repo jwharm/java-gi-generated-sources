@@ -40,17 +40,18 @@ public class Mpeg2Dpb extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Mpeg2Dpb(Addressable address, Ownership ownership) {
+    protected Mpeg2Dpb(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Mpeg2Dpb> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Mpeg2Dpb(input, ownership);
     
     /**
      * Store the {@code picture}
      * @param picture a {@link Mpeg2Picture}
      */
-    public void add(@NotNull org.gstreamer.codecs.Mpeg2Picture picture) {
-        java.util.Objects.requireNonNull(picture, "Parameter 'picture' must not be null");
+    public void add(org.gstreamer.codecs.Mpeg2Picture picture) {
         try {
             DowncallHandles.gst_mpeg2_dpb_add.invokeExact(
                     handle(),
@@ -69,7 +70,7 @@ public class Mpeg2Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.Mpeg2Picture(RESULT, Ownership.FULL);
+        return org.gstreamer.codecs.Mpeg2Picture.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -104,8 +105,7 @@ public class Mpeg2Dpb extends Struct {
      * @param nextPicturePtr next
      *     {@link Mpeg2Picture} in {@code dpb}
      */
-    public void getNeighbours(@NotNull org.gstreamer.codecs.Mpeg2Picture picture, @Nullable Out<org.gstreamer.codecs.Mpeg2Picture> prevPicturePtr, @Nullable Out<org.gstreamer.codecs.Mpeg2Picture> nextPicturePtr) {
-        java.util.Objects.requireNonNull(picture, "Parameter 'picture' must not be null");
+    public void getNeighbours(org.gstreamer.codecs.Mpeg2Picture picture, @Nullable Out<org.gstreamer.codecs.Mpeg2Picture> prevPicturePtr, @Nullable Out<org.gstreamer.codecs.Mpeg2Picture> nextPicturePtr) {
         MemorySegment prevPicturePtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment nextPicturePtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
@@ -117,8 +117,8 @@ public class Mpeg2Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (prevPicturePtr != null) prevPicturePtr.set(new org.gstreamer.codecs.Mpeg2Picture(prevPicturePtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        if (nextPicturePtr != null) nextPicturePtr.set(new org.gstreamer.codecs.Mpeg2Picture(nextPicturePtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (prevPicturePtr != null) prevPicturePtr.set(org.gstreamer.codecs.Mpeg2Picture.fromAddress.marshal(prevPicturePtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (nextPicturePtr != null) nextPicturePtr.set(org.gstreamer.codecs.Mpeg2Picture.fromAddress.marshal(nextPicturePtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -133,21 +133,21 @@ public class Mpeg2Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Create new {@link Mpeg2Dpb}
      * @return a new {@link Mpeg2Dpb}
      */
-    public static @NotNull org.gstreamer.codecs.Mpeg2Dpb new_() {
+    public static org.gstreamer.codecs.Mpeg2Dpb new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpeg2_dpb_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.Mpeg2Dpb(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.Mpeg2Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

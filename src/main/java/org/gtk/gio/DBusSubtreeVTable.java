@@ -17,20 +17,18 @@ public class DBusSubtreeVTable extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusSubtreeVTable";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("enumerate"),
-        Interop.valueLayout.ADDRESS.withName("introspect"),
-        Interop.valueLayout.ADDRESS.withName("dispatch"),
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("enumerate"),
+            Interop.valueLayout.ADDRESS.withName("introspect"),
+            Interop.valueLayout.ADDRESS.withName("dispatch"),
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class DBusSubtreeVTable extends Struct {
      * Get the value of the field {@code enumerate}
      * @return The value of the field {@code enumerate}
      */
-    public org.gtk.gio.DBusSubtreeEnumerateFunc enumerate$get() {
+    public org.gtk.gio.DBusSubtreeEnumerateFunc getEnumerate() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -58,10 +56,20 @@ public class DBusSubtreeVTable extends Struct {
     }
     
     /**
+     * Change the value of the field {@code enumerate}
+     * @param enumerate The new value of the field {@code enumerate}
+     */
+    public void setEnumerate(org.gtk.gio.DBusSubtreeEnumerateFunc enumerate) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerate == null ? MemoryAddress.NULL : (Addressable) enumerate.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code introspect}
      * @return The value of the field {@code introspect}
      */
-    public org.gtk.gio.DBusSubtreeIntrospectFunc introspect$get() {
+    public org.gtk.gio.DBusSubtreeIntrospectFunc getIntrospect() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -69,10 +77,20 @@ public class DBusSubtreeVTable extends Struct {
     }
     
     /**
+     * Change the value of the field {@code introspect}
+     * @param introspect The new value of the field {@code introspect}
+     */
+    public void setIntrospect(org.gtk.gio.DBusSubtreeIntrospectFunc introspect) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (introspect == null ? MemoryAddress.NULL : (Addressable) introspect.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code dispatch}
      * @return The value of the field {@code dispatch}
      */
-    public org.gtk.gio.DBusSubtreeDispatchFunc dispatch$get() {
+    public org.gtk.gio.DBusSubtreeDispatchFunc getDispatch() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,39 +98,55 @@ public class DBusSubtreeVTable extends Struct {
     }
     
     /**
+     * Change the value of the field {@code dispatch}
+     * @param dispatch The new value of the field {@code dispatch}
+     */
+    public void setDispatch(org.gtk.gio.DBusSubtreeDispatchFunc dispatch) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : (Addressable) dispatch.toCallback()));
+    }
+    
+    /**
      * Create a DBusSubtreeVTable proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusSubtreeVTable(Addressable address, Ownership ownership) {
+    protected DBusSubtreeVTable(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusSubtreeVTable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusSubtreeVTable(input, ownership);
+    
+    /**
+     * A {@link DBusSubtreeVTable.Builder} object constructs a {@link DBusSubtreeVTable} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DBusSubtreeVTable.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DBusSubtreeVTable struct;
+        private final DBusSubtreeVTable struct;
         
-         /**
-         * A {@link DBusSubtreeVTable.Build} object constructs a {@link DBusSubtreeVTable} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DBusSubtreeVTable.allocate();
         }
         
          /**
          * Finish building the {@link DBusSubtreeVTable} struct.
          * @return A new instance of {@code DBusSubtreeVTable} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusSubtreeVTable construct() {
+        public DBusSubtreeVTable build() {
             return struct;
         }
         
@@ -121,10 +155,10 @@ public class DBusSubtreeVTable extends Struct {
          * @param enumerate The value for the {@code enumerate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnumerate(java.lang.foreign.MemoryAddress enumerate) {
+        public Builder setEnumerate(org.gtk.gio.DBusSubtreeEnumerateFunc enumerate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("enumerate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerate == null ? MemoryAddress.NULL : enumerate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (enumerate == null ? MemoryAddress.NULL : (Addressable) enumerate.toCallback()));
             return this;
         }
         
@@ -133,10 +167,10 @@ public class DBusSubtreeVTable extends Struct {
          * @param introspect The value for the {@code introspect} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIntrospect(java.lang.foreign.MemoryAddress introspect) {
+        public Builder setIntrospect(org.gtk.gio.DBusSubtreeIntrospectFunc introspect) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("introspect"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (introspect == null ? MemoryAddress.NULL : introspect));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (introspect == null ? MemoryAddress.NULL : (Addressable) introspect.toCallback()));
             return this;
         }
         
@@ -145,14 +179,14 @@ public class DBusSubtreeVTable extends Struct {
          * @param dispatch The value for the {@code dispatch} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDispatch(java.lang.foreign.MemoryAddress dispatch) {
+        public Builder setDispatch(org.gtk.gio.DBusSubtreeDispatchFunc dispatch) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dispatch"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : dispatch));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dispatch == null ? MemoryAddress.NULL : (Addressable) dispatch.toCallback()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));

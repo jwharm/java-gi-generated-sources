@@ -17,18 +17,16 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
     
     private static final java.lang.String C_TYPE_NAME = "GInetSocketAddress";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.SocketAddress.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.SocketAddress.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -36,34 +34,15 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InetSocketAddress(Addressable address, Ownership ownership) {
+    protected InetSocketAddress(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to InetSocketAddress if its GType is a (or inherits from) "GInetSocketAddress".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code InetSocketAddress} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GInetSocketAddress", a ClassCastException will be thrown.
-     */
-    public static InetSocketAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), InetSocketAddress.getType())) {
-            return new InetSocketAddress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GInetSocketAddress");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InetSocketAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InetSocketAddress(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.InetAddress address, short port) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.InetAddress address, short port) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_socket_address_new.invokeExact(
                     address.handle(),
@@ -79,16 +58,15 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @param address a {@link InetAddress}
      * @param port a port number
      */
-    public InetSocketAddress(@NotNull org.gtk.gio.InetAddress address, short port) {
+    public InetSocketAddress(org.gtk.gio.InetAddress address, short port) {
         super(constructNew(address, port), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromString(@NotNull java.lang.String address, int port) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromString(java.lang.String address, int port) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_socket_address_new_from_string.invokeExact(
-                    Interop.allocateNativeString(address),
+                    Marshal.stringToAddress.marshal(address, null),
                     port);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -106,8 +84,9 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @return a new {@link InetSocketAddress},
      * or {@code null} if {@code address} cannot be parsed.
      */
-    public static InetSocketAddress newFromString(@NotNull java.lang.String address, int port) {
-        return new InetSocketAddress(constructNewFromString(address, port), Ownership.FULL);
+    public static InetSocketAddress newFromString(java.lang.String address, int port) {
+        var RESULT = constructNewFromString(address, port);
+        return (org.gtk.gio.InetSocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetSocketAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -115,7 +94,7 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * @return the {@link InetAddress} for {@code address}, which must be
      * g_object_ref()'d if it will be stored
      */
-    public @NotNull org.gtk.gio.InetAddress getAddress() {
+    public org.gtk.gio.InetAddress getAddress() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_socket_address_get_address.invokeExact(
@@ -123,7 +102,7 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.InetAddress(RESULT, Ownership.NONE);
+        return (org.gtk.gio.InetAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetAddress.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -177,7 +156,7 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_inet_socket_address_get_type.invokeExact();
@@ -186,42 +165,44 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link InetSocketAddress.Builder} object constructs a {@link InetSocketAddress} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link InetSocketAddress.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.SocketAddress.Build {
+    public static class Builder extends org.gtk.gio.SocketAddress.Builder {
         
-         /**
-         * A {@link InetSocketAddress.Build} object constructs a {@link InetSocketAddress} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link InetSocketAddress} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link InetSocketAddress} using {@link InetSocketAddress#castFrom}.
+         * {@link InetSocketAddress}.
          * @return A new instance of {@code InetSocketAddress} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public InetSocketAddress construct() {
-            return InetSocketAddress.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    InetSocketAddress.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public InetSocketAddress build() {
+            return (InetSocketAddress) org.gtk.gobject.GObject.newWithProperties(
+                InetSocketAddress.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setAddress(org.gtk.gio.InetAddress address) {
+        public Builder setAddress(org.gtk.gio.InetAddress address) {
             names.add("address");
             values.add(org.gtk.gobject.Value.create(address));
             return this;
@@ -232,19 +213,19 @@ public class InetSocketAddress extends org.gtk.gio.SocketAddress implements org.
          * @param flowinfo The value for the {@code flowinfo} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlowinfo(int flowinfo) {
+        public Builder setFlowinfo(int flowinfo) {
             names.add("flowinfo");
             values.add(org.gtk.gobject.Value.create(flowinfo));
             return this;
         }
         
-        public Build setPort(int port) {
+        public Builder setPort(int port) {
             names.add("port");
             values.add(org.gtk.gobject.Value.create(port));
             return this;
         }
         
-        public Build setScopeId(int scopeId) {
+        public Builder setScopeId(int scopeId) {
             names.add("scope-id");
             values.add(org.gtk.gobject.Value.create(scopeId));
             return this;

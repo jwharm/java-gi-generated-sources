@@ -59,11 +59,15 @@ public class FontMask extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FontMask or(FontMask mask) {
-        return new FontMask(this.getValue() | mask.getValue());
+    public FontMask or(FontMask... masks) {
+        int value = this.getValue();
+        for (FontMask arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FontMask(value);
     }
     
     /**
@@ -73,7 +77,8 @@ public class FontMask extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FontMask combined(FontMask mask, FontMask... masks) {
-        int value = mask.getValue();        for (FontMask arg : masks) {
+        int value = mask.getValue();
+        for (FontMask arg : masks) {
             value |= arg.getValue();
         }
         return new FontMask(value);

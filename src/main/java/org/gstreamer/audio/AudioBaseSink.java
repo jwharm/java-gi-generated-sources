@@ -18,26 +18,24 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioBaseSink";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.base.BaseSink.getMemoryLayout().withName("element"),
-        Interop.valueLayout.ADDRESS.withName("ringbuffer"),
-        Interop.valueLayout.C_LONG.withName("buffer_time"),
-        Interop.valueLayout.C_LONG.withName("latency_time"),
-        Interop.valueLayout.C_LONG.withName("next_sample"),
-        Interop.valueLayout.ADDRESS.withName("provided_clock"),
-        Interop.valueLayout.C_INT.withName("eos_rendering"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.base.BaseSink.getMemoryLayout().withName("element"),
+            Interop.valueLayout.ADDRESS.withName("ringbuffer"),
+            Interop.valueLayout.C_LONG.withName("buffer_time"),
+            Interop.valueLayout.C_LONG.withName("latency_time"),
+            Interop.valueLayout.C_LONG.withName("next_sample"),
+            Interop.valueLayout.ADDRESS.withName("provided_clock"),
+            Interop.valueLayout.C_INT.withName("eos_rendering"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -45,37 +43,23 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      * <p>
      * Because AudioBaseSink is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioBaseSink(Addressable address, Ownership ownership) {
+    protected AudioBaseSink(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AudioBaseSink if its GType is a (or inherits from) "GstAudioBaseSink".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AudioBaseSink} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAudioBaseSink", a ClassCastException will be thrown.
-     */
-    public static AudioBaseSink castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AudioBaseSink.getType())) {
-            return new AudioBaseSink(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAudioBaseSink");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioBaseSink> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioBaseSink(input, ownership);
     
     /**
      * Create and return the {@link AudioRingBuffer} for {@code sink}. This function will
@@ -83,7 +67,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      * the returned buffer (see gst_object_set_parent()).
      * @return The new ringbuffer of {@code sink}.
      */
-    public @NotNull org.gstreamer.audio.AudioRingBuffer createRingbuffer() {
+    public org.gstreamer.audio.AudioRingBuffer createRingbuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_base_sink_create_ringbuffer.invokeExact(
@@ -91,14 +75,14 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioRingBuffer(RESULT, Ownership.NONE);
+        return (org.gstreamer.audio.AudioRingBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.audio.AudioRingBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the current alignment threshold, in nanoseconds, used by {@code sink}.
      * @return The current alignment threshold used by {@code sink}.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getAlignmentThreshold() {
+    public org.gstreamer.gst.ClockTime getAlignmentThreshold() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_base_sink_get_alignment_threshold.invokeExact(
@@ -113,7 +97,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      * Get the current discont wait, in nanoseconds, used by {@code sink}.
      * @return The current discont wait used by {@code sink}.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getDiscontWait() {
+    public org.gstreamer.gst.ClockTime getDiscontWait() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_base_sink_get_discont_wait.invokeExact(
@@ -152,14 +136,14 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the current slave method used by {@code sink}.
      * @return The current slave method used by {@code sink}.
      */
-    public @NotNull org.gstreamer.audio.AudioBaseSinkSlaveMethod getSlaveMethod() {
+    public org.gstreamer.audio.AudioBaseSinkSlaveMethod getSlaveMethod() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_base_sink_get_slave_method.invokeExact(
@@ -190,8 +174,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      * Controls the sink's alignment threshold.
      * @param alignmentThreshold the new alignment threshold in nanoseconds
      */
-    public void setAlignmentThreshold(@NotNull org.gstreamer.gst.ClockTime alignmentThreshold) {
-        java.util.Objects.requireNonNull(alignmentThreshold, "Parameter 'alignmentThreshold' must not be null");
+    public void setAlignmentThreshold(org.gstreamer.gst.ClockTime alignmentThreshold) {
         try {
             DowncallHandles.gst_audio_base_sink_set_alignment_threshold.invokeExact(
                     handle(),
@@ -211,19 +194,15 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      * behave as if the GST_AUDIO_BASE_SINK_SLAVE_NONE
      * method were used.
      * @param callback a {@link AudioBaseSinkCustomSlavingCallback}
+     * @param notify called when user_data becomes unused
      */
-    public void setCustomSlavingCallback(@NotNull org.gstreamer.audio.AudioBaseSinkCustomSlavingCallback callback) {
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public void setCustomSlavingCallback(org.gstreamer.audio.AudioBaseSinkCustomSlavingCallback callback, org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_audio_base_sink_set_custom_slaving_callback.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstAudio.Callbacks.class, "cbAudioBaseSinkCustomSlavingCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, long.class, long.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,8 +212,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      * Controls how long the sink will wait before creating a discontinuity.
      * @param discontWait the new discont wait in nanoseconds
      */
-    public void setDiscontWait(@NotNull org.gstreamer.gst.ClockTime discontWait) {
-        java.util.Objects.requireNonNull(discontWait, "Parameter 'discontWait' must not be null");
+    public void setDiscontWait(org.gstreamer.gst.ClockTime discontWait) {
         try {
             DowncallHandles.gst_audio_base_sink_set_discont_wait.invokeExact(
                     handle(),
@@ -269,7 +247,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
         try {
             DowncallHandles.gst_audio_base_sink_set_provide_clock.invokeExact(
                     handle(),
-                    provide ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(provide, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -279,8 +257,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      * Controls how clock slaving will be performed in {@code sink}.
      * @param method the new slave method
      */
-    public void setSlaveMethod(@NotNull org.gstreamer.audio.AudioBaseSinkSlaveMethod method) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
+    public void setSlaveMethod(org.gstreamer.audio.AudioBaseSinkSlaveMethod method) {
         try {
             DowncallHandles.gst_audio_base_sink_set_slave_method.invokeExact(
                     handle(),
@@ -294,7 +271,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_base_sink_get_type.invokeExact();
@@ -303,54 +280,56 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link AudioBaseSink.Builder} object constructs a {@link AudioBaseSink} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AudioBaseSink.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.base.BaseSink.Build {
+    public static class Builder extends org.gstreamer.base.BaseSink.Builder {
         
-         /**
-         * A {@link AudioBaseSink.Build} object constructs a {@link AudioBaseSink} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AudioBaseSink} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AudioBaseSink} using {@link AudioBaseSink#castFrom}.
+         * {@link AudioBaseSink}.
          * @return A new instance of {@code AudioBaseSink} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioBaseSink construct() {
-            return AudioBaseSink.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AudioBaseSink.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AudioBaseSink build() {
+            return (AudioBaseSink) org.gtk.gobject.GObject.newWithProperties(
+                AudioBaseSink.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setAlignmentThreshold(long alignmentThreshold) {
+        public Builder setAlignmentThreshold(long alignmentThreshold) {
             names.add("alignment-threshold");
             values.add(org.gtk.gobject.Value.create(alignmentThreshold));
             return this;
         }
         
-        public Build setBufferTime(long bufferTime) {
+        public Builder setBufferTime(long bufferTime) {
             names.add("buffer-time");
             values.add(org.gtk.gobject.Value.create(bufferTime));
             return this;
         }
         
-        public Build setCanActivatePull(boolean canActivatePull) {
+        public Builder setCanActivatePull(boolean canActivatePull) {
             names.add("can-activate-pull");
             values.add(org.gtk.gobject.Value.create(canActivatePull));
             return this;
@@ -362,7 +341,7 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
          * @param discontWait The value for the {@code discont-wait} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDiscontWait(long discontWait) {
+        public Builder setDiscontWait(long discontWait) {
             names.add("discont-wait");
             values.add(org.gtk.gobject.Value.create(discontWait));
             return this;
@@ -374,25 +353,25 @@ public class AudioBaseSink extends org.gstreamer.base.BaseSink {
          * @param driftTolerance The value for the {@code drift-tolerance} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDriftTolerance(long driftTolerance) {
+        public Builder setDriftTolerance(long driftTolerance) {
             names.add("drift-tolerance");
             values.add(org.gtk.gobject.Value.create(driftTolerance));
             return this;
         }
         
-        public Build setLatencyTime(long latencyTime) {
+        public Builder setLatencyTime(long latencyTime) {
             names.add("latency-time");
             values.add(org.gtk.gobject.Value.create(latencyTime));
             return this;
         }
         
-        public Build setProvideClock(boolean provideClock) {
+        public Builder setProvideClock(boolean provideClock) {
             names.add("provide-clock");
             values.add(org.gtk.gobject.Value.create(provideClock));
             return this;
         }
         
-        public Build setSlaveMethod(org.gstreamer.audio.AudioBaseSinkSlaveMethod slaveMethod) {
+        public Builder setSlaveMethod(org.gstreamer.audio.AudioBaseSinkSlaveMethod slaveMethod) {
             names.add("slave-method");
             values.add(org.gtk.gobject.Value.create(slaveMethod));
             return this;

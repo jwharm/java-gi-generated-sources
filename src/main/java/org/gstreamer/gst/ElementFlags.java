@@ -53,11 +53,15 @@ public class ElementFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ElementFlags or(ElementFlags mask) {
-        return new ElementFlags(this.getValue() | mask.getValue());
+    public ElementFlags or(ElementFlags... masks) {
+        int value = this.getValue();
+        for (ElementFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ElementFlags(value);
     }
     
     /**
@@ -67,7 +71,8 @@ public class ElementFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ElementFlags combined(ElementFlags mask, ElementFlags... masks) {
-        int value = mask.getValue();        for (ElementFlags arg : masks) {
+        int value = mask.getValue();
+        for (ElementFlags arg : masks) {
             value |= arg.getValue();
         }
         return new ElementFlags(value);

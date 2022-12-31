@@ -30,36 +30,18 @@ public class VideoMultiviewFlagsSet extends org.gstreamer.gst.FlagSet {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoMultiviewFlagsSet(Addressable address, Ownership ownership) {
+    protected VideoMultiviewFlagsSet(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to VideoMultiviewFlagsSet if its GType is a (or inherits from) "VideoMultiviewFlagsSet".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VideoMultiviewFlagsSet} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "VideoMultiviewFlagsSet", a ClassCastException will be thrown.
-     */
-    public static VideoMultiviewFlagsSet castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VideoMultiviewFlagsSet.getType())) {
-            return new VideoMultiviewFlagsSet(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of VideoMultiviewFlagsSet");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoMultiviewFlagsSet> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoMultiviewFlagsSet(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_multiview_flagset_get_type.invokeExact();
@@ -67,41 +49,6 @@ public class VideoMultiviewFlagsSet extends org.gstreamer.gst.FlagSet {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Type(RESULT);
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends org.gstreamer.gst.FlagSet.Build {
-        
-         /**
-         * A {@link VideoMultiviewFlagsSet.Build} object constructs a {@link VideoMultiviewFlagsSet} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link VideoMultiviewFlagsSet} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link VideoMultiviewFlagsSet} using {@link VideoMultiviewFlagsSet#castFrom}.
-         * @return A new instance of {@code VideoMultiviewFlagsSet} with the properties 
-         *         that were set in the Build object.
-         */
-        public VideoMultiviewFlagsSet construct() {
-            return VideoMultiviewFlagsSet.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VideoMultiviewFlagsSet.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
     }
     
     private static class DowncallHandles {

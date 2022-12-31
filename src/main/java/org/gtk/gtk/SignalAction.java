@@ -33,37 +33,18 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SignalAction(Addressable address, Ownership ownership) {
+    protected SignalAction(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SignalAction if its GType is a (or inherits from) "GtkSignalAction".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SignalAction} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSignalAction", a ClassCastException will be thrown.
-     */
-    public static SignalAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SignalAction.getType())) {
-            return new SignalAction(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSignalAction");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SignalAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SignalAction(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String signalName) {
-        java.util.Objects.requireNonNull(signalName, "Parameter 'signalName' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String signalName) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_signal_action_new.invokeExact(
-                    Interop.allocateNativeString(signalName));
+                    Marshal.stringToAddress.marshal(signalName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +58,7 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
      * It will also unpack the args into arguments passed to the signal.
      * @param signalName name of the signal to emit
      */
-    public SignalAction(@NotNull java.lang.String signalName) {
+    public SignalAction(java.lang.String signalName) {
         super(constructNew(signalName), Ownership.FULL);
     }
     
@@ -85,7 +66,7 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
      * Returns the name of the signal that will be emitted.
      * @return the name of the signal to emit
      */
-    public @NotNull java.lang.String getSignalName() {
+    public java.lang.String getSignalName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_signal_action_get_signal_name.invokeExact(
@@ -93,14 +74,14 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_signal_action_get_type.invokeExact();
@@ -109,38 +90,40 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SignalAction.Builder} object constructs a {@link SignalAction} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SignalAction.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.ShortcutAction.Build {
+    public static class Builder extends org.gtk.gtk.ShortcutAction.Builder {
         
-         /**
-         * A {@link SignalAction.Build} object constructs a {@link SignalAction} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SignalAction} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SignalAction} using {@link SignalAction#castFrom}.
+         * {@link SignalAction}.
          * @return A new instance of {@code SignalAction} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SignalAction construct() {
-            return SignalAction.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SignalAction.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SignalAction build() {
+            return (SignalAction) org.gtk.gobject.GObject.newWithProperties(
+                SignalAction.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -149,7 +132,7 @@ public class SignalAction extends org.gtk.gtk.ShortcutAction {
          * @param signalName The value for the {@code signal-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSignalName(java.lang.String signalName) {
+        public Builder setSignalName(java.lang.String signalName) {
             names.add("signal-name");
             values.add(org.gtk.gobject.Value.create(signalName));
             return this;

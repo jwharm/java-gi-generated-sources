@@ -12,31 +12,14 @@ import org.jetbrains.annotations.*;
  */
 public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to DtlsServerConnection if its GType is a (or inherits from) "GDtlsServerConnection".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DtlsServerConnection} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDtlsServerConnection", a ClassCastException will be thrown.
-     */
-    public static DtlsServerConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DtlsServerConnection.getType())) {
-            return new DtlsServerConnectionImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDtlsServerConnection");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DtlsServerConnectionImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DtlsServerConnectionImpl(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dtls_server_connection_get_type.invokeExact();
@@ -54,8 +37,7 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
      *   {@link DtlsServerConnection}, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.DtlsServerConnection new_(@NotNull org.gtk.gio.DatagramBased baseSocket, @Nullable org.gtk.gio.TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(baseSocket, "Parameter 'baseSocket' must not be null");
+    public static org.gtk.gio.DtlsServerConnection new_(org.gtk.gio.DatagramBased baseSocket, @Nullable org.gtk.gio.TlsCertificate certificate) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -69,7 +51,7 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.DtlsServerConnection.DtlsServerConnectionImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.DtlsServerConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DtlsServerConnection.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -90,7 +72,7 @@ public interface DtlsServerConnection extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class DtlsServerConnectionImpl extends org.gtk.gobject.Object implements DtlsServerConnection {
+    class DtlsServerConnectionImpl extends org.gtk.gobject.GObject implements DtlsServerConnection {
         
         static {
             Gio.javagi$ensureInitialized();

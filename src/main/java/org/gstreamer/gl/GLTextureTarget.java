@@ -55,7 +55,7 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static @NotNull org.gstreamer.gl.GLTextureTarget fromGl(int target) {
+    public static org.gstreamer.gl.GLTextureTarget fromGl(int target) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_texture_target_from_gl.invokeExact(
@@ -66,20 +66,18 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
         return org.gstreamer.gl.GLTextureTarget.of(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gl.GLTextureTarget fromString(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static org.gstreamer.gl.GLTextureTarget fromString(java.lang.String str) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_texture_target_from_string.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return org.gstreamer.gl.GLTextureTarget.of(RESULT);
     }
     
-    public static @NotNull java.lang.String toBufferPoolOption(@NotNull org.gstreamer.gl.GLTextureTarget target) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public static java.lang.String toBufferPoolOption(org.gstreamer.gl.GLTextureTarget target) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_texture_target_to_buffer_pool_option.invokeExact(
@@ -87,11 +85,10 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static int toGl(@NotNull org.gstreamer.gl.GLTextureTarget target) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public static int toGl(org.gstreamer.gl.GLTextureTarget target) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_texture_target_to_gl.invokeExact(
@@ -102,8 +99,7 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
         return RESULT;
     }
     
-    public static @NotNull java.lang.String toString(@NotNull org.gstreamer.gl.GLTextureTarget target) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public static java.lang.String toString(org.gstreamer.gl.GLTextureTarget target) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_texture_target_to_string.invokeExact(
@@ -111,7 +107,7 @@ public enum GLTextureTarget implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

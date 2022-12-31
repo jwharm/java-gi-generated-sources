@@ -41,33 +41,15 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeListRowSorter(Addressable address, Ownership ownership) {
+    protected TreeListRowSorter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TreeListRowSorter if its GType is a (or inherits from) "GtkTreeListRowSorter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TreeListRowSorter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTreeListRowSorter", a ClassCastException will be thrown.
-     */
-    public static TreeListRowSorter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeListRowSorter.getType())) {
-            return new TreeListRowSorter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeListRowSorter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeListRowSorter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeListRowSorter(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.Sorter sorter) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Sorter sorter) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_row_sorter_new.invokeExact(
                     (Addressable) (sorter == null ? MemoryAddress.NULL : sorter.handle()));
@@ -102,7 +84,7 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Sorter(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Sorter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Sorter.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -126,7 +108,7 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_tree_list_row_sorter_get_type.invokeExact();
@@ -135,38 +117,40 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TreeListRowSorter.Builder} object constructs a {@link TreeListRowSorter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TreeListRowSorter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Sorter.Build {
+    public static class Builder extends org.gtk.gtk.Sorter.Builder {
         
-         /**
-         * A {@link TreeListRowSorter.Build} object constructs a {@link TreeListRowSorter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TreeListRowSorter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TreeListRowSorter} using {@link TreeListRowSorter#castFrom}.
+         * {@link TreeListRowSorter}.
          * @return A new instance of {@code TreeListRowSorter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TreeListRowSorter construct() {
-            return TreeListRowSorter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TreeListRowSorter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TreeListRowSorter build() {
+            return (TreeListRowSorter) org.gtk.gobject.GObject.newWithProperties(
+                TreeListRowSorter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -175,7 +159,7 @@ public class TreeListRowSorter extends org.gtk.gtk.Sorter {
          * @param sorter The value for the {@code sorter} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSorter(org.gtk.gtk.Sorter sorter) {
+        public Builder setSorter(org.gtk.gtk.Sorter sorter) {
             names.add("sorter");
             values.add(org.gtk.gobject.Value.create(sorter));
             return this;

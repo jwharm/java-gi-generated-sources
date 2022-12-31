@@ -16,5 +16,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModuleUpdatedFunc {
-        void onPixbufModuleUpdatedFunc(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, int x, int y, int width, int height);
+    void run(org.gtk.gdkpixbuf.Pixbuf pixbuf, int x, int y, int width, int height);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress pixbuf, int x, int y, int width, int height, MemoryAddress userData) {
+        run((org.gtk.gdkpixbuf.Pixbuf) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pixbuf)), org.gtk.gdkpixbuf.Pixbuf.fromAddress).marshal(pixbuf, Ownership.NONE), x, y, width, height);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PixbufModuleUpdatedFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

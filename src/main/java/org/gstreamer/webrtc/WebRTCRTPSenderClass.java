@@ -40,8 +40,10 @@ public class WebRTCRTPSenderClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WebRTCRTPSenderClass(Addressable address, Ownership ownership) {
+    protected WebRTCRTPSenderClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WebRTCRTPSenderClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCRTPSenderClass(input, ownership);
 }

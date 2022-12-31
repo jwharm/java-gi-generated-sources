@@ -40,8 +40,10 @@ public class WriteDescriptorSetAccelerationStructureNV extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WriteDescriptorSetAccelerationStructureNV(Addressable address, Ownership ownership) {
+    protected WriteDescriptorSetAccelerationStructureNV(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WriteDescriptorSetAccelerationStructureNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WriteDescriptorSetAccelerationStructureNV(input, ownership);
 }

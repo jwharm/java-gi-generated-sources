@@ -21,22 +21,20 @@ public class LayoutLine extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoLayoutLine";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("layout"),
-        Interop.valueLayout.C_INT.withName("start_index"),
-        Interop.valueLayout.C_INT.withName("length"),
-        Interop.valueLayout.ADDRESS.withName("runs"),
-        Interop.valueLayout.C_INT.withName("is_paragraph_start"),
-        Interop.valueLayout.C_INT.withName("resolved_dir")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("layout"),
+            Interop.valueLayout.C_INT.withName("start_index"),
+            Interop.valueLayout.C_INT.withName("length"),
+            Interop.valueLayout.ADDRESS.withName("runs"),
+            Interop.valueLayout.C_INT.withName("is_paragraph_start"),
+            Interop.valueLayout.C_INT.withName("resolved_dir")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,28 +54,28 @@ public class LayoutLine extends Struct {
      * Get the value of the field {@code layout}
      * @return The value of the field {@code layout}
      */
-    public org.pango.Layout layout$get() {
+    public org.pango.Layout getLayout() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("layout"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.Layout(RESULT, Ownership.UNKNOWN);
+        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code layout}
      * @param layout The new value of the field {@code layout}
      */
-    public void layout$set(org.pango.Layout layout) {
+    public void setLayout(org.pango.Layout layout) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("layout"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), layout.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layout == null ? MemoryAddress.NULL : layout.handle()));
     }
     
     /**
      * Get the value of the field {@code start_index}
      * @return The value of the field {@code start_index}
      */
-    public int startIndex$get() {
+    public int getStartIndex_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -88,7 +86,7 @@ public class LayoutLine extends Struct {
      * Change the value of the field {@code start_index}
      * @param startIndex The new value of the field {@code start_index}
      */
-    public void startIndex$set(int startIndex) {
+    public void setStartIndex(int startIndex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
@@ -98,7 +96,7 @@ public class LayoutLine extends Struct {
      * Get the value of the field {@code length}
      * @return The value of the field {@code length}
      */
-    public int length$get() {
+    public int getLength_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -109,7 +107,7 @@ public class LayoutLine extends Struct {
      * Change the value of the field {@code length}
      * @param length The new value of the field {@code length}
      */
-    public void length$set(int length) {
+    public void setLength(int length) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
@@ -119,28 +117,28 @@ public class LayoutLine extends Struct {
      * Get the value of the field {@code runs}
      * @return The value of the field {@code runs}
      */
-    public org.gtk.glib.SList runs$get() {
+    public org.gtk.glib.SList getRuns() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("runs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code runs}
      * @param runs The new value of the field {@code runs}
      */
-    public void runs$set(org.gtk.glib.SList runs) {
+    public void setRuns(org.gtk.glib.SList runs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("runs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), runs.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runs == null ? MemoryAddress.NULL : runs.handle()));
     }
     
     /**
      * Get the value of the field {@code is_paragraph_start}
      * @return The value of the field {@code is_paragraph_start}
      */
-    public int isParagraphStart$get() {
+    public int getIsParagraphStart() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -151,7 +149,7 @@ public class LayoutLine extends Struct {
      * Change the value of the field {@code is_paragraph_start}
      * @param isParagraphStart The new value of the field {@code is_paragraph_start}
      */
-    public void isParagraphStart$set(int isParagraphStart) {
+    public void setIsParagraphStart(int isParagraphStart) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isParagraphStart);
@@ -161,7 +159,7 @@ public class LayoutLine extends Struct {
      * Get the value of the field {@code resolved_dir}
      * @return The value of the field {@code resolved_dir}
      */
-    public int resolvedDir$get() {
+    public int getResolvedDir() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -172,7 +170,7 @@ public class LayoutLine extends Struct {
      * Change the value of the field {@code resolved_dir}
      * @param resolvedDir The new value of the field {@code resolved_dir}
      */
-    public void resolvedDir$set(int resolvedDir) {
+    public void setResolvedDir(int resolvedDir) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolvedDir);
@@ -183,10 +181,12 @@ public class LayoutLine extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LayoutLine(Addressable address, Ownership ownership) {
+    protected LayoutLine(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LayoutLine> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutLine(input, ownership);
     
     /**
      * Computes the logical and ink extents of a layout line.
@@ -198,14 +198,12 @@ public class LayoutLine extends Struct {
      * @param logicalRect rectangle used to store the logical
      *   extents of the glyph string
      */
-    public void getExtents(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void getExtents(@Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_layout_line_get_extents.invokeExact(
                     handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -222,16 +220,15 @@ public class LayoutLine extends Struct {
      * @param height return location for the line height
      */
     public void getHeight(Out<Integer> height) {
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_line_get_height.invokeExact(
                     handle(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -261,14 +258,12 @@ public class LayoutLine extends Struct {
      * @param logicalRect rectangle used to store the logical
      *   extents of the glyph string
      */
-    public void getPixelExtents(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void getPixelExtents(@Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_layout_line_get_pixel_extents.invokeExact(
                     handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,7 +273,7 @@ public class LayoutLine extends Struct {
      * Returns the resolved direction of the line.
      * @return the resolved direction of the line
      */
-    public @NotNull org.pango.Direction getResolvedDirection() {
+    public org.pango.Direction getResolvedDirection() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_layout_line_get_resolved_direction.invokeExact(
@@ -328,10 +323,8 @@ public class LayoutLine extends Struct {
      *   Pango units.
      * @param nRanges The number of ranges stored in {@code ranges}
      */
-    public void getXRanges(int startIndex, int endIndex, @NotNull Out<int[]> ranges, Out<Integer> nRanges) {
-        java.util.Objects.requireNonNull(ranges, "Parameter 'ranges' must not be null");
+    public void getXRanges(int startIndex, int endIndex, Out<int[]> ranges, Out<Integer> nRanges) {
         MemorySegment rangesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(nRanges, "Parameter 'nRanges' must not be null");
         MemorySegment nRangesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_line_get_x_ranges.invokeExact(
@@ -356,13 +349,12 @@ public class LayoutLine extends Struct {
      * @param xPos location to store the x_offset (in Pango units)
      */
     public void indexToX(int index, boolean trailing, Out<Integer> xPos) {
-        java.util.Objects.requireNonNull(xPos, "Parameter 'xPos' must not be null");
         MemorySegment xPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_line_index_to_x.invokeExact(
                     handle(),
                     index,
-                    trailing ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(trailing, null).intValue(),
                     (Addressable) xPosPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -382,7 +374,7 @@ public class LayoutLine extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -397,7 +389,7 @@ public class LayoutLine extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutLine(RESULT, Ownership.FULL);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -436,9 +428,7 @@ public class LayoutLine extends Struct {
      * @return {@code false} if {@code x_pos} was outside the line, {@code true} if inside
      */
     public boolean xToIndex(int xPos, Out<Integer> index, Out<Integer> trailing) {
-        java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(trailing, "Parameter 'trailing' must not be null");
         MemorySegment trailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -452,7 +442,7 @@ public class LayoutLine extends Struct {
         }
         index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
         trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -529,31 +519,35 @@ public class LayoutLine extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link LayoutLine.Builder} object constructs a {@link LayoutLine} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link LayoutLine.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private LayoutLine struct;
+        private final LayoutLine struct;
         
-         /**
-         * A {@link LayoutLine.Build} object constructs a {@link LayoutLine} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = LayoutLine.allocate();
         }
         
          /**
          * Finish building the {@link LayoutLine} struct.
          * @return A new instance of {@code LayoutLine} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public LayoutLine construct() {
+        public LayoutLine build() {
             return struct;
         }
         
@@ -562,7 +556,7 @@ public class LayoutLine extends Struct {
          * @param layout The value for the {@code layout} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLayout(org.pango.Layout layout) {
+        public Builder setLayout(org.pango.Layout layout) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("layout"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (layout == null ? MemoryAddress.NULL : layout.handle()));
@@ -574,7 +568,7 @@ public class LayoutLine extends Struct {
          * @param startIndex The value for the {@code startIndex} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStartIndex(int startIndex) {
+        public Builder setStartIndex(int startIndex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start_index"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), startIndex);
@@ -586,7 +580,7 @@ public class LayoutLine extends Struct {
          * @param length The value for the {@code length} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLength(int length) {
+        public Builder setLength(int length) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("length"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
@@ -599,7 +593,7 @@ public class LayoutLine extends Struct {
          * @param runs The value for the {@code runs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRuns(org.gtk.glib.SList runs) {
+        public Builder setRuns(org.gtk.glib.SList runs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("runs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runs == null ? MemoryAddress.NULL : runs.handle()));
@@ -611,7 +605,7 @@ public class LayoutLine extends Struct {
          * @param isParagraphStart The value for the {@code isParagraphStart} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsParagraphStart(int isParagraphStart) {
+        public Builder setIsParagraphStart(int isParagraphStart) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_paragraph_start"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isParagraphStart);
@@ -623,7 +617,7 @@ public class LayoutLine extends Struct {
          * @param resolvedDir The value for the {@code resolvedDir} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setResolvedDir(int resolvedDir) {
+        public Builder setResolvedDir(int resolvedDir) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("resolved_dir"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), resolvedDir);

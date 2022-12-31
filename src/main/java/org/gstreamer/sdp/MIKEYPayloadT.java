@@ -16,20 +16,18 @@ public class MIKEYPayloadT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMIKEYPayloadT";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.sdp.MIKEYPayload.getMemoryLayout().withName("pt"),
-        Interop.valueLayout.C_INT.withName("type"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("ts_value")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.sdp.MIKEYPayload.getMemoryLayout().withName("pt"),
+            Interop.valueLayout.C_INT.withName("type"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("ts_value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,16 +47,26 @@ public class MIKEYPayloadT extends Struct {
      * Get the value of the field {@code pt}
      * @return The value of the field {@code pt}
      */
-    public org.gstreamer.sdp.MIKEYPayload pt$get() {
+    public org.gstreamer.sdp.MIKEYPayload getPt() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("pt"));
-        return new org.gstreamer.sdp.MIKEYPayload(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.MIKEYPayload.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code pt}
+     * @param pt The new value of the field {@code pt}
+     */
+    public void setPt(org.gstreamer.sdp.MIKEYPayload pt) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pt"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
     }
     
     /**
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.sdp.MIKEYTSType type$get() {
+    public org.gstreamer.sdp.MIKEYTSType getType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -69,17 +77,17 @@ public class MIKEYPayloadT extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.sdp.MIKEYTSType type) {
+    public void setType(org.gstreamer.sdp.MIKEYTSType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
      * Get the value of the field {@code ts_value}
      * @return The value of the field {@code ts_value}
      */
-    public PointerByte tsValue$get() {
+    public PointerByte getTsValue() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ts_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -90,10 +98,10 @@ public class MIKEYPayloadT extends Struct {
      * Change the value of the field {@code ts_value}
      * @param tsValue The new value of the field {@code ts_value}
      */
-    public void tsValue$set(PointerByte tsValue) {
+    public void setTsValue(PointerByte tsValue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ts_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tsValue.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tsValue == null ? MemoryAddress.NULL : tsValue.handle()));
     }
     
     /**
@@ -101,35 +109,41 @@ public class MIKEYPayloadT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MIKEYPayloadT(Addressable address, Ownership ownership) {
+    protected MIKEYPayloadT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MIKEYPayloadT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYPayloadT(input, ownership);
+    
+    /**
+     * A {@link MIKEYPayloadT.Builder} object constructs a {@link MIKEYPayloadT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link MIKEYPayloadT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private MIKEYPayloadT struct;
+        private final MIKEYPayloadT struct;
         
-         /**
-         * A {@link MIKEYPayloadT.Build} object constructs a {@link MIKEYPayloadT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = MIKEYPayloadT.allocate();
         }
         
          /**
          * Finish building the {@link MIKEYPayloadT} struct.
          * @return A new instance of {@code MIKEYPayloadT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MIKEYPayloadT construct() {
+        public MIKEYPayloadT build() {
             return struct;
         }
         
@@ -138,7 +152,7 @@ public class MIKEYPayloadT extends Struct {
          * @param pt The value for the {@code pt} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPt(org.gstreamer.sdp.MIKEYPayload pt) {
+        public Builder setPt(org.gstreamer.sdp.MIKEYPayload pt) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pt"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
@@ -150,7 +164,7 @@ public class MIKEYPayloadT extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.sdp.MIKEYTSType type) {
+        public Builder setType(org.gstreamer.sdp.MIKEYTSType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
@@ -162,7 +176,7 @@ public class MIKEYPayloadT extends Struct {
          * @param tsValue The value for the {@code tsValue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTsValue(PointerByte tsValue) {
+        public Builder setTsValue(PointerByte tsValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ts_value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tsValue == null ? MemoryAddress.NULL : tsValue.handle()));

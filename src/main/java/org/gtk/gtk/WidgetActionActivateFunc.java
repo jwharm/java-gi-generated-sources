@@ -13,5 +13,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface WidgetActionActivateFunc {
-        void onWidgetActionActivateFunc(@NotNull org.gtk.gtk.Widget widget, @NotNull java.lang.String actionName, @NotNull org.gtk.glib.Variant parameter);
+    void run(org.gtk.gtk.Widget widget, java.lang.String actionName, org.gtk.glib.Variant parameter);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress widget, MemoryAddress actionName, MemoryAddress parameter) {
+        run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), Marshal.addressToString.marshal(actionName, null), org.gtk.glib.Variant.fromAddress.marshal(parameter, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WidgetActionActivateFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

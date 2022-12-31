@@ -12,15 +12,10 @@ import org.jetbrains.annotations.*;
 public class Parameter extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GParameter";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("name"),
-        org.gtk.gobject.Value.getMemoryLayout().withName("value")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -28,7 +23,10 @@ public class Parameter extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("name"),
+            org.gtk.gobject.Value.getMemoryLayout().withName("value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,30 +46,40 @@ public class Parameter extends Struct {
      * Get the value of the field {@code name}
      * @return The value of the field {@code name}
      */
-    public java.lang.String name$get() {
+    public java.lang.String getName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code name}
      * @param name The new value of the field {@code name}
      */
-    public void name$set(java.lang.String name) {
+    public void setName(java.lang.String name) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
     }
     
     /**
      * Get the value of the field {@code value}
      * @return The value of the field {@code value}
      */
-    public org.gtk.gobject.Value value$get() {
+    public org.gtk.gobject.Value getValue() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("value"));
-        return new org.gtk.gobject.Value(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.Value.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code value}
+     * @param value The new value of the field {@code value}
+     */
+    public void setValue(org.gtk.gobject.Value value) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
     }
     
     /**
@@ -79,35 +87,41 @@ public class Parameter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Parameter(Addressable address, Ownership ownership) {
+    protected Parameter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Parameter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Parameter(input, ownership);
+    
+    /**
+     * A {@link Parameter.Builder} object constructs a {@link Parameter} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Parameter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Parameter struct;
+        private final Parameter struct;
         
-         /**
-         * A {@link Parameter.Build} object constructs a {@link Parameter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Parameter.allocate();
         }
         
          /**
          * Finish building the {@link Parameter} struct.
          * @return A new instance of {@code Parameter} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Parameter construct() {
+        public Parameter build() {
             return struct;
         }
         
@@ -116,10 +130,10 @@ public class Parameter extends Struct {
          * @param name The value for the {@code name} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
             return this;
         }
         
@@ -128,7 +142,7 @@ public class Parameter extends Struct {
          * @param value The value for the {@code value} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(org.gtk.gobject.Value value) {
+        public Builder setValue(org.gtk.gobject.Value value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));

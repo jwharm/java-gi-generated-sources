@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * {@code GtkTreeListModel} is a list model that can create child models on demand.
  */
-public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class TreeListModel extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -30,47 +30,23 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeListModel(Addressable address, Ownership ownership) {
+    protected TreeListModel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TreeListModel if its GType is a (or inherits from) "GtkTreeListModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TreeListModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTreeListModel", a ClassCastException will be thrown.
-     */
-    public static TreeListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeListModel.getType())) {
-            return new TreeListModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeListModel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeListModel(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, @NotNull org.gtk.gtk.TreeListModelCreateModelFunc createFunc) {
-        java.util.Objects.requireNonNull(root, "Parameter 'root' must not be null");
-        java.util.Objects.requireNonNull(createFunc, "Parameter 'createFunc' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, org.gtk.gtk.TreeListModelCreateModelFunc createFunc, org.gtk.glib.DestroyNotify userDestroy) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_model_new.invokeExact(
                     root.handle(),
-                    passthrough ? 1 : 0,
-                    autoexpand ? 1 : 0,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeListModelCreateModelFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(createFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    Marshal.booleanToInteger.marshal(passthrough, null).intValue(),
+                    Marshal.booleanToInteger.marshal(autoexpand, null).intValue(),
+                    (Addressable) createFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) userDestroy.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,9 +62,10 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * @param autoexpand {@code true} to set the autoexpand property and expand the {@code root} model
      * @param createFunc Function to call to create the {@code GListModel} for the children
      *   of an item
+     * @param userDestroy Function to call to free {@code user_data}
      */
-    public TreeListModel(@NotNull org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, @NotNull org.gtk.gtk.TreeListModelCreateModelFunc createFunc) {
-        super(constructNew(root, passthrough, autoexpand, createFunc), Ownership.FULL);
+    public TreeListModel(org.gtk.gio.ListModel root, boolean passthrough, boolean autoexpand, org.gtk.gtk.TreeListModelCreateModelFunc createFunc, org.gtk.glib.DestroyNotify userDestroy) {
+        super(constructNew(root, passthrough, autoexpand, createFunc, userDestroy), Ownership.FULL);
     }
     
     /**
@@ -107,7 +84,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -130,14 +107,14 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeListRow(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.TreeListRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeListRow.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Gets the root model that {@code self} was created with.
      * @return the root model
      */
-    public @NotNull org.gtk.gio.ListModel getModel() {
+    public org.gtk.gio.ListModel getModel() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_list_model_get_model.invokeExact(
@@ -145,7 +122,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -169,7 +146,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -202,7 +179,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeListRow(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.TreeListRow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeListRow.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -217,7 +194,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         try {
             DowncallHandles.gtk_tree_list_model_set_autoexpand.invokeExact(
                     handle(),
-                    autoexpand ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(autoexpand, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,7 +204,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_tree_list_model_get_type.invokeExact();
@@ -236,38 +213,40 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TreeListModel.Builder} object constructs a {@link TreeListModel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TreeListModel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TreeListModel.Build} object constructs a {@link TreeListModel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TreeListModel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TreeListModel} using {@link TreeListModel#castFrom}.
+         * {@link TreeListModel}.
          * @return A new instance of {@code TreeListModel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TreeListModel construct() {
-            return TreeListModel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TreeListModel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TreeListModel build() {
+            return (TreeListModel) org.gtk.gobject.GObject.newWithProperties(
+                TreeListModel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -276,7 +255,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
          * @param autoexpand The value for the {@code autoexpand} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAutoexpand(boolean autoexpand) {
+        public Builder setAutoexpand(boolean autoexpand) {
             names.add("autoexpand");
             values.add(org.gtk.gobject.Value.create(autoexpand));
             return this;
@@ -287,7 +266,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -298,7 +277,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gio.ListModel model) {
+        public Builder setModel(org.gtk.gio.ListModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -309,7 +288,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;
@@ -324,7 +303,7 @@ public class TreeListModel extends org.gtk.gobject.Object implements org.gtk.gio
          * @param passthrough The value for the {@code passthrough} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPassthrough(boolean passthrough) {
+        public Builder setPassthrough(boolean passthrough) {
             names.add("passthrough");
             values.add(org.gtk.gobject.Value.create(passthrough));
             return this;

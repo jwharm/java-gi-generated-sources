@@ -13,19 +13,17 @@ public class DVBServiceListItem extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDVBServiceListItem";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("service_id"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.C_INT.withName("type")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("service_id"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.C_INT.withName("type")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,7 +43,7 @@ public class DVBServiceListItem extends Struct {
      * Get the value of the field {@code service_id}
      * @return The value of the field {@code service_id}
      */
-    public short serviceId$get() {
+    public short getServiceId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -56,7 +54,7 @@ public class DVBServiceListItem extends Struct {
      * Change the value of the field {@code service_id}
      * @param serviceId The new value of the field {@code service_id}
      */
-    public void serviceId$set(short serviceId) {
+    public void setServiceId(short serviceId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
@@ -66,7 +64,7 @@ public class DVBServiceListItem extends Struct {
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.mpegts.DVBServiceType type$get() {
+    public org.gstreamer.mpegts.DVBServiceType getType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -77,10 +75,10 @@ public class DVBServiceListItem extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.mpegts.DVBServiceType type) {
+    public void setType(org.gstreamer.mpegts.DVBServiceType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
@@ -88,35 +86,41 @@ public class DVBServiceListItem extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DVBServiceListItem(Addressable address, Ownership ownership) {
+    protected DVBServiceListItem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DVBServiceListItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DVBServiceListItem(input, ownership);
+    
+    /**
+     * A {@link DVBServiceListItem.Builder} object constructs a {@link DVBServiceListItem} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DVBServiceListItem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DVBServiceListItem struct;
+        private final DVBServiceListItem struct;
         
-         /**
-         * A {@link DVBServiceListItem.Build} object constructs a {@link DVBServiceListItem} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DVBServiceListItem.allocate();
         }
         
          /**
          * Finish building the {@link DVBServiceListItem} struct.
          * @return A new instance of {@code DVBServiceListItem} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DVBServiceListItem construct() {
+        public DVBServiceListItem build() {
             return struct;
         }
         
@@ -125,7 +129,7 @@ public class DVBServiceListItem extends Struct {
          * @param serviceId The value for the {@code serviceId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setServiceId(short serviceId) {
+        public Builder setServiceId(short serviceId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
@@ -137,7 +141,7 @@ public class DVBServiceListItem extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.mpegts.DVBServiceType type) {
+        public Builder setType(org.gstreamer.mpegts.DVBServiceType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));

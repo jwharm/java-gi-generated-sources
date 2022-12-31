@@ -37,40 +37,26 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * <p>
      * Because ClampScrollable is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ClampScrollable(Addressable address, Ownership ownership) {
+    protected ClampScrollable(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ClampScrollable if its GType is a (or inherits from) "AdwClampScrollable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ClampScrollable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwClampScrollable", a ClassCastException will be thrown.
-     */
-    public static ClampScrollable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ClampScrollable.getType())) {
-            return new ClampScrollable(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwClampScrollable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ClampScrollable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ClampScrollable(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_clamp_scrollable_new.invokeExact();
         } catch (Throwable ERR) {
@@ -98,7 +84,7 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -192,7 +178,7 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_clamp_scrollable_get_type.invokeExact();
@@ -201,38 +187,40 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ClampScrollable.Builder} object constructs a {@link ClampScrollable} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ClampScrollable.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link ClampScrollable.Build} object constructs a {@link ClampScrollable} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ClampScrollable} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ClampScrollable} using {@link ClampScrollable#castFrom}.
+         * {@link ClampScrollable}.
          * @return A new instance of {@code ClampScrollable} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ClampScrollable construct() {
-            return ClampScrollable.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ClampScrollable.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ClampScrollable build() {
+            return (ClampScrollable) org.gtk.gobject.GObject.newWithProperties(
+                ClampScrollable.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -241,7 +229,7 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -254,7 +242,7 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
          * @param maximumSize The value for the {@code maximum-size} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaximumSize(int maximumSize) {
+        public Builder setMaximumSize(int maximumSize) {
             names.add("maximum-size");
             values.add(org.gtk.gobject.Value.create(maximumSize));
             return this;
@@ -278,7 +266,7 @@ public class ClampScrollable extends org.gtk.gtk.Widget implements org.gtk.gtk.A
          * @param tighteningThreshold The value for the {@code tightening-threshold} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTighteningThreshold(int tighteningThreshold) {
+        public Builder setTighteningThreshold(int tighteningThreshold) {
             names.add("tightening-threshold");
             values.add(org.gtk.gobject.Value.create(tighteningThreshold));
             return this;

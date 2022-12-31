@@ -21,25 +21,23 @@ public class PixbufFormat extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GdkPixbufFormat";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("name"),
-        Interop.valueLayout.ADDRESS.withName("signature"),
-        Interop.valueLayout.ADDRESS.withName("domain"),
-        Interop.valueLayout.ADDRESS.withName("description"),
-        Interop.valueLayout.ADDRESS.withName("mime_types"),
-        Interop.valueLayout.ADDRESS.withName("extensions"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        Interop.valueLayout.C_INT.withName("disabled"),
-        Interop.valueLayout.ADDRESS.withName("license")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("name"),
+            Interop.valueLayout.ADDRESS.withName("signature"),
+            Interop.valueLayout.ADDRESS.withName("domain"),
+            Interop.valueLayout.ADDRESS.withName("description"),
+            Interop.valueLayout.ADDRESS.withName("mime_types"),
+            Interop.valueLayout.ADDRESS.withName("extensions"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            Interop.valueLayout.C_INT.withName("disabled"),
+            Interop.valueLayout.ADDRESS.withName("license")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -59,91 +57,133 @@ public class PixbufFormat extends Struct {
      * Get the value of the field {@code name}
      * @return The value of the field {@code name}
      */
-    public java.lang.String name$get() {
+    public java.lang.String getName_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code name}
      * @param name The new value of the field {@code name}
      */
-    public void name$set(java.lang.String name) {
+    public void setName(java.lang.String name) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
     }
     
     /**
      * Get the value of the field {@code signature}
      * @return The value of the field {@code signature}
      */
-    public org.gtk.gdkpixbuf.PixbufModulePattern signature$get() {
+    public org.gtk.gdkpixbuf.PixbufModulePattern getSignature() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signature"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.gdkpixbuf.PixbufModulePattern(RESULT, Ownership.UNKNOWN);
+        return org.gtk.gdkpixbuf.PixbufModulePattern.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code signature}
      * @param signature The new value of the field {@code signature}
      */
-    public void signature$set(org.gtk.gdkpixbuf.PixbufModulePattern signature) {
+    public void setSignature(org.gtk.gdkpixbuf.PixbufModulePattern signature) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("signature"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), signature.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signature == null ? MemoryAddress.NULL : signature.handle()));
     }
     
     /**
      * Get the value of the field {@code domain}
      * @return The value of the field {@code domain}
      */
-    public java.lang.String domain$get() {
+    public java.lang.String getDomain() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("domain"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code domain}
      * @param domain The new value of the field {@code domain}
      */
-    public void domain$set(java.lang.String domain) {
+    public void setDomain(java.lang.String domain) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("domain"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(domain));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)));
     }
     
     /**
      * Get the value of the field {@code description}
      * @return The value of the field {@code description}
      */
-    public java.lang.String description$get() {
+    public java.lang.String getDescription_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code description}
      * @param description The new value of the field {@code description}
      */
-    public void description$set(java.lang.String description) {
+    public void setDescription(java.lang.String description) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(description));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
+    }
+    
+    /**
+     * Get the value of the field {@code mime_types}
+     * @return The value of the field {@code mime_types}
+     */
+    public PointerString getMimeTypes_() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mime_types"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerString(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code mime_types}
+     * @param mimeTypes The new value of the field {@code mime_types}
+     */
+    public void setMimeTypes(java.lang.String[] mimeTypes) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mime_types"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mimeTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mimeTypes, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code extensions}
+     * @return The value of the field {@code extensions}
+     */
+    public PointerString getExtensions_() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("extensions"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerString(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code extensions}
+     * @param extensions The new value of the field {@code extensions}
+     */
+    public void setExtensions(java.lang.String[] extensions) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("extensions"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (extensions == null ? MemoryAddress.NULL : Interop.allocateNativeArray(extensions, false)));
     }
     
     /**
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public int flags$get() {
+    public int getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -154,7 +194,7 @@ public class PixbufFormat extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(int flags) {
+    public void setFlags(int flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -164,42 +204,42 @@ public class PixbufFormat extends Struct {
      * Get the value of the field {@code disabled}
      * @return The value of the field {@code disabled}
      */
-    public boolean disabled$get() {
+    public boolean getDisabled() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("disabled"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code disabled}
      * @param disabled The new value of the field {@code disabled}
      */
-    public void disabled$set(boolean disabled) {
+    public void setDisabled_(boolean disabled) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("disabled"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), disabled ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(disabled, null).intValue());
     }
     
     /**
      * Get the value of the field {@code license}
      * @return The value of the field {@code license}
      */
-    public java.lang.String license$get() {
+    public java.lang.String getLicense_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("license"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code license}
      * @param license The new value of the field {@code license}
      */
-    public void license$set(java.lang.String license) {
+    public void setLicense(java.lang.String license) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("license"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(license));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, null)));
     }
     
     /**
@@ -207,17 +247,19 @@ public class PixbufFormat extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PixbufFormat(Addressable address, Ownership ownership) {
+    protected PixbufFormat(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PixbufFormat> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufFormat(input, ownership);
     
     /**
      * Creates a copy of {@code format}.
      * @return the newly allocated copy of a {@code GdkPixbufFormat}. Use
      *   gdk_pixbuf_format_free() to free the resources when done
      */
-    public @NotNull org.gtk.gdkpixbuf.PixbufFormat copy() {
+    public org.gtk.gdkpixbuf.PixbufFormat copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_copy.invokeExact(
@@ -225,7 +267,7 @@ public class PixbufFormat extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdkpixbuf.PixbufFormat(RESULT, Ownership.FULL);
+        return org.gtk.gdkpixbuf.PixbufFormat.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -245,7 +287,7 @@ public class PixbufFormat extends Struct {
      * Returns a description of the format.
      * @return a description of the format.
      */
-    public @NotNull java.lang.String getDescription() {
+    public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_description.invokeExact(
@@ -253,7 +295,7 @@ public class PixbufFormat extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -262,7 +304,7 @@ public class PixbufFormat extends Struct {
      * @return an array of
      *   filename extensions
      */
-    public @NotNull PointerString getExtensions() {
+    public PointerString getExtensions() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_extensions.invokeExact(
@@ -280,7 +322,7 @@ public class PixbufFormat extends Struct {
      * "LGPL", "GPL", "QPL", "GPL/QPL", or "other" to indicate some other license.
      * @return a string describing the license of the pixbuf format
      */
-    public @NotNull java.lang.String getLicense() {
+    public java.lang.String getLicense() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_license.invokeExact(
@@ -288,14 +330,14 @@ public class PixbufFormat extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Returns the mime types supported by the format.
      * @return an array of mime types
      */
-    public @NotNull PointerString getMimeTypes() {
+    public PointerString getMimeTypes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_mime_types.invokeExact(
@@ -310,7 +352,7 @@ public class PixbufFormat extends Struct {
      * Returns the name of the format.
      * @return the name of the format.
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_format_get_name.invokeExact(
@@ -318,7 +360,7 @@ public class PixbufFormat extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -335,7 +377,7 @@ public class PixbufFormat extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -346,17 +388,16 @@ public class PixbufFormat extends Struct {
      * @param optionKey the name of an option
      * @return {@code TRUE} if the specified option is supported
      */
-    public boolean isSaveOptionSupported(@NotNull java.lang.String optionKey) {
-        java.util.Objects.requireNonNull(optionKey, "Parameter 'optionKey' must not be null");
+    public boolean isSaveOptionSupported(java.lang.String optionKey) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_format_is_save_option_supported.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(optionKey));
+                    Marshal.stringToAddress.marshal(optionKey, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -375,7 +416,7 @@ public class PixbufFormat extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -390,7 +431,7 @@ public class PixbufFormat extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -407,7 +448,7 @@ public class PixbufFormat extends Struct {
         try {
             DowncallHandles.gdk_pixbuf_format_set_disabled.invokeExact(
                     handle(),
-                    disabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(disabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -487,31 +528,35 @@ public class PixbufFormat extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link PixbufFormat.Builder} object constructs a {@link PixbufFormat} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link PixbufFormat.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private PixbufFormat struct;
+        private final PixbufFormat struct;
         
-         /**
-         * A {@link PixbufFormat.Build} object constructs a {@link PixbufFormat} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = PixbufFormat.allocate();
         }
         
          /**
          * Finish building the {@link PixbufFormat} struct.
          * @return A new instance of {@code PixbufFormat} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PixbufFormat construct() {
+        public PixbufFormat build() {
             return struct;
         }
         
@@ -520,10 +565,10 @@ public class PixbufFormat extends Struct {
          * @param name The value for the {@code name} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
             return this;
         }
         
@@ -532,7 +577,7 @@ public class PixbufFormat extends Struct {
          * @param signature The value for the {@code signature} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSignature(org.gtk.gdkpixbuf.PixbufModulePattern signature) {
+        public Builder setSignature(org.gtk.gdkpixbuf.PixbufModulePattern signature) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("signature"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (signature == null ? MemoryAddress.NULL : signature.handle()));
@@ -544,10 +589,10 @@ public class PixbufFormat extends Struct {
          * @param domain The value for the {@code domain} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDomain(java.lang.String domain) {
+        public Builder setDomain(java.lang.String domain) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("domain"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)));
             return this;
         }
         
@@ -556,10 +601,10 @@ public class PixbufFormat extends Struct {
          * @param description The value for the {@code description} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescription(java.lang.String description) {
+        public Builder setDescription(java.lang.String description) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
             return this;
         }
         
@@ -568,7 +613,7 @@ public class PixbufFormat extends Struct {
          * @param mimeTypes The value for the {@code mimeTypes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMimeTypes(java.lang.String[] mimeTypes) {
+        public Builder setMimeTypes(java.lang.String[] mimeTypes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mime_types"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mimeTypes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(mimeTypes, false)));
@@ -581,7 +626,7 @@ public class PixbufFormat extends Struct {
          * @param extensions The value for the {@code extensions} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExtensions(java.lang.String[] extensions) {
+        public Builder setExtensions(java.lang.String[] extensions) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("extensions"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (extensions == null ? MemoryAddress.NULL : Interop.allocateNativeArray(extensions, false)));
@@ -593,7 +638,7 @@ public class PixbufFormat extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(int flags) {
+        public Builder setFlags(int flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -605,10 +650,10 @@ public class PixbufFormat extends Struct {
          * @param disabled The value for the {@code disabled} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisabled(boolean disabled) {
+        public Builder setDisabled(boolean disabled) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("disabled"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), disabled ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(disabled, null).intValue());
             return this;
         }
         
@@ -618,10 +663,10 @@ public class PixbufFormat extends Struct {
          * @param license The value for the {@code license} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLicense(java.lang.String license) {
+        public Builder setLicense(java.lang.String license) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("license"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (license == null ? MemoryAddress.NULL : Interop.allocateNativeString(license)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (license == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(license, null)));
             return this;
         }
     }

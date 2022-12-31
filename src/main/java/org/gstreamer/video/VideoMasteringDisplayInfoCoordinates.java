@@ -18,18 +18,16 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoMasteringDisplayInfoCoordinates";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("x"),
-        Interop.valueLayout.C_SHORT.withName("y")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("x"),
+            Interop.valueLayout.C_SHORT.withName("y")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * Get the value of the field {@code x}
      * @return The value of the field {@code x}
      */
-    public short x$get() {
+    public short getX() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,7 +58,7 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * Change the value of the field {@code x}
      * @param x The new value of the field {@code x}
      */
-    public void x$set(short x) {
+    public void setX(short x) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -70,7 +68,7 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * Get the value of the field {@code y}
      * @return The value of the field {@code y}
      */
-    public short y$get() {
+    public short getY() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,7 +79,7 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * Change the value of the field {@code y}
      * @param y The new value of the field {@code y}
      */
-    public void y$set(short y) {
+    public void setY(short y) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -92,35 +90,41 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoMasteringDisplayInfoCoordinates(Addressable address, Ownership ownership) {
+    protected VideoMasteringDisplayInfoCoordinates(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoMasteringDisplayInfoCoordinates> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoMasteringDisplayInfoCoordinates(input, ownership);
+    
+    /**
+     * A {@link VideoMasteringDisplayInfoCoordinates.Builder} object constructs a {@link VideoMasteringDisplayInfoCoordinates} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoMasteringDisplayInfoCoordinates.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoMasteringDisplayInfoCoordinates struct;
+        private final VideoMasteringDisplayInfoCoordinates struct;
         
-         /**
-         * A {@link VideoMasteringDisplayInfoCoordinates.Build} object constructs a {@link VideoMasteringDisplayInfoCoordinates} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoMasteringDisplayInfoCoordinates.allocate();
         }
         
          /**
          * Finish building the {@link VideoMasteringDisplayInfoCoordinates} struct.
          * @return A new instance of {@code VideoMasteringDisplayInfoCoordinates} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoMasteringDisplayInfoCoordinates construct() {
+        public VideoMasteringDisplayInfoCoordinates build() {
             return struct;
         }
         
@@ -129,7 +133,7 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
          * @param x The value for the {@code x} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setX(short x) {
+        public Builder setX(short x) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -141,7 +145,7 @@ public class VideoMasteringDisplayInfoCoordinates extends Struct {
          * @param y The value for the {@code y} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setY(short y) {
+        public Builder setY(short y) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);

@@ -28,18 +28,16 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
     
     private static final java.lang.String C_TYPE_NAME = "GstGhostPad";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.ProxyPad.getMemoryLayout().withName("pad"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.ProxyPad.getMemoryLayout().withName("pad"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -47,44 +45,29 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
      * <p>
      * Because GhostPad is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GhostPad(Addressable address, Ownership ownership) {
+    protected GhostPad(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GhostPad if its GType is a (or inherits from) "GstGhostPad".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GhostPad} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGhostPad", a ClassCastException will be thrown.
-     */
-    public static GhostPad castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GhostPad.getType())) {
-            return new GhostPad(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGhostPad");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GhostPad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GhostPad(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String name, @NotNull org.gstreamer.gst.Pad target) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String name, org.gstreamer.gst.Pad target) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_ghost_pad_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
                     target.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -100,17 +83,15 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
      * @param name the name of the new pad, or {@code null} to assign a default name
      * @param target the pad to ghost.
      */
-    public GhostPad(@Nullable java.lang.String name, @NotNull org.gstreamer.gst.Pad target) {
+    public GhostPad(@Nullable java.lang.String name, org.gstreamer.gst.Pad target) {
         super(constructNew(name, target), Ownership.NONE);
     }
     
-    private static Addressable constructNewFromTemplate(@Nullable java.lang.String name, @NotNull org.gstreamer.gst.Pad target, @NotNull org.gstreamer.gst.PadTemplate templ) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(templ, "Parameter 'templ' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromTemplate(@Nullable java.lang.String name, org.gstreamer.gst.Pad target, org.gstreamer.gst.PadTemplate templ) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_ghost_pad_new_from_template.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
                     target.handle(),
                     templ.handle());
         } catch (Throwable ERR) {
@@ -130,16 +111,16 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
      * @return a new {@link Pad}, or {@code null} in
      * case of an error.
      */
-    public static GhostPad newFromTemplate(@Nullable java.lang.String name, @NotNull org.gstreamer.gst.Pad target, @NotNull org.gstreamer.gst.PadTemplate templ) {
-        return new GhostPad(constructNewFromTemplate(name, target, templ), Ownership.NONE);
+    public static GhostPad newFromTemplate(@Nullable java.lang.String name, org.gstreamer.gst.Pad target, org.gstreamer.gst.PadTemplate templ) {
+        var RESULT = constructNewFromTemplate(name, target, templ);
+        return (org.gstreamer.gst.GhostPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.GhostPad.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewNoTarget(@Nullable java.lang.String name, @NotNull org.gstreamer.gst.PadDirection dir) {
-        java.util.Objects.requireNonNull(dir, "Parameter 'dir' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewNoTarget(@Nullable java.lang.String name, org.gstreamer.gst.PadDirection dir) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_ghost_pad_new_no_target.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
                     dir.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -158,16 +139,16 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
      * @return a new {@link Pad}, or {@code null} in
      * case of an error.
      */
-    public static GhostPad newNoTarget(@Nullable java.lang.String name, @NotNull org.gstreamer.gst.PadDirection dir) {
-        return new GhostPad(constructNewNoTarget(name, dir), Ownership.NONE);
+    public static GhostPad newNoTarget(@Nullable java.lang.String name, org.gstreamer.gst.PadDirection dir) {
+        var RESULT = constructNewNoTarget(name, dir);
+        return (org.gstreamer.gst.GhostPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.GhostPad.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewNoTargetFromTemplate(@Nullable java.lang.String name, @NotNull org.gstreamer.gst.PadTemplate templ) {
-        java.util.Objects.requireNonNull(templ, "Parameter 'templ' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewNoTargetFromTemplate(@Nullable java.lang.String name, org.gstreamer.gst.PadTemplate templ) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_ghost_pad_new_no_target_from_template.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
                     templ.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -183,8 +164,9 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
      * @return a new {@link Pad}, or {@code null} in
      * case of an error.
      */
-    public static GhostPad newNoTargetFromTemplate(@Nullable java.lang.String name, @NotNull org.gstreamer.gst.PadTemplate templ) {
-        return new GhostPad(constructNewNoTargetFromTemplate(name, templ), Ownership.NONE);
+    public static GhostPad newNoTargetFromTemplate(@Nullable java.lang.String name, org.gstreamer.gst.PadTemplate templ) {
+        var RESULT = constructNewNoTargetFromTemplate(name, templ);
+        return (org.gstreamer.gst.GhostPad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.GhostPad.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -207,7 +189,7 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -224,7 +206,7 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -244,14 +226,14 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_ghost_pad_get_type.invokeExact();
@@ -269,20 +251,18 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
      * @param active whether the pad should be active or not.
      * @return {@code true} if the operation was successful.
      */
-    public static boolean activateModeDefault(@NotNull org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.Object parent, @NotNull org.gstreamer.gst.PadMode mode, boolean active) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static boolean activateModeDefault(org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.gst.PadMode mode, boolean active) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_ghost_pad_activate_mode_default.invokeExact(
                     pad.handle(),
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     mode.getValue(),
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -294,53 +274,53 @@ public class GhostPad extends org.gstreamer.gst.ProxyPad {
      * @param active whether the pad should be active or not.
      * @return {@code true} if the operation was successful.
      */
-    public static boolean internalActivateModeDefault(@NotNull org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.Object parent, @NotNull org.gstreamer.gst.PadMode mode, boolean active) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static boolean internalActivateModeDefault(org.gstreamer.gst.Pad pad, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.gst.PadMode mode, boolean active) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_ghost_pad_internal_activate_mode_default.invokeExact(
                     pad.handle(),
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     mode.getValue(),
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link GhostPad.Builder} object constructs a {@link GhostPad} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GhostPad.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.ProxyPad.Build {
+    public static class Builder extends org.gstreamer.gst.ProxyPad.Builder {
         
-         /**
-         * A {@link GhostPad.Build} object constructs a {@link GhostPad} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GhostPad} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GhostPad} using {@link GhostPad#castFrom}.
+         * {@link GhostPad}.
          * @return A new instance of {@code GhostPad} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GhostPad construct() {
-            return GhostPad.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GhostPad.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GhostPad build() {
+            return (GhostPad) org.gtk.gobject.GObject.newWithProperties(
+                GhostPad.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

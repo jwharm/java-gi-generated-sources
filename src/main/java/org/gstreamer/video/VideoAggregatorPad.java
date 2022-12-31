@@ -13,20 +13,18 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoAggregatorPad";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.base.AggregatorPad.getMemoryLayout().withName("parent"),
-        org.gstreamer.video.VideoInfo.getMemoryLayout().withName("info"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.base.AggregatorPad.getMemoryLayout().withName("parent"),
+            org.gstreamer.video.VideoInfo.getMemoryLayout().withName("info"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -34,37 +32,23 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
      * <p>
      * Because VideoAggregatorPad is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoAggregatorPad(Addressable address, Ownership ownership) {
+    protected VideoAggregatorPad(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VideoAggregatorPad if its GType is a (or inherits from) "GstVideoAggregatorPad".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VideoAggregatorPad} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVideoAggregatorPad", a ClassCastException will be thrown.
-     */
-    public static VideoAggregatorPad castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VideoAggregatorPad.getType())) {
-            return new VideoAggregatorPad(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVideoAggregatorPad");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoAggregatorPad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorPad(input, ownership);
     
     /**
      * Returns the currently queued buffer that is going to be used
@@ -77,7 +61,7 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
      * returns.
      * @return The currently queued buffer
      */
-    public @NotNull org.gstreamer.gst.Buffer getCurrentBuffer() {
+    public org.gstreamer.gst.Buffer getCurrentBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_aggregator_pad_get_current_buffer.invokeExact(
@@ -85,7 +69,7 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -99,7 +83,7 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
      * returns.
      * @return The currently prepared video frame
      */
-    public @NotNull org.gstreamer.video.VideoFrame getPreparedFrame() {
+    public org.gstreamer.video.VideoFrame getPreparedFrame() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_aggregator_pad_get_prepared_frame.invokeExact(
@@ -107,7 +91,7 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoFrame(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoFrame.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -126,7 +110,7 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -137,7 +121,7 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
         try {
             DowncallHandles.gst_video_aggregator_pad_set_needs_alpha.invokeExact(
                     handle(),
-                    needsAlpha ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(needsAlpha, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,7 +131,7 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_aggregator_pad_get_type.invokeExact();
@@ -156,54 +140,56 @@ public class VideoAggregatorPad extends org.gstreamer.base.AggregatorPad {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link VideoAggregatorPad.Builder} object constructs a {@link VideoAggregatorPad} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VideoAggregatorPad.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.base.AggregatorPad.Build {
+    public static class Builder extends org.gstreamer.base.AggregatorPad.Builder {
         
-         /**
-         * A {@link VideoAggregatorPad.Build} object constructs a {@link VideoAggregatorPad} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VideoAggregatorPad} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VideoAggregatorPad} using {@link VideoAggregatorPad#castFrom}.
+         * {@link VideoAggregatorPad}.
          * @return A new instance of {@code VideoAggregatorPad} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoAggregatorPad construct() {
-            return VideoAggregatorPad.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VideoAggregatorPad.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VideoAggregatorPad build() {
+            return (VideoAggregatorPad) org.gtk.gobject.GObject.newWithProperties(
+                VideoAggregatorPad.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setMaxLastBufferRepeat(long maxLastBufferRepeat) {
+        public Builder setMaxLastBufferRepeat(long maxLastBufferRepeat) {
             names.add("max-last-buffer-repeat");
             values.add(org.gtk.gobject.Value.create(maxLastBufferRepeat));
             return this;
         }
         
-        public Build setRepeatAfterEos(boolean repeatAfterEos) {
+        public Builder setRepeatAfterEos(boolean repeatAfterEos) {
             names.add("repeat-after-eos");
             values.add(org.gtk.gobject.Value.create(repeatAfterEos));
             return this;
         }
         
-        public Build setZorder(int zorder) {
+        public Builder setZorder(int zorder) {
             names.add("zorder");
             values.add(org.gtk.gobject.Value.create(zorder));
             return this;

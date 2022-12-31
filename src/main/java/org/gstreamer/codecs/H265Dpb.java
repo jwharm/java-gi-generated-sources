@@ -40,18 +40,19 @@ public class H265Dpb extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public H265Dpb(Addressable address, Ownership ownership) {
+    protected H265Dpb(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, H265Dpb> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H265Dpb(input, ownership);
     
     /**
      * Store the {@code picture} and perform increase pic_latency_cnt as defined in
      * "C.5.2.3 Additional bumping" process
      * @param picture a {@link H265Picture}
      */
-    public void add(@NotNull org.gstreamer.codecs.H265Picture picture) {
-        java.util.Objects.requireNonNull(picture, "Parameter 'picture' must not be null");
+    public void add(org.gstreamer.codecs.H265Picture picture) {
         try {
             DowncallHandles.gst_h265_dpb_add.invokeExact(
                     handle(),
@@ -75,11 +76,11 @@ public class H265Dpb extends Struct {
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_h265_dpb_bump.invokeExact(
                     handle(),
-                    drain ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(drain, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H265Picture(RESULT, Ownership.FULL);
+        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -132,7 +133,7 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H265Picture(RESULT, Ownership.FULL);
+        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public int getMaxNumPics() {
@@ -146,7 +147,7 @@ public class H265Dpb extends Struct {
         return RESULT;
     }
     
-    public @NotNull org.gstreamer.codecs.H265Picture getPicture(int systemFrameNumber) {
+    public org.gstreamer.codecs.H265Picture getPicture(int systemFrameNumber) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_h265_dpb_get_picture.invokeExact(
@@ -155,10 +156,10 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H265Picture(RESULT, Ownership.FULL);
+        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull PointerProxy<org.gstreamer.codecs.H265Picture> getPicturesAll() {
+    public PointerProxy<org.gstreamer.codecs.H265Picture> getPicturesAll() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_h265_dpb_get_pictures_all.invokeExact(
@@ -166,7 +167,7 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<org.gstreamer.codecs.H265Picture>(RESULT, org.gstreamer.codecs.H265Picture.class);
+        return new PointerProxy<org.gstreamer.codecs.H265Picture>(RESULT, org.gstreamer.codecs.H265Picture.fromAddress);
     }
     
     /**
@@ -183,7 +184,7 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H265Picture(RESULT, Ownership.FULL);
+        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -200,7 +201,7 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H265Picture(RESULT, Ownership.FULL);
+        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -217,7 +218,7 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H265Picture(RESULT, Ownership.FULL);
+        return org.gstreamer.codecs.H265Picture.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     public int getSize() {
@@ -254,7 +255,7 @@ public class H265Dpb extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public int numRefPictures() {
@@ -286,14 +287,14 @@ public class H265Dpb extends Struct {
      * Create new {@link H265Dpb}
      * @return a new {@link H265Dpb}
      */
-    public static @NotNull org.gstreamer.codecs.H265Dpb new_() {
+    public static org.gstreamer.codecs.H265Dpb new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_h265_dpb_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H265Dpb(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.H265Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

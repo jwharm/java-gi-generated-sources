@@ -122,40 +122,26 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * Because LevelBar is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LevelBar(Addressable address, Ownership ownership) {
+    protected LevelBar(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to LevelBar if its GType is a (or inherits from) "GtkLevelBar".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code LevelBar} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkLevelBar", a ClassCastException will be thrown.
-     */
-    public static LevelBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), LevelBar.getType())) {
-            return new LevelBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkLevelBar");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LevelBar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LevelBar(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_level_bar_new.invokeExact();
         } catch (Throwable ERR) {
@@ -171,8 +157,8 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewForInterval(double minValue, double maxValue) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForInterval(double minValue, double maxValue) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_level_bar_new_for_interval.invokeExact(
                     minValue,
@@ -190,7 +176,8 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return a {@code GtkLevelBar}
      */
     public static LevelBar newForInterval(double minValue, double maxValue) {
-        return new LevelBar(constructNewForInterval(minValue, maxValue), Ownership.NONE);
+        var RESULT = constructNewForInterval(minValue, maxValue);
+        return (org.gtk.gtk.LevelBar) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.LevelBar.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -206,12 +193,11 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param name the name of the new offset
      * @param value the value for the new offset
      */
-    public void addOffsetValue(@NotNull java.lang.String name, double value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void addOffsetValue(java.lang.String name, double value) {
         try {
             DowncallHandles.gtk_level_bar_add_offset_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -230,7 +216,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -267,7 +253,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Returns the {@code mode} of the {@code GtkLevelBar}.
      * @return a {@code GtkLevelBarMode}
      */
-    public @NotNull org.gtk.gtk.LevelBarMode getMode() {
+    public org.gtk.gtk.LevelBarMode getMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_level_bar_get_mode.invokeExact(
@@ -285,19 +271,18 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return {@code true} if the specified offset is found
      */
     public boolean getOffsetValue(@Nullable java.lang.String name, Out<Double> value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_level_bar_get_offset_value.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -327,7 +312,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_level_bar_remove_offset_value.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -341,7 +326,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_level_bar_set_inverted.invokeExact(
                     handle(),
-                    inverted ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(inverted, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,8 +370,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Sets the {@code mode} of the {@code GtkLevelBar}.
      * @param mode a {@code GtkLevelBarMode}
      */
-    public void setMode(@NotNull org.gtk.gtk.LevelBarMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setMode(org.gtk.gtk.LevelBarMode mode) {
         try {
             DowncallHandles.gtk_level_bar_set_mode.invokeExact(
                     handle(),
@@ -415,7 +399,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_level_bar_get_type.invokeExact();
@@ -427,7 +411,18 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface OffsetChanged {
-        void signalReceived(LevelBar sourceLevelBar, @NotNull java.lang.String name);
+        void run(java.lang.String name);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceLevelBar, MemoryAddress name) {
+            run(Marshal.addressToString.marshal(name, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(OffsetChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -446,52 +441,46 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<LevelBar.OffsetChanged> onOffsetChanged(@Nullable String detail, LevelBar.OffsetChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("offset-changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(LevelBar.Callbacks.class, "signalLevelBarOffsetChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<LevelBar.OffsetChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("offset-changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link LevelBar.Builder} object constructs a {@link LevelBar} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link LevelBar.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link LevelBar.Build} object constructs a {@link LevelBar} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link LevelBar} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link LevelBar} using {@link LevelBar#castFrom}.
+         * {@link LevelBar}.
          * @return A new instance of {@code LevelBar} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public LevelBar construct() {
-            return LevelBar.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    LevelBar.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public LevelBar build() {
+            return (LevelBar) org.gtk.gobject.GObject.newWithProperties(
+                LevelBar.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -503,7 +492,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param inverted The value for the {@code inverted} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInverted(boolean inverted) {
+        public Builder setInverted(boolean inverted) {
             names.add("inverted");
             values.add(org.gtk.gobject.Value.create(inverted));
             return this;
@@ -514,7 +503,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param maxValue The value for the {@code max-value} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxValue(double maxValue) {
+        public Builder setMaxValue(double maxValue) {
             names.add("max-value");
             values.add(org.gtk.gobject.Value.create(maxValue));
             return this;
@@ -525,7 +514,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param minValue The value for the {@code min-value} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinValue(double minValue) {
+        public Builder setMinValue(double minValue) {
             names.add("min-value");
             values.add(org.gtk.gobject.Value.create(minValue));
             return this;
@@ -545,7 +534,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param mode The value for the {@code mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMode(org.gtk.gtk.LevelBarMode mode) {
+        public Builder setMode(org.gtk.gtk.LevelBarMode mode) {
             names.add("mode");
             values.add(org.gtk.gobject.Value.create(mode));
             return this;
@@ -556,7 +545,7 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param value The value for the {@code value} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(double value) {
+        public Builder setValue(double value) {
             names.add("value");
             values.add(org.gtk.gobject.Value.create(value));
             return this;
@@ -660,14 +649,5 @@ public class LevelBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalLevelBarOffsetChanged(MemoryAddress sourceLevelBar, MemoryAddress name, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (LevelBar.OffsetChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new LevelBar(sourceLevelBar, Ownership.NONE), Interop.getStringFrom(name));
-        }
     }
 }

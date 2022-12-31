@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface IteratorCopyFunction {
-        void onIteratorCopyFunction(@NotNull org.gstreamer.gst.Iterator it, @NotNull org.gstreamer.gst.Iterator copy);
+    void run(org.gstreamer.gst.Iterator it, org.gstreamer.gst.Iterator copy);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress it, MemoryAddress copy) {
+        run(org.gstreamer.gst.Iterator.fromAddress.marshal(it, Ownership.NONE), org.gstreamer.gst.Iterator.fromAddress.marshal(copy, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IteratorCopyFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

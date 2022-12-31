@@ -120,18 +120,16 @@ public class Structure extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstStructure";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("type"),
-        Interop.valueLayout.C_INT.withName("name")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("type"),
+            Interop.valueLayout.C_INT.withName("name")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -151,7 +149,7 @@ public class Structure extends Struct {
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gtk.glib.Type type$get() {
+    public org.gtk.glib.Type getType() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -162,10 +160,10 @@ public class Structure extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gtk.glib.Type type) {
+    public void setType(org.gtk.glib.Type type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
     }
     
     /**
@@ -173,24 +171,24 @@ public class Structure extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Structure(Addressable address, Ownership ownership) {
+    protected Structure(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructFromString(@NotNull java.lang.String string, @NotNull Out<java.lang.String> end) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Structure> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Structure(input, ownership);
+    
+    private static MemoryAddress constructFromString(java.lang.String string, @Nullable Out<java.lang.String> end) {
         MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_from_string.invokeExact(
-                    Interop.allocateNativeString(string),
-                    (Addressable) endPOINTER.address());
+                    Marshal.stringToAddress.marshal(string, null),
+                    (Addressable) (end == null ? MemoryAddress.NULL : (Addressable) endPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        end.set(Interop.getStringFrom(endPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (end != null) end.set(Marshal.addressToString.marshal(endPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return RESULT;
     }
     
@@ -206,18 +204,17 @@ public class Structure extends Struct {
      *     when the string could not be parsed. Free with
      *     gst_structure_free() after use.
      */
-    public static Structure fromString(@NotNull java.lang.String string, @NotNull Out<java.lang.String> end) {
-        return new Structure(constructFromString(string, end), Ownership.FULL);
+    public static Structure fromString(java.lang.String string, @Nullable Out<java.lang.String> end) {
+        var RESULT = constructFromString(string, end);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String name, @NotNull java.lang.String firstfield, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(firstfield, "Parameter 'firstfield' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String name, java.lang.String firstfield, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_new.invokeExact(
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(firstfield),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(firstfield, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -236,16 +233,15 @@ public class Structure extends Struct {
      * @param firstfield name of first field to set
      * @param varargs additional arguments
      */
-    public Structure(@NotNull java.lang.String name, @NotNull java.lang.String firstfield, java.lang.Object... varargs) {
+    public Structure(java.lang.String name, java.lang.String firstfield, java.lang.Object... varargs) {
         super(constructNew(name, firstfield, varargs), Ownership.FULL);
     }
     
-    private static Addressable constructNewEmpty(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewEmpty(java.lang.String name) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_empty.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -261,16 +257,16 @@ public class Structure extends Struct {
      * @param name name of new structure
      * @return a new, empty {@link Structure}
      */
-    public static Structure newEmpty(@NotNull java.lang.String name) {
-        return new Structure(constructNewEmpty(name), Ownership.FULL);
+    public static Structure newEmpty(java.lang.String name) {
+        var RESULT = constructNewEmpty(name);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromString(java.lang.String string) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_from_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -293,14 +289,13 @@ public class Structure extends Struct {
      *     when the string could not be parsed. Free with
      *     gst_structure_free() after use.
      */
-    public static Structure newFromString(@NotNull java.lang.String string) {
-        return new Structure(constructNewFromString(string), Ownership.FULL);
+    public static Structure newFromString(java.lang.String string) {
+        var RESULT = constructNewFromString(string);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewId(@NotNull org.gtk.glib.Quark nameQuark, @NotNull org.gtk.glib.Quark fieldQuark, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(nameQuark, "Parameter 'nameQuark' must not be null");
-        java.util.Objects.requireNonNull(fieldQuark, "Parameter 'fieldQuark' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewId(org.gtk.glib.Quark nameQuark, org.gtk.glib.Quark fieldQuark, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_id.invokeExact(
                     nameQuark.getValue().intValue(),
@@ -326,13 +321,13 @@ public class Structure extends Struct {
      * @param varargs variable arguments
      * @return a new {@link Structure}
      */
-    public static Structure newId(@NotNull org.gtk.glib.Quark nameQuark, @NotNull org.gtk.glib.Quark fieldQuark, java.lang.Object... varargs) {
-        return new Structure(constructNewId(nameQuark, fieldQuark, varargs), Ownership.FULL);
+    public static Structure newId(org.gtk.glib.Quark nameQuark, org.gtk.glib.Quark fieldQuark, java.lang.Object... varargs) {
+        var RESULT = constructNewId(nameQuark, fieldQuark, varargs);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewIdEmpty(@NotNull org.gtk.glib.Quark quark) {
-        java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewIdEmpty(org.gtk.glib.Quark quark) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_id_empty.invokeExact(
                     quark.getValue().intValue());
@@ -349,19 +344,17 @@ public class Structure extends Struct {
      * @param quark name of new structure
      * @return a new, empty {@link Structure}
      */
-    public static Structure newIdEmpty(@NotNull org.gtk.glib.Quark quark) {
-        return new Structure(constructNewIdEmpty(quark), Ownership.FULL);
+    public static Structure newIdEmpty(org.gtk.glib.Quark quark) {
+        var RESULT = constructNewIdEmpty(quark);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewValist(@NotNull java.lang.String name, @NotNull java.lang.String firstfield, @NotNull VaList varargs) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(firstfield, "Parameter 'firstfield' must not be null");
-        java.util.Objects.requireNonNull(varargs, "Parameter 'varargs' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewValist(java.lang.String name, java.lang.String firstfield, VaList varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_new_valist.invokeExact(
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(firstfield),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(firstfield, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -382,8 +375,9 @@ public class Structure extends Struct {
      * @param varargs variable argument list
      * @return a new {@link Structure}
      */
-    public static Structure newValist(@NotNull java.lang.String name, @NotNull java.lang.String firstfield, @NotNull VaList varargs) {
-        return new Structure(constructNewValist(name, firstfield, varargs), Ownership.FULL);
+    public static Structure newValist(java.lang.String name, java.lang.String firstfield, VaList varargs) {
+        var RESULT = constructNewValist(name, firstfield, varargs);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -392,8 +386,7 @@ public class Structure extends Struct {
      * @param struct2 a {@link Structure}
      * @return {@code true} if intersection would not be empty
      */
-    public boolean canIntersect(@NotNull org.gstreamer.gst.Structure struct2) {
-        java.util.Objects.requireNonNull(struct2, "Parameter 'struct2' must not be null");
+    public boolean canIntersect(org.gstreamer.gst.Structure struct2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_can_intersect.invokeExact(
@@ -402,7 +395,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -411,7 +404,7 @@ public class Structure extends Struct {
      * Free-function: gst_structure_free
      * @return a new {@link Structure}.
      */
-    public @NotNull org.gstreamer.gst.Structure copy() {
+    public org.gstreamer.gst.Structure copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_copy.invokeExact(
@@ -419,7 +412,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -430,17 +423,12 @@ public class Structure extends Struct {
      * The structure must be mutable.
      * @param func a function to call for each field
      */
-    public void filterAndMapInPlace(@NotNull org.gstreamer.gst.StructureFilterMapFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void filterAndMapInPlace(org.gstreamer.gst.StructureFilterMapFunc func) {
         try {
             DowncallHandles.gst_structure_filter_and_map_in_place.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbStructureFilterMapFunc",
-                            MethodType.methodType(int.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -464,17 +452,16 @@ public class Structure extends Struct {
      * @param fieldName a field in {@code structure}
      * @return {@code true} if the structure field could be fixated
      */
-    public boolean fixateField(@NotNull java.lang.String fieldName) {
-        java.util.Objects.requireNonNull(fieldName, "Parameter 'fieldName' must not be null");
+    public boolean fixateField(java.lang.String fieldName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_fixate_field.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldName));
+                    Marshal.stringToAddress.marshal(fieldName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -484,18 +471,17 @@ public class Structure extends Struct {
      * @param target the target value of the fixation
      * @return {@code true} if the structure could be fixated
      */
-    public boolean fixateFieldBoolean(@NotNull java.lang.String fieldName, boolean target) {
-        java.util.Objects.requireNonNull(fieldName, "Parameter 'fieldName' must not be null");
+    public boolean fixateFieldBoolean(java.lang.String fieldName, boolean target) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_fixate_field_boolean.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldName),
-                    target ? 1 : 0);
+                    Marshal.stringToAddress.marshal(fieldName, null),
+                    Marshal.booleanToInteger.marshal(target, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -505,18 +491,17 @@ public class Structure extends Struct {
      * @param target the target value of the fixation
      * @return {@code true} if the structure could be fixated
      */
-    public boolean fixateFieldNearestDouble(@NotNull java.lang.String fieldName, double target) {
-        java.util.Objects.requireNonNull(fieldName, "Parameter 'fieldName' must not be null");
+    public boolean fixateFieldNearestDouble(java.lang.String fieldName, double target) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_fixate_field_nearest_double.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldName),
+                    Marshal.stringToAddress.marshal(fieldName, null),
                     target);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -528,19 +513,18 @@ public class Structure extends Struct {
      * @param targetDenominator The denominator of the target value of the fixation
      * @return {@code true} if the structure could be fixated
      */
-    public boolean fixateFieldNearestFraction(@NotNull java.lang.String fieldName, int targetNumerator, int targetDenominator) {
-        java.util.Objects.requireNonNull(fieldName, "Parameter 'fieldName' must not be null");
+    public boolean fixateFieldNearestFraction(java.lang.String fieldName, int targetNumerator, int targetDenominator) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_fixate_field_nearest_fraction.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldName),
+                    Marshal.stringToAddress.marshal(fieldName, null),
                     targetNumerator,
                     targetDenominator);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -550,18 +534,17 @@ public class Structure extends Struct {
      * @param target the target value of the fixation
      * @return {@code true} if the structure could be fixated
      */
-    public boolean fixateFieldNearestInt(@NotNull java.lang.String fieldName, int target) {
-        java.util.Objects.requireNonNull(fieldName, "Parameter 'fieldName' must not be null");
+    public boolean fixateFieldNearestInt(java.lang.String fieldName, int target) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_fixate_field_nearest_int.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldName),
+                    Marshal.stringToAddress.marshal(fieldName, null),
                     target);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -571,19 +554,17 @@ public class Structure extends Struct {
      * @param target the target value of the fixation
      * @return {@code true} if the structure could be fixated
      */
-    public boolean fixateFieldString(@NotNull java.lang.String fieldName, @NotNull java.lang.String target) {
-        java.util.Objects.requireNonNull(fieldName, "Parameter 'fieldName' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public boolean fixateFieldString(java.lang.String fieldName, java.lang.String target) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_fixate_field_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldName),
-                    Interop.allocateNativeString(target));
+                    Marshal.stringToAddress.marshal(fieldName, null),
+                    Marshal.stringToAddress.marshal(target, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -594,22 +575,17 @@ public class Structure extends Struct {
      * @return {@code true} if the supplied function returns {@code true} For each of the fields,
      * {@code false} otherwise.
      */
-    public boolean foreach(@NotNull org.gstreamer.gst.StructureForeachFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public boolean foreach(org.gstreamer.gst.StructureForeachFunc func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbStructureForeachFunc",
-                            MethodType.methodType(int.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -642,18 +618,17 @@ public class Structure extends Struct {
      *     because the field requested did not exist, or was of a type other
      *     than the type specified), otherwise {@code true}.
      */
-    public boolean get(@NotNull java.lang.String firstFieldname, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstFieldname, "Parameter 'firstFieldname' must not be null");
+    public boolean get(java.lang.String firstFieldname, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(firstFieldname),
+                    Marshal.stringToAddress.marshal(firstFieldname, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -667,21 +642,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a {@code GST_TYPE_ARRAY},
      * this function returns {@code false}.
      */
-    public boolean getArray(@NotNull java.lang.String fieldname, @NotNull Out<org.gtk.gobject.ValueArray> array) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public boolean getArray(java.lang.String fieldname, Out<org.gtk.gobject.ValueArray> array) {
         MemorySegment arrayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_array.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) arrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        array.set(new org.gtk.gobject.ValueArray(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        array.set(org.gtk.gobject.ValueArray.fromAddress.marshal(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -694,21 +667,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a boolean, this
      * function returns {@code false}.
      */
-    public boolean getBoolean(@NotNull java.lang.String fieldname, Out<Boolean> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getBoolean(java.lang.String fieldname, Out<Boolean> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_boolean.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -721,21 +692,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a {@link ClockTime}, this
      * function returns {@code false}.
      */
-    public boolean getClockTime(@NotNull java.lang.String fieldname, @NotNull Out<org.gstreamer.gst.ClockTime> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getClockTime(java.lang.String fieldname, org.gstreamer.gst.ClockTime value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_clock_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(new org.gstreamer.gst.ClockTime(valuePOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        return RESULT != 0;
+        value.setValue(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -753,21 +722,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a data, this function
      * returns {@code false}.
      */
-    public boolean getDate(@NotNull java.lang.String fieldname, @NotNull Out<org.gtk.glib.Date> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getDate(java.lang.String fieldname, Out<org.gtk.glib.Date> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_date.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(new org.gtk.glib.Date(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        value.set(org.gtk.glib.Date.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -785,21 +752,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a data, this function
      * returns {@code false}.
      */
-    public boolean getDateTime(@NotNull java.lang.String fieldname, @NotNull Out<org.gstreamer.gst.DateTime> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getDateTime(java.lang.String fieldname, Out<org.gstreamer.gst.DateTime> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_date_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(new org.gstreamer.gst.DateTime(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        value.set(org.gstreamer.gst.DateTime.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -812,21 +777,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a double, this
      * function returns {@code false}.
      */
-    public boolean getDouble(@NotNull java.lang.String fieldname, Out<Double> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getDouble(java.lang.String fieldname, Out<Double> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_double.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -840,23 +803,20 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain an enum of the given
      * type, this function returns {@code false}.
      */
-    public boolean getEnum(@NotNull java.lang.String fieldname, @NotNull org.gtk.glib.Type enumtype, Out<Integer> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(enumtype, "Parameter 'enumtype' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getEnum(java.lang.String fieldname, org.gtk.glib.Type enumtype, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_enum.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     enumtype.getValue().longValue(),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -866,13 +826,12 @@ public class Structure extends Struct {
      * @param fieldname the name of the field
      * @return the {@link org.gtk.gobject.Value} of the field
      */
-    public @NotNull org.gtk.glib.Type getFieldType(@NotNull java.lang.String fieldname) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
+    public org.gtk.glib.Type getFieldType(java.lang.String fieldname) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_structure_get_field_type.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname));
+                    Marshal.stringToAddress.marshal(fieldname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -889,25 +848,22 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a GstFlagSet, this
      * function returns {@code false}.
      */
-    public boolean getFlagset(@NotNull java.lang.String fieldname, Out<Integer> valueFlags, Out<Integer> valueMask) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(valueFlags, "Parameter 'valueFlags' must not be null");
+    public boolean getFlagset(java.lang.String fieldname, Out<Integer> valueFlags, Out<Integer> valueMask) {
         MemorySegment valueFlagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(valueMask, "Parameter 'valueMask' must not be null");
         MemorySegment valueMaskPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_flagset.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
-                    (Addressable) valueFlagsPOINTER.address(),
-                    (Addressable) valueMaskPOINTER.address());
+                    Marshal.stringToAddress.marshal(fieldname, null),
+                    (Addressable) (valueFlags == null ? MemoryAddress.NULL : (Addressable) valueFlagsPOINTER.address()),
+                    (Addressable) (valueMask == null ? MemoryAddress.NULL : (Addressable) valueMaskPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        valueFlags.set(valueFlagsPOINTER.get(Interop.valueLayout.C_INT, 0));
-        valueMask.set(valueMaskPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (valueFlags != null) valueFlags.set(valueFlagsPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (valueMask != null) valueMask.set(valueMaskPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -921,17 +877,14 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a GstFraction, this
      * function returns {@code false}.
      */
-    public boolean getFraction(@NotNull java.lang.String fieldname, Out<Integer> valueNumerator, Out<Integer> valueDenominator) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(valueNumerator, "Parameter 'valueNumerator' must not be null");
+    public boolean getFraction(java.lang.String fieldname, Out<Integer> valueNumerator, Out<Integer> valueDenominator) {
         MemorySegment valueNumeratorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(valueDenominator, "Parameter 'valueDenominator' must not be null");
         MemorySegment valueDenominatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_fraction.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valueNumeratorPOINTER.address(),
                     (Addressable) valueDenominatorPOINTER.address());
         } catch (Throwable ERR) {
@@ -939,7 +892,7 @@ public class Structure extends Struct {
         }
         valueNumerator.set(valueNumeratorPOINTER.get(Interop.valueLayout.C_INT, 0));
         valueDenominator.set(valueDenominatorPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -952,21 +905,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain an int, this function
      * returns {@code false}.
      */
-    public boolean getInt(@NotNull java.lang.String fieldname, Out<Integer> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getInt(java.lang.String fieldname, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_int.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -979,21 +930,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a {@code gint64}, this function
      * returns {@code false}.
      */
-    public boolean getInt64(@NotNull java.lang.String fieldname, Out<Long> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getInt64(java.lang.String fieldname, Out<Long> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_int64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1007,28 +956,26 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a {@code GST_TYPE_LIST}, this
      * function returns {@code false}.
      */
-    public boolean getList(@NotNull java.lang.String fieldname, @NotNull Out<org.gtk.gobject.ValueArray> array) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public boolean getList(java.lang.String fieldname, Out<org.gtk.gobject.ValueArray> array) {
         MemorySegment arrayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) arrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        array.set(new org.gtk.gobject.ValueArray(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        array.set(org.gtk.gobject.ValueArray.fromAddress.marshal(arrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the name of {@code structure} as a string.
      * @return the name of the structure.
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_get_name.invokeExact(
@@ -1036,14 +983,14 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the name of {@code structure} as a GQuark.
      * @return the quark representing the name of the structure.
      */
-    public @NotNull org.gtk.glib.Quark getNameId() {
+    public org.gtk.glib.Quark getNameId() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_name_id.invokeExact(
@@ -1065,17 +1012,16 @@ public class Structure extends Struct {
      * @return a pointer to the string or {@code null} when the
      * field did not exist or did not contain a string.
      */
-    public @Nullable java.lang.String getString(@NotNull java.lang.String fieldname) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
+    public @Nullable java.lang.String getString(java.lang.String fieldname) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_get_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname));
+                    Marshal.stringToAddress.marshal(fieldname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1088,21 +1034,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a uint, this function
      * returns {@code false}.
      */
-    public boolean getUint(@NotNull java.lang.String fieldname, Out<Integer> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getUint(java.lang.String fieldname, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_uint.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1115,21 +1059,19 @@ public class Structure extends Struct {
      * with {@code fieldname} or the existing field did not contain a {@code guint64}, this function
      * returns {@code false}.
      */
-    public boolean getUint64(@NotNull java.lang.String fieldname, Out<Long> value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getUint64(java.lang.String fieldname, Out<Long> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_uint64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1140,19 +1082,17 @@ public class Structure extends Struct {
      * @param args variable arguments
      * @return {@code true}, or {@code false} if there was a problem reading any of the fields
      */
-    public boolean getValist(@NotNull java.lang.String firstFieldname, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(firstFieldname, "Parameter 'firstFieldname' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public boolean getValist(java.lang.String firstFieldname, VaList args) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_get_valist.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(firstFieldname),
+                    Marshal.stringToAddress.marshal(firstFieldname, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1161,17 +1101,16 @@ public class Structure extends Struct {
      * @return the {@link org.gtk.gobject.Value} corresponding to the field with the given
      * name.
      */
-    public @Nullable org.gtk.gobject.Value getValue(@NotNull java.lang.String fieldname) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
+    public @Nullable org.gtk.gobject.Value getValue(java.lang.String fieldname) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_get_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname));
+                    Marshal.stringToAddress.marshal(fieldname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1179,17 +1118,16 @@ public class Structure extends Struct {
      * @param fieldname the name of a field
      * @return {@code true} if the structure contains a field with the given name
      */
-    public boolean hasField(@NotNull java.lang.String fieldname) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
+    public boolean hasField(java.lang.String fieldname) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_has_field.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname));
+                    Marshal.stringToAddress.marshal(fieldname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1198,19 +1136,17 @@ public class Structure extends Struct {
      * @param type the type of a value
      * @return {@code true} if the structure contains a field with the given name and type
      */
-    public boolean hasFieldTyped(@NotNull java.lang.String fieldname, @NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public boolean hasFieldTyped(java.lang.String fieldname, org.gtk.glib.Type type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_has_field_typed.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     type.getValue().longValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1218,17 +1154,16 @@ public class Structure extends Struct {
      * @param name structure name to check for
      * @return {@code true} if {@code name} matches the name of the structure.
      */
-    public boolean hasName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean hasName(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_has_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1253,8 +1188,7 @@ public class Structure extends Struct {
      *     because the field requested did not exist, or was of a type other
      *     than the type specified), otherwise {@code true}.
      */
-    public boolean idGet(@NotNull org.gtk.glib.Quark firstFieldId, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstFieldId, "Parameter 'firstFieldId' must not be null");
+    public boolean idGet(org.gtk.glib.Quark firstFieldId, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_id_get.invokeExact(
@@ -1264,7 +1198,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1275,9 +1209,7 @@ public class Structure extends Struct {
      * @param args variable arguments
      * @return {@code true}, or {@code false} if there was a problem reading any of the fields
      */
-    public boolean idGetValist(@NotNull org.gtk.glib.Quark firstFieldId, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(firstFieldId, "Parameter 'firstFieldId' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public boolean idGetValist(org.gtk.glib.Quark firstFieldId, VaList args) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_id_get_valist.invokeExact(
@@ -1287,7 +1219,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1296,8 +1228,7 @@ public class Structure extends Struct {
      * @return the {@link org.gtk.gobject.Value} corresponding to the field with the given
      * name identifier.
      */
-    public @Nullable org.gtk.gobject.Value idGetValue(@NotNull org.gtk.glib.Quark field) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
+    public @Nullable org.gtk.gobject.Value idGetValue(org.gtk.glib.Quark field) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_id_get_value.invokeExact(
@@ -1306,7 +1237,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1314,8 +1245,7 @@ public class Structure extends Struct {
      * @param field {@link org.gtk.glib.Quark} of the field name
      * @return {@code true} if the structure contains a field with the given name
      */
-    public boolean idHasField(@NotNull org.gtk.glib.Quark field) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
+    public boolean idHasField(org.gtk.glib.Quark field) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_id_has_field.invokeExact(
@@ -1324,7 +1254,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1333,9 +1263,7 @@ public class Structure extends Struct {
      * @param type the type of a value
      * @return {@code true} if the structure contains a field with the given name and type
      */
-    public boolean idHasFieldTyped(@NotNull org.gtk.glib.Quark field, @NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public boolean idHasFieldTyped(org.gtk.glib.Quark field, org.gtk.glib.Type type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_id_has_field_typed.invokeExact(
@@ -1345,7 +1273,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1357,8 +1285,7 @@ public class Structure extends Struct {
      * @param fieldname the GQuark for the name of the field to set
      * @param varargs variable arguments
      */
-    public void idSet(@NotNull org.gtk.glib.Quark fieldname, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
+    public void idSet(org.gtk.glib.Quark fieldname, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_structure_id_set.invokeExact(
                     handle(),
@@ -1374,9 +1301,7 @@ public class Structure extends Struct {
      * @param fieldname the name of the field to set
      * @param varargs variable arguments
      */
-    public void idSetValist(@NotNull org.gtk.glib.Quark fieldname, @NotNull VaList varargs) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(varargs, "Parameter 'varargs' must not be null");
+    public void idSetValist(org.gtk.glib.Quark fieldname, VaList varargs) {
         try {
             DowncallHandles.gst_structure_id_set_valist.invokeExact(
                     handle(),
@@ -1394,9 +1319,7 @@ public class Structure extends Struct {
      * @param field a {@link org.gtk.glib.Quark} representing a field
      * @param value the new value of the field
      */
-    public void idSetValue(@NotNull org.gtk.glib.Quark field, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void idSetValue(org.gtk.glib.Quark field, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gst_structure_id_set_value.invokeExact(
                     handle(),
@@ -1414,9 +1337,7 @@ public class Structure extends Struct {
      * @param field a {@link org.gtk.glib.Quark} representing a field
      * @param value the new value of the field
      */
-    public void idTakeValue(@NotNull org.gtk.glib.Quark field, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void idTakeValue(org.gtk.glib.Quark field, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gst_structure_id_take_value.invokeExact(
                     handle(),
@@ -1433,8 +1354,7 @@ public class Structure extends Struct {
      * @param struct2 a {@link Structure}
      * @return Intersection of {@code struct1} and {@code struct2}
      */
-    public @Nullable org.gstreamer.gst.Structure intersect(@NotNull org.gstreamer.gst.Structure struct2) {
-        java.util.Objects.requireNonNull(struct2, "Parameter 'struct2' must not be null");
+    public @Nullable org.gstreamer.gst.Structure intersect(org.gstreamer.gst.Structure struct2) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_intersect.invokeExact(
@@ -1443,7 +1363,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1451,8 +1371,7 @@ public class Structure extends Struct {
      * @param structure2 a {@link Structure}.
      * @return {@code true} if the two structures have the same name and field.
      */
-    public boolean isEqual(@NotNull org.gstreamer.gst.Structure structure2) {
-        java.util.Objects.requireNonNull(structure2, "Parameter 'structure2' must not be null");
+    public boolean isEqual(org.gstreamer.gst.Structure structure2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_is_equal.invokeExact(
@@ -1461,7 +1380,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1471,8 +1390,7 @@ public class Structure extends Struct {
      * @param superset a potentially greater {@link Structure}
      * @return {@code true} if {@code subset} is a subset of {@code superset}
      */
-    public boolean isSubset(@NotNull org.gstreamer.gst.Structure superset) {
-        java.util.Objects.requireNonNull(superset, "Parameter 'superset' must not be null");
+    public boolean isSubset(org.gstreamer.gst.Structure superset) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_is_subset.invokeExact(
@@ -1481,7 +1399,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1492,22 +1410,17 @@ public class Structure extends Struct {
      * @return {@code true} if the supplied function returns {@code true} For each of the fields,
      * {@code false} otherwise.
      */
-    public boolean mapInPlace(@NotNull org.gstreamer.gst.StructureMapFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public boolean mapInPlace(org.gstreamer.gst.StructureMapFunc func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_map_in_place.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbStructureMapFunc",
-                            MethodType.methodType(int.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1530,7 +1443,7 @@ public class Structure extends Struct {
      * @param index the index to get the name of
      * @return the name of the given field number
      */
-    public @NotNull java.lang.String nthFieldName(int index) {
+    public java.lang.String nthFieldName(int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_nth_field_name.invokeExact(
@@ -1539,7 +1452,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1559,12 +1472,11 @@ public class Structure extends Struct {
      * name does not exist, the structure is unchanged.
      * @param fieldname the name of the field to remove
      */
-    public void removeField(@NotNull java.lang.String fieldname) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
+    public void removeField(java.lang.String fieldname) {
         try {
             DowncallHandles.gst_structure_remove_field.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname));
+                    Marshal.stringToAddress.marshal(fieldname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1576,12 +1488,11 @@ public class Structure extends Struct {
      * @param fieldname the name of the field to remove
      * @param varargs {@code null}-terminated list of more fieldnames to remove
      */
-    public void removeFields(@NotNull java.lang.String fieldname, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
+    public void removeFields(java.lang.String fieldname, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_structure_remove_fields.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1593,13 +1504,11 @@ public class Structure extends Struct {
      * @param fieldname the name of the field to remove
      * @param varargs {@code null}-terminated list of more fieldnames to remove
      */
-    public void removeFieldsValist(@NotNull java.lang.String fieldname, @NotNull VaList varargs) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(varargs, "Parameter 'varargs' must not be null");
+    public void removeFieldsValist(java.lang.String fieldname, VaList varargs) {
         try {
             DowncallHandles.gst_structure_remove_fields_valist.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1619,8 +1528,7 @@ public class Structure extends Struct {
      * @return a pointer to string allocated by g_malloc().
      *     g_free() after usage.
      */
-    public @NotNull java.lang.String serialize(@NotNull org.gstreamer.gst.SerializeFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public java.lang.String serialize(org.gstreamer.gst.SerializeFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_serialize.invokeExact(
@@ -1629,7 +1537,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1640,12 +1548,11 @@ public class Structure extends Struct {
      * @param fieldname the name of the field to set
      * @param varargs variable arguments
      */
-    public void set(@NotNull java.lang.String fieldname, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
+    public void set(java.lang.String fieldname, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_structure_set.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1660,13 +1567,11 @@ public class Structure extends Struct {
      * @param fieldname the name of a field
      * @param array a pointer to a {@link org.gtk.gobject.ValueArray}
      */
-    public void setArray(@NotNull java.lang.String fieldname, @NotNull org.gtk.gobject.ValueArray array) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public void setArray(java.lang.String fieldname, org.gtk.gobject.ValueArray array) {
         try {
             DowncallHandles.gst_structure_set_array.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     array.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1681,13 +1586,11 @@ public class Structure extends Struct {
      * @param fieldname the name of a field
      * @param array a pointer to a {@link org.gtk.gobject.ValueArray}
      */
-    public void setList(@NotNull java.lang.String fieldname, @NotNull org.gtk.gobject.ValueArray array) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public void setList(java.lang.String fieldname, org.gtk.gobject.ValueArray array) {
         try {
             DowncallHandles.gst_structure_set_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     array.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1700,12 +1603,11 @@ public class Structure extends Struct {
      * letter and can be followed by letters, numbers and any of "/-_.:".
      * @param name the new name of the structure
      */
-    public void setName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setName(java.lang.String name) {
         try {
             DowncallHandles.gst_structure_set_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1720,7 +1622,6 @@ public class Structure extends Struct {
      * @return {@code true} if the parent refcount could be set.
      */
     public boolean setParentRefcount(PointerInteger refcount) {
-        java.util.Objects.requireNonNull(refcount, "Parameter 'refcount' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_structure_set_parent_refcount.invokeExact(
@@ -1729,7 +1630,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1737,13 +1638,11 @@ public class Structure extends Struct {
      * @param fieldname the name of the field to set
      * @param varargs variable arguments
      */
-    public void setValist(@NotNull java.lang.String fieldname, @NotNull VaList varargs) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(varargs, "Parameter 'varargs' must not be null");
+    public void setValist(java.lang.String fieldname, VaList varargs) {
         try {
             DowncallHandles.gst_structure_set_valist.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1757,13 +1656,11 @@ public class Structure extends Struct {
      * @param fieldname the name of the field to set
      * @param value the new value of the field
      */
-    public void setValue(@NotNull java.lang.String fieldname, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setValue(java.lang.String fieldname, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gst_structure_set_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1777,13 +1674,11 @@ public class Structure extends Struct {
      * @param fieldname the name of the field to set
      * @param value the new value of the field
      */
-    public void takeValue(@NotNull java.lang.String fieldname, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void takeValue(java.lang.String fieldname, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gst_structure_take_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1807,7 +1702,7 @@ public class Structure extends Struct {
      * @return a pointer to string allocated by g_malloc().
      *     g_free() after usage.
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_structure_to_string.invokeExact(
@@ -1815,7 +1710,7 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1842,9 +1737,9 @@ public class Structure extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (oldstrPtr != null) oldstrPtr.set(new org.gstreamer.gst.Structure(oldstrPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (oldstrPtr != null) oldstrPtr.set(org.gstreamer.gst.Structure.fromAddress.marshal(oldstrPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         newstr.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -2287,31 +2182,35 @@ public class Structure extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Structure.Builder} object constructs a {@link Structure} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Structure.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Structure struct;
+        private final Structure struct;
         
-         /**
-         * A {@link Structure.Build} object constructs a {@link Structure} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Structure.allocate();
         }
         
          /**
          * Finish building the {@link Structure} struct.
          * @return A new instance of {@code Structure} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Structure construct() {
+        public Structure build() {
             return struct;
         }
         
@@ -2320,14 +2219,14 @@ public class Structure extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gtk.glib.Type type) {
+        public Builder setType(org.gtk.glib.Type type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
             return this;
         }
         
-        public Build setName(org.gtk.glib.Quark name) {
+        public Builder setName(org.gtk.glib.Quark name) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : name.getValue().intValue()));

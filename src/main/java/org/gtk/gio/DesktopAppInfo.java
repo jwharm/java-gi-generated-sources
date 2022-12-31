@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * GIO interfaces, thus you have to use the {@code gio-unix-2.0.pc} pkg-config
  * file when using it.
  */
-public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gio.AppInfo {
+public class DesktopAppInfo extends org.gtk.gobject.GObject implements org.gtk.gio.AppInfo {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -35,37 +35,18 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DesktopAppInfo(Addressable address, Ownership ownership) {
+    protected DesktopAppInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DesktopAppInfo if its GType is a (or inherits from) "GDesktopAppInfo".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DesktopAppInfo} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDesktopAppInfo", a ClassCastException will be thrown.
-     */
-    public static DesktopAppInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DesktopAppInfo.getType())) {
-            return new DesktopAppInfo(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDesktopAppInfo");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DesktopAppInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DesktopAppInfo(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String desktopId) {
-        java.util.Objects.requireNonNull(desktopId, "Parameter 'desktopId' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String desktopId) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_new.invokeExact(
-                    Interop.allocateNativeString(desktopId));
+                    Marshal.stringToAddress.marshal(desktopId, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -86,16 +67,15 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * {@code /usr/share/applications/kde/foo.desktop}).
      * @param desktopId the desktop file id
      */
-    public DesktopAppInfo(@NotNull java.lang.String desktopId) {
+    public DesktopAppInfo(java.lang.String desktopId) {
         super(constructNew(desktopId), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromFilename(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromFilename(java.lang.String filename) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_new_from_filename.invokeExact(
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -108,13 +88,13 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      *      filename encoding
      * @return a new {@link DesktopAppInfo} or {@code null} on error.
      */
-    public static DesktopAppInfo newFromFilename(@NotNull java.lang.String filename) {
-        return new DesktopAppInfo(constructNewFromFilename(filename), Ownership.FULL);
+    public static DesktopAppInfo newFromFilename(java.lang.String filename) {
+        var RESULT = constructNewFromFilename(filename);
+        return (org.gtk.gio.DesktopAppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DesktopAppInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromKeyfile(@NotNull org.gtk.glib.KeyFile keyFile) {
-        java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromKeyfile(org.gtk.glib.KeyFile keyFile) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_new_from_keyfile.invokeExact(
                     keyFile.handle());
@@ -129,8 +109,9 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @param keyFile an opened {@link org.gtk.glib.KeyFile}
      * @return a new {@link DesktopAppInfo} or {@code null} on error.
      */
-    public static DesktopAppInfo newFromKeyfile(@NotNull org.gtk.glib.KeyFile keyFile) {
-        return new DesktopAppInfo(constructNewFromKeyfile(keyFile), Ownership.FULL);
+    public static DesktopAppInfo newFromKeyfile(org.gtk.glib.KeyFile keyFile) {
+        var RESULT = constructNewFromKeyfile(keyFile);
+        return (org.gtk.gio.DesktopAppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DesktopAppInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -143,17 +124,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      *   g_desktop_app_info_list_actions()
      * @return the locale-specific action name
      */
-    public @NotNull java.lang.String getActionName(@NotNull java.lang.String actionName) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+    public java.lang.String getActionName(java.lang.String actionName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_action_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName));
+                    Marshal.stringToAddress.marshal(actionName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -164,17 +144,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @return the boolean value, or {@code false} if the key
      *     is not found
      */
-    public boolean getBoolean(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean getBoolean(java.lang.String key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_desktop_app_info_get_boolean.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -190,7 +169,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -208,7 +187,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -223,7 +202,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -239,14 +218,14 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the keywords from the desktop file.
      * @return The value of the Keywords key
      */
-    public @NotNull PointerString getKeywords() {
+    public PointerString getKeywords() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_keywords.invokeExact(
@@ -266,17 +245,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @return a newly allocated string, or {@code null} if the key
      *     is not found
      */
-    public @Nullable java.lang.String getLocaleString(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable java.lang.String getLocaleString(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_locale_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -293,7 +271,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -318,11 +296,11 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         try {
             RESULT = (int) DowncallHandles.g_desktop_app_info_get_show_in.invokeExact(
                     handle(),
-                    (Addressable) (desktopEnv == null ? MemoryAddress.NULL : Interop.allocateNativeString(desktopEnv)));
+                    (Addressable) (desktopEnv == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(desktopEnv, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -340,7 +318,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -351,17 +329,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @return a newly allocated string, or {@code null} if the key
      *     is not found
      */
-    public @Nullable java.lang.String getString(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable java.lang.String getString(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -373,24 +350,22 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @return a {@code null}-terminated string array or {@code null} if the specified
      *  key cannot be found. The array should be freed with g_strfreev().
      */
-    public @NotNull java.lang.String[] getStringList(@NotNull java.lang.String key, Out<Long> length) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String[] getStringList(java.lang.String key, Out<Long> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_string_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    (Addressable) lengthPOINTER.address());
+                    Marshal.stringToAddress.marshal(key, null),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -401,17 +376,16 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @param key the key to look up
      * @return {@code true} if the {@code key} exists
      */
-    public boolean hasKey(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean hasKey(java.lang.String key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_desktop_app_info_has_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -434,12 +408,11 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      *   g_desktop_app_info_list_actions()
      * @param launchContext a {@link AppLaunchContext}
      */
-    public void launchAction(@NotNull java.lang.String actionName, @Nullable org.gtk.gio.AppLaunchContext launchContext) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+    public void launchAction(java.lang.String actionName, @Nullable org.gtk.gio.AppLaunchContext launchContext) {
         try {
             DowncallHandles.g_desktop_app_info_launch_action.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName),
+                    Marshal.stringToAddress.marshal(actionName, null),
                     (Addressable) (launchContext == null ? MemoryAddress.NULL : launchContext.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -471,9 +444,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @return {@code true} on successful launch, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean launchUrisAsManager(@NotNull org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext launchContext, @NotNull org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable org.gtk.gio.DesktopAppLaunchCallback pidCallback) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uris, "Parameter 'uris' must not be null");
-        java.util.Objects.requireNonNull(spawnFlags, "Parameter 'spawnFlags' must not be null");
+    public boolean launchUrisAsManager(org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext launchContext, org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable org.gtk.gio.DesktopAppLaunchCallback pidCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -482,18 +453,10 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
                     uris.handle(),
                     (Addressable) (launchContext == null ? MemoryAddress.NULL : launchContext.handle()),
                     spawnFlags.getValue(),
-                    (Addressable) (userSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSpawnChildSetupFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
-                    (Addressable) (pidCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbDesktopAppLaunchCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
+                    (Addressable) (userSetup == null ? MemoryAddress.NULL : (Addressable) userSetup.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (pidCallback == null ? MemoryAddress.NULL : (Addressable) pidCallback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -501,7 +464,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -523,9 +486,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @return {@code true} on successful launch, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean launchUrisAsManagerWithFds(@NotNull org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext launchContext, @NotNull org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable org.gtk.gio.DesktopAppLaunchCallback pidCallback, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uris, "Parameter 'uris' must not be null");
-        java.util.Objects.requireNonNull(spawnFlags, "Parameter 'spawnFlags' must not be null");
+    public boolean launchUrisAsManagerWithFds(org.gtk.glib.List uris, @Nullable org.gtk.gio.AppLaunchContext launchContext, org.gtk.glib.SpawnFlags spawnFlags, @Nullable org.gtk.glib.SpawnChildSetupFunc userSetup, @Nullable org.gtk.gio.DesktopAppLaunchCallback pidCallback, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -534,18 +495,10 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
                     uris.handle(),
                     (Addressable) (launchContext == null ? MemoryAddress.NULL : launchContext.handle()),
                     spawnFlags.getValue(),
-                    (Addressable) (userSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSpawnChildSetupFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
-                    (Addressable) (pidCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbDesktopAppLaunchCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (userSetup == null ? MemoryAddress.NULL : Interop.registerCallback(userSetup)),
+                    (Addressable) (userSetup == null ? MemoryAddress.NULL : (Addressable) userSetup.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (pidCallback == null ? MemoryAddress.NULL : (Addressable) pidCallback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     stdinFd,
                     stdoutFd,
                     stderrFd,
@@ -556,7 +509,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -567,7 +520,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * explicitly listed in the "Actions" key of the [Desktop Entry] group.
      * @return a list of strings, always non-{@code null}
      */
-    public @NotNull PointerString listActions() {
+    public PointerString listActions() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_list_actions.invokeExact(
@@ -582,7 +535,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_desktop_app_info_get_type.invokeExact();
@@ -601,16 +554,15 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * @return a list of {@link DesktopAppInfo}
      * objects.
      */
-    public static @NotNull org.gtk.glib.List getImplementations(@NotNull java.lang.String interface_) {
-        java.util.Objects.requireNonNull(interface_, "Parameter 'interface_' must not be null");
+    public static org.gtk.glib.List getImplementations(java.lang.String interface_) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_get_implementations.invokeExact(
-                    Interop.allocateNativeString(interface_));
+                    Marshal.stringToAddress.marshal(interface_, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -634,16 +586,15 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      *   list of strvs.  Free each item with g_strfreev() and free the outer
      *   list with g_free().
      */
-    public static @NotNull java.lang.String[][] search(@NotNull java.lang.String searchString) {
-        java.util.Objects.requireNonNull(searchString, "Parameter 'searchString' must not be null");
+    public static java.lang.String[][] search(java.lang.String searchString) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_desktop_app_info_search.invokeExact(
-                    Interop.allocateNativeString(searchString));
+                    Marshal.stringToAddress.marshal(searchString, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return null /* Return type not supported yet */;
+        return null /* unsupported */;
     }
     
     /**
@@ -659,47 +610,48 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
      * {@code XDG_CURRENT_DESKTOP} environment variable will be used.
      */
     @Deprecated
-    public static void setDesktopEnv(@NotNull java.lang.String desktopEnv) {
-        java.util.Objects.requireNonNull(desktopEnv, "Parameter 'desktopEnv' must not be null");
+    public static void setDesktopEnv(java.lang.String desktopEnv) {
         try {
             DowncallHandles.g_desktop_app_info_set_desktop_env.invokeExact(
-                    Interop.allocateNativeString(desktopEnv));
+                    Marshal.stringToAddress.marshal(desktopEnv, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DesktopAppInfo.Builder} object constructs a {@link DesktopAppInfo} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DesktopAppInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DesktopAppInfo.Build} object constructs a {@link DesktopAppInfo} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DesktopAppInfo} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DesktopAppInfo} using {@link DesktopAppInfo#castFrom}.
+         * {@link DesktopAppInfo}.
          * @return A new instance of {@code DesktopAppInfo} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DesktopAppInfo construct() {
-            return DesktopAppInfo.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DesktopAppInfo.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DesktopAppInfo build() {
+            return (DesktopAppInfo) org.gtk.gobject.GObject.newWithProperties(
+                DesktopAppInfo.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -708,7 +660,7 @@ public class DesktopAppInfo extends org.gtk.gobject.Object implements org.gtk.gi
          * @param filename The value for the {@code filename} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFilename(java.lang.String filename) {
+        public Builder setFilename(java.lang.String filename) {
             names.add("filename");
             values.add(org.gtk.gobject.Value.create(filename));
             return this;

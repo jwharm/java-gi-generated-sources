@@ -30,30 +30,12 @@ public class ScrollEvent extends org.gtk.gdk.Event {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ScrollEvent(Addressable address, Ownership ownership) {
+    protected ScrollEvent(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ScrollEvent if its GType is a (or inherits from) "GdkScrollEvent".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ScrollEvent} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkScrollEvent", a ClassCastException will be thrown.
-     */
-    public static ScrollEvent castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ScrollEvent.getType())) {
-            return new ScrollEvent(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkScrollEvent");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ScrollEvent> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScrollEvent(input, ownership);
     
     /**
      * Extracts the scroll deltas of a scroll event.
@@ -67,9 +49,7 @@ public class ScrollEvent extends org.gtk.gdk.Event {
      * @param deltaY return location for y scroll delta
      */
     public void getDeltas(Out<Double> deltaX, Out<Double> deltaY) {
-        java.util.Objects.requireNonNull(deltaX, "Parameter 'deltaX' must not be null");
         MemorySegment deltaXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(deltaY, "Parameter 'deltaY' must not be null");
         MemorySegment deltaYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gdk_scroll_event_get_deltas.invokeExact(
@@ -87,7 +67,7 @@ public class ScrollEvent extends org.gtk.gdk.Event {
      * Extracts the direction of a scroll event.
      * @return the scroll direction of {@code event}
      */
-    public @NotNull org.gtk.gdk.ScrollDirection getDirection() {
+    public org.gtk.gdk.ScrollDirection getDirection() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_scroll_event_get_direction.invokeExact(
@@ -105,7 +85,7 @@ public class ScrollEvent extends org.gtk.gdk.Event {
      * {@link ScrollDirection#SMOOTH}.
      * @return the scroll unit.
      */
-    public @NotNull org.gtk.gdk.ScrollUnit getUnit() {
+    public org.gtk.gdk.ScrollUnit getUnit() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_scroll_event_get_unit.invokeExact(
@@ -136,14 +116,14 @@ public class ScrollEvent extends org.gtk.gdk.Event {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_scroll_event_get_type.invokeExact();
@@ -151,41 +131,6 @@ public class ScrollEvent extends org.gtk.gdk.Event {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gtk.glib.Type(RESULT);
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends org.gtk.gdk.Event.Build {
-        
-         /**
-         * A {@link ScrollEvent.Build} object constructs a {@link ScrollEvent} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link ScrollEvent} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link ScrollEvent} using {@link ScrollEvent#castFrom}.
-         * @return A new instance of {@code ScrollEvent} with the properties 
-         *         that were set in the Build object.
-         */
-        public ScrollEvent construct() {
-            return ScrollEvent.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ScrollEvent.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
     }
     
     private static class DowncallHandles {

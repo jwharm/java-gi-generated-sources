@@ -119,11 +119,15 @@ public class DebugFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DebugFlags or(DebugFlags mask) {
-        return new DebugFlags(this.getValue() | mask.getValue());
+    public DebugFlags or(DebugFlags... masks) {
+        int value = this.getValue();
+        for (DebugFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DebugFlags(value);
     }
     
     /**
@@ -133,7 +137,8 @@ public class DebugFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DebugFlags combined(DebugFlags mask, DebugFlags... masks) {
-        int value = mask.getValue();        for (DebugFlags arg : masks) {
+        int value = mask.getValue();
+        for (DebugFlags arg : masks) {
             value |= arg.getValue();
         }
         return new DebugFlags(value);

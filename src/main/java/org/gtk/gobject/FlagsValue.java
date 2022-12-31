@@ -12,17 +12,10 @@ import org.jetbrains.annotations.*;
 public class FlagsValue extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GFlagsValue";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("value"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("value_name"),
-        Interop.valueLayout.ADDRESS.withName("value_nick")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -30,7 +23,12 @@ public class FlagsValue extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("value"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("value_name"),
+            Interop.valueLayout.ADDRESS.withName("value_nick")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class FlagsValue extends Struct {
      * Get the value of the field {@code value}
      * @return The value of the field {@code value}
      */
-    public int value$get() {
+    public int getValue() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -61,7 +59,7 @@ public class FlagsValue extends Struct {
      * Change the value of the field {@code value}
      * @param value The new value of the field {@code value}
      */
-    public void value$set(int value) {
+    public void setValue(int value) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
@@ -71,42 +69,42 @@ public class FlagsValue extends Struct {
      * Get the value of the field {@code value_name}
      * @return The value of the field {@code value_name}
      */
-    public java.lang.String valueName$get() {
+    public java.lang.String getValueName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code value_name}
      * @param valueName The new value of the field {@code value_name}
      */
-    public void valueName$set(java.lang.String valueName) {
+    public void setValueName(java.lang.String valueName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(valueName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueName, null)));
     }
     
     /**
      * Get the value of the field {@code value_nick}
      * @return The value of the field {@code value_nick}
      */
-    public java.lang.String valueNick$get() {
+    public java.lang.String getValueNick() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code value_nick}
      * @param valueNick The new value of the field {@code value_nick}
      */
-    public void valueNick$set(java.lang.String valueNick) {
+    public void setValueNick(java.lang.String valueNick) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(valueNick));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueNick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueNick, null)));
     }
     
     /**
@@ -114,35 +112,41 @@ public class FlagsValue extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FlagsValue(Addressable address, Ownership ownership) {
+    protected FlagsValue(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FlagsValue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FlagsValue(input, ownership);
+    
+    /**
+     * A {@link FlagsValue.Builder} object constructs a {@link FlagsValue} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link FlagsValue.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private FlagsValue struct;
+        private final FlagsValue struct;
         
-         /**
-         * A {@link FlagsValue.Build} object constructs a {@link FlagsValue} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = FlagsValue.allocate();
         }
         
          /**
          * Finish building the {@link FlagsValue} struct.
          * @return A new instance of {@code FlagsValue} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FlagsValue construct() {
+        public FlagsValue build() {
             return struct;
         }
         
@@ -151,7 +155,7 @@ public class FlagsValue extends Struct {
          * @param value The value for the {@code value} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(int value) {
+        public Builder setValue(int value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
@@ -163,10 +167,10 @@ public class FlagsValue extends Struct {
          * @param valueName The value for the {@code valueName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueName(java.lang.String valueName) {
+        public Builder setValueName(java.lang.String valueName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueName == null ? MemoryAddress.NULL : Interop.allocateNativeString(valueName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueName, null)));
             return this;
         }
         
@@ -175,10 +179,10 @@ public class FlagsValue extends Struct {
          * @param valueNick The value for the {@code valueNick} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueNick(java.lang.String valueNick) {
+        public Builder setValueNick(java.lang.String valueNick) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_nick"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueNick == null ? MemoryAddress.NULL : Interop.allocateNativeString(valueNick)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueNick == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(valueNick, null)));
             return this;
         }
     }

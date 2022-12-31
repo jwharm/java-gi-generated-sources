@@ -11,17 +11,10 @@ import org.jetbrains.annotations.*;
 public class ParamSpecInt extends org.gtk.gobject.ParamSpec {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GParamSpecInt";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.ParamSpec.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.C_INT.withName("minimum"),
-        Interop.valueLayout.C_INT.withName("maximum"),
-        Interop.valueLayout.C_INT.withName("default_value")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -29,7 +22,12 @@ public class ParamSpecInt extends org.gtk.gobject.ParamSpec {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.ParamSpec.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.C_INT.withName("minimum"),
+            Interop.valueLayout.C_INT.withName("maximum"),
+            Interop.valueLayout.C_INT.withName("default_value")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,86 +35,14 @@ public class ParamSpecInt extends org.gtk.gobject.ParamSpec {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ParamSpecInt(Addressable address, Ownership ownership) {
+    protected ParamSpecInt(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ParamSpecInt if its GType is a (or inherits from) "GParamSpecInt".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ParamSpecInt} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GParamSpecInt", a ClassCastException will be thrown.
-     */
-    public static ParamSpecInt castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ParamSpecInt.getType())) {
-            return new ParamSpecInt(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GParamSpecInt");
-        }
-    }
-    
-    /**
-     * Get the gtype
-     * @return The gtype
-     */
-    public static @NotNull org.gtk.glib.Type getType() {
-        long RESULT;
-        try {
-            RESULT = (long) DowncallHandles.intern.invokeExact();
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new org.gtk.glib.Type(RESULT);
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ParamSpecInt> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParamSpecInt(input, ownership);
 
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends org.gtk.gobject.ParamSpec.Build {
-        
-         /**
-         * A {@link ParamSpecInt.Build} object constructs a {@link ParamSpecInt} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link ParamSpecInt} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link ParamSpecInt} using {@link ParamSpecInt#castFrom}.
-         * @return A new instance of {@code ParamSpecInt} with the properties 
-         *         that were set in the Build object.
-         */
-        public ParamSpecInt construct() {
-            return ParamSpecInt.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ParamSpecInt.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
-    }
-    
-    private static class DowncallHandles {
-        
-        private static final MethodHandle intern = Interop.downcallHandle(
-            "intern",
-            FunctionDescriptor.of(Interop.valueLayout.C_LONG),
-            false
-        );
+    public static org.gtk.glib.Type getType() {
+        return org.gtk.glib.Type.G_TYPE_PARAM;
     }
 }

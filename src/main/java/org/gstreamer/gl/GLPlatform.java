@@ -49,20 +49,18 @@ public class GLPlatform extends io.github.jwharm.javagi.Bitfield {
         super(value);
     }
     
-    public static @NotNull org.gstreamer.gl.GLPlatform fromString(@NotNull java.lang.String platformS) {
-        java.util.Objects.requireNonNull(platformS, "Parameter 'platformS' must not be null");
+    public static org.gstreamer.gl.GLPlatform fromString(java.lang.String platformS) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_platform_from_string.invokeExact(
-                    Interop.allocateNativeString(platformS));
+                    Marshal.stringToAddress.marshal(platformS, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gstreamer.gl.GLPlatform(RESULT);
     }
     
-    public static @NotNull java.lang.String toString(@NotNull org.gstreamer.gl.GLPlatform platform) {
-        java.util.Objects.requireNonNull(platform, "Parameter 'platform' must not be null");
+    public static java.lang.String toString(org.gstreamer.gl.GLPlatform platform) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_platform_to_string.invokeExact(
@@ -70,16 +68,20 @@ public class GLPlatform extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public GLPlatform or(GLPlatform mask) {
-        return new GLPlatform(this.getValue() | mask.getValue());
+    public GLPlatform or(GLPlatform... masks) {
+        int value = this.getValue();
+        for (GLPlatform arg : masks) {
+            value |= arg.getValue();
+        }
+        return new GLPlatform(value);
     }
     
     /**
@@ -89,7 +91,8 @@ public class GLPlatform extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static GLPlatform combined(GLPlatform mask, GLPlatform... masks) {
-        int value = mask.getValue();        for (GLPlatform arg : masks) {
+        int value = mask.getValue();
+        for (GLPlatform arg : masks) {
             value |= arg.getValue();
         }
         return new GLPlatform(value);

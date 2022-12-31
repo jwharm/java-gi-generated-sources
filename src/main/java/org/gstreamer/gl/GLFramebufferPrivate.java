@@ -40,8 +40,10 @@ public class GLFramebufferPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLFramebufferPrivate(Addressable address, Ownership ownership) {
+    protected GLFramebufferPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLFramebufferPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLFramebufferPrivate(input, ownership);
 }

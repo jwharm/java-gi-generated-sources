@@ -40,8 +40,10 @@ public class AudioEncoderPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioEncoderPrivate(Addressable address, Ownership ownership) {
+    protected AudioEncoderPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioEncoderPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioEncoderPrivate(input, ownership);
 }

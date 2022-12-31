@@ -64,11 +64,15 @@ public class SegmentFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public SegmentFlags or(SegmentFlags mask) {
-        return new SegmentFlags(this.getValue() | mask.getValue());
+    public SegmentFlags or(SegmentFlags... masks) {
+        int value = this.getValue();
+        for (SegmentFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new SegmentFlags(value);
     }
     
     /**
@@ -78,7 +82,8 @@ public class SegmentFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static SegmentFlags combined(SegmentFlags mask, SegmentFlags... masks) {
-        int value = mask.getValue();        for (SegmentFlags arg : masks) {
+        int value = mask.getValue();
+        for (SegmentFlags arg : masks) {
             value |= arg.getValue();
         }
         return new SegmentFlags(value);

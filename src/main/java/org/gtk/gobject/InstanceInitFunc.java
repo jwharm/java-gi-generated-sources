@@ -22,5 +22,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface InstanceInitFunc {
-        void onInstanceInitFunc(@NotNull org.gtk.gobject.TypeInstance instance, @NotNull org.gtk.gobject.TypeClass gClass);
+    void run(org.gtk.gobject.TypeInstance instance, org.gtk.gobject.TypeClass gClass);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress instance, MemoryAddress gClass) {
+        run(org.gtk.gobject.TypeInstance.fromAddress.marshal(instance, Ownership.NONE), org.gtk.gobject.TypeClass.fromAddress.marshal(gClass, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InstanceInitFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

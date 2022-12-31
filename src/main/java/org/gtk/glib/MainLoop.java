@@ -44,17 +44,19 @@ public class MainLoop extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MainLoop(Addressable address, Ownership ownership) {
+    protected MainLoop(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable org.gtk.glib.MainContext context, boolean isRunning) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MainLoop> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MainLoop(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable org.gtk.glib.MainContext context, boolean isRunning) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_loop_new.invokeExact(
                     (Addressable) (context == null ? MemoryAddress.NULL : context.handle()),
-                    isRunning ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(isRunning, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,7 +78,7 @@ public class MainLoop extends Struct {
      * Returns the {@link MainContext} of {@code loop}.
      * @return the {@link MainContext} of {@code loop}
      */
-    public @NotNull org.gtk.glib.MainContext getContext() {
+    public org.gtk.glib.MainContext getContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_loop_get_context.invokeExact(
@@ -84,7 +86,7 @@ public class MainLoop extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -99,7 +101,7 @@ public class MainLoop extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -122,7 +124,7 @@ public class MainLoop extends Struct {
      * Increases the reference count on a {@link MainLoop} object by one.
      * @return {@code loop}
      */
-    public @NotNull org.gtk.glib.MainLoop ref() {
+    public org.gtk.glib.MainLoop ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_loop_ref.invokeExact(
@@ -130,7 +132,7 @@ public class MainLoop extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainLoop(RESULT, Ownership.FULL);
+        return org.gtk.glib.MainLoop.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

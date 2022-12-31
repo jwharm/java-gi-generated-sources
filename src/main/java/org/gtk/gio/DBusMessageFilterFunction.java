@@ -69,5 +69,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface DBusMessageFilterFunction {
-        org.gtk.gio.DBusMessage onDBusMessageFilterFunction(@NotNull org.gtk.gio.DBusConnection connection, @NotNull org.gtk.gio.DBusMessage message, boolean incoming);
+    @Nullable org.gtk.gio.DBusMessage run(org.gtk.gio.DBusConnection connection, org.gtk.gio.DBusMessage message, boolean incoming);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress connection, MemoryAddress message, int incoming, MemoryAddress userData) {
+        var RESULT = run((org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(connection)), org.gtk.gio.DBusConnection.fromAddress).marshal(connection, Ownership.NONE), (org.gtk.gio.DBusMessage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(message)), org.gtk.gio.DBusMessage.fromAddress).marshal(message, Ownership.FULL), Marshal.integerToBoolean.marshal(incoming, null).booleanValue());
+        return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DBusMessageFilterFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

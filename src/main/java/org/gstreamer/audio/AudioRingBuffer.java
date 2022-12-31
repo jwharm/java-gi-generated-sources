@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * abstraction for DMA based ringbuffers as well as a pure software
  * implementations.
  */
-public class AudioRingBuffer extends org.gstreamer.gst.Object {
+public class AudioRingBuffer extends org.gstreamer.gst.GstObject {
     
     static {
         GstAudio.javagi$ensureInitialized();
@@ -23,42 +23,40 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioRingBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        org.gtk.glib.Cond.getMemoryLayout().withName("cond"),
-        Interop.valueLayout.C_INT.withName("open"),
-        Interop.valueLayout.C_INT.withName("acquired"),
-        Interop.valueLayout.ADDRESS.withName("memory"),
-        Interop.valueLayout.C_LONG.withName("size"),
-        Interop.valueLayout.ADDRESS.withName("timestamps"),
-        org.gstreamer.audio.AudioRingBufferSpec.getMemoryLayout().withName("spec"),
-        Interop.valueLayout.C_INT.withName("samples_per_seg"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("empty_seg"),
-        Interop.valueLayout.C_INT.withName("state"),
-        Interop.valueLayout.C_INT.withName("segdone"),
-        Interop.valueLayout.C_INT.withName("segbase"),
-        Interop.valueLayout.C_INT.withName("waiting"),
-        Interop.valueLayout.ADDRESS.withName("callback"),
-        Interop.valueLayout.ADDRESS.withName("cb_data"),
-        Interop.valueLayout.C_INT.withName("need_reorder"),
-        MemoryLayout.paddingLayout(1184),
-        MemoryLayout.sequenceLayout(64, Interop.valueLayout.C_INT).withName("channel_reorder_map"),
-        Interop.valueLayout.C_INT.withName("flushing"),
-        Interop.valueLayout.C_INT.withName("may_start"),
-        Interop.valueLayout.C_INT.withName("active"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("cb_data_notify"),
-        MemoryLayout.sequenceLayout(3, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            org.gtk.glib.Cond.getMemoryLayout().withName("cond"),
+            Interop.valueLayout.C_INT.withName("open"),
+            Interop.valueLayout.C_INT.withName("acquired"),
+            Interop.valueLayout.ADDRESS.withName("memory"),
+            Interop.valueLayout.C_LONG.withName("size"),
+            Interop.valueLayout.ADDRESS.withName("timestamps"),
+            org.gstreamer.audio.AudioRingBufferSpec.getMemoryLayout().withName("spec"),
+            Interop.valueLayout.C_INT.withName("samples_per_seg"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("empty_seg"),
+            Interop.valueLayout.C_INT.withName("state"),
+            Interop.valueLayout.C_INT.withName("segdone"),
+            Interop.valueLayout.C_INT.withName("segbase"),
+            Interop.valueLayout.C_INT.withName("waiting"),
+            Interop.valueLayout.ADDRESS.withName("callback"),
+            Interop.valueLayout.ADDRESS.withName("cb_data"),
+            Interop.valueLayout.C_INT.withName("need_reorder"),
+            MemoryLayout.paddingLayout(1184),
+            MemoryLayout.sequenceLayout(64, Interop.valueLayout.C_INT).withName("channel_reorder_map"),
+            Interop.valueLayout.C_INT.withName("flushing"),
+            Interop.valueLayout.C_INT.withName("may_start"),
+            Interop.valueLayout.C_INT.withName("active"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("cb_data_notify"),
+            MemoryLayout.sequenceLayout(3, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -66,37 +64,23 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * <p>
      * Because AudioRingBuffer is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioRingBuffer(Addressable address, Ownership ownership) {
+    protected AudioRingBuffer(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AudioRingBuffer if its GType is a (or inherits from) "GstAudioRingBuffer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AudioRingBuffer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAudioRingBuffer", a ClassCastException will be thrown.
-     */
-    public static AudioRingBuffer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AudioRingBuffer.getType())) {
-            return new AudioRingBuffer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAudioRingBuffer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioRingBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioRingBuffer(input, ownership);
     
     /**
      * Allocate the resources for the ringbuffer. This function fills
@@ -107,8 +91,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public boolean acquire(@NotNull org.gstreamer.audio.AudioRingBufferSpec spec) {
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
+    public boolean acquire(org.gstreamer.audio.AudioRingBufferSpec spec) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_ring_buffer_acquire.invokeExact(
@@ -117,7 +100,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -133,11 +116,11 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         try {
             RESULT = (int) DowncallHandles.gst_audio_ring_buffer_activate.invokeExact(
                     handle(),
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -203,7 +186,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -235,10 +218,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * number of samples written can be less than {@code out_samples} when {@code buf} was interrupted
      * with a flush or stop.
      */
-    public int commit(PointerLong sample, @NotNull byte[] data, int inSamples, int outSamples, Out<Integer> accum) {
-        java.util.Objects.requireNonNull(sample, "Parameter 'sample' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(accum, "Parameter 'accum' must not be null");
+    public int commit(PointerLong sample, byte[] data, int inSamples, int outSamples, Out<Integer> accum) {
         MemorySegment accumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -265,10 +245,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * @param destVal a location to store the converted value
      * @return TRUE if the conversion succeeded.
      */
-    public boolean convert(@NotNull org.gstreamer.gst.Format srcFmt, long srcVal, @NotNull org.gstreamer.gst.Format destFmt, Out<Long> destVal) {
-        java.util.Objects.requireNonNull(srcFmt, "Parameter 'srcFmt' must not be null");
-        java.util.Objects.requireNonNull(destFmt, "Parameter 'destFmt' must not be null");
-        java.util.Objects.requireNonNull(destVal, "Parameter 'destVal' must not be null");
+    public boolean convert(org.gstreamer.gst.Format srcFmt, long srcVal, org.gstreamer.gst.Format destFmt, Out<Long> destVal) {
         MemorySegment destValPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -282,7 +259,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         destVal.set(destValPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -325,7 +302,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -342,7 +319,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -359,7 +336,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -376,7 +353,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -390,7 +367,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_audio_ring_buffer_may_start.invokeExact(
                     handle(),
-                    allowed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(allowed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,7 +389,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -429,7 +406,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -442,12 +419,9 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public boolean prepareRead(Out<Integer> segment, @NotNull Out<byte[]> readptr, Out<Integer> len) {
-        java.util.Objects.requireNonNull(segment, "Parameter 'segment' must not be null");
+    public boolean prepareRead(Out<Integer> segment, Out<byte[]> readptr, Out<Integer> len) {
         MemorySegment segmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(readptr, "Parameter 'readptr' must not be null");
         MemorySegment readptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -462,7 +436,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         segment.set(segmentPOINTER.get(Interop.valueLayout.C_INT, 0));
         len.set(lenPOINTER.get(Interop.valueLayout.C_INT, 0));
         readptr.set(MemorySegment.ofAddress(readptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), len.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -484,9 +458,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public int read(long sample, @NotNull byte[] data, int len, @NotNull Out<org.gstreamer.gst.ClockTime> timestamp) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
+    public int read(long sample, byte[] data, int len, org.gstreamer.gst.ClockTime timestamp) {
         MemorySegment timestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -499,7 +471,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        timestamp.set(new org.gstreamer.gst.ClockTime(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        timestamp.setValue(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -517,7 +489,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -545,40 +517,15 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      * @param cb the callback to set
+     * @param notify function to be called when {@code user_data} is no longer needed
      */
-    public void setCallback(@Nullable org.gstreamer.audio.AudioRingBufferCallback cb) {
-        try {
-            DowncallHandles.gst_audio_ring_buffer_set_callback.invokeExact(
-                    handle(),
-                    (Addressable) (cb == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstAudio.Callbacks.class, "cbAudioRingBufferCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (cb == null ? MemoryAddress.NULL : Interop.registerCallback(cb)));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Sets the given callback function on the buffer. This function
-     * will be called every time a segment has been written to a device.
-     * <p>
-     * MT safe.
-     * @param cb the callback to set
-     */
-    public void setCallbackFull(@Nullable org.gstreamer.audio.AudioRingBufferCallback cb) {
+    public void setCallback(@Nullable org.gstreamer.audio.AudioRingBufferCallback cb, org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_audio_ring_buffer_set_callback_full.invokeExact(
                     handle(),
-                    (Addressable) (cb == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstAudio.Callbacks.class, "cbAudioRingBufferCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (cb == null ? MemoryAddress.NULL : Interop.registerCallback(cb)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (cb == null ? MemoryAddress.NULL : (Addressable) cb.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -589,8 +536,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * be called in when the ringbuffer is acquired.
      * @param position the device channel positions
      */
-    public void setChannelPositions(@NotNull org.gstreamer.audio.AudioChannelPosition[] position) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public void setChannelPositions(org.gstreamer.audio.AudioChannelPosition[] position) {
         try {
             DowncallHandles.gst_audio_ring_buffer_set_channel_positions.invokeExact(
                     handle(),
@@ -610,7 +556,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_audio_ring_buffer_set_flushing.invokeExact(
                     handle(),
-                    flushing ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flushing, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -637,8 +583,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         }
     }
     
-    public void setTimestamp(int readseg, @NotNull org.gstreamer.gst.ClockTime timestamp) {
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
+    public void setTimestamp(int readseg, org.gstreamer.gst.ClockTime timestamp) {
         try {
             DowncallHandles.gst_audio_ring_buffer_set_timestamp.invokeExact(
                     handle(),
@@ -663,7 +608,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -680,14 +625,14 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_ring_buffer_get_type.invokeExact();
@@ -701,8 +646,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * Print debug info about the buffer sized in {@code spec} to the debug log.
      * @param spec the spec to debug
      */
-    public static void debugSpecBuff(@NotNull org.gstreamer.audio.AudioRingBufferSpec spec) {
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
+    public static void debugSpecBuff(org.gstreamer.audio.AudioRingBufferSpec spec) {
         try {
             DowncallHandles.gst_audio_ring_buffer_debug_spec_buff.invokeExact(
                     spec.handle());
@@ -715,8 +659,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * Print debug info about the parsed caps in {@code spec} to the debug log.
      * @param spec the spec to debug
      */
-    public static void debugSpecCaps(@NotNull org.gstreamer.audio.AudioRingBufferSpec spec) {
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
+    public static void debugSpecCaps(org.gstreamer.audio.AudioRingBufferSpec spec) {
         try {
             DowncallHandles.gst_audio_ring_buffer_debug_spec_caps.invokeExact(
                     spec.handle());
@@ -731,9 +674,7 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
      * @param caps a {@link org.gstreamer.gst.Caps}
      * @return TRUE if the caps could be parsed.
      */
-    public static boolean parseCaps(@NotNull org.gstreamer.audio.AudioRingBufferSpec spec, @NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static boolean parseCaps(org.gstreamer.audio.AudioRingBufferSpec spec, org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_ring_buffer_parse_caps.invokeExact(
@@ -742,40 +683,42 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link AudioRingBuffer.Builder} object constructs a {@link AudioRingBuffer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AudioRingBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link AudioRingBuffer.Build} object constructs a {@link AudioRingBuffer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AudioRingBuffer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AudioRingBuffer} using {@link AudioRingBuffer#castFrom}.
+         * {@link AudioRingBuffer}.
          * @return A new instance of {@code AudioRingBuffer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioRingBuffer construct() {
-            return AudioRingBuffer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AudioRingBuffer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AudioRingBuffer build() {
+            return (AudioRingBuffer) org.gtk.gobject.GObject.newWithProperties(
+                AudioRingBuffer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -899,12 +842,6 @@ public class AudioRingBuffer extends org.gstreamer.gst.Object {
         private static final MethodHandle gst_audio_ring_buffer_samples_done = Interop.downcallHandle(
             "gst_audio_ring_buffer_samples_done",
             FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-            false
-        );
-        
-        private static final MethodHandle gst_audio_ring_buffer_set_callback = Interop.downcallHandle(
-            "gst_audio_ring_buffer_set_callback",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         

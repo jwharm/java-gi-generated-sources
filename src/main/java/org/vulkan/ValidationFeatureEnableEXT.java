@@ -40,8 +40,10 @@ public class ValidationFeatureEnableEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ValidationFeatureEnableEXT(Addressable address, Ownership ownership) {
+    protected ValidationFeatureEnableEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ValidationFeatureEnableEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ValidationFeatureEnableEXT(input, ownership);
 }

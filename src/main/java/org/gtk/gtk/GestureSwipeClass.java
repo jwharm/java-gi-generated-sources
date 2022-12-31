@@ -40,8 +40,10 @@ public class GestureSwipeClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GestureSwipeClass(Addressable address, Ownership ownership) {
+    protected GestureSwipeClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GestureSwipeClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GestureSwipeClass(input, ownership);
 }

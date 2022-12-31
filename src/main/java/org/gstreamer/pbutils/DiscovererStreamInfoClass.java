@@ -12,8 +12,10 @@ public class DiscovererStreamInfoClass extends org.gtk.gobject.ObjectClass {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DiscovererStreamInfoClass(Addressable address, Ownership ownership) {
+    protected DiscovererStreamInfoClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DiscovererStreamInfoClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DiscovererStreamInfoClass(input, ownership);
 }

@@ -31,7 +31,7 @@ import org.jetbrains.annotations.*;
  * C preprocessor symbol {@code G_SETTINGS_ENABLE_BACKEND} before including
  * {@code gio/gsettingsbackend.h}.
  */
-public class SettingsBackend extends org.gtk.gobject.Object {
+public class SettingsBackend extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -39,18 +39,16 @@ public class SettingsBackend extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GSettingsBackend";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -58,30 +56,12 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SettingsBackend(Addressable address, Ownership ownership) {
+    protected SettingsBackend(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SettingsBackend if its GType is a (or inherits from) "GSettingsBackend".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SettingsBackend} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSettingsBackend", a ClassCastException will be thrown.
-     */
-    public static SettingsBackend castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SettingsBackend.getType())) {
-            return new SettingsBackend(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSettingsBackend");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SettingsBackend> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SettingsBackend(input, ownership);
     
     /**
      * Signals that a single key has possibly changed.  Backend
@@ -109,12 +89,11 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * @param key the name of the key
      * @param originTag the origin tag
      */
-    public void changed(@NotNull java.lang.String key, @Nullable java.lang.foreign.MemoryAddress originTag) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public void changed(java.lang.String key, @Nullable java.lang.foreign.MemoryAddress originTag) {
         try {
             DowncallHandles.g_settings_backend_changed.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -128,8 +107,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * @param tree a {@link org.gtk.glib.Tree} containing the changes
      * @param originTag the origin tag
      */
-    public void changedTree(@NotNull org.gtk.glib.Tree tree, @Nullable java.lang.foreign.MemoryAddress originTag) {
-        java.util.Objects.requireNonNull(tree, "Parameter 'tree' must not be null");
+    public void changedTree(org.gtk.glib.Tree tree, @Nullable java.lang.foreign.MemoryAddress originTag) {
         try {
             DowncallHandles.g_settings_backend_changed_tree.invokeExact(
                     handle(),
@@ -166,13 +144,11 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * @param items the {@code null}-terminated list of changed keys
      * @param originTag the origin tag
      */
-    public void keysChanged(@NotNull java.lang.String path, @NotNull java.lang.String[] items, @Nullable java.lang.foreign.MemoryAddress originTag) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNull(items, "Parameter 'items' must not be null");
+    public void keysChanged(java.lang.String path, java.lang.String[] items, @Nullable java.lang.foreign.MemoryAddress originTag) {
         try {
             DowncallHandles.g_settings_backend_keys_changed.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path),
+                    Marshal.stringToAddress.marshal(path, null),
                     Interop.allocateNativeArray(items, false),
                     (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
         } catch (Throwable ERR) {
@@ -205,12 +181,11 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * @param path the path containing the changes
      * @param originTag the origin tag
      */
-    public void pathChanged(@NotNull java.lang.String path, @Nullable java.lang.foreign.MemoryAddress originTag) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void pathChanged(java.lang.String path, @Nullable java.lang.foreign.MemoryAddress originTag) {
         try {
             DowncallHandles.g_settings_backend_path_changed.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path),
+                    Marshal.stringToAddress.marshal(path, null),
                     (Addressable) (originTag == null ? MemoryAddress.NULL : (Addressable) originTag));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -225,12 +200,11 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * will always be made in response to external events.
      * @param path the name of the path
      */
-    public void pathWritableChanged(@NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public void pathWritableChanged(java.lang.String path) {
         try {
             DowncallHandles.g_settings_backend_path_writable_changed.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,12 +217,11 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * will always be made in response to external events.
      * @param key the name of the key
      */
-    public void writableChanged(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public void writableChanged(java.lang.String key) {
         try {
             DowncallHandles.g_settings_backend_writable_changed.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,7 +231,7 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_settings_backend_get_type.invokeExact();
@@ -282,8 +255,18 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      *        location to save the relative keys
      * @param values the location to save the values, or {@code null}
      */
-    public static void flattenTree(@NotNull org.gtk.glib.Tree tree, @NotNull Out<java.lang.String> path, @NotNull Out<java.lang.String[]> keys, @NotNull Out<org.gtk.glib.Variant[]> values) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void flattenTree(org.gtk.glib.Tree tree, Out<java.lang.String> path, java.lang.String[] keys, @Nullable org.gtk.glib.Variant[] values) {
+        MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        try {
+            DowncallHandles.g_settings_backend_flatten_tree.invokeExact(
+                    tree.handle(),
+                    (Addressable) pathPOINTER.address(),
+                    Interop.allocateNativeArray(keys, false),
+                    (Addressable) (values == null ? MemoryAddress.NULL : Interop.allocateNativeArray(values, org.gtk.glib.Variant.getMemoryLayout(), false)));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        path.set(Marshal.addressToString.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
     }
     
     /**
@@ -296,47 +279,49 @@ public class SettingsBackend extends org.gtk.gobject.Object {
      *     which will be a dummy (memory) settings backend if no other settings
      *     backend is available.
      */
-    public static @NotNull org.gtk.gio.SettingsBackend getDefault() {
+    public static org.gtk.gio.SettingsBackend getDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_backend_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SettingsBackend(RESULT, Ownership.FULL);
+        return (org.gtk.gio.SettingsBackend) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SettingsBackend.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link SettingsBackend.Builder} object constructs a {@link SettingsBackend} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SettingsBackend.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SettingsBackend.Build} object constructs a {@link SettingsBackend} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SettingsBackend} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SettingsBackend} using {@link SettingsBackend#castFrom}.
+         * {@link SettingsBackend}.
          * @return A new instance of {@code SettingsBackend} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SettingsBackend construct() {
-            return SettingsBackend.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SettingsBackend.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SettingsBackend build() {
+            return (SettingsBackend) org.gtk.gobject.GObject.newWithProperties(
+                SettingsBackend.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

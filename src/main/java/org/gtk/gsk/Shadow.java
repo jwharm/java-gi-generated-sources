@@ -16,20 +16,18 @@ public class Shadow extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GskShadow";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gdk.RGBA.getMemoryLayout().withName("color"),
-        Interop.valueLayout.C_FLOAT.withName("dx"),
-        Interop.valueLayout.C_FLOAT.withName("dy"),
-        Interop.valueLayout.C_FLOAT.withName("radius")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gdk.RGBA.getMemoryLayout().withName("color"),
+            Interop.valueLayout.C_FLOAT.withName("dx"),
+            Interop.valueLayout.C_FLOAT.withName("dy"),
+            Interop.valueLayout.C_FLOAT.withName("radius")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,16 +47,26 @@ public class Shadow extends Struct {
      * Get the value of the field {@code color}
      * @return The value of the field {@code color}
      */
-    public org.gtk.gdk.RGBA color$get() {
+    public org.gtk.gdk.RGBA getColor() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("color"));
-        return new org.gtk.gdk.RGBA(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gdk.RGBA.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code color}
+     * @param color The new value of the field {@code color}
+     */
+    public void setColor(org.gtk.gdk.RGBA color) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("color"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
     }
     
     /**
      * Get the value of the field {@code dx}
      * @return The value of the field {@code dx}
      */
-    public float dx$get() {
+    public float getDx() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dx"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -69,7 +77,7 @@ public class Shadow extends Struct {
      * Change the value of the field {@code dx}
      * @param dx The new value of the field {@code dx}
      */
-    public void dx$set(float dx) {
+    public void setDx(float dx) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dx"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dx);
@@ -79,7 +87,7 @@ public class Shadow extends Struct {
      * Get the value of the field {@code dy}
      * @return The value of the field {@code dy}
      */
-    public float dy$get() {
+    public float getDy() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -90,7 +98,7 @@ public class Shadow extends Struct {
      * Change the value of the field {@code dy}
      * @param dy The new value of the field {@code dy}
      */
-    public void dy$set(float dy) {
+    public void setDy(float dy) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dy"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dy);
@@ -100,7 +108,7 @@ public class Shadow extends Struct {
      * Get the value of the field {@code radius}
      * @return The value of the field {@code radius}
      */
-    public float radius$get() {
+    public float getRadius() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("radius"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -111,7 +119,7 @@ public class Shadow extends Struct {
      * Change the value of the field {@code radius}
      * @param radius The new value of the field {@code radius}
      */
-    public void radius$set(float radius) {
+    public void setRadius(float radius) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("radius"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), radius);
@@ -122,35 +130,41 @@ public class Shadow extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Shadow(Addressable address, Ownership ownership) {
+    protected Shadow(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Shadow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Shadow(input, ownership);
+    
+    /**
+     * A {@link Shadow.Builder} object constructs a {@link Shadow} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Shadow.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Shadow struct;
+        private final Shadow struct;
         
-         /**
-         * A {@link Shadow.Build} object constructs a {@link Shadow} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Shadow.allocate();
         }
         
          /**
          * Finish building the {@link Shadow} struct.
          * @return A new instance of {@code Shadow} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Shadow construct() {
+        public Shadow build() {
             return struct;
         }
         
@@ -159,7 +173,7 @@ public class Shadow extends Struct {
          * @param color The value for the {@code color} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColor(org.gtk.gdk.RGBA color) {
+        public Builder setColor(org.gtk.gdk.RGBA color) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("color"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
@@ -171,7 +185,7 @@ public class Shadow extends Struct {
          * @param dx The value for the {@code dx} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDx(float dx) {
+        public Builder setDx(float dx) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dx"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dx);
@@ -183,7 +197,7 @@ public class Shadow extends Struct {
          * @param dy The value for the {@code dy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDy(float dy) {
+        public Builder setDy(float dy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dy"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dy);
@@ -195,7 +209,7 @@ public class Shadow extends Struct {
          * @param radius The value for the {@code radius} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRadius(float radius) {
+        public Builder setRadius(float radius) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("radius"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), radius);

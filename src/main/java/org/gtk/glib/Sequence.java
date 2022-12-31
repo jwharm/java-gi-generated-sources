@@ -44,26 +44,27 @@ public class Sequence extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Sequence(Addressable address, Ownership ownership) {
+    protected Sequence(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Sequence> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Sequence(input, ownership);
+    
     /**
      * Adds a new item to the end of {@code seq}.
-     * @param data the data for the new item
      * @return an iterator pointing to the new item
      */
-    public @NotNull org.gtk.glib.SequenceIter append(@Nullable java.lang.foreign.MemoryAddress data) {
+    public org.gtk.glib.SequenceIter append() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_append.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -71,17 +72,12 @@ public class Sequence extends Struct {
      * to the function. {@code func} must not modify the sequence itself.
      * @param func the function to call for each item in {@code seq}
      */
-    public void foreach(@NotNull org.gtk.glib.Func func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void foreach(org.gtk.glib.Func func) {
         try {
             DowncallHandles.g_sequence_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +101,7 @@ public class Sequence extends Struct {
      * Returns the begin iterator for {@code seq}.
      * @return the begin iterator for {@code seq}.
      */
-    public @NotNull org.gtk.glib.SequenceIter getBeginIter() {
+    public org.gtk.glib.SequenceIter getBeginIter() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_begin_iter.invokeExact(
@@ -113,14 +109,14 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Returns the end iterator for {@code seg}
      * @return the end iterator for {@code seq}
      */
-    public @NotNull org.gtk.glib.SequenceIter getEndIter() {
+    public org.gtk.glib.SequenceIter getEndIter() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_end_iter.invokeExact(
@@ -128,7 +124,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -137,7 +133,7 @@ public class Sequence extends Struct {
      * @param pos a position in {@code seq}, or -1 for the end
      * @return The {@link SequenceIter} at position {@code pos}
      */
-    public @NotNull org.gtk.glib.SequenceIter getIterAtPos(int pos) {
+    public org.gtk.glib.SequenceIter getIterAtPos(int pos) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_get_iter_at_pos.invokeExact(
@@ -146,7 +142,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -182,23 +178,18 @@ public class Sequence extends Struct {
      * @param cmpFunc the function used to compare items in the sequence
      * @return a {@link SequenceIter} pointing to the new item.
      */
-    public @NotNull org.gtk.glib.SequenceIter insertSorted(@NotNull org.gtk.glib.CompareDataFunc cmpFunc) {
-        java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
+    public org.gtk.glib.SequenceIter insertSorted(org.gtk.glib.CompareDataFunc cmpFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_sorted.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(cmpFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(cmpFunc)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) cmpFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -217,23 +208,18 @@ public class Sequence extends Struct {
      * @param iterCmp the function used to compare iterators in the sequence
      * @return a {@link SequenceIter} pointing to the new item
      */
-    public @NotNull org.gtk.glib.SequenceIter insertSortedIter(@NotNull org.gtk.glib.SequenceIterCompareFunc iterCmp) {
-        java.util.Objects.requireNonNull(iterCmp, "Parameter 'iterCmp' must not be null");
+    public org.gtk.glib.SequenceIter insertSortedIter(org.gtk.glib.SequenceIterCompareFunc iterCmp) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_sorted_iter.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(iterCmp)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(iterCmp)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) iterCmp.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -252,7 +238,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -274,23 +260,18 @@ public class Sequence extends Struct {
      *     first item found equal to {@code data} according to {@code cmp_func} and
      *     {@code cmp_data}, or {@code null} if no such item exists
      */
-    public @Nullable org.gtk.glib.SequenceIter lookup(@NotNull org.gtk.glib.CompareDataFunc cmpFunc) {
-        java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
+    public @Nullable org.gtk.glib.SequenceIter lookup(org.gtk.glib.CompareDataFunc cmpFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_lookup.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(cmpFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(cmpFunc)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) cmpFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -309,40 +290,34 @@ public class Sequence extends Struct {
      *     the first item found equal to {@code data} according to {@code iter_cmp}
      *     and {@code cmp_data}, or {@code null} if no such item exists
      */
-    public @Nullable org.gtk.glib.SequenceIter lookupIter(@NotNull org.gtk.glib.SequenceIterCompareFunc iterCmp) {
-        java.util.Objects.requireNonNull(iterCmp, "Parameter 'iterCmp' must not be null");
+    public @Nullable org.gtk.glib.SequenceIter lookupIter(org.gtk.glib.SequenceIterCompareFunc iterCmp) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_lookup_iter.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(iterCmp)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(iterCmp)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) iterCmp.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Adds a new item to the front of {@code seq}
-     * @param data the data for the new item
      * @return an iterator pointing to the new item
      */
-    public @NotNull org.gtk.glib.SequenceIter prepend(@Nullable java.lang.foreign.MemoryAddress data) {
+    public org.gtk.glib.SequenceIter prepend() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_prepend.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -363,23 +338,18 @@ public class Sequence extends Struct {
      * @return an {@link SequenceIter} pointing to the position where {@code data}
      *     would have been inserted according to {@code cmp_func} and {@code cmp_data}
      */
-    public @NotNull org.gtk.glib.SequenceIter search(@NotNull org.gtk.glib.CompareDataFunc cmpFunc) {
-        java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
+    public org.gtk.glib.SequenceIter search(org.gtk.glib.CompareDataFunc cmpFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_search.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(cmpFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(cmpFunc)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) cmpFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -401,23 +371,18 @@ public class Sequence extends Struct {
      *     where {@code data} would have been inserted according to {@code iter_cmp}
      *     and {@code cmp_data}
      */
-    public @NotNull org.gtk.glib.SequenceIter searchIter(@NotNull org.gtk.glib.SequenceIterCompareFunc iterCmp) {
-        java.util.Objects.requireNonNull(iterCmp, "Parameter 'iterCmp' must not be null");
+    public org.gtk.glib.SequenceIter searchIter(org.gtk.glib.SequenceIterCompareFunc iterCmp) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_search_iter.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(iterCmp)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(iterCmp)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) iterCmp.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -429,17 +394,12 @@ public class Sequence extends Struct {
      * if the second comes before the first.
      * @param cmpFunc the function used to sort the sequence
      */
-    public void sort(@NotNull org.gtk.glib.CompareDataFunc cmpFunc) {
-        java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
+    public void sort(org.gtk.glib.CompareDataFunc cmpFunc) {
         try {
             DowncallHandles.g_sequence_sort.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(cmpFunc)));
+                    (Addressable) cmpFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -455,17 +415,12 @@ public class Sequence extends Struct {
      * iterator comes before the first.
      * @param cmpFunc the function used to compare iterators in the sequence
      */
-    public void sortIter(@NotNull org.gtk.glib.SequenceIterCompareFunc cmpFunc) {
-        java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
+    public void sortIter(org.gtk.glib.SequenceIterCompareFunc cmpFunc) {
         try {
             DowncallHandles.g_sequence_sort_iter.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(cmpFunc)));
+                    (Addressable) cmpFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -479,20 +434,13 @@ public class Sequence extends Struct {
      * @param end a {@link SequenceIter}
      * @param func a {@link Func}
      */
-    public static void foreachRange(@NotNull org.gtk.glib.SequenceIter begin, @NotNull org.gtk.glib.SequenceIter end, @NotNull org.gtk.glib.Func func) {
-        java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void foreachRange(org.gtk.glib.SequenceIter begin, org.gtk.glib.SequenceIter end, org.gtk.glib.Func func) {
         try {
             DowncallHandles.g_sequence_foreach_range.invokeExact(
                     begin.handle(),
                     end.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -503,8 +451,7 @@ public class Sequence extends Struct {
      * @param iter a {@link SequenceIter}
      * @return the data that {@code iter} points to
      */
-    public static @Nullable java.lang.foreign.MemoryAddress get(@NotNull org.gtk.glib.SequenceIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress get(org.gtk.glib.SequenceIter iter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_get.invokeExact(
@@ -518,20 +465,18 @@ public class Sequence extends Struct {
     /**
      * Inserts a new item just before the item pointed to by {@code iter}.
      * @param iter a {@link SequenceIter}
-     * @param data the data for the new item
      * @return an iterator pointing to the new item
      */
-    public static @NotNull org.gtk.glib.SequenceIter insertBefore(@NotNull org.gtk.glib.SequenceIter iter, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public static org.gtk.glib.SequenceIter insertBefore(org.gtk.glib.SequenceIter iter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_before.invokeExact(
                     iter.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -543,9 +488,7 @@ public class Sequence extends Struct {
      * @param dest a {@link SequenceIter} pointing to the position to which
      *     the item is moved
      */
-    public static void move(@NotNull org.gtk.glib.SequenceIter src, @NotNull org.gtk.glib.SequenceIter dest) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public static void move(org.gtk.glib.SequenceIter src, org.gtk.glib.SequenceIter dest) {
         try {
             DowncallHandles.g_sequence_move.invokeExact(
                     src.handle(),
@@ -568,10 +511,7 @@ public class Sequence extends Struct {
      * @param begin a {@link SequenceIter}
      * @param end a {@link SequenceIter}
      */
-    public static void moveRange(@NotNull org.gtk.glib.SequenceIter dest, @NotNull org.gtk.glib.SequenceIter begin, @NotNull org.gtk.glib.SequenceIter end) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public static void moveRange(org.gtk.glib.SequenceIter dest, org.gtk.glib.SequenceIter begin, org.gtk.glib.SequenceIter end) {
         try {
             DowncallHandles.g_sequence_move_range.invokeExact(
                     dest.handle(),
@@ -589,8 +529,15 @@ public class Sequence extends Struct {
      * @param dataDestroy a {@link DestroyNotify} function, or {@code null}
      * @return a new {@link Sequence}
      */
-    public static @NotNull org.gtk.glib.Sequence new_(@Nullable org.gtk.glib.DestroyNotify dataDestroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gtk.glib.Sequence new_(@Nullable org.gtk.glib.DestroyNotify dataDestroy) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_sequence_new.invokeExact(
+                    (Addressable) (dataDestroy == null ? MemoryAddress.NULL : (Addressable) dataDestroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.gtk.glib.Sequence.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -605,9 +552,7 @@ public class Sequence extends Struct {
      * @return a {@link SequenceIter} pointing somewhere in the
      *    ({@code begin}, {@code end}) range
      */
-    public static @NotNull org.gtk.glib.SequenceIter rangeGetMidpoint(@NotNull org.gtk.glib.SequenceIter begin, @NotNull org.gtk.glib.SequenceIter end) {
-        java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public static org.gtk.glib.SequenceIter rangeGetMidpoint(org.gtk.glib.SequenceIter begin, org.gtk.glib.SequenceIter end) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_range_get_midpoint.invokeExact(
@@ -616,7 +561,7 @@ public class Sequence extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -627,8 +572,7 @@ public class Sequence extends Struct {
      * function is called on the data for the removed item.
      * @param iter a {@link SequenceIter}
      */
-    public static void remove(@NotNull org.gtk.glib.SequenceIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public static void remove(org.gtk.glib.SequenceIter iter) {
         try {
             DowncallHandles.g_sequence_remove.invokeExact(
                     iter.handle());
@@ -645,9 +589,7 @@ public class Sequence extends Struct {
      * @param begin a {@link SequenceIter}
      * @param end a {@link SequenceIter}
      */
-    public static void removeRange(@NotNull org.gtk.glib.SequenceIter begin, @NotNull org.gtk.glib.SequenceIter end) {
-        java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public static void removeRange(org.gtk.glib.SequenceIter begin, org.gtk.glib.SequenceIter end) {
         try {
             DowncallHandles.g_sequence_remove_range.invokeExact(
                     begin.handle(),
@@ -662,14 +604,12 @@ public class Sequence extends Struct {
      * the sequence has a data destroy function associated with it, that
      * function is called on the existing data that {@code iter} pointed to.
      * @param iter a {@link SequenceIter}
-     * @param data new data for the item
      */
-    public static void set(@NotNull org.gtk.glib.SequenceIter iter, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public static void set(org.gtk.glib.SequenceIter iter) {
         try {
             DowncallHandles.g_sequence_set.invokeExact(
                     iter.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -689,18 +629,12 @@ public class Sequence extends Struct {
      * @param iter A {@link SequenceIter}
      * @param cmpFunc the function used to compare items in the sequence
      */
-    public static void sortChanged(@NotNull org.gtk.glib.SequenceIter iter, @NotNull org.gtk.glib.CompareDataFunc cmpFunc) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(cmpFunc, "Parameter 'cmpFunc' must not be null");
+    public static void sortChanged(org.gtk.glib.SequenceIter iter, org.gtk.glib.CompareDataFunc cmpFunc) {
         try {
             DowncallHandles.g_sequence_sort_changed.invokeExact(
                     iter.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(cmpFunc)));
+                    (Addressable) cmpFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -719,18 +653,12 @@ public class Sequence extends Struct {
      * @param iter a {@link SequenceIter}
      * @param iterCmp the function used to compare iterators in the sequence
      */
-    public static void sortChangedIter(@NotNull org.gtk.glib.SequenceIter iter, @NotNull org.gtk.glib.SequenceIterCompareFunc iterCmp) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(iterCmp, "Parameter 'iterCmp' must not be null");
+    public static void sortChangedIter(org.gtk.glib.SequenceIter iter, org.gtk.glib.SequenceIterCompareFunc iterCmp) {
         try {
             DowncallHandles.g_sequence_sort_changed_iter.invokeExact(
                     iter.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSequenceIterCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(iterCmp)));
+                    (Addressable) iterCmp.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -742,9 +670,7 @@ public class Sequence extends Struct {
      * @param a a {@link SequenceIter}
      * @param b a {@link SequenceIter}
      */
-    public static void swap(@NotNull org.gtk.glib.SequenceIter a, @NotNull org.gtk.glib.SequenceIter b) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public static void swap(org.gtk.glib.SequenceIter a, org.gtk.glib.SequenceIter b) {
         try {
             DowncallHandles.g_sequence_swap.invokeExact(
                     a.handle(),

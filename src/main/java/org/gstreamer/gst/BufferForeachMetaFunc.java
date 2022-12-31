@@ -18,5 +18,19 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface BufferForeachMetaFunc {
-        boolean onBufferForeachMetaFunc(@NotNull org.gstreamer.gst.Buffer buffer, @Nullable Out<PointerProxy<org.gstreamer.gst.Meta>> meta);
+    boolean run(org.gstreamer.gst.Buffer buffer, @Nullable Out<org.gstreamer.gst.Meta> meta);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress buffer, MemoryAddress meta, MemoryAddress userData) {
+        Out<org.gstreamer.gst.Meta> metaOUT = new Out<>(org.gstreamer.gst.Meta.fromAddress.marshal(meta, Ownership.FULL));
+        var RESULT = run(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE), metaOUT);
+        meta.set(Interop.valueLayout.ADDRESS, 0, metaOUT.get().handle());
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BufferForeachMetaFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

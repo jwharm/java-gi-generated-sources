@@ -16,19 +16,17 @@ public class DataQueueSize extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstDataQueueSize";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("visible"),
-        Interop.valueLayout.C_INT.withName("bytes"),
-        Interop.valueLayout.C_LONG.withName("time")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("visible"),
+            Interop.valueLayout.C_INT.withName("bytes"),
+            Interop.valueLayout.C_LONG.withName("time")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class DataQueueSize extends Struct {
      * Get the value of the field {@code visible}
      * @return The value of the field {@code visible}
      */
-    public int visible$get() {
+    public int getVisible() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("visible"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,7 +57,7 @@ public class DataQueueSize extends Struct {
      * Change the value of the field {@code visible}
      * @param visible The new value of the field {@code visible}
      */
-    public void visible$set(int visible) {
+    public void setVisible(int visible) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("visible"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), visible);
@@ -69,7 +67,7 @@ public class DataQueueSize extends Struct {
      * Get the value of the field {@code bytes}
      * @return The value of the field {@code bytes}
      */
-    public int bytes$get() {
+    public int getBytes() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class DataQueueSize extends Struct {
      * Change the value of the field {@code bytes}
      * @param bytes The new value of the field {@code bytes}
      */
-    public void bytes$set(int bytes) {
+    public void setBytes(int bytes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes);
@@ -90,7 +88,7 @@ public class DataQueueSize extends Struct {
      * Get the value of the field {@code time}
      * @return The value of the field {@code time}
      */
-    public long time$get() {
+    public long getTime() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("time"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -101,7 +99,7 @@ public class DataQueueSize extends Struct {
      * Change the value of the field {@code time}
      * @param time The new value of the field {@code time}
      */
-    public void time$set(long time) {
+    public void setTime(long time) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("time"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);
@@ -112,35 +110,41 @@ public class DataQueueSize extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DataQueueSize(Addressable address, Ownership ownership) {
+    protected DataQueueSize(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DataQueueSize> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DataQueueSize(input, ownership);
+    
+    /**
+     * A {@link DataQueueSize.Builder} object constructs a {@link DataQueueSize} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DataQueueSize.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DataQueueSize struct;
+        private final DataQueueSize struct;
         
-         /**
-         * A {@link DataQueueSize.Build} object constructs a {@link DataQueueSize} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DataQueueSize.allocate();
         }
         
          /**
          * Finish building the {@link DataQueueSize} struct.
          * @return A new instance of {@code DataQueueSize} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DataQueueSize construct() {
+        public DataQueueSize build() {
             return struct;
         }
         
@@ -149,7 +153,7 @@ public class DataQueueSize extends Struct {
          * @param visible The value for the {@code visible} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisible(int visible) {
+        public Builder setVisible(int visible) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("visible"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), visible);
@@ -161,7 +165,7 @@ public class DataQueueSize extends Struct {
          * @param bytes The value for the {@code bytes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBytes(int bytes) {
+        public Builder setBytes(int bytes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bytes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bytes);
@@ -173,7 +177,7 @@ public class DataQueueSize extends Struct {
          * @param time The value for the {@code time} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTime(long time) {
+        public Builder setTime(long time) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("time"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), time);

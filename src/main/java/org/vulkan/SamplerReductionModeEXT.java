@@ -40,8 +40,10 @@ public class SamplerReductionModeEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SamplerReductionModeEXT(Addressable address, Ownership ownership) {
+    protected SamplerReductionModeEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SamplerReductionModeEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SamplerReductionModeEXT(input, ownership);
 }

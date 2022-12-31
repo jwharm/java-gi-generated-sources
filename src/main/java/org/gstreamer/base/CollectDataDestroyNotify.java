@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface CollectDataDestroyNotify {
-        void onCollectDataDestroyNotify(@NotNull org.gstreamer.base.CollectData data);
+    void run(org.gstreamer.base.CollectData data);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress data) {
+        run(org.gstreamer.base.CollectData.fromAddress.marshal(data, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CollectDataDestroyNotify.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

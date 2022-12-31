@@ -13,24 +13,22 @@ public class Vp9Picture extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVp9Picture";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.C_INT.withName("system_frame_number"),
-        MemoryLayout.paddingLayout(32),
-        org.gstreamer.codecs.Vp9FrameHeader.getMemoryLayout().withName("frame_hdr"),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.C_LONG.withName("size"),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.ADDRESS.withName("notify")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.C_INT.withName("system_frame_number"),
+            MemoryLayout.paddingLayout(32),
+            org.gstreamer.codecs.Vp9FrameHeader.getMemoryLayout().withName("frame_hdr"),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.C_LONG.withName("size"),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.ADDRESS.withName("notify")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,13 +49,15 @@ public class Vp9Picture extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Vp9Picture(Addressable address, Ownership ownership) {
+    protected Vp9Picture(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Vp9Picture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Vp9Picture(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vp9_picture_new.invokeExact();
         } catch (Throwable ERR) {
@@ -95,15 +95,14 @@ public class Vp9Picture extends Struct {
      * <p>
      * If a {@code user_data} was previously set, then the previous set {@code notify} will be called
      * before the {@code user_data} is replaced.
-     * @param userData private data
      * @param notify a {@link org.gtk.glib.DestroyNotify}
      */
-    public void setUserData(@Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify notify) {
+    public void setUserData(org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_vp9_picture_set_user_data.invokeExact(
                     handle(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -129,80 +128,84 @@ public class Vp9Picture extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Vp9Picture.Builder} object constructs a {@link Vp9Picture} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Vp9Picture.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Vp9Picture struct;
+        private final Vp9Picture struct;
         
-         /**
-         * A {@link Vp9Picture.Build} object constructs a {@link Vp9Picture} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Vp9Picture.allocate();
         }
         
          /**
          * Finish building the {@link Vp9Picture} struct.
          * @return A new instance of {@code Vp9Picture} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Vp9Picture construct() {
+        public Vp9Picture build() {
             return struct;
         }
         
-        public Build setParent(org.gstreamer.gst.MiniObject parent) {
+        public Builder setParent(org.gstreamer.gst.MiniObject parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
             return this;
         }
         
-        public Build setSystemFrameNumber(int systemFrameNumber) {
+        public Builder setSystemFrameNumber(int systemFrameNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("system_frame_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), systemFrameNumber);
             return this;
         }
         
-        public Build setFrameHdr(org.gstreamer.codecs.Vp9FrameHeader frameHdr) {
+        public Builder setFrameHdr(org.gstreamer.codecs.Vp9FrameHeader frameHdr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("frame_hdr"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (frameHdr == null ? MemoryAddress.NULL : frameHdr.handle()));
             return this;
         }
         
-        public Build setData(PointerByte data) {
+        public Builder setData(PointerByte data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
             return this;
         }
         
-        public Build setSize(long size) {
+        public Builder setSize(long size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
             return this;
         }
         
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
             return this;
         }
         
-        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+        public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
             return this;
         }
     }

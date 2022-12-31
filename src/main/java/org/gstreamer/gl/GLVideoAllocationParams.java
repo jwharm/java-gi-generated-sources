@@ -13,24 +13,22 @@ public class GLVideoAllocationParams extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLVideoAllocationParams";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gl.GLAllocationParams.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("v_info"),
-        Interop.valueLayout.C_INT.withName("plane"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("valign"),
-        Interop.valueLayout.C_INT.withName("target"),
-        Interop.valueLayout.C_INT.withName("tex_format"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gl.GLAllocationParams.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("v_info"),
+            Interop.valueLayout.C_INT.withName("plane"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("valign"),
+            Interop.valueLayout.C_INT.withName("target"),
+            Interop.valueLayout.C_INT.withName("tex_format"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,37 +48,47 @@ public class GLVideoAllocationParams extends Struct {
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gstreamer.gl.GLAllocationParams parent$get() {
+    public org.gstreamer.gl.GLAllocationParams getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gstreamer.gl.GLAllocationParams(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLAllocationParams.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent}
+     * @param parent The new value of the field {@code parent}
+     */
+    public void setParent(org.gstreamer.gl.GLAllocationParams parent) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
      * Get the value of the field {@code v_info}
      * @return The value of the field {@code v_info}
      */
-    public org.gstreamer.video.VideoInfo vInfo$get() {
+    public org.gstreamer.video.VideoInfo getVInfo() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("v_info"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.video.VideoInfo(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoInfo.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code v_info}
      * @param vInfo The new value of the field {@code v_info}
      */
-    public void vInfo$set(org.gstreamer.video.VideoInfo vInfo) {
+    public void setVInfo(org.gstreamer.video.VideoInfo vInfo) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("v_info"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), vInfo.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (vInfo == null ? MemoryAddress.NULL : vInfo.handle()));
     }
     
     /**
      * Get the value of the field {@code plane}
      * @return The value of the field {@code plane}
      */
-    public int plane$get() {
+    public int getPlane() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("plane"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -91,7 +99,7 @@ public class GLVideoAllocationParams extends Struct {
      * Change the value of the field {@code plane}
      * @param plane The new value of the field {@code plane}
      */
-    public void plane$set(int plane) {
+    public void setPlane(int plane) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("plane"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), plane);
@@ -101,28 +109,28 @@ public class GLVideoAllocationParams extends Struct {
      * Get the value of the field {@code valign}
      * @return The value of the field {@code valign}
      */
-    public org.gstreamer.video.VideoAlignment valign$get() {
+    public org.gstreamer.video.VideoAlignment getValign() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("valign"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.video.VideoAlignment(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoAlignment.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code valign}
      * @param valign The new value of the field {@code valign}
      */
-    public void valign$set(org.gstreamer.video.VideoAlignment valign) {
+    public void setValign(org.gstreamer.video.VideoAlignment valign) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("valign"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), valign.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valign == null ? MemoryAddress.NULL : valign.handle()));
     }
     
     /**
      * Get the value of the field {@code target}
      * @return The value of the field {@code target}
      */
-    public org.gstreamer.gl.GLTextureTarget target$get() {
+    public org.gstreamer.gl.GLTextureTarget getTarget() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("target"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -133,17 +141,17 @@ public class GLVideoAllocationParams extends Struct {
      * Change the value of the field {@code target}
      * @param target The new value of the field {@code target}
      */
-    public void target$set(org.gstreamer.gl.GLTextureTarget target) {
+    public void setTarget(org.gstreamer.gl.GLTextureTarget target) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("target"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), target.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (target == null ? MemoryAddress.NULL : target.getValue()));
     }
     
     /**
      * Get the value of the field {@code tex_format}
      * @return The value of the field {@code tex_format}
      */
-    public org.gstreamer.gl.GLFormat texFormat$get() {
+    public org.gstreamer.gl.GLFormat getTexFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tex_format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -154,10 +162,10 @@ public class GLVideoAllocationParams extends Struct {
      * Change the value of the field {@code tex_format}
      * @param texFormat The new value of the field {@code tex_format}
      */
-    public void texFormat$set(org.gstreamer.gl.GLFormat texFormat) {
+    public void setTexFormat(org.gstreamer.gl.GLFormat texFormat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tex_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), texFormat.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (texFormat == null ? MemoryAddress.NULL : texFormat.getValue()));
     }
     
     /**
@@ -165,17 +173,15 @@ public class GLVideoAllocationParams extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLVideoAllocationParams(Addressable address, Ownership ownership) {
+    protected GLVideoAllocationParams(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(vInfo, "Parameter 'vInfo' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(texFormat, "Parameter 'texFormat' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLVideoAllocationParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLVideoAllocationParams(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_video_allocation_params_new.invokeExact(
                     context.handle(),
@@ -191,16 +197,12 @@ public class GLVideoAllocationParams extends Struct {
         return RESULT;
     }
     
-    public GLVideoAllocationParams(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat) {
+    public GLVideoAllocationParams(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat) {
         super(constructNew(context, allocParams, vInfo, plane, valign, target, texFormat), Ownership.FULL);
     }
     
-    private static Addressable constructNewWrappedData(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat, @Nullable java.lang.foreign.MemoryAddress wrappedData, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(vInfo, "Parameter 'vInfo' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(texFormat, "Parameter 'texFormat' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWrappedData(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat, @Nullable org.gtk.glib.DestroyNotify notify) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_video_allocation_params_new_wrapped_data.invokeExact(
                     context.handle(),
@@ -210,25 +212,22 @@ public class GLVideoAllocationParams extends Struct {
                     (Addressable) (valign == null ? MemoryAddress.NULL : valign.handle()),
                     target.getValue(),
                     texFormat.getValue(),
-                    (Addressable) wrappedData,
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    public static GLVideoAllocationParams newWrappedData(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat, @Nullable java.lang.foreign.MemoryAddress wrappedData, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        return new GLVideoAllocationParams(constructNewWrappedData(context, allocParams, vInfo, plane, valign, target, texFormat, wrappedData, userData, notify), Ownership.FULL);
+    public static GLVideoAllocationParams newWrappedData(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat, @Nullable org.gtk.glib.DestroyNotify notify) {
+        var RESULT = constructNewWrappedData(context, allocParams, vInfo, plane, valign, target, texFormat, notify);
+        return org.gstreamer.gl.GLVideoAllocationParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWrappedGlHandle(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(vInfo, "Parameter 'vInfo' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(texFormat, "Parameter 'texFormat' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWrappedGlHandle(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable org.gtk.glib.DestroyNotify notify) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_video_allocation_params_new_wrapped_gl_handle.invokeExact(
                     context.handle(),
@@ -239,8 +238,8 @@ public class GLVideoAllocationParams extends Struct {
                     target.getValue(),
                     texFormat.getValue(),
                     (Addressable) (glHandle == null ? MemoryAddress.NULL : (Addressable) glHandle),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,20 +258,16 @@ public class GLVideoAllocationParams extends Struct {
      * @param target the {@link GLTextureTarget} for {@code tex_id}
      * @param texFormat the {@link GLFormat} for {@code tex_id}
      * @param glHandle the GL handle to wrap
-     * @param userData user data to call {@code notify} with
      * @param notify a {@link org.gtk.glib.DestroyNotify}
      * @return a new {@link GLVideoAllocationParams} for wrapping {@code gl_handle}
      */
-    public static GLVideoAllocationParams newWrappedGlHandle(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        return new GLVideoAllocationParams(constructNewWrappedGlHandle(context, allocParams, vInfo, plane, valign, target, texFormat, glHandle, userData, notify), Ownership.FULL);
+    public static GLVideoAllocationParams newWrappedGlHandle(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable org.gtk.glib.DestroyNotify notify) {
+        var RESULT = constructNewWrappedGlHandle(context, allocParams, vInfo, plane, valign, target, texFormat, glHandle, notify);
+        return org.gstreamer.gl.GLVideoAllocationParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWrappedTexture(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat, int texId, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(vInfo, "Parameter 'vInfo' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(texFormat, "Parameter 'texFormat' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWrappedTexture(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat, int texId, @Nullable org.gtk.glib.DestroyNotify notify) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_video_allocation_params_new_wrapped_texture.invokeExact(
                     context.handle(),
@@ -283,16 +278,17 @@ public class GLVideoAllocationParams extends Struct {
                     target.getValue(),
                     texFormat.getValue(),
                     texId,
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return RESULT;
     }
     
-    public static GLVideoAllocationParams newWrappedTexture(@NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat, int texId, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        return new GLVideoAllocationParams(constructNewWrappedTexture(context, allocParams, vInfo, plane, valign, target, texFormat, texId, userData, notify), Ownership.FULL);
+    public static GLVideoAllocationParams newWrappedTexture(org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat, int texId, @Nullable org.gtk.glib.DestroyNotify notify) {
+        var RESULT = constructNewWrappedTexture(context, allocParams, vInfo, plane, valign, target, texFormat, texId, notify);
+        return org.gstreamer.gl.GLVideoAllocationParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -300,8 +296,7 @@ public class GLVideoAllocationParams extends Struct {
      * for subclass usage only to chain up at the end of a subclass copy function.
      * @param destVid destination {@link GLVideoAllocationParams} to copy into
      */
-    public void copyData(@NotNull org.gstreamer.gl.GLVideoAllocationParams destVid) {
-        java.util.Objects.requireNonNull(destVid, "Parameter 'destVid' must not be null");
+    public void copyData(org.gstreamer.gl.GLVideoAllocationParams destVid) {
         try {
             DowncallHandles.gst_gl_video_allocation_params_copy_data.invokeExact(
                     handle(),
@@ -338,31 +333,18 @@ public class GLVideoAllocationParams extends Struct {
      * @param target the {@link GLTextureTarget}
      * @param texFormat the {@link GLFormat}
      * @param glHandle the optional OpenGL handle to wrap or 0
+     * @param notify a {@link org.gtk.glib.DestroyNotify}
      * @return initializes {@code params} with the parameters specified
      */
-    public boolean initFull(long structSize, int allocFlags, @NotNull org.gstreamer.gl.GLAllocationParamsCopyFunc copy, @NotNull org.gstreamer.gl.GLAllocationParamsFreeFunc free, @NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, @NotNull org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat, @Nullable java.lang.foreign.MemoryAddress glHandle) {
-        java.util.Objects.requireNonNull(copy, "Parameter 'copy' must not be null");
-        java.util.Objects.requireNonNull(free, "Parameter 'free' must not be null");
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(vInfo, "Parameter 'vInfo' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(texFormat, "Parameter 'texFormat' must not be null");
+    public boolean initFull(long structSize, int allocFlags, org.gstreamer.gl.GLAllocationParamsCopyFunc copy, org.gstreamer.gl.GLAllocationParamsFreeFunc free, org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams allocParams, org.gstreamer.video.VideoInfo vInfo, int plane, @Nullable org.gstreamer.video.VideoAlignment valign, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_video_allocation_params_init_full.invokeExact(
                     handle(),
                     structSize,
                     allocFlags,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstGL.Callbacks.class, "cbGLAllocationParamsCopyFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstGL.Callbacks.class, "cbGLAllocationParamsFreeFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
+                    (Addressable) copy.toCallback(),
+                    (Addressable) free.toCallback(),
                     context.handle(),
                     (Addressable) (allocParams == null ? MemoryAddress.NULL : allocParams.handle()),
                     vInfo.handle(),
@@ -370,14 +352,14 @@ public class GLVideoAllocationParams extends Struct {
                     (Addressable) (valign == null ? MemoryAddress.NULL : valign.handle()),
                     target.getValue(),
                     texFormat.getValue(),
-                    (Addressable) (Interop.registerCallback(copy)),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) (glHandle == null ? MemoryAddress.NULL : (Addressable) glHandle),
-                    (Addressable) (Interop.registerCallback(copy)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -424,31 +406,35 @@ public class GLVideoAllocationParams extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLVideoAllocationParams.Builder} object constructs a {@link GLVideoAllocationParams} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLVideoAllocationParams.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLVideoAllocationParams struct;
+        private final GLVideoAllocationParams struct;
         
-         /**
-         * A {@link GLVideoAllocationParams.Build} object constructs a {@link GLVideoAllocationParams} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLVideoAllocationParams.allocate();
         }
         
          /**
          * Finish building the {@link GLVideoAllocationParams} struct.
          * @return A new instance of {@code GLVideoAllocationParams} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLVideoAllocationParams construct() {
+        public GLVideoAllocationParams build() {
             return struct;
         }
         
@@ -457,7 +443,7 @@ public class GLVideoAllocationParams extends Struct {
          * @param parent The value for the {@code parent} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gstreamer.gl.GLAllocationParams parent) {
+        public Builder setParent(org.gstreamer.gl.GLAllocationParams parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -469,7 +455,7 @@ public class GLVideoAllocationParams extends Struct {
          * @param vInfo The value for the {@code vInfo} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVInfo(org.gstreamer.video.VideoInfo vInfo) {
+        public Builder setVInfo(org.gstreamer.video.VideoInfo vInfo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("v_info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (vInfo == null ? MemoryAddress.NULL : vInfo.handle()));
@@ -481,7 +467,7 @@ public class GLVideoAllocationParams extends Struct {
          * @param plane The value for the {@code plane} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlane(int plane) {
+        public Builder setPlane(int plane) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("plane"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), plane);
@@ -493,7 +479,7 @@ public class GLVideoAllocationParams extends Struct {
          * @param valign The value for the {@code valign} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValign(org.gstreamer.video.VideoAlignment valign) {
+        public Builder setValign(org.gstreamer.video.VideoAlignment valign) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("valign"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valign == null ? MemoryAddress.NULL : valign.handle()));
@@ -505,7 +491,7 @@ public class GLVideoAllocationParams extends Struct {
          * @param target The value for the {@code target} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTarget(org.gstreamer.gl.GLTextureTarget target) {
+        public Builder setTarget(org.gstreamer.gl.GLTextureTarget target) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("target"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (target == null ? MemoryAddress.NULL : target.getValue()));
@@ -517,14 +503,14 @@ public class GLVideoAllocationParams extends Struct {
          * @param texFormat The value for the {@code texFormat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTexFormat(org.gstreamer.gl.GLFormat texFormat) {
+        public Builder setTexFormat(org.gstreamer.gl.GLFormat texFormat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tex_format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (texFormat == null ? MemoryAddress.NULL : texFormat.getValue()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

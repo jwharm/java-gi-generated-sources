@@ -64,40 +64,26 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Because SplitButton is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SplitButton(Addressable address, Ownership ownership) {
+    protected SplitButton(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to SplitButton if its GType is a (or inherits from) "AdwSplitButton".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SplitButton} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwSplitButton", a ClassCastException will be thrown.
-     */
-    public static SplitButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SplitButton.getType())) {
-            return new SplitButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwSplitButton");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SplitButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SplitButton(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_split_button_new.invokeExact();
         } catch (Throwable ERR) {
@@ -125,14 +111,14 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the direction in which the popup will be popped up.
      * @return the direction
      */
-    public @NotNull org.gtk.gtk.ArrowType getArrowDirection() {
+    public org.gtk.gtk.ArrowType getArrowDirection() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_split_button_get_direction.invokeExact(
@@ -147,7 +133,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Gets the tooltip of the dropdown button of {@code self}.
      * @return the dropdown tooltip of {@code self}
      */
-    public @NotNull java.lang.String getDropdownTooltip() {
+    public java.lang.String getDropdownTooltip() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_split_button_get_dropdown_tooltip.invokeExact(
@@ -155,7 +141,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -170,7 +156,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -185,7 +171,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -200,7 +186,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -215,7 +201,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Popover(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Popover) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Popover.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -230,7 +216,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -285,8 +271,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * If you pass {@code GTK_ARROW_NONE}, it's equivalent to {@code GTK_ARROW_DOWN}.
      * @param direction the direction
      */
-    public void setDirection(@NotNull org.gtk.gtk.ArrowType direction) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public void setDirection(org.gtk.gtk.ArrowType direction) {
         try {
             DowncallHandles.adw_split_button_set_direction.invokeExact(
                     handle(),
@@ -302,12 +287,11 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * The tooltip can be marked up with the Pango text markup language.
      * @param tooltip the dropdown tooltip of {@code self}
      */
-    public void setDropdownTooltip(@NotNull java.lang.String tooltip) {
-        java.util.Objects.requireNonNull(tooltip, "Parameter 'tooltip' must not be null");
+    public void setDropdownTooltip(java.lang.String tooltip) {
         try {
             DowncallHandles.adw_split_button_set_dropdown_tooltip.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tooltip));
+                    Marshal.stringToAddress.marshal(tooltip, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,12 +304,11 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * {@code SplitButton:child} to {@code NULL}.
      * @param iconName the icon name to set
      */
-    public void setIconName(@NotNull java.lang.String iconName) {
-        java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
+    public void setIconName(java.lang.String iconName) {
         try {
             DowncallHandles.adw_split_button_set_icon_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(iconName));
+                    Marshal.stringToAddress.marshal(iconName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -338,12 +321,11 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * {@code SplitButton:child} to {@code NULL}.
      * @param label the label to set
      */
-    public void setLabel(@NotNull java.lang.String label) {
-        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+    public void setLabel(java.lang.String label) {
         try {
             DowncallHandles.adw_split_button_set_label.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(label));
+                    Marshal.stringToAddress.marshal(label, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -401,7 +383,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.adw_split_button_set_use_underline.invokeExact(
                     handle(),
-                    useUnderline ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useUnderline, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -411,7 +393,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_split_button_get_type.invokeExact();
@@ -423,7 +405,18 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(SplitButton sourceSplitButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSplitButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -437,16 +430,8 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<SplitButton.Activate> onActivate(SplitButton.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SplitButton.Callbacks.class, "signalSplitButtonActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SplitButton.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -454,7 +439,18 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Clicked {
-        void signalReceived(SplitButton sourceSplitButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSplitButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Clicked.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -465,52 +461,46 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<SplitButton.Clicked> onClicked(SplitButton.Clicked handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("clicked"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SplitButton.Callbacks.class, "signalSplitButtonClicked",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SplitButton.Clicked>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("clicked"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link SplitButton.Builder} object constructs a {@link SplitButton} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SplitButton.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link SplitButton.Build} object constructs a {@link SplitButton} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SplitButton} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SplitButton} using {@link SplitButton#castFrom}.
+         * {@link SplitButton}.
          * @return A new instance of {@code SplitButton} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SplitButton construct() {
-            return SplitButton.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SplitButton.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SplitButton build() {
+            return (SplitButton) org.gtk.gobject.GObject.newWithProperties(
+                SplitButton.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -522,7 +512,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -540,7 +530,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param direction The value for the {@code direction} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDirection(org.gtk.gtk.ArrowType direction) {
+        public Builder setDirection(org.gtk.gtk.ArrowType direction) {
             names.add("direction");
             values.add(org.gtk.gobject.Value.create(direction));
             return this;
@@ -553,7 +543,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param dropdownTooltip The value for the {@code dropdown-tooltip} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDropdownTooltip(java.lang.String dropdownTooltip) {
+        public Builder setDropdownTooltip(java.lang.String dropdownTooltip) {
             names.add("dropdown-tooltip");
             values.add(org.gtk.gobject.Value.create(dropdownTooltip));
             return this;
@@ -567,7 +557,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param iconName The value for the {@code icon-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIconName(java.lang.String iconName) {
+        public Builder setIconName(java.lang.String iconName) {
             names.add("icon-name");
             values.add(org.gtk.gobject.Value.create(iconName));
             return this;
@@ -581,7 +571,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param label The value for the {@code label} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLabel(java.lang.String label) {
+        public Builder setLabel(java.lang.String label) {
             names.add("label");
             values.add(org.gtk.gobject.Value.create(label));
             return this;
@@ -601,7 +591,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param menuModel The value for the {@code menu-model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMenuModel(org.gtk.gio.MenuModel menuModel) {
+        public Builder setMenuModel(org.gtk.gio.MenuModel menuModel) {
             names.add("menu-model");
             values.add(org.gtk.gobject.Value.create(menuModel));
             return this;
@@ -617,7 +607,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param popover The value for the {@code popover} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPopover(org.gtk.gtk.Popover popover) {
+        public Builder setPopover(org.gtk.gtk.Popover popover) {
             names.add("popover");
             values.add(org.gtk.gobject.Value.create(popover));
             return this;
@@ -630,7 +620,7 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param useUnderline The value for the {@code use-underline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseUnderline(boolean useUnderline) {
+        public Builder setUseUnderline(boolean useUnderline) {
             names.add("use-underline");
             values.add(org.gtk.gobject.Value.create(useUnderline));
             return this;
@@ -758,20 +748,5 @@ public class SplitButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalSplitButtonActivate(MemoryAddress sourceSplitButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SplitButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SplitButton(sourceSplitButton, Ownership.NONE));
-        }
-        
-        public static void signalSplitButtonClicked(MemoryAddress sourceSplitButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SplitButton.Clicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SplitButton(sourceSplitButton, Ownership.NONE));
-        }
     }
 }

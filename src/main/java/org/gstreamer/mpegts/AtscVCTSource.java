@@ -16,36 +16,34 @@ public class AtscVCTSource extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsAtscVCTSource";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("short_name"),
-        Interop.valueLayout.C_SHORT.withName("major_channel_number"),
-        Interop.valueLayout.C_SHORT.withName("minor_channel_number"),
-        Interop.valueLayout.C_BYTE.withName("modulation_mode"),
-        MemoryLayout.paddingLayout(24),
-        Interop.valueLayout.C_INT.withName("carrier_frequency"),
-        Interop.valueLayout.C_SHORT.withName("channel_TSID"),
-        Interop.valueLayout.C_SHORT.withName("program_number"),
-        Interop.valueLayout.C_BYTE.withName("ETM_location"),
-        MemoryLayout.paddingLayout(24),
-        Interop.valueLayout.C_INT.withName("access_controlled"),
-        Interop.valueLayout.C_INT.withName("hidden"),
-        Interop.valueLayout.C_INT.withName("path_select"),
-        Interop.valueLayout.C_INT.withName("out_of_band"),
-        Interop.valueLayout.C_INT.withName("hide_guide"),
-        Interop.valueLayout.C_BYTE.withName("service_type"),
-        MemoryLayout.paddingLayout(8),
-        Interop.valueLayout.C_SHORT.withName("source_id"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("descriptors")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("short_name"),
+            Interop.valueLayout.C_SHORT.withName("major_channel_number"),
+            Interop.valueLayout.C_SHORT.withName("minor_channel_number"),
+            Interop.valueLayout.C_BYTE.withName("modulation_mode"),
+            MemoryLayout.paddingLayout(24),
+            Interop.valueLayout.C_INT.withName("carrier_frequency"),
+            Interop.valueLayout.C_SHORT.withName("channel_TSID"),
+            Interop.valueLayout.C_SHORT.withName("program_number"),
+            Interop.valueLayout.C_BYTE.withName("ETM_location"),
+            MemoryLayout.paddingLayout(24),
+            Interop.valueLayout.C_INT.withName("access_controlled"),
+            Interop.valueLayout.C_INT.withName("hidden"),
+            Interop.valueLayout.C_INT.withName("path_select"),
+            Interop.valueLayout.C_INT.withName("out_of_band"),
+            Interop.valueLayout.C_INT.withName("hide_guide"),
+            Interop.valueLayout.C_BYTE.withName("service_type"),
+            MemoryLayout.paddingLayout(8),
+            Interop.valueLayout.C_SHORT.withName("source_id"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("descriptors")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -65,28 +63,28 @@ public class AtscVCTSource extends Struct {
      * Get the value of the field {@code short_name}
      * @return The value of the field {@code short_name}
      */
-    public java.lang.String shortName$get() {
+    public java.lang.String getShortName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code short_name}
      * @param shortName The new value of the field {@code short_name}
      */
-    public void shortName$set(java.lang.String shortName) {
+    public void setShortName(java.lang.String shortName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(shortName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shortName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(shortName, null)));
     }
     
     /**
      * Get the value of the field {@code major_channel_number}
      * @return The value of the field {@code major_channel_number}
      */
-    public short majorChannelNumber$get() {
+    public short getMajorChannelNumber() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("major_channel_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -97,7 +95,7 @@ public class AtscVCTSource extends Struct {
      * Change the value of the field {@code major_channel_number}
      * @param majorChannelNumber The new value of the field {@code major_channel_number}
      */
-    public void majorChannelNumber$set(short majorChannelNumber) {
+    public void setMajorChannelNumber(short majorChannelNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("major_channel_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), majorChannelNumber);
@@ -107,7 +105,7 @@ public class AtscVCTSource extends Struct {
      * Get the value of the field {@code minor_channel_number}
      * @return The value of the field {@code minor_channel_number}
      */
-    public short minorChannelNumber$get() {
+    public short getMinorChannelNumber() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minor_channel_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -118,7 +116,7 @@ public class AtscVCTSource extends Struct {
      * Change the value of the field {@code minor_channel_number}
      * @param minorChannelNumber The new value of the field {@code minor_channel_number}
      */
-    public void minorChannelNumber$set(short minorChannelNumber) {
+    public void setMinorChannelNumber(short minorChannelNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minor_channel_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minorChannelNumber);
@@ -128,7 +126,7 @@ public class AtscVCTSource extends Struct {
      * Get the value of the field {@code modulation_mode}
      * @return The value of the field {@code modulation_mode}
      */
-    public byte modulationMode$get() {
+    public byte getModulationMode() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("modulation_mode"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -139,7 +137,7 @@ public class AtscVCTSource extends Struct {
      * Change the value of the field {@code modulation_mode}
      * @param modulationMode The new value of the field {@code modulation_mode}
      */
-    public void modulationMode$set(byte modulationMode) {
+    public void setModulationMode(byte modulationMode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("modulation_mode"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), modulationMode);
@@ -149,7 +147,7 @@ public class AtscVCTSource extends Struct {
      * Get the value of the field {@code carrier_frequency}
      * @return The value of the field {@code carrier_frequency}
      */
-    public int carrierFrequency$get() {
+    public int getCarrierFrequency() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("carrier_frequency"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -160,7 +158,7 @@ public class AtscVCTSource extends Struct {
      * Change the value of the field {@code carrier_frequency}
      * @param carrierFrequency The new value of the field {@code carrier_frequency}
      */
-    public void carrierFrequency$set(int carrierFrequency) {
+    public void setCarrierFrequency(int carrierFrequency) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("carrier_frequency"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), carrierFrequency);
@@ -170,7 +168,7 @@ public class AtscVCTSource extends Struct {
      * Get the value of the field {@code channel_TSID}
      * @return The value of the field {@code channel_TSID}
      */
-    public short channelTSID$get() {
+    public short getChannelTSID() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("channel_TSID"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -181,7 +179,7 @@ public class AtscVCTSource extends Struct {
      * Change the value of the field {@code channel_TSID}
      * @param channelTSID The new value of the field {@code channel_TSID}
      */
-    public void channelTSID$set(short channelTSID) {
+    public void setChannelTSID(short channelTSID) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("channel_TSID"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), channelTSID);
@@ -191,7 +189,7 @@ public class AtscVCTSource extends Struct {
      * Get the value of the field {@code program_number}
      * @return The value of the field {@code program_number}
      */
-    public short programNumber$get() {
+    public short getProgramNumber() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -202,7 +200,7 @@ public class AtscVCTSource extends Struct {
      * Change the value of the field {@code program_number}
      * @param programNumber The new value of the field {@code program_number}
      */
-    public void programNumber$set(short programNumber) {
+    public void setProgramNumber(short programNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), programNumber);
@@ -212,7 +210,7 @@ public class AtscVCTSource extends Struct {
      * Get the value of the field {@code ETM_location}
      * @return The value of the field {@code ETM_location}
      */
-    public byte ETMLocation$get() {
+    public byte getETMLocation() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ETM_location"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -223,7 +221,7 @@ public class AtscVCTSource extends Struct {
      * Change the value of the field {@code ETM_location}
      * @param ETMLocation The new value of the field {@code ETM_location}
      */
-    public void ETMLocation$set(byte ETMLocation) {
+    public void setETMLocation(byte ETMLocation) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ETM_location"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ETMLocation);
@@ -233,112 +231,112 @@ public class AtscVCTSource extends Struct {
      * Get the value of the field {@code access_controlled}
      * @return The value of the field {@code access_controlled}
      */
-    public boolean accessControlled$get() {
+    public boolean getAccessControlled() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("access_controlled"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code access_controlled}
      * @param accessControlled The new value of the field {@code access_controlled}
      */
-    public void accessControlled$set(boolean accessControlled) {
+    public void setAccessControlled(boolean accessControlled) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("access_controlled"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), accessControlled ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(accessControlled, null).intValue());
     }
     
     /**
      * Get the value of the field {@code hidden}
      * @return The value of the field {@code hidden}
      */
-    public boolean hidden$get() {
+    public boolean getHidden() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hidden"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code hidden}
      * @param hidden The new value of the field {@code hidden}
      */
-    public void hidden$set(boolean hidden) {
+    public void setHidden(boolean hidden) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hidden"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hidden ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(hidden, null).intValue());
     }
     
     /**
      * Get the value of the field {@code path_select}
      * @return The value of the field {@code path_select}
      */
-    public boolean pathSelect$get() {
+    public boolean getPathSelect() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("path_select"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code path_select}
      * @param pathSelect The new value of the field {@code path_select}
      */
-    public void pathSelect$set(boolean pathSelect) {
+    public void setPathSelect(boolean pathSelect) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("path_select"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathSelect ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(pathSelect, null).intValue());
     }
     
     /**
      * Get the value of the field {@code out_of_band}
      * @return The value of the field {@code out_of_band}
      */
-    public boolean outOfBand$get() {
+    public boolean getOutOfBand() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("out_of_band"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code out_of_band}
      * @param outOfBand The new value of the field {@code out_of_band}
      */
-    public void outOfBand$set(boolean outOfBand) {
+    public void setOutOfBand(boolean outOfBand) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("out_of_band"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), outOfBand ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(outOfBand, null).intValue());
     }
     
     /**
      * Get the value of the field {@code hide_guide}
      * @return The value of the field {@code hide_guide}
      */
-    public boolean hideGuide$get() {
+    public boolean getHideGuide() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hide_guide"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code hide_guide}
      * @param hideGuide The new value of the field {@code hide_guide}
      */
-    public void hideGuide$set(boolean hideGuide) {
+    public void setHideGuide(boolean hideGuide) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hide_guide"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hideGuide ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(hideGuide, null).intValue());
     }
     
     /**
      * Get the value of the field {@code service_type}
      * @return The value of the field {@code service_type}
      */
-    public byte serviceType$get() {
+    public byte getServiceType() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -349,7 +347,7 @@ public class AtscVCTSource extends Struct {
      * Change the value of the field {@code service_type}
      * @param serviceType The new value of the field {@code service_type}
      */
-    public void serviceType$set(byte serviceType) {
+    public void setServiceType(byte serviceType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_type"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceType);
@@ -359,7 +357,7 @@ public class AtscVCTSource extends Struct {
      * Get the value of the field {@code source_id}
      * @return The value of the field {@code source_id}
      */
-    public short sourceId$get() {
+    public short getSourceId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -370,10 +368,31 @@ public class AtscVCTSource extends Struct {
      * Change the value of the field {@code source_id}
      * @param sourceId The new value of the field {@code source_id}
      */
-    public void sourceId$set(short sourceId) {
+    public void setSourceId(short sourceId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
+    }
+    
+    /**
+     * Get the value of the field {@code descriptors}
+     * @return The value of the field {@code descriptors}
+     */
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code descriptors}
+     * @param descriptors The new value of the field {@code descriptors}
+     */
+    public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
     }
     
     /**
@@ -381,35 +400,41 @@ public class AtscVCTSource extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AtscVCTSource(Addressable address, Ownership ownership) {
+    protected AtscVCTSource(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AtscVCTSource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtscVCTSource(input, ownership);
+    
+    /**
+     * A {@link AtscVCTSource.Builder} object constructs a {@link AtscVCTSource} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AtscVCTSource.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AtscVCTSource struct;
+        private final AtscVCTSource struct;
         
-         /**
-         * A {@link AtscVCTSource.Build} object constructs a {@link AtscVCTSource} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AtscVCTSource.allocate();
         }
         
          /**
          * Finish building the {@link AtscVCTSource} struct.
          * @return A new instance of {@code AtscVCTSource} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AtscVCTSource construct() {
+        public AtscVCTSource build() {
             return struct;
         }
         
@@ -418,10 +443,10 @@ public class AtscVCTSource extends Struct {
          * @param shortName The value for the {@code shortName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShortName(java.lang.String shortName) {
+        public Builder setShortName(java.lang.String shortName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("short_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shortName == null ? MemoryAddress.NULL : Interop.allocateNativeString(shortName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shortName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(shortName, null)));
             return this;
         }
         
@@ -430,7 +455,7 @@ public class AtscVCTSource extends Struct {
          * @param majorChannelNumber The value for the {@code majorChannelNumber} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMajorChannelNumber(short majorChannelNumber) {
+        public Builder setMajorChannelNumber(short majorChannelNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("major_channel_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), majorChannelNumber);
@@ -442,7 +467,7 @@ public class AtscVCTSource extends Struct {
          * @param minorChannelNumber The value for the {@code minorChannelNumber} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinorChannelNumber(short minorChannelNumber) {
+        public Builder setMinorChannelNumber(short minorChannelNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("minor_channel_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minorChannelNumber);
@@ -454,7 +479,7 @@ public class AtscVCTSource extends Struct {
          * @param modulationMode The value for the {@code modulationMode} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModulationMode(byte modulationMode) {
+        public Builder setModulationMode(byte modulationMode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("modulation_mode"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), modulationMode);
@@ -466,7 +491,7 @@ public class AtscVCTSource extends Struct {
          * @param carrierFrequency The value for the {@code carrierFrequency} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCarrierFrequency(int carrierFrequency) {
+        public Builder setCarrierFrequency(int carrierFrequency) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("carrier_frequency"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), carrierFrequency);
@@ -478,7 +503,7 @@ public class AtscVCTSource extends Struct {
          * @param channelTSID The value for the {@code channelTSID} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChannelTSID(short channelTSID) {
+        public Builder setChannelTSID(short channelTSID) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("channel_TSID"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), channelTSID);
@@ -490,7 +515,7 @@ public class AtscVCTSource extends Struct {
          * @param programNumber The value for the {@code programNumber} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProgramNumber(short programNumber) {
+        public Builder setProgramNumber(short programNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("program_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), programNumber);
@@ -502,7 +527,7 @@ public class AtscVCTSource extends Struct {
          * @param ETMLocation The value for the {@code ETMLocation} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setETMLocation(byte ETMLocation) {
+        public Builder setETMLocation(byte ETMLocation) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ETM_location"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ETMLocation);
@@ -514,10 +539,10 @@ public class AtscVCTSource extends Struct {
          * @param accessControlled The value for the {@code accessControlled} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAccessControlled(boolean accessControlled) {
+        public Builder setAccessControlled(boolean accessControlled) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("access_controlled"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), accessControlled ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(accessControlled, null).intValue());
             return this;
         }
         
@@ -526,10 +551,10 @@ public class AtscVCTSource extends Struct {
          * @param hidden The value for the {@code hidden} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHidden(boolean hidden) {
+        public Builder setHidden(boolean hidden) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hidden"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hidden ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(hidden, null).intValue());
             return this;
         }
         
@@ -538,10 +563,10 @@ public class AtscVCTSource extends Struct {
          * @param pathSelect The value for the {@code pathSelect} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPathSelect(boolean pathSelect) {
+        public Builder setPathSelect(boolean pathSelect) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("path_select"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pathSelect ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(pathSelect, null).intValue());
             return this;
         }
         
@@ -550,10 +575,10 @@ public class AtscVCTSource extends Struct {
          * @param outOfBand The value for the {@code outOfBand} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOutOfBand(boolean outOfBand) {
+        public Builder setOutOfBand(boolean outOfBand) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("out_of_band"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), outOfBand ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(outOfBand, null).intValue());
             return this;
         }
         
@@ -562,10 +587,10 @@ public class AtscVCTSource extends Struct {
          * @param hideGuide The value for the {@code hideGuide} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHideGuide(boolean hideGuide) {
+        public Builder setHideGuide(boolean hideGuide) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hide_guide"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hideGuide ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(hideGuide, null).intValue());
             return this;
         }
         
@@ -574,7 +599,7 @@ public class AtscVCTSource extends Struct {
          * @param serviceType The value for the {@code serviceType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setServiceType(byte serviceType) {
+        public Builder setServiceType(byte serviceType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("service_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceType);
@@ -586,7 +611,7 @@ public class AtscVCTSource extends Struct {
          * @param sourceId The value for the {@code sourceId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSourceId(short sourceId) {
+        public Builder setSourceId(short sourceId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("source_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sourceId);
@@ -598,7 +623,7 @@ public class AtscVCTSource extends Struct {
          * @param descriptors The value for the {@code descriptors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));

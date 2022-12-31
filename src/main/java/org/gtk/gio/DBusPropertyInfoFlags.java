@@ -34,11 +34,15 @@ public class DBusPropertyInfoFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusPropertyInfoFlags or(DBusPropertyInfoFlags mask) {
-        return new DBusPropertyInfoFlags(this.getValue() | mask.getValue());
+    public DBusPropertyInfoFlags or(DBusPropertyInfoFlags... masks) {
+        int value = this.getValue();
+        for (DBusPropertyInfoFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DBusPropertyInfoFlags(value);
     }
     
     /**
@@ -48,7 +52,8 @@ public class DBusPropertyInfoFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusPropertyInfoFlags combined(DBusPropertyInfoFlags mask, DBusPropertyInfoFlags... masks) {
-        int value = mask.getValue();        for (DBusPropertyInfoFlags arg : masks) {
+        int value = mask.getValue();
+        for (DBusPropertyInfoFlags arg : masks) {
             value |= arg.getValue();
         }
         return new DBusPropertyInfoFlags(value);

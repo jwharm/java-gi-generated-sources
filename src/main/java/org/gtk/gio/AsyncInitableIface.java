@@ -18,19 +18,17 @@ public class AsyncInitableIface extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GAsyncInitableIface";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
-        Interop.valueLayout.ADDRESS.withName("init_async"),
-        Interop.valueLayout.ADDRESS.withName("init_finish")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
+            Interop.valueLayout.ADDRESS.withName("init_async"),
+            Interop.valueLayout.ADDRESS.withName("init_finish")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,9 +48,72 @@ public class AsyncInitableIface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface gIface$get() {
+    public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code g_iface}
+     * @param gIface The new value of the field {@code g_iface}
+     */
+    public void setGIface(org.gtk.gobject.TypeInterface gIface) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface InitAsyncCallback {
+        void run(org.gtk.gio.AsyncInitable initable, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress initable, int ioPriority, MemoryAddress cancellable, MemoryAddress callback, MemoryAddress userData) {
+            run((org.gtk.gio.AsyncInitable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(initable)), org.gtk.gio.AsyncInitable.fromAddress).marshal(initable, Ownership.NONE), ioPriority, (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE), null /* Unsupported parameter type */);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InitAsyncCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code init_async}
+     * @param initAsync The new value of the field {@code init_async}
+     */
+    public void setInitAsync(InitAsyncCallback initAsync) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("init_async"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (initAsync == null ? MemoryAddress.NULL : initAsync.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface InitFinishCallback {
+        boolean run(org.gtk.gio.AsyncInitable initable, org.gtk.gio.AsyncResult res);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress initable, MemoryAddress res) {
+            var RESULT = run((org.gtk.gio.AsyncInitable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(initable)), org.gtk.gio.AsyncInitable.fromAddress).marshal(initable, Ownership.NONE), (org.gtk.gio.AsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(res)), org.gtk.gio.AsyncResult.fromAddress).marshal(res, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InitFinishCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code init_finish}
+     * @param initFinish The new value of the field {@code init_finish}
+     */
+    public void setInitFinish(InitFinishCallback initFinish) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("init_finish"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (initFinish == null ? MemoryAddress.NULL : initFinish.toCallback()));
     }
     
     /**
@@ -60,35 +121,41 @@ public class AsyncInitableIface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AsyncInitableIface(Addressable address, Ownership ownership) {
+    protected AsyncInitableIface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AsyncInitableIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AsyncInitableIface(input, ownership);
+    
+    /**
+     * A {@link AsyncInitableIface.Builder} object constructs a {@link AsyncInitableIface} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AsyncInitableIface.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AsyncInitableIface struct;
+        private final AsyncInitableIface struct;
         
-         /**
-         * A {@link AsyncInitableIface.Build} object constructs a {@link AsyncInitableIface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AsyncInitableIface.allocate();
         }
         
          /**
          * Finish building the {@link AsyncInitableIface} struct.
          * @return A new instance of {@code AsyncInitableIface} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AsyncInitableIface construct() {
+        public AsyncInitableIface build() {
             return struct;
         }
         
@@ -97,24 +164,24 @@ public class AsyncInitableIface extends Struct {
          * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
+        public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setInitAsync(java.lang.foreign.MemoryAddress initAsync) {
+        public Builder setInitAsync(InitAsyncCallback initAsync) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("init_async"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (initAsync == null ? MemoryAddress.NULL : initAsync));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (initAsync == null ? MemoryAddress.NULL : initAsync.toCallback()));
             return this;
         }
         
-        public Build setInitFinish(java.lang.foreign.MemoryAddress initFinish) {
+        public Builder setInitFinish(InitFinishCallback initFinish) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("init_finish"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (initFinish == null ? MemoryAddress.NULL : initFinish));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (initFinish == null ? MemoryAddress.NULL : initFinish.toCallback()));
             return this;
         }
     }

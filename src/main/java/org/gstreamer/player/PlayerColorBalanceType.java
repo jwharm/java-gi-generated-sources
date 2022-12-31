@@ -52,8 +52,7 @@ public enum PlayerColorBalanceType implements io.github.jwharm.javagi.Enumeratio
      * @return a string with the name of the color
      *   balance type.
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.player.PlayerColorBalanceType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String getName(org.gstreamer.player.PlayerColorBalanceType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_color_balance_type_get_name.invokeExact(
@@ -61,7 +60,7 @@ public enum PlayerColorBalanceType implements io.github.jwharm.javagi.Enumeratio
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

@@ -40,8 +40,10 @@ public class Extent3D extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Extent3D(Addressable address, Ownership ownership) {
+    protected Extent3D(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Extent3D> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Extent3D(input, ownership);
 }

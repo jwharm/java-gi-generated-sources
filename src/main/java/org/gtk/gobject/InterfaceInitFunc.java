@@ -17,5 +17,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface InterfaceInitFunc {
-        void onInterfaceInitFunc(@NotNull org.gtk.gobject.TypeInterface gIface);
+    void run(org.gtk.gobject.TypeInterface gIface);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress gIface, MemoryAddress ifaceData) {
+        run(org.gtk.gobject.TypeInterface.fromAddress.marshal(gIface, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InterfaceInitFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

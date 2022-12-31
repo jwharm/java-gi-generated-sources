@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * {@code AdwEnumListModel} contains objects of type {@link EnumListItem}.
  * @version 1.0
  */
-public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class EnumListModel extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -33,34 +33,15 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EnumListModel(Addressable address, Ownership ownership) {
+    protected EnumListModel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EnumListModel if its GType is a (or inherits from) "AdwEnumListModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EnumListModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwEnumListModel", a ClassCastException will be thrown.
-     */
-    public static EnumListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EnumListModel.getType())) {
-            return new EnumListModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwEnumListModel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EnumListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EnumListModel(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.glib.Type enumType) {
-        java.util.Objects.requireNonNull(enumType, "Parameter 'enumType' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.glib.Type enumType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_enum_list_model_new.invokeExact(
                     enumType.getValue().longValue());
@@ -74,7 +55,7 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Creates a new {@code AdwEnumListModel} for {@code enum_type}.
      * @param enumType the type of the enum to construct the model from
      */
-    public EnumListModel(@NotNull org.gtk.glib.Type enumType) {
+    public EnumListModel(org.gtk.glib.Type enumType) {
         super(constructNew(enumType), Ownership.FULL);
     }
     
@@ -98,7 +79,7 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Gets the type of the enum represented by {@code self}.
      * @return the enum type
      */
-    public @NotNull org.gtk.glib.Type getEnumType() {
+    public org.gtk.glib.Type getEnumType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_enum_list_model_get_enum_type.invokeExact(
@@ -113,7 +94,7 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_enum_list_model_get_type.invokeExact();
@@ -122,38 +103,40 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link EnumListModel.Builder} object constructs a {@link EnumListModel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EnumListModel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link EnumListModel.Build} object constructs a {@link EnumListModel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EnumListModel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EnumListModel} using {@link EnumListModel#castFrom}.
+         * {@link EnumListModel}.
          * @return A new instance of {@code EnumListModel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EnumListModel construct() {
-            return EnumListModel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EnumListModel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EnumListModel build() {
+            return (EnumListModel) org.gtk.gobject.GObject.newWithProperties(
+                EnumListModel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -162,7 +145,7 @@ public class EnumListModel extends org.gtk.gobject.Object implements org.gtk.gio
          * @param enumType The value for the {@code enum-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnumType(org.gtk.glib.Type enumType) {
+        public Builder setEnumType(org.gtk.glib.Type enumType) {
             names.add("enum-type");
             values.add(org.gtk.gobject.Value.create(enumType));
             return this;

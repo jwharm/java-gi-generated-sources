@@ -49,10 +49,12 @@ public class AttrIterator extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AttrIterator(Addressable address, Ownership ownership) {
+    protected AttrIterator(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AttrIterator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrIterator(input, ownership);
     
     /**
      * Copy a {@code PangoAttrIterator}.
@@ -60,7 +62,7 @@ public class AttrIterator extends Struct {
      *   {@code PangoAttrIterator}, which should be freed with
      *   {@link AttrIterator#destroy}
      */
-    public @NotNull org.pango.AttrIterator copy() {
+    public org.pango.AttrIterator copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_copy.invokeExact(
@@ -68,7 +70,7 @@ public class AttrIterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrIterator(RESULT, Ownership.FULL);
+        return org.pango.AttrIterator.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -95,8 +97,7 @@ public class AttrIterator extends Struct {
      *   attribute of the given type, or {@code null} if no attribute
      *   of that type applies to the current location.
      */
-    public @Nullable org.pango.Attribute get(@NotNull org.pango.AttrType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public @Nullable org.pango.Attribute get(org.pango.AttrType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get.invokeExact(
@@ -105,7 +106,7 @@ public class AttrIterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Attribute(RESULT, Ownership.NONE);
+        return org.pango.Attribute.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -115,7 +116,7 @@ public class AttrIterator extends Struct {
      *   this value, call {@link Attribute#destroy} on each
      *   value and g_slist_free() on the list.
      */
-    public @NotNull org.gtk.glib.SList getAttrs() {
+    public org.gtk.glib.SList getAttrs() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_iterator_get_attrs.invokeExact(
@@ -123,7 +124,7 @@ public class AttrIterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.FULL);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -144,23 +145,20 @@ public class AttrIterator extends Struct {
      *   order to free this value, you must call
      *   {@link Attribute#destroy} on each member.
      */
-    public void getFont(@NotNull org.pango.FontDescription desc, @NotNull Out<org.pango.Language> language, @NotNull Out<org.gtk.glib.SList> extraAttrs) {
-        java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+    public void getFont(org.pango.FontDescription desc, @Nullable Out<org.pango.Language> language, @Nullable Out<org.gtk.glib.SList> extraAttrs) {
         MemorySegment languagePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(extraAttrs, "Parameter 'extraAttrs' must not be null");
         MemorySegment extraAttrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.pango_attr_iterator_get_font.invokeExact(
                     handle(),
                     desc.handle(),
-                    (Addressable) languagePOINTER.address(),
-                    (Addressable) extraAttrsPOINTER.address());
+                    (Addressable) (language == null ? MemoryAddress.NULL : (Addressable) languagePOINTER.address()),
+                    (Addressable) (extraAttrs == null ? MemoryAddress.NULL : (Addressable) extraAttrsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        language.set(new org.pango.Language(languagePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        extraAttrs.set(new org.gtk.glib.SList(extraAttrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (language != null) language.set(org.pango.Language.fromAddress.marshal(languagePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (extraAttrs != null) extraAttrs.set(org.gtk.glib.SList.fromAddress.marshal(extraAttrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -176,7 +174,7 @@ public class AttrIterator extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -190,9 +188,7 @@ public class AttrIterator extends Struct {
      * @param end location to store the end of the range
      */
     public void range(Out<Integer> start, Out<Integer> end) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
         MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_attr_iterator_range.invokeExact(

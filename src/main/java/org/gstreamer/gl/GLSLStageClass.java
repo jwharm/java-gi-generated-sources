@@ -16,18 +16,16 @@ public class GLSLStageClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLSLStageClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.ObjectClass.getMemoryLayout().withName("parent"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.ObjectClass.getMemoryLayout().withName("parent"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,46 +46,52 @@ public class GLSLStageClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLSLStageClass(Addressable address, Ownership ownership) {
+    protected GLSLStageClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLSLStageClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLSLStageClass(input, ownership);
+    
+    /**
+     * A {@link GLSLStageClass.Builder} object constructs a {@link GLSLStageClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLSLStageClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLSLStageClass struct;
+        private final GLSLStageClass struct;
         
-         /**
-         * A {@link GLSLStageClass.Build} object constructs a {@link GLSLStageClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLSLStageClass.allocate();
         }
         
          /**
          * Finish building the {@link GLSLStageClass} struct.
          * @return A new instance of {@code GLSLStageClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLSLStageClass construct() {
+        public GLSLStageClass build() {
             return struct;
         }
         
-        public Build setParent(org.gstreamer.gst.ObjectClass parent) {
+        public Builder setParent(org.gstreamer.gst.ObjectClass parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

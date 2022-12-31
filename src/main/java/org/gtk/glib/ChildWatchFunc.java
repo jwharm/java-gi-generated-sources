@@ -16,5 +16,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ChildWatchFunc {
-        void onChildWatchFunc(@NotNull org.gtk.glib.Pid pid, int waitStatus);
+    void run(org.gtk.glib.Pid pid, int waitStatus);
+
+    @ApiStatus.Internal default void upcall(int pid, int waitStatus, MemoryAddress userData) {
+        run(new org.gtk.glib.Pid(pid), waitStatus);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChildWatchFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

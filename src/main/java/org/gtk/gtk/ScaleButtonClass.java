@@ -13,19 +13,17 @@ public class ScaleButtonClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkScaleButtonClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.WidgetClass.getMemoryLayout().withName("parent_class"),
-        Interop.valueLayout.ADDRESS.withName("value_changed"),
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.WidgetClass.getMemoryLayout().withName("parent_class"),
+            Interop.valueLayout.ADDRESS.withName("value_changed"),
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,9 +43,45 @@ public class ScaleButtonClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gtk.WidgetClass parentClass$get() {
+    public org.gtk.gtk.WidgetClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gtk.WidgetClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gtk.WidgetClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gtk.gtk.WidgetClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface ValueChangedCallback {
+        void run(org.gtk.gtk.ScaleButton button, double value);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress button, double value) {
+            run((org.gtk.gtk.ScaleButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(button)), org.gtk.gtk.ScaleButton.fromAddress).marshal(button, Ownership.NONE), value);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChangedCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code value_changed}
+     * @param valueChanged The new value of the field {@code value_changed}
+     */
+    public void setValueChanged(ValueChangedCallback valueChanged) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("value_changed"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueChanged == null ? MemoryAddress.NULL : valueChanged.toCallback()));
     }
     
     /**
@@ -55,53 +89,59 @@ public class ScaleButtonClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ScaleButtonClass(Addressable address, Ownership ownership) {
+    protected ScaleButtonClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ScaleButtonClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScaleButtonClass(input, ownership);
+    
+    /**
+     * A {@link ScaleButtonClass.Builder} object constructs a {@link ScaleButtonClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ScaleButtonClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ScaleButtonClass struct;
+        private final ScaleButtonClass struct;
         
-         /**
-         * A {@link ScaleButtonClass.Build} object constructs a {@link ScaleButtonClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ScaleButtonClass.allocate();
         }
         
          /**
          * Finish building the {@link ScaleButtonClass} struct.
          * @return A new instance of {@code ScaleButtonClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ScaleButtonClass construct() {
+        public ScaleButtonClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gtk.gtk.WidgetClass parentClass) {
+        public Builder setParentClass(org.gtk.gtk.WidgetClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setValueChanged(java.lang.foreign.MemoryAddress valueChanged) {
+        public Builder setValueChanged(ValueChangedCallback valueChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueChanged == null ? MemoryAddress.NULL : valueChanged));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (valueChanged == null ? MemoryAddress.NULL : valueChanged.toCallback()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));

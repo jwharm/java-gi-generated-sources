@@ -40,8 +40,10 @@ public class GhostPadPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GhostPadPrivate(Addressable address, Ownership ownership) {
+    protected GhostPadPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GhostPadPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GhostPadPrivate(input, ownership);
 }

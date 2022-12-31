@@ -14,5 +14,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface IteratorFreeFunction {
-        void onIteratorFreeFunction(@NotNull org.gstreamer.gst.Iterator it);
+    void run(org.gstreamer.gst.Iterator it);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress it) {
+        run(org.gstreamer.gst.Iterator.fromAddress.marshal(it, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IteratorFreeFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

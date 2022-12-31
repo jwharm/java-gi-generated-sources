@@ -16,23 +16,21 @@ public class HookList extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GHookList";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("seq_id"),
-        Interop.valueLayout.C_INT.withName("hook_size"),
-        Interop.valueLayout.C_INT.withName("is_setup"),
-        Interop.valueLayout.ADDRESS.withName("hooks"),
-        Interop.valueLayout.ADDRESS.withName("dummy3"),
-        Interop.valueLayout.ADDRESS.withName("finalize_hook"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("dummy")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("seq_id"),
+            Interop.valueLayout.C_INT.withName("hook_size"),
+            Interop.valueLayout.C_INT.withName("is_setup"),
+            Interop.valueLayout.ADDRESS.withName("hooks"),
+            Interop.valueLayout.ADDRESS.withName("dummy3"),
+            Interop.valueLayout.ADDRESS.withName("finalize_hook"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("dummy")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,7 +50,7 @@ public class HookList extends Struct {
      * Get the value of the field {@code seq_id}
      * @return The value of the field {@code seq_id}
      */
-    public long seqId$get() {
+    public long getSeqId() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -63,7 +61,7 @@ public class HookList extends Struct {
      * Change the value of the field {@code seq_id}
      * @param seqId The new value of the field {@code seq_id}
      */
-    public void seqId$set(long seqId) {
+    public void setSeqId(long seqId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seqId);
@@ -73,7 +71,7 @@ public class HookList extends Struct {
      * Get the value of the field {@code hook_size}
      * @return The value of the field {@code hook_size}
      */
-    public int hookSize$get() {
+    public int getHookSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,7 +82,7 @@ public class HookList extends Struct {
      * Change the value of the field {@code hook_size}
      * @param hookSize The new value of the field {@code hook_size}
      */
-    public void hookSize$set(int hookSize) {
+    public void setHookSize(int hookSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hookSize);
@@ -94,7 +92,7 @@ public class HookList extends Struct {
      * Get the value of the field {@code is_setup}
      * @return The value of the field {@code is_setup}
      */
-    public int isSetup$get() {
+    public int getIsSetup() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -105,7 +103,7 @@ public class HookList extends Struct {
      * Change the value of the field {@code is_setup}
      * @param isSetup The new value of the field {@code is_setup}
      */
-    public void isSetup$set(int isSetup) {
+    public void setIsSetup(int isSetup) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSetup);
@@ -115,28 +113,28 @@ public class HookList extends Struct {
      * Get the value of the field {@code hooks}
      * @return The value of the field {@code hooks}
      */
-    public org.gtk.glib.Hook hooks$get() {
+    public org.gtk.glib.Hook getHooks() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code hooks}
      * @param hooks The new value of the field {@code hooks}
      */
-    public void hooks$set(org.gtk.glib.Hook hooks) {
+    public void setHooks(org.gtk.glib.Hook hooks) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hooks.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hooks == null ? MemoryAddress.NULL : hooks.handle()));
     }
     
     /**
      * Get the value of the field {@code dummy3}
      * @return The value of the field {@code dummy3}
      */
-    public java.lang.foreign.MemoryAddress dummy3$get() {
+    public java.lang.foreign.MemoryAddress getDummy3() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -147,17 +145,17 @@ public class HookList extends Struct {
      * Change the value of the field {@code dummy3}
      * @param dummy3 The new value of the field {@code dummy3}
      */
-    public void dummy3$set(java.lang.foreign.MemoryAddress dummy3) {
+    public void setDummy3(java.lang.foreign.MemoryAddress dummy3) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) dummy3);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
     }
     
     /**
      * Get the value of the field {@code finalize_hook}
      * @return The value of the field {@code finalize_hook}
      */
-    public org.gtk.glib.HookFinalizeFunc finalizeHook$get() {
+    public org.gtk.glib.HookFinalizeFunc getFinalizeHook() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -165,14 +163,47 @@ public class HookList extends Struct {
     }
     
     /**
+     * Change the value of the field {@code finalize_hook}
+     * @param finalizeHook The new value of the field {@code finalize_hook}
+     */
+    public void setFinalizeHook(org.gtk.glib.HookFinalizeFunc finalizeHook) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalizeHook == null ? MemoryAddress.NULL : (Addressable) finalizeHook.toCallback()));
+    }
+    
+    /**
+     * Get the value of the field {@code dummy}
+     * @return The value of the field {@code dummy}
+     */
+    public java.lang.foreign.MemoryAddress[] getDummy() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getAddressArrayFrom(RESULT, 2);
+    }
+    
+    /**
+     * Change the value of the field {@code dummy}
+     * @param dummy The new value of the field {@code dummy}
+     */
+    public void setDummy(java.lang.foreign.MemoryAddress[] dummy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy, false)));
+    }
+    
+    /**
      * Create a HookList proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public HookList(Addressable address, Ownership ownership) {
+    protected HookList(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, HookList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new HookList(input, ownership);
     
     /**
      * Removes all the {@link Hook} elements from a {@link HookList}.
@@ -212,7 +243,7 @@ public class HookList extends Struct {
         try {
             DowncallHandles.g_hook_list_invoke.invokeExact(
                     handle(),
-                    mayRecurse ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(mayRecurse, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +260,7 @@ public class HookList extends Struct {
         try {
             DowncallHandles.g_hook_list_invoke_check.invokeExact(
                     handle(),
-                    mayRecurse ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(mayRecurse, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -242,18 +273,13 @@ public class HookList extends Struct {
      *     these are skipped
      * @param marshaller the function to call for each {@link Hook}
      */
-    public void marshal(boolean mayRecurse, @NotNull org.gtk.glib.HookMarshaller marshaller) {
-        java.util.Objects.requireNonNull(marshaller, "Parameter 'marshaller' must not be null");
+    public void marshal(boolean mayRecurse, org.gtk.glib.HookMarshaller marshaller) {
         try {
             DowncallHandles.g_hook_list_marshal.invokeExact(
                     handle(),
-                    mayRecurse ? 1 : 0,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHookMarshaller",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(marshaller)));
+                    Marshal.booleanToInteger.marshal(mayRecurse, null).intValue(),
+                    (Addressable) marshaller.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,18 +293,13 @@ public class HookList extends Struct {
      *     these are skipped
      * @param marshaller the function to call for each {@link Hook}
      */
-    public void marshalCheck(boolean mayRecurse, @NotNull org.gtk.glib.HookCheckMarshaller marshaller) {
-        java.util.Objects.requireNonNull(marshaller, "Parameter 'marshaller' must not be null");
+    public void marshalCheck(boolean mayRecurse, org.gtk.glib.HookCheckMarshaller marshaller) {
         try {
             DowncallHandles.g_hook_list_marshal_check.invokeExact(
                     handle(),
-                    mayRecurse ? 1 : 0,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHookCheckMarshaller",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(marshaller)));
+                    Marshal.booleanToInteger.marshal(mayRecurse, null).intValue(),
+                    (Addressable) marshaller.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,31 +343,35 @@ public class HookList extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link HookList.Builder} object constructs a {@link HookList} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link HookList.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private HookList struct;
+        private final HookList struct;
         
-         /**
-         * A {@link HookList.Build} object constructs a {@link HookList} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = HookList.allocate();
         }
         
          /**
          * Finish building the {@link HookList} struct.
          * @return A new instance of {@code HookList} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public HookList construct() {
+        public HookList build() {
             return struct;
         }
         
@@ -355,7 +380,7 @@ public class HookList extends Struct {
          * @param seqId The value for the {@code seqId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSeqId(long seqId) {
+        public Builder setSeqId(long seqId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("seq_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seqId);
@@ -367,7 +392,7 @@ public class HookList extends Struct {
          * @param hookSize The value for the {@code hookSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHookSize(int hookSize) {
+        public Builder setHookSize(int hookSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hook_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hookSize);
@@ -379,7 +404,7 @@ public class HookList extends Struct {
          * @param isSetup The value for the {@code isSetup} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsSetup(int isSetup) {
+        public Builder setIsSetup(int isSetup) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_setup"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSetup);
@@ -391,7 +416,7 @@ public class HookList extends Struct {
          * @param hooks The value for the {@code hooks} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHooks(org.gtk.glib.Hook hooks) {
+        public Builder setHooks(org.gtk.glib.Hook hooks) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hooks"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hooks == null ? MemoryAddress.NULL : hooks.handle()));
@@ -403,7 +428,7 @@ public class HookList extends Struct {
          * @param dummy3 The value for the {@code dummy3} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDummy3(java.lang.foreign.MemoryAddress dummy3) {
+        public Builder setDummy3(java.lang.foreign.MemoryAddress dummy3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : (Addressable) dummy3));
@@ -416,10 +441,10 @@ public class HookList extends Struct {
          * @param finalizeHook The value for the {@code finalizeHook} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFinalizeHook(java.lang.foreign.MemoryAddress finalizeHook) {
+        public Builder setFinalizeHook(org.gtk.glib.HookFinalizeFunc finalizeHook) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("finalize_hook"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalizeHook == null ? MemoryAddress.NULL : finalizeHook));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (finalizeHook == null ? MemoryAddress.NULL : (Addressable) finalizeHook.toCallback()));
             return this;
         }
         
@@ -428,7 +453,7 @@ public class HookList extends Struct {
          * @param dummy The value for the {@code dummy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDummy(java.lang.foreign.MemoryAddress[] dummy) {
+        public Builder setDummy(java.lang.foreign.MemoryAddress[] dummy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy, false)));

@@ -130,13 +130,15 @@ public class VariantDict extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VariantDict(Addressable address, Ownership ownership) {
+    protected VariantDict(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable org.gtk.glib.Variant fromAsv) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VariantDict> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VariantDict(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable org.gtk.glib.Variant fromAsv) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_new.invokeExact(
                     (Addressable) (fromAsv == null ? MemoryAddress.NULL : fromAsv.handle()));
@@ -194,17 +196,16 @@ public class VariantDict extends Struct {
      * @param key the key to look up in the dictionary
      * @return {@code true} if {@code key} is in {@code dict}
      */
-    public boolean contains(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean contains(java.lang.String key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_dict_contains.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -217,7 +218,7 @@ public class VariantDict extends Struct {
      * the case of stack-allocated).
      * @return a new, floating, {@link Variant}
      */
-    public @NotNull org.gtk.glib.Variant end() {
+    public org.gtk.glib.Variant end() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_end.invokeExact(
@@ -225,7 +226,7 @@ public class VariantDict extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -266,14 +267,12 @@ public class VariantDict extends Struct {
      * @param formatString a {@link Variant} varargs format string
      * @param varargs arguments, as per {@code format_string}
      */
-    public void insert(@NotNull java.lang.String key, @NotNull java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+    public void insert(java.lang.String key, java.lang.String formatString, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_variant_dict_insert.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(formatString),
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(formatString, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -287,13 +286,11 @@ public class VariantDict extends Struct {
      * @param key the key to insert a value for
      * @param value the value to insert
      */
-    public void insertValue(@NotNull java.lang.String key, @NotNull org.gtk.glib.Variant value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void insertValue(java.lang.String key, org.gtk.glib.Variant value) {
         try {
             DowncallHandles.g_variant_dict_insert_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -316,20 +313,18 @@ public class VariantDict extends Struct {
      * @param varargs the arguments to unpack the value into
      * @return {@code true} if a value was unpacked
      */
-    public boolean lookup(@NotNull java.lang.String key, @NotNull java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+    public boolean lookup(java.lang.String key, java.lang.String formatString, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_dict_lookup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(formatString),
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(formatString, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -348,18 +343,17 @@ public class VariantDict extends Struct {
      * @param expectedType a {@link VariantType}, or {@code null}
      * @return the value of the dictionary key, or {@code null}
      */
-    public @Nullable org.gtk.glib.Variant lookupValue(@NotNull java.lang.String key, @Nullable org.gtk.glib.VariantType expectedType) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable org.gtk.glib.Variant lookupValue(java.lang.String key, @Nullable org.gtk.glib.VariantType expectedType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_lookup_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) (expectedType == null ? MemoryAddress.NULL : expectedType.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -369,7 +363,7 @@ public class VariantDict extends Struct {
      * things will happen.
      * @return a new reference to {@code dict}
      */
-    public @NotNull org.gtk.glib.VariantDict ref() {
+    public org.gtk.glib.VariantDict ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_dict_ref.invokeExact(
@@ -377,7 +371,7 @@ public class VariantDict extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantDict(RESULT, Ownership.FULL);
+        return org.gtk.glib.VariantDict.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -385,17 +379,16 @@ public class VariantDict extends Struct {
      * @param key the key to remove
      * @return {@code true} if the key was found and removed
      */
-    public boolean remove(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean remove(java.lang.String key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_dict_remove.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**

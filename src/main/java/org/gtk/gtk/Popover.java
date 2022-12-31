@@ -88,17 +88,15 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     private static final java.lang.String C_TYPE_NAME = "GtkPopover";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -106,40 +104,26 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * <p>
      * Because Popover is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Popover(Addressable address, Ownership ownership) {
+    protected Popover(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Popover if its GType is a (or inherits from) "GtkPopover".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Popover} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPopover", a ClassCastException will be thrown.
-     */
-    public static Popover castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Popover.getType())) {
-            return new Popover(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPopover");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Popover> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Popover(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_popover_new.invokeExact();
         } catch (Throwable ERR) {
@@ -170,7 +154,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -185,7 +169,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -200,7 +184,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -216,7 +200,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -232,7 +216,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -265,8 +249,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param rect location to store the rectangle
      * @return {@code true} if a rectangle to point to was set.
      */
-    public boolean getPointingTo(@NotNull org.gtk.gdk.Rectangle rect) {
-        java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
+    public boolean getPointingTo(org.gtk.gdk.Rectangle rect) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_popover_get_pointing_to.invokeExact(
@@ -275,14 +258,14 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Returns the preferred position of {@code popover}.
      * @return The preferred position.
      */
-    public @NotNull org.gtk.gtk.PositionType getPosition() {
+    public org.gtk.gtk.PositionType getPosition() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_popover_get_position.invokeExact(
@@ -348,7 +331,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_popover_set_autohide.invokeExact(
                     handle(),
-                    autohide ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(autohide, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -365,7 +348,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_popover_set_cascade_popdown.invokeExact(
                     handle(),
-                    cascadePopdown ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(cascadePopdown, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -413,7 +396,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_popover_set_has_arrow.invokeExact(
                     handle(),
-                    hasArrow ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hasArrow, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,7 +410,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_popover_set_mnemonics_visible.invokeExact(
                     handle(),
-                    mnemonicsVisible ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(mnemonicsVisible, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -480,8 +463,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * {@code GtkPopover} may choose to appear on the opposite side.
      * @param position preferred popover position
      */
-    public void setPosition(@NotNull org.gtk.gtk.PositionType position) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public void setPosition(org.gtk.gtk.PositionType position) {
         try {
             DowncallHandles.gtk_popover_set_position.invokeExact(
                     handle(),
@@ -495,7 +477,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_popover_get_type.invokeExact();
@@ -507,7 +489,18 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface ActivateDefault {
-        void signalReceived(Popover sourcePopover);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePopover) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ActivateDefault.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -520,16 +513,8 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<Popover.ActivateDefault> onActivateDefault(Popover.ActivateDefault handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate-default"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Popover.Callbacks.class, "signalPopoverActivateDefault",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Popover.ActivateDefault>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate-default"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -537,7 +522,18 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface Closed {
-        void signalReceived(Popover sourcePopover);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePopover) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Closed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -548,52 +544,46 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<Popover.Closed> onClosed(Popover.Closed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("closed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Popover.Callbacks.class, "signalPopoverClosed",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Popover.Closed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("closed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Popover.Builder} object constructs a {@link Popover} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Popover.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Popover.Build} object constructs a {@link Popover} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Popover} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Popover} using {@link Popover#castFrom}.
+         * {@link Popover}.
          * @return A new instance of {@code Popover} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Popover construct() {
-            return Popover.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Popover.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Popover build() {
+            return (Popover) org.gtk.gobject.GObject.newWithProperties(
+                Popover.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -602,7 +592,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param autohide The value for the {@code autohide} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAutohide(boolean autohide) {
+        public Builder setAutohide(boolean autohide) {
             names.add("autohide");
             values.add(org.gtk.gobject.Value.create(autohide));
             return this;
@@ -615,7 +605,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param cascadePopdown The value for the {@code cascade-popdown} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCascadePopdown(boolean cascadePopdown) {
+        public Builder setCascadePopdown(boolean cascadePopdown) {
             names.add("cascade-popdown");
             values.add(org.gtk.gobject.Value.create(cascadePopdown));
             return this;
@@ -626,7 +616,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -637,7 +627,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param defaultWidget The value for the {@code default-widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefaultWidget(org.gtk.gtk.Widget defaultWidget) {
+        public Builder setDefaultWidget(org.gtk.gtk.Widget defaultWidget) {
             names.add("default-widget");
             values.add(org.gtk.gobject.Value.create(defaultWidget));
             return this;
@@ -648,7 +638,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param hasArrow The value for the {@code has-arrow} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasArrow(boolean hasArrow) {
+        public Builder setHasArrow(boolean hasArrow) {
             names.add("has-arrow");
             values.add(org.gtk.gobject.Value.create(hasArrow));
             return this;
@@ -659,7 +649,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param mnemonicsVisible The value for the {@code mnemonics-visible} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMnemonicsVisible(boolean mnemonicsVisible) {
+        public Builder setMnemonicsVisible(boolean mnemonicsVisible) {
             names.add("mnemonics-visible");
             values.add(org.gtk.gobject.Value.create(mnemonicsVisible));
             return this;
@@ -670,7 +660,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param pointingTo The value for the {@code pointing-to} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPointingTo(org.gtk.gdk.Rectangle pointingTo) {
+        public Builder setPointingTo(org.gtk.gdk.Rectangle pointingTo) {
             names.add("pointing-to");
             values.add(org.gtk.gobject.Value.create(pointingTo));
             return this;
@@ -681,7 +671,7 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param position The value for the {@code position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPosition(org.gtk.gtk.PositionType position) {
+        public Builder setPosition(org.gtk.gtk.PositionType position) {
             names.add("position");
             values.add(org.gtk.gobject.Value.create(position));
             return this;
@@ -821,20 +811,5 @@ public class Popover extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalPopoverActivateDefault(MemoryAddress sourcePopover, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Popover.ActivateDefault) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Popover(sourcePopover, Ownership.NONE));
-        }
-        
-        public static void signalPopoverClosed(MemoryAddress sourcePopover, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Popover.Closed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Popover(sourcePopover, Ownership.NONE));
-        }
     }
 }

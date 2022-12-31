@@ -18,20 +18,18 @@ public class VideoTimeCodeInterval extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoTimeCodeInterval";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("hours"),
-        Interop.valueLayout.C_INT.withName("minutes"),
-        Interop.valueLayout.C_INT.withName("seconds"),
-        Interop.valueLayout.C_INT.withName("frames")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("hours"),
+            Interop.valueLayout.C_INT.withName("minutes"),
+            Interop.valueLayout.C_INT.withName("seconds"),
+            Interop.valueLayout.C_INT.withName("frames")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class VideoTimeCodeInterval extends Struct {
      * Get the value of the field {@code hours}
      * @return The value of the field {@code hours}
      */
-    public int hours$get() {
+    public int getHours() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hours"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,7 +60,7 @@ public class VideoTimeCodeInterval extends Struct {
      * Change the value of the field {@code hours}
      * @param hours The new value of the field {@code hours}
      */
-    public void hours$set(int hours) {
+    public void setHours(int hours) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hours"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hours);
@@ -72,7 +70,7 @@ public class VideoTimeCodeInterval extends Struct {
      * Get the value of the field {@code minutes}
      * @return The value of the field {@code minutes}
      */
-    public int minutes$get() {
+    public int getMinutes() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,7 +81,7 @@ public class VideoTimeCodeInterval extends Struct {
      * Change the value of the field {@code minutes}
      * @param minutes The new value of the field {@code minutes}
      */
-    public void minutes$set(int minutes) {
+    public void setMinutes(int minutes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), minutes);
@@ -93,7 +91,7 @@ public class VideoTimeCodeInterval extends Struct {
      * Get the value of the field {@code seconds}
      * @return The value of the field {@code seconds}
      */
-    public int seconds$get() {
+    public int getSeconds() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,7 +102,7 @@ public class VideoTimeCodeInterval extends Struct {
      * Change the value of the field {@code seconds}
      * @param seconds The new value of the field {@code seconds}
      */
-    public void seconds$set(int seconds) {
+    public void setSeconds(int seconds) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);
@@ -114,7 +112,7 @@ public class VideoTimeCodeInterval extends Struct {
      * Get the value of the field {@code frames}
      * @return The value of the field {@code frames}
      */
-    public int frames$get() {
+    public int getFrames() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("frames"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -125,7 +123,7 @@ public class VideoTimeCodeInterval extends Struct {
      * Change the value of the field {@code frames}
      * @param frames The new value of the field {@code frames}
      */
-    public void frames$set(int frames) {
+    public void setFrames(int frames) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("frames"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);
@@ -136,13 +134,15 @@ public class VideoTimeCodeInterval extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoTimeCodeInterval(Addressable address, Ownership ownership) {
+    protected VideoTimeCodeInterval(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(int hours, int minutes, int seconds, int frames) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoTimeCodeInterval> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoTimeCodeInterval(input, ownership);
+    
+    private static MemoryAddress constructNew(int hours, int minutes, int seconds, int frames) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_interval_new.invokeExact(
                     hours,
@@ -159,12 +159,11 @@ public class VideoTimeCodeInterval extends Struct {
         super(constructNew(hours, minutes, seconds, frames), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromString(@NotNull java.lang.String tcInterStr) {
-        java.util.Objects.requireNonNull(tcInterStr, "Parameter 'tcInterStr' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromString(java.lang.String tcInterStr) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_interval_new_from_string.invokeExact(
-                    Interop.allocateNativeString(tcInterStr));
+                    Marshal.stringToAddress.marshal(tcInterStr, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -177,8 +176,9 @@ public class VideoTimeCodeInterval extends Struct {
      * @return a new {@link VideoTimeCodeInterval} from the given string
      *   or {@code null} if the string could not be passed.
      */
-    public static VideoTimeCodeInterval newFromString(@NotNull java.lang.String tcInterStr) {
-        return new VideoTimeCodeInterval(constructNewFromString(tcInterStr), Ownership.FULL);
+    public static VideoTimeCodeInterval newFromString(java.lang.String tcInterStr) {
+        var RESULT = constructNewFromString(tcInterStr);
+        return org.gstreamer.video.VideoTimeCodeInterval.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -193,7 +193,7 @@ public class VideoTimeCodeInterval extends Struct {
         }
     }
     
-    public @NotNull org.gstreamer.video.VideoTimeCodeInterval copy() {
+    public org.gstreamer.video.VideoTimeCodeInterval copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_interval_copy.invokeExact(
@@ -201,7 +201,7 @@ public class VideoTimeCodeInterval extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoTimeCodeInterval(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoTimeCodeInterval.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -274,31 +274,35 @@ public class VideoTimeCodeInterval extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoTimeCodeInterval.Builder} object constructs a {@link VideoTimeCodeInterval} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoTimeCodeInterval.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoTimeCodeInterval struct;
+        private final VideoTimeCodeInterval struct;
         
-         /**
-         * A {@link VideoTimeCodeInterval.Build} object constructs a {@link VideoTimeCodeInterval} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoTimeCodeInterval.allocate();
         }
         
          /**
          * Finish building the {@link VideoTimeCodeInterval} struct.
          * @return A new instance of {@code VideoTimeCodeInterval} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoTimeCodeInterval construct() {
+        public VideoTimeCodeInterval build() {
             return struct;
         }
         
@@ -307,7 +311,7 @@ public class VideoTimeCodeInterval extends Struct {
          * @param hours The value for the {@code hours} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHours(int hours) {
+        public Builder setHours(int hours) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hours"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hours);
@@ -319,7 +323,7 @@ public class VideoTimeCodeInterval extends Struct {
          * @param minutes The value for the {@code minutes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinutes(int minutes) {
+        public Builder setMinutes(int minutes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("minutes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), minutes);
@@ -331,7 +335,7 @@ public class VideoTimeCodeInterval extends Struct {
          * @param seconds The value for the {@code seconds} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSeconds(int seconds) {
+        public Builder setSeconds(int seconds) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);
@@ -343,7 +347,7 @@ public class VideoTimeCodeInterval extends Struct {
          * @param frames The value for the {@code frames} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFrames(int frames) {
+        public Builder setFrames(int frames) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("frames"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), frames);

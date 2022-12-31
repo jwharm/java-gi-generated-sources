@@ -46,40 +46,26 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * <p>
      * Because StatusPage is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StatusPage(Addressable address, Ownership ownership) {
+    protected StatusPage(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to StatusPage if its GType is a (or inherits from) "AdwStatusPage".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code StatusPage} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwStatusPage", a ClassCastException will be thrown.
-     */
-    public static StatusPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StatusPage.getType())) {
-            return new StatusPage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwStatusPage");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StatusPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StatusPage(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_status_page_new.invokeExact();
         } catch (Throwable ERR) {
@@ -107,7 +93,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -122,7 +108,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -137,7 +123,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -152,14 +138,14 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the title for {@code self}.
      * @return the title
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_status_page_get_title.invokeExact(
@@ -167,7 +153,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -194,7 +180,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.adw_status_page_set_description.invokeExact(
                     handle(),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +196,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.adw_status_page_set_icon_name.invokeExact(
                     handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,12 +224,11 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * The title is displayed below the icon.
      * @param title the title
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.adw_status_page_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +238,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_status_page_get_type.invokeExact();
@@ -262,38 +247,40 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link StatusPage.Builder} object constructs a {@link StatusPage} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link StatusPage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link StatusPage.Build} object constructs a {@link StatusPage} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link StatusPage} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link StatusPage} using {@link StatusPage#castFrom}.
+         * {@link StatusPage}.
          * @return A new instance of {@code StatusPage} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public StatusPage construct() {
-            return StatusPage.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    StatusPage.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public StatusPage build() {
+            return (StatusPage) org.gtk.gobject.GObject.newWithProperties(
+                StatusPage.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -302,7 +289,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -313,7 +300,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param description The value for the {@code description} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescription(java.lang.String description) {
+        public Builder setDescription(java.lang.String description) {
             names.add("description");
             values.add(org.gtk.gobject.Value.create(description));
             return this;
@@ -326,7 +313,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param iconName The value for the {@code icon-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIconName(java.lang.String iconName) {
+        public Builder setIconName(java.lang.String iconName) {
             names.add("icon-name");
             values.add(org.gtk.gobject.Value.create(iconName));
             return this;
@@ -339,7 +326,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param paintable The value for the {@code paintable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPaintable(org.gtk.gdk.Paintable paintable) {
+        public Builder setPaintable(org.gtk.gdk.Paintable paintable) {
             names.add("paintable");
             values.add(org.gtk.gobject.Value.create(paintable));
             return this;
@@ -350,7 +337,7 @@ public class StatusPage extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;

@@ -42,43 +42,29 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Because Inscription is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Inscription(Addressable address, Ownership ownership) {
+    protected Inscription(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Inscription if its GType is a (or inherits from) "GtkInscription".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Inscription} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkInscription", a ClassCastException will be thrown.
-     */
-    public static Inscription castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Inscription.getType())) {
-            return new Inscription(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkInscription");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Inscription> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Inscription(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String text) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String text) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_inscription_new.invokeExact(
-                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +91,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.NONE);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -188,14 +174,14 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the inscription's overflow method.
      * @return the overflow method
      */
-    public @NotNull org.gtk.gtk.InscriptionOverflow getTextOverflow() {
+    public org.gtk.gtk.InscriptionOverflow getTextOverflow() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_inscription_get_text_overflow.invokeExact(
@@ -212,7 +198,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * See {@link Inscription#setWrapMode}.
      * @return the line wrap mode
      */
-    public @NotNull org.pango.WrapMode getWrapMode() {
+    public org.pango.WrapMode getWrapMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_inscription_get_wrap_mode.invokeExact(
@@ -283,7 +269,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_inscription_set_markup.invokeExact(
                     handle(),
-                    (Addressable) (markup == null ? MemoryAddress.NULL : Interop.allocateNativeString(markup)));
+                    (Addressable) (markup == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(markup, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -361,7 +347,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_inscription_set_text.invokeExact(
                     handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,8 +357,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Sets what to do when the text doesn't fit.
      * @param overflow the overflow method to use
      */
-    public void setTextOverflow(@NotNull org.gtk.gtk.InscriptionOverflow overflow) {
-        java.util.Objects.requireNonNull(overflow, "Parameter 'overflow' must not be null");
+    public void setTextOverflow(org.gtk.gtk.InscriptionOverflow overflow) {
         try {
             DowncallHandles.gtk_inscription_set_text_overflow.invokeExact(
                     handle(),
@@ -386,8 +371,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Controls how line wrapping is done.
      * @param wrapMode the line wrapping mode
      */
-    public void setWrapMode(@NotNull org.pango.WrapMode wrapMode) {
-        java.util.Objects.requireNonNull(wrapMode, "Parameter 'wrapMode' must not be null");
+    public void setWrapMode(org.pango.WrapMode wrapMode) {
         try {
             DowncallHandles.gtk_inscription_set_wrap_mode.invokeExact(
                     handle(),
@@ -433,7 +417,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_inscription_get_type.invokeExact();
@@ -442,38 +426,40 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Inscription.Builder} object constructs a {@link Inscription} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Inscription.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Inscription.Build} object constructs a {@link Inscription} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Inscription} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Inscription} using {@link Inscription#castFrom}.
+         * {@link Inscription}.
          * @return A new instance of {@code Inscription} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Inscription construct() {
-            return Inscription.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Inscription.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Inscription build() {
+            return (Inscription) org.gtk.gobject.GObject.newWithProperties(
+                Inscription.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -482,7 +468,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param attributes The value for the {@code attributes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttributes(org.pango.AttrList attributes) {
+        public Builder setAttributes(org.pango.AttrList attributes) {
             names.add("attributes");
             values.add(org.gtk.gobject.Value.create(attributes));
             return this;
@@ -499,7 +485,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param markup The value for the {@code markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMarkup(java.lang.String markup) {
+        public Builder setMarkup(java.lang.String markup) {
             names.add("markup");
             values.add(org.gtk.gobject.Value.create(markup));
             return this;
@@ -520,7 +506,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param minChars The value for the {@code min-chars} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinChars(int minChars) {
+        public Builder setMinChars(int minChars) {
             names.add("min-chars");
             values.add(org.gtk.gobject.Value.create(minChars));
             return this;
@@ -540,7 +526,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param minLines The value for the {@code min-lines} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinLines(int minLines) {
+        public Builder setMinLines(int minLines) {
             names.add("min-lines");
             values.add(org.gtk.gobject.Value.create(minLines));
             return this;
@@ -558,7 +544,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param natChars The value for the {@code nat-chars} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNatChars(int natChars) {
+        public Builder setNatChars(int natChars) {
             names.add("nat-chars");
             values.add(org.gtk.gobject.Value.create(natChars));
             return this;
@@ -576,7 +562,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param natLines The value for the {@code nat-lines} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNatLines(int natLines) {
+        public Builder setNatLines(int natLines) {
             names.add("nat-lines");
             values.add(org.gtk.gobject.Value.create(natLines));
             return this;
@@ -587,7 +573,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param text The value for the {@code text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             names.add("text");
             values.add(org.gtk.gobject.Value.create(text));
             return this;
@@ -598,7 +584,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param textOverflow The value for the {@code text-overflow} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTextOverflow(org.gtk.gtk.InscriptionOverflow textOverflow) {
+        public Builder setTextOverflow(org.gtk.gtk.InscriptionOverflow textOverflow) {
             names.add("text-overflow");
             values.add(org.gtk.gobject.Value.create(textOverflow));
             return this;
@@ -611,7 +597,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param wrapMode The value for the {@code wrap-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWrapMode(org.pango.WrapMode wrapMode) {
+        public Builder setWrapMode(org.pango.WrapMode wrapMode) {
             names.add("wrap-mode");
             values.add(org.gtk.gobject.Value.create(wrapMode));
             return this;
@@ -625,7 +611,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param xalign The value for the {@code xalign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setXalign(float xalign) {
+        public Builder setXalign(float xalign) {
             names.add("xalign");
             values.add(org.gtk.gobject.Value.create(xalign));
             return this;
@@ -639,7 +625,7 @@ public class Inscription extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param yalign The value for the {@code yalign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setYalign(float yalign) {
+        public Builder setYalign(float yalign) {
             names.add("yalign");
             values.add(org.gtk.gobject.Value.create(yalign));
             return this;

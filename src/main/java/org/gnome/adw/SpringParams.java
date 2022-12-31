@@ -73,13 +73,15 @@ public class SpringParams extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SpringParams(Addressable address, Ownership ownership) {
+    protected SpringParams(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(double dampingRatio, double mass, double stiffness) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SpringParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SpringParams(input, ownership);
+    
+    private static MemoryAddress constructNew(double dampingRatio, double mass, double stiffness) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_spring_params_new.invokeExact(
                     dampingRatio,
@@ -115,8 +117,8 @@ public class SpringParams extends Struct {
         super(constructNew(dampingRatio, mass, stiffness), Ownership.FULL);
     }
     
-    private static Addressable constructNewFull(double damping, double mass, double stiffness) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFull(double damping, double mass, double stiffness) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_spring_params_new_full.invokeExact(
                     damping,
@@ -139,7 +141,8 @@ public class SpringParams extends Struct {
      * @return the newly created spring parameters
      */
     public static SpringParams newFull(double damping, double mass, double stiffness) {
-        return new SpringParams(constructNewFull(damping, mass, stiffness), Ownership.FULL);
+        var RESULT = constructNewFull(damping, mass, stiffness);
+        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -206,7 +209,7 @@ public class SpringParams extends Struct {
      * Increases the reference count of {@code self}.
      * @return {@code self}
      */
-    public @NotNull org.gnome.adw.SpringParams ref() {
+    public org.gnome.adw.SpringParams ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_spring_params_ref.invokeExact(
@@ -214,7 +217,7 @@ public class SpringParams extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SpringParams(RESULT, Ownership.FULL);
+        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

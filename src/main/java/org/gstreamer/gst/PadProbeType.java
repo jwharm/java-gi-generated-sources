@@ -133,11 +133,15 @@ public class PadProbeType extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PadProbeType or(PadProbeType mask) {
-        return new PadProbeType(this.getValue() | mask.getValue());
+    public PadProbeType or(PadProbeType... masks) {
+        int value = this.getValue();
+        for (PadProbeType arg : masks) {
+            value |= arg.getValue();
+        }
+        return new PadProbeType(value);
     }
     
     /**
@@ -147,7 +151,8 @@ public class PadProbeType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PadProbeType combined(PadProbeType mask, PadProbeType... masks) {
-        int value = mask.getValue();        for (PadProbeType arg : masks) {
+        int value = mask.getValue();
+        for (PadProbeType arg : masks) {
             value |= arg.getValue();
         }
         return new PadProbeType(value);

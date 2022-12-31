@@ -14,7 +14,15 @@ public final class GstCodecs {
         System.loadLibrary("gstcodecs-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     public static final int H264_DPB_MAX_SIZE = 16;
     
@@ -149,70 +157,70 @@ public final class GstCodecs {
      * Create new {@link AV1Dpb}
      * @return a new {@link AV1Dpb}
      */
-    public static @NotNull org.gstreamer.codecs.AV1Dpb av1DpbNew() {
+    public static org.gstreamer.codecs.AV1Dpb av1DpbNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_av1_dpb_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.AV1Dpb(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.AV1Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Create new {@link H264Dpb}
      * @return a new {@link H264Dpb}
      */
-    public static @NotNull org.gstreamer.codecs.H264Dpb h264DpbNew() {
+    public static org.gstreamer.codecs.H264Dpb h264DpbNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_h264_dpb_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H264Dpb(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.H264Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Create new {@link H265Dpb}
      * @return a new {@link H265Dpb}
      */
-    public static @NotNull org.gstreamer.codecs.H265Dpb h265DpbNew() {
+    public static org.gstreamer.codecs.H265Dpb h265DpbNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_h265_dpb_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H265Dpb(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.H265Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Create new {@link Mpeg2Dpb}
      * @return a new {@link Mpeg2Dpb}
      */
-    public static @NotNull org.gstreamer.codecs.Mpeg2Dpb mpeg2DpbNew() {
+    public static org.gstreamer.codecs.Mpeg2Dpb mpeg2DpbNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpeg2_dpb_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.Mpeg2Dpb(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.Mpeg2Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Create new {@link Vp9Dpb}
      * @return a new {@link Vp9Dpb}
      */
-    public static @NotNull org.gstreamer.codecs.Vp9Dpb vp9DpbNew() {
+    public static org.gstreamer.codecs.Vp9Dpb vp9DpbNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vp9_dpb_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.Vp9Dpb(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.Vp9Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -265,9 +273,7 @@ public final class GstCodecs {
      * @param segmentId a segment id
      * @return the quantizer index
      */
-    public static byte vp9GetQindex(@NotNull org.gstreamer.codecs.Vp9SegmentationParams segmentationParams, @NotNull org.gstreamer.codecs.Vp9QuantizationParams quantizationParams, byte segmentId) {
-        java.util.Objects.requireNonNull(segmentationParams, "Parameter 'segmentationParams' must not be null");
-        java.util.Objects.requireNonNull(quantizationParams, "Parameter 'quantizationParams' must not be null");
+    public static byte vp9GetQindex(org.gstreamer.codecs.Vp9SegmentationParams segmentationParams, org.gstreamer.codecs.Vp9QuantizationParams quantizationParams, byte segmentId) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.gst_vp9_get_qindex.invokeExact(
@@ -288,8 +294,7 @@ public final class GstCodecs {
      * @param feature a segmentation feature
      * @return {@code true} if feature is active
      */
-    public static boolean vp9SegFeatureActive(@NotNull org.gstreamer.codecs.Vp9SegmentationParams params, byte segmentId, byte feature) {
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
+    public static boolean vp9SegFeatureActive(org.gstreamer.codecs.Vp9SegmentationParams params, byte segmentId, byte feature) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vp9_seg_feature_active.invokeExact(
@@ -299,7 +304,7 @@ public final class GstCodecs {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

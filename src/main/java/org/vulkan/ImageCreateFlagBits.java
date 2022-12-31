@@ -40,8 +40,10 @@ public class ImageCreateFlagBits extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ImageCreateFlagBits(Addressable address, Ownership ownership) {
+    protected ImageCreateFlagBits(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ImageCreateFlagBits> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageCreateFlagBits(input, ownership);
 }

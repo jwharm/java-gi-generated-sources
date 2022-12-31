@@ -40,8 +40,10 @@ public class PhysicalDeviceFeatures2 extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceFeatures2(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceFeatures2(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceFeatures2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceFeatures2(input, ownership);
 }

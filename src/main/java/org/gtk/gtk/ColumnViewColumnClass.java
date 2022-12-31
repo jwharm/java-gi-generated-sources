@@ -40,8 +40,10 @@ public class ColumnViewColumnClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ColumnViewColumnClass(Addressable address, Ownership ownership) {
+    protected ColumnViewColumnClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ColumnViewColumnClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColumnViewColumnClass(input, ownership);
 }

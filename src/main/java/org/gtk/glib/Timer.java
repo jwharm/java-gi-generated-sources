@@ -43,10 +43,12 @@ public class Timer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Timer(Addressable address, Ownership ownership) {
+    protected Timer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Timer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Timer(input, ownership);
     
     /**
      * Resumes a timer that has previously been stopped with
@@ -88,7 +90,6 @@ public class Timer extends Struct {
      *          fractional part.
      */
     public double elapsed(PointerLong microseconds) {
-        java.util.Objects.requireNonNull(microseconds, "Parameter 'microseconds' must not be null");
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.g_timer_elapsed.invokeExact(
@@ -112,7 +113,7 @@ public class Timer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -162,14 +163,14 @@ public class Timer extends Struct {
      * implicitly called for you).
      * @return a new {@link Timer}.
      */
-    public static @NotNull org.gtk.glib.Timer new_() {
+    public static org.gtk.glib.Timer new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_timer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Timer(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Timer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

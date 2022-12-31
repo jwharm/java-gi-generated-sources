@@ -30,37 +30,18 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NamedAction(Addressable address, Ownership ownership) {
+    protected NamedAction(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to NamedAction if its GType is a (or inherits from) "GtkNamedAction".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code NamedAction} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkNamedAction", a ClassCastException will be thrown.
-     */
-    public static NamedAction castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), NamedAction.getType())) {
-            return new NamedAction(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkNamedAction");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NamedAction> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NamedAction(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String name) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_named_action_new.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -77,7 +58,7 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
      * how to add actions to widgets.
      * @param name the detailed name of the action
      */
-    public NamedAction(@NotNull java.lang.String name) {
+    public NamedAction(java.lang.String name) {
         super(constructNew(name), Ownership.FULL);
     }
     
@@ -85,7 +66,7 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
      * Returns the name of the action that will be activated.
      * @return the name of the action to activate
      */
-    public @NotNull java.lang.String getActionName() {
+    public java.lang.String getActionName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_named_action_get_action_name.invokeExact(
@@ -93,14 +74,14 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_named_action_get_type.invokeExact();
@@ -109,38 +90,40 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link NamedAction.Builder} object constructs a {@link NamedAction} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link NamedAction.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.ShortcutAction.Build {
+    public static class Builder extends org.gtk.gtk.ShortcutAction.Builder {
         
-         /**
-         * A {@link NamedAction.Build} object constructs a {@link NamedAction} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link NamedAction} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link NamedAction} using {@link NamedAction#castFrom}.
+         * {@link NamedAction}.
          * @return A new instance of {@code NamedAction} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NamedAction construct() {
-            return NamedAction.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    NamedAction.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public NamedAction build() {
+            return (NamedAction) org.gtk.gobject.GObject.newWithProperties(
+                NamedAction.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -149,7 +132,7 @@ public class NamedAction extends org.gtk.gtk.ShortcutAction {
          * @param actionName The value for the {@code action-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActionName(java.lang.String actionName) {
+        public Builder setActionName(java.lang.String actionName) {
             names.add("action-name");
             values.add(org.gtk.gobject.Value.create(actionName));
             return this;

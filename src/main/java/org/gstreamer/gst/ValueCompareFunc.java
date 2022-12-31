@@ -10,5 +10,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ValueCompareFunc {
-        int onValueCompareFunc(@NotNull org.gtk.gobject.Value value1, @NotNull org.gtk.gobject.Value value2);
+    int run(org.gtk.gobject.Value value1, org.gtk.gobject.Value value2);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress value1, MemoryAddress value2) {
+        var RESULT = run(org.gtk.gobject.Value.fromAddress.marshal(value1, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(value2, Ownership.NONE));
+        return RESULT;
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueCompareFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

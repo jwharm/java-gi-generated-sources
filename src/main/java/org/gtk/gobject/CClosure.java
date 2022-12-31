@@ -11,15 +11,10 @@ import org.jetbrains.annotations.*;
 public class CClosure extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GCClosure";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Closure.getMemoryLayout().withName("closure"),
-        Interop.valueLayout.ADDRESS.withName("callback")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -27,7 +22,10 @@ public class CClosure extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.Closure.getMemoryLayout().withName("closure"),
+            Interop.valueLayout.ADDRESS.withName("callback")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,16 +45,26 @@ public class CClosure extends Struct {
      * Get the value of the field {@code closure}
      * @return The value of the field {@code closure}
      */
-    public org.gtk.gobject.Closure closure$get() {
+    public org.gtk.gobject.Closure getClosure() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("closure"));
-        return new org.gtk.gobject.Closure(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.Closure.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code closure}
+     * @param closure The new value of the field {@code closure}
+     */
+    public void setClosure(org.gtk.gobject.Closure closure) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("closure"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()));
     }
     
     /**
      * Get the value of the field {@code callback}
      * @return The value of the field {@code callback}
      */
-    public java.lang.foreign.MemoryAddress callback$get() {
+    public java.lang.foreign.MemoryAddress getCallback() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("callback"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -67,10 +75,10 @@ public class CClosure extends Struct {
      * Change the value of the field {@code callback}
      * @param callback The new value of the field {@code callback}
      */
-    public void callback$set(java.lang.foreign.MemoryAddress callback) {
+    public void setCallback(java.lang.foreign.MemoryAddress callback) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("callback"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) callback);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback));
     }
     
     /**
@@ -78,10 +86,12 @@ public class CClosure extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CClosure(Addressable address, Ownership ownership) {
+    protected CClosure(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CClosure> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CClosure(input, ownership);
     
     /**
      * A {@link ClosureMarshal} function for use with signals with handlers that
@@ -96,14 +106,8 @@ public class CClosure extends Struct {
      *   on which to invoke the callback of closure.
      * @param invocationHint The invocation hint given as the last argument to
      *   g_closure_invoke().
-     * @param marshalData Additional data specified when registering the
-     *   marshaller, see g_closure_set_marshal() and
-     *   g_closure_set_meta_marshal()
      */
-    public static void marshalBOOLEANBOXEDBOXED(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalBOOLEANBOXEDBOXED(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXED.invokeExact(
                     closure.handle(),
@@ -111,7 +115,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -125,25 +129,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalBOOLEANBOXEDBOXEDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalBOOLEANBOXEDBOXEDv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_BOOLEAN__BOXED_BOXEDv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -161,12 +158,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding instance and arg1
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalBOOLEANFLAGS(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalBOOLEANFLAGS(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGS.invokeExact(
                     closure.handle(),
@@ -174,7 +167,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,25 +181,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalBOOLEANFLAGSv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalBOOLEANFLAGSv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_BOOLEAN__FLAGSv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -223,12 +209,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding instance, arg1 and arg2
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalSTRINGOBJECTPOINTER(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalSTRINGOBJECTPOINTER(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTER.invokeExact(
                     closure.handle(),
@@ -236,7 +218,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -250,25 +232,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalSTRINGOBJECTPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalSTRINGOBJECTPOINTERv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_STRING__OBJECT_POINTERv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -285,12 +260,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code gboolean} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDBOOLEAN(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDBOOLEAN(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__BOOLEAN.invokeExact(
                     closure.handle(),
@@ -298,7 +269,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,25 +283,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDBOOLEANv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDBOOLEANv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__BOOLEANv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -347,12 +311,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code GBoxed}* parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDBOXED(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDBOXED(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__BOXED.invokeExact(
                     closure.handle(),
@@ -360,7 +320,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -374,25 +334,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDBOXEDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDBOXEDv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__BOXEDv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -409,12 +362,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code gchar} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDCHAR(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDCHAR(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__CHAR.invokeExact(
                     closure.handle(),
@@ -422,7 +371,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -436,25 +385,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDCHARv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDCHARv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__CHARv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -471,12 +413,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code gdouble} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDDOUBLE(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDDOUBLE(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__DOUBLE.invokeExact(
                     closure.handle(),
@@ -484,7 +422,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -498,25 +436,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDDOUBLEv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDDOUBLEv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__DOUBLEv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -533,12 +464,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the enumeration parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDENUM(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDENUM(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__ENUM.invokeExact(
                     closure.handle(),
@@ -546,7 +473,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -560,25 +487,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDENUMv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDENUMv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__ENUMv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -595,12 +515,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the flags parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDFLAGS(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDFLAGS(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__FLAGS.invokeExact(
                     closure.handle(),
@@ -608,7 +524,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -622,25 +538,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDFLAGSv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDFLAGSv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__FLAGSv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -657,12 +566,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code gfloat} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDFLOAT(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDFLOAT(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__FLOAT.invokeExact(
                     closure.handle(),
@@ -670,7 +575,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -684,25 +589,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDFLOATv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDFLOATv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__FLOATv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -719,12 +617,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code gint} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDINT(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDINT(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__INT.invokeExact(
                     closure.handle(),
@@ -732,7 +626,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -746,25 +640,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDINTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDINTv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__INTv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -781,12 +668,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code glong} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDLONG(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDLONG(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__LONG.invokeExact(
                     closure.handle(),
@@ -794,7 +677,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -808,25 +691,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDLONGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDLONGv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__LONGv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -840,15 +716,11 @@ public class CClosure extends Struct {
      * @param closure the {@link Closure} to which the marshaller belongs
      * @param returnValue ignored
      * @param nParamValues 2
-     * @param paramValues a {@link Value} array holding the instance and the {@link Object}* parameter
+     * @param paramValues a {@link Value} array holding the instance and the {@link GObject}* parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDOBJECT(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDOBJECT(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__OBJECT.invokeExact(
                     closure.handle(),
@@ -856,7 +728,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -870,25 +742,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDOBJECTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDOBJECTv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__OBJECTv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -905,12 +770,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@link ParamSpec}* parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDPARAM(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDPARAM(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__PARAM.invokeExact(
                     closure.handle(),
@@ -918,7 +779,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -932,25 +793,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDPARAMv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDPARAMv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__PARAMv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -967,12 +821,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code gpointer} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDPOINTER(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDPOINTER(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__POINTER.invokeExact(
                     closure.handle(),
@@ -980,7 +830,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -994,25 +844,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDPOINTERv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__POINTERv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1029,12 +872,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code gchar}* parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDSTRING(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDSTRING(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__STRING.invokeExact(
                     closure.handle(),
@@ -1042,7 +881,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1056,25 +895,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDSTRINGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDSTRINGv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__STRINGv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1091,12 +923,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code guchar} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDUCHAR(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDUCHAR(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__UCHAR.invokeExact(
                     closure.handle(),
@@ -1104,7 +932,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1118,25 +946,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDUCHARv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDUCHARv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__UCHARv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1153,12 +974,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code guint} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDUINT(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDUINT(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__UINT.invokeExact(
                     closure.handle(),
@@ -1166,7 +983,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1181,12 +998,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding instance, arg1 and arg2
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDUINTPOINTER(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDUINTPOINTER(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTER.invokeExact(
                     closure.handle(),
@@ -1194,7 +1007,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1208,25 +1021,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDUINTPOINTERv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDUINTPOINTERv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__UINT_POINTERv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1242,25 +1048,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDUINTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDUINTv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__UINTv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1277,12 +1076,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@code gulong} parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDULONG(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDULONG(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__ULONG.invokeExact(
                     closure.handle(),
@@ -1290,7 +1085,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1304,25 +1099,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDULONGv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDULONGv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__ULONGv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1339,12 +1127,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding the instance and the {@link org.gtk.glib.Variant}* parameter
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDVARIANT(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDVARIANT(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__VARIANT.invokeExact(
                     closure.handle(),
@@ -1352,7 +1136,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1366,25 +1150,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDVARIANTv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDVARIANTv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__VARIANTv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1401,12 +1178,8 @@ public class CClosure extends Struct {
      * @param paramValues a {@link Value} array holding only the instance
      * @param invocationHint the invocation hint given as the last argument
      *  to g_closure_invoke()
-     * @param marshalData additional data specified when registering the marshaller
      */
-    public static void marshalVOIDVOID(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnValue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnValue, "Parameter 'returnValue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalVOIDVOID(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnValue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__VOID.invokeExact(
                     closure.handle(),
@@ -1414,7 +1187,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1428,25 +1201,18 @@ public class CClosure extends Struct {
      *  value.
      * @param instance the instance on which the closure is invoked.
      * @param args va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args}.
      */
-    public static void marshalVOIDVOIDv(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList args, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalVOIDVOIDv(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList args, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_VOID__VOIDv.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     args,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1468,14 +1234,8 @@ public class CClosure extends Struct {
      *   on which to invoke the callback of closure.
      * @param invocationHint The invocation hint given as the last argument to
      *   g_closure_invoke().
-     * @param marshalData Additional data specified when registering the
-     *   marshaller, see g_closure_set_marshal() and
-     *   g_closure_set_meta_marshal()
      */
-    public static void marshalGeneric(@NotNull org.gtk.gobject.Closure closure, @NotNull org.gtk.gobject.Value returnGvalue, int nParamValues, @NotNull org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint, @Nullable java.lang.foreign.MemoryAddress marshalData) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(returnGvalue, "Parameter 'returnGvalue' must not be null");
-        java.util.Objects.requireNonNull(paramValues, "Parameter 'paramValues' must not be null");
+    public static void marshalGeneric(org.gtk.gobject.Closure closure, org.gtk.gobject.Value returnGvalue, int nParamValues, org.gtk.gobject.Value paramValues, @Nullable java.lang.foreign.MemoryAddress invocationHint) {
         try {
             DowncallHandles.g_cclosure_marshal_generic.invokeExact(
                     closure.handle(),
@@ -1483,7 +1243,7 @@ public class CClosure extends Struct {
                     nParamValues,
                     paramValues.handle(),
                     (Addressable) (invocationHint == null ? MemoryAddress.NULL : (Addressable) invocationHint),
-                    (Addressable) marshalData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1499,25 +1259,18 @@ public class CClosure extends Struct {
      * @param instance the instance on which the closure is
      *  invoked.
      * @param argsList va_list of arguments to be passed to the closure.
-     * @param marshalData additional data specified when
-     *  registering the marshaller, see g_closure_set_marshal() and
-     *  g_closure_set_meta_marshal()
      * @param nParams the length of the {@code param_types} array
-     * @param paramTypes the {@link Type} of each argument from
+     * @param paramTypes the {@link org.gtk.glib.Type} of each argument from
      *  {@code args_list}.
      */
-    public static void marshalGenericVa(@NotNull org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, @NotNull org.gtk.gobject.TypeInstance instance, @NotNull VaList argsList, @Nullable java.lang.foreign.MemoryAddress marshalData, int nParams, @NotNull org.gtk.glib.Type[] paramTypes) {
-        java.util.Objects.requireNonNull(closure, "Parameter 'closure' must not be null");
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(argsList, "Parameter 'argsList' must not be null");
-        java.util.Objects.requireNonNull(paramTypes, "Parameter 'paramTypes' must not be null");
+    public static void marshalGenericVa(org.gtk.gobject.Closure closure, @Nullable org.gtk.gobject.Value returnValue, org.gtk.gobject.TypeInstance instance, VaList argsList, int nParams, org.gtk.glib.Type[] paramTypes) {
         try {
             DowncallHandles.g_cclosure_marshal_generic_va.invokeExact(
                     closure.handle(),
                     (Addressable) (returnValue == null ? MemoryAddress.NULL : returnValue.handle()),
                     instance.handle(),
                     argsList,
-                    (Addressable) marshalData,
+                    (Addressable) MemoryAddress.NULL,
                     nParams,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(paramTypes), false));
         } catch (Throwable ERR) {
@@ -1534,54 +1287,61 @@ public class CClosure extends Struct {
      * @param destroyData destroy notify to be called when {@code user_data} is no longer used
      * @return a floating reference to a new {@link CClosure}
      */
-    public static @NotNull org.gtk.gobject.Closure new_(@Nullable org.gtk.gobject.Callback callbackFunc, @NotNull org.gtk.gobject.ClosureNotify destroyData) {
-        java.util.Objects.requireNonNull(destroyData, "Parameter 'destroyData' must not be null");
+    public static org.gtk.gobject.Closure new_(@Nullable org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify destroyData) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_cclosure_new.invokeExact(
-                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
-                            MethodType.methodType(void.class)),
-                        FunctionDescriptor.ofVoid(),
-                        Interop.getScope())),
-                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
-                            MethodType.methodType(void.class)),
-                        FunctionDescriptor.ofVoid(),
-                        Interop.getScope()));
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : (Addressable) callbackFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyData.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Closure(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * A variant of g_cclosure_new() which uses {@code object} as {@code user_data} and
      * calls g_object_watch_closure() on {@code object} and the created
      * closure. This function is useful when you have a callback closely
-     * associated with a {@link Object}, and want the callback to no longer run
+     * associated with a {@link GObject}, and want the callback to no longer run
      * after the object is is freed.
      * @param callbackFunc the function to invoke
-     * @param object a {@link Object} pointer to pass to {@code callback_func}
+     * @param object a {@link GObject} pointer to pass to {@code callback_func}
      * @return a new {@link CClosure}
      */
-    public static @NotNull org.gtk.gobject.Closure newObject(@NotNull org.gtk.gobject.Callback callbackFunc, @NotNull org.gtk.gobject.Object object) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gtk.gobject.Closure newObject(org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.GObject object) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_cclosure_new_object.invokeExact(
+                    (Addressable) callbackFunc.toCallback(),
+                    object.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * A variant of g_cclosure_new_swap() which uses {@code object} as {@code user_data}
      * and calls g_object_watch_closure() on {@code object} and the created
      * closure. This function is useful when you have a callback closely
-     * associated with a {@link Object}, and want the callback to no longer run
+     * associated with a {@link GObject}, and want the callback to no longer run
      * after the object is is freed.
      * @param callbackFunc the function to invoke
-     * @param object a {@link Object} pointer to pass to {@code callback_func}
+     * @param object a {@link GObject} pointer to pass to {@code callback_func}
      * @return a new {@link CClosure}
      */
-    public static @NotNull org.gtk.gobject.Closure newObjectSwap(@NotNull org.gtk.gobject.Callback callbackFunc, @NotNull org.gtk.gobject.Object object) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gtk.gobject.Closure newObjectSwap(org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.GObject object) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_cclosure_new_object_swap.invokeExact(
+                    (Addressable) callbackFunc.toCallback(),
+                    object.handle());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1593,26 +1353,17 @@ public class CClosure extends Struct {
      * @param destroyData destroy notify to be called when {@code user_data} is no longer used
      * @return a floating reference to a new {@link CClosure}
      */
-    public static @NotNull org.gtk.gobject.Closure newSwap(@Nullable org.gtk.gobject.Callback callbackFunc, @NotNull org.gtk.gobject.ClosureNotify destroyData) {
-        java.util.Objects.requireNonNull(destroyData, "Parameter 'destroyData' must not be null");
+    public static org.gtk.gobject.Closure newSwap(@Nullable org.gtk.gobject.Callback callbackFunc, org.gtk.gobject.ClosureNotify destroyData) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_cclosure_new_swap.invokeExact(
-                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbCallback",
-                            MethodType.methodType(void.class)),
-                        FunctionDescriptor.ofVoid(),
-                        Interop.getScope())),
-                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : Interop.registerCallback(callbackFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbClosureNotify",
-                            MethodType.methodType(void.class)),
-                        FunctionDescriptor.ofVoid(),
-                        Interop.getScope()));
+                    (Addressable) (callbackFunc == null ? MemoryAddress.NULL : (Addressable) callbackFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyData.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Closure(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -1917,31 +1668,35 @@ public class CClosure extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link CClosure.Builder} object constructs a {@link CClosure} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link CClosure.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private CClosure struct;
+        private final CClosure struct;
         
-         /**
-         * A {@link CClosure.Build} object constructs a {@link CClosure} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = CClosure.allocate();
         }
         
          /**
          * Finish building the {@link CClosure} struct.
          * @return A new instance of {@code CClosure} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CClosure construct() {
+        public CClosure build() {
             return struct;
         }
         
@@ -1950,7 +1705,7 @@ public class CClosure extends Struct {
          * @param closure The value for the {@code closure} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClosure(org.gtk.gobject.Closure closure) {
+        public Builder setClosure(org.gtk.gobject.Closure closure) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("closure"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (closure == null ? MemoryAddress.NULL : closure.handle()));
@@ -1962,7 +1717,7 @@ public class CClosure extends Struct {
          * @param callback The value for the {@code callback} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCallback(java.lang.foreign.MemoryAddress callback) {
+        public Builder setCallback(java.lang.foreign.MemoryAddress callback) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("callback"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback));

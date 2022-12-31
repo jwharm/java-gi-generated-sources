@@ -29,11 +29,15 @@ public class MountUnmountFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public MountUnmountFlags or(MountUnmountFlags mask) {
-        return new MountUnmountFlags(this.getValue() | mask.getValue());
+    public MountUnmountFlags or(MountUnmountFlags... masks) {
+        int value = this.getValue();
+        for (MountUnmountFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new MountUnmountFlags(value);
     }
     
     /**
@@ -43,7 +47,8 @@ public class MountUnmountFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static MountUnmountFlags combined(MountUnmountFlags mask, MountUnmountFlags... masks) {
-        int value = mask.getValue();        for (MountUnmountFlags arg : masks) {
+        int value = mask.getValue();
+        for (MountUnmountFlags arg : masks) {
             value |= arg.getValue();
         }
         return new MountUnmountFlags(value);

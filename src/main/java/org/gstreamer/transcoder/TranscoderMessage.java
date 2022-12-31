@@ -65,8 +65,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
      * Returns (transfer none): The message name
      * @param message a {@link TranscoderMessage}
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.transcoder.TranscoderMessage message) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public static java.lang.String getName(org.gstreamer.transcoder.TranscoderMessage message) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_message_get_name.invokeExact(
@@ -74,7 +73,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -82,9 +81,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param duration the resulting duration
      */
-    public static void parseDuration(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.gst.ClockTime> duration) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
+    public static void parseDuration(org.gstreamer.gst.Message msg, org.gstreamer.gst.ClockTime duration) {
         MemorySegment durationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_transcoder_message_parse_duration.invokeExact(
@@ -93,7 +90,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        duration.set(new org.gstreamer.gst.ClockTime(durationPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        duration.setValue(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -102,10 +99,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
      * @param error the resulting error
      * @param details (transfer none): A GstStructure containing extra details about the error
      */
-    public static void parseError(@NotNull org.gstreamer.gst.Message msg, @NotNull org.gtk.glib.Error error, @NotNull Out<org.gstreamer.gst.Structure> details) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(details, "Parameter 'details' must not be null");
+    public static void parseError(org.gstreamer.gst.Message msg, org.gtk.glib.Error error, Out<org.gstreamer.gst.Structure> details) {
         MemorySegment detailsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_transcoder_message_parse_error.invokeExact(
@@ -115,7 +109,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        details.set(new org.gstreamer.gst.Structure(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        details.set(org.gstreamer.gst.Structure.fromAddress.marshal(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -123,9 +117,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param position the resulting position
      */
-    public static void parsePosition(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.gst.ClockTime> position) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public static void parsePosition(org.gstreamer.gst.Message msg, org.gstreamer.gst.ClockTime position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_transcoder_message_parse_position.invokeExact(
@@ -134,7 +126,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(new org.gstreamer.gst.ClockTime(positionPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        position.setValue(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -142,9 +134,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param state the resulting state
      */
-    public static void parseState(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.transcoder.TranscoderState> state) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public static void parseState(org.gstreamer.gst.Message msg, Out<org.gstreamer.transcoder.TranscoderState> state) {
         MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_transcoder_message_parse_state.invokeExact(
@@ -162,10 +152,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
      * @param error the resulting warning
      * @param details (transfer none): A GstStructure containing extra details about the warning
      */
-    public static void parseWarning(@NotNull org.gstreamer.gst.Message msg, @NotNull org.gtk.glib.Error error, @NotNull Out<org.gstreamer.gst.Structure> details) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(details, "Parameter 'details' must not be null");
+    public static void parseWarning(org.gstreamer.gst.Message msg, org.gtk.glib.Error error, Out<org.gstreamer.gst.Structure> details) {
         MemorySegment detailsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_transcoder_message_parse_warning.invokeExact(
@@ -175,7 +162,7 @@ public enum TranscoderMessage implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        details.set(new org.gstreamer.gst.Structure(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        details.set(org.gstreamer.gst.Structure.fromAddress.marshal(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     private static class DowncallHandles {

@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * with g_socket_client_set_proxy_resolver().
  * @version 2.36
  */
-public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.gtk.gio.ProxyResolver {
+public class SimpleProxyResolver extends org.gtk.gobject.GObject implements org.gtk.gio.ProxyResolver {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -24,18 +24,16 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
     
     private static final java.lang.String C_TYPE_NAME = "GSimpleProxyResolver";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -43,30 +41,12 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SimpleProxyResolver(Addressable address, Ownership ownership) {
+    protected SimpleProxyResolver(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SimpleProxyResolver if its GType is a (or inherits from) "GSimpleProxyResolver".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SimpleProxyResolver} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSimpleProxyResolver", a ClassCastException will be thrown.
-     */
-    public static SimpleProxyResolver castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SimpleProxyResolver.getType())) {
-            return new SimpleProxyResolver(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSimpleProxyResolver");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SimpleProxyResolver> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleProxyResolver(input, ownership);
     
     /**
      * Sets the default proxy on {@code resolver}, to be used for any URIs that
@@ -82,7 +62,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
         try {
             DowncallHandles.g_simple_proxy_resolver_set_default_proxy.invokeExact(
                     handle(),
-                    (Addressable) (defaultProxy == null ? MemoryAddress.NULL : Interop.allocateNativeString(defaultProxy)));
+                    (Addressable) (defaultProxy == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(defaultProxy, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -96,8 +76,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * @param ignoreHosts {@code null}-terminated list of hosts/IP addresses
      *     to not use a proxy for
      */
-    public void setIgnoreHosts(@NotNull java.lang.String[] ignoreHosts) {
-        java.util.Objects.requireNonNull(ignoreHosts, "Parameter 'ignoreHosts' must not be null");
+    public void setIgnoreHosts(java.lang.String[] ignoreHosts) {
         try {
             DowncallHandles.g_simple_proxy_resolver_set_ignore_hosts.invokeExact(
                     handle(),
@@ -119,14 +98,12 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * @param uriScheme the URI scheme to add a proxy for
      * @param proxy the proxy to use for {@code uri_scheme}
      */
-    public void setUriProxy(@NotNull java.lang.String uriScheme, @NotNull java.lang.String proxy) {
-        java.util.Objects.requireNonNull(uriScheme, "Parameter 'uriScheme' must not be null");
-        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
+    public void setUriProxy(java.lang.String uriScheme, java.lang.String proxy) {
         try {
             DowncallHandles.g_simple_proxy_resolver_set_uri_proxy.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uriScheme),
-                    Interop.allocateNativeString(proxy));
+                    Marshal.stringToAddress.marshal(uriScheme, null),
+                    Marshal.stringToAddress.marshal(proxy, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,7 +113,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_simple_proxy_resolver_get_type.invokeExact();
@@ -157,49 +134,51 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
      *     to not use a proxy for.
      * @return a new {@link SimpleProxyResolver}
      */
-    public static @NotNull org.gtk.gio.ProxyResolver new_(@Nullable java.lang.String defaultProxy, @Nullable java.lang.String[] ignoreHosts) {
+    public static org.gtk.gio.ProxyResolver new_(@Nullable java.lang.String defaultProxy, @Nullable java.lang.String[] ignoreHosts) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_proxy_resolver_new.invokeExact(
-                    (Addressable) (defaultProxy == null ? MemoryAddress.NULL : Interop.allocateNativeString(defaultProxy)),
+                    (Addressable) (defaultProxy == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(defaultProxy, null)),
                     (Addressable) (ignoreHosts == null ? MemoryAddress.NULL : Interop.allocateNativeArray(ignoreHosts, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ProxyResolver.ProxyResolverImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.ProxyResolver) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ProxyResolver.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link SimpleProxyResolver.Builder} object constructs a {@link SimpleProxyResolver} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SimpleProxyResolver.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SimpleProxyResolver.Build} object constructs a {@link SimpleProxyResolver} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SimpleProxyResolver} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SimpleProxyResolver} using {@link SimpleProxyResolver#castFrom}.
+         * {@link SimpleProxyResolver}.
          * @return A new instance of {@code SimpleProxyResolver} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SimpleProxyResolver construct() {
-            return SimpleProxyResolver.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SimpleProxyResolver.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SimpleProxyResolver build() {
+            return (SimpleProxyResolver) org.gtk.gobject.GObject.newWithProperties(
+                SimpleProxyResolver.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -214,7 +193,7 @@ public class SimpleProxyResolver extends org.gtk.gobject.Object implements org.g
          * @param defaultProxy The value for the {@code default-proxy} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefaultProxy(java.lang.String defaultProxy) {
+        public Builder setDefaultProxy(java.lang.String defaultProxy) {
             names.add("default-proxy");
             values.add(org.gtk.gobject.Value.create(defaultProxy));
             return this;

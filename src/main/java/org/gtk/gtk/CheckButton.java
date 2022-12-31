@@ -63,17 +63,15 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     private static final java.lang.String C_TYPE_NAME = "GtkCheckButton";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -81,40 +79,26 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Because CheckButton is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CheckButton(Addressable address, Ownership ownership) {
+    protected CheckButton(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to CheckButton if its GType is a (or inherits from) "GtkCheckButton".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CheckButton} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCheckButton", a ClassCastException will be thrown.
-     */
-    public static CheckButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CheckButton.getType())) {
-            return new CheckButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCheckButton");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CheckButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CheckButton(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_check_button_new.invokeExact();
         } catch (Throwable ERR) {
@@ -130,11 +114,11 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithLabel(@Nullable java.lang.String label) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithLabel(@Nullable java.lang.String label) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_check_button_new_with_label.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -147,14 +131,15 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @return a new {@code GtkCheckButton}
      */
     public static CheckButton newWithLabel(@Nullable java.lang.String label) {
-        return new CheckButton(constructNewWithLabel(label), Ownership.NONE);
+        var RESULT = constructNewWithLabel(label);
+        return (org.gtk.gtk.CheckButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.CheckButton.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewWithMnemonic(@Nullable java.lang.String label) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithMnemonic(@Nullable java.lang.String label) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_check_button_new_with_mnemonic.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -168,7 +153,8 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @return a new {@code GtkCheckButton}
      */
     public static CheckButton newWithMnemonic(@Nullable java.lang.String label) {
-        return new CheckButton(constructNewWithMnemonic(label), Ownership.NONE);
+        var RESULT = constructNewWithMnemonic(label);
+        return (org.gtk.gtk.CheckButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.CheckButton.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -183,7 +169,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -198,7 +184,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -213,7 +199,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -229,7 +215,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -246,7 +232,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -257,7 +243,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_check_button_set_active.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -323,7 +309,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_check_button_set_inconsistent.invokeExact(
                     handle(),
-                    inconsistent ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(inconsistent, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,7 +328,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_check_button_set_label.invokeExact(
                     handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -360,7 +346,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_check_button_set_use_underline.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -370,7 +356,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_check_button_get_type.invokeExact();
@@ -382,7 +368,18 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(CheckButton sourceCheckButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceCheckButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -399,16 +396,8 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<CheckButton.Activate> onActivate(CheckButton.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CheckButton.Callbacks.class, "signalCheckButtonActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<CheckButton.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -416,7 +405,18 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Toggled {
-        void signalReceived(CheckButton sourceCheckButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceCheckButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Toggled.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -428,52 +428,46 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<CheckButton.Toggled> onToggled(CheckButton.Toggled handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("toggled"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(CheckButton.Callbacks.class, "signalCheckButtonToggled",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<CheckButton.Toggled>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("toggled"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link CheckButton.Builder} object constructs a {@link CheckButton} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CheckButton.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link CheckButton.Build} object constructs a {@link CheckButton} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CheckButton} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CheckButton} using {@link CheckButton#castFrom}.
+         * {@link CheckButton}.
          * @return A new instance of {@code CheckButton} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CheckButton construct() {
-            return CheckButton.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CheckButton.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CheckButton build() {
+            return (CheckButton) org.gtk.gobject.GObject.newWithProperties(
+                CheckButton.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -485,7 +479,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param active The value for the {@code active} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActive(boolean active) {
+        public Builder setActive(boolean active) {
             names.add("active");
             values.add(org.gtk.gobject.Value.create(active));
             return this;
@@ -496,7 +490,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -507,7 +501,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param group The value for the {@code group} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGroup(org.gtk.gtk.CheckButton group) {
+        public Builder setGroup(org.gtk.gtk.CheckButton group) {
             names.add("group");
             values.add(org.gtk.gobject.Value.create(group));
             return this;
@@ -521,7 +515,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param inconsistent The value for the {@code inconsistent} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInconsistent(boolean inconsistent) {
+        public Builder setInconsistent(boolean inconsistent) {
             names.add("inconsistent");
             values.add(org.gtk.gobject.Value.create(inconsistent));
             return this;
@@ -532,7 +526,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param label The value for the {@code label} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLabel(java.lang.String label) {
+        public Builder setLabel(java.lang.String label) {
             names.add("label");
             values.add(org.gtk.gobject.Value.create(label));
             return this;
@@ -544,7 +538,7 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param useUnderline The value for the {@code use-underline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseUnderline(boolean useUnderline) {
+        public Builder setUseUnderline(boolean useUnderline) {
             names.add("use-underline");
             values.add(org.gtk.gobject.Value.create(useUnderline));
             return this;
@@ -642,20 +636,5 @@ public class CheckButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalCheckButtonActivate(MemoryAddress sourceCheckButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CheckButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CheckButton(sourceCheckButton, Ownership.NONE));
-        }
-        
-        public static void signalCheckButtonToggled(MemoryAddress sourceCheckButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CheckButton.Toggled) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new CheckButton(sourceCheckButton, Ownership.NONE));
-        }
     }
 }

@@ -19,30 +19,28 @@ public class GLBaseMemory extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLBaseMemory";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Memory.getMemoryLayout().withName("mem"),
-        Interop.valueLayout.ADDRESS.withName("context"),
-        org.gtk.glib.Mutex.getMemoryLayout().withName("lock"),
-        Interop.valueLayout.C_INT.withName("map_flags"),
-        Interop.valueLayout.C_INT.withName("map_count"),
-        Interop.valueLayout.C_INT.withName("gl_map_count"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.ADDRESS.withName("query"),
-        Interop.valueLayout.C_LONG.withName("alloc_size"),
-        Interop.valueLayout.ADDRESS.withName("alloc_data"),
-        Interop.valueLayout.ADDRESS.withName("notify"),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Memory.getMemoryLayout().withName("mem"),
+            Interop.valueLayout.ADDRESS.withName("context"),
+            org.gtk.glib.Mutex.getMemoryLayout().withName("lock"),
+            Interop.valueLayout.C_INT.withName("map_flags"),
+            Interop.valueLayout.C_INT.withName("map_count"),
+            Interop.valueLayout.C_INT.withName("gl_map_count"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.ADDRESS.withName("query"),
+            Interop.valueLayout.C_LONG.withName("alloc_size"),
+            Interop.valueLayout.ADDRESS.withName("alloc_data"),
+            Interop.valueLayout.ADDRESS.withName("notify"),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -62,58 +60,68 @@ public class GLBaseMemory extends Struct {
      * Get the value of the field {@code mem}
      * @return The value of the field {@code mem}
      */
-    public org.gstreamer.gst.Memory mem$get() {
+    public org.gstreamer.gst.Memory getMem() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mem"));
-        return new org.gstreamer.gst.Memory(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mem}
+     * @param mem The new value of the field {@code mem}
+     */
+    public void setMem(org.gstreamer.gst.Memory mem) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mem"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
     }
     
     /**
      * Get the value of the field {@code context}
      * @return The value of the field {@code context}
      */
-    public org.gstreamer.gl.GLContext context$get() {
+    public org.gstreamer.gl.GLContext getContext() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("context"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gl.GLContext(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLContext.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code context}
      * @param context The new value of the field {@code context}
      */
-    public void context$set(org.gstreamer.gl.GLContext context) {
+    public void setContext(org.gstreamer.gl.GLContext context) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), context.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
     }
     
     /**
      * Get the value of the field {@code lock}
      * @return The value of the field {@code lock}
      */
-    public org.gtk.glib.Mutex lock$get() {
+    public org.gtk.glib.Mutex getLock() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lock"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Mutex(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Mutex.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code lock}
      * @param lock The new value of the field {@code lock}
      */
-    public void lock$set(org.gtk.glib.Mutex lock) {
+    public void setLock(org.gtk.glib.Mutex lock) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lock"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lock.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
     }
     
     /**
      * Get the value of the field {@code map_flags}
      * @return The value of the field {@code map_flags}
      */
-    public org.gstreamer.gst.MapFlags mapFlags$get() {
+    public org.gstreamer.gst.MapFlags getMapFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("map_flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -124,17 +132,17 @@ public class GLBaseMemory extends Struct {
      * Change the value of the field {@code map_flags}
      * @param mapFlags The new value of the field {@code map_flags}
      */
-    public void mapFlags$set(org.gstreamer.gst.MapFlags mapFlags) {
+    public void setMapFlags(org.gstreamer.gst.MapFlags mapFlags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("map_flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), mapFlags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mapFlags == null ? MemoryAddress.NULL : mapFlags.getValue()));
     }
     
     /**
      * Get the value of the field {@code map_count}
      * @return The value of the field {@code map_count}
      */
-    public int mapCount$get() {
+    public int getMapCount() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("map_count"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -145,7 +153,7 @@ public class GLBaseMemory extends Struct {
      * Change the value of the field {@code map_count}
      * @param mapCount The new value of the field {@code map_count}
      */
-    public void mapCount$set(int mapCount) {
+    public void setMapCount(int mapCount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("map_count"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), mapCount);
@@ -155,7 +163,7 @@ public class GLBaseMemory extends Struct {
      * Get the value of the field {@code gl_map_count}
      * @return The value of the field {@code gl_map_count}
      */
-    public int glMapCount$get() {
+    public int getGlMapCount() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("gl_map_count"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -166,7 +174,7 @@ public class GLBaseMemory extends Struct {
      * Change the value of the field {@code gl_map_count}
      * @param glMapCount The new value of the field {@code gl_map_count}
      */
-    public void glMapCount$set(int glMapCount) {
+    public void setGlMapCount(int glMapCount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("gl_map_count"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), glMapCount);
@@ -176,7 +184,7 @@ public class GLBaseMemory extends Struct {
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public java.lang.foreign.MemoryAddress data$get() {
+    public java.lang.foreign.MemoryAddress getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -187,31 +195,31 @@ public class GLBaseMemory extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(java.lang.foreign.MemoryAddress data) {
+    public void setData(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
     }
     
     /**
      * Get the value of the field {@code query}
      * @return The value of the field {@code query}
      */
-    public org.gstreamer.gl.GLQuery query$get() {
+    public org.gstreamer.gl.GLQuery getQuery() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("query"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gl.GLQuery(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLQuery.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code query}
      * @param query The new value of the field {@code query}
      */
-    public void query$set(org.gstreamer.gl.GLQuery query) {
+    public void setQuery(org.gstreamer.gl.GLQuery query) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("query"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), query.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query == null ? MemoryAddress.NULL : query.handle()));
     }
     
     /**
@@ -219,10 +227,12 @@ public class GLBaseMemory extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLBaseMemory(Addressable address, Ownership ownership) {
+    protected GLBaseMemory(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLBaseMemory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLBaseMemory(input, ownership);
     
     /**
      * Note: only intended for subclass usage to allocate the system memory buffer
@@ -238,7 +248,7 @@ public class GLBaseMemory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -248,12 +258,9 @@ public class GLBaseMemory extends Struct {
      * @param context the {@link GLContext} to initialize with
      * @param params the {@code GstAllocationParams} to initialize with
      * @param size the number of bytes to be allocated
-     * @param userData user data to call {@code notify} with
      * @param notify a {@link org.gtk.glib.DestroyNotify}
      */
-    public void init(@NotNull org.gstreamer.gst.Allocator allocator, @Nullable org.gstreamer.gst.Memory parent, @NotNull org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams params, long size, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void init(org.gstreamer.gst.Allocator allocator, @Nullable org.gstreamer.gst.Memory parent, org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gst.AllocationParams params, long size, @Nullable org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_gl_base_memory_init.invokeExact(
                     handle(),
@@ -262,15 +269,14 @@ public class GLBaseMemory extends Struct {
                     context.handle(),
                     (Addressable) (params == null ? MemoryAddress.NULL : params.handle()),
                     size,
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public boolean memcpy(@NotNull org.gstreamer.gl.GLBaseMemory dest, long offset, long size) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public boolean memcpy(org.gstreamer.gl.GLBaseMemory dest, long offset, long size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_base_memory_memcpy.invokeExact(
@@ -281,12 +287,10 @@ public class GLBaseMemory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gstreamer.gl.GLBaseMemory alloc(@NotNull org.gstreamer.gl.GLBaseMemoryAllocator allocator, @NotNull org.gstreamer.gl.GLAllocationParams params) {
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
+    public static org.gstreamer.gl.GLBaseMemory alloc(org.gstreamer.gl.GLBaseMemoryAllocator allocator, org.gstreamer.gl.GLAllocationParams params) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_base_memory_alloc.invokeExact(
@@ -295,7 +299,7 @@ public class GLBaseMemory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLBaseMemory(RESULT, Ownership.FULL);
+        return org.gstreamer.gl.GLBaseMemory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -342,31 +346,35 @@ public class GLBaseMemory extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLBaseMemory.Builder} object constructs a {@link GLBaseMemory} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLBaseMemory.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLBaseMemory struct;
+        private final GLBaseMemory struct;
         
-         /**
-         * A {@link GLBaseMemory.Build} object constructs a {@link GLBaseMemory} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLBaseMemory.allocate();
         }
         
          /**
          * Finish building the {@link GLBaseMemory} struct.
          * @return A new instance of {@code GLBaseMemory} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLBaseMemory construct() {
+        public GLBaseMemory build() {
             return struct;
         }
         
@@ -375,7 +383,7 @@ public class GLBaseMemory extends Struct {
          * @param mem The value for the {@code mem} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMem(org.gstreamer.gst.Memory mem) {
+        public Builder setMem(org.gstreamer.gst.Memory mem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mem"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
@@ -387,84 +395,84 @@ public class GLBaseMemory extends Struct {
          * @param context The value for the {@code context} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContext(org.gstreamer.gl.GLContext context) {
+        public Builder setContext(org.gstreamer.gl.GLContext context) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("context"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
             return this;
         }
         
-        public Build setLock(org.gtk.glib.Mutex lock) {
+        public Builder setLock(org.gtk.glib.Mutex lock) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lock"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
             return this;
         }
         
-        public Build setMapFlags(org.gstreamer.gst.MapFlags mapFlags) {
+        public Builder setMapFlags(org.gstreamer.gst.MapFlags mapFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map_flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mapFlags == null ? MemoryAddress.NULL : mapFlags.getValue()));
             return this;
         }
         
-        public Build setMapCount(int mapCount) {
+        public Builder setMapCount(int mapCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), mapCount);
             return this;
         }
         
-        public Build setGlMapCount(int glMapCount) {
+        public Builder setGlMapCount(int glMapCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("gl_map_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), glMapCount);
             return this;
         }
         
-        public Build setData(java.lang.foreign.MemoryAddress data) {
+        public Builder setData(java.lang.foreign.MemoryAddress data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
             return this;
         }
         
-        public Build setQuery(org.gstreamer.gl.GLQuery query) {
+        public Builder setQuery(org.gstreamer.gl.GLQuery query) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("query"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (query == null ? MemoryAddress.NULL : query.handle()));
             return this;
         }
         
-        public Build setAllocSize(long allocSize) {
+        public Builder setAllocSize(long allocSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocSize);
             return this;
         }
         
-        public Build setAllocData(java.lang.foreign.MemoryAddress allocData) {
+        public Builder setAllocData(java.lang.foreign.MemoryAddress allocData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("alloc_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocData == null ? MemoryAddress.NULL : (Addressable) allocData));
             return this;
         }
         
-        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+        public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
             return this;
         }
         
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

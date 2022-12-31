@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * backends and destinations can be created.
  * @version 1.8
  */
-public class Renderer extends org.gtk.gobject.Object {
+public class Renderer extends org.gtk.gobject.GObject {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -22,23 +22,21 @@ public class Renderer extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "PangoRenderer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.C_INT.withName("underline"),
-        Interop.valueLayout.C_INT.withName("strikethrough"),
-        Interop.valueLayout.C_INT.withName("active_count"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("matrix"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.C_INT.withName("underline"),
+            Interop.valueLayout.C_INT.withName("strikethrough"),
+            Interop.valueLayout.C_INT.withName("active_count"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("matrix"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -46,30 +44,12 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Renderer(Addressable address, Ownership ownership) {
+    protected Renderer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Renderer if its GType is a (or inherits from) "PangoRenderer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Renderer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "PangoRenderer", a ClassCastException will be thrown.
-     */
-    public static Renderer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Renderer.getType())) {
-            return new Renderer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoRenderer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Renderer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Renderer(input, ownership);
     
     /**
      * Does initial setup before rendering operations on {@code renderer}.
@@ -140,9 +120,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param x X coordinate of left edge of baseline of glyph
      * @param y Y coordinate of left edge of baseline of glyph
      */
-    public void drawGlyph(@NotNull org.pango.Font font, @NotNull org.pango.Glyph glyph, double x, double y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public void drawGlyph(org.pango.Font font, org.pango.Glyph glyph, double x, double y) {
         try {
             DowncallHandles.pango_renderer_draw_glyph.invokeExact(
                     handle(),
@@ -181,12 +159,11 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param y Y position of left edge of baseline, in user space coordinates
      *   in Pango units
      */
-    public void drawGlyphItem(@Nullable java.lang.String text, @NotNull org.pango.GlyphItem glyphItem, int x, int y) {
-        java.util.Objects.requireNonNull(glyphItem, "Parameter 'glyphItem' must not be null");
+    public void drawGlyphItem(@Nullable java.lang.String text, org.pango.GlyphItem glyphItem, int x, int y) {
         try {
             DowncallHandles.pango_renderer_draw_glyph_item.invokeExact(
                     handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)),
+                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)),
                     glyphItem.handle(),
                     x,
                     y);
@@ -204,9 +181,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param y Y position of left edge of baseline, in user space coordinates
      *   in Pango units.
      */
-    public void drawGlyphs(@NotNull org.pango.Font font, @NotNull org.pango.GlyphString glyphs, int x, int y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+    public void drawGlyphs(org.pango.Font font, org.pango.GlyphString glyphs, int x, int y) {
         try {
             DowncallHandles.pango_renderer_draw_glyphs.invokeExact(
                     handle(),
@@ -230,8 +205,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param y Y position of left edge of baseline, in user space coordinates
      *   in Pango units.
      */
-    public void drawLayout(@NotNull org.pango.Layout layout, int x, int y) {
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    public void drawLayout(org.pango.Layout layout, int x, int y) {
         try {
             DowncallHandles.pango_renderer_draw_layout.invokeExact(
                     handle(),
@@ -255,8 +229,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param y Y position of left edge of baseline, in user space coordinates
      *   in Pango units.
      */
-    public void drawLayoutLine(@NotNull org.pango.LayoutLine line, int x, int y) {
-        java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
+    public void drawLayoutLine(org.pango.LayoutLine line, int x, int y) {
         try {
             DowncallHandles.pango_renderer_draw_layout_line.invokeExact(
                     handle(),
@@ -282,8 +255,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param width width of rectangle in Pango units
      * @param height height of rectangle in Pango units
      */
-    public void drawRectangle(@NotNull org.pango.RenderPart part, int x, int y, int width, int height) {
-        java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
+    public void drawRectangle(org.pango.RenderPart part, int x, int y, int width, int height) {
         try {
             DowncallHandles.pango_renderer_draw_rectangle.invokeExact(
                     handle(),
@@ -308,8 +280,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param x12 X coordinate of left end of bottom of trapezoid
      * @param x22 X coordinate of right end of bottom of trapezoid
      */
-    public void drawTrapezoid(@NotNull org.pango.RenderPart part, double y1, double x11, double x21, double y2, double x12, double x22) {
-        java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
+    public void drawTrapezoid(org.pango.RenderPart part, double y1, double x11, double x21, double y2, double x12, double x22) {
         try {
             DowncallHandles.pango_renderer_draw_trapezoid.invokeExact(
                     handle(),
@@ -332,8 +303,7 @@ public class Renderer extends org.gtk.gobject.Object {
      *   or 0 if it hasn't been set and should be
      *   inherited from the environment.
      */
-    public short getAlpha(@NotNull org.pango.RenderPart part) {
-        java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
+    public short getAlpha(org.pango.RenderPart part) {
         short RESULT;
         try {
             RESULT = (short) DowncallHandles.pango_renderer_get_alpha.invokeExact(
@@ -352,8 +322,7 @@ public class Renderer extends org.gtk.gobject.Object {
      *   specified part, or {@code null} if it hasn't been set and should be
      *   inherited from the environment.
      */
-    public @Nullable org.pango.Color getColor(@NotNull org.pango.RenderPart part) {
-        java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
+    public @Nullable org.pango.Color getColor(org.pango.RenderPart part) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_renderer_get_color.invokeExact(
@@ -362,7 +331,7 @@ public class Renderer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Color(RESULT, Ownership.NONE);
+        return org.pango.Color.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -384,7 +353,7 @@ public class Renderer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(RESULT, Ownership.NONE);
+        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -406,7 +375,7 @@ public class Renderer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutLine(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -426,7 +395,7 @@ public class Renderer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Matrix(RESULT, Ownership.NONE);
+        return org.pango.Matrix.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -446,8 +415,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * changes to colors. (See {@link Renderer#setColor})
      * @param part the part for which rendering has changed.
      */
-    public void partChanged(@NotNull org.pango.RenderPart part) {
-        java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
+    public void partChanged(org.pango.RenderPart part) {
         try {
             DowncallHandles.pango_renderer_part_changed.invokeExact(
                     handle(),
@@ -465,8 +433,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param part the part to set the alpha for
      * @param alpha an alpha value between 1 and 65536, or 0 to unset the alpha
      */
-    public void setAlpha(@NotNull org.pango.RenderPart part, short alpha) {
-        java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
+    public void setAlpha(org.pango.RenderPart part, short alpha) {
         try {
             DowncallHandles.pango_renderer_set_alpha.invokeExact(
                     handle(),
@@ -484,8 +451,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param part the part to change the color of
      * @param color the new color or {@code null} to unset the current color
      */
-    public void setColor(@NotNull org.pango.RenderPart part, @Nullable org.pango.Color color) {
-        java.util.Objects.requireNonNull(part, "Parameter 'part' must not be null");
+    public void setColor(org.pango.RenderPart part, @Nullable org.pango.Color color) {
         try {
             DowncallHandles.pango_renderer_set_color.invokeExact(
                     handle(),
@@ -515,7 +481,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.pango_renderer_get_type.invokeExact();
@@ -524,38 +490,40 @@ public class Renderer extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Renderer.Builder} object constructs a {@link Renderer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Renderer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Renderer.Build} object constructs a {@link Renderer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Renderer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Renderer} using {@link Renderer#castFrom}.
+         * {@link Renderer}.
          * @return A new instance of {@code Renderer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Renderer construct() {
-            return Renderer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Renderer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Renderer build() {
+            return (Renderer) org.gtk.gobject.GObject.newWithProperties(
+                Renderer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

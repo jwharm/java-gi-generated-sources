@@ -15,25 +15,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Swipeable extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Swipeable if its GType is a (or inherits from) "AdwSwipeable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Swipeable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwSwipeable", a ClassCastException will be thrown.
-     */
-    public static Swipeable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Swipeable.getType())) {
-            return new SwipeableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwSwipeable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SwipeableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SwipeableImpl(input, ownership);
     
     /**
      * Gets the progress {@code self} will snap back to after the gesture is canceled.
@@ -90,8 +73,7 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * @param nSnapPoints location to return the number of the snap points
      * @return the snap points
      */
-    default @NotNull double[] getSnapPoints(Out<Integer> nSnapPoints) {
-        java.util.Objects.requireNonNull(nSnapPoints, "Parameter 'nSnapPoints' must not be null");
+    default double[] getSnapPoints(Out<Integer> nSnapPoints) {
         MemorySegment nSnapPointsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -119,14 +101,12 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * @param isDrag whether the swipe is caused by a dragging gesture
      * @param rect a pointer to a rectangle to store the swipe area
      */
-    default void getSwipeArea(@NotNull org.gnome.adw.NavigationDirection navigationDirection, boolean isDrag, @NotNull org.gtk.gdk.Rectangle rect) {
-        java.util.Objects.requireNonNull(navigationDirection, "Parameter 'navigationDirection' must not be null");
-        java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
+    default void getSwipeArea(org.gnome.adw.NavigationDirection navigationDirection, boolean isDrag, org.gtk.gdk.Rectangle rect) {
         try {
             DowncallHandles.adw_swipeable_get_swipe_area.invokeExact(
                     handle(),
                     navigationDirection.getValue(),
-                    isDrag ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(isDrag, null).intValue(),
                     rect.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -137,7 +117,7 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_swipeable_get_type.invokeExact();
@@ -193,7 +173,7 @@ public interface Swipeable extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class SwipeableImpl extends org.gtk.gobject.Object implements Swipeable {
+    class SwipeableImpl extends org.gtk.gobject.GObject implements Swipeable {
         
         static {
             Adw.javagi$ensureInitialized();

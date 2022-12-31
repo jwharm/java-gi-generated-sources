@@ -14,7 +14,15 @@ public final class GstBase {
         System.loadLibrary("gstbase-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     public static final int BASE_PARSE_FLAG_DRAINING = 2;
     
@@ -39,8 +47,7 @@ public final class GstBase {
      * @param size Size of {@code data} in bytes
      * @return a new {@link BitReader} instance
      */
-    public static @NotNull org.gstreamer.base.BitReader bitReaderNew(@NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.base.BitReader bitReaderNew(byte[] data, int size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_reader_new.invokeExact(
@@ -49,7 +56,7 @@ public final class GstBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.BitReader(RESULT, Ownership.FULL);
+        return org.gstreamer.base.BitReader.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -58,14 +65,14 @@ public final class GstBase {
      * Free-function: gst_bit_writer_free
      * @return a new, empty {@link ByteWriter} instance
      */
-    public static @NotNull org.gstreamer.base.BitWriter bitWriterNew() {
+    public static org.gstreamer.base.BitWriter bitWriterNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.BitWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.BitWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -79,18 +86,17 @@ public final class GstBase {
      * @param initialized if {@code true} the complete data can be read from the beginning
      * @return a new {@link BitWriter} instance
      */
-    public static @NotNull org.gstreamer.base.BitWriter bitWriterNewWithData(@NotNull byte[] data, int size, boolean initialized) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.base.BitWriter bitWriterNewWithData(byte[] data, int size, boolean initialized) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_new_with_data.invokeExact(
                     Interop.allocateNativeArray(data, false),
                     size,
-                    initialized ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(initialized, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.BitWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.BitWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -101,16 +107,16 @@ public final class GstBase {
      * @param fixed If {@code true} the data can't be reallocated
      * @return a new {@link BitWriter} instance
      */
-    public static @NotNull org.gstreamer.base.BitWriter bitWriterNewWithSize(int size, boolean fixed) {
+    public static org.gstreamer.base.BitWriter bitWriterNewWithSize(int size, boolean fixed) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_new_with_size.invokeExact(
                     size,
-                    fixed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(fixed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.BitWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.BitWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -122,8 +128,7 @@ public final class GstBase {
      * @param size Size of {@code data} in bytes
      * @return a new {@link ByteReader} instance
      */
-    public static @NotNull org.gstreamer.base.ByteReader byteReaderNew(@NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.base.ByteReader byteReaderNew(byte[] data, int size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_reader_new.invokeExact(
@@ -132,7 +137,7 @@ public final class GstBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.ByteReader(RESULT, Ownership.FULL);
+        return org.gstreamer.base.ByteReader.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -141,14 +146,14 @@ public final class GstBase {
      * Free-function: gst_byte_writer_free
      * @return a new, empty {@link ByteWriter} instance
      */
-    public static @NotNull org.gstreamer.base.ByteWriter byteWriterNew() {
+    public static org.gstreamer.base.ByteWriter byteWriterNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.ByteWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -162,18 +167,17 @@ public final class GstBase {
      * @param initialized If {@code true} the complete data can be read from the beginning
      * @return a new {@link ByteWriter} instance
      */
-    public static @NotNull org.gstreamer.base.ByteWriter byteWriterNewWithData(PointerByte data, int size, boolean initialized) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.base.ByteWriter byteWriterNewWithData(PointerByte data, int size, boolean initialized) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_new_with_data.invokeExact(
                     data.handle(),
                     size,
-                    initialized ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(initialized, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.ByteWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -185,16 +189,16 @@ public final class GstBase {
      * @param fixed If {@code true} the data can't be reallocated
      * @return a new {@link ByteWriter} instance
      */
-    public static @NotNull org.gstreamer.base.ByteWriter byteWriterNewWithSize(int size, boolean fixed) {
+    public static org.gstreamer.base.ByteWriter byteWriterNewWithSize(int size, boolean fixed) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_byte_writer_new_with_size.invokeExact(
                     size,
-                    fixed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(fixed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.ByteWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.ByteWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -203,7 +207,7 @@ public final class GstBase {
      * @param initialSize Initial size of the new queue
      * @return a new {@link QueueArray} object
      */
-    public static @NotNull org.gstreamer.base.QueueArray queueArrayNew(int initialSize) {
+    public static org.gstreamer.base.QueueArray queueArrayNew(int initialSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_new.invokeExact(
@@ -211,7 +215,7 @@ public final class GstBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.QueueArray(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.base.QueueArray.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -221,7 +225,7 @@ public final class GstBase {
      * @param initialSize Initial size of the new queue
      * @return a new {@link QueueArray} object
      */
-    public static @NotNull org.gstreamer.base.QueueArray queueArrayNewForStruct(long structSize, int initialSize) {
+    public static org.gstreamer.base.QueueArray queueArrayNewForStruct(long structSize, int initialSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_queue_array_new_for_struct.invokeExact(
@@ -230,7 +234,7 @@ public final class GstBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.QueueArray(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.base.QueueArray.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -242,8 +246,7 @@ public final class GstBase {
      * @return the {@link org.gstreamer.gst.Caps} corresponding to the data
      *     stream.  Returns {@code null} if no {@link org.gstreamer.gst.Caps} matches the data stream.
      */
-    public static @Nullable org.gstreamer.gst.Caps typeFindHelper(@NotNull org.gstreamer.gst.Pad src, long size) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static @Nullable org.gstreamer.gst.Caps typeFindHelper(org.gstreamer.gst.Pad src, long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_type_find_helper.invokeExact(
@@ -252,7 +255,7 @@ public final class GstBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -276,21 +279,19 @@ public final class GstBase {
      *     or {@code null} if no type could be found. The caller should free the caps
      *     returned with gst_caps_unref().
      */
-    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForBuffer(@Nullable org.gstreamer.gst.Object obj, @NotNull org.gstreamer.gst.Buffer buf, @NotNull Out<org.gstreamer.gst.TypeFindProbability> prob) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        java.util.Objects.requireNonNull(prob, "Parameter 'prob' must not be null");
+    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForBuffer(@Nullable org.gstreamer.gst.GstObject obj, org.gstreamer.gst.Buffer buf, @Nullable Out<org.gstreamer.gst.TypeFindProbability> prob) {
         MemorySegment probPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_type_find_helper_for_buffer.invokeExact(
                     (Addressable) (obj == null ? MemoryAddress.NULL : obj.handle()),
                     buf.handle(),
-                    (Addressable) probPOINTER.address());
+                    (Addressable) (prob == null ? MemoryAddress.NULL : (Addressable) probPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        if (prob != null) prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -319,22 +320,20 @@ public final class GstBase {
      *     or {@code null} if no type could be found. The caller should free the caps
      *     returned with gst_caps_unref().
      */
-    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForBufferWithExtension(@Nullable org.gstreamer.gst.Object obj, @NotNull org.gstreamer.gst.Buffer buf, @Nullable java.lang.String extension, @NotNull Out<org.gstreamer.gst.TypeFindProbability> prob) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        java.util.Objects.requireNonNull(prob, "Parameter 'prob' must not be null");
+    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForBufferWithExtension(@Nullable org.gstreamer.gst.GstObject obj, org.gstreamer.gst.Buffer buf, @Nullable java.lang.String extension, @Nullable Out<org.gstreamer.gst.TypeFindProbability> prob) {
         MemorySegment probPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_type_find_helper_for_buffer_with_extension.invokeExact(
                     (Addressable) (obj == null ? MemoryAddress.NULL : obj.handle()),
                     buf.handle(),
-                    (Addressable) (extension == null ? MemoryAddress.NULL : Interop.allocateNativeString(extension)),
-                    (Addressable) probPOINTER.address());
+                    (Addressable) (extension == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(extension, null)),
+                    (Addressable) (prob == null ? MemoryAddress.NULL : (Addressable) probPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        if (prob != null) prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -359,9 +358,7 @@ public final class GstBase {
      *     or {@code null} if no type could be found. The caller should free the caps
      *     returned with gst_caps_unref().
      */
-    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForData(@Nullable org.gstreamer.gst.Object obj, @NotNull byte[] data, long size, @NotNull Out<org.gstreamer.gst.TypeFindProbability> prob) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(prob, "Parameter 'prob' must not be null");
+    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForData(@Nullable org.gstreamer.gst.GstObject obj, byte[] data, long size, @Nullable Out<org.gstreamer.gst.TypeFindProbability> prob) {
         MemorySegment probPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -369,12 +366,12 @@ public final class GstBase {
                     (Addressable) (obj == null ? MemoryAddress.NULL : obj.handle()),
                     Interop.allocateNativeArray(data, false),
                     size,
-                    (Addressable) probPOINTER.address());
+                    (Addressable) (prob == null ? MemoryAddress.NULL : (Addressable) probPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        if (prob != null) prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -404,9 +401,7 @@ public final class GstBase {
      *     or {@code null} if no type could be found. The caller should free the caps
      *     returned with gst_caps_unref().
      */
-    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForDataWithExtension(@Nullable org.gstreamer.gst.Object obj, @NotNull byte[] data, long size, @Nullable java.lang.String extension, @NotNull Out<org.gstreamer.gst.TypeFindProbability> prob) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(prob, "Parameter 'prob' must not be null");
+    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForDataWithExtension(@Nullable org.gstreamer.gst.GstObject obj, byte[] data, long size, @Nullable java.lang.String extension, @Nullable Out<org.gstreamer.gst.TypeFindProbability> prob) {
         MemorySegment probPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -414,13 +409,13 @@ public final class GstBase {
                     (Addressable) (obj == null ? MemoryAddress.NULL : obj.handle()),
                     Interop.allocateNativeArray(data, false),
                     size,
-                    (Addressable) (extension == null ? MemoryAddress.NULL : Interop.allocateNativeString(extension)),
-                    (Addressable) probPOINTER.address());
+                    (Addressable) (extension == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(extension, null)),
+                    (Addressable) (prob == null ? MemoryAddress.NULL : (Addressable) probPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        if (prob != null) prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -437,17 +432,16 @@ public final class GstBase {
      *     {@code extension}, or {@code null} if no type could be found. The caller should free
      *     the caps returned with gst_caps_unref().
      */
-    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForExtension(@Nullable org.gstreamer.gst.Object obj, @NotNull java.lang.String extension) {
-        java.util.Objects.requireNonNull(extension, "Parameter 'extension' must not be null");
+    public static @Nullable org.gstreamer.gst.Caps typeFindHelperForExtension(@Nullable org.gstreamer.gst.GstObject obj, java.lang.String extension) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_type_find_helper_for_extension.invokeExact(
                     (Addressable) (obj == null ? MemoryAddress.NULL : obj.handle()),
-                    Interop.allocateNativeString(extension));
+                    Marshal.stringToAddress.marshal(extension, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -465,7 +459,7 @@ public final class GstBase {
      * in many cases.
      * <p>
      * Free-function: gst_caps_unref
-     * @param obj A {@link org.gstreamer.gst.Object} that will be passed as first argument to {@code func}
+     * @param obj A {@link org.gstreamer.gst.GstObject} that will be passed as first argument to {@code func}
      * @param parent the parent of {@code obj} or {@code null}
      * @param func A generic {@link TypeFindHelperGetRangeFunction} that will
      *        be used to access data at random offsets when doing the typefinding
@@ -476,8 +470,22 @@ public final class GstBase {
      * @return the {@link org.gstreamer.gst.Caps} corresponding to the data
      *     stream.  Returns {@code null} if no {@link org.gstreamer.gst.Caps} matches the data stream.
      */
-    public static @Nullable org.gstreamer.gst.Caps typeFindHelperGetRange(@NotNull org.gstreamer.gst.Object obj, @Nullable org.gstreamer.gst.Object parent, @NotNull org.gstreamer.base.TypeFindHelperGetRangeFunction func, long size, @Nullable java.lang.String extension, @NotNull Out<org.gstreamer.gst.TypeFindProbability> prob) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static @Nullable org.gstreamer.gst.Caps typeFindHelperGetRange(org.gstreamer.gst.GstObject obj, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.base.TypeFindHelperGetRangeFunction func, long size, @Nullable java.lang.String extension, @Nullable Out<org.gstreamer.gst.TypeFindProbability> prob) {
+        MemorySegment probPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.gst_type_find_helper_get_range.invokeExact(
+                    obj.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    (Addressable) func.toCallback(),
+                    size,
+                    (Addressable) (extension == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(extension, null)),
+                    (Addressable) (prob == null ? MemoryAddress.NULL : (Addressable) probPOINTER.address()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (prob != null) prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -493,7 +501,7 @@ public final class GstBase {
      * When {@code extension} is not {@code null}, this function will first try the typefind
      * functions for the given extension, which might speed up the typefinding
      * in many cases.
-     * @param obj A {@link org.gstreamer.gst.Object} that will be passed as first argument to {@code func}
+     * @param obj A {@link org.gstreamer.gst.GstObject} that will be passed as first argument to {@code func}
      * @param parent the parent of {@code obj} or {@code null}
      * @param func A generic {@link TypeFindHelperGetRangeFunction} that will
      *        be used to access data at random offsets when doing the typefinding
@@ -505,8 +513,25 @@ public final class GstBase {
      * @return the last {@code GstFlowReturn} from pulling a buffer or {@link org.gstreamer.gst.FlowReturn#OK} if
      *          typefinding was successful.
      */
-    public static @NotNull org.gstreamer.gst.FlowReturn typeFindHelperGetRangeFull(@NotNull org.gstreamer.gst.Object obj, @Nullable org.gstreamer.gst.Object parent, @NotNull org.gstreamer.base.TypeFindHelperGetRangeFunction func, long size, @Nullable java.lang.String extension, @NotNull Out<org.gstreamer.gst.Caps> caps, @NotNull Out<org.gstreamer.gst.TypeFindProbability> prob) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gstreamer.gst.FlowReturn typeFindHelperGetRangeFull(org.gstreamer.gst.GstObject obj, @Nullable org.gstreamer.gst.GstObject parent, org.gstreamer.base.TypeFindHelperGetRangeFunction func, long size, @Nullable java.lang.String extension, Out<org.gstreamer.gst.Caps> caps, @Nullable Out<org.gstreamer.gst.TypeFindProbability> prob) {
+        MemorySegment capsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        MemorySegment probPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.gst_type_find_helper_get_range_full.invokeExact(
+                    obj.handle(),
+                    (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
+                    (Addressable) func.toCallback(),
+                    size,
+                    (Addressable) (extension == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(extension, null)),
+                    (Addressable) capsPOINTER.address(),
+                    (Addressable) (prob == null ? MemoryAddress.NULL : (Addressable) probPOINTER.address()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        caps.set(org.gstreamer.gst.Caps.fromAddress.marshal(capsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (prob != null) prob.set(org.gstreamer.gst.TypeFindProbability.of(probPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
     private static class DowncallHandles {
@@ -622,74 +647,5 @@ public final class GstBase {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static int cbCollectPadsQueryFunction(MemoryAddress pads, MemoryAddress pad, MemoryAddress query, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CollectPadsQueryFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCollectPadsQueryFunction(new org.gstreamer.base.CollectPads(pads, Ownership.NONE), new org.gstreamer.base.CollectData(pad, Ownership.NONE), new org.gstreamer.gst.Query(query, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbCollectPadsFlushFunction(MemoryAddress pads, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CollectPadsFlushFunction) Interop.signalRegistry.get(HASH);
-            HANDLER.onCollectPadsFlushFunction(new org.gstreamer.base.CollectPads(pads, Ownership.NONE));
-        }
-        
-        public static int cbCollectPadsClipFunction(MemoryAddress pads, MemoryAddress data, MemoryAddress inbuffer, MemoryAddress outbuffer, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CollectPadsClipFunction) Interop.signalRegistry.get(HASH);
-        var outbufferOUT = new Out<PointerProxy<org.gstreamer.gst.Buffer>>(new PointerProxy<org.gstreamer.gst.Buffer>(outbuffer, org.gstreamer.gst.Buffer.class));
-            var RESULT = HANDLER.onCollectPadsClipFunction(new org.gstreamer.base.CollectPads(pads, Ownership.NONE), new org.gstreamer.base.CollectData(data, Ownership.NONE), new org.gstreamer.gst.Buffer(inbuffer, Ownership.FULL), outbufferOUT);
-            outbuffer.set(Interop.valueLayout.ADDRESS, 0, outbufferOUT.get().handle());
-            return RESULT.getValue();
-        }
-        
-        public static int cbCollectPadsBufferFunction(MemoryAddress pads, MemoryAddress data, MemoryAddress buffer, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CollectPadsBufferFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCollectPadsBufferFunction(new org.gstreamer.base.CollectPads(pads, Ownership.NONE), new org.gstreamer.base.CollectData(data, Ownership.NONE), new org.gstreamer.gst.Buffer(buffer, Ownership.FULL));
-            return RESULT.getValue();
-        }
-        
-        public static int cbCollectPadsCompareFunction(MemoryAddress pads, MemoryAddress data1, long timestamp1, MemoryAddress data2, long timestamp2, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CollectPadsCompareFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCollectPadsCompareFunction(new org.gstreamer.base.CollectPads(pads, Ownership.NONE), new org.gstreamer.base.CollectData(data1, Ownership.NONE), new org.gstreamer.gst.ClockTime(timestamp1), new org.gstreamer.base.CollectData(data2, Ownership.NONE), new org.gstreamer.gst.ClockTime(timestamp2));
-            return RESULT;
-        }
-        
-        public static void cbDataQueueEmptyCallback(MemoryAddress queue, MemoryAddress checkdata) {
-            int HASH = checkdata.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DataQueueEmptyCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onDataQueueEmptyCallback(new org.gstreamer.base.DataQueue(queue, Ownership.NONE));
-        }
-        
-        public static int cbCollectPadsEventFunction(MemoryAddress pads, MemoryAddress pad, MemoryAddress event, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CollectPadsEventFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCollectPadsEventFunction(new org.gstreamer.base.CollectPads(pads, Ownership.NONE), new org.gstreamer.base.CollectData(pad, Ownership.NONE), new org.gstreamer.gst.Event(event, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbCollectPadsFunction(MemoryAddress pads, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CollectPadsFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCollectPadsFunction(new org.gstreamer.base.CollectPads(pads, Ownership.NONE));
-            return RESULT.getValue();
-        }
-        
-        public static void cbDataQueueFullCallback(MemoryAddress queue, MemoryAddress checkdata) {
-            int HASH = checkdata.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DataQueueFullCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onDataQueueFullCallback(new org.gstreamer.base.DataQueue(queue, Ownership.NONE));
-        }
-        
-        public static int cbDataQueueCheckFullFunction(MemoryAddress queue, int visible, int bytes, long time, MemoryAddress checkdata) {
-            int HASH = checkdata.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DataQueueCheckFullFunction) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDataQueueCheckFullFunction(new org.gstreamer.base.DataQueue(queue, Ownership.NONE), visible, bytes, time);
-            return RESULT ? 1 : 0;
-        }
     }
 }

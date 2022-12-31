@@ -227,8 +227,7 @@ public enum EventType implements io.github.jwharm.javagi.Enumeration {
      * @param type a {@link EventType}
      * @return a {@link EventTypeFlags}.
      */
-    public static @NotNull org.gstreamer.gst.EventTypeFlags getFlags(@NotNull org.gstreamer.gst.EventType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gstreamer.gst.EventTypeFlags getFlags(org.gstreamer.gst.EventType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_event_type_get_flags.invokeExact(
@@ -244,8 +243,7 @@ public enum EventType implements io.github.jwharm.javagi.Enumeration {
      * @param type the event type
      * @return a reference to the static name of the event.
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.gst.EventType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String getName(org.gstreamer.gst.EventType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_event_type_get_name.invokeExact(
@@ -253,7 +251,7 @@ public enum EventType implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -261,8 +259,7 @@ public enum EventType implements io.github.jwharm.javagi.Enumeration {
      * @param type the event type
      * @return the quark associated with the event type
      */
-    public static @NotNull org.gtk.glib.Quark toQuark(@NotNull org.gstreamer.gst.EventType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.glib.Quark toQuark(org.gstreamer.gst.EventType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_event_type_to_quark.invokeExact(

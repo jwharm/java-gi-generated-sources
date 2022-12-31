@@ -89,11 +89,15 @@ public class ModifierType extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ModifierType or(ModifierType mask) {
-        return new ModifierType(this.getValue() | mask.getValue());
+    public ModifierType or(ModifierType... masks) {
+        int value = this.getValue();
+        for (ModifierType arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ModifierType(value);
     }
     
     /**
@@ -103,7 +107,8 @@ public class ModifierType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ModifierType combined(ModifierType mask, ModifierType... masks) {
-        int value = mask.getValue();        for (ModifierType arg : masks) {
+        int value = mask.getValue();
+        for (ModifierType arg : masks) {
             value |= arg.getValue();
         }
         return new ModifierType(value);

@@ -33,11 +33,15 @@ public class MapFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public MapFlags or(MapFlags mask) {
-        return new MapFlags(this.getValue() | mask.getValue());
+    public MapFlags or(MapFlags... masks) {
+        int value = this.getValue();
+        for (MapFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new MapFlags(value);
     }
     
     /**
@@ -47,7 +51,8 @@ public class MapFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static MapFlags combined(MapFlags mask, MapFlags... masks) {
-        int value = mask.getValue();        for (MapFlags arg : masks) {
+        int value = mask.getValue();
+        for (MapFlags arg : masks) {
             value |= arg.getValue();
         }
         return new MapFlags(value);

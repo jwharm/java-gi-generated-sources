@@ -50,8 +50,7 @@ public class VulkanDisplayType extends io.github.jwharm.javagi.Bitfield {
         super(value);
     }
     
-    public static @NotNull java.lang.String toExtensionString(@NotNull org.gstreamer.vulkan.VulkanDisplayType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String toExtensionString(org.gstreamer.vulkan.VulkanDisplayType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_type_to_extension_string.invokeExact(
@@ -59,16 +58,20 @@ public class VulkanDisplayType extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public VulkanDisplayType or(VulkanDisplayType mask) {
-        return new VulkanDisplayType(this.getValue() | mask.getValue());
+    public VulkanDisplayType or(VulkanDisplayType... masks) {
+        int value = this.getValue();
+        for (VulkanDisplayType arg : masks) {
+            value |= arg.getValue();
+        }
+        return new VulkanDisplayType(value);
     }
     
     /**
@@ -78,7 +81,8 @@ public class VulkanDisplayType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static VulkanDisplayType combined(VulkanDisplayType mask, VulkanDisplayType... masks) {
-        int value = mask.getValue();        for (VulkanDisplayType arg : masks) {
+        int value = mask.getValue();
+        for (VulkanDisplayType arg : masks) {
             value |= arg.getValue();
         }
         return new VulkanDisplayType(value);

@@ -28,5 +28,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface LogWriterFunc {
-        org.gtk.glib.LogWriterOutput onLogWriterFunc(@NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull PointerProxy<org.gtk.glib.LogField> fields, long nFields);
+    org.gtk.glib.LogWriterOutput run(org.gtk.glib.LogLevelFlags logLevel, org.gtk.glib.LogField[] fields, long nFields);
+
+    @ApiStatus.Internal default int upcall(int logLevel, MemoryAddress fields, long nFields, MemoryAddress userData) {
+        var RESULT = run(new org.gtk.glib.LogLevelFlags(logLevel), new PointerProxy<org.gtk.glib.LogField>(fields, org.gtk.glib.LogField.fromAddress).toArray((int) nFields, org.gtk.glib.LogField.class), nFields);
+        return RESULT.getValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(LogWriterFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

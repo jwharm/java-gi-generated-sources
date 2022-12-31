@@ -178,15 +178,16 @@ public class Resource extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Resource(Addressable address, Ownership ownership) {
+    protected Resource(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Resource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Resource(input, ownership);
+    
+    private static MemoryAddress constructNewFromData(org.gtk.glib.Bytes data) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_new_from_data.invokeExact(
                     data.handle(),
@@ -217,8 +218,9 @@ public class Resource extends Struct {
      * @return a new {@link Resource}, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static Resource newFromData(@NotNull org.gtk.glib.Bytes data) throws GErrorException {
-        return new Resource(constructNewFromData(data), Ownership.FULL);
+    public static Resource newFromData(org.gtk.glib.Bytes data) throws GErrorException {
+        var RESULT = constructNewFromData(data);
+        return org.gtk.gio.Resource.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -261,15 +263,13 @@ public class Resource extends Struct {
      * @return an array of constant strings
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull PointerString enumerateChildren(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
+    public PointerString enumerateChildren(java.lang.String path, org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_enumerate_children.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path),
+                    Marshal.stringToAddress.marshal(path, null),
                     lookupFlags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -295,22 +295,18 @@ public class Resource extends Struct {
      * @return {@code true} if the file was found. {@code false} if there were errors
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getInfo(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags, Out<Long> size, Out<Integer> flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
+    public boolean getInfo(java.lang.String path, org.gtk.gio.ResourceLookupFlags lookupFlags, Out<Long> size, Out<Integer> flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_resource_get_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path),
+                    Marshal.stringToAddress.marshal(path, null),
                     lookupFlags.getValue(),
-                    (Addressable) sizePOINTER.address(),
-                    (Addressable) flagsPOINTER.address(),
+                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()),
+                    (Addressable) (flags == null ? MemoryAddress.NULL : (Addressable) flagsPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -318,9 +314,9 @@ public class Resource extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        flags.set(flagsPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (flags != null) flags.set(flagsPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -344,15 +340,13 @@ public class Resource extends Struct {
      *     Free the returned object with g_bytes_unref()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.Bytes lookupData(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
+    public org.gtk.glib.Bytes lookupData(java.lang.String path, org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_lookup_data.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path),
+                    Marshal.stringToAddress.marshal(path, null),
                     lookupFlags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -361,7 +355,7 @@ public class Resource extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -375,15 +369,13 @@ public class Resource extends Struct {
      *     Free the returned object with g_object_unref()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gio.InputStream openStream(@NotNull java.lang.String path, @NotNull org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNull(lookupFlags, "Parameter 'lookupFlags' must not be null");
+    public org.gtk.gio.InputStream openStream(java.lang.String path, org.gtk.gio.ResourceLookupFlags lookupFlags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_open_stream.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(path),
+                    Marshal.stringToAddress.marshal(path, null),
                     lookupFlags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -392,7 +384,7 @@ public class Resource extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -400,7 +392,7 @@ public class Resource extends Struct {
      * function is MT-safe and may be called from any thread.
      * @return The passed in {@link Resource}
      */
-    public @NotNull org.gtk.gio.Resource ref() {
+    public org.gtk.gio.Resource ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_ref.invokeExact(
@@ -408,7 +400,7 @@ public class Resource extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Resource(RESULT, Ownership.FULL);
+        return org.gtk.gio.Resource.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -441,13 +433,12 @@ public class Resource extends Struct {
      * @return a new {@link Resource}, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.Resource load(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static org.gtk.gio.Resource load(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_resource_load.invokeExact(
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -455,7 +446,7 @@ public class Resource extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Resource(RESULT, Ownership.FULL);
+        return org.gtk.gio.Resource.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

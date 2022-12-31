@@ -40,8 +40,10 @@ public class BlendOp extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BlendOp(Addressable address, Ownership ownership) {
+    protected BlendOp(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BlendOp> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BlendOp(input, ownership);
 }

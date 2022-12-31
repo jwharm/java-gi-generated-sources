@@ -79,18 +79,16 @@ public class RWLock extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GRWLock";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("p"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("p"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("i")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -111,10 +109,12 @@ public class RWLock extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RWLock(Addressable address, Ownership ownership) {
+    protected RWLock(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RWLock> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RWLock(input, ownership);
     
     /**
      * Frees the resources allocated to a lock with g_rw_lock_init().
@@ -208,7 +208,7 @@ public class RWLock extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -258,7 +258,7 @@ public class RWLock extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -326,42 +326,46 @@ public class RWLock extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RWLock.Builder} object constructs a {@link RWLock} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RWLock.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RWLock struct;
+        private final RWLock struct;
         
-         /**
-         * A {@link RWLock.Build} object constructs a {@link RWLock} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RWLock.allocate();
         }
         
          /**
          * Finish building the {@link RWLock} struct.
          * @return A new instance of {@code RWLock} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RWLock construct() {
+        public RWLock build() {
             return struct;
         }
         
-        public Build setP(java.lang.foreign.MemoryAddress p) {
+        public Builder setP(java.lang.foreign.MemoryAddress p) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("p"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (p == null ? MemoryAddress.NULL : (Addressable) p));
             return this;
         }
         
-        public Build setI(int[] i) {
+        public Builder setI(int[] i) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("i"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (i == null ? MemoryAddress.NULL : Interop.allocateNativeArray(i, false)));

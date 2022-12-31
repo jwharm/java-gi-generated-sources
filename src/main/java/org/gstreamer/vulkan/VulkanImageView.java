@@ -13,22 +13,20 @@ public class VulkanImageView extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanImageView";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("device"),
-        Interop.valueLayout.ADDRESS.withName("image"),
-        org.vulkan.ImageView.getMemoryLayout().withName("view"),
-        org.vulkan.ImageViewCreateInfo.getMemoryLayout().withName("create_info"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("device"),
+            Interop.valueLayout.ADDRESS.withName("image"),
+            org.vulkan.ImageView.getMemoryLayout().withName("view"),
+            org.vulkan.ImageViewCreateInfo.getMemoryLayout().withName("create_info"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,69 +46,99 @@ public class VulkanImageView extends Struct {
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gstreamer.gst.MiniObject parent$get() {
+    public org.gstreamer.gst.MiniObject getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gstreamer.gst.MiniObject(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent}
+     * @param parent The new value of the field {@code parent}
+     */
+    public void setParent(org.gstreamer.gst.MiniObject parent) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
      * Get the value of the field {@code device}
      * @return The value of the field {@code device}
      */
-    public org.gstreamer.vulkan.VulkanDevice device$get() {
+    public org.gstreamer.vulkan.VulkanDevice getDevice() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("device"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.vulkan.VulkanDevice(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.vulkan.VulkanDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code device}
      * @param device The new value of the field {@code device}
      */
-    public void device$set(org.gstreamer.vulkan.VulkanDevice device) {
+    public void setDevice(org.gstreamer.vulkan.VulkanDevice device) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("device"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), device.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (device == null ? MemoryAddress.NULL : device.handle()));
     }
     
     /**
      * Get the value of the field {@code image}
      * @return The value of the field {@code image}
      */
-    public org.gstreamer.vulkan.VulkanImageMemory image$get() {
+    public org.gstreamer.vulkan.VulkanImageMemory getImage() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("image"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.vulkan.VulkanImageMemory(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.vulkan.VulkanImageMemory.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code image}
      * @param image The new value of the field {@code image}
      */
-    public void image$set(org.gstreamer.vulkan.VulkanImageMemory image) {
+    public void setImage(org.gstreamer.vulkan.VulkanImageMemory image) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("image"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), image.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (image == null ? MemoryAddress.NULL : image.handle()));
     }
     
     /**
      * Get the value of the field {@code view}
      * @return The value of the field {@code view}
      */
-    public org.vulkan.ImageView view$get() {
+    public org.vulkan.ImageView getView() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("view"));
-        return new org.vulkan.ImageView(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.ImageView.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code view}
+     * @param view The new value of the field {@code view}
+     */
+    public void setView(org.vulkan.ImageView view) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("view"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (view == null ? MemoryAddress.NULL : view.handle()));
     }
     
     /**
      * Get the value of the field {@code create_info}
      * @return The value of the field {@code create_info}
      */
-    public org.vulkan.ImageViewCreateInfo createInfo$get() {
+    public org.vulkan.ImageViewCreateInfo getCreateInfo() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("create_info"));
-        return new org.vulkan.ImageViewCreateInfo(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.ImageViewCreateInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code create_info}
+     * @param createInfo The new value of the field {@code create_info}
+     */
+    public void setCreateInfo(org.vulkan.ImageViewCreateInfo createInfo) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("create_info"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createInfo == null ? MemoryAddress.NULL : createInfo.handle()));
     }
     
     /**
@@ -118,15 +146,15 @@ public class VulkanImageView extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanImageView(Addressable address, Ownership ownership) {
+    protected VulkanImageView(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.vulkan.VulkanImageMemory image, @NotNull org.vulkan.ImageViewCreateInfo createInfo) {
-        java.util.Objects.requireNonNull(image, "Parameter 'image' must not be null");
-        java.util.Objects.requireNonNull(createInfo, "Parameter 'createInfo' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanImageView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanImageView(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.vulkan.VulkanImageMemory image, org.vulkan.ImageViewCreateInfo createInfo) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_image_view_new.invokeExact(
                     image.handle(),
@@ -137,7 +165,7 @@ public class VulkanImageView extends Struct {
         return RESULT;
     }
     
-    public VulkanImageView(@NotNull org.gstreamer.vulkan.VulkanImageMemory image, @NotNull org.vulkan.ImageViewCreateInfo createInfo) {
+    public VulkanImageView(org.gstreamer.vulkan.VulkanImageMemory image, org.vulkan.ImageViewCreateInfo createInfo) {
         super(constructNew(image, createInfo), Ownership.FULL);
     }
     
@@ -145,7 +173,7 @@ public class VulkanImageView extends Struct {
      * Increases the refcount of the given trash object by one.
      * @return {@code trash}
      */
-    public @NotNull org.gstreamer.vulkan.VulkanImageView ref() {
+    public org.gstreamer.vulkan.VulkanImageView ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_image_view_ref.invokeExact(
@@ -153,7 +181,7 @@ public class VulkanImageView extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanImageView(RESULT, Ownership.FULL);
+        return org.gstreamer.vulkan.VulkanImageView.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -190,31 +218,35 @@ public class VulkanImageView extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VulkanImageView.Builder} object constructs a {@link VulkanImageView} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VulkanImageView.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VulkanImageView struct;
+        private final VulkanImageView struct;
         
-         /**
-         * A {@link VulkanImageView.Build} object constructs a {@link VulkanImageView} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VulkanImageView.allocate();
         }
         
          /**
          * Finish building the {@link VulkanImageView} struct.
          * @return A new instance of {@code VulkanImageView} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanImageView construct() {
+        public VulkanImageView build() {
             return struct;
         }
         
@@ -223,7 +255,7 @@ public class VulkanImageView extends Struct {
          * @param parent The value for the {@code parent} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gstreamer.gst.MiniObject parent) {
+        public Builder setParent(org.gstreamer.gst.MiniObject parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -235,7 +267,7 @@ public class VulkanImageView extends Struct {
          * @param device The value for the {@code device} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDevice(org.gstreamer.vulkan.VulkanDevice device) {
+        public Builder setDevice(org.gstreamer.vulkan.VulkanDevice device) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("device"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (device == null ? MemoryAddress.NULL : device.handle()));
@@ -247,7 +279,7 @@ public class VulkanImageView extends Struct {
          * @param image The value for the {@code image} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setImage(org.gstreamer.vulkan.VulkanImageMemory image) {
+        public Builder setImage(org.gstreamer.vulkan.VulkanImageMemory image) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("image"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (image == null ? MemoryAddress.NULL : image.handle()));
@@ -259,7 +291,7 @@ public class VulkanImageView extends Struct {
          * @param view The value for the {@code view} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setView(org.vulkan.ImageView view) {
+        public Builder setView(org.vulkan.ImageView view) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("view"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (view == null ? MemoryAddress.NULL : view.handle()));
@@ -271,14 +303,14 @@ public class VulkanImageView extends Struct {
          * @param createInfo The value for the {@code createInfo} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCreateInfo(org.vulkan.ImageViewCreateInfo createInfo) {
+        public Builder setCreateInfo(org.vulkan.ImageViewCreateInfo createInfo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("create_info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (createInfo == null ? MemoryAddress.NULL : createInfo.handle()));
             return this;
         }
         
-        public Build setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
+        public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));

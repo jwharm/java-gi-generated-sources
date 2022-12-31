@@ -141,7 +141,7 @@ import org.jetbrains.annotations.*;
  * </object>
  * }</pre>
  */
-public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Buildable, org.gtk.gtk.TreeDragDest, org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel, org.gtk.gtk.TreeSortable {
+public class ListStore extends org.gtk.gobject.GObject implements org.gtk.gtk.Buildable, org.gtk.gtk.TreeDragDest, org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel, org.gtk.gtk.TreeSortable {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -149,18 +149,16 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
     
     private static final java.lang.String C_TYPE_NAME = "GtkListStore";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -168,33 +166,15 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ListStore(Addressable address, Ownership ownership) {
+    protected ListStore(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ListStore if its GType is a (or inherits from) "GtkListStore".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ListStore} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkListStore", a ClassCastException will be thrown.
-     */
-    public static ListStore castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ListStore.getType())) {
-            return new ListStore(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkListStore");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ListStore> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListStore(input, ownership);
     
-    private static Addressable constructNew(int nColumns, java.lang.Object... varargs) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(int nColumns, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_list_store_new.invokeExact(
                     nColumns,
@@ -220,9 +200,8 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         super(constructNew(nColumns, varargs), Ownership.FULL);
     }
     
-    private static Addressable constructNewv(int nColumns, @NotNull org.gtk.glib.Type[] types) {
-        java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewv(int nColumns, org.gtk.glib.Type[] types) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_list_store_newv.invokeExact(
                     nColumns,
@@ -239,8 +218,9 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param types an array of {@code GType} types for the columns, from first to last
      * @return a new {@code GtkListStore}
      */
-    public static ListStore newv(int nColumns, @NotNull org.gtk.glib.Type[] types) {
-        return new ListStore(constructNewv(nColumns, types), Ownership.FULL);
+    public static ListStore newv(int nColumns, org.gtk.glib.Type[] types) {
+        var RESULT = constructNewv(nColumns, types);
+        return (org.gtk.gtk.ListStore) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ListStore.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -249,8 +229,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
      * @param iter An unset {@code GtkTreeIter} to set to the appended row
      */
-    public void append(@NotNull org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void append(org.gtk.gtk.TreeIter iter) {
         try {
             DowncallHandles.gtk_list_store_append.invokeExact(
                     handle(),
@@ -281,8 +260,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the new row
      * @param position position to insert the new row, or -1 for last
      */
-    public void insert(@NotNull org.gtk.gtk.TreeIter iter, int position) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void insert(org.gtk.gtk.TreeIter iter, int position) {
         try {
             DowncallHandles.gtk_list_store_insert.invokeExact(
                     handle(),
@@ -301,8 +279,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the new row
      * @param sibling A valid {@code GtkTreeIter}
      */
-    public void insertAfter(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter sibling) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void insertAfter(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter sibling) {
         try {
             DowncallHandles.gtk_list_store_insert_after.invokeExact(
                     handle(),
@@ -321,62 +298,12 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter An unset {@code GtkTreeIter} to set to the new row
      * @param sibling A valid {@code GtkTreeIter}
      */
-    public void insertBefore(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter sibling) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void insertBefore(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter sibling) {
         try {
             DowncallHandles.gtk_list_store_insert_before.invokeExact(
                     handle(),
                     iter.handle(),
                     (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Creates a new row at {@code position}. {@code iter} will be changed to point to this new
-     * row. If {@code position} is -1, or larger than the number of rows in the list, then
-     * the new row will be appended to the list. The row will be filled with the
-     * values given to this function.
-     * <p>
-     * Calling
-     * {@code gtk_list_store_insert_with_values (list_store, iter, position...)}
-     * has the same effect as calling:
-     * <pre>{@code <!-- language="C" -->
-     * static void
-     * insert_value (GtkListStore *list_store,
-     *               GtkTreeIter  *iter,
-     *               int           position)
-     * {
-     *   gtk_list_store_insert (list_store, iter, position);
-     *   gtk_list_store_set (list_store,
-     *                       iter
-     *                       // ...
-     *                       );
-     * }
-     * }</pre>
-     * <p>
-     * with the difference that the former will only emit {@code GtkTreeModel}::row-inserted
-     * once, while the latter will emit {@code GtkTreeModel}::row-inserted,
-     * {@code GtkTreeModel}::row-changed and, if the list store is sorted,
-     * {@code GtkTreeModel}::rows-reordered for every inserted value.
-     * <p>
-     * Since emitting the {@code GtkTreeModel::rows-reordered} signal repeatedly can
-     * affect the performance of the program, gtk_list_store_insert_with_values()
-     * should generally be preferred when inserting rows in a sorted list store.
-     * @param iter An unset {@code GtkTreeIter} to set to the new row
-     * @param position position to insert the new row, or -1 to append after existing
-     *    rows
-     * @param varargs pairs of column number and value, terminated with -1
-     */
-    public void insertWithValues(@NotNull org.gtk.gtk.TreeIter iter, int position, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        try {
-            DowncallHandles.gtk_list_store_insert_with_values.invokeExact(
-                    handle(),
-                    iter.handle(),
-                    position,
-                    varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -394,14 +321,11 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void insertWithValuesv(@NotNull org.gtk.gtk.TreeIter iter, int position, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, int nValues) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
-        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
+    public void insertWithValues(@Nullable org.gtk.gtk.TreeIter iter, int position, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
         try {
             DowncallHandles.gtk_list_store_insert_with_valuesv.invokeExact(
                     handle(),
-                    iter.handle(),
+                    (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()),
                     position,
                     Interop.allocateNativeArray(columns, false),
                     Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false),
@@ -419,8 +343,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter the iterator to check
      * @return {@code true} if the iter is valid, {@code false} if the iter is invalid.
      */
-    public boolean iterIsValid(@NotNull org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean iterIsValid(org.gtk.gtk.TreeIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_list_store_iter_is_valid.invokeExact(
@@ -429,7 +352,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -439,8 +362,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter A {@code GtkTreeIter}
      * @param position A {@code GtkTreeIter}
      */
-    public void moveAfter(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void moveAfter(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
         try {
             DowncallHandles.gtk_list_store_move_after.invokeExact(
                     handle(),
@@ -458,8 +380,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter A {@code GtkTreeIter}
      * @param position A {@code GtkTreeIter}
      */
-    public void moveBefore(@NotNull org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void moveBefore(org.gtk.gtk.TreeIter iter, @Nullable org.gtk.gtk.TreeIter position) {
         try {
             DowncallHandles.gtk_list_store_move_before.invokeExact(
                     handle(),
@@ -476,8 +397,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * values, you need to call gtk_list_store_set() or gtk_list_store_set_value().
      * @param iter An unset {@code GtkTreeIter} to set to the prepend row
      */
-    public void prepend(@NotNull org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void prepend(org.gtk.gtk.TreeIter iter) {
         try {
             DowncallHandles.gtk_list_store_prepend.invokeExact(
                     handle(),
@@ -494,8 +414,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter A valid {@code GtkTreeIter}
      * @return {@code true} if {@code iter} is valid, {@code false} if not.
      */
-    public boolean remove(@NotNull org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean remove(org.gtk.gtk.TreeIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_list_store_remove.invokeExact(
@@ -504,7 +423,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -515,37 +434,11 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      *   i.e. {@code new_order}{@code [newpos] = oldpos}. It must have
      *   exactly as many items as the list store’s length.
      */
-    public void reorder(@NotNull int[] newOrder) {
-        java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
+    public void reorder(int[] newOrder) {
         try {
             DowncallHandles.gtk_list_store_reorder.invokeExact(
                     handle(),
                     Interop.allocateNativeArray(newOrder, false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Sets the value of one or more cells in the row referenced by {@code iter}.
-     * The variable argument list should contain integer column numbers,
-     * each column number followed by the value to be set.
-     * The list is terminated by a -1. For example, to set column 0 with type
-     * {@code G_TYPE_STRING} to “Foo”, you would write {@code gtk_list_store_set (store, iter,
-     * 0, "Foo", -1)}.
-     * <p>
-     * The value will be referenced by the store if it is a {@code G_TYPE_OBJECT}, and it
-     * will be copied if it is a {@code G_TYPE_STRING} or {@code G_TYPE_BOXED}.
-     * @param iter row iterator
-     * @param varargs pairs of column number and value, terminated with -1
-     */
-    public void set(@NotNull org.gtk.gtk.TreeIter iter, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        try {
-            DowncallHandles.gtk_list_store_set.invokeExact(
-                    handle(),
-                    iter.handle(),
-                    varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -559,8 +452,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param nColumns Number of columns for the list store
      * @param types An array length n of {@code GType}s
      */
-    public void setColumnTypes(int nColumns, @NotNull org.gtk.glib.Type[] types) {
-        java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
+    public void setColumnTypes(int nColumns, org.gtk.glib.Type[] types) {
         try {
             DowncallHandles.gtk_list_store_set_column_types.invokeExact(
                     handle(),
@@ -577,9 +469,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param iter A valid {@code GtkTreeIter} for the row being modified
      * @param varArgs va_list of column/value pairs
      */
-    public void setValist(@NotNull org.gtk.gtk.TreeIter iter, @NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+    public void setValist(org.gtk.gtk.TreeIter iter, VaList varArgs) {
         try {
             DowncallHandles.gtk_list_store_set_valist.invokeExact(
                     handle(),
@@ -598,9 +488,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param column column number to modify
      * @param value new value for the cell
      */
-    public void setValue(@NotNull org.gtk.gtk.TreeIter iter, int column, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setValue(org.gtk.gtk.TreeIter iter, int column, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gtk_list_store_set_value.invokeExact(
                     handle(),
@@ -623,10 +511,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param values an array of GValues
      * @param nValues the length of the {@code columns} and {@code values} arrays
      */
-    public void setValuesv(@NotNull org.gtk.gtk.TreeIter iter, @NotNull int[] columns, @NotNull org.gtk.gobject.Value[] values, int nValues) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(columns, "Parameter 'columns' must not be null");
-        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
+    public void set(org.gtk.gtk.TreeIter iter, int[] columns, org.gtk.gobject.Value[] values, int nValues) {
         try {
             DowncallHandles.gtk_list_store_set_valuesv.invokeExact(
                     handle(),
@@ -645,9 +530,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * @param a A {@code GtkTreeIter}
      * @param b Another {@code GtkTreeIter}
      */
-    public void swap(@NotNull org.gtk.gtk.TreeIter a, @NotNull org.gtk.gtk.TreeIter b) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public void swap(org.gtk.gtk.TreeIter a, org.gtk.gtk.TreeIter b) {
         try {
             DowncallHandles.gtk_list_store_swap.invokeExact(
                     handle(),
@@ -662,7 +545,7 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_list_store_get_type.invokeExact();
@@ -671,38 +554,40 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ListStore.Builder} object constructs a {@link ListStore} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ListStore.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ListStore.Build} object constructs a {@link ListStore} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ListStore} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ListStore} using {@link ListStore#castFrom}.
+         * {@link ListStore}.
          * @return A new instance of {@code ListStore} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ListStore construct() {
-            return ListStore.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ListStore.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ListStore build() {
+            return (ListStore) org.gtk.gobject.GObject.newWithProperties(
+                ListStore.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -751,12 +636,6 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
             false
         );
         
-        private static final MethodHandle gtk_list_store_insert_with_values = Interop.downcallHandle(
-            "gtk_list_store_insert_with_values",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
-        );
-        
         private static final MethodHandle gtk_list_store_insert_with_valuesv = Interop.downcallHandle(
             "gtk_list_store_insert_with_valuesv",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
@@ -797,12 +676,6 @@ public class ListStore extends org.gtk.gobject.Object implements org.gtk.gtk.Bui
             "gtk_list_store_reorder",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
-        );
-        
-        private static final MethodHandle gtk_list_store_set = Interop.downcallHandle(
-            "gtk_list_store_set",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
         );
         
         private static final MethodHandle gtk_list_store_set_column_types = Interop.downcallHandle(

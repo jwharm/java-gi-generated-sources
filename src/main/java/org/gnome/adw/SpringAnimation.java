@@ -61,36 +61,15 @@ public class SpringAnimation extends org.gnome.adw.Animation {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SpringAnimation(Addressable address, Ownership ownership) {
+    protected SpringAnimation(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SpringAnimation if its GType is a (or inherits from) "AdwSpringAnimation".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SpringAnimation} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwSpringAnimation", a ClassCastException will be thrown.
-     */
-    public static SpringAnimation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SpringAnimation.getType())) {
-            return new SpringAnimation(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwSpringAnimation");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SpringAnimation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SpringAnimation(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.Widget widget, double from, double to, @NotNull org.gnome.adw.SpringParams springParams, @NotNull org.gnome.adw.AnimationTarget target) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
-        java.util.Objects.requireNonNull(springParams, "Parameter 'springParams' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gtk.Widget widget, double from, double to, org.gnome.adw.SpringParams springParams, org.gnome.adw.AnimationTarget target) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_spring_animation_new.invokeExact(
                     widget.handle(),
@@ -117,7 +96,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
      * @param springParams physical parameters of the spring
      * @param target a target value to animate
      */
-    public SpringAnimation(@NotNull org.gtk.gtk.Widget widget, double from, double to, @NotNull org.gnome.adw.SpringParams springParams, @NotNull org.gnome.adw.AnimationTarget target) {
+    public SpringAnimation(org.gtk.gtk.Widget widget, double from, double to, org.gnome.adw.SpringParams springParams, org.gnome.adw.AnimationTarget target) {
         super(constructNew(widget, from, to, springParams, target), Ownership.NONE);
     }
     
@@ -133,7 +112,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -187,7 +166,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
      * Gets the physical parameters of the spring of {@code self}.
      * @return the spring parameters
      */
-    public @NotNull org.gnome.adw.SpringParams getSpringParams() {
+    public org.gnome.adw.SpringParams getSpringParams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_spring_animation_get_spring_params.invokeExact(
@@ -195,7 +174,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SpringParams(RESULT, Ownership.NONE);
+        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -257,7 +236,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
         try {
             DowncallHandles.adw_spring_animation_set_clamp.invokeExact(
                     handle(),
-                    clamp ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(clamp, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,8 +287,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
      * Sets the physical parameters of the spring of {@code self}.
      * @param springParams the new spring parameters
      */
-    public void setSpringParams(@NotNull org.gnome.adw.SpringParams springParams) {
-        java.util.Objects.requireNonNull(springParams, "Parameter 'springParams' must not be null");
+    public void setSpringParams(org.gnome.adw.SpringParams springParams) {
         try {
             DowncallHandles.adw_spring_animation_set_spring_params.invokeExact(
                     handle(),
@@ -357,7 +335,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_spring_animation_get_type.invokeExact();
@@ -366,38 +344,40 @@ public class SpringAnimation extends org.gnome.adw.Animation {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SpringAnimation.Builder} object constructs a {@link SpringAnimation} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SpringAnimation.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gnome.adw.Animation.Build {
+    public static class Builder extends org.gnome.adw.Animation.Builder {
         
-         /**
-         * A {@link SpringAnimation.Build} object constructs a {@link SpringAnimation} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SpringAnimation} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SpringAnimation} using {@link SpringAnimation#castFrom}.
+         * {@link SpringAnimation}.
          * @return A new instance of {@code SpringAnimation} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SpringAnimation construct() {
-            return SpringAnimation.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SpringAnimation.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SpringAnimation build() {
+            return (SpringAnimation) org.gtk.gobject.GObject.newWithProperties(
+                SpringAnimation.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -412,7 +392,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
          * @param clamp The value for the {@code clamp} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClamp(boolean clamp) {
+        public Builder setClamp(boolean clamp) {
             names.add("clamp");
             values.add(org.gtk.gobject.Value.create(clamp));
             return this;
@@ -434,7 +414,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
          * @param epsilon The value for the {@code epsilon} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEpsilon(double epsilon) {
+        public Builder setEpsilon(double epsilon) {
             names.add("epsilon");
             values.add(org.gtk.gobject.Value.create(epsilon));
             return this;
@@ -447,7 +427,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
          * @param estimatedDuration The value for the {@code estimated-duration} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEstimatedDuration(int estimatedDuration) {
+        public Builder setEstimatedDuration(int estimatedDuration) {
             names.add("estimated-duration");
             values.add(org.gtk.gobject.Value.create(estimatedDuration));
             return this;
@@ -460,7 +440,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
          * @param initialVelocity The value for the {@code initial-velocity} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInitialVelocity(double initialVelocity) {
+        public Builder setInitialVelocity(double initialVelocity) {
             names.add("initial-velocity");
             values.add(org.gtk.gobject.Value.create(initialVelocity));
             return this;
@@ -471,7 +451,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
          * @param springParams The value for the {@code spring-params} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSpringParams(org.gnome.adw.SpringParams springParams) {
+        public Builder setSpringParams(org.gnome.adw.SpringParams springParams) {
             names.add("spring-params");
             values.add(org.gtk.gobject.Value.create(springParams));
             return this;
@@ -485,7 +465,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
          * @param valueFrom The value for the {@code value-from} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueFrom(double valueFrom) {
+        public Builder setValueFrom(double valueFrom) {
             names.add("value-from");
             values.add(org.gtk.gobject.Value.create(valueFrom));
             return this;
@@ -499,7 +479,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
          * @param valueTo The value for the {@code value-to} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValueTo(double valueTo) {
+        public Builder setValueTo(double valueTo) {
             names.add("value-to");
             values.add(org.gtk.gobject.Value.create(valueTo));
             return this;
@@ -510,7 +490,7 @@ public class SpringAnimation extends org.gnome.adw.Animation {
          * @param velocity The value for the {@code velocity} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVelocity(double velocity) {
+        public Builder setVelocity(double velocity) {
             names.add("velocity");
             values.add(org.gtk.gobject.Value.create(velocity));
             return this;

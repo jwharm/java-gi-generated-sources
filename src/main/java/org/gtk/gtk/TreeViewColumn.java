@@ -39,40 +39,26 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * <p>
      * Because TreeViewColumn is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeViewColumn(Addressable address, Ownership ownership) {
+    protected TreeViewColumn(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to TreeViewColumn if its GType is a (or inherits from) "GtkTreeViewColumn".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TreeViewColumn} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTreeViewColumn", a ClassCastException will be thrown.
-     */
-    public static TreeViewColumn castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeViewColumn.getType())) {
-            return new TreeViewColumn(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeViewColumn");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeViewColumn> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeViewColumn(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_new.invokeExact();
         } catch (Throwable ERR) {
@@ -88,9 +74,8 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithArea(@NotNull org.gtk.gtk.CellArea area) {
-        java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithArea(org.gtk.gtk.CellArea area) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_new_with_area.invokeExact(
                     area.handle());
@@ -105,17 +90,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param area the {@code GtkCellArea} that the newly created column should use to layout cells.
      * @return A newly created {@code GtkTreeViewColumn}.
      */
-    public static TreeViewColumn newWithArea(@NotNull org.gtk.gtk.CellArea area) {
-        return new TreeViewColumn(constructNewWithArea(area), Ownership.NONE);
+    public static TreeViewColumn newWithArea(org.gtk.gtk.CellArea area) {
+        var RESULT = constructNewWithArea(area);
+        return (org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewWithAttributes(@NotNull java.lang.String title, @NotNull org.gtk.gtk.CellRenderer cell, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
-        java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithAttributes(java.lang.String title, org.gtk.gtk.CellRenderer cell, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_new_with_attributes.invokeExact(
-                    Interop.allocateNativeString(title),
+                    Marshal.stringToAddress.marshal(title, null),
                     cell.handle(),
                     varargs);
         } catch (Throwable ERR) {
@@ -150,8 +134,9 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param varargs A {@code null}-terminated list of attributes
      * @return A newly created {@code GtkTreeViewColumn}.
      */
-    public static TreeViewColumn newWithAttributes(@NotNull java.lang.String title, @NotNull org.gtk.gtk.CellRenderer cell, java.lang.Object... varargs) {
-        return new TreeViewColumn(constructNewWithAttributes(title, cell, varargs), Ownership.NONE);
+    public static TreeViewColumn newWithAttributes(java.lang.String title, org.gtk.gtk.CellRenderer cell, java.lang.Object... varargs) {
+        var RESULT = constructNewWithAttributes(title, cell, varargs);
+        return (org.gtk.gtk.TreeViewColumn) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeViewColumn.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -167,14 +152,12 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param attribute An attribute on the renderer
      * @param column The column position on the model to get the attribute from.
      */
-    public void addAttribute(@NotNull org.gtk.gtk.CellRenderer cellRenderer, @NotNull java.lang.String attribute, int column) {
-        java.util.Objects.requireNonNull(cellRenderer, "Parameter 'cellRenderer' must not be null");
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+    public void addAttribute(org.gtk.gtk.CellRenderer cellRenderer, java.lang.String attribute, int column) {
         try {
             DowncallHandles.gtk_tree_view_column_add_attribute.invokeExact(
                     handle(),
                     cellRenderer.handle(),
-                    Interop.allocateNativeString(attribute),
+                    Marshal.stringToAddress.marshal(attribute, null),
                     column);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -192,25 +175,22 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param width return location for the width of {@code cell}
      * @return {@code true} if {@code cell} belongs to {@code tree_column}
      */
-    public boolean cellGetPosition(@NotNull org.gtk.gtk.CellRenderer cellRenderer, Out<Integer> xOffset, Out<Integer> width) {
-        java.util.Objects.requireNonNull(cellRenderer, "Parameter 'cellRenderer' must not be null");
-        java.util.Objects.requireNonNull(xOffset, "Parameter 'xOffset' must not be null");
+    public boolean cellGetPosition(org.gtk.gtk.CellRenderer cellRenderer, Out<Integer> xOffset, Out<Integer> width) {
         MemorySegment xOffsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_view_column_cell_get_position.invokeExact(
                     handle(),
                     cellRenderer.handle(),
-                    (Addressable) xOffsetPOINTER.address(),
-                    (Addressable) widthPOINTER.address());
+                    (Addressable) (xOffset == null ? MemoryAddress.NULL : (Addressable) xOffsetPOINTER.address()),
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xOffset.set(xOffsetPOINTER.get(Interop.valueLayout.C_INT, 0));
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (xOffset != null) xOffset.set(xOffsetPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -222,28 +202,24 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param height location to return height needed to render a cell
      */
     public void cellGetSize(Out<Integer> xOffset, Out<Integer> yOffset, Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(xOffset, "Parameter 'xOffset' must not be null");
         MemorySegment xOffsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(yOffset, "Parameter 'yOffset' must not be null");
         MemorySegment yOffsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_tree_view_column_cell_get_size.invokeExact(
                     handle(),
-                    (Addressable) xOffsetPOINTER.address(),
-                    (Addressable) yOffsetPOINTER.address(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (xOffset == null ? MemoryAddress.NULL : (Addressable) xOffsetPOINTER.address()),
+                    (Addressable) (yOffset == null ? MemoryAddress.NULL : (Addressable) yOffsetPOINTER.address()),
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        xOffset.set(xOffsetPOINTER.get(Interop.valueLayout.C_INT, 0));
-        yOffset.set(yOffsetPOINTER.get(Interop.valueLayout.C_INT, 0));
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (xOffset != null) xOffset.set(xOffsetPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (yOffset != null) yOffset.set(yOffsetPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -260,7 +236,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -273,16 +249,14 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param isExpander {@code true}, if the row has children
      * @param isExpanded {@code true}, if the row has visible children
      */
-    public void cellSetCellData(@NotNull org.gtk.gtk.TreeModel treeModel, @NotNull org.gtk.gtk.TreeIter iter, boolean isExpander, boolean isExpanded) {
-        java.util.Objects.requireNonNull(treeModel, "Parameter 'treeModel' must not be null");
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void cellSetCellData(org.gtk.gtk.TreeModel treeModel, org.gtk.gtk.TreeIter iter, boolean isExpander, boolean isExpanded) {
         try {
             DowncallHandles.gtk_tree_view_column_cell_set_cell_data.invokeExact(
                     handle(),
                     treeModel.handle(),
                     iter.handle(),
-                    isExpander ? 1 : 0,
-                    isExpanded ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(isExpander, null).intValue(),
+                    Marshal.booleanToInteger.marshal(isExpanded, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -305,8 +279,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * gtk_tree_view_column_set_attributes().
      * @param cellRenderer a {@code GtkCellRenderer} to clear the attribute mapping on.
      */
-    public void clearAttributes(@NotNull org.gtk.gtk.CellRenderer cellRenderer) {
-        java.util.Objects.requireNonNull(cellRenderer, "Parameter 'cellRenderer' must not be null");
+    public void clearAttributes(org.gtk.gtk.CellRenderer cellRenderer) {
         try {
             DowncallHandles.gtk_tree_view_column_clear_attributes.invokeExact(
                     handle(),
@@ -334,8 +307,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * 2 or more editable and activatable cells.
      * @param cell A {@code GtkCellRenderer}
      */
-    public void focusCell(@NotNull org.gtk.gtk.CellRenderer cell) {
-        java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
+    public void focusCell(org.gtk.gtk.CellRenderer cell) {
         try {
             DowncallHandles.gtk_tree_view_column_focus_cell.invokeExact(
                     handle(),
@@ -365,7 +337,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Returns the button used in the treeview column header
      * @return The button for the column header.
      */
-    public @NotNull org.gtk.gtk.Widget getButton() {
+    public org.gtk.gtk.Widget getButton() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_button.invokeExact(
@@ -373,7 +345,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -388,7 +360,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -403,7 +375,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -466,7 +438,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -481,14 +453,14 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Returns the current type of {@code tree_column}.
      * @return The type of {@code tree_column}.
      */
-    public @NotNull org.gtk.gtk.TreeViewColumnSizing getSizing() {
+    public org.gtk.gtk.TreeViewColumnSizing getSizing() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sizing.invokeExact(
@@ -530,14 +502,14 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the value set by gtk_tree_view_column_set_sort_order().
      * @return the sort order the sort indicator is indicating
      */
-    public @NotNull org.gtk.gtk.SortType getSortOrder() {
+    public org.gtk.gtk.SortType getSortOrder() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_view_column_get_sort_order.invokeExact(
@@ -568,7 +540,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @return the title of the column. This string should not be
      * modified or freed.
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_view_column_get_title.invokeExact(
@@ -576,7 +548,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -594,7 +566,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -610,7 +582,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -627,7 +599,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -667,13 +639,12 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param cell The {@code GtkCellRenderer}
      * @param expand {@code true} if {@code cell} is to be given extra space allocated to {@code tree_column}.
      */
-    public void packEnd(@NotNull org.gtk.gtk.CellRenderer cell, boolean expand) {
-        java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
+    public void packEnd(org.gtk.gtk.CellRenderer cell, boolean expand) {
         try {
             DowncallHandles.gtk_tree_view_column_pack_end.invokeExact(
                     handle(),
                     cell.handle(),
-                    expand ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(expand, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -686,13 +657,12 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param cell The {@code GtkCellRenderer}
      * @param expand {@code true} if {@code cell} is to be given extra space allocated to {@code tree_column}.
      */
-    public void packStart(@NotNull org.gtk.gtk.CellRenderer cell, boolean expand) {
-        java.util.Objects.requireNonNull(cell, "Parameter 'cell' must not be null");
+    public void packStart(org.gtk.gtk.CellRenderer cell, boolean expand) {
         try {
             DowncallHandles.gtk_tree_view_column_pack_start.invokeExact(
                     handle(),
                     cell.handle(),
-                    expand ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(expand, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -736,8 +706,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * @param cellRenderer the {@code GtkCellRenderer} we’re setting the attributes of
      * @param varargs A {@code null}-terminated list of attributes
      */
-    public void setAttributes(@NotNull org.gtk.gtk.CellRenderer cellRenderer, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(cellRenderer, "Parameter 'cellRenderer' must not be null");
+    public void setAttributes(org.gtk.gtk.CellRenderer cellRenderer, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_tree_view_column_set_attributes.invokeExact(
                     handle(),
@@ -758,20 +727,16 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * older one.
      * @param cellRenderer A {@code GtkCellRenderer}
      * @param func The {@code GtkTreeCellDataFunc} to use.
+     * @param destroy The destroy notification for {@code func_data}
      */
-    public void setCellDataFunc(@NotNull org.gtk.gtk.CellRenderer cellRenderer, @Nullable org.gtk.gtk.TreeCellDataFunc func) {
-        java.util.Objects.requireNonNull(cellRenderer, "Parameter 'cellRenderer' must not be null");
+    public void setCellDataFunc(org.gtk.gtk.CellRenderer cellRenderer, @Nullable org.gtk.gtk.TreeCellDataFunc func, org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.gtk_tree_view_column_set_cell_data_func.invokeExact(
                     handle(),
                     cellRenderer.handle(),
-                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeCellDataFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroy.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -786,7 +751,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         try {
             DowncallHandles.gtk_tree_view_column_set_clickable.invokeExact(
                     handle(),
-                    clickable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(clickable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -806,7 +771,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         try {
             DowncallHandles.gtk_tree_view_column_set_expand.invokeExact(
                     handle(),
-                    expand ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(expand, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -877,7 +842,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         try {
             DowncallHandles.gtk_tree_view_column_set_reorderable.invokeExact(
                     handle(),
-                    reorderable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(reorderable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -896,7 +861,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         try {
             DowncallHandles.gtk_tree_view_column_set_resizable.invokeExact(
                     handle(),
-                    resizable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(resizable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -906,8 +871,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Sets the growth behavior of {@code tree_column} to {@code type}.
      * @param type The {@code GtkTreeViewColumn}Sizing.
      */
-    public void setSizing(@NotNull org.gtk.gtk.TreeViewColumnSizing type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void setSizing(org.gtk.gtk.TreeViewColumnSizing type) {
         try {
             DowncallHandles.gtk_tree_view_column_set_sizing.invokeExact(
                     handle(),
@@ -943,7 +907,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         try {
             DowncallHandles.gtk_tree_view_column_set_sort_indicator.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -963,8 +927,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * calling this function; see gtk_tree_view_column_set_sort_indicator().
      * @param order sort order that the sort indicator should indicate
      */
-    public void setSortOrder(@NotNull org.gtk.gtk.SortType order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public void setSortOrder(org.gtk.gtk.SortType order) {
         try {
             DowncallHandles.gtk_tree_view_column_set_sort_order.invokeExact(
                     handle(),
@@ -994,12 +957,11 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * this value is ignored.
      * @param title The title of the {@code tree_column}.
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.gtk_tree_view_column_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1013,7 +975,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
         try {
             DowncallHandles.gtk_tree_view_column_set_visible.invokeExact(
                     handle(),
-                    visible ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(visible, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1038,7 +1000,7 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_tree_view_column_get_type.invokeExact();
@@ -1050,7 +1012,18 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     
     @FunctionalInterface
     public interface Clicked {
-        void signalReceived(TreeViewColumn sourceTreeViewColumn);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTreeViewColumn) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Clicked.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1061,56 +1034,50 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
     public Signal<TreeViewColumn.Clicked> onClicked(TreeViewColumn.Clicked handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("clicked"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TreeViewColumn.Callbacks.class, "signalTreeViewColumnClicked",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TreeViewColumn.Clicked>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("clicked"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link TreeViewColumn.Builder} object constructs a {@link TreeViewColumn} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TreeViewColumn.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.InitiallyUnowned.Build {
+    public static class Builder extends org.gtk.gobject.InitiallyUnowned.Builder {
         
-         /**
-         * A {@link TreeViewColumn.Build} object constructs a {@link TreeViewColumn} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TreeViewColumn} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TreeViewColumn} using {@link TreeViewColumn#castFrom}.
+         * {@link TreeViewColumn}.
          * @return A new instance of {@code TreeViewColumn} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TreeViewColumn construct() {
-            return TreeViewColumn.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TreeViewColumn.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TreeViewColumn build() {
+            return (TreeViewColumn) org.gtk.gobject.GObject.newWithProperties(
+                TreeViewColumn.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setAlignment(float alignment) {
+        public Builder setAlignment(float alignment) {
             names.add("alignment");
             values.add(org.gtk.gobject.Value.create(alignment));
             return this;
@@ -1124,55 +1091,55 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
          * @param cellArea The value for the {@code cell-area} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCellArea(org.gtk.gtk.CellArea cellArea) {
+        public Builder setCellArea(org.gtk.gtk.CellArea cellArea) {
             names.add("cell-area");
             values.add(org.gtk.gobject.Value.create(cellArea));
             return this;
         }
         
-        public Build setClickable(boolean clickable) {
+        public Builder setClickable(boolean clickable) {
             names.add("clickable");
             values.add(org.gtk.gobject.Value.create(clickable));
             return this;
         }
         
-        public Build setExpand(boolean expand) {
+        public Builder setExpand(boolean expand) {
             names.add("expand");
             values.add(org.gtk.gobject.Value.create(expand));
             return this;
         }
         
-        public Build setFixedWidth(int fixedWidth) {
+        public Builder setFixedWidth(int fixedWidth) {
             names.add("fixed-width");
             values.add(org.gtk.gobject.Value.create(fixedWidth));
             return this;
         }
         
-        public Build setMaxWidth(int maxWidth) {
+        public Builder setMaxWidth(int maxWidth) {
             names.add("max-width");
             values.add(org.gtk.gobject.Value.create(maxWidth));
             return this;
         }
         
-        public Build setMinWidth(int minWidth) {
+        public Builder setMinWidth(int minWidth) {
             names.add("min-width");
             values.add(org.gtk.gobject.Value.create(minWidth));
             return this;
         }
         
-        public Build setReorderable(boolean reorderable) {
+        public Builder setReorderable(boolean reorderable) {
             names.add("reorderable");
             values.add(org.gtk.gobject.Value.create(reorderable));
             return this;
         }
         
-        public Build setResizable(boolean resizable) {
+        public Builder setResizable(boolean resizable) {
             names.add("resizable");
             values.add(org.gtk.gobject.Value.create(resizable));
             return this;
         }
         
-        public Build setSizing(org.gtk.gtk.TreeViewColumnSizing sizing) {
+        public Builder setSizing(org.gtk.gtk.TreeViewColumnSizing sizing) {
             names.add("sizing");
             values.add(org.gtk.gobject.Value.create(sizing));
             return this;
@@ -1184,55 +1151,55 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
          * @param sortColumnId The value for the {@code sort-column-id} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSortColumnId(int sortColumnId) {
+        public Builder setSortColumnId(int sortColumnId) {
             names.add("sort-column-id");
             values.add(org.gtk.gobject.Value.create(sortColumnId));
             return this;
         }
         
-        public Build setSortIndicator(boolean sortIndicator) {
+        public Builder setSortIndicator(boolean sortIndicator) {
             names.add("sort-indicator");
             values.add(org.gtk.gobject.Value.create(sortIndicator));
             return this;
         }
         
-        public Build setSortOrder(org.gtk.gtk.SortType sortOrder) {
+        public Builder setSortOrder(org.gtk.gtk.SortType sortOrder) {
             names.add("sort-order");
             values.add(org.gtk.gobject.Value.create(sortOrder));
             return this;
         }
         
-        public Build setSpacing(int spacing) {
+        public Builder setSpacing(int spacing) {
             names.add("spacing");
             values.add(org.gtk.gobject.Value.create(spacing));
             return this;
         }
         
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
         }
         
-        public Build setVisible(boolean visible) {
+        public Builder setVisible(boolean visible) {
             names.add("visible");
             values.add(org.gtk.gobject.Value.create(visible));
             return this;
         }
         
-        public Build setWidget(org.gtk.gtk.Widget widget) {
+        public Builder setWidget(org.gtk.gtk.Widget widget) {
             names.add("widget");
             values.add(org.gtk.gobject.Value.create(widget));
             return this;
         }
         
-        public Build setWidth(int width) {
+        public Builder setWidth(int width) {
             names.add("width");
             values.add(org.gtk.gobject.Value.create(width));
             return this;
         }
         
-        public Build setXOffset(int xOffset) {
+        public Builder setXOffset(int xOffset) {
             names.add("x-offset");
             values.add(org.gtk.gobject.Value.create(xOffset));
             return this;
@@ -1564,14 +1531,5 @@ public class TreeViewColumn extends org.gtk.gobject.InitiallyUnowned implements 
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalTreeViewColumnClicked(MemoryAddress sourceTreeViewColumn, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TreeViewColumn.Clicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TreeViewColumn(sourceTreeViewColumn, Ownership.NONE));
-        }
     }
 }

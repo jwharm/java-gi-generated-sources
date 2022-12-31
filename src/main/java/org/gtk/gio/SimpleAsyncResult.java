@@ -171,7 +171,7 @@ import org.jetbrains.annotations.*;
  * }
  * }</pre>
  */
-public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk.gio.AsyncResult {
+public class SimpleAsyncResult extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncResult {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -193,47 +193,58 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SimpleAsyncResult(Addressable address, Ownership ownership) {
+    protected SimpleAsyncResult(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SimpleAsyncResult if its GType is a (or inherits from) "GSimpleAsyncResult".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SimpleAsyncResult} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSimpleAsyncResult", a ClassCastException will be thrown.
-     */
-    public static SimpleAsyncResult castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SimpleAsyncResult.getType())) {
-            return new SimpleAsyncResult(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSimpleAsyncResult");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SimpleAsyncResult> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleAsyncResult(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @Nullable java.lang.foreign.MemoryAddress sourceTag) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_new.invokeExact(
+                    (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (sourceTag == null ? MemoryAddress.NULL : (Addressable) sourceTag));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
         }
+        return RESULT;
     }
     
-    private static Addressable constructNewError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    /**
+     * Creates a {@link SimpleAsyncResult}.
+     * <p>
+     * The common convention is to create the {@link SimpleAsyncResult} in the
+     * function that starts the asynchronous operation and use that same
+     * function as the {@code source_tag}.
+     * <p>
+     * If your operation supports cancellation with {@link Cancellable} (which it
+     * probably should) then you should provide the user's cancellable to
+     * g_simple_async_result_set_check_cancellable() immediately after
+     * this function returns.
+     * @param sourceObject a {@link org.gtk.gobject.GObject}, or {@code null}.
+     * @param callback a {@link AsyncReadyCallback}.
+     * @param sourceTag the asynchronous function.
+     * @deprecated Use g_task_new() instead.
+     */
+    @Deprecated
+    public SimpleAsyncResult(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @Nullable java.lang.foreign.MemoryAddress sourceTag) {
+        super(constructNew(sourceObject, callback, sourceTag), Ownership.FULL);
+    }
+    
+    private static MemoryAddress constructNewError(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_new_error.invokeExact(
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -243,7 +254,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     
     /**
      * Creates a new {@link SimpleAsyncResult} with a set error.
-     * @param sourceObject a {@link org.gtk.gobject.Object}, or {@code null}.
+     * @param sourceObject a {@link org.gtk.gobject.GObject}, or {@code null}.
      * @param callback a {@link AsyncReadyCallback}.
      * @param domain a {@link org.gtk.glib.Quark}.
      * @param code an error code.
@@ -253,22 +264,18 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use g_task_new() and g_task_return_new_error() instead.
      */
     @Deprecated
-    public static SimpleAsyncResult newError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        return new SimpleAsyncResult(constructNewError(sourceObject, callback, domain, code, format, varargs), Ownership.FULL);
+    public static SimpleAsyncResult newError(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
+        var RESULT = constructNewError(sourceObject, callback, domain, code, format, varargs);
+        return (org.gtk.gio.SimpleAsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SimpleAsyncResult.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromError(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, org.gtk.glib.Error error) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_new_from_error.invokeExact(
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -278,29 +285,25 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     
     /**
      * Creates a {@link SimpleAsyncResult} from an error condition.
-     * @param sourceObject a {@link org.gtk.gobject.Object}, or {@code null}.
+     * @param sourceObject a {@link org.gtk.gobject.GObject}, or {@code null}.
      * @param callback a {@link AsyncReadyCallback}.
      * @param error a {@link org.gtk.glib.Error}
      * @return a {@link SimpleAsyncResult}.
      * @deprecated Use g_task_new() and g_task_return_error() instead.
      */
     @Deprecated
-    public static SimpleAsyncResult newFromError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        return new SimpleAsyncResult(constructNewFromError(sourceObject, callback, error), Ownership.FULL);
+    public static SimpleAsyncResult newFromError(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, org.gtk.glib.Error error) {
+        var RESULT = constructNewFromError(sourceObject, callback, error);
+        return (org.gtk.gio.SimpleAsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SimpleAsyncResult.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewTakeError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewTakeError(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, org.gtk.glib.Error error) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_async_result_new_take_error.invokeExact(
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     error.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -311,15 +314,16 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
     /**
      * Creates a {@link SimpleAsyncResult} from an error condition, and takes over the
      * caller's ownership of {@code error}, so the caller does not need to free it anymore.
-     * @param sourceObject a {@link org.gtk.gobject.Object}, or {@code null}
+     * @param sourceObject a {@link org.gtk.gobject.GObject}, or {@code null}
      * @param callback a {@link AsyncReadyCallback}
      * @param error a {@link org.gtk.glib.Error}
      * @return a {@link SimpleAsyncResult}
      * @deprecated Use g_task_new() and g_task_return_error() instead.
      */
     @Deprecated
-    public static SimpleAsyncResult newTakeError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @NotNull org.gtk.glib.Error error) {
-        return new SimpleAsyncResult(constructNewTakeError(sourceObject, callback, error), Ownership.FULL);
+    public static SimpleAsyncResult newTakeError(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, org.gtk.glib.Error error) {
+        var RESULT = constructNewTakeError(sourceObject, callback, error);
+        return (org.gtk.gio.SimpleAsyncResult) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SimpleAsyncResult.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -377,7 +381,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -456,7 +460,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -472,8 +476,16 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use {@link Task} and g_task_run_in_thread() instead.
      */
     @Deprecated
-    public void runInThread(@NotNull org.gtk.gio.SimpleAsyncThreadFunc func, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void runInThread(org.gtk.gio.SimpleAsyncThreadFunc func, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable) {
+        try {
+            DowncallHandles.g_simple_async_result_run_in_thread.invokeExact(
+                    handle(),
+                    (Addressable) func.toCallback(),
+                    ioPriority,
+                    (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -515,15 +527,13 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use {@link Task} and g_task_return_new_error() instead.
      */
     @Deprecated
-    public void setError(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void setError(org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_simple_async_result_set_error.invokeExact(
                     handle(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -540,16 +550,13 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use {@link Task} and g_task_return_error() instead.
      */
     @Deprecated
-    public void setErrorVa(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public void setErrorVa(org.gtk.glib.Quark domain, int code, java.lang.String format, VaList args) {
         try {
             DowncallHandles.g_simple_async_result_set_error_va.invokeExact(
                     handle(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -562,8 +569,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use {@link Task} and g_task_return_error() instead.
      */
     @Deprecated
-    public void setFromError(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public void setFromError(org.gtk.glib.Error error) {
         try {
             DowncallHandles.g_simple_async_result_set_from_error.invokeExact(
                     handle(),
@@ -586,7 +592,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         try {
             DowncallHandles.g_simple_async_result_set_handle_cancellation.invokeExact(
                     handle(),
-                    handleCancellation ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(handleCancellation, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -602,7 +608,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         try {
             DowncallHandles.g_simple_async_result_set_op_res_gboolean.invokeExact(
                     handle(),
-                    opRes ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(opRes, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -615,8 +621,15 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use {@link Task} and g_task_return_pointer() instead.
      */
     @Deprecated
-    public void setOpResGpointer(@Nullable java.lang.foreign.MemoryAddress opRes, @NotNull org.gtk.glib.DestroyNotify destroyOpRes) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setOpResGpointer(@Nullable java.lang.foreign.MemoryAddress opRes, org.gtk.glib.DestroyNotify destroyOpRes) {
+        try {
+            DowncallHandles.g_simple_async_result_set_op_res_gpointer.invokeExact(
+                    handle(),
+                    (Addressable) (opRes == null ? MemoryAddress.NULL : (Addressable) opRes),
+                    (Addressable) destroyOpRes.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -643,8 +656,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use {@link Task} and g_task_return_error() instead.
      */
     @Deprecated
-    public void takeError(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public void takeError(org.gtk.glib.Error error) {
         try {
             DowncallHandles.g_simple_async_result_take_error.invokeExact(
                     handle(),
@@ -658,7 +670,7 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_simple_async_result_get_type.invokeExact();
@@ -682,14 +694,13 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
      * {@code source_tag} or {@code result}'s source tag is {@code null}, then the source tag
      * check is skipped.)
      * @param result the {@link AsyncResult} passed to the _finish function.
-     * @param source the {@link org.gtk.gobject.Object} passed to the _finish function.
+     * @param source the {@link org.gtk.gobject.GObject} passed to the _finish function.
      * @param sourceTag the asynchronous function.
      * @return {@code TRUE} if all checks passed or {@code FALSE} if any failed.
      * @deprecated Use {@link Task} and g_task_is_valid() instead.
      */
     @Deprecated
-    public static boolean isValid(@NotNull org.gtk.gio.AsyncResult result, @Nullable org.gtk.gobject.Object source, @Nullable java.lang.foreign.MemoryAddress sourceTag) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static boolean isValid(org.gtk.gio.AsyncResult result, @Nullable org.gtk.gobject.GObject source, @Nullable java.lang.foreign.MemoryAddress sourceTag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_simple_async_result_is_valid.invokeExact(
@@ -699,40 +710,42 @@ public class SimpleAsyncResult extends org.gtk.gobject.Object implements org.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link SimpleAsyncResult.Builder} object constructs a {@link SimpleAsyncResult} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SimpleAsyncResult.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SimpleAsyncResult.Build} object constructs a {@link SimpleAsyncResult} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SimpleAsyncResult} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SimpleAsyncResult} using {@link SimpleAsyncResult#castFrom}.
+         * {@link SimpleAsyncResult}.
          * @return A new instance of {@code SimpleAsyncResult} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SimpleAsyncResult construct() {
-            return SimpleAsyncResult.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SimpleAsyncResult.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SimpleAsyncResult build() {
+            return (SimpleAsyncResult) org.gtk.gobject.GObject.newWithProperties(
+                SimpleAsyncResult.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

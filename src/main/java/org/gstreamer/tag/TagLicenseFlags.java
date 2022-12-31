@@ -106,11 +106,15 @@ public class TagLicenseFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TagLicenseFlags or(TagLicenseFlags mask) {
-        return new TagLicenseFlags(this.getValue() | mask.getValue());
+    public TagLicenseFlags or(TagLicenseFlags... masks) {
+        int value = this.getValue();
+        for (TagLicenseFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new TagLicenseFlags(value);
     }
     
     /**
@@ -120,7 +124,8 @@ public class TagLicenseFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TagLicenseFlags combined(TagLicenseFlags mask, TagLicenseFlags... masks) {
-        int value = mask.getValue();        for (TagLicenseFlags arg : masks) {
+        int value = mask.getValue();
+        for (TagLicenseFlags arg : masks) {
             value |= arg.getValue();
         }
         return new TagLicenseFlags(value);

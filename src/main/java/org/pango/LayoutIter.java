@@ -48,10 +48,12 @@ public class LayoutIter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LayoutIter(Addressable address, Ownership ownership) {
+    protected LayoutIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LayoutIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LayoutIter(input, ownership);
     
     /**
      * Determines whether {@code iter} is on the last line of the layout.
@@ -65,7 +67,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -80,7 +82,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutIter(RESULT, Ownership.FULL);
+        return org.pango.LayoutIter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -123,8 +125,7 @@ public class LayoutIter extends Struct {
      * @param logicalRect rectangle to fill with
      *   logical extents
      */
-    public void getCharExtents(@NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void getCharExtents(org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_layout_iter_get_char_extents.invokeExact(
                     handle(),
@@ -141,14 +142,12 @@ public class LayoutIter extends Struct {
      * @param inkRect rectangle to fill with ink extents
      * @param logicalRect rectangle to fill with logical extents
      */
-    public void getClusterExtents(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void getClusterExtents(@Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_layout_iter_get_cluster_extents.invokeExact(
                     handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,7 +185,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(RESULT, Ownership.NONE);
+        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -194,14 +193,12 @@ public class LayoutIter extends Struct {
      * @param inkRect rectangle to fill with ink extents
      * @param logicalRect rectangle to fill with logical extents
      */
-    public void getLayoutExtents(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void getLayoutExtents(@Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_layout_iter_get_layout_extents.invokeExact(
                     handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,7 +220,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutLine(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -236,14 +233,12 @@ public class LayoutIter extends Struct {
      * @param inkRect rectangle to fill with ink extents
      * @param logicalRect rectangle to fill with logical extents
      */
-    public void getLineExtents(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void getLineExtents(@Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_layout_iter_get_line_extents.invokeExact(
                     handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +261,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutLine(RESULT, Ownership.NONE);
+        return org.pango.LayoutLine.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -285,20 +280,18 @@ public class LayoutIter extends Struct {
      * @param y1 end of line
      */
     public void getLineYrange(Out<Integer> y0, Out<Integer> y1) {
-        java.util.Objects.requireNonNull(y0, "Parameter 'y0' must not be null");
         MemorySegment y0POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y1, "Parameter 'y1' must not be null");
         MemorySegment y1POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_layout_iter_get_line_yrange.invokeExact(
                     handle(),
-                    (Addressable) y0POINTER.address(),
-                    (Addressable) y1POINTER.address());
+                    (Addressable) (y0 == null ? MemoryAddress.NULL : (Addressable) y0POINTER.address()),
+                    (Addressable) (y1 == null ? MemoryAddress.NULL : (Addressable) y1POINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        y0.set(y0POINTER.get(Interop.valueLayout.C_INT, 0));
-        y1.set(y1POINTER.get(Interop.valueLayout.C_INT, 0));
+        if (y0 != null) y0.set(y0POINTER.get(Interop.valueLayout.C_INT, 0));
+        if (y1 != null) y1.set(y1POINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -321,7 +314,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutRun(RESULT, Ownership.NONE);
+        return (org.pango.LayoutRun) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.LayoutRun.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -351,14 +344,12 @@ public class LayoutIter extends Struct {
      * @param inkRect rectangle to fill with ink extents
      * @param logicalRect rectangle to fill with logical extents
      */
-    public void getRunExtents(@NotNull org.pango.Rectangle inkRect, @NotNull org.pango.Rectangle logicalRect) {
-        java.util.Objects.requireNonNull(inkRect, "Parameter 'inkRect' must not be null");
-        java.util.Objects.requireNonNull(logicalRect, "Parameter 'logicalRect' must not be null");
+    public void getRunExtents(@Nullable org.pango.Rectangle inkRect, @Nullable org.pango.Rectangle logicalRect) {
         try {
             DowncallHandles.pango_layout_iter_get_run_extents.invokeExact(
                     handle(),
-                    inkRect.handle(),
-                    logicalRect.handle());
+                    (Addressable) (inkRect == null ? MemoryAddress.NULL : inkRect.handle()),
+                    (Addressable) (logicalRect == null ? MemoryAddress.NULL : logicalRect.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -386,7 +377,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.LayoutRun(RESULT, Ownership.NONE);
+        return (org.pango.LayoutRun) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.LayoutRun.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -403,7 +394,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -420,7 +411,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -437,7 +428,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -454,7 +445,7 @@ public class LayoutIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

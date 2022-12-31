@@ -16,27 +16,25 @@ public class AudioRingBufferSpec extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioRingBufferSpec";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("caps"),
-        Interop.valueLayout.C_INT.withName("type"),
-        MemoryLayout.paddingLayout(32),
-        org.gstreamer.audio.AudioInfo.getMemoryLayout().withName("info"),
-        Interop.valueLayout.C_LONG.withName("latency_time"),
-        Interop.valueLayout.C_LONG.withName("buffer_time"),
-        Interop.valueLayout.C_INT.withName("segsize"),
-        Interop.valueLayout.C_INT.withName("segtotal"),
-        Interop.valueLayout.C_INT.withName("seglatency"),
-        MemoryLayout.paddingLayout(96),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("caps"),
+            Interop.valueLayout.C_INT.withName("type"),
+            MemoryLayout.paddingLayout(32),
+            org.gstreamer.audio.AudioInfo.getMemoryLayout().withName("info"),
+            Interop.valueLayout.C_LONG.withName("latency_time"),
+            Interop.valueLayout.C_LONG.withName("buffer_time"),
+            Interop.valueLayout.C_INT.withName("segsize"),
+            Interop.valueLayout.C_INT.withName("segtotal"),
+            Interop.valueLayout.C_INT.withName("seglatency"),
+            MemoryLayout.paddingLayout(96),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,28 +54,28 @@ public class AudioRingBufferSpec extends Struct {
      * Get the value of the field {@code caps}
      * @return The value of the field {@code caps}
      */
-    public org.gstreamer.gst.Caps caps$get() {
+    public org.gstreamer.gst.Caps getCaps() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("caps"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code caps}
      * @param caps The new value of the field {@code caps}
      */
-    public void caps$set(org.gstreamer.gst.Caps caps) {
+    public void setCaps(org.gstreamer.gst.Caps caps) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), caps.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
     }
     
     /**
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.audio.AudioRingBufferFormatType type$get() {
+    public org.gstreamer.audio.AudioRingBufferFormatType getType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -88,26 +86,36 @@ public class AudioRingBufferSpec extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.audio.AudioRingBufferFormatType type) {
+    public void setType(org.gstreamer.audio.AudioRingBufferFormatType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
      * Get the value of the field {@code info}
      * @return The value of the field {@code info}
      */
-    public org.gstreamer.audio.AudioInfo info$get() {
+    public org.gstreamer.audio.AudioInfo getInfo() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("info"));
-        return new org.gstreamer.audio.AudioInfo(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code info}
+     * @param info The new value of the field {@code info}
+     */
+    public void setInfo(org.gstreamer.audio.AudioInfo info) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("info"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
     }
     
     /**
      * Get the value of the field {@code latency_time}
      * @return The value of the field {@code latency_time}
      */
-    public long latencyTime$get() {
+    public long getLatencyTime() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("latency_time"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -118,7 +126,7 @@ public class AudioRingBufferSpec extends Struct {
      * Change the value of the field {@code latency_time}
      * @param latencyTime The new value of the field {@code latency_time}
      */
-    public void latencyTime$set(long latencyTime) {
+    public void setLatencyTime(long latencyTime) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("latency_time"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), latencyTime);
@@ -128,7 +136,7 @@ public class AudioRingBufferSpec extends Struct {
      * Get the value of the field {@code buffer_time}
      * @return The value of the field {@code buffer_time}
      */
-    public long bufferTime$get() {
+    public long getBufferTime() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer_time"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -139,7 +147,7 @@ public class AudioRingBufferSpec extends Struct {
      * Change the value of the field {@code buffer_time}
      * @param bufferTime The new value of the field {@code buffer_time}
      */
-    public void bufferTime$set(long bufferTime) {
+    public void setBufferTime(long bufferTime) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer_time"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bufferTime);
@@ -149,7 +157,7 @@ public class AudioRingBufferSpec extends Struct {
      * Get the value of the field {@code segsize}
      * @return The value of the field {@code segsize}
      */
-    public int segsize$get() {
+    public int getSegsize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segsize"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -160,7 +168,7 @@ public class AudioRingBufferSpec extends Struct {
      * Change the value of the field {@code segsize}
      * @param segsize The new value of the field {@code segsize}
      */
-    public void segsize$set(int segsize) {
+    public void setSegsize(int segsize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segsize"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segsize);
@@ -170,7 +178,7 @@ public class AudioRingBufferSpec extends Struct {
      * Get the value of the field {@code segtotal}
      * @return The value of the field {@code segtotal}
      */
-    public int segtotal$get() {
+    public int getSegtotal() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segtotal"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -181,7 +189,7 @@ public class AudioRingBufferSpec extends Struct {
      * Change the value of the field {@code segtotal}
      * @param segtotal The new value of the field {@code segtotal}
      */
-    public void segtotal$set(int segtotal) {
+    public void setSegtotal(int segtotal) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segtotal"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segtotal);
@@ -191,7 +199,7 @@ public class AudioRingBufferSpec extends Struct {
      * Get the value of the field {@code seglatency}
      * @return The value of the field {@code seglatency}
      */
-    public int seglatency$get() {
+    public int getSeglatency() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seglatency"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -202,7 +210,7 @@ public class AudioRingBufferSpec extends Struct {
      * Change the value of the field {@code seglatency}
      * @param seglatency The new value of the field {@code seglatency}
      */
-    public void seglatency$set(int seglatency) {
+    public void setSeglatency(int seglatency) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seglatency"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seglatency);
@@ -213,35 +221,41 @@ public class AudioRingBufferSpec extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioRingBufferSpec(Addressable address, Ownership ownership) {
+    protected AudioRingBufferSpec(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioRingBufferSpec> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioRingBufferSpec(input, ownership);
+    
+    /**
+     * A {@link AudioRingBufferSpec.Builder} object constructs a {@link AudioRingBufferSpec} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AudioRingBufferSpec.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AudioRingBufferSpec struct;
+        private final AudioRingBufferSpec struct;
         
-         /**
-         * A {@link AudioRingBufferSpec.Build} object constructs a {@link AudioRingBufferSpec} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AudioRingBufferSpec.allocate();
         }
         
          /**
          * Finish building the {@link AudioRingBufferSpec} struct.
          * @return A new instance of {@code AudioRingBufferSpec} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioRingBufferSpec construct() {
+        public AudioRingBufferSpec build() {
             return struct;
         }
         
@@ -250,7 +264,7 @@ public class AudioRingBufferSpec extends Struct {
          * @param caps The value for the {@code caps} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCaps(org.gstreamer.gst.Caps caps) {
+        public Builder setCaps(org.gstreamer.gst.Caps caps) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("caps"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
@@ -262,7 +276,7 @@ public class AudioRingBufferSpec extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.audio.AudioRingBufferFormatType type) {
+        public Builder setType(org.gstreamer.audio.AudioRingBufferFormatType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
@@ -274,7 +288,7 @@ public class AudioRingBufferSpec extends Struct {
          * @param info The value for the {@code info} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInfo(org.gstreamer.audio.AudioInfo info) {
+        public Builder setInfo(org.gstreamer.audio.AudioInfo info) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
@@ -286,7 +300,7 @@ public class AudioRingBufferSpec extends Struct {
          * @param latencyTime The value for the {@code latencyTime} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLatencyTime(long latencyTime) {
+        public Builder setLatencyTime(long latencyTime) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("latency_time"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), latencyTime);
@@ -298,7 +312,7 @@ public class AudioRingBufferSpec extends Struct {
          * @param bufferTime The value for the {@code bufferTime} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBufferTime(long bufferTime) {
+        public Builder setBufferTime(long bufferTime) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer_time"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bufferTime);
@@ -310,7 +324,7 @@ public class AudioRingBufferSpec extends Struct {
          * @param segsize The value for the {@code segsize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegsize(int segsize) {
+        public Builder setSegsize(int segsize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segsize"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segsize);
@@ -322,7 +336,7 @@ public class AudioRingBufferSpec extends Struct {
          * @param segtotal The value for the {@code segtotal} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegtotal(int segtotal) {
+        public Builder setSegtotal(int segtotal) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segtotal"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segtotal);
@@ -335,14 +349,14 @@ public class AudioRingBufferSpec extends Struct {
          * @param seglatency The value for the {@code seglatency} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSeglatency(int seglatency) {
+        public Builder setSeglatency(int seglatency) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("seglatency"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seglatency);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

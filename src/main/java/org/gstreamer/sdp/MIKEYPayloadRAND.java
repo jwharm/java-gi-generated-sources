@@ -16,20 +16,18 @@ public class MIKEYPayloadRAND extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMIKEYPayloadRAND";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.sdp.MIKEYPayload.getMemoryLayout().withName("pt"),
-        Interop.valueLayout.C_BYTE.withName("len"),
-        MemoryLayout.paddingLayout(56),
-        Interop.valueLayout.ADDRESS.withName("rand")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.sdp.MIKEYPayload.getMemoryLayout().withName("pt"),
+            Interop.valueLayout.C_BYTE.withName("len"),
+            MemoryLayout.paddingLayout(56),
+            Interop.valueLayout.ADDRESS.withName("rand")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,16 +47,26 @@ public class MIKEYPayloadRAND extends Struct {
      * Get the value of the field {@code pt}
      * @return The value of the field {@code pt}
      */
-    public org.gstreamer.sdp.MIKEYPayload pt$get() {
+    public org.gstreamer.sdp.MIKEYPayload getPt() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("pt"));
-        return new org.gstreamer.sdp.MIKEYPayload(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.MIKEYPayload.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code pt}
+     * @param pt The new value of the field {@code pt}
+     */
+    public void setPt(org.gstreamer.sdp.MIKEYPayload pt) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pt"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
     }
     
     /**
      * Get the value of the field {@code len}
      * @return The value of the field {@code len}
      */
-    public byte len$get() {
+    public byte getLen() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -69,7 +77,7 @@ public class MIKEYPayloadRAND extends Struct {
      * Change the value of the field {@code len}
      * @param len The new value of the field {@code len}
      */
-    public void len$set(byte len) {
+    public void setLen(byte len) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
@@ -79,7 +87,7 @@ public class MIKEYPayloadRAND extends Struct {
      * Get the value of the field {@code rand}
      * @return The value of the field {@code rand}
      */
-    public PointerByte rand$get() {
+    public PointerByte getRand() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("rand"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -90,10 +98,10 @@ public class MIKEYPayloadRAND extends Struct {
      * Change the value of the field {@code rand}
      * @param rand The new value of the field {@code rand}
      */
-    public void rand$set(PointerByte rand) {
+    public void setRand(PointerByte rand) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("rand"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), rand.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rand == null ? MemoryAddress.NULL : rand.handle()));
     }
     
     /**
@@ -101,35 +109,41 @@ public class MIKEYPayloadRAND extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MIKEYPayloadRAND(Addressable address, Ownership ownership) {
+    protected MIKEYPayloadRAND(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MIKEYPayloadRAND> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MIKEYPayloadRAND(input, ownership);
+    
+    /**
+     * A {@link MIKEYPayloadRAND.Builder} object constructs a {@link MIKEYPayloadRAND} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link MIKEYPayloadRAND.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private MIKEYPayloadRAND struct;
+        private final MIKEYPayloadRAND struct;
         
-         /**
-         * A {@link MIKEYPayloadRAND.Build} object constructs a {@link MIKEYPayloadRAND} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = MIKEYPayloadRAND.allocate();
         }
         
          /**
          * Finish building the {@link MIKEYPayloadRAND} struct.
          * @return A new instance of {@code MIKEYPayloadRAND} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MIKEYPayloadRAND construct() {
+        public MIKEYPayloadRAND build() {
             return struct;
         }
         
@@ -138,7 +152,7 @@ public class MIKEYPayloadRAND extends Struct {
          * @param pt The value for the {@code pt} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPt(org.gstreamer.sdp.MIKEYPayload pt) {
+        public Builder setPt(org.gstreamer.sdp.MIKEYPayload pt) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pt"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pt == null ? MemoryAddress.NULL : pt.handle()));
@@ -150,7 +164,7 @@ public class MIKEYPayloadRAND extends Struct {
          * @param len The value for the {@code len} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLen(byte len) {
+        public Builder setLen(byte len) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("len"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
@@ -162,7 +176,7 @@ public class MIKEYPayloadRAND extends Struct {
          * @param rand The value for the {@code rand} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRand(PointerByte rand) {
+        public Builder setRand(PointerByte rand) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("rand"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (rand == null ? MemoryAddress.NULL : rand.handle()));

@@ -16,44 +16,42 @@ public class VideoFormatInfo extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoFormatInfo";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("format"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("name"),
-        Interop.valueLayout.ADDRESS.withName("description"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        Interop.valueLayout.C_INT.withName("bits"),
-        Interop.valueLayout.C_INT.withName("n_components"),
-        MemoryLayout.paddingLayout(96),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("shift"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("depth"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("pixel_stride"),
-        Interop.valueLayout.C_INT.withName("n_planes"),
-        MemoryLayout.paddingLayout(96),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("plane"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("poffset"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("w_sub"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("h_sub"),
-        Interop.valueLayout.C_INT.withName("unpack_format"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("unpack_func"),
-        Interop.valueLayout.C_INT.withName("pack_lines"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("pack_func"),
-        Interop.valueLayout.C_INT.withName("tile_mode"),
-        Interop.valueLayout.C_INT.withName("tile_ws"),
-        Interop.valueLayout.C_INT.withName("tile_hs"),
-        MemoryLayout.paddingLayout(32),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("format"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("name"),
+            Interop.valueLayout.ADDRESS.withName("description"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            Interop.valueLayout.C_INT.withName("bits"),
+            Interop.valueLayout.C_INT.withName("n_components"),
+            MemoryLayout.paddingLayout(96),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("shift"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("depth"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("pixel_stride"),
+            Interop.valueLayout.C_INT.withName("n_planes"),
+            MemoryLayout.paddingLayout(96),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("plane"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("poffset"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("w_sub"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_INT).withName("h_sub"),
+            Interop.valueLayout.C_INT.withName("unpack_format"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("unpack_func"),
+            Interop.valueLayout.C_INT.withName("pack_lines"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("pack_func"),
+            Interop.valueLayout.C_INT.withName("tile_mode"),
+            Interop.valueLayout.C_INT.withName("tile_ws"),
+            Interop.valueLayout.C_INT.withName("tile_hs"),
+            MemoryLayout.paddingLayout(32),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -73,7 +71,7 @@ public class VideoFormatInfo extends Struct {
      * Get the value of the field {@code format}
      * @return The value of the field {@code format}
      */
-    public org.gstreamer.video.VideoFormat format$get() {
+    public org.gstreamer.video.VideoFormat getFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,59 +82,59 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code format}
      * @param format The new value of the field {@code format}
      */
-    public void format$set(org.gstreamer.video.VideoFormat format) {
+    public void setFormat(org.gstreamer.video.VideoFormat format) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), format.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
     }
     
     /**
      * Get the value of the field {@code name}
      * @return The value of the field {@code name}
      */
-    public java.lang.String name$get() {
+    public java.lang.String getName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code name}
      * @param name The new value of the field {@code name}
      */
-    public void name$set(java.lang.String name) {
+    public void setName(java.lang.String name) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
     }
     
     /**
      * Get the value of the field {@code description}
      * @return The value of the field {@code description}
      */
-    public java.lang.String description$get() {
+    public java.lang.String getDescription() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code description}
      * @param description The new value of the field {@code description}
      */
-    public void description$set(java.lang.String description) {
+    public void setDescription(java.lang.String description) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("description"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(description));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
     }
     
     /**
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public org.gstreamer.video.VideoFormatFlags flags$get() {
+    public org.gstreamer.video.VideoFormatFlags getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -147,17 +145,17 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(org.gstreamer.video.VideoFormatFlags flags) {
+    public void setFlags(org.gstreamer.video.VideoFormatFlags flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
     }
     
     /**
      * Get the value of the field {@code bits}
      * @return The value of the field {@code bits}
      */
-    public int bits$get() {
+    public int getBits() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bits"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -168,7 +166,7 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code bits}
      * @param bits The new value of the field {@code bits}
      */
-    public void bits$set(int bits) {
+    public void setBits(int bits) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bits"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bits);
@@ -178,7 +176,7 @@ public class VideoFormatInfo extends Struct {
      * Get the value of the field {@code n_components}
      * @return The value of the field {@code n_components}
      */
-    public int nComponents$get() {
+    public int getNComponents() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -189,17 +187,80 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code n_components}
      * @param nComponents The new value of the field {@code n_components}
      */
-    public void nComponents$set(int nComponents) {
+    public void setNComponents(int nComponents) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nComponents);
     }
     
     /**
+     * Get the value of the field {@code shift}
+     * @return The value of the field {@code shift}
+     */
+    public int[] getShift() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+    }
+    
+    /**
+     * Change the value of the field {@code shift}
+     * @param shift The new value of the field {@code shift}
+     */
+    public void setShift(int[] shift) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code depth}
+     * @return The value of the field {@code depth}
+     */
+    public int[] getDepth() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+    }
+    
+    /**
+     * Change the value of the field {@code depth}
+     * @param depth The new value of the field {@code depth}
+     */
+    public void setDepth(int[] depth) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code pixel_stride}
+     * @return The value of the field {@code pixel_stride}
+     */
+    public int[] getPixelStride() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+    }
+    
+    /**
+     * Change the value of the field {@code pixel_stride}
+     * @param pixelStride The new value of the field {@code pixel_stride}
+     */
+    public void setPixelStride(int[] pixelStride) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false)));
+    }
+    
+    /**
      * Get the value of the field {@code n_planes}
      * @return The value of the field {@code n_planes}
      */
-    public int nPlanes$get() {
+    public int getNPlanes() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -210,17 +271,101 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code n_planes}
      * @param nPlanes The new value of the field {@code n_planes}
      */
-    public void nPlanes$set(int nPlanes) {
+    public void setNPlanes(int nPlanes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
     }
     
     /**
+     * Get the value of the field {@code plane}
+     * @return The value of the field {@code plane}
+     */
+    public int[] getPlane() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+    }
+    
+    /**
+     * Change the value of the field {@code plane}
+     * @param plane The new value of the field {@code plane}
+     */
+    public void setPlane(int[] plane) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code poffset}
+     * @return The value of the field {@code poffset}
+     */
+    public int[] getPoffset() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+    }
+    
+    /**
+     * Change the value of the field {@code poffset}
+     * @param poffset The new value of the field {@code poffset}
+     */
+    public void setPoffset(int[] poffset) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code w_sub}
+     * @return The value of the field {@code w_sub}
+     */
+    public int[] getWSub() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+    }
+    
+    /**
+     * Change the value of the field {@code w_sub}
+     * @param wSub The new value of the field {@code w_sub}
+     */
+    public void setWSub(int[] wSub) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code h_sub}
+     * @return The value of the field {@code h_sub}
+     */
+    public int[] getHSub() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_INT);
+    }
+    
+    /**
+     * Change the value of the field {@code h_sub}
+     * @param hSub The new value of the field {@code h_sub}
+     */
+    public void setHSub(int[] hSub) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false)));
+    }
+    
+    /**
      * Get the value of the field {@code unpack_format}
      * @return The value of the field {@code unpack_format}
      */
-    public org.gstreamer.video.VideoFormat unpackFormat$get() {
+    public org.gstreamer.video.VideoFormat getUnpackFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -231,17 +376,17 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code unpack_format}
      * @param unpackFormat The new value of the field {@code unpack_format}
      */
-    public void unpackFormat$set(org.gstreamer.video.VideoFormat unpackFormat) {
+    public void setUnpackFormat(org.gstreamer.video.VideoFormat unpackFormat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), unpackFormat.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFormat == null ? MemoryAddress.NULL : unpackFormat.getValue()));
     }
     
     /**
      * Get the value of the field {@code unpack_func}
      * @return The value of the field {@code unpack_func}
      */
-    public org.gstreamer.video.VideoFormatUnpack unpackFunc$get() {
+    public org.gstreamer.video.VideoFormatUnpack getUnpackFunc() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -249,10 +394,20 @@ public class VideoFormatInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code unpack_func}
+     * @param unpackFunc The new value of the field {@code unpack_func}
+     */
+    public void setUnpackFunc(org.gstreamer.video.VideoFormatUnpack unpackFunc) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : (Addressable) unpackFunc.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code pack_lines}
      * @return The value of the field {@code pack_lines}
      */
-    public int packLines$get() {
+    public int getPackLines() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pack_lines"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -263,7 +418,7 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code pack_lines}
      * @param packLines The new value of the field {@code pack_lines}
      */
-    public void packLines$set(int packLines) {
+    public void setPackLines(int packLines) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pack_lines"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), packLines);
@@ -273,7 +428,7 @@ public class VideoFormatInfo extends Struct {
      * Get the value of the field {@code pack_func}
      * @return The value of the field {@code pack_func}
      */
-    public org.gstreamer.video.VideoFormatPack packFunc$get() {
+    public org.gstreamer.video.VideoFormatPack getPackFunc() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -281,10 +436,20 @@ public class VideoFormatInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code pack_func}
+     * @param packFunc The new value of the field {@code pack_func}
+     */
+    public void setPackFunc(org.gstreamer.video.VideoFormatPack packFunc) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packFunc == null ? MemoryAddress.NULL : (Addressable) packFunc.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code tile_mode}
      * @return The value of the field {@code tile_mode}
      */
-    public org.gstreamer.video.VideoTileMode tileMode$get() {
+    public org.gstreamer.video.VideoTileMode getTileMode() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tile_mode"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -295,17 +460,17 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code tile_mode}
      * @param tileMode The new value of the field {@code tile_mode}
      */
-    public void tileMode$set(org.gstreamer.video.VideoTileMode tileMode) {
+    public void setTileMode(org.gstreamer.video.VideoTileMode tileMode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tile_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileMode.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tileMode == null ? MemoryAddress.NULL : tileMode.getValue()));
     }
     
     /**
      * Get the value of the field {@code tile_ws}
      * @return The value of the field {@code tile_ws}
      */
-    public int tileWs$get() {
+    public int getTileWs() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tile_ws"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -316,7 +481,7 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code tile_ws}
      * @param tileWs The new value of the field {@code tile_ws}
      */
-    public void tileWs$set(int tileWs) {
+    public void setTileWs(int tileWs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tile_ws"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileWs);
@@ -326,7 +491,7 @@ public class VideoFormatInfo extends Struct {
      * Get the value of the field {@code tile_hs}
      * @return The value of the field {@code tile_hs}
      */
-    public int tileHs$get() {
+    public int getTileHs() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tile_hs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -337,7 +502,7 @@ public class VideoFormatInfo extends Struct {
      * Change the value of the field {@code tile_hs}
      * @param tileHs The new value of the field {@code tile_hs}
      */
-    public void tileHs$set(int tileHs) {
+    public void setTileHs(int tileHs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tile_hs"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileHs);
@@ -348,10 +513,12 @@ public class VideoFormatInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoFormatInfo(Addressable address, Ownership ownership) {
+    protected VideoFormatInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoFormatInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoFormatInfo(input, ownership);
     
     /**
      * Fill {@code components} with the number of all the components packed in plane {@code p}
@@ -361,7 +528,6 @@ public class VideoFormatInfo extends Struct {
      * @param components array used to store component numbers
      */
     public void component(int plane, Out<Integer> components) {
-        java.util.Objects.requireNonNull(components, "Parameter 'components' must not be null");
         MemorySegment componentsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_video_format_info_component.invokeExact(
@@ -382,31 +548,35 @@ public class VideoFormatInfo extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VideoFormatInfo.Builder} object constructs a {@link VideoFormatInfo} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoFormatInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoFormatInfo struct;
+        private final VideoFormatInfo struct;
         
-         /**
-         * A {@link VideoFormatInfo.Build} object constructs a {@link VideoFormatInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoFormatInfo.allocate();
         }
         
          /**
          * Finish building the {@link VideoFormatInfo} struct.
          * @return A new instance of {@code VideoFormatInfo} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoFormatInfo construct() {
+        public VideoFormatInfo build() {
             return struct;
         }
         
@@ -415,7 +585,7 @@ public class VideoFormatInfo extends Struct {
          * @param format The value for the {@code format} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormat(org.gstreamer.video.VideoFormat format) {
+        public Builder setFormat(org.gstreamer.video.VideoFormat format) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
@@ -427,10 +597,10 @@ public class VideoFormatInfo extends Struct {
          * @param name The value for the {@code name} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
             return this;
         }
         
@@ -439,10 +609,10 @@ public class VideoFormatInfo extends Struct {
          * @param description The value for the {@code description} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescription(java.lang.String description) {
+        public Builder setDescription(java.lang.String description) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("description"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
             return this;
         }
         
@@ -451,7 +621,7 @@ public class VideoFormatInfo extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gstreamer.video.VideoFormatFlags flags) {
+        public Builder setFlags(org.gstreamer.video.VideoFormatFlags flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
@@ -466,7 +636,7 @@ public class VideoFormatInfo extends Struct {
          * @param bits The value for the {@code bits} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBits(int bits) {
+        public Builder setBits(int bits) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bits"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bits);
@@ -478,7 +648,7 @@ public class VideoFormatInfo extends Struct {
          * @param nComponents The value for the {@code nComponents} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNComponents(int nComponents) {
+        public Builder setNComponents(int nComponents) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nComponents);
@@ -490,7 +660,7 @@ public class VideoFormatInfo extends Struct {
          * @param shift The value for the {@code shift} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShift(int[] shift) {
+        public Builder setShift(int[] shift) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("shift"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false)));
@@ -502,7 +672,7 @@ public class VideoFormatInfo extends Struct {
          * @param depth The value for the {@code depth} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDepth(int[] depth) {
+        public Builder setDepth(int[] depth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("depth"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false)));
@@ -517,7 +687,7 @@ public class VideoFormatInfo extends Struct {
          * @param pixelStride The value for the {@code pixelStride} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPixelStride(int[] pixelStride) {
+        public Builder setPixelStride(int[] pixelStride) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false)));
@@ -531,7 +701,7 @@ public class VideoFormatInfo extends Struct {
          * @param nPlanes The value for the {@code nPlanes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPlanes(int nPlanes) {
+        public Builder setNPlanes(int nPlanes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
@@ -543,7 +713,7 @@ public class VideoFormatInfo extends Struct {
          * @param plane The value for the {@code plane} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlane(int[] plane) {
+        public Builder setPlane(int[] plane) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("plane"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false)));
@@ -556,7 +726,7 @@ public class VideoFormatInfo extends Struct {
          * @param poffset The value for the {@code poffset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPoffset(int[] poffset) {
+        public Builder setPoffset(int[] poffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false)));
@@ -569,7 +739,7 @@ public class VideoFormatInfo extends Struct {
          * @param wSub The value for the {@code wSub} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWSub(int[] wSub) {
+        public Builder setWSub(int[] wSub) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false)));
@@ -582,7 +752,7 @@ public class VideoFormatInfo extends Struct {
          * @param hSub The value for the {@code hSub} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHSub(int[] hSub) {
+        public Builder setHSub(int[] hSub) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false)));
@@ -595,7 +765,7 @@ public class VideoFormatInfo extends Struct {
          * @param unpackFormat The value for the {@code unpackFormat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUnpackFormat(org.gstreamer.video.VideoFormat unpackFormat) {
+        public Builder setUnpackFormat(org.gstreamer.video.VideoFormat unpackFormat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unpack_format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFormat == null ? MemoryAddress.NULL : unpackFormat.getValue()));
@@ -607,10 +777,10 @@ public class VideoFormatInfo extends Struct {
          * @param unpackFunc The value for the {@code unpackFunc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUnpackFunc(java.lang.foreign.MemoryAddress unpackFunc) {
+        public Builder setUnpackFunc(org.gstreamer.video.VideoFormatUnpack unpackFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unpack_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : unpackFunc));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unpackFunc == null ? MemoryAddress.NULL : (Addressable) unpackFunc.toCallback()));
             return this;
         }
         
@@ -619,7 +789,7 @@ public class VideoFormatInfo extends Struct {
          * @param packLines The value for the {@code packLines} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPackLines(int packLines) {
+        public Builder setPackLines(int packLines) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pack_lines"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), packLines);
@@ -631,10 +801,10 @@ public class VideoFormatInfo extends Struct {
          * @param packFunc The value for the {@code packFunc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPackFunc(java.lang.foreign.MemoryAddress packFunc) {
+        public Builder setPackFunc(org.gstreamer.video.VideoFormatPack packFunc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pack_func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packFunc == null ? MemoryAddress.NULL : packFunc));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packFunc == null ? MemoryAddress.NULL : (Addressable) packFunc.toCallback()));
             return this;
         }
         
@@ -643,7 +813,7 @@ public class VideoFormatInfo extends Struct {
          * @param tileMode The value for the {@code tileMode} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTileMode(org.gstreamer.video.VideoTileMode tileMode) {
+        public Builder setTileMode(org.gstreamer.video.VideoTileMode tileMode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tile_mode"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tileMode == null ? MemoryAddress.NULL : tileMode.getValue()));
@@ -655,7 +825,7 @@ public class VideoFormatInfo extends Struct {
          * @param tileWs The value for the {@code tileWs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTileWs(int tileWs) {
+        public Builder setTileWs(int tileWs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tile_ws"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileWs);
@@ -667,14 +837,14 @@ public class VideoFormatInfo extends Struct {
          * @param tileHs The value for the {@code tileHs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTileHs(int tileHs) {
+        public Builder setTileHs(int tileHs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tile_hs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tileHs);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

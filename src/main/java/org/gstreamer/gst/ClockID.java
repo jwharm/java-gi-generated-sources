@@ -13,4 +13,14 @@ public class ClockID extends io.github.jwharm.javagi.Alias<java.lang.foreign.Mem
     public ClockID(java.lang.foreign.MemoryAddress value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static ClockID[] fromNativeArray(MemoryAddress address, long length) {
+        ClockID[] array = new ClockID[(int) length];
+        long bytesSize = Interop.valueLayout.ADDRESS.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new ClockID(address.get(Interop.valueLayout.ADDRESS, i * bytesSize));
+        }
+        return array;
+    }
 }

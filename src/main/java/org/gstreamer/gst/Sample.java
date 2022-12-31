@@ -44,13 +44,15 @@ public class Sample extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Sample(Addressable address, Ownership ownership) {
+    protected Sample(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable org.gstreamer.gst.Buffer buffer, @Nullable org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.gst.Segment segment, @Nullable org.gstreamer.gst.Structure info) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Sample> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Sample(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable org.gstreamer.gst.Buffer buffer, @Nullable org.gstreamer.gst.Caps caps, @Nullable org.gstreamer.gst.Segment segment, @Nullable org.gstreamer.gst.Structure info) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sample_new.invokeExact(
                     (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()),
@@ -92,7 +94,7 @@ public class Sample extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -110,7 +112,7 @@ public class Sample extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.BufferList(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -128,7 +130,7 @@ public class Sample extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -144,7 +146,7 @@ public class Sample extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -152,7 +154,7 @@ public class Sample extends Struct {
      * @return the segment of {@code sample}.
      *  The segment remains valid as long as {@code sample} is valid.
      */
-    public @NotNull org.gstreamer.gst.Segment getSegment() {
+    public org.gstreamer.gst.Segment getSegment() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sample_get_segment.invokeExact(
@@ -160,15 +162,14 @@ public class Sample extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Segment(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Segment.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Set the buffer associated with {@code sample}. {@code sample} must be writable.
      * @param buffer A {@link Buffer}
      */
-    public void setBuffer(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public void setBuffer(org.gstreamer.gst.Buffer buffer) {
         try {
             DowncallHandles.gst_sample_set_buffer.invokeExact(
                     handle(),
@@ -182,8 +183,7 @@ public class Sample extends Struct {
      * Set the buffer list associated with {@code sample}. {@code sample} must be writable.
      * @param bufferList a {@link BufferList}
      */
-    public void setBufferList(@NotNull org.gstreamer.gst.BufferList bufferList) {
-        java.util.Objects.requireNonNull(bufferList, "Parameter 'bufferList' must not be null");
+    public void setBufferList(org.gstreamer.gst.BufferList bufferList) {
         try {
             DowncallHandles.gst_sample_set_buffer_list.invokeExact(
                     handle(),
@@ -197,8 +197,7 @@ public class Sample extends Struct {
      * Set the caps associated with {@code sample}. {@code sample} must be writable.
      * @param caps A {@link Caps}
      */
-    public void setCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void setCaps(org.gstreamer.gst.Caps caps) {
         try {
             DowncallHandles.gst_sample_set_caps.invokeExact(
                     handle(),
@@ -213,8 +212,7 @@ public class Sample extends Struct {
      * and {@code info} must not have a parent set already.
      * @param info A {@link Structure}
      */
-    public boolean setInfo(@NotNull org.gstreamer.gst.Structure info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public boolean setInfo(org.gstreamer.gst.Structure info) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sample_set_info.invokeExact(
@@ -224,15 +222,14 @@ public class Sample extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         info.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Set the segment associated with {@code sample}. {@code sample} must be writable.
      * @param segment A {@link Segment}
      */
-    public void setSegment(@NotNull org.gstreamer.gst.Segment segment) {
-        java.util.Objects.requireNonNull(segment, "Parameter 'segment' must not be null");
+    public void setSegment(org.gstreamer.gst.Segment segment) {
         try {
             DowncallHandles.gst_sample_set_segment.invokeExact(
                     handle(),

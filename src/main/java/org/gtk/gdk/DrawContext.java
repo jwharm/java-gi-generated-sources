@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * A {@code GdkDrawContext} is always associated with a single toplevel surface.
  */
-public class DrawContext extends org.gtk.gobject.Object {
+public class DrawContext extends org.gtk.gobject.GObject {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -38,30 +38,12 @@ public class DrawContext extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DrawContext(Addressable address, Ownership ownership) {
+    protected DrawContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DrawContext if its GType is a (or inherits from) "GdkDrawContext".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DrawContext} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkDrawContext", a ClassCastException will be thrown.
-     */
-    public static DrawContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DrawContext.getType())) {
-            return new DrawContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkDrawContext");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DrawContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DrawContext(input, ownership);
     
     /**
      * Indicates that you are beginning the process of redrawing {@code region}
@@ -90,8 +72,7 @@ public class DrawContext extends org.gtk.gobject.Object {
      * these functions explicitly.
      * @param region minimum region that should be drawn
      */
-    public void beginFrame(@NotNull org.cairographics.Region region) {
-        java.util.Objects.requireNonNull(region, "Parameter 'region' must not be null");
+    public void beginFrame(org.cairographics.Region region) {
         try {
             DowncallHandles.gdk_draw_context_begin_frame.invokeExact(
                     handle(),
@@ -132,7 +113,7 @@ public class DrawContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -154,7 +135,7 @@ public class DrawContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Region(RESULT, Ownership.NONE);
+        return org.cairographics.Region.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -169,7 +150,7 @@ public class DrawContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -189,14 +170,14 @@ public class DrawContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_draw_context_get_type.invokeExact();
@@ -205,38 +186,40 @@ public class DrawContext extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link DrawContext.Builder} object constructs a {@link DrawContext} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DrawContext.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DrawContext.Build} object constructs a {@link DrawContext} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DrawContext} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DrawContext} using {@link DrawContext#castFrom}.
+         * {@link DrawContext}.
          * @return A new instance of {@code DrawContext} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DrawContext construct() {
-            return DrawContext.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DrawContext.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DrawContext build() {
+            return (DrawContext) org.gtk.gobject.GObject.newWithProperties(
+                DrawContext.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -245,7 +228,7 @@ public class DrawContext extends org.gtk.gobject.Object {
          * @param display The value for the {@code display} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplay(org.gtk.gdk.Display display) {
+        public Builder setDisplay(org.gtk.gdk.Display display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;
@@ -256,7 +239,7 @@ public class DrawContext extends org.gtk.gobject.Object {
          * @param surface The value for the {@code surface} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSurface(org.gtk.gdk.Surface surface) {
+        public Builder setSurface(org.gtk.gdk.Surface surface) {
             names.add("surface");
             values.add(org.gtk.gobject.Value.create(surface));
             return this;

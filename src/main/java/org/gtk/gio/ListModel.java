@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * updates.
  * <p>
  * Each object in the list may also report changes in itself via some
- * mechanism (normally the {@link org.gtk.gobject.Object}::notify signal).  Taken together
+ * mechanism (normally the {@link org.gtk.gobject.GObject}::notify signal).  Taken together
  * with the {@link ListModel}::items-changed signal, this provides for a list
  * that can change its membership, and in which the members can change
  * their individual properties.
@@ -71,50 +71,8 @@ import org.jetbrains.annotations.*;
  */
 public interface ListModel extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to ListModel if its GType is a (or inherits from) "GListModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ListModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GListModel", a ClassCastException will be thrown.
-     */
-    public static ListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ListModel.getType())) {
-            return new ListModelImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GListModel");
-        }
-    }
-    
-    /**
-     * Get the item at {@code position}.
-     * <p>
-     * If {@code position} is greater than the number of items in {@code list}, {@code null} is
-     * returned.
-     * <p>
-     * {@code null} is never returned for an index that is smaller than the length
-     * of the list.
-     * <p>
-     * See also: g_list_model_get_n_items()
-     * @param position the position of the item to fetch
-     * @return the item at {@code position}.
-     */
-    default @Nullable java.lang.foreign.MemoryAddress getItem(int position) {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.g_list_model_get_item.invokeExact(
-                    handle(),
-                    position);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT;
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ListModelImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListModelImpl(input, ownership);
     
     /**
      * Gets the type of the items in {@code list}.
@@ -125,9 +83,9 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * <p>
      * The item type of a {@link ListModel} can not change during the life of the
      * model.
-     * @return the {@link org.gtk.gobject.Type} of the items contained in {@code list}.
+     * @return the {@link org.gtk.glib.Type} of the items contained in {@code list}.
      */
-    default @NotNull org.gtk.glib.Type getItemType() {
+    default org.gtk.glib.Type getItemType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_list_model_get_item_type.invokeExact(
@@ -173,7 +131,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * @param position the position of the item to fetch
      * @return the object at {@code position}.
      */
-    default @Nullable org.gtk.gobject.Object getObject(int position) {
+    default @Nullable org.gtk.gobject.GObject getItem(int position) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_list_model_get_object.invokeExact(
@@ -182,7 +140,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -226,7 +184,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_list_model_get_type.invokeExact();
@@ -238,7 +196,18 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ItemsChanged {
-        void signalReceived(ListModel sourceListModel, int position, int removed, int added);
+        void run(int position, int removed, int added);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceListModel, int position, int removed, int added) {
+            run(position, removed, added);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ItemsChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -254,16 +223,8 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     public default Signal<ListModel.ItemsChanged> onItemsChanged(ListModel.ItemsChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("items-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ListModel.Callbacks.class, "signalListModelItemsChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ListModel.ItemsChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("items-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -271,13 +232,6 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
     
     @ApiStatus.Internal
     static class DowncallHandles {
-        
-        @ApiStatus.Internal
-        static final MethodHandle g_list_model_get_item = Interop.downcallHandle(
-            "g_list_model_get_item",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
-        );
         
         @ApiStatus.Internal
         static final MethodHandle g_list_model_get_item_type = Interop.downcallHandle(
@@ -315,17 +269,7 @@ public interface ListModel extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalListModelItemsChanged(MemoryAddress sourceListModel, int position, int removed, int added, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ListModel.ItemsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ListModel.ListModelImpl(sourceListModel, Ownership.NONE), position, removed, added);
-        }
-    }
-    
-    class ListModelImpl extends org.gtk.gobject.Object implements ListModel {
+    class ListModelImpl extends org.gtk.gobject.GObject implements ListModel {
         
         static {
             Gio.javagi$ensureInitialized();

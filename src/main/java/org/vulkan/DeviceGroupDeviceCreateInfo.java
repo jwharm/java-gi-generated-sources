@@ -40,8 +40,10 @@ public class DeviceGroupDeviceCreateInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DeviceGroupDeviceCreateInfo(Addressable address, Ownership ownership) {
+    protected DeviceGroupDeviceCreateInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DeviceGroupDeviceCreateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupDeviceCreateInfo(input, ownership);
 }

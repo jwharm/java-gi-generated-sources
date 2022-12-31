@@ -18,25 +18,23 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
     
     private static final java.lang.String C_TYPE_NAME = "GstARGBControlBinding";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.ControlBinding.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("cs_a"),
-        Interop.valueLayout.ADDRESS.withName("cs_r"),
-        Interop.valueLayout.ADDRESS.withName("cs_g"),
-        Interop.valueLayout.ADDRESS.withName("cs_b"),
-        org.gtk.gobject.Value.getMemoryLayout().withName("cur_value"),
-        Interop.valueLayout.C_INT.withName("last_value"),
-        MemoryLayout.paddingLayout(96),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.ControlBinding.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("cs_a"),
+            Interop.valueLayout.ADDRESS.withName("cs_r"),
+            Interop.valueLayout.ADDRESS.withName("cs_g"),
+            Interop.valueLayout.ADDRESS.withName("cs_b"),
+            org.gtk.gobject.Value.getMemoryLayout().withName("cur_value"),
+            Interop.valueLayout.C_INT.withName("last_value"),
+            MemoryLayout.paddingLayout(96),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -44,50 +42,30 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
      * <p>
      * Because ARGBControlBinding is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ARGBControlBinding(Addressable address, Ownership ownership) {
+    protected ARGBControlBinding(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ARGBControlBinding if its GType is a (or inherits from) "GstARGBControlBinding".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ARGBControlBinding} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstARGBControlBinding", a ClassCastException will be thrown.
-     */
-    public static ARGBControlBinding castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ARGBControlBinding.getType())) {
-            return new ARGBControlBinding(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstARGBControlBinding");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ARGBControlBinding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ARGBControlBinding(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gst.Object object, @NotNull java.lang.String propertyName, @NotNull org.gstreamer.gst.ControlSource csA, @NotNull org.gstreamer.gst.ControlSource csR, @NotNull org.gstreamer.gst.ControlSource csG, @NotNull org.gstreamer.gst.ControlSource csB) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
-        java.util.Objects.requireNonNull(csA, "Parameter 'csA' must not be null");
-        java.util.Objects.requireNonNull(csR, "Parameter 'csR' must not be null");
-        java.util.Objects.requireNonNull(csG, "Parameter 'csG' must not be null");
-        java.util.Objects.requireNonNull(csB, "Parameter 'csB' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource csA, org.gstreamer.gst.ControlSource csR, org.gstreamer.gst.ControlSource csG, org.gstreamer.gst.ControlSource csB) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_argb_control_binding_new.invokeExact(
                     object.handle(),
-                    Interop.allocateNativeString(propertyName),
+                    Marshal.stringToAddress.marshal(propertyName, null),
                     csA.handle(),
                     csR.handle(),
                     csG.handle(),
@@ -100,7 +78,7 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
     
     /**
      * Create a new control-binding that attaches the given {@link org.gstreamer.gst.ControlSource} to the
-     * {@link org.gtk.gobject.Object} property.
+     * {@link org.gtk.gobject.GObject} property.
      * @param object the object of the property
      * @param propertyName the property-name to attach the control source
      * @param csA the control source for the alpha channel
@@ -108,7 +86,7 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
      * @param csG the control source for the green channel
      * @param csB the control source for the blue channel
      */
-    public ARGBControlBinding(@NotNull org.gstreamer.gst.Object object, @NotNull java.lang.String propertyName, @NotNull org.gstreamer.gst.ControlSource csA, @NotNull org.gstreamer.gst.ControlSource csR, @NotNull org.gstreamer.gst.ControlSource csG, @NotNull org.gstreamer.gst.ControlSource csB) {
+    public ARGBControlBinding(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource csA, org.gstreamer.gst.ControlSource csR, org.gstreamer.gst.ControlSource csG, org.gstreamer.gst.ControlSource csB) {
         super(constructNew(object, propertyName, csA, csR, csG, csB), Ownership.NONE);
     }
     
@@ -116,7 +94,7 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_argb_control_binding_get_type.invokeExact();
@@ -125,60 +103,62 @@ public class ARGBControlBinding extends org.gstreamer.gst.ControlBinding {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ARGBControlBinding.Builder} object constructs a {@link ARGBControlBinding} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ARGBControlBinding.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.ControlBinding.Build {
+    public static class Builder extends org.gstreamer.gst.ControlBinding.Builder {
         
-         /**
-         * A {@link ARGBControlBinding.Build} object constructs a {@link ARGBControlBinding} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ARGBControlBinding} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ARGBControlBinding} using {@link ARGBControlBinding#castFrom}.
+         * {@link ARGBControlBinding}.
          * @return A new instance of {@code ARGBControlBinding} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ARGBControlBinding construct() {
-            return ARGBControlBinding.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ARGBControlBinding.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ARGBControlBinding build() {
+            return (ARGBControlBinding) org.gtk.gobject.GObject.newWithProperties(
+                ARGBControlBinding.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setControlSourceA(org.gstreamer.gst.ControlSource controlSourceA) {
+        public Builder setControlSourceA(org.gstreamer.gst.ControlSource controlSourceA) {
             names.add("control-source-a");
             values.add(org.gtk.gobject.Value.create(controlSourceA));
             return this;
         }
         
-        public Build setControlSourceB(org.gstreamer.gst.ControlSource controlSourceB) {
+        public Builder setControlSourceB(org.gstreamer.gst.ControlSource controlSourceB) {
             names.add("control-source-b");
             values.add(org.gtk.gobject.Value.create(controlSourceB));
             return this;
         }
         
-        public Build setControlSourceG(org.gstreamer.gst.ControlSource controlSourceG) {
+        public Builder setControlSourceG(org.gstreamer.gst.ControlSource controlSourceG) {
             names.add("control-source-g");
             values.add(org.gtk.gobject.Value.create(controlSourceG));
             return this;
         }
         
-        public Build setControlSourceR(org.gstreamer.gst.ControlSource controlSourceR) {
+        public Builder setControlSourceR(org.gstreamer.gst.ControlSource controlSourceR) {
             names.add("control-source-r");
             values.add(org.gtk.gobject.Value.create(controlSourceR));
             return this;

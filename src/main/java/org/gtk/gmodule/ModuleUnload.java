@@ -13,5 +13,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ModuleUnload {
-        void onModuleUnload(@NotNull org.gtk.gmodule.Module module);
+    void run(org.gtk.gmodule.Module module);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress module) {
+        run(org.gtk.gmodule.Module.fromAddress.marshal(module, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ModuleUnload.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

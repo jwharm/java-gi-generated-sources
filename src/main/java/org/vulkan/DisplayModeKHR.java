@@ -40,8 +40,10 @@ public class DisplayModeKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DisplayModeKHR(Addressable address, Ownership ownership) {
+    protected DisplayModeKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DisplayModeKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayModeKHR(input, ownership);
 }

@@ -114,43 +114,29 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * Because Expander is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Expander(Addressable address, Ownership ownership) {
+    protected Expander(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Expander if its GType is a (or inherits from) "GtkExpander".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Expander} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkExpander", a ClassCastException will be thrown.
-     */
-    public static Expander castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Expander.getType())) {
-            return new Expander(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkExpander");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Expander> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Expander(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String label) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String label) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_expander_new.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,11 +151,11 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         super(constructNew(label), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithMnemonic(@Nullable java.lang.String label) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithMnemonic(@Nullable java.lang.String label) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_expander_new_with_mnemonic.invokeExact(
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -190,7 +176,8 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return a new {@code GtkExpander} widget.
      */
     public static Expander newWithMnemonic(@Nullable java.lang.String label) {
-        return new Expander(constructNewWithMnemonic(label), Ownership.NONE);
+        var RESULT = constructNewWithMnemonic(label);
+        return (org.gtk.gtk.Expander) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expander.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -205,7 +192,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -222,7 +209,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -244,7 +231,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -259,7 +246,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -275,7 +262,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,7 +277,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -306,7 +293,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -334,7 +321,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_expander_set_expanded.invokeExact(
                     handle(),
-                    expanded ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(expanded, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -350,7 +337,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_expander_set_label.invokeExact(
                     handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -382,7 +369,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_expander_set_resize_toplevel.invokeExact(
                     handle(),
-                    resizeToplevel ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(resizeToplevel, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -396,7 +383,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_expander_set_use_markup.invokeExact(
                     handle(),
-                    useMarkup ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useMarkup, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,7 +397,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_expander_set_use_underline.invokeExact(
                     handle(),
-                    useUnderline ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useUnderline, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -420,7 +407,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_expander_get_type.invokeExact();
@@ -432,7 +419,18 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Expander sourceExpander);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceExpander) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -443,52 +441,46 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<Expander.Activate> onActivate(Expander.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Expander.Callbacks.class, "signalExpanderActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Expander.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Expander.Builder} object constructs a {@link Expander} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Expander.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Expander.Build} object constructs a {@link Expander} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Expander} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Expander} using {@link Expander#castFrom}.
+         * {@link Expander}.
          * @return A new instance of {@code Expander} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Expander construct() {
-            return Expander.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Expander.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Expander build() {
+            return (Expander) org.gtk.gobject.GObject.newWithProperties(
+                Expander.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -497,7 +489,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -508,7 +500,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param expanded The value for the {@code expanded} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExpanded(boolean expanded) {
+        public Builder setExpanded(boolean expanded) {
             names.add("expanded");
             values.add(org.gtk.gobject.Value.create(expanded));
             return this;
@@ -519,7 +511,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param label The value for the {@code label} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLabel(java.lang.String label) {
+        public Builder setLabel(java.lang.String label) {
             names.add("label");
             values.add(org.gtk.gobject.Value.create(label));
             return this;
@@ -530,7 +522,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param labelWidget The value for the {@code label-widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLabelWidget(org.gtk.gtk.Widget labelWidget) {
+        public Builder setLabelWidget(org.gtk.gtk.Widget labelWidget) {
             names.add("label-widget");
             values.add(org.gtk.gobject.Value.create(labelWidget));
             return this;
@@ -542,7 +534,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param resizeToplevel The value for the {@code resize-toplevel} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setResizeToplevel(boolean resizeToplevel) {
+        public Builder setResizeToplevel(boolean resizeToplevel) {
             names.add("resize-toplevel");
             values.add(org.gtk.gobject.Value.create(resizeToplevel));
             return this;
@@ -553,7 +545,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param useMarkup The value for the {@code use-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseMarkup(boolean useMarkup) {
+        public Builder setUseMarkup(boolean useMarkup) {
             names.add("use-markup");
             values.add(org.gtk.gobject.Value.create(useMarkup));
             return this;
@@ -564,7 +556,7 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param useUnderline The value for the {@code use-underline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseUnderline(boolean useUnderline) {
+        public Builder setUseUnderline(boolean useUnderline) {
             names.add("use-underline");
             values.add(org.gtk.gobject.Value.create(useUnderline));
             return this;
@@ -674,14 +666,5 @@ public class Expander extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalExpanderActivate(MemoryAddress sourceExpander, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Expander.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Expander(sourceExpander, Ownership.NONE));
-        }
     }
 }

@@ -40,8 +40,10 @@ public class PresentTimesInfoGOOGLE extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PresentTimesInfoGOOGLE(Addressable address, Ownership ownership) {
+    protected PresentTimesInfoGOOGLE(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PresentTimesInfoGOOGLE> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PresentTimesInfoGOOGLE(input, ownership);
 }

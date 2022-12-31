@@ -47,36 +47,18 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AppLaunchContext(Addressable address, Ownership ownership) {
+    protected AppLaunchContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to AppLaunchContext if its GType is a (or inherits from) "GdkAppLaunchContext".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AppLaunchContext} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkAppLaunchContext", a ClassCastException will be thrown.
-     */
-    public static AppLaunchContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AppLaunchContext.getType())) {
-            return new AppLaunchContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkAppLaunchContext");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AppLaunchContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppLaunchContext(input, ownership);
     
     /**
      * Gets the {@code GdkDisplay} that {@code context} is for.
      * @return the display of {@code context}
      */
-    public @NotNull org.gtk.gdk.Display getDisplay() {
+    public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_app_launch_context_get_display.invokeExact(
@@ -84,7 +66,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -149,7 +131,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         try {
             DowncallHandles.gdk_app_launch_context_set_icon_name.invokeExact(
                     handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,7 +163,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_app_launch_context_get_type.invokeExact();
@@ -190,38 +172,40 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link AppLaunchContext.Builder} object constructs a {@link AppLaunchContext} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AppLaunchContext.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.AppLaunchContext.Build {
+    public static class Builder extends org.gtk.gio.AppLaunchContext.Builder {
         
-         /**
-         * A {@link AppLaunchContext.Build} object constructs a {@link AppLaunchContext} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AppLaunchContext} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AppLaunchContext} using {@link AppLaunchContext#castFrom}.
+         * {@link AppLaunchContext}.
          * @return A new instance of {@code AppLaunchContext} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AppLaunchContext construct() {
-            return AppLaunchContext.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AppLaunchContext.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AppLaunchContext build() {
+            return (AppLaunchContext) org.gtk.gobject.GObject.newWithProperties(
+                AppLaunchContext.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -230,7 +214,7 @@ public class AppLaunchContext extends org.gtk.gio.AppLaunchContext {
          * @param display The value for the {@code display} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplay(org.gtk.gdk.Display display) {
+        public Builder setDisplay(org.gtk.gdk.Display display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;

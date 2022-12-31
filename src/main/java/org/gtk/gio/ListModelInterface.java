@@ -17,20 +17,18 @@ public class ListModelInterface extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GListModelInterface";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
-        Interop.valueLayout.ADDRESS.withName("get_item_type"),
-        Interop.valueLayout.ADDRESS.withName("get_n_items"),
-        Interop.valueLayout.ADDRESS.withName("get_item")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
+            Interop.valueLayout.ADDRESS.withName("get_item_type"),
+            Interop.valueLayout.ADDRESS.withName("get_n_items"),
+            Interop.valueLayout.ADDRESS.withName("get_item")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,9 +48,100 @@ public class ListModelInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface gIface$get() {
+    public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code g_iface}
+     * @param gIface The new value of the field {@code g_iface}
+     */
+    public void setGIface(org.gtk.gobject.TypeInterface gIface) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface GetItemTypeCallback {
+        org.gtk.glib.Type run(org.gtk.gio.ListModel list);
+
+        @ApiStatus.Internal default long upcall(MemoryAddress list) {
+            var RESULT = run((org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(list)), org.gtk.gio.ListModel.fromAddress).marshal(list, Ownership.NONE));
+            return RESULT.getValue().longValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetItemTypeCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_item_type}
+     * @param getItemType The new value of the field {@code get_item_type}
+     */
+    public void setGetItemType(GetItemTypeCallback getItemType) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_item_type"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemType == null ? MemoryAddress.NULL : getItemType.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GetNItemsCallback {
+        int run(org.gtk.gio.ListModel list);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress list) {
+            var RESULT = run((org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(list)), org.gtk.gio.ListModel.fromAddress).marshal(list, Ownership.NONE));
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetNItemsCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_n_items}
+     * @param getNItems The new value of the field {@code get_n_items}
+     */
+    public void setGetNItems(GetNItemsCallback getNItems) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_n_items"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNItems == null ? MemoryAddress.NULL : getNItems.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GetItemCallback {
+        @Nullable org.gtk.gobject.GObject run(org.gtk.gio.ListModel list, int position);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress list, int position) {
+            var RESULT = run((org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(list)), org.gtk.gio.ListModel.fromAddress).marshal(list, Ownership.NONE), position);
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetItemCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_item}
+     * @param getItem The new value of the field {@code get_item}
+     */
+    public void setGetItem(GetItemCallback getItem) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_item"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItem == null ? MemoryAddress.NULL : getItem.toCallback()));
     }
     
     /**
@@ -60,35 +149,41 @@ public class ListModelInterface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ListModelInterface(Addressable address, Ownership ownership) {
+    protected ListModelInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ListModelInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListModelInterface(input, ownership);
+    
+    /**
+     * A {@link ListModelInterface.Builder} object constructs a {@link ListModelInterface} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ListModelInterface.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ListModelInterface struct;
+        private final ListModelInterface struct;
         
-         /**
-         * A {@link ListModelInterface.Build} object constructs a {@link ListModelInterface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ListModelInterface.allocate();
         }
         
          /**
          * Finish building the {@link ListModelInterface} struct.
          * @return A new instance of {@code ListModelInterface} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ListModelInterface construct() {
+        public ListModelInterface build() {
             return struct;
         }
         
@@ -97,31 +192,31 @@ public class ListModelInterface extends Struct {
          * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
+        public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setGetItemType(java.lang.foreign.MemoryAddress getItemType) {
+        public Builder setGetItemType(GetItemTypeCallback getItemType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemType == null ? MemoryAddress.NULL : getItemType));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItemType == null ? MemoryAddress.NULL : getItemType.toCallback()));
             return this;
         }
         
-        public Build setGetNItems(java.lang.foreign.MemoryAddress getNItems) {
+        public Builder setGetNItems(GetNItemsCallback getNItems) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_n_items"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNItems == null ? MemoryAddress.NULL : getNItems));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getNItems == null ? MemoryAddress.NULL : getNItems.toCallback()));
             return this;
         }
         
-        public Build setGetItem(java.lang.foreign.MemoryAddress getItem) {
+        public Builder setGetItem(GetItemCallback getItem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_item"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItem == null ? MemoryAddress.NULL : getItem));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getItem == null ? MemoryAddress.NULL : getItem.toCallback()));
             return this;
         }
     }

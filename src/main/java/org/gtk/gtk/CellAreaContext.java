@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
  * row also be used for the same row when calling other {@code GtkCellArea} APIs
  * such as gtk_cell_area_render() and gtk_cell_area_event().
  */
-public class CellAreaContext extends org.gtk.gobject.Object {
+public class CellAreaContext extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -27,17 +27,15 @@ public class CellAreaContext extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkCellAreaContext";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -45,30 +43,12 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CellAreaContext(Addressable address, Ownership ownership) {
+    protected CellAreaContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to CellAreaContext if its GType is a (or inherits from) "GtkCellAreaContext".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CellAreaContext} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCellAreaContext", a ClassCastException will be thrown.
-     */
-    public static CellAreaContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellAreaContext.getType())) {
-            return new CellAreaContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellAreaContext");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellAreaContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellAreaContext(input, ownership);
     
     /**
      * Allocates a width and/or a height for all rows which are to be
@@ -107,20 +87,18 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * @param height location to store the allocated height
      */
     public void getAllocation(Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_area_context_get_allocation.invokeExact(
                     handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -136,7 +114,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * compute a proper allocation.
      * @return the {@code GtkCellArea} this context was created by.
      */
-    public @NotNull org.gtk.gtk.CellArea getArea() {
+    public org.gtk.gtk.CellArea getArea() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_cell_area_context_get_area.invokeExact(
@@ -144,7 +122,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.CellArea(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.CellArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.CellArea.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -157,20 +135,18 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * @param naturalHeight location to store the natural height
      */
     public void getPreferredHeight(Out<Integer> minimumHeight, Out<Integer> naturalHeight) {
-        java.util.Objects.requireNonNull(minimumHeight, "Parameter 'minimumHeight' must not be null");
         MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(naturalHeight, "Parameter 'naturalHeight' must not be null");
         MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_area_context_get_preferred_height.invokeExact(
                     handle(),
-                    (Addressable) minimumHeightPOINTER.address(),
-                    (Addressable) naturalHeightPOINTER.address());
+                    (Addressable) (minimumHeight == null ? MemoryAddress.NULL : (Addressable) minimumHeightPOINTER.address()),
+                    (Addressable) (naturalHeight == null ? MemoryAddress.NULL : (Addressable) naturalHeightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimumHeight.set(minimumHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
-        naturalHeight.set(naturalHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minimumHeight != null) minimumHeight.set(minimumHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (naturalHeight != null) naturalHeight.set(naturalHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -184,21 +160,19 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * @param naturalHeight location to store the natural height
      */
     public void getPreferredHeightForWidth(int width, Out<Integer> minimumHeight, Out<Integer> naturalHeight) {
-        java.util.Objects.requireNonNull(minimumHeight, "Parameter 'minimumHeight' must not be null");
         MemorySegment minimumHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(naturalHeight, "Parameter 'naturalHeight' must not be null");
         MemorySegment naturalHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_area_context_get_preferred_height_for_width.invokeExact(
                     handle(),
                     width,
-                    (Addressable) minimumHeightPOINTER.address(),
-                    (Addressable) naturalHeightPOINTER.address());
+                    (Addressable) (minimumHeight == null ? MemoryAddress.NULL : (Addressable) minimumHeightPOINTER.address()),
+                    (Addressable) (naturalHeight == null ? MemoryAddress.NULL : (Addressable) naturalHeightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimumHeight.set(minimumHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
-        naturalHeight.set(naturalHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minimumHeight != null) minimumHeight.set(minimumHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (naturalHeight != null) naturalHeight.set(naturalHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -211,20 +185,18 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * @param naturalWidth location to store the natural width
      */
     public void getPreferredWidth(Out<Integer> minimumWidth, Out<Integer> naturalWidth) {
-        java.util.Objects.requireNonNull(minimumWidth, "Parameter 'minimumWidth' must not be null");
         MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(naturalWidth, "Parameter 'naturalWidth' must not be null");
         MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_area_context_get_preferred_width.invokeExact(
                     handle(),
-                    (Addressable) minimumWidthPOINTER.address(),
-                    (Addressable) naturalWidthPOINTER.address());
+                    (Addressable) (minimumWidth == null ? MemoryAddress.NULL : (Addressable) minimumWidthPOINTER.address()),
+                    (Addressable) (naturalWidth == null ? MemoryAddress.NULL : (Addressable) naturalWidthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimumWidth.set(minimumWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        naturalWidth.set(naturalWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minimumWidth != null) minimumWidth.set(minimumWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (naturalWidth != null) naturalWidth.set(naturalWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -238,21 +210,19 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * @param naturalWidth location to store the natural width
      */
     public void getPreferredWidthForHeight(int height, Out<Integer> minimumWidth, Out<Integer> naturalWidth) {
-        java.util.Objects.requireNonNull(minimumWidth, "Parameter 'minimumWidth' must not be null");
         MemorySegment minimumWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(naturalWidth, "Parameter 'naturalWidth' must not be null");
         MemorySegment naturalWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_cell_area_context_get_preferred_width_for_height.invokeExact(
                     handle(),
                     height,
-                    (Addressable) minimumWidthPOINTER.address(),
-                    (Addressable) naturalWidthPOINTER.address());
+                    (Addressable) (minimumWidth == null ? MemoryAddress.NULL : (Addressable) minimumWidthPOINTER.address()),
+                    (Addressable) (naturalWidth == null ? MemoryAddress.NULL : (Addressable) naturalWidthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimumWidth.set(minimumWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        naturalWidth.set(naturalWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minimumWidth != null) minimumWidth.set(minimumWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (naturalWidth != null) naturalWidth.set(naturalWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -336,7 +306,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_cell_area_context_get_type.invokeExact();
@@ -345,38 +315,40 @@ public class CellAreaContext extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link CellAreaContext.Builder} object constructs a {@link CellAreaContext} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CellAreaContext.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link CellAreaContext.Build} object constructs a {@link CellAreaContext} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CellAreaContext} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CellAreaContext} using {@link CellAreaContext#castFrom}.
+         * {@link CellAreaContext}.
          * @return A new instance of {@code CellAreaContext} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CellAreaContext construct() {
-            return CellAreaContext.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CellAreaContext.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CellAreaContext build() {
+            return (CellAreaContext) org.gtk.gobject.GObject.newWithProperties(
+                CellAreaContext.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -385,7 +357,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
          * @param area The value for the {@code area} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setArea(org.gtk.gtk.CellArea area) {
+        public Builder setArea(org.gtk.gtk.CellArea area) {
             names.add("area");
             values.add(org.gtk.gobject.Value.create(area));
             return this;
@@ -398,7 +370,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
          * @param minimumHeight The value for the {@code minimum-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinimumHeight(int minimumHeight) {
+        public Builder setMinimumHeight(int minimumHeight) {
             names.add("minimum-height");
             values.add(org.gtk.gobject.Value.create(minimumHeight));
             return this;
@@ -411,7 +383,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
          * @param minimumWidth The value for the {@code minimum-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinimumWidth(int minimumWidth) {
+        public Builder setMinimumWidth(int minimumWidth) {
             names.add("minimum-width");
             values.add(org.gtk.gobject.Value.create(minimumWidth));
             return this;
@@ -424,7 +396,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
          * @param naturalHeight The value for the {@code natural-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNaturalHeight(int naturalHeight) {
+        public Builder setNaturalHeight(int naturalHeight) {
             names.add("natural-height");
             values.add(org.gtk.gobject.Value.create(naturalHeight));
             return this;
@@ -437,7 +409,7 @@ public class CellAreaContext extends org.gtk.gobject.Object {
          * @param naturalWidth The value for the {@code natural-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNaturalWidth(int naturalWidth) {
+        public Builder setNaturalWidth(int naturalWidth) {
             names.add("natural-width");
             values.add(org.gtk.gobject.Value.create(naturalWidth));
             return this;

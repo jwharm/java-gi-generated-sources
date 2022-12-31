@@ -14,7 +14,15 @@ public final class GstPlayer {
         System.loadLibrary("gstplayer-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Gets a string representing the given color balance type.
@@ -22,8 +30,7 @@ public final class GstPlayer {
      * @return a string with the name of the color
      *   balance type.
      */
-    public static @NotNull java.lang.String playerColorBalanceTypeGetName(@NotNull org.gstreamer.player.PlayerColorBalanceType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String playerColorBalanceTypeGetName(org.gstreamer.player.PlayerColorBalanceType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_color_balance_type_get_name.invokeExact(
@@ -31,7 +38,7 @@ public final class GstPlayer {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -39,8 +46,7 @@ public final class GstPlayer {
      * @param error a {@link PlayerError}
      * @return a string with the given error.
      */
-    public static @NotNull java.lang.String playerErrorGetName(@NotNull org.gstreamer.player.PlayerError error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public static java.lang.String playerErrorGetName(org.gstreamer.player.PlayerError error) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_error_get_name.invokeExact(
@@ -48,10 +54,10 @@ public final class GstPlayer {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark playerErrorQuark() {
+    public static org.gtk.glib.Quark playerErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_player_error_quark.invokeExact();
@@ -66,8 +72,7 @@ public final class GstPlayer {
      * @param state a {@link PlayerState}
      * @return a string with the name of the state.
      */
-    public static @NotNull java.lang.String playerStateGetName(@NotNull org.gstreamer.player.PlayerState state) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public static java.lang.String playerStateGetName(org.gstreamer.player.PlayerState state) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_state_get_name.invokeExact(
@@ -75,7 +80,7 @@ public final class GstPlayer {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
@@ -107,11 +112,5 @@ public final class GstPlayer {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static void cbPlayerSignalDispatcherFunc(MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlayerSignalDispatcherFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPlayerSignalDispatcherFunc();
-        }
     }
 }

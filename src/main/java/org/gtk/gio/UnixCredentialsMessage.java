@@ -35,18 +35,16 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
     
     private static final java.lang.String C_TYPE_NAME = "GUnixCredentialsMessage";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.SocketControlMessage.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.SocketControlMessage.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -54,33 +52,15 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public UnixCredentialsMessage(Addressable address, Ownership ownership) {
+    protected UnixCredentialsMessage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to UnixCredentialsMessage if its GType is a (or inherits from) "GUnixCredentialsMessage".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code UnixCredentialsMessage} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GUnixCredentialsMessage", a ClassCastException will be thrown.
-     */
-    public static UnixCredentialsMessage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), UnixCredentialsMessage.getType())) {
-            return new UnixCredentialsMessage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GUnixCredentialsMessage");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, UnixCredentialsMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UnixCredentialsMessage(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_credentials_message_new.invokeExact();
         } catch (Throwable ERR) {
@@ -96,9 +76,8 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithCredentials(@NotNull org.gtk.gio.Credentials credentials) {
-        java.util.Objects.requireNonNull(credentials, "Parameter 'credentials' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithCredentials(org.gtk.gio.Credentials credentials) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_credentials_message_new_with_credentials.invokeExact(
                     credentials.handle());
@@ -113,15 +92,16 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
      * @param credentials A {@link Credentials} object.
      * @return a new {@link UnixCredentialsMessage}
      */
-    public static UnixCredentialsMessage newWithCredentials(@NotNull org.gtk.gio.Credentials credentials) {
-        return new UnixCredentialsMessage(constructNewWithCredentials(credentials), Ownership.FULL);
+    public static UnixCredentialsMessage newWithCredentials(org.gtk.gio.Credentials credentials) {
+        var RESULT = constructNewWithCredentials(credentials);
+        return (org.gtk.gio.UnixCredentialsMessage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.UnixCredentialsMessage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Gets the credentials stored in {@code message}.
      * @return A {@link Credentials} instance. Do not free, it is owned by {@code message}.
      */
-    public @NotNull org.gtk.gio.Credentials getCredentials() {
+    public org.gtk.gio.Credentials getCredentials() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_credentials_message_get_credentials.invokeExact(
@@ -129,14 +109,14 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Credentials(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Credentials) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Credentials.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_unix_credentials_message_get_type.invokeExact();
@@ -157,40 +137,42 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link UnixCredentialsMessage.Builder} object constructs a {@link UnixCredentialsMessage} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link UnixCredentialsMessage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.SocketControlMessage.Build {
+    public static class Builder extends org.gtk.gio.SocketControlMessage.Builder {
         
-         /**
-         * A {@link UnixCredentialsMessage.Build} object constructs a {@link UnixCredentialsMessage} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link UnixCredentialsMessage} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link UnixCredentialsMessage} using {@link UnixCredentialsMessage#castFrom}.
+         * {@link UnixCredentialsMessage}.
          * @return A new instance of {@code UnixCredentialsMessage} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public UnixCredentialsMessage construct() {
-            return UnixCredentialsMessage.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    UnixCredentialsMessage.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public UnixCredentialsMessage build() {
+            return (UnixCredentialsMessage) org.gtk.gobject.GObject.newWithProperties(
+                UnixCredentialsMessage.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -199,7 +181,7 @@ public class UnixCredentialsMessage extends org.gtk.gio.SocketControlMessage {
          * @param credentials The value for the {@code credentials} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCredentials(org.gtk.gio.Credentials credentials) {
+        public Builder setCredentials(org.gtk.gio.Credentials credentials) {
             names.add("credentials");
             values.add(org.gtk.gobject.Value.create(credentials));
             return this;

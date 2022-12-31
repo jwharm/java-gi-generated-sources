@@ -46,40 +46,26 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Because ColorButton is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ColorButton(Addressable address, Ownership ownership) {
+    protected ColorButton(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ColorButton if its GType is a (or inherits from) "GtkColorButton".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ColorButton} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkColorButton", a ClassCastException will be thrown.
-     */
-    public static ColorButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ColorButton.getType())) {
-            return new ColorButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkColorButton");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ColorButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorButton(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_color_button_new.invokeExact();
         } catch (Throwable ERR) {
@@ -101,9 +87,8 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithRgba(@NotNull org.gtk.gdk.RGBA rgba) {
-        java.util.Objects.requireNonNull(rgba, "Parameter 'rgba' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithRgba(org.gtk.gdk.RGBA rgba) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_color_button_new_with_rgba.invokeExact(
                     rgba.handle());
@@ -118,8 +103,9 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param rgba A {@code GdkRGBA} to set the current color with
      * @return a new color button
      */
-    public static ColorButton newWithRgba(@NotNull org.gtk.gdk.RGBA rgba) {
-        return new ColorButton(constructNewWithRgba(rgba), Ownership.NONE);
+    public static ColorButton newWithRgba(org.gtk.gdk.RGBA rgba) {
+        var RESULT = constructNewWithRgba(rgba);
+        return (org.gtk.gtk.ColorButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ColorButton.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -134,14 +120,14 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the title of the color chooser dialog.
      * @return An internal string, do not free the return value
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_color_button_get_title.invokeExact(
@@ -149,7 +135,7 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -160,7 +146,7 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         try {
             DowncallHandles.gtk_color_button_set_modal.invokeExact(
                     handle(),
-                    modal ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(modal, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,12 +156,11 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Sets the title for the color chooser dialog.
      * @param title String containing new window title
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.gtk_color_button_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +170,7 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_color_button_get_type.invokeExact();
@@ -197,7 +182,18 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(ColorButton sourceColorButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceColorButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -211,16 +207,8 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<ColorButton.Activate> onActivate(ColorButton.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColorButton.Callbacks.class, "signalColorButtonActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ColorButton.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -228,7 +216,18 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     
     @FunctionalInterface
     public interface ColorSet {
-        void signalReceived(ColorButton sourceColorButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceColorButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ColorSet.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -246,52 +245,46 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
     public Signal<ColorButton.ColorSet> onColorSet(ColorButton.ColorSet handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("color-set"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColorButton.Callbacks.class, "signalColorButtonColorSet",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ColorButton.ColorSet>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("color-set"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link ColorButton.Builder} object constructs a {@link ColorButton} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ColorButton.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link ColorButton.Build} object constructs a {@link ColorButton} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ColorButton} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ColorButton} using {@link ColorButton#castFrom}.
+         * {@link ColorButton}.
          * @return A new instance of {@code ColorButton} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ColorButton construct() {
-            return ColorButton.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ColorButton.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ColorButton build() {
+            return (ColorButton) org.gtk.gobject.GObject.newWithProperties(
+                ColorButton.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -300,7 +293,7 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param modal The value for the {@code modal} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModal(boolean modal) {
+        public Builder setModal(boolean modal) {
             names.add("modal");
             values.add(org.gtk.gobject.Value.create(modal));
             return this;
@@ -315,7 +308,7 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param showEditor The value for the {@code show-editor} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowEditor(boolean showEditor) {
+        public Builder setShowEditor(boolean showEditor) {
             names.add("show-editor");
             values.add(org.gtk.gobject.Value.create(showEditor));
             return this;
@@ -326,7 +319,7 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -376,20 +369,5 @@ public class ColorButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalColorButtonActivate(MemoryAddress sourceColorButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ColorButton.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorButton(sourceColorButton, Ownership.NONE));
-        }
-        
-        public static void signalColorButtonColorSet(MemoryAddress sourceColorButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ColorButton.ColorSet) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorButton(sourceColorButton, Ownership.NONE));
-        }
     }
 }

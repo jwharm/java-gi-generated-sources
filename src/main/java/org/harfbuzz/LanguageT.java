@@ -44,17 +44,19 @@ public class LanguageT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LanguageT(Addressable address, Ownership ownership) {
+    protected LanguageT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LanguageT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LanguageT(input, ownership);
     
     /**
      * Converts an {@link LanguageT} to a string.
      * @return A {@code NULL}-terminated string representing the {@code language}. Must not be freed by
      * the caller.
      */
-    public @NotNull java.lang.String String() {
+    public java.lang.String String() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_language_to_string.invokeExact(
@@ -62,7 +64,7 @@ public class LanguageT extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

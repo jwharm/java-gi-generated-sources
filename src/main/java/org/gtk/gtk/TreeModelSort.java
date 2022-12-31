@@ -101,7 +101,7 @@ import org.jetbrains.annotations.*;
  * }
  * }</pre>
  */
-public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel, org.gtk.gtk.TreeSortable {
+public class TreeModelSort extends org.gtk.gobject.GObject implements org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel, org.gtk.gtk.TreeSortable {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -109,18 +109,16 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
     
     private static final java.lang.String C_TYPE_NAME = "GtkTreeModelSort";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -128,34 +126,15 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeModelSort(Addressable address, Ownership ownership) {
+    protected TreeModelSort(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TreeModelSort if its GType is a (or inherits from) "GtkTreeModelSort".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TreeModelSort} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTreeModelSort", a ClassCastException will be thrown.
-     */
-    public static TreeModelSort castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeModelSort.getType())) {
-            return new TreeModelSort(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeModelSort");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeModelSort> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelSort(input, ownership);
     
-    private static Addressable constructNewWithModel(@NotNull org.gtk.gtk.TreeModel childModel) {
-        java.util.Objects.requireNonNull(childModel, "Parameter 'childModel' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithModel(org.gtk.gtk.TreeModel childModel) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_new_with_model.invokeExact(
                     childModel.handle());
@@ -170,8 +149,9 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * @param childModel A {@code GtkTreeModel}
      * @return A new {@code GtkTreeModelSort}.
      */
-    public static TreeModelSort newWithModel(@NotNull org.gtk.gtk.TreeModel childModel) {
-        return new TreeModelSort(constructNewWithModel(childModel), Ownership.FULL);
+    public static TreeModelSort newWithModel(org.gtk.gtk.TreeModel childModel) {
+        var RESULT = constructNewWithModel(childModel);
+        return (org.gtk.gtk.TreeModelSort) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModelSort.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -200,9 +180,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * @return {@code true}, if {@code sort_iter} was set, i.e. if {@code sort_iter} is a
      * valid iterator pointer to a visible row in the child model.
      */
-    public boolean convertChildIterToIter(@NotNull org.gtk.gtk.TreeIter sortIter, @NotNull org.gtk.gtk.TreeIter childIter) {
-        java.util.Objects.requireNonNull(sortIter, "Parameter 'sortIter' must not be null");
-        java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
+    public boolean convertChildIterToIter(org.gtk.gtk.TreeIter sortIter, org.gtk.gtk.TreeIter childIter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_model_sort_convert_child_iter_to_iter.invokeExact(
@@ -212,7 +190,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -223,8 +201,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * @param childPath A {@code GtkTreePath} to convert
      * @return A newly allocated {@code GtkTreePath}
      */
-    public @Nullable org.gtk.gtk.TreePath convertChildPathToPath(@NotNull org.gtk.gtk.TreePath childPath) {
-        java.util.Objects.requireNonNull(childPath, "Parameter 'childPath' must not be null");
+    public @Nullable org.gtk.gtk.TreePath convertChildPathToPath(org.gtk.gtk.TreePath childPath) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_convert_child_path_to_path.invokeExact(
@@ -233,7 +210,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -241,9 +218,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * @param childIter An uninitialized {@code GtkTreeIter}
      * @param sortedIter A valid {@code GtkTreeIter} pointing to a row on {@code tree_model_sort}.
      */
-    public void convertIterToChildIter(@NotNull org.gtk.gtk.TreeIter childIter, @NotNull org.gtk.gtk.TreeIter sortedIter) {
-        java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
-        java.util.Objects.requireNonNull(sortedIter, "Parameter 'sortedIter' must not be null");
+    public void convertIterToChildIter(org.gtk.gtk.TreeIter childIter, org.gtk.gtk.TreeIter sortedIter) {
         try {
             DowncallHandles.gtk_tree_model_sort_convert_iter_to_child_iter.invokeExact(
                     handle(),
@@ -263,8 +238,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * @param sortedPath A {@code GtkTreePath} to convert
      * @return A newly allocated {@code GtkTreePath}
      */
-    public @Nullable org.gtk.gtk.TreePath convertPathToChildPath(@NotNull org.gtk.gtk.TreePath sortedPath) {
-        java.util.Objects.requireNonNull(sortedPath, "Parameter 'sortedPath' must not be null");
+    public @Nullable org.gtk.gtk.TreePath convertPathToChildPath(org.gtk.gtk.TreePath sortedPath) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_convert_path_to_child_path.invokeExact(
@@ -273,14 +247,14 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Returns the model the {@code GtkTreeModelSort} is sorting.
      * @return the "child model" being sorted
      */
-    public @NotNull org.gtk.gtk.TreeModel getModel() {
+    public org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_sort_get_model.invokeExact(
@@ -288,7 +262,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -300,8 +274,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * @param iter A {@code GtkTreeIter}
      * @return {@code true} if the iter is valid, {@code false} if the iter is invalid.
      */
-    public boolean iterIsValid(@NotNull org.gtk.gtk.TreeIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean iterIsValid(org.gtk.gtk.TreeIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_model_sort_iter_is_valid.invokeExact(
@@ -310,7 +283,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -332,7 +305,7 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_tree_model_sort_get_type.invokeExact();
@@ -341,42 +314,44 @@ public class TreeModelSort extends org.gtk.gobject.Object implements org.gtk.gtk
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TreeModelSort.Builder} object constructs a {@link TreeModelSort} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TreeModelSort.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TreeModelSort.Build} object constructs a {@link TreeModelSort} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TreeModelSort} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TreeModelSort} using {@link TreeModelSort#castFrom}.
+         * {@link TreeModelSort}.
          * @return A new instance of {@code TreeModelSort} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TreeModelSort construct() {
-            return TreeModelSort.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TreeModelSort.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TreeModelSort build() {
+            return (TreeModelSort) org.gtk.gobject.GObject.newWithProperties(
+                TreeModelSort.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setModel(org.gtk.gtk.TreeModel model) {
+        public Builder setModel(org.gtk.gtk.TreeModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;

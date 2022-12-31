@@ -44,10 +44,12 @@ public class IConv extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IConv(Addressable address, Ownership ownership) {
+    protected IConv(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IConv> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IConv(input, ownership);
     
     /**
      * Same as the standard UNIX routine iconv(), but
@@ -69,12 +71,8 @@ public class IConv extends Struct {
      * @param outbytesLeft inout parameter, bytes available to fill in {@code outbuf}
      * @return count of non-reversible conversions, or -1 on error
      */
-    public long gIconv(@NotNull PointerString inbuf, Out<Long> inbytesLeft, @NotNull PointerString outbuf, Out<Long> outbytesLeft) {
-        java.util.Objects.requireNonNull(inbuf, "Parameter 'inbuf' must not be null");
-        java.util.Objects.requireNonNull(inbytesLeft, "Parameter 'inbytesLeft' must not be null");
+    public long gIconv(PointerString inbuf, Out<Long> inbytesLeft, PointerString outbuf, Out<Long> outbytesLeft) {
         MemorySegment inbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
-        java.util.Objects.requireNonNull(outbytesLeft, "Parameter 'outbytesLeft' must not be null");
         MemorySegment outbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
@@ -126,18 +124,16 @@ public class IConv extends Struct {
      * @return a "conversion descriptor", or (GIConv)-1 if
      *  opening the converter failed.
      */
-    public static @NotNull org.gtk.glib.IConv open(@NotNull java.lang.String toCodeset, @NotNull java.lang.String fromCodeset) {
-        java.util.Objects.requireNonNull(toCodeset, "Parameter 'toCodeset' must not be null");
-        java.util.Objects.requireNonNull(fromCodeset, "Parameter 'fromCodeset' must not be null");
+    public static org.gtk.glib.IConv open(java.lang.String toCodeset, java.lang.String fromCodeset) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_iconv_open.invokeExact(
-                    Interop.allocateNativeString(toCodeset),
-                    Interop.allocateNativeString(fromCodeset));
+                    Marshal.stringToAddress.marshal(toCodeset, null),
+                    Marshal.stringToAddress.marshal(fromCodeset, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.IConv(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.IConv.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

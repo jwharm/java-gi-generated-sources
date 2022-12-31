@@ -16,5 +16,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufModulePreparedFunc {
-        void onPixbufModulePreparedFunc(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, @NotNull org.gtk.gdkpixbuf.PixbufAnimation anim);
+    void run(org.gtk.gdkpixbuf.Pixbuf pixbuf, org.gtk.gdkpixbuf.PixbufAnimation anim);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress pixbuf, MemoryAddress anim, MemoryAddress userData) {
+        run((org.gtk.gdkpixbuf.Pixbuf) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pixbuf)), org.gtk.gdkpixbuf.Pixbuf.fromAddress).marshal(pixbuf, Ownership.NONE), (org.gtk.gdkpixbuf.PixbufAnimation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(anim)), org.gtk.gdkpixbuf.PixbufAnimation.fromAddress).marshal(anim, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PixbufModulePreparedFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

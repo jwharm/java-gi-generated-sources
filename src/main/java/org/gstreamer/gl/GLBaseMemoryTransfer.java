@@ -27,11 +27,15 @@ public class GLBaseMemoryTransfer extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public GLBaseMemoryTransfer or(GLBaseMemoryTransfer mask) {
-        return new GLBaseMemoryTransfer(this.getValue() | mask.getValue());
+    public GLBaseMemoryTransfer or(GLBaseMemoryTransfer... masks) {
+        int value = this.getValue();
+        for (GLBaseMemoryTransfer arg : masks) {
+            value |= arg.getValue();
+        }
+        return new GLBaseMemoryTransfer(value);
     }
     
     /**
@@ -41,7 +45,8 @@ public class GLBaseMemoryTransfer extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static GLBaseMemoryTransfer combined(GLBaseMemoryTransfer mask, GLBaseMemoryTransfer... masks) {
-        int value = mask.getValue();        for (GLBaseMemoryTransfer arg : masks) {
+        int value = mask.getValue();
+        for (GLBaseMemoryTransfer arg : masks) {
             value |= arg.getValue();
         }
         return new GLBaseMemoryTransfer(value);

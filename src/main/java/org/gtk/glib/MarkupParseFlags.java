@@ -54,11 +54,15 @@ public class MarkupParseFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public MarkupParseFlags or(MarkupParseFlags mask) {
-        return new MarkupParseFlags(this.getValue() | mask.getValue());
+    public MarkupParseFlags or(MarkupParseFlags... masks) {
+        int value = this.getValue();
+        for (MarkupParseFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new MarkupParseFlags(value);
     }
     
     /**
@@ -68,7 +72,8 @@ public class MarkupParseFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static MarkupParseFlags combined(MarkupParseFlags mask, MarkupParseFlags... masks) {
-        int value = mask.getValue();        for (MarkupParseFlags arg : masks) {
+        int value = mask.getValue();
+        for (MarkupParseFlags arg : masks) {
             value |= arg.getValue();
         }
         return new MarkupParseFlags(value);

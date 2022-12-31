@@ -40,8 +40,10 @@ public class SamplerYcbcrConversionInfoKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SamplerYcbcrConversionInfoKHR(Addressable address, Ownership ownership) {
+    protected SamplerYcbcrConversionInfoKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SamplerYcbcrConversionInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SamplerYcbcrConversionInfoKHR(input, ownership);
 }

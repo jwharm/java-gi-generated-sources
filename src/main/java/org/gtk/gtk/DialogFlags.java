@@ -34,11 +34,15 @@ public class DialogFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DialogFlags or(DialogFlags mask) {
-        return new DialogFlags(this.getValue() | mask.getValue());
+    public DialogFlags or(DialogFlags... masks) {
+        int value = this.getValue();
+        for (DialogFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DialogFlags(value);
     }
     
     /**
@@ -48,7 +52,8 @@ public class DialogFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DialogFlags combined(DialogFlags mask, DialogFlags... masks) {
-        int value = mask.getValue();        for (DialogFlags arg : masks) {
+        int value = mask.getValue();
+        for (DialogFlags arg : masks) {
             value |= arg.getValue();
         }
         return new DialogFlags(value);

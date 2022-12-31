@@ -13,29 +13,27 @@ public class GLAllocationParams extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLAllocationParams";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("struct_size"),
-        Interop.valueLayout.ADDRESS.withName("copy"),
-        Interop.valueLayout.ADDRESS.withName("free"),
-        Interop.valueLayout.C_INT.withName("alloc_flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("alloc_size"),
-        Interop.valueLayout.ADDRESS.withName("alloc_params"),
-        Interop.valueLayout.ADDRESS.withName("context"),
-        Interop.valueLayout.ADDRESS.withName("notify"),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.ADDRESS.withName("wrapped_data"),
-        Interop.valueLayout.ADDRESS.withName("gl_handle"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("struct_size"),
+            Interop.valueLayout.ADDRESS.withName("copy"),
+            Interop.valueLayout.ADDRESS.withName("free"),
+            Interop.valueLayout.C_INT.withName("alloc_flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("alloc_size"),
+            Interop.valueLayout.ADDRESS.withName("alloc_params"),
+            Interop.valueLayout.ADDRESS.withName("context"),
+            Interop.valueLayout.ADDRESS.withName("notify"),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.ADDRESS.withName("wrapped_data"),
+            Interop.valueLayout.ADDRESS.withName("gl_handle"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,7 +53,7 @@ public class GLAllocationParams extends Struct {
      * Get the value of the field {@code struct_size}
      * @return The value of the field {@code struct_size}
      */
-    public long structSize$get() {
+    public long getStructSize() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("struct_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -66,7 +64,7 @@ public class GLAllocationParams extends Struct {
      * Change the value of the field {@code struct_size}
      * @param structSize The new value of the field {@code struct_size}
      */
-    public void structSize$set(long structSize) {
+    public void setStructSize(long structSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("struct_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), structSize);
@@ -76,7 +74,7 @@ public class GLAllocationParams extends Struct {
      * Get the value of the field {@code copy}
      * @return The value of the field {@code copy}
      */
-    public org.gstreamer.gl.GLAllocationParamsCopyFunc copy$get() {
+    public org.gstreamer.gl.GLAllocationParamsCopyFunc getCopy() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("copy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,10 +82,20 @@ public class GLAllocationParams extends Struct {
     }
     
     /**
+     * Change the value of the field {@code copy}
+     * @param copy The new value of the field {@code copy}
+     */
+    public void setCopy(org.gstreamer.gl.GLAllocationParamsCopyFunc copy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("copy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code free}
      * @return The value of the field {@code free}
      */
-    public org.gstreamer.gl.GLAllocationParamsFreeFunc free$get() {
+    public org.gstreamer.gl.GLAllocationParamsFreeFunc getFree() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("free"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -95,10 +103,20 @@ public class GLAllocationParams extends Struct {
     }
     
     /**
+     * Change the value of the field {@code free}
+     * @param free The new value of the field {@code free}
+     */
+    public void setFree(org.gstreamer.gl.GLAllocationParamsFreeFunc free) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("free"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code alloc_flags}
      * @return The value of the field {@code alloc_flags}
      */
-    public int allocFlags$get() {
+    public int getAllocFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alloc_flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -109,7 +127,7 @@ public class GLAllocationParams extends Struct {
      * Change the value of the field {@code alloc_flags}
      * @param allocFlags The new value of the field {@code alloc_flags}
      */
-    public void allocFlags$set(int allocFlags) {
+    public void setAllocFlags(int allocFlags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alloc_flags"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocFlags);
@@ -119,7 +137,7 @@ public class GLAllocationParams extends Struct {
      * Get the value of the field {@code alloc_size}
      * @return The value of the field {@code alloc_size}
      */
-    public long allocSize$get() {
+    public long getAllocSize() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -130,7 +148,7 @@ public class GLAllocationParams extends Struct {
      * Change the value of the field {@code alloc_size}
      * @param allocSize The new value of the field {@code alloc_size}
      */
-    public void allocSize$set(long allocSize) {
+    public void setAllocSize(long allocSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocSize);
@@ -140,49 +158,49 @@ public class GLAllocationParams extends Struct {
      * Get the value of the field {@code alloc_params}
      * @return The value of the field {@code alloc_params}
      */
-    public org.gstreamer.gst.AllocationParams allocParams$get() {
+    public org.gstreamer.gst.AllocationParams getAllocParams() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alloc_params"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.AllocationParams(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.AllocationParams.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code alloc_params}
      * @param allocParams The new value of the field {@code alloc_params}
      */
-    public void allocParams$set(org.gstreamer.gst.AllocationParams allocParams) {
+    public void setAllocParams(org.gstreamer.gst.AllocationParams allocParams) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alloc_params"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocParams.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocParams == null ? MemoryAddress.NULL : allocParams.handle()));
     }
     
     /**
      * Get the value of the field {@code context}
      * @return The value of the field {@code context}
      */
-    public org.gstreamer.gl.GLContext context$get() {
+    public org.gstreamer.gl.GLContext getContext() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("context"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gl.GLContext(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLContext.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code context}
      * @param context The new value of the field {@code context}
      */
-    public void context$set(org.gstreamer.gl.GLContext context) {
+    public void setContext(org.gstreamer.gl.GLContext context) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("context"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), context.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
     }
     
     /**
      * Get the value of the field {@code notify}
      * @return The value of the field {@code notify}
      */
-    public org.gtk.glib.DestroyNotify notify$get() {
+    public org.gtk.glib.DestroyNotify getNotify() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("notify"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -190,10 +208,20 @@ public class GLAllocationParams extends Struct {
     }
     
     /**
+     * Change the value of the field {@code notify}
+     * @param notify The new value of the field {@code notify}
+     */
+    public void setNotify(org.gtk.glib.DestroyNotify notify) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("notify"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code user_data}
      * @return The value of the field {@code user_data}
      */
-    public java.lang.foreign.MemoryAddress userData$get() {
+    public java.lang.foreign.MemoryAddress getUserData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -204,17 +232,17 @@ public class GLAllocationParams extends Struct {
      * Change the value of the field {@code user_data}
      * @param userData The new value of the field {@code user_data}
      */
-    public void userData$set(java.lang.foreign.MemoryAddress userData) {
+    public void setUserData(java.lang.foreign.MemoryAddress userData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) userData);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
     }
     
     /**
      * Get the value of the field {@code wrapped_data}
      * @return The value of the field {@code wrapped_data}
      */
-    public java.lang.foreign.MemoryAddress wrappedData$get() {
+    public java.lang.foreign.MemoryAddress getWrappedData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("wrapped_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -225,17 +253,17 @@ public class GLAllocationParams extends Struct {
      * Change the value of the field {@code wrapped_data}
      * @param wrappedData The new value of the field {@code wrapped_data}
      */
-    public void wrappedData$set(java.lang.foreign.MemoryAddress wrappedData) {
+    public void setWrappedData(java.lang.foreign.MemoryAddress wrappedData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("wrapped_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) wrappedData);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wrappedData == null ? MemoryAddress.NULL : (Addressable) wrappedData));
     }
     
     /**
      * Get the value of the field {@code gl_handle}
      * @return The value of the field {@code gl_handle}
      */
-    public java.lang.foreign.MemoryAddress glHandle$get() {
+    public java.lang.foreign.MemoryAddress getGlHandle() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("gl_handle"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -246,10 +274,10 @@ public class GLAllocationParams extends Struct {
      * Change the value of the field {@code gl_handle}
      * @param glHandle The new value of the field {@code gl_handle}
      */
-    public void glHandle$set(java.lang.foreign.MemoryAddress glHandle) {
+    public void setGlHandle(java.lang.foreign.MemoryAddress glHandle) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("gl_handle"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) glHandle);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glHandle == null ? MemoryAddress.NULL : (Addressable) glHandle));
     }
     
     /**
@@ -257,12 +285,14 @@ public class GLAllocationParams extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLAllocationParams(Addressable address, Ownership ownership) {
+    protected GLAllocationParams(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    public @NotNull org.gstreamer.gl.GLAllocationParams copy() {
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLAllocationParams> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLAllocationParams(input, ownership);
+    
+    public org.gstreamer.gl.GLAllocationParams copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_allocation_params_copy.invokeExact(
@@ -270,7 +300,7 @@ public class GLAllocationParams extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLAllocationParams(RESULT, Ownership.FULL);
+        return org.gstreamer.gl.GLAllocationParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -278,8 +308,7 @@ public class GLAllocationParams extends Struct {
      * should call this function in their own overridden copy function.
      * @param dest the destination {@link GLAllocationParams}
      */
-    public void copyData(@NotNull org.gstreamer.gl.GLAllocationParams dest) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public void copyData(org.gstreamer.gl.GLAllocationParams dest) {
         try {
             DowncallHandles.gst_gl_allocation_params_copy_data.invokeExact(
                     handle(),
@@ -325,39 +354,29 @@ public class GLAllocationParams extends Struct {
      * @param allocSize the number of bytes to allocate.
      * @param allocParams a {@link org.gstreamer.gst.AllocationParams} to apply
      * @param glHandle a GL handle to initialize the allocation with
+     * @param notify a {@link org.gtk.glib.DestroyNotify}
      * @return whether the parameters could be initialized
      */
-    public boolean init(long structSize, int allocFlags, @NotNull org.gstreamer.gl.GLAllocationParamsCopyFunc copy, @NotNull org.gstreamer.gl.GLAllocationParamsFreeFunc free, @NotNull org.gstreamer.gl.GLContext context, long allocSize, @Nullable org.gstreamer.gst.AllocationParams allocParams, @Nullable java.lang.foreign.MemoryAddress glHandle) {
-        java.util.Objects.requireNonNull(copy, "Parameter 'copy' must not be null");
-        java.util.Objects.requireNonNull(free, "Parameter 'free' must not be null");
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public boolean init(long structSize, int allocFlags, org.gstreamer.gl.GLAllocationParamsCopyFunc copy, org.gstreamer.gl.GLAllocationParamsFreeFunc free, org.gstreamer.gl.GLContext context, long allocSize, @Nullable org.gstreamer.gst.AllocationParams allocParams, @Nullable java.lang.foreign.MemoryAddress glHandle, @Nullable org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_allocation_params_init.invokeExact(
                     handle(),
                     structSize,
                     allocFlags,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstGL.Callbacks.class, "cbGLAllocationParamsCopyFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstGL.Callbacks.class, "cbGLAllocationParamsFreeFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
+                    (Addressable) copy.toCallback(),
+                    (Addressable) free.toCallback(),
                     context.handle(),
                     allocSize,
                     (Addressable) (allocParams == null ? MemoryAddress.NULL : allocParams.handle()),
-                    (Addressable) (Interop.registerCallback(copy)),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) (glHandle == null ? MemoryAddress.NULL : (Addressable) glHandle),
-                    (Addressable) (Interop.registerCallback(copy)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -392,31 +411,35 @@ public class GLAllocationParams extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLAllocationParams.Builder} object constructs a {@link GLAllocationParams} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLAllocationParams.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLAllocationParams struct;
+        private final GLAllocationParams struct;
         
-         /**
-         * A {@link GLAllocationParams.Build} object constructs a {@link GLAllocationParams} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLAllocationParams.allocate();
         }
         
          /**
          * Finish building the {@link GLAllocationParams} struct.
          * @return A new instance of {@code GLAllocationParams} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLAllocationParams construct() {
+        public GLAllocationParams build() {
             return struct;
         }
         
@@ -425,7 +448,7 @@ public class GLAllocationParams extends Struct {
          * @param structSize The value for the {@code structSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStructSize(long structSize) {
+        public Builder setStructSize(long structSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("struct_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), structSize);
@@ -437,10 +460,10 @@ public class GLAllocationParams extends Struct {
          * @param copy The value for the {@code copy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCopy(java.lang.foreign.MemoryAddress copy) {
+        public Builder setCopy(org.gstreamer.gl.GLAllocationParamsCopyFunc copy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("copy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : copy));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (copy == null ? MemoryAddress.NULL : (Addressable) copy.toCallback()));
             return this;
         }
         
@@ -449,10 +472,10 @@ public class GLAllocationParams extends Struct {
          * @param free The value for the {@code free} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFree(java.lang.foreign.MemoryAddress free) {
+        public Builder setFree(org.gstreamer.gl.GLAllocationParamsFreeFunc free) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("free"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : free));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (free == null ? MemoryAddress.NULL : (Addressable) free.toCallback()));
             return this;
         }
         
@@ -461,7 +484,7 @@ public class GLAllocationParams extends Struct {
          * @param allocFlags The value for the {@code allocFlags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllocFlags(int allocFlags) {
+        public Builder setAllocFlags(int allocFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("alloc_flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocFlags);
@@ -473,7 +496,7 @@ public class GLAllocationParams extends Struct {
          * @param allocSize The value for the {@code allocSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllocSize(long allocSize) {
+        public Builder setAllocSize(long allocSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("alloc_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), allocSize);
@@ -485,7 +508,7 @@ public class GLAllocationParams extends Struct {
          * @param allocParams The value for the {@code allocParams} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllocParams(org.gstreamer.gst.AllocationParams allocParams) {
+        public Builder setAllocParams(org.gstreamer.gst.AllocationParams allocParams) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("alloc_params"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocParams == null ? MemoryAddress.NULL : allocParams.handle()));
@@ -497,7 +520,7 @@ public class GLAllocationParams extends Struct {
          * @param context The value for the {@code context} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContext(org.gstreamer.gl.GLContext context) {
+        public Builder setContext(org.gstreamer.gl.GLContext context) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("context"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (context == null ? MemoryAddress.NULL : context.handle()));
@@ -509,10 +532,10 @@ public class GLAllocationParams extends Struct {
          * @param notify The value for the {@code notify} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+        public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
             return this;
         }
         
@@ -521,7 +544,7 @@ public class GLAllocationParams extends Struct {
          * @param userData The value for the {@code userData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
@@ -533,7 +556,7 @@ public class GLAllocationParams extends Struct {
          * @param wrappedData The value for the {@code wrappedData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWrappedData(java.lang.foreign.MemoryAddress wrappedData) {
+        public Builder setWrappedData(java.lang.foreign.MemoryAddress wrappedData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("wrapped_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wrappedData == null ? MemoryAddress.NULL : (Addressable) wrappedData));
@@ -545,14 +568,14 @@ public class GLAllocationParams extends Struct {
          * @param glHandle The value for the {@code glHandle} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGlHandle(java.lang.foreign.MemoryAddress glHandle) {
+        public Builder setGlHandle(java.lang.foreign.MemoryAddress glHandle) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("gl_handle"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glHandle == null ? MemoryAddress.NULL : (Addressable) glHandle));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

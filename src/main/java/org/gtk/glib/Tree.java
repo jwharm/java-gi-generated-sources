@@ -45,13 +45,22 @@ public class Tree extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Tree(Addressable address, Ownership ownership) {
+    protected Tree(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gtk.glib.CompareFunc keyCompareFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Tree> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Tree(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gtk.glib.CompareFunc keyCompareFunc) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_tree_new.invokeExact(
+                    (Addressable) keyCompareFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -62,24 +71,18 @@ public class Tree extends Struct {
      *   comes before the second, or a positive value if the first argument comes
      *   after the second.
      */
-    public Tree(@NotNull org.gtk.glib.CompareFunc keyCompareFunc) {
-        this(null, null); // avoid compiler error
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public Tree(org.gtk.glib.CompareFunc keyCompareFunc) {
+        super(constructNew(keyCompareFunc), Ownership.FULL);
     }
     
-    private static Addressable constructNewFull(@NotNull org.gtk.glib.CompareDataFunc keyCompareFunc) {
-        java.util.Objects.requireNonNull(keyCompareFunc, "Parameter 'keyCompareFunc' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFull(org.gtk.glib.CompareDataFunc keyCompareFunc, org.gtk.glib.DestroyNotify keyDestroyFunc, org.gtk.glib.DestroyNotify valueDestroyFunc) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tree_new_full.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(keyCompareFunc)),
-                    Interop.cbDestroyNotifySymbol(),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) keyCompareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) keyDestroyFunc.toCallback(),
+                    (Addressable) valueDestroyFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -91,23 +94,25 @@ public class Tree extends Struct {
      * to free the memory allocated for the key and value that get called when
      * removing the entry from the {@link Tree}.
      * @param keyCompareFunc qsort()-style comparison function
+     * @param keyDestroyFunc a function to free the memory allocated for the key
+     *   used when removing the entry from the {@link Tree} or {@code null} if you don't
+     *   want to supply such a function
+     * @param valueDestroyFunc a function to free the memory allocated for the
+     *   value used when removing the entry from the {@link Tree} or {@code null} if you
+     *   don't want to supply such a function
      * @return a newly allocated {@link Tree}
      */
-    public static Tree newFull(@NotNull org.gtk.glib.CompareDataFunc keyCompareFunc) {
-        return new Tree(constructNewFull(keyCompareFunc), Ownership.FULL);
+    public static Tree newFull(org.gtk.glib.CompareDataFunc keyCompareFunc, org.gtk.glib.DestroyNotify keyDestroyFunc, org.gtk.glib.DestroyNotify valueDestroyFunc) {
+        var RESULT = constructNewFull(keyCompareFunc, keyDestroyFunc, valueDestroyFunc);
+        return org.gtk.glib.Tree.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWithData(@NotNull org.gtk.glib.CompareDataFunc keyCompareFunc) {
-        java.util.Objects.requireNonNull(keyCompareFunc, "Parameter 'keyCompareFunc' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithData(org.gtk.glib.CompareDataFunc keyCompareFunc) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tree_new_with_data.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(keyCompareFunc)));
+                    (Addressable) keyCompareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -120,8 +125,9 @@ public class Tree extends Struct {
      * @param keyCompareFunc qsort()-style comparison function
      * @return a newly allocated {@link Tree}
      */
-    public static Tree newWithData(@NotNull org.gtk.glib.CompareDataFunc keyCompareFunc) {
-        return new Tree(constructNewWithData(keyCompareFunc), Ownership.FULL);
+    public static Tree newWithData(org.gtk.glib.CompareDataFunc keyCompareFunc) {
+        var RESULT = constructNewWithData(keyCompareFunc);
+        return org.gtk.glib.Tree.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -153,17 +159,12 @@ public class Tree extends Struct {
      * @param func the function to call for each node visited.
      *     If this function returns {@code true}, the traversal is stopped.
      */
-    public void foreach(@NotNull org.gtk.glib.TraverseFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void foreach(org.gtk.glib.TraverseFunc func) {
         try {
             DowncallHandles.g_tree_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTraverseFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -181,17 +182,12 @@ public class Tree extends Struct {
      * @param func the function to call for each node visited.
      *     If this function returns {@code true}, the traversal is stopped.
      */
-    public void foreachNode(@NotNull org.gtk.glib.TraverseNodeFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void foreachNode(org.gtk.glib.TraverseNodeFunc func) {
         try {
             DowncallHandles.g_tree_foreach_node.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTraverseNodeFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -253,7 +249,7 @@ public class Tree extends Struct {
      * @param value the value corresponding to the key
      * @return the inserted (or set) node.
      */
-    public @NotNull org.gtk.glib.TreeNode insertNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+    public org.gtk.glib.TreeNode insertNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tree_insert_node.invokeExact(
@@ -263,7 +259,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -311,7 +307,7 @@ public class Tree extends Struct {
         }
         if (origKey != null) origKey.set(origKeyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
         if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -331,7 +327,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -355,7 +351,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -386,7 +382,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -402,7 +398,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -411,7 +407,7 @@ public class Tree extends Struct {
      * It is safe to call this function from any thread.
      * @return the passed in {@link Tree}
      */
-    public @NotNull org.gtk.glib.Tree ref() {
+    public org.gtk.glib.Tree ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tree_ref.invokeExact(
@@ -419,7 +415,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Tree(RESULT, Ownership.FULL);
+        return org.gtk.glib.Tree.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -446,7 +442,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -493,7 +489,7 @@ public class Tree extends Struct {
      * @param value the value corresponding to the key
      * @return the inserted (or set) node.
      */
-    public @NotNull org.gtk.glib.TreeNode replaceNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
+    public org.gtk.glib.TreeNode replaceNode(@Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tree_replace_node.invokeExact(
@@ -503,7 +499,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -520,18 +516,13 @@ public class Tree extends Struct {
      * @return the value corresponding to the found key, or {@code null}
      *     if the key was not found
      */
-    public @Nullable java.lang.foreign.MemoryAddress search(@NotNull org.gtk.glib.CompareFunc searchFunc) {
-        java.util.Objects.requireNonNull(searchFunc, "Parameter 'searchFunc' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress search(org.gtk.glib.CompareFunc searchFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tree_search.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(searchFunc)));
+                    (Addressable) searchFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -552,22 +543,17 @@ public class Tree extends Struct {
      * @return the node corresponding to the
      *          found key, or {@code null} if the key was not found
      */
-    public @Nullable org.gtk.glib.TreeNode searchNode(@NotNull org.gtk.glib.CompareFunc searchFunc) {
-        java.util.Objects.requireNonNull(searchFunc, "Parameter 'searchFunc' must not be null");
+    public @Nullable org.gtk.glib.TreeNode searchNode(org.gtk.glib.CompareFunc searchFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tree_search_node.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(searchFunc)));
+                    (Addressable) searchFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -588,7 +574,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -603,19 +589,13 @@ public class Tree extends Struct {
      *     a different order, consider using an [n-ary tree][glib-N-ary-Trees].
      */
     @Deprecated
-    public void traverse(@NotNull org.gtk.glib.TraverseFunc traverseFunc, @NotNull org.gtk.glib.TraverseType traverseType) {
-        java.util.Objects.requireNonNull(traverseFunc, "Parameter 'traverseFunc' must not be null");
-        java.util.Objects.requireNonNull(traverseType, "Parameter 'traverseType' must not be null");
+    public void traverse(org.gtk.glib.TraverseFunc traverseFunc, org.gtk.glib.TraverseType traverseType) {
         try {
             DowncallHandles.g_tree_traverse.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTraverseFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
+                    (Addressable) traverseFunc.toCallback(),
                     traverseType.getValue(),
-                    (Addressable) (Interop.registerCallback(traverseFunc)));
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -659,7 +639,7 @@ public class Tree extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {

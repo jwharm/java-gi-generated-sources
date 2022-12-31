@@ -47,21 +47,21 @@ public class MarkupParseContext extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MarkupParseContext(Addressable address, Ownership ownership) {
+    protected MarkupParseContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gtk.glib.MarkupParser parser, @NotNull org.gtk.glib.MarkupParseFlags flags, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify userDataDnotify) {
-        java.util.Objects.requireNonNull(parser, "Parameter 'parser' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MarkupParseContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MarkupParseContext(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gtk.glib.MarkupParser parser, org.gtk.glib.MarkupParseFlags flags, org.gtk.glib.DestroyNotify userDataDnotify) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_new.invokeExact(
                     parser.handle(),
                     flags.getValue(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) userDataDnotify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -76,12 +76,11 @@ public class MarkupParseContext extends Struct {
      * free it and create a new parse context).
      * @param parser a {@link MarkupParser}
      * @param flags one or more {@link MarkupParseFlags}
-     * @param userData user data to pass to {@link MarkupParser} functions
      * @param userDataDnotify user data destroy notifier called when
      *     the parse context is freed
      */
-    public MarkupParseContext(@NotNull org.gtk.glib.MarkupParser parser, @NotNull org.gtk.glib.MarkupParseFlags flags, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify userDataDnotify) {
-        super(constructNew(parser, flags, userData, userDataDnotify), Ownership.FULL);
+    public MarkupParseContext(org.gtk.glib.MarkupParser parser, org.gtk.glib.MarkupParseFlags flags, org.gtk.glib.DestroyNotify userDataDnotify) {
+        super(constructNew(parser, flags, userDataDnotify), Ownership.FULL);
     }
     
     /**
@@ -106,7 +105,7 @@ public class MarkupParseContext extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -132,7 +131,7 @@ public class MarkupParseContext extends Struct {
      * elements, see g_markup_parse_context_get_element_stack().
      * @return the name of the currently open element, or {@code null}
      */
-    public @NotNull java.lang.String getElement() {
+    public java.lang.String getElement() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_element.invokeExact(
@@ -140,7 +139,7 @@ public class MarkupParseContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -157,7 +156,7 @@ public class MarkupParseContext extends Struct {
      * processed.
      * @return the element stack, which must not be modified
      */
-    public @NotNull org.gtk.glib.SList getElementStack() {
+    public org.gtk.glib.SList getElementStack() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_get_element_stack.invokeExact(
@@ -165,7 +164,7 @@ public class MarkupParseContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.NONE);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -177,20 +176,18 @@ public class MarkupParseContext extends Struct {
      * @param charNumber return location for a char-on-line number, or {@code null}
      */
     public void getPosition(Out<Integer> lineNumber, Out<Integer> charNumber) {
-        java.util.Objects.requireNonNull(lineNumber, "Parameter 'lineNumber' must not be null");
         MemorySegment lineNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(charNumber, "Parameter 'charNumber' must not be null");
         MemorySegment charNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.g_markup_parse_context_get_position.invokeExact(
                     handle(),
-                    (Addressable) lineNumberPOINTER.address(),
-                    (Addressable) charNumberPOINTER.address());
+                    (Addressable) (lineNumber == null ? MemoryAddress.NULL : (Addressable) lineNumberPOINTER.address()),
+                    (Addressable) (charNumber == null ? MemoryAddress.NULL : (Addressable) charNumberPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        lineNumber.set(lineNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
-        charNumber.set(charNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (lineNumber != null) lineNumber.set(lineNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (charNumber != null) charNumber.set(charNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -230,14 +227,13 @@ public class MarkupParseContext extends Struct {
      * @return {@code false} if an error occurred, {@code true} on success
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean parse(@NotNull java.lang.String text, long textLen) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public boolean parse(java.lang.String text, long textLen) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_markup_parse_context_parse.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     textLen,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -246,7 +242,7 @@ public class MarkupParseContext extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -389,15 +385,13 @@ public class MarkupParseContext extends Struct {
      * }
      * }</pre>
      * @param parser a {@link MarkupParser}
-     * @param userData user data to pass to {@link MarkupParser} functions
      */
-    public void push(@NotNull org.gtk.glib.MarkupParser parser, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(parser, "Parameter 'parser' must not be null");
+    public void push(org.gtk.glib.MarkupParser parser) {
         try {
             DowncallHandles.g_markup_parse_context_push.invokeExact(
                     handle(),
                     parser.handle(),
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -407,7 +401,7 @@ public class MarkupParseContext extends Struct {
      * Increases the reference count of {@code context}.
      * @return the same {@code context}
      */
-    public @NotNull org.gtk.glib.MarkupParseContext ref() {
+    public org.gtk.glib.MarkupParseContext ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_markup_parse_context_ref.invokeExact(
@@ -415,7 +409,7 @@ public class MarkupParseContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MarkupParseContext(RESULT, Ownership.FULL);
+        return org.gtk.glib.MarkupParseContext.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

@@ -14,5 +14,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PageSetupDoneFunc {
-        void onPageSetupDoneFunc(@NotNull org.gtk.gtk.PageSetup pageSetup);
+    void run(org.gtk.gtk.PageSetup pageSetup);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress pageSetup, MemoryAddress data) {
+        run((org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pageSetup)), org.gtk.gtk.PageSetup.fromAddress).marshal(pageSetup, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageSetupDoneFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

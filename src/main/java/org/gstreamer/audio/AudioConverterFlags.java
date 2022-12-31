@@ -35,11 +35,15 @@ public class AudioConverterFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public AudioConverterFlags or(AudioConverterFlags mask) {
-        return new AudioConverterFlags(this.getValue() | mask.getValue());
+    public AudioConverterFlags or(AudioConverterFlags... masks) {
+        int value = this.getValue();
+        for (AudioConverterFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new AudioConverterFlags(value);
     }
     
     /**
@@ -49,7 +53,8 @@ public class AudioConverterFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static AudioConverterFlags combined(AudioConverterFlags mask, AudioConverterFlags... masks) {
-        int value = mask.getValue();        for (AudioConverterFlags arg : masks) {
+        int value = mask.getValue();
+        for (AudioConverterFlags arg : masks) {
             value |= arg.getValue();
         }
         return new AudioConverterFlags(value);

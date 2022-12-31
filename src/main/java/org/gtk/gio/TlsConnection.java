@@ -22,18 +22,16 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     
     private static final java.lang.String C_TYPE_NAME = "GTlsConnection";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.IOStream.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.IOStream.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -41,30 +39,12 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TlsConnection(Addressable address, Ownership ownership) {
+    protected TlsConnection(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TlsConnection if its GType is a (or inherits from) "GTlsConnection".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TlsConnection} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GTlsConnection", a ClassCastException will be thrown.
-     */
-    public static TlsConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TlsConnection.getType())) {
-            return new TlsConnection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTlsConnection");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TlsConnection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsConnection(input, ownership);
     
     /**
      * Used by {@link TlsConnection} implementations to emit the
@@ -74,9 +54,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @return {@code true} if one of the signal handlers has returned
      *     {@code true} to accept {@code peer_cert}
      */
-    public boolean emitAcceptCertificate(@NotNull org.gtk.gio.TlsCertificate peerCert, @NotNull org.gtk.gio.TlsCertificateFlags errors) {
-        java.util.Objects.requireNonNull(peerCert, "Parameter 'peerCert' must not be null");
-        java.util.Objects.requireNonNull(errors, "Parameter 'errors' must not be null");
+    public boolean emitAcceptCertificate(org.gtk.gio.TlsCertificate peerCert, org.gtk.gio.TlsCertificateFlags errors) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_tls_connection_emit_accept_certificate.invokeExact(
@@ -86,7 +64,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -102,7 +80,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsCertificate(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -125,8 +103,22 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * @return {@code true} on success, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getChannelBindingData(@NotNull org.gtk.gio.TlsChannelBindingType type, @NotNull Out<byte[]> data) throws io.github.jwharm.javagi.GErrorException {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public boolean getChannelBindingData(org.gtk.gio.TlsChannelBindingType type, byte[] data) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_tls_connection_get_channel_binding_data.invokeExact(
+                    handle(),
+                    type.getValue(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)),
+                    (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -148,7 +140,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -164,7 +156,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsDatabase(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -181,7 +173,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsInteraction(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsInteraction.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -202,7 +194,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -219,7 +211,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsCertificate(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsCertificate.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -230,7 +222,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * See {@link TlsConnection}:peer-certificate-errors for more information.
      * @return {@code conn}'s peer's certificate errors
      */
-    public @NotNull org.gtk.gio.TlsCertificateFlags getPeerCertificateErrors() {
+    public org.gtk.gio.TlsCertificateFlags getPeerCertificateErrors() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_tls_connection_get_peer_certificate_errors.invokeExact(
@@ -248,7 +240,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * that is not a recognized {@link TlsProtocolVersion}.
      * @return The current TLS protocol version
      */
-    public @NotNull org.gtk.gio.TlsProtocolVersion getProtocolVersion() {
+    public org.gtk.gio.TlsProtocolVersion getProtocolVersion() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_tls_connection_get_protocol_version.invokeExact(
@@ -268,7 +260,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      *   from the TLS protocol in TLS 1.3.
      */
     @Deprecated
-    public @NotNull org.gtk.gio.TlsRehandshakeMode getRehandshakeMode() {
+    public org.gtk.gio.TlsRehandshakeMode getRehandshakeMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_tls_connection_get_rehandshake_mode.invokeExact(
@@ -294,7 +286,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -312,7 +304,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -365,7 +357,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -381,12 +373,8 @@ public class TlsConnection extends org.gtk.gio.IOStream {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -400,8 +388,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * case {@code error} will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean handshakeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean handshakeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -415,7 +402,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -463,8 +450,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * non-{@code null}.)
      * @param certificate the certificate to use for {@code conn}
      */
-    public void setCertificate(@NotNull org.gtk.gio.TlsCertificate certificate) {
-        java.util.Objects.requireNonNull(certificate, "Parameter 'certificate' must not be null");
+    public void setCertificate(org.gtk.gio.TlsCertificate certificate) {
         try {
             DowncallHandles.g_tls_connection_set_certificate.invokeExact(
                     handle(),
@@ -528,8 +514,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      *   from the TLS protocol in TLS 1.3.
      */
     @Deprecated
-    public void setRehandshakeMode(@NotNull org.gtk.gio.TlsRehandshakeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setRehandshakeMode(org.gtk.gio.TlsRehandshakeMode mode) {
         try {
             DowncallHandles.g_tls_connection_set_rehandshake_mode.invokeExact(
                     handle(),
@@ -573,7 +558,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         try {
             DowncallHandles.g_tls_connection_set_require_close_notify.invokeExact(
                     handle(),
-                    requireCloseNotify ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(requireCloseNotify, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -595,7 +580,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
         try {
             DowncallHandles.g_tls_connection_set_use_system_certdb.invokeExact(
                     handle(),
-                    useSystemCertdb ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useSystemCertdb, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -605,7 +590,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_connection_get_type.invokeExact();
@@ -617,7 +602,19 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     
     @FunctionalInterface
     public interface AcceptCertificate {
-        boolean signalReceived(TlsConnection sourceTlsConnection, @NotNull org.gtk.gio.TlsCertificate peerCert, @NotNull org.gtk.gio.TlsCertificateFlags errors);
+        boolean run(org.gtk.gio.TlsCertificate peerCert, org.gtk.gio.TlsCertificateFlags errors);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceTlsConnection, MemoryAddress peerCert, int errors) {
+            var RESULT = run((org.gtk.gio.TlsCertificate) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(peerCert)), org.gtk.gio.TlsCertificate.fromAddress).marshal(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AcceptCertificate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -669,52 +666,46 @@ public class TlsConnection extends org.gtk.gio.IOStream {
     public Signal<TlsConnection.AcceptCertificate> onAcceptCertificate(TlsConnection.AcceptCertificate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("accept-certificate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TlsConnection.Callbacks.class, "signalTlsConnectionAcceptCertificate",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TlsConnection.AcceptCertificate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("accept-certificate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link TlsConnection.Builder} object constructs a {@link TlsConnection} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TlsConnection.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.IOStream.Build {
+    public static class Builder extends org.gtk.gio.IOStream.Builder {
         
-         /**
-         * A {@link TlsConnection.Build} object constructs a {@link TlsConnection} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TlsConnection} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TlsConnection} using {@link TlsConnection#castFrom}.
+         * {@link TlsConnection}.
          * @return A new instance of {@code TlsConnection} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TlsConnection construct() {
-            return TlsConnection.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TlsConnection.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TlsConnection build() {
+            return (TlsConnection) org.gtk.gobject.GObject.newWithProperties(
+                TlsConnection.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -727,7 +718,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param baseIoStream The value for the {@code base-io-stream} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBaseIoStream(org.gtk.gio.IOStream baseIoStream) {
+        public Builder setBaseIoStream(org.gtk.gio.IOStream baseIoStream) {
             names.add("base-io-stream");
             values.add(org.gtk.gobject.Value.create(baseIoStream));
             return this;
@@ -739,7 +730,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param certificate The value for the {@code certificate} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCertificate(org.gtk.gio.TlsCertificate certificate) {
+        public Builder setCertificate(org.gtk.gio.TlsCertificate certificate) {
             names.add("certificate");
             values.add(org.gtk.gobject.Value.create(certificate));
             return this;
@@ -750,7 +741,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param ciphersuiteName The value for the {@code ciphersuite-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCiphersuiteName(java.lang.String ciphersuiteName) {
+        public Builder setCiphersuiteName(java.lang.String ciphersuiteName) {
             names.add("ciphersuite-name");
             values.add(org.gtk.gobject.Value.create(ciphersuiteName));
             return this;
@@ -776,7 +767,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param database The value for the {@code database} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDatabase(org.gtk.gio.TlsDatabase database) {
+        public Builder setDatabase(org.gtk.gio.TlsDatabase database) {
             names.add("database");
             values.add(org.gtk.gobject.Value.create(database));
             return this;
@@ -789,7 +780,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param interaction The value for the {@code interaction} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInteraction(org.gtk.gio.TlsInteraction interaction) {
+        public Builder setInteraction(org.gtk.gio.TlsInteraction interaction) {
             names.add("interaction");
             values.add(org.gtk.gobject.Value.create(interaction));
             return this;
@@ -801,7 +792,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param negotiatedProtocol The value for the {@code negotiated-protocol} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNegotiatedProtocol(java.lang.String negotiatedProtocol) {
+        public Builder setNegotiatedProtocol(java.lang.String negotiatedProtocol) {
             names.add("negotiated-protocol");
             values.add(org.gtk.gobject.Value.create(negotiatedProtocol));
             return this;
@@ -812,12 +803,12 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * completed or failed. Note in particular that this is not yet set
          * during the emission of {@link TlsConnection}::accept-certificate.
          * <p>
-         * (You can watch for a {@link org.gtk.gobject.Object}::notify signal on this property to
+         * (You can watch for a {@link org.gtk.gobject.GObject}::notify signal on this property to
          * detect when a handshake has occurred.)
          * @param peerCertificate The value for the {@code peer-certificate} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPeerCertificate(org.gtk.gio.TlsCertificate peerCertificate) {
+        public Builder setPeerCertificate(org.gtk.gio.TlsCertificate peerCertificate) {
             names.add("peer-certificate");
             values.add(org.gtk.gobject.Value.create(peerCertificate));
             return this;
@@ -841,7 +832,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param peerCertificateErrors The value for the {@code peer-certificate-errors} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPeerCertificateErrors(org.gtk.gio.TlsCertificateFlags peerCertificateErrors) {
+        public Builder setPeerCertificateErrors(org.gtk.gio.TlsCertificateFlags peerCertificateErrors) {
             names.add("peer-certificate-errors");
             values.add(org.gtk.gobject.Value.create(peerCertificateErrors));
             return this;
@@ -852,7 +843,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param protocolVersion The value for the {@code protocol-version} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProtocolVersion(org.gtk.gio.TlsProtocolVersion protocolVersion) {
+        public Builder setProtocolVersion(org.gtk.gio.TlsProtocolVersion protocolVersion) {
             names.add("protocol-version");
             values.add(org.gtk.gobject.Value.create(protocolVersion));
             return this;
@@ -864,7 +855,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param rehandshakeMode The value for the {@code rehandshake-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRehandshakeMode(org.gtk.gio.TlsRehandshakeMode rehandshakeMode) {
+        public Builder setRehandshakeMode(org.gtk.gio.TlsRehandshakeMode rehandshakeMode) {
             names.add("rehandshake-mode");
             values.add(org.gtk.gobject.Value.create(rehandshakeMode));
             return this;
@@ -876,7 +867,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param requireCloseNotify The value for the {@code require-close-notify} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRequireCloseNotify(boolean requireCloseNotify) {
+        public Builder setRequireCloseNotify(boolean requireCloseNotify) {
             names.add("require-close-notify");
             values.add(org.gtk.gobject.Value.create(requireCloseNotify));
             return this;
@@ -889,7 +880,7 @@ public class TlsConnection extends org.gtk.gio.IOStream {
          * @param useSystemCertdb The value for the {@code use-system-certdb} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseSystemCertdb(boolean useSystemCertdb) {
+        public Builder setUseSystemCertdb(boolean useSystemCertdb) {
             names.add("use-system-certdb");
             values.add(org.gtk.gobject.Value.create(useSystemCertdb));
             return this;
@@ -1041,14 +1032,5 @@ public class TlsConnection extends org.gtk.gio.IOStream {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalTlsConnectionAcceptCertificate(MemoryAddress sourceTlsConnection, MemoryAddress peerCert, int errors, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TlsConnection.AcceptCertificate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TlsConnection(sourceTlsConnection, Ownership.NONE), new org.gtk.gio.TlsCertificate(peerCert, Ownership.NONE), new org.gtk.gio.TlsCertificateFlags(errors));
-        }
     }
 }

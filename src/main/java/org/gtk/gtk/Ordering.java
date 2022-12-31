@@ -54,7 +54,7 @@ public enum Ordering implements io.github.jwharm.javagi.Enumeration {
      * @param cmpfuncResult Result of a comparison function
      * @return the corresponding {@code GtkOrdering}
      */
-    public static @NotNull org.gtk.gtk.Ordering fromCmpfunc(int cmpfuncResult) {
+    public static org.gtk.gtk.Ordering fromCmpfunc(int cmpfuncResult) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_ordering_from_cmpfunc.invokeExact(

@@ -30,40 +30,21 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EncodingContainerProfile(Addressable address, Ownership ownership) {
+    protected EncodingContainerProfile(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EncodingContainerProfile if its GType is a (or inherits from) "GstEncodingContainerProfile".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EncodingContainerProfile} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstEncodingContainerProfile", a ClassCastException will be thrown.
-     */
-    public static EncodingContainerProfile castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EncodingContainerProfile.getType())) {
-            return new EncodingContainerProfile(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstEncodingContainerProfile");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EncodingContainerProfile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EncodingContainerProfile(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String name, @Nullable java.lang.String description, @NotNull org.gstreamer.gst.Caps format, @Nullable java.lang.String preset) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String name, @Nullable java.lang.String description, org.gstreamer.gst.Caps format, @Nullable java.lang.String preset) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_container_profile_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)),
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)),
+                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)),
                     format.handle(),
-                    (Addressable) (preset == null ? MemoryAddress.NULL : Interop.allocateNativeString(preset)));
+                    (Addressable) (preset == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(preset, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -78,7 +59,7 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
      * @param format The format to use for this profile
      * @param preset The preset to use for this profile.
      */
-    public EncodingContainerProfile(@Nullable java.lang.String name, @Nullable java.lang.String description, @NotNull org.gstreamer.gst.Caps format, @Nullable java.lang.String preset) {
+    public EncodingContainerProfile(@Nullable java.lang.String name, @Nullable java.lang.String description, org.gstreamer.gst.Caps format, @Nullable java.lang.String preset) {
         super(constructNew(name, description, format, preset), Ownership.FULL);
     }
     
@@ -90,8 +71,7 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
      * @param profile the {@link EncodingProfile} to add.
      * @return {@code true} if the {@code stream} was properly added, else {@code false}.
      */
-    public boolean addProfile(@NotNull org.gstreamer.pbutils.EncodingProfile profile) {
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public boolean addProfile(org.gstreamer.pbutils.EncodingProfile profile) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_encoding_container_profile_add_profile.invokeExact(
@@ -101,7 +81,7 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         profile.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -111,8 +91,7 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
      * @return {@code true} if {@code container} contains a {@link EncodingProfile} identical
      * to {@code profile}, else {@code false}.
      */
-    public boolean containsProfile(@NotNull org.gstreamer.pbutils.EncodingProfile profile) {
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public boolean containsProfile(org.gstreamer.pbutils.EncodingProfile profile) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_encoding_container_profile_contains_profile.invokeExact(
@@ -121,10 +100,10 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull org.gtk.glib.List getProfiles() {
+    public org.gtk.glib.List getProfiles() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_container_profile_get_profiles.invokeExact(
@@ -132,14 +111,14 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_encoding_container_profile_get_type.invokeExact();
@@ -148,38 +127,40 @@ public class EncodingContainerProfile extends org.gstreamer.pbutils.EncodingProf
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link EncodingContainerProfile.Builder} object constructs a {@link EncodingContainerProfile} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EncodingContainerProfile.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.pbutils.EncodingProfile.Build {
+    public static class Builder extends org.gstreamer.pbutils.EncodingProfile.Builder {
         
-         /**
-         * A {@link EncodingContainerProfile.Build} object constructs a {@link EncodingContainerProfile} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EncodingContainerProfile} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EncodingContainerProfile} using {@link EncodingContainerProfile#castFrom}.
+         * {@link EncodingContainerProfile}.
          * @return A new instance of {@code EncodingContainerProfile} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EncodingContainerProfile construct() {
-            return EncodingContainerProfile.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EncodingContainerProfile.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EncodingContainerProfile build() {
+            return (EncodingContainerProfile) org.gtk.gobject.GObject.newWithProperties(
+                EncodingContainerProfile.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

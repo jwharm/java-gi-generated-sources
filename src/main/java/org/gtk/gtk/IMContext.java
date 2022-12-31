@@ -36,7 +36,7 @@ import org.jetbrains.annotations.*;
  * To connect a widget to the users preferred input method, you should use
  * {@link IMMulticontext}.
  */
-public class IMContext extends org.gtk.gobject.Object {
+public class IMContext extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -44,17 +44,15 @@ public class IMContext extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkIMContext";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -62,30 +60,12 @@ public class IMContext extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IMContext(Addressable address, Ownership ownership) {
+    protected IMContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to IMContext if its GType is a (or inherits from) "GtkIMContext".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code IMContext} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkIMContext", a ClassCastException will be thrown.
-     */
-    public static IMContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IMContext.getType())) {
-            return new IMContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkIMContext");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IMContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IMContext(input, ownership);
     
     /**
      * Asks the widget that the input context is attached to delete
@@ -120,7 +100,7 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -136,15 +116,12 @@ public class IMContext extends org.gtk.gobject.Object {
      * @param group the active keyboard group for the event
      * @return {@code true} if the input method handled the key event.
      */
-    public boolean filterKey(boolean press, @NotNull org.gtk.gdk.Surface surface, @NotNull org.gtk.gdk.Device device, int time, int keycode, @NotNull org.gtk.gdk.ModifierType state, int group) {
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public boolean filterKey(boolean press, org.gtk.gdk.Surface surface, org.gtk.gdk.Device device, int time, int keycode, org.gtk.gdk.ModifierType state, int group) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_im_context_filter_key.invokeExact(
                     handle(),
-                    press ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(press, null).intValue(),
                     surface.handle(),
                     device.handle(),
                     time,
@@ -154,7 +131,7 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -166,8 +143,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * @param event the key event
      * @return {@code true} if the input method handled the key event.
      */
-    public boolean filterKeypress(@NotNull org.gtk.gdk.Event event) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public boolean filterKeypress(org.gtk.gdk.Event event) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_im_context_filter_keypress.invokeExact(
@@ -176,7 +152,7 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -224,12 +200,9 @@ public class IMContext extends org.gtk.gobject.Object {
      * @param cursorPos location to store position of cursor
      *   (in characters) within the preedit string.
      */
-    public void getPreeditString(@NotNull Out<java.lang.String> str, @NotNull Out<org.pango.AttrList> attrs, Out<Integer> cursorPos) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void getPreeditString(Out<java.lang.String> str, Out<org.pango.AttrList> attrs, Out<Integer> cursorPos) {
         MemorySegment strPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(attrs, "Parameter 'attrs' must not be null");
         MemorySegment attrsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(cursorPos, "Parameter 'cursorPos' must not be null");
         MemorySegment cursorPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_im_context_get_preedit_string.invokeExact(
@@ -240,8 +213,8 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        str.set(Interop.getStringFrom(strPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        attrs.set(new org.pango.AttrList(attrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        str.set(Marshal.addressToString.marshal(strPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        attrs.set(org.pango.AttrList.fromAddress.marshal(attrsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         cursorPos.set(cursorPosPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
@@ -272,10 +245,8 @@ public class IMContext extends org.gtk.gobject.Object {
      * @deprecated Use {@link IMContext#getSurroundingWithSelection} instead.
      */
     @Deprecated
-    public boolean getSurrounding(@NotNull Out<java.lang.String> text, Out<Integer> cursorIndex) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public boolean getSurrounding(Out<java.lang.String> text, Out<Integer> cursorIndex) {
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(cursorIndex, "Parameter 'cursorIndex' must not be null");
         MemorySegment cursorIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -286,9 +257,9 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        text.set(Interop.getStringFrom(textPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         cursorIndex.set(cursorIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -318,12 +289,9 @@ public class IMContext extends org.gtk.gobject.Object {
      * @return {@code TRUE} if surrounding text was provided; in this case
      *   you must free the result stored in {@code text}.
      */
-    public boolean getSurroundingWithSelection(@NotNull Out<java.lang.String> text, Out<Integer> cursorIndex, Out<Integer> anchorIndex) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public boolean getSurroundingWithSelection(Out<java.lang.String> text, Out<Integer> cursorIndex, Out<Integer> anchorIndex) {
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(cursorIndex, "Parameter 'cursorIndex' must not be null");
         MemorySegment cursorIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(anchorIndex, "Parameter 'anchorIndex' must not be null");
         MemorySegment anchorIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -335,10 +303,10 @@ public class IMContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        text.set(Interop.getStringFrom(textPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        text.set(Marshal.addressToString.marshal(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         cursorIndex.set(cursorIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
         anchorIndex.set(anchorIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -382,8 +350,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * The location is relative to the client widget.
      * @param area new location
      */
-    public void setCursorLocation(@NotNull org.gtk.gdk.Rectangle area) {
-        java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
+    public void setCursorLocation(org.gtk.gdk.Rectangle area) {
         try {
             DowncallHandles.gtk_im_context_set_cursor_location.invokeExact(
                     handle(),
@@ -407,12 +374,11 @@ public class IMContext extends org.gtk.gobject.Object {
      * @deprecated Use {@link IMContext#setSurroundingWithSelection} instead
      */
     @Deprecated
-    public void setSurrounding(@NotNull java.lang.String text, int len, int cursorIndex) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public void setSurrounding(java.lang.String text, int len, int cursorIndex) {
         try {
             DowncallHandles.gtk_im_context_set_surrounding.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     len,
                     cursorIndex);
         } catch (Throwable ERR) {
@@ -431,12 +397,11 @@ public class IMContext extends org.gtk.gobject.Object {
      * @param cursorIndex the byte index of the insertion cursor within {@code text}
      * @param anchorIndex the byte index of the selection bound within {@code text}
      */
-    public void setSurroundingWithSelection(@NotNull java.lang.String text, int len, int cursorIndex, int anchorIndex) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public void setSurroundingWithSelection(java.lang.String text, int len, int cursorIndex, int anchorIndex) {
         try {
             DowncallHandles.gtk_im_context_set_surrounding_with_selection.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     len,
                     cursorIndex,
                     anchorIndex);
@@ -458,7 +423,7 @@ public class IMContext extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_im_context_set_use_preedit.invokeExact(
                     handle(),
-                    usePreedit ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(usePreedit, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -468,7 +433,7 @@ public class IMContext extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_im_context_get_type.invokeExact();
@@ -480,7 +445,18 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Commit {
-        void signalReceived(IMContext sourceIMContext, @NotNull java.lang.String str);
+        void run(java.lang.String str);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIMContext, MemoryAddress str) {
+            run(Marshal.addressToString.marshal(str, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Commit.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -498,16 +474,8 @@ public class IMContext extends org.gtk.gobject.Object {
     public Signal<IMContext.Commit> onCommit(IMContext.Commit handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("commit"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextCommit",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IMContext.Commit>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("commit"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -515,7 +483,19 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeleteSurrounding {
-        boolean signalReceived(IMContext sourceIMContext, int offset, int nChars);
+        boolean run(int offset, int nChars);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceIMContext, int offset, int nChars) {
+            var RESULT = run(offset, nChars);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeleteSurrounding.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -527,16 +507,8 @@ public class IMContext extends org.gtk.gobject.Object {
     public Signal<IMContext.DeleteSurrounding> onDeleteSurrounding(IMContext.DeleteSurrounding handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("delete-surrounding"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextDeleteSurrounding",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IMContext.DeleteSurrounding>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("delete-surrounding"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -544,7 +516,18 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PreeditChanged {
-        void signalReceived(IMContext sourceIMContext);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIMContext) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreeditChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -559,16 +542,8 @@ public class IMContext extends org.gtk.gobject.Object {
     public Signal<IMContext.PreeditChanged> onPreeditChanged(IMContext.PreeditChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("preedit-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextPreeditChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IMContext.PreeditChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("preedit-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -576,7 +551,18 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PreeditEnd {
-        void signalReceived(IMContext sourceIMContext);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIMContext) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreeditEnd.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -588,16 +574,8 @@ public class IMContext extends org.gtk.gobject.Object {
     public Signal<IMContext.PreeditEnd> onPreeditEnd(IMContext.PreeditEnd handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("preedit-end"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextPreeditEnd",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IMContext.PreeditEnd>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("preedit-end"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -605,7 +583,18 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PreeditStart {
-        void signalReceived(IMContext sourceIMContext);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceIMContext) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreeditStart.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -617,16 +606,8 @@ public class IMContext extends org.gtk.gobject.Object {
     public Signal<IMContext.PreeditStart> onPreeditStart(IMContext.PreeditStart handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("preedit-start"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextPreeditStart",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IMContext.PreeditStart>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("preedit-start"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -634,7 +615,19 @@ public class IMContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface RetrieveSurrounding {
-        boolean signalReceived(IMContext sourceIMContext);
+        boolean run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceIMContext) {
+            var RESULT = run();
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RetrieveSurrounding.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -649,52 +642,46 @@ public class IMContext extends org.gtk.gobject.Object {
     public Signal<IMContext.RetrieveSurrounding> onRetrieveSurrounding(IMContext.RetrieveSurrounding handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("retrieve-surrounding"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(IMContext.Callbacks.class, "signalIMContextRetrieveSurrounding",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<IMContext.RetrieveSurrounding>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("retrieve-surrounding"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link IMContext.Builder} object constructs a {@link IMContext} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link IMContext.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link IMContext.Build} object constructs a {@link IMContext} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link IMContext} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link IMContext} using {@link IMContext#castFrom}.
+         * {@link IMContext}.
          * @return A new instance of {@code IMContext} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public IMContext construct() {
-            return IMContext.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    IMContext.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public IMContext build() {
+            return (IMContext) org.gtk.gobject.GObject.newWithProperties(
+                IMContext.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -704,7 +691,7 @@ public class IMContext extends org.gtk.gobject.Object {
          * @param inputHints The value for the {@code input-hints} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputHints(org.gtk.gtk.InputHints inputHints) {
+        public Builder setInputHints(org.gtk.gtk.InputHints inputHints) {
             names.add("input-hints");
             values.add(org.gtk.gobject.Value.create(inputHints));
             return this;
@@ -718,7 +705,7 @@ public class IMContext extends org.gtk.gobject.Object {
          * @param inputPurpose The value for the {@code input-purpose} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
+        public Builder setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
             names.add("input-purpose");
             values.add(org.gtk.gobject.Value.create(inputPurpose));
             return this;
@@ -816,44 +803,5 @@ public class IMContext extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalIMContextCommit(MemoryAddress sourceIMContext, MemoryAddress str, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IMContext.Commit) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE), Interop.getStringFrom(str));
-        }
-        
-        public static boolean signalIMContextDeleteSurrounding(MemoryAddress sourceIMContext, int offset, int nChars, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IMContext.DeleteSurrounding) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE), offset, nChars);
-        }
-        
-        public static void signalIMContextPreeditChanged(MemoryAddress sourceIMContext, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IMContext.PreeditChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE));
-        }
-        
-        public static void signalIMContextPreeditEnd(MemoryAddress sourceIMContext, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IMContext.PreeditEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE));
-        }
-        
-        public static void signalIMContextPreeditStart(MemoryAddress sourceIMContext, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IMContext.PreeditStart) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE));
-        }
-        
-        public static boolean signalIMContextRetrieveSurrounding(MemoryAddress sourceIMContext, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IMContext.RetrieveSurrounding) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new IMContext(sourceIMContext, Ownership.NONE));
-        }
     }
 }

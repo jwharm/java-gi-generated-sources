@@ -13,17 +13,15 @@ public class AV1Dpb extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstAV1Dpb";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("pic_list")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("pic_list")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -40,21 +38,43 @@ public class AV1Dpb extends Struct {
     }
     
     /**
+     * Get the value of the field {@code pic_list}
+     * @return The value of the field {@code pic_list}
+     */
+    public PointerProxy<org.gstreamer.codecs.AV1Picture> getPicList() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.codecs.AV1Picture>(RESULT, org.gstreamer.codecs.AV1Picture.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code pic_list}
+     * @param picList The new value of the field {@code pic_list}
+     */
+    public void setPicList(org.gstreamer.codecs.AV1Picture[] picList) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.AV1Picture.getMemoryLayout(), false)));
+    }
+    
+    /**
      * Create a AV1Dpb proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AV1Dpb(Addressable address, Ownership ownership) {
+    protected AV1Dpb(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AV1Dpb> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AV1Dpb(input, ownership);
     
     /**
      * Store the {@code picture}
      * @param picture a {@link AV1Picture}
      */
-    public void add(@NotNull org.gstreamer.codecs.AV1Picture picture) {
-        java.util.Objects.requireNonNull(picture, "Parameter 'picture' must not be null");
+    public void add(org.gstreamer.codecs.AV1Picture picture) {
         try {
             DowncallHandles.gst_av1_dpb_add.invokeExact(
                     handle(),
@@ -93,14 +113,14 @@ public class AV1Dpb extends Struct {
      * Create new {@link AV1Dpb}
      * @return a new {@link AV1Dpb}
      */
-    public static @NotNull org.gstreamer.codecs.AV1Dpb new_() {
+    public static org.gstreamer.codecs.AV1Dpb new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_av1_dpb_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.AV1Dpb(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.codecs.AV1Dpb.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -129,38 +149,42 @@ public class AV1Dpb extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AV1Dpb.Builder} object constructs a {@link AV1Dpb} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AV1Dpb.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AV1Dpb struct;
+        private final AV1Dpb struct;
         
-         /**
-         * A {@link AV1Dpb.Build} object constructs a {@link AV1Dpb} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AV1Dpb.allocate();
         }
         
          /**
          * Finish building the {@link AV1Dpb} struct.
          * @return A new instance of {@code AV1Dpb} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AV1Dpb construct() {
+        public AV1Dpb build() {
             return struct;
         }
         
-        public Build setPicList(org.gstreamer.codecs.AV1Picture[] picList) {
+        public Builder setPicList(org.gstreamer.codecs.AV1Picture[] picList) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pic_list"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, false)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (picList == null ? MemoryAddress.NULL : Interop.allocateNativeArray(picList, org.gstreamer.codecs.AV1Picture.getMemoryLayout(), false)));
             return this;
         }
     }

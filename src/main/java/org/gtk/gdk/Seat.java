@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * The {@code GdkSeat} object represents a collection of input devices
  * that belong to a user.
  */
-public class Seat extends org.gtk.gobject.Object {
+public class Seat extends org.gtk.gobject.GObject {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -17,17 +17,15 @@ public class Seat extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GdkSeat";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -35,36 +33,18 @@ public class Seat extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Seat(Addressable address, Ownership ownership) {
+    protected Seat(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Seat if its GType is a (or inherits from) "GdkSeat".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Seat} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkSeat", a ClassCastException will be thrown.
-     */
-    public static Seat castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Seat.getType())) {
-            return new Seat(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkSeat");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Seat> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Seat(input, ownership);
     
     /**
      * Returns the capabilities this {@code GdkSeat} currently has.
      * @return the seat capabilities
      */
-    public @NotNull org.gtk.gdk.SeatCapabilities getCapabilities() {
+    public org.gtk.gdk.SeatCapabilities getCapabilities() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_seat_get_capabilities.invokeExact(
@@ -82,8 +62,7 @@ public class Seat extends org.gtk.gobject.Object {
      *   of {@code GdkDevices}. The list must be freed with g_list_free(),
      *   the elements are owned by GTK and must not be freed.
      */
-    public @NotNull org.gtk.glib.List getDevices(@NotNull org.gtk.gdk.SeatCapabilities capabilities) {
-        java.util.Objects.requireNonNull(capabilities, "Parameter 'capabilities' must not be null");
+    public org.gtk.glib.List getDevices(org.gtk.gdk.SeatCapabilities capabilities) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_devices.invokeExact(
@@ -92,7 +71,7 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -100,7 +79,7 @@ public class Seat extends org.gtk.gobject.Object {
      * @return a {@code GdkDisplay}. This object
      *   is owned by GTK and must not be freed.
      */
-    public @NotNull org.gtk.gdk.Display getDisplay() {
+    public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_display.invokeExact(
@@ -108,7 +87,7 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -124,7 +103,7 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Device(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Device.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -140,14 +119,14 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Device(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Device.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Returns all {@code GdkDeviceTools} that are known to the application.
      * @return A list of tools. Free with g_list_free().
      */
-    public @NotNull org.gtk.glib.List getTools() {
+    public org.gtk.glib.List getTools() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_seat_get_tools.invokeExact(
@@ -155,14 +134,14 @@ public class Seat extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_seat_get_type.invokeExact();
@@ -174,7 +153,18 @@ public class Seat extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeviceAdded {
-        void signalReceived(Seat sourceSeat, @NotNull org.gtk.gdk.Device device);
+        void run(org.gtk.gdk.Device device);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSeat, MemoryAddress device) {
+            run((org.gtk.gdk.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(device)), org.gtk.gdk.Device.fromAddress).marshal(device, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeviceAdded.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -185,16 +175,8 @@ public class Seat extends org.gtk.gobject.Object {
     public Signal<Seat.DeviceAdded> onDeviceAdded(Seat.DeviceAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("device-added"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Seat.Callbacks.class, "signalSeatDeviceAdded",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Seat.DeviceAdded>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("device-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +184,18 @@ public class Seat extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeviceRemoved {
-        void signalReceived(Seat sourceSeat, @NotNull org.gtk.gdk.Device device);
+        void run(org.gtk.gdk.Device device);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSeat, MemoryAddress device) {
+            run((org.gtk.gdk.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(device)), org.gtk.gdk.Device.fromAddress).marshal(device, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeviceRemoved.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -213,16 +206,8 @@ public class Seat extends org.gtk.gobject.Object {
     public Signal<Seat.DeviceRemoved> onDeviceRemoved(Seat.DeviceRemoved handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("device-removed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Seat.Callbacks.class, "signalSeatDeviceRemoved",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Seat.DeviceRemoved>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("device-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,7 +215,18 @@ public class Seat extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ToolAdded {
-        void signalReceived(Seat sourceSeat, @NotNull org.gtk.gdk.DeviceTool tool);
+        void run(org.gtk.gdk.DeviceTool tool);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSeat, MemoryAddress tool) {
+            run((org.gtk.gdk.DeviceTool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tool)), org.gtk.gdk.DeviceTool.fromAddress).marshal(tool, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToolAdded.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -247,16 +243,8 @@ public class Seat extends org.gtk.gobject.Object {
     public Signal<Seat.ToolAdded> onToolAdded(Seat.ToolAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("tool-added"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Seat.Callbacks.class, "signalSeatToolAdded",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Seat.ToolAdded>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("tool-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -264,7 +252,18 @@ public class Seat extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ToolRemoved {
-        void signalReceived(Seat sourceSeat, @NotNull org.gtk.gdk.DeviceTool tool);
+        void run(org.gtk.gdk.DeviceTool tool);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSeat, MemoryAddress tool) {
+            run((org.gtk.gdk.DeviceTool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tool)), org.gtk.gdk.DeviceTool.fromAddress).marshal(tool, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToolRemoved.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -275,52 +274,46 @@ public class Seat extends org.gtk.gobject.Object {
     public Signal<Seat.ToolRemoved> onToolRemoved(Seat.ToolRemoved handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("tool-removed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Seat.Callbacks.class, "signalSeatToolRemoved",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Seat.ToolRemoved>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("tool-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Seat.Builder} object constructs a {@link Seat} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Seat.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Seat.Build} object constructs a {@link Seat} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Seat} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Seat} using {@link Seat#castFrom}.
+         * {@link Seat}.
          * @return A new instance of {@code Seat} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Seat construct() {
-            return Seat.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Seat.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Seat build() {
+            return (Seat) org.gtk.gobject.GObject.newWithProperties(
+                Seat.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -329,7 +322,7 @@ public class Seat extends org.gtk.gobject.Object {
          * @param display The value for the {@code display} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplay(org.gtk.gdk.Display display) {
+        public Builder setDisplay(org.gtk.gdk.Display display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;
@@ -379,32 +372,5 @@ public class Seat extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalSeatDeviceAdded(MemoryAddress sourceSeat, MemoryAddress device, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Seat.DeviceAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(sourceSeat, Ownership.NONE), new org.gtk.gdk.Device(device, Ownership.NONE));
-        }
-        
-        public static void signalSeatDeviceRemoved(MemoryAddress sourceSeat, MemoryAddress device, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Seat.DeviceRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(sourceSeat, Ownership.NONE), new org.gtk.gdk.Device(device, Ownership.NONE));
-        }
-        
-        public static void signalSeatToolAdded(MemoryAddress sourceSeat, MemoryAddress tool, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Seat.ToolAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(sourceSeat, Ownership.NONE), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
-        }
-        
-        public static void signalSeatToolRemoved(MemoryAddress sourceSeat, MemoryAddress tool, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Seat.ToolRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Seat(sourceSeat, Ownership.NONE), new org.gtk.gdk.DeviceTool(tool, Ownership.NONE));
-        }
     }
 }

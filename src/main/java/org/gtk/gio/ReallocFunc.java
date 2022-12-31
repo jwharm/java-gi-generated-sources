@@ -13,5 +13,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ReallocFunc {
-        java.lang.foreign.MemoryAddress onReallocFunc(long size);
+    @Nullable java.lang.foreign.MemoryAddress run(long size);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress data, long size) {
+        var RESULT = run(size);
+        return RESULT == null ? MemoryAddress.NULL.address() : ((Addressable) RESULT).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReallocFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

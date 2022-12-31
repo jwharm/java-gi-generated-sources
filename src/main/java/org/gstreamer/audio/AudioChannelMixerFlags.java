@@ -43,11 +43,15 @@ public class AudioChannelMixerFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public AudioChannelMixerFlags or(AudioChannelMixerFlags mask) {
-        return new AudioChannelMixerFlags(this.getValue() | mask.getValue());
+    public AudioChannelMixerFlags or(AudioChannelMixerFlags... masks) {
+        int value = this.getValue();
+        for (AudioChannelMixerFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new AudioChannelMixerFlags(value);
     }
     
     /**
@@ -57,7 +61,8 @@ public class AudioChannelMixerFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static AudioChannelMixerFlags combined(AudioChannelMixerFlags mask, AudioChannelMixerFlags... masks) {
-        int value = mask.getValue();        for (AudioChannelMixerFlags arg : masks) {
+        int value = mask.getValue();
+        for (AudioChannelMixerFlags arg : masks) {
             value |= arg.getValue();
         }
         return new AudioChannelMixerFlags(value);

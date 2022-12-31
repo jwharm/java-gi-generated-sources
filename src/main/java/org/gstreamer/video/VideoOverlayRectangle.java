@@ -44,15 +44,15 @@ public class VideoOverlayRectangle extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoOverlayRectangle(Addressable address, Ownership ownership) {
+    protected VideoOverlayRectangle(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewRaw(@NotNull org.gstreamer.gst.Buffer pixels, int renderX, int renderY, int renderWidth, int renderHeight, @NotNull org.gstreamer.video.VideoOverlayFormatFlags flags) {
-        java.util.Objects.requireNonNull(pixels, "Parameter 'pixels' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoOverlayRectangle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayRectangle(input, ownership);
+    
+    private static MemoryAddress constructNewRaw(org.gstreamer.gst.Buffer pixels, int renderX, int renderY, int renderWidth, int renderHeight, org.gstreamer.video.VideoOverlayFormatFlags flags) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_new_raw.invokeExact(
                     pixels.handle(),
@@ -90,8 +90,9 @@ public class VideoOverlayRectangle extends Struct {
      * @return a new {@link VideoOverlayRectangle}. Unref with
      *     gst_video_overlay_rectangle_unref() when no longer needed.
      */
-    public static VideoOverlayRectangle newRaw(@NotNull org.gstreamer.gst.Buffer pixels, int renderX, int renderY, int renderWidth, int renderHeight, @NotNull org.gstreamer.video.VideoOverlayFormatFlags flags) {
-        return new VideoOverlayRectangle(constructNewRaw(pixels, renderX, renderY, renderWidth, renderHeight, flags), Ownership.FULL);
+    public static VideoOverlayRectangle newRaw(org.gstreamer.gst.Buffer pixels, int renderX, int renderY, int renderWidth, int renderHeight, org.gstreamer.video.VideoOverlayFormatFlags flags) {
+        var RESULT = constructNewRaw(pixels, renderX, renderY, renderWidth, renderHeight, flags);
+        return org.gstreamer.video.VideoOverlayRectangle.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -102,7 +103,7 @@ public class VideoOverlayRectangle extends Struct {
      * @return a new {@link VideoOverlayRectangle} equivalent
      *     to {@code rectangle}.
      */
-    public @NotNull org.gstreamer.video.VideoOverlayRectangle copy() {
+    public org.gstreamer.video.VideoOverlayRectangle copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_copy.invokeExact(
@@ -110,7 +111,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoOverlayRectangle(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoOverlayRectangle.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -121,7 +122,7 @@ public class VideoOverlayRectangle extends Struct {
      * it is stored in, to avoid unnecessary conversion.
      * @return the {@link VideoOverlayFormatFlags} associated with the rectangle.
      */
-    public @NotNull org.gstreamer.video.VideoOverlayFormatFlags getFlags() {
+    public org.gstreamer.video.VideoOverlayFormatFlags getFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_overlay_rectangle_get_flags.invokeExact(
@@ -147,8 +148,7 @@ public class VideoOverlayRectangle extends Struct {
         return RESULT;
     }
     
-    public @NotNull org.gstreamer.gst.Buffer getPixelsArgb(@NotNull org.gstreamer.video.VideoOverlayFormatFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gstreamer.gst.Buffer getPixelsArgb(org.gstreamer.video.VideoOverlayFormatFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_get_pixels_argb.invokeExact(
@@ -157,11 +157,10 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public @NotNull org.gstreamer.gst.Buffer getPixelsAyuv(@NotNull org.gstreamer.video.VideoOverlayFormatFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gstreamer.gst.Buffer getPixelsAyuv(org.gstreamer.video.VideoOverlayFormatFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_get_pixels_ayuv.invokeExact(
@@ -170,11 +169,10 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public @NotNull org.gstreamer.gst.Buffer getPixelsRaw(@NotNull org.gstreamer.video.VideoOverlayFormatFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gstreamer.gst.Buffer getPixelsRaw(org.gstreamer.video.VideoOverlayFormatFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_get_pixels_raw.invokeExact(
@@ -183,7 +181,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -200,8 +198,7 @@ public class VideoOverlayRectangle extends Struct {
      *    {@link VideoMeta} set. This function does not return a reference, the caller
      *    should obtain a reference of her own with gst_buffer_ref() if needed.
      */
-    public @NotNull org.gstreamer.gst.Buffer getPixelsUnscaledArgb(@NotNull org.gstreamer.video.VideoOverlayFormatFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gstreamer.gst.Buffer getPixelsUnscaledArgb(org.gstreamer.video.VideoOverlayFormatFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_get_pixels_unscaled_argb.invokeExact(
@@ -210,7 +207,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -227,8 +224,7 @@ public class VideoOverlayRectangle extends Struct {
      *    {@link VideoMeta} set. This function does not return a reference, the caller
      *    should obtain a reference of her own with gst_buffer_ref() if needed.
      */
-    public @NotNull org.gstreamer.gst.Buffer getPixelsUnscaledAyuv(@NotNull org.gstreamer.video.VideoOverlayFormatFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gstreamer.gst.Buffer getPixelsUnscaledAyuv(org.gstreamer.video.VideoOverlayFormatFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_get_pixels_unscaled_ayuv.invokeExact(
@@ -237,7 +233,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -254,8 +250,7 @@ public class VideoOverlayRectangle extends Struct {
      *    {@link VideoMeta} set. This function does not return a reference, the caller
      *    should obtain a reference of her own with gst_buffer_ref() if needed.
      */
-    public @NotNull org.gstreamer.gst.Buffer getPixelsUnscaledRaw(@NotNull org.gstreamer.video.VideoOverlayFormatFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gstreamer.gst.Buffer getPixelsUnscaledRaw(org.gstreamer.video.VideoOverlayFormatFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_rectangle_get_pixels_unscaled_raw.invokeExact(
@@ -264,7 +259,7 @@ public class VideoOverlayRectangle extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -277,30 +272,26 @@ public class VideoOverlayRectangle extends Struct {
      * @return TRUE if valid render dimensions were retrieved.
      */
     public boolean getRenderRectangle(Out<Integer> renderX, Out<Integer> renderY, Out<Integer> renderWidth, Out<Integer> renderHeight) {
-        java.util.Objects.requireNonNull(renderX, "Parameter 'renderX' must not be null");
         MemorySegment renderXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(renderY, "Parameter 'renderY' must not be null");
         MemorySegment renderYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(renderWidth, "Parameter 'renderWidth' must not be null");
         MemorySegment renderWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(renderHeight, "Parameter 'renderHeight' must not be null");
         MemorySegment renderHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_overlay_rectangle_get_render_rectangle.invokeExact(
                     handle(),
-                    (Addressable) renderXPOINTER.address(),
-                    (Addressable) renderYPOINTER.address(),
-                    (Addressable) renderWidthPOINTER.address(),
-                    (Addressable) renderHeightPOINTER.address());
+                    (Addressable) (renderX == null ? MemoryAddress.NULL : (Addressable) renderXPOINTER.address()),
+                    (Addressable) (renderY == null ? MemoryAddress.NULL : (Addressable) renderYPOINTER.address()),
+                    (Addressable) (renderWidth == null ? MemoryAddress.NULL : (Addressable) renderWidthPOINTER.address()),
+                    (Addressable) (renderHeight == null ? MemoryAddress.NULL : (Addressable) renderHeightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        renderX.set(renderXPOINTER.get(Interop.valueLayout.C_INT, 0));
-        renderY.set(renderYPOINTER.get(Interop.valueLayout.C_INT, 0));
-        renderWidth.set(renderWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        renderHeight.set(renderHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (renderX != null) renderX.set(renderXPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (renderY != null) renderY.set(renderYPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (renderWidth != null) renderWidth.set(renderWidthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (renderHeight != null) renderHeight.set(renderHeightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**

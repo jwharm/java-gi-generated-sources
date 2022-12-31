@@ -16,17 +16,15 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     
     private static final java.lang.String C_TYPE_NAME = "GtkFlowBoxChild";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -34,40 +32,26 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * <p>
      * Because FlowBoxChild is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FlowBoxChild(Addressable address, Ownership ownership) {
+    protected FlowBoxChild(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to FlowBoxChild if its GType is a (or inherits from) "GtkFlowBoxChild".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FlowBoxChild} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkFlowBoxChild", a ClassCastException will be thrown.
-     */
-    public static FlowBoxChild castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FlowBoxChild.getType())) {
-            return new FlowBoxChild(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFlowBoxChild");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FlowBoxChild> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FlowBoxChild(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_flow_box_child_new.invokeExact();
         } catch (Throwable ERR) {
@@ -127,7 +111,7 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -159,7 +143,7 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -180,7 +164,7 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_flow_box_child_get_type.invokeExact();
@@ -192,7 +176,18 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(FlowBoxChild sourceFlowBoxChild);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceFlowBoxChild) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -211,52 +206,46 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
     public Signal<FlowBoxChild.Activate> onActivate(FlowBoxChild.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(FlowBoxChild.Callbacks.class, "signalFlowBoxChildActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<FlowBoxChild.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link FlowBoxChild.Builder} object constructs a {@link FlowBoxChild} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FlowBoxChild.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link FlowBoxChild.Build} object constructs a {@link FlowBoxChild} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FlowBoxChild} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FlowBoxChild} using {@link FlowBoxChild#castFrom}.
+         * {@link FlowBoxChild}.
          * @return A new instance of {@code FlowBoxChild} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FlowBoxChild construct() {
-            return FlowBoxChild.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FlowBoxChild.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FlowBoxChild build() {
+            return (FlowBoxChild) org.gtk.gobject.GObject.newWithProperties(
+                FlowBoxChild.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -265,7 +254,7 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -315,14 +304,5 @@ public class FlowBoxChild extends org.gtk.gtk.Widget implements org.gtk.gtk.Acce
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalFlowBoxChildActivate(MemoryAddress sourceFlowBoxChild, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FlowBoxChild.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new FlowBoxChild(sourceFlowBoxChild, Ownership.NONE));
-        }
     }
 }

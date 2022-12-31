@@ -55,17 +55,15 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static final java.lang.String C_TYPE_NAME = "GtkFixed";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -73,40 +71,26 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * Because Fixed is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Fixed(Addressable address, Ownership ownership) {
+    protected Fixed(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Fixed if its GType is a (or inherits from) "GtkFixed".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Fixed} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkFixed", a ClassCastException will be thrown.
-     */
-    public static Fixed castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Fixed.getType())) {
-            return new Fixed(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFixed");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Fixed> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Fixed(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_fixed_new.invokeExact();
         } catch (Throwable ERR) {
@@ -131,11 +115,8 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param x the horizontal position of the {@code widget}
      * @param y the vertical position of the {@code widget}
      */
-    public void getChildPosition(@NotNull org.gtk.gtk.Widget widget, Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public void getChildPosition(org.gtk.gtk.Widget widget, Out<Double> x, Out<Double> y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gtk_fixed_get_child_position.invokeExact(
@@ -156,8 +137,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param widget a {@code GtkWidget}, child of {@code fixed}
      * @return a {@code GskTransform}
      */
-    public @Nullable org.gtk.gsk.Transform getChildTransform(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public @Nullable org.gtk.gsk.Transform getChildTransform(org.gtk.gtk.Widget widget) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_fixed_get_child_transform.invokeExact(
@@ -166,7 +146,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.Transform(RESULT, Ownership.NONE);
+        return org.gtk.gsk.Transform.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -176,8 +156,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param x the horizontal position to move the widget to
      * @param y the vertical position to move the widget to
      */
-    public void move(@NotNull org.gtk.gtk.Widget widget, double x, double y) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void move(org.gtk.gtk.Widget widget, double x, double y) {
         try {
             DowncallHandles.gtk_fixed_move.invokeExact(
                     handle(),
@@ -195,8 +174,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param x the horizontal position to place the widget at
      * @param y the vertical position to place the widget at
      */
-    public void put(@NotNull org.gtk.gtk.Widget widget, double x, double y) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void put(org.gtk.gtk.Widget widget, double x, double y) {
         try {
             DowncallHandles.gtk_fixed_put.invokeExact(
                     handle(),
@@ -212,8 +190,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Removes a child from {@code fixed}.
      * @param widget the child widget to remove
      */
-    public void remove(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void remove(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.gtk_fixed_remove.invokeExact(
                     handle(),
@@ -233,8 +210,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param transform the transformation assigned to {@code widget}
      *   to reset {@code widget}'s transform
      */
-    public void setChildTransform(@NotNull org.gtk.gtk.Widget widget, @Nullable org.gtk.gsk.Transform transform) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void setChildTransform(org.gtk.gtk.Widget widget, @Nullable org.gtk.gsk.Transform transform) {
         try {
             DowncallHandles.gtk_fixed_set_child_transform.invokeExact(
                     handle(),
@@ -249,7 +225,7 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_fixed_get_type.invokeExact();
@@ -258,38 +234,40 @@ public class Fixed extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Fixed.Builder} object constructs a {@link Fixed} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Fixed.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Fixed.Build} object constructs a {@link Fixed} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Fixed} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Fixed} using {@link Fixed#castFrom}.
+         * {@link Fixed}.
          * @return A new instance of {@code Fixed} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Fixed construct() {
-            return Fixed.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Fixed.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Fixed build() {
+            return (Fixed) org.gtk.gobject.GObject.newWithProperties(
+                Fixed.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

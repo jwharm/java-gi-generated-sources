@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Convert stereoscopic/multiview video using fragment shaders.
  */
-public class GLViewConvert extends org.gstreamer.gst.Object {
+public class GLViewConvert extends org.gstreamer.gst.GstObject {
     
     static {
         GstGL.javagi$ensureInitialized();
@@ -16,36 +16,34 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLViewConvert";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("context"),
-        Interop.valueLayout.ADDRESS.withName("shader"),
-        Interop.valueLayout.C_INT.withName("input_mode_override"),
-        Interop.valueLayout.C_INT.withName("input_flags_override"),
-        Interop.valueLayout.C_INT.withName("output_mode_override"),
-        Interop.valueLayout.C_INT.withName("output_flags_override"),
-        Interop.valueLayout.C_INT.withName("downmix_mode"),
-        MemoryLayout.paddingLayout(32),
-        org.gstreamer.video.VideoInfo.getMemoryLayout().withName("in_info"),
-        org.gstreamer.video.VideoInfo.getMemoryLayout().withName("out_info"),
-        Interop.valueLayout.C_INT.withName("from_texture_target"),
-        Interop.valueLayout.C_INT.withName("to_texture_target"),
-        Interop.valueLayout.C_INT.withName("caps_passthrough"),
-        Interop.valueLayout.C_INT.withName("initted"),
-        Interop.valueLayout.C_INT.withName("reconfigure"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("fbo"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("context"),
+            Interop.valueLayout.ADDRESS.withName("shader"),
+            Interop.valueLayout.C_INT.withName("input_mode_override"),
+            Interop.valueLayout.C_INT.withName("input_flags_override"),
+            Interop.valueLayout.C_INT.withName("output_mode_override"),
+            Interop.valueLayout.C_INT.withName("output_flags_override"),
+            Interop.valueLayout.C_INT.withName("downmix_mode"),
+            MemoryLayout.paddingLayout(32),
+            org.gstreamer.video.VideoInfo.getMemoryLayout().withName("in_info"),
+            org.gstreamer.video.VideoInfo.getMemoryLayout().withName("out_info"),
+            Interop.valueLayout.C_INT.withName("from_texture_target"),
+            Interop.valueLayout.C_INT.withName("to_texture_target"),
+            Interop.valueLayout.C_INT.withName("caps_passthrough"),
+            Interop.valueLayout.C_INT.withName("initted"),
+            Interop.valueLayout.C_INT.withName("reconfigure"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("fbo"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -53,40 +51,26 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
      * <p>
      * Because GLViewConvert is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLViewConvert(Addressable address, Ownership ownership) {
+    protected GLViewConvert(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLViewConvert if its GType is a (or inherits from) "GstGLViewConvert".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLViewConvert} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLViewConvert", a ClassCastException will be thrown.
-     */
-    public static GLViewConvert castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLViewConvert.getType())) {
-            return new GLViewConvert(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLViewConvert");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLViewConvert> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLViewConvert(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_view_convert_new.invokeExact();
         } catch (Throwable ERR) {
@@ -106,10 +90,7 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
      * @param othercaps the {@link org.gstreamer.gst.Caps} to fixate
      * @return the fixated {@link org.gstreamer.gst.Caps}
      */
-    public @NotNull org.gstreamer.gst.Caps fixateCaps(@NotNull org.gstreamer.gst.PadDirection direction, @NotNull org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.gst.Caps othercaps) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(othercaps, "Parameter 'othercaps' must not be null");
+    public org.gstreamer.gst.Caps fixateCaps(org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.Caps caps, org.gstreamer.gst.Caps othercaps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_view_convert_fixate_caps.invokeExact(
@@ -121,7 +102,7 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         othercaps.yieldOwnership();
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -129,8 +110,7 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
      * @param outbufPtr a {@link org.gstreamer.gst.Buffer}
      * @return a {@link org.gstreamer.gst.FlowReturn}
      */
-    public @NotNull org.gstreamer.gst.FlowReturn getOutput(@NotNull Out<org.gstreamer.gst.Buffer> outbufPtr) {
-        java.util.Objects.requireNonNull(outbufPtr, "Parameter 'outbufPtr' must not be null");
+    public org.gstreamer.gst.FlowReturn getOutput(Out<org.gstreamer.gst.Buffer> outbufPtr) {
         MemorySegment outbufPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -140,7 +120,7 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outbufPtr.set(new org.gstreamer.gst.Buffer(outbufPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        outbufPtr.set(org.gstreamer.gst.Buffer.fromAddress.marshal(outbufPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
@@ -150,8 +130,7 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
      * @param inbuf the {@link GLMemory} filled {@link org.gstreamer.gst.Buffer} to convert
      * @return a converted {@link org.gstreamer.gst.Buffer} or {@code null}
      */
-    public @NotNull org.gstreamer.gst.Buffer perform(@NotNull org.gstreamer.gst.Buffer inbuf) {
-        java.util.Objects.requireNonNull(inbuf, "Parameter 'inbuf' must not be null");
+    public org.gstreamer.gst.Buffer perform(org.gstreamer.gst.Buffer inbuf) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_view_convert_perform.invokeExact(
@@ -160,7 +139,7 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -181,9 +160,7 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
      * @param inCaps input {@link org.gstreamer.gst.Caps}
      * @param outCaps output {@link org.gstreamer.gst.Caps}
      */
-    public boolean setCaps(@NotNull org.gstreamer.gst.Caps inCaps, @NotNull org.gstreamer.gst.Caps outCaps) {
-        java.util.Objects.requireNonNull(inCaps, "Parameter 'inCaps' must not be null");
-        java.util.Objects.requireNonNull(outCaps, "Parameter 'outCaps' must not be null");
+    public boolean setCaps(org.gstreamer.gst.Caps inCaps, org.gstreamer.gst.Caps outCaps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_view_convert_set_caps.invokeExact(
@@ -193,15 +170,14 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Set {@code context} on {@code viewconvert}
      * @param context the {@link GLContext} to set
      */
-    public void setContext(@NotNull org.gstreamer.gl.GLContext context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public void setContext(org.gstreamer.gl.GLContext context) {
         try {
             DowncallHandles.gst_gl_view_convert_set_context.invokeExact(
                     handle(),
@@ -217,13 +193,12 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
      * @param input a {@link org.gstreamer.gst.Buffer}
      * @return a {@link org.gstreamer.gst.FlowReturn}
      */
-    public @NotNull org.gstreamer.gst.FlowReturn submitInputBuffer(boolean isDiscont, @NotNull org.gstreamer.gst.Buffer input) {
-        java.util.Objects.requireNonNull(input, "Parameter 'input' must not be null");
+    public org.gstreamer.gst.FlowReturn submitInputBuffer(boolean isDiscont, org.gstreamer.gst.Buffer input) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_view_convert_submit_input_buffer.invokeExact(
                     handle(),
-                    isDiscont ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(isDiscont, null).intValue(),
                     input.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -239,10 +214,7 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
      * @param filter a set of filter {@link org.gstreamer.gst.Caps}
      * @return the converted {@link org.gstreamer.gst.Caps}
      */
-    public @NotNull org.gstreamer.gst.Caps transformCaps(@NotNull org.gstreamer.gst.PadDirection direction, @NotNull org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.gst.Caps filter) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(filter, "Parameter 'filter' must not be null");
+    public org.gstreamer.gst.Caps transformCaps(org.gstreamer.gst.PadDirection direction, org.gstreamer.gst.Caps caps, org.gstreamer.gst.Caps filter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_view_convert_transform_caps.invokeExact(
@@ -253,14 +225,14 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_view_convert_get_type.invokeExact();
@@ -269,66 +241,68 @@ public class GLViewConvert extends org.gstreamer.gst.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GLViewConvert.Builder} object constructs a {@link GLViewConvert} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLViewConvert.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link GLViewConvert.Build} object constructs a {@link GLViewConvert} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLViewConvert} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLViewConvert} using {@link GLViewConvert#castFrom}.
+         * {@link GLViewConvert}.
          * @return A new instance of {@code GLViewConvert} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLViewConvert construct() {
-            return GLViewConvert.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLViewConvert.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLViewConvert build() {
+            return (GLViewConvert) org.gtk.gobject.GObject.newWithProperties(
+                GLViewConvert.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setDownmixMode(org.gstreamer.gl.GLStereoDownmix downmixMode) {
+        public Builder setDownmixMode(org.gstreamer.gl.GLStereoDownmix downmixMode) {
             names.add("downmix-mode");
             values.add(org.gtk.gobject.Value.create(downmixMode));
             return this;
         }
         
-        public Build setInputFlagsOverride(org.gstreamer.video.VideoMultiviewFlags inputFlagsOverride) {
+        public Builder setInputFlagsOverride(org.gstreamer.video.VideoMultiviewFlags inputFlagsOverride) {
             names.add("input-flags-override");
             values.add(org.gtk.gobject.Value.create(inputFlagsOverride));
             return this;
         }
         
-        public Build setInputModeOverride(org.gstreamer.video.VideoMultiviewMode inputModeOverride) {
+        public Builder setInputModeOverride(org.gstreamer.video.VideoMultiviewMode inputModeOverride) {
             names.add("input-mode-override");
             values.add(org.gtk.gobject.Value.create(inputModeOverride));
             return this;
         }
         
-        public Build setOutputFlagsOverride(org.gstreamer.video.VideoMultiviewFlags outputFlagsOverride) {
+        public Builder setOutputFlagsOverride(org.gstreamer.video.VideoMultiviewFlags outputFlagsOverride) {
             names.add("output-flags-override");
             values.add(org.gtk.gobject.Value.create(outputFlagsOverride));
             return this;
         }
         
-        public Build setOutputModeOverride(org.gstreamer.video.VideoMultiviewMode outputModeOverride) {
+        public Builder setOutputModeOverride(org.gstreamer.video.VideoMultiviewMode outputModeOverride) {
             names.add("output-mode-override");
             values.add(org.gtk.gobject.Value.create(outputModeOverride));
             return this;

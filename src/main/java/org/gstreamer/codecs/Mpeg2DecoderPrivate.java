@@ -40,8 +40,10 @@ public class Mpeg2DecoderPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Mpeg2DecoderPrivate(Addressable address, Ownership ownership) {
+    protected Mpeg2DecoderPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Mpeg2DecoderPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Mpeg2DecoderPrivate(input, ownership);
 }

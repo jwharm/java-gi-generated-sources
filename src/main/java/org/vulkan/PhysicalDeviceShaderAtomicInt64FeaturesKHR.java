@@ -40,8 +40,10 @@ public class PhysicalDeviceShaderAtomicInt64FeaturesKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceShaderAtomicInt64FeaturesKHR(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceShaderAtomicInt64FeaturesKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceShaderAtomicInt64FeaturesKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceShaderAtomicInt64FeaturesKHR(input, ownership);
 }

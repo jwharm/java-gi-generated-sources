@@ -44,13 +44,15 @@ public class AtomicQueue extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AtomicQueue(Addressable address, Ownership ownership) {
+    protected AtomicQueue(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(int initialSize) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AtomicQueue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AtomicQueue(input, ownership);
+    
+    private static MemoryAddress constructNew(int initialSize) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_atomic_queue_new.invokeExact(
                     initialSize);
@@ -118,13 +120,12 @@ public class AtomicQueue extends Struct {
     
     /**
      * Append {@code data} to the tail of the queue.
-     * @param data the data
      */
-    public void push(@Nullable java.lang.foreign.MemoryAddress data) {
+    public void push() {
         try {
             DowncallHandles.gst_atomic_queue_push.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

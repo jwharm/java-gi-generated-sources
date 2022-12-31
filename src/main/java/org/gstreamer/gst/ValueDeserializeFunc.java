@@ -10,5 +10,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ValueDeserializeFunc {
-        boolean onValueDeserializeFunc(@NotNull org.gtk.gobject.Value dest, @NotNull java.lang.String s);
+    boolean run(org.gtk.gobject.Value dest, java.lang.String s);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress dest, MemoryAddress s) {
+        var RESULT = run(org.gtk.gobject.Value.fromAddress.marshal(dest, Ownership.NONE), Marshal.addressToString.marshal(s, null));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueDeserializeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

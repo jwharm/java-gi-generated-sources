@@ -13,30 +13,28 @@ public class VulkanFormatInfo extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanFormatInfo";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.vulkan.Format.getMemoryLayout().withName("format"),
-        Interop.valueLayout.ADDRESS.withName("name"),
-        Interop.valueLayout.C_INT.withName("scaling"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        Interop.valueLayout.C_INT.withName("bits"),
-        Interop.valueLayout.C_INT.withName("n_components"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("shift"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("depth"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("pixel_stride"),
-        Interop.valueLayout.C_INT.withName("n_planes"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("plane"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("poffset"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("w_sub"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("h_sub")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.vulkan.Format.getMemoryLayout().withName("format"),
+            Interop.valueLayout.ADDRESS.withName("name"),
+            Interop.valueLayout.C_INT.withName("scaling"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            Interop.valueLayout.C_INT.withName("bits"),
+            Interop.valueLayout.C_INT.withName("n_components"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("shift"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("depth"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("pixel_stride"),
+            Interop.valueLayout.C_INT.withName("n_planes"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("plane"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("poffset"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("w_sub"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_BYTE).withName("h_sub")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,37 +54,47 @@ public class VulkanFormatInfo extends Struct {
      * Get the value of the field {@code format}
      * @return The value of the field {@code format}
      */
-    public org.vulkan.Format format$get() {
+    public org.vulkan.Format getFormat() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("format"));
-        return new org.vulkan.Format(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.Format.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code format}
+     * @param format The new value of the field {@code format}
+     */
+    public void setFormat(org.vulkan.Format format) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("format"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.handle()));
     }
     
     /**
      * Get the value of the field {@code name}
      * @return The value of the field {@code name}
      */
-    public java.lang.String name$get() {
+    public java.lang.String getName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code name}
      * @param name The new value of the field {@code name}
      */
-    public void name$set(java.lang.String name) {
+    public void setName(java.lang.String name) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(name));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
     }
     
     /**
      * Get the value of the field {@code scaling}
      * @return The value of the field {@code scaling}
      */
-    public org.gstreamer.vulkan.VulkanFormatScaling scaling$get() {
+    public org.gstreamer.vulkan.VulkanFormatScaling getScaling() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scaling"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -97,17 +105,17 @@ public class VulkanFormatInfo extends Struct {
      * Change the value of the field {@code scaling}
      * @param scaling The new value of the field {@code scaling}
      */
-    public void scaling$set(org.gstreamer.vulkan.VulkanFormatScaling scaling) {
+    public void setScaling(org.gstreamer.vulkan.VulkanFormatScaling scaling) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("scaling"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), scaling.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (scaling == null ? MemoryAddress.NULL : scaling.getValue()));
     }
     
     /**
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public org.gstreamer.vulkan.VulkanFormatFlags flags$get() {
+    public org.gstreamer.vulkan.VulkanFormatFlags getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -118,17 +126,17 @@ public class VulkanFormatInfo extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(org.gstreamer.vulkan.VulkanFormatFlags flags) {
+    public void setFlags(org.gstreamer.vulkan.VulkanFormatFlags flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
     }
     
     /**
      * Get the value of the field {@code bits}
      * @return The value of the field {@code bits}
      */
-    public int bits$get() {
+    public int getBits() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bits"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -139,7 +147,7 @@ public class VulkanFormatInfo extends Struct {
      * Change the value of the field {@code bits}
      * @param bits The new value of the field {@code bits}
      */
-    public void bits$set(int bits) {
+    public void setBits(int bits) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bits"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bits);
@@ -149,7 +157,7 @@ public class VulkanFormatInfo extends Struct {
      * Get the value of the field {@code n_components}
      * @return The value of the field {@code n_components}
      */
-    public int nComponents$get() {
+    public int getNComponents() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -160,17 +168,80 @@ public class VulkanFormatInfo extends Struct {
      * Change the value of the field {@code n_components}
      * @param nComponents The new value of the field {@code n_components}
      */
-    public void nComponents$set(int nComponents) {
+    public void setNComponents(int nComponents) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nComponents);
     }
     
     /**
+     * Get the value of the field {@code shift}
+     * @return The value of the field {@code shift}
+     */
+    public byte[] getShift() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code shift}
+     * @param shift The new value of the field {@code shift}
+     */
+    public void setShift(byte[] shift) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("shift"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code depth}
+     * @return The value of the field {@code depth}
+     */
+    public byte[] getDepth() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code depth}
+     * @param depth The new value of the field {@code depth}
+     */
+    public void setDepth(byte[] depth) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("depth"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code pixel_stride}
+     * @return The value of the field {@code pixel_stride}
+     */
+    public byte[] getPixelStride() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code pixel_stride}
+     * @param pixelStride The new value of the field {@code pixel_stride}
+     */
+    public void setPixelStride(byte[] pixelStride) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false)));
+    }
+    
+    /**
      * Get the value of the field {@code n_planes}
      * @return The value of the field {@code n_planes}
      */
-    public int nPlanes$get() {
+    public int getNPlanes() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -181,10 +252,94 @@ public class VulkanFormatInfo extends Struct {
      * Change the value of the field {@code n_planes}
      * @param nPlanes The new value of the field {@code n_planes}
      */
-    public void nPlanes$set(int nPlanes) {
+    public void setNPlanes(int nPlanes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
+    }
+    
+    /**
+     * Get the value of the field {@code plane}
+     * @return The value of the field {@code plane}
+     */
+    public byte[] getPlane() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code plane}
+     * @param plane The new value of the field {@code plane}
+     */
+    public void setPlane(byte[] plane) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("plane"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code poffset}
+     * @return The value of the field {@code poffset}
+     */
+    public byte[] getPoffset() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code poffset}
+     * @param poffset The new value of the field {@code poffset}
+     */
+    public void setPoffset(byte[] poffset) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code w_sub}
+     * @return The value of the field {@code w_sub}
+     */
+    public byte[] getWSub() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code w_sub}
+     * @param wSub The new value of the field {@code w_sub}
+     */
+    public void setWSub(byte[] wSub) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code h_sub}
+     * @return The value of the field {@code h_sub}
+     */
+    public byte[] getHSub() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+    }
+    
+    /**
+     * Change the value of the field {@code h_sub}
+     * @param hSub The new value of the field {@code h_sub}
+     */
+    public void setHSub(byte[] hSub) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false)));
     }
     
     /**
@@ -192,35 +347,41 @@ public class VulkanFormatInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanFormatInfo(Addressable address, Ownership ownership) {
+    protected VulkanFormatInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanFormatInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanFormatInfo(input, ownership);
+    
+    /**
+     * A {@link VulkanFormatInfo.Builder} object constructs a {@link VulkanFormatInfo} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VulkanFormatInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VulkanFormatInfo struct;
+        private final VulkanFormatInfo struct;
         
-         /**
-         * A {@link VulkanFormatInfo.Build} object constructs a {@link VulkanFormatInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VulkanFormatInfo.allocate();
         }
         
          /**
          * Finish building the {@link VulkanFormatInfo} struct.
          * @return A new instance of {@code VulkanFormatInfo} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanFormatInfo construct() {
+        public VulkanFormatInfo build() {
             return struct;
         }
         
@@ -229,7 +390,7 @@ public class VulkanFormatInfo extends Struct {
          * @param format The value for the {@code format} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormat(org.vulkan.Format format) {
+        public Builder setFormat(org.vulkan.Format format) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.handle()));
@@ -241,10 +402,10 @@ public class VulkanFormatInfo extends Struct {
          * @param name The value for the {@code name} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
             return this;
         }
         
@@ -253,7 +414,7 @@ public class VulkanFormatInfo extends Struct {
          * @param scaling The value for the {@code scaling} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScaling(org.gstreamer.vulkan.VulkanFormatScaling scaling) {
+        public Builder setScaling(org.gstreamer.vulkan.VulkanFormatScaling scaling) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scaling"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (scaling == null ? MemoryAddress.NULL : scaling.getValue()));
@@ -265,7 +426,7 @@ public class VulkanFormatInfo extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gstreamer.vulkan.VulkanFormatFlags flags) {
+        public Builder setFlags(org.gstreamer.vulkan.VulkanFormatFlags flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (flags == null ? MemoryAddress.NULL : flags.getValue()));
@@ -281,14 +442,14 @@ public class VulkanFormatInfo extends Struct {
          * @param bits The value for the {@code bits} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBits(int bits) {
+        public Builder setBits(int bits) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bits"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bits);
             return this;
         }
         
-        public Build setNComponents(int nComponents) {
+        public Builder setNComponents(int nComponents) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_components"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nComponents);
@@ -300,7 +461,7 @@ public class VulkanFormatInfo extends Struct {
          * @param shift The value for the {@code shift} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShift(byte[] shift) {
+        public Builder setShift(byte[] shift) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("shift"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shift == null ? MemoryAddress.NULL : Interop.allocateNativeArray(shift, false)));
@@ -312,14 +473,14 @@ public class VulkanFormatInfo extends Struct {
          * @param depth The value for the {@code depth} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDepth(byte[] depth) {
+        public Builder setDepth(byte[] depth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("depth"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (depth == null ? MemoryAddress.NULL : Interop.allocateNativeArray(depth, false)));
             return this;
         }
         
-        public Build setPixelStride(byte[] pixelStride) {
+        public Builder setPixelStride(byte[] pixelStride) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pixel_stride"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pixelStride == null ? MemoryAddress.NULL : Interop.allocateNativeArray(pixelStride, false)));
@@ -333,7 +494,7 @@ public class VulkanFormatInfo extends Struct {
          * @param nPlanes The value for the {@code nPlanes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPlanes(int nPlanes) {
+        public Builder setNPlanes(int nPlanes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
@@ -345,7 +506,7 @@ public class VulkanFormatInfo extends Struct {
          * @param plane The value for the {@code plane} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlane(byte[] plane) {
+        public Builder setPlane(byte[] plane) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("plane"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (plane == null ? MemoryAddress.NULL : Interop.allocateNativeArray(plane, false)));
@@ -358,7 +519,7 @@ public class VulkanFormatInfo extends Struct {
          * @param poffset The value for the {@code poffset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPoffset(byte[] poffset) {
+        public Builder setPoffset(byte[] poffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("poffset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (poffset == null ? MemoryAddress.NULL : Interop.allocateNativeArray(poffset, false)));
@@ -371,7 +532,7 @@ public class VulkanFormatInfo extends Struct {
          * @param wSub The value for the {@code wSub} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWSub(byte[] wSub) {
+        public Builder setWSub(byte[] wSub) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("w_sub"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (wSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(wSub, false)));
@@ -384,7 +545,7 @@ public class VulkanFormatInfo extends Struct {
          * @param hSub The value for the {@code hSub} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHSub(byte[] hSub) {
+        public Builder setHSub(byte[] hSub) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("h_sub"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hSub == null ? MemoryAddress.NULL : Interop.allocateNativeArray(hSub, false)));

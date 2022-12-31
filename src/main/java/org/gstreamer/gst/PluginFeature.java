@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * This is a base class for anything that can be added to a {@link Plugin}.
  */
-public class PluginFeature extends org.gstreamer.gst.Object {
+public class PluginFeature extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -30,37 +30,23 @@ public class PluginFeature extends org.gstreamer.gst.Object {
      * <p>
      * Because PluginFeature is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PluginFeature(Addressable address, Ownership ownership) {
+    protected PluginFeature(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PluginFeature if its GType is a (or inherits from) "GstPluginFeature".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PluginFeature} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPluginFeature", a ClassCastException will be thrown.
-     */
-    public static PluginFeature castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PluginFeature.getType())) {
-            return new PluginFeature(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPluginFeature");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PluginFeature> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PluginFeature(input, ownership);
     
     /**
      * Checks whether the given plugin feature is at least
@@ -82,7 +68,7 @@ public class PluginFeature extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -99,7 +85,7 @@ public class PluginFeature extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Plugin(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Plugin) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Plugin.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -116,7 +102,7 @@ public class PluginFeature extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -158,7 +144,7 @@ public class PluginFeature extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.PluginFeature(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.PluginFeature) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.PluginFeature.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -180,7 +166,7 @@ public class PluginFeature extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_plugin_feature_get_type.invokeExact();
@@ -198,8 +184,7 @@ public class PluginFeature extends org.gstreamer.gst.Object {
      * @return a copy of {@code list},
      *     with each feature's reference count incremented.
      */
-    public static @NotNull org.gtk.glib.List listCopy(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static org.gtk.glib.List listCopy(org.gtk.glib.List list) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugin_feature_list_copy.invokeExact(
@@ -207,7 +192,7 @@ public class PluginFeature extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -215,8 +200,7 @@ public class PluginFeature extends org.gstreamer.gst.Object {
      * @param list a {@link org.gtk.glib.List} of
      *     plugin features
      */
-    public static void listDebug(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static void listDebug(org.gtk.glib.List list) {
         try {
             DowncallHandles.gst_plugin_feature_list_debug.invokeExact(
                     list.handle());
@@ -230,8 +214,7 @@ public class PluginFeature extends org.gstreamer.gst.Object {
      * @param list list
      *     of {@link PluginFeature}
      */
-    public static void listFree(@NotNull org.gtk.glib.List list) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static void listFree(org.gtk.glib.List list) {
         try {
             DowncallHandles.gst_plugin_feature_list_free.invokeExact(
                     list.handle());
@@ -262,38 +245,40 @@ public class PluginFeature extends org.gstreamer.gst.Object {
         }
         return RESULT;
     }
-
+    
+    /**
+     * A {@link PluginFeature.Builder} object constructs a {@link PluginFeature} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PluginFeature.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link PluginFeature.Build} object constructs a {@link PluginFeature} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PluginFeature} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PluginFeature} using {@link PluginFeature#castFrom}.
+         * {@link PluginFeature}.
          * @return A new instance of {@code PluginFeature} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PluginFeature construct() {
-            return PluginFeature.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PluginFeature.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PluginFeature build() {
+            return (PluginFeature) org.gtk.gobject.GObject.newWithProperties(
+                PluginFeature.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

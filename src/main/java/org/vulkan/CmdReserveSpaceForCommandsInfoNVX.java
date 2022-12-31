@@ -40,8 +40,10 @@ public class CmdReserveSpaceForCommandsInfoNVX extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CmdReserveSpaceForCommandsInfoNVX(Addressable address, Ownership ownership) {
+    protected CmdReserveSpaceForCommandsInfoNVX(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CmdReserveSpaceForCommandsInfoNVX> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CmdReserveSpaceForCommandsInfoNVX(input, ownership);
 }

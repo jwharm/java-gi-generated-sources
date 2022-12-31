@@ -18,18 +18,16 @@ public class Box extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_box_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("min"),
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("max")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("min"),
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("max")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,13 +48,15 @@ public class Box extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Box(Addressable address, Ownership ownership) {
+    protected Box(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Box> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Box(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -73,7 +73,8 @@ public class Box extends Struct {
      *   Use graphene_box_free() to free the resources allocated by this function
      */
     public static Box alloc() {
-        return new Box(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -82,8 +83,7 @@ public class Box extends Struct {
      * @param b a {@link Box}
      * @return {@code true} if the box is contained in the given box
      */
-    public boolean containsBox(@NotNull org.gtk.graphene.Box b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean containsBox(org.gtk.graphene.Box b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_box_contains_box.invokeExact(
@@ -100,8 +100,7 @@ public class Box extends Struct {
      * @param point the coordinates to check
      * @return {@code true} if the point is contained in the given box
      */
-    public boolean containsPoint(@NotNull org.gtk.graphene.Point3D point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public boolean containsPoint(org.gtk.graphene.Point3D point) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_box_contains_point.invokeExact(
@@ -118,8 +117,7 @@ public class Box extends Struct {
      * @param b a {@link Box}
      * @return {@code true} if the boxes are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Box b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Box b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_box_equal.invokeExact(
@@ -136,9 +134,7 @@ public class Box extends Struct {
      * @param point the coordinates of the point to include
      * @param res return location for the expanded box
      */
-    public void expand(@NotNull org.gtk.graphene.Point3D point, @NotNull org.gtk.graphene.Box res) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void expand(org.gtk.graphene.Point3D point, org.gtk.graphene.Box res) {
         try {
             DowncallHandles.graphene_box_expand.invokeExact(
                     handle(),
@@ -157,8 +153,7 @@ public class Box extends Struct {
      * @param scalar a scalar value
      * @param res return location for the expanded box
      */
-    public void expandScalar(float scalar, @NotNull org.gtk.graphene.Box res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void expandScalar(float scalar, org.gtk.graphene.Box res) {
         try {
             DowncallHandles.graphene_box_expand_scalar.invokeExact(
                     handle(),
@@ -175,9 +170,7 @@ public class Box extends Struct {
      * @param vec the coordinates of the point to include, as a {@link Vec3}
      * @param res return location for the expanded box
      */
-    public void expandVec3(@NotNull org.gtk.graphene.Vec3 vec, @NotNull org.gtk.graphene.Box res) {
-        java.util.Objects.requireNonNull(vec, "Parameter 'vec' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void expandVec3(org.gtk.graphene.Vec3 vec, org.gtk.graphene.Box res) {
         try {
             DowncallHandles.graphene_box_expand_vec3.invokeExact(
                     handle(),
@@ -205,8 +198,7 @@ public class Box extends Struct {
      * {@link Box}.
      * @param sphere return location for the bounding sphere
      */
-    public void getBoundingSphere(@NotNull org.gtk.graphene.Sphere sphere) {
-        java.util.Objects.requireNonNull(sphere, "Parameter 'sphere' must not be null");
+    public void getBoundingSphere(org.gtk.graphene.Sphere sphere) {
         try {
             DowncallHandles.graphene_box_get_bounding_sphere.invokeExact(
                     handle(),
@@ -221,8 +213,7 @@ public class Box extends Struct {
      * @param center return location for the coordinates of
      *   the center
      */
-    public void getCenter(@NotNull org.gtk.graphene.Point3D center) {
-        java.util.Objects.requireNonNull(center, "Parameter 'center' must not be null");
+    public void getCenter(org.gtk.graphene.Point3D center) {
         try {
             DowncallHandles.graphene_box_get_center.invokeExact(
                     handle(),
@@ -267,8 +258,7 @@ public class Box extends Struct {
      * {@link Box}.
      * @param max return location for the maximum point
      */
-    public void getMax(@NotNull org.gtk.graphene.Point3D max) {
-        java.util.Objects.requireNonNull(max, "Parameter 'max' must not be null");
+    public void getMax(org.gtk.graphene.Point3D max) {
         try {
             DowncallHandles.graphene_box_get_max.invokeExact(
                     handle(),
@@ -283,8 +273,7 @@ public class Box extends Struct {
      * {@link Box}.
      * @param min return location for the minimum point
      */
-    public void getMin(@NotNull org.gtk.graphene.Point3D min) {
-        java.util.Objects.requireNonNull(min, "Parameter 'min' must not be null");
+    public void getMin(org.gtk.graphene.Point3D min) {
         try {
             DowncallHandles.graphene_box_get_min.invokeExact(
                     handle(),
@@ -299,8 +288,7 @@ public class Box extends Struct {
      * it into the given {@code size} vector.
      * @param size return location for the size
      */
-    public void getSize(@NotNull org.gtk.graphene.Vec3 size) {
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
+    public void getSize(org.gtk.graphene.Vec3 size) {
         try {
             DowncallHandles.graphene_box_get_size.invokeExact(
                     handle(),
@@ -315,8 +303,7 @@ public class Box extends Struct {
      * @param vertices return location for an array
      *   of 8 {@link Vec3}
      */
-    public void getVertices(@NotNull Out<org.gtk.graphene.Vec3[]> vertices) {
-        java.util.Objects.requireNonNull(vertices, "Parameter 'vertices' must not be null");
+    public void getVertices(Out<org.gtk.graphene.Vec3[]> vertices) {
         MemorySegment verticesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.graphene_box_get_vertices.invokeExact(
@@ -328,7 +315,7 @@ public class Box extends Struct {
         org.gtk.graphene.Vec3[] verticesARRAY = new org.gtk.graphene.Vec3[8];
         for (int I = 0; I < 8; I++) {
             var OBJ = verticesPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            verticesARRAY[I] = new org.gtk.graphene.Vec3(OBJ, Ownership.NONE);
+            verticesARRAY[I] = org.gtk.graphene.Vec3.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         vertices.set(verticesARRAY);
     }
@@ -354,7 +341,7 @@ public class Box extends Struct {
      * @param max the coordinates of the maximum vertex
      * @return the initialized {@link Box}
      */
-    public @NotNull org.gtk.graphene.Box init(@Nullable org.gtk.graphene.Point3D min, @Nullable org.gtk.graphene.Point3D max) {
+    public org.gtk.graphene.Box init(@Nullable org.gtk.graphene.Point3D min, @Nullable org.gtk.graphene.Point3D max) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_init.invokeExact(
@@ -364,7 +351,7 @@ public class Box extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -373,8 +360,7 @@ public class Box extends Struct {
      * @param src a {@link Box}
      * @return the initialized {@link Box}
      */
-    public @NotNull org.gtk.graphene.Box initFromBox(@NotNull org.gtk.graphene.Box src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Box initFromBox(org.gtk.graphene.Box src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_init_from_box.invokeExact(
@@ -383,7 +369,7 @@ public class Box extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -396,8 +382,7 @@ public class Box extends Struct {
      * @param points an array of {@link Point3D}
      * @return the initialized {@link Box}
      */
-    public @NotNull org.gtk.graphene.Box initFromPoints(int nPoints, @NotNull org.gtk.graphene.Point3D[] points) {
-        java.util.Objects.requireNonNull(points, "Parameter 'points' must not be null");
+    public org.gtk.graphene.Box initFromPoints(int nPoints, org.gtk.graphene.Point3D[] points) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_init_from_points.invokeExact(
@@ -407,7 +392,7 @@ public class Box extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -417,7 +402,7 @@ public class Box extends Struct {
      * @param max the coordinates of the maximum vertex
      * @return the initialized {@link Box}
      */
-    public @NotNull org.gtk.graphene.Box initFromVec3(@Nullable org.gtk.graphene.Vec3 min, @Nullable org.gtk.graphene.Vec3 max) {
+    public org.gtk.graphene.Box initFromVec3(@Nullable org.gtk.graphene.Vec3 min, @Nullable org.gtk.graphene.Vec3 max) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_init_from_vec3.invokeExact(
@@ -427,7 +412,7 @@ public class Box extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -440,8 +425,7 @@ public class Box extends Struct {
      * @param vectors an array of {@link Vec3}
      * @return the initialized {@link Box}
      */
-    public @NotNull org.gtk.graphene.Box initFromVectors(int nVectors, @NotNull org.gtk.graphene.Vec3[] vectors) {
-        java.util.Objects.requireNonNull(vectors, "Parameter 'vectors' must not be null");
+    public org.gtk.graphene.Box initFromVectors(int nVectors, org.gtk.graphene.Vec3[] vectors) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_init_from_vectors.invokeExact(
@@ -451,7 +435,7 @@ public class Box extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -463,15 +447,13 @@ public class Box extends Struct {
      * @param res return location for the result
      * @return true if the two boxes intersect
      */
-    public boolean intersection(@NotNull org.gtk.graphene.Box b, @NotNull org.gtk.graphene.Box res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public boolean intersection(org.gtk.graphene.Box b, @Nullable org.gtk.graphene.Box res) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_box_intersection.invokeExact(
                     handle(),
                     b.handle(),
-                    res.handle());
+                    (Addressable) (res == null ? MemoryAddress.NULL : res.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -483,9 +465,7 @@ public class Box extends Struct {
      * @param b the box to union to {@code a}
      * @param res return location for the result
      */
-    public void union(@NotNull org.gtk.graphene.Box b, @NotNull org.gtk.graphene.Box res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void union(org.gtk.graphene.Box b, org.gtk.graphene.Box res) {
         try {
             DowncallHandles.graphene_box_union.invokeExact(
                     handle(),
@@ -502,14 +482,14 @@ public class Box extends Struct {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box empty() {
+    public static org.gtk.graphene.Box empty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -518,14 +498,14 @@ public class Box extends Struct {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box infinite() {
+    public static org.gtk.graphene.Box infinite() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_infinite.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -535,14 +515,14 @@ public class Box extends Struct {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box minusOne() {
+    public static org.gtk.graphene.Box minusOne() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_minus_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -552,14 +532,14 @@ public class Box extends Struct {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box one() {
+    public static org.gtk.graphene.Box one() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -569,14 +549,14 @@ public class Box extends Struct {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box oneMinusOne() {
+    public static org.gtk.graphene.Box oneMinusOne() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_one_minus_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -585,14 +565,14 @@ public class Box extends Struct {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box zero() {
+    public static org.gtk.graphene.Box zero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -777,42 +757,46 @@ public class Box extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Box.Builder} object constructs a {@link Box} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Box.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Box struct;
+        private final Box struct;
         
-         /**
-         * A {@link Box.Build} object constructs a {@link Box} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Box.allocate();
         }
         
          /**
          * Finish building the {@link Box} struct.
          * @return A new instance of {@code Box} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Box construct() {
+        public Box build() {
             return struct;
         }
         
-        public Build setMin(org.gtk.graphene.Vec3 min) {
+        public Builder setMin(org.gtk.graphene.Vec3 min) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("min"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (min == null ? MemoryAddress.NULL : min.handle()));
             return this;
         }
         
-        public Build setMax(org.gtk.graphene.Vec3 max) {
+        public Builder setMax(org.gtk.graphene.Vec3 max) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (max == null ? MemoryAddress.NULL : max.handle()));

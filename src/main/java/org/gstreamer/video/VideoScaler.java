@@ -44,10 +44,12 @@ public class VideoScaler extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoScaler(Addressable address, Ownership ownership) {
+    protected VideoScaler(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoScaler> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoScaler(input, ownership);
     
     /**
      * Scale a rectangle of pixels in {@code src} with {@code src_stride} to {@code dest} with
@@ -69,9 +71,7 @@ public class VideoScaler extends Struct {
      * @param width the number of output pixels to scale
      * @param height the number of output lines to scale
      */
-    public void _2d(@NotNull org.gstreamer.video.VideoScaler vscale, @NotNull org.gstreamer.video.VideoFormat format, @Nullable java.lang.foreign.MemoryAddress src, int srcStride, @Nullable java.lang.foreign.MemoryAddress dest, int destStride, int x, int y, int width, int height) {
-        java.util.Objects.requireNonNull(vscale, "Parameter 'vscale' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void _2d(org.gstreamer.video.VideoScaler vscale, org.gstreamer.video.VideoFormat format, @Nullable java.lang.foreign.MemoryAddress src, int srcStride, @Nullable java.lang.foreign.MemoryAddress dest, int destStride, int x, int y, int width, int height) {
         try {
             DowncallHandles.gst_video_scaler_2d.invokeExact(
                     handle(),
@@ -97,10 +97,7 @@ public class VideoScaler extends Struct {
      * @param outFormat the output video format
      * @return a new horizontal videoscaler for {@code format}.
      */
-    public @NotNull org.gstreamer.video.VideoScaler combinePackedYUV(@NotNull org.gstreamer.video.VideoScaler uvScale, @NotNull org.gstreamer.video.VideoFormat inFormat, @NotNull org.gstreamer.video.VideoFormat outFormat) {
-        java.util.Objects.requireNonNull(uvScale, "Parameter 'uvScale' must not be null");
-        java.util.Objects.requireNonNull(inFormat, "Parameter 'inFormat' must not be null");
-        java.util.Objects.requireNonNull(outFormat, "Parameter 'outFormat' must not be null");
+    public org.gstreamer.video.VideoScaler combinePackedYUV(org.gstreamer.video.VideoScaler uvScale, org.gstreamer.video.VideoFormat inFormat, org.gstreamer.video.VideoFormat outFormat) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_scaler_combine_packed_YUV.invokeExact(
@@ -111,7 +108,7 @@ public class VideoScaler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoScaler(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoScaler.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -138,8 +135,6 @@ public class VideoScaler extends Struct {
      * @return an array of {@code n_tap} gdouble values with filter coefficients.
      */
     public PointerDouble getCoeff(int outOffset, PointerInteger inOffset, PointerInteger nTaps) {
-        java.util.Objects.requireNonNull(inOffset, "Parameter 'inOffset' must not be null");
-        java.util.Objects.requireNonNull(nTaps, "Parameter 'nTaps' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_scaler_get_coeff.invokeExact(
@@ -177,8 +172,7 @@ public class VideoScaler extends Struct {
      * @param destOffset the horizontal destination offset
      * @param width the number of pixels to scale
      */
-    public void horizontal(@NotNull org.gstreamer.video.VideoFormat format, @Nullable java.lang.foreign.MemoryAddress src, @Nullable java.lang.foreign.MemoryAddress dest, int destOffset, int width) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void horizontal(org.gstreamer.video.VideoFormat format, @Nullable java.lang.foreign.MemoryAddress src, @Nullable java.lang.foreign.MemoryAddress dest, int destOffset, int width) {
         try {
             DowncallHandles.gst_video_scaler_horizontal.invokeExact(
                     handle(),
@@ -202,8 +196,7 @@ public class VideoScaler extends Struct {
      * @param destOffset the vertical destination offset
      * @param width the number of pixels to scale
      */
-    public void vertical(@NotNull org.gstreamer.video.VideoFormat format, @Nullable java.lang.foreign.MemoryAddress srcLines, @Nullable java.lang.foreign.MemoryAddress dest, int destOffset, int width) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void vertical(org.gstreamer.video.VideoFormat format, @Nullable java.lang.foreign.MemoryAddress srcLines, @Nullable java.lang.foreign.MemoryAddress dest, int destOffset, int width) {
         try {
             DowncallHandles.gst_video_scaler_vertical.invokeExact(
                     handle(),
@@ -232,9 +225,7 @@ public class VideoScaler extends Struct {
      * @param options extra options
      * @return a {@link VideoScaler}
      */
-    public static @NotNull org.gstreamer.video.VideoScaler new_(@NotNull org.gstreamer.video.VideoResamplerMethod method, @NotNull org.gstreamer.video.VideoScalerFlags flags, int nTaps, int inSize, int outSize, @Nullable org.gstreamer.gst.Structure options) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gstreamer.video.VideoScaler new_(org.gstreamer.video.VideoResamplerMethod method, org.gstreamer.video.VideoScalerFlags flags, int nTaps, int inSize, int outSize, @Nullable org.gstreamer.gst.Structure options) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_scaler_new.invokeExact(
@@ -247,7 +238,7 @@ public class VideoScaler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoScaler(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoScaler.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

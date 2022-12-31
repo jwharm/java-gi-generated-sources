@@ -12,5 +12,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface IOFunc {
-        boolean onIOFunc(@NotNull org.gtk.glib.IOChannel source, @NotNull org.gtk.glib.IOCondition condition);
+    boolean run(org.gtk.glib.IOChannel source, org.gtk.glib.IOCondition condition);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress source, int condition, MemoryAddress userData) {
+        var RESULT = run(org.gtk.glib.IOChannel.fromAddress.marshal(source, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IOFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

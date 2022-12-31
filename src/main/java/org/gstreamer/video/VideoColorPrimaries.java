@@ -111,7 +111,7 @@ public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
      * @param value a ITU-T H.273 colour primaries value
      * @return the matched {@link VideoColorPrimaries}
      */
-    public static @NotNull org.gstreamer.video.VideoColorPrimaries fromIso(int value) {
+    public static org.gstreamer.video.VideoColorPrimaries fromIso(int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_color_primaries_from_iso.invokeExact(
@@ -127,8 +127,7 @@ public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
      * @param primaries a {@link VideoColorPrimaries}
      * @return a {@link VideoColorPrimariesInfo} for {@code primaries}.
      */
-    public static @NotNull org.gstreamer.video.VideoColorPrimariesInfo getInfo(@NotNull org.gstreamer.video.VideoColorPrimaries primaries) {
-        java.util.Objects.requireNonNull(primaries, "Parameter 'primaries' must not be null");
+    public static org.gstreamer.video.VideoColorPrimariesInfo getInfo(org.gstreamer.video.VideoColorPrimaries primaries) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_color_primaries_get_info.invokeExact(
@@ -136,7 +135,7 @@ public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoColorPrimariesInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoColorPrimariesInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -147,8 +146,7 @@ public enum VideoColorPrimaries implements io.github.jwharm.javagi.Enumeration {
      * @param primaries a {@link VideoColorPrimaries}
      * @return The value of ISO/IEC 23001-8 colour primaries.
      */
-    public static int toIso(@NotNull org.gstreamer.video.VideoColorPrimaries primaries) {
-        java.util.Objects.requireNonNull(primaries, "Parameter 'primaries' must not be null");
+    public static int toIso(org.gstreamer.video.VideoColorPrimaries primaries) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_color_primaries_to_iso.invokeExact(

@@ -25,21 +25,19 @@ public class UriParamsIter extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GUriParamsIter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("dummy0"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("dummy1"),
-        Interop.valueLayout.ADDRESS.withName("dummy2"),
-        MemoryLayout.sequenceLayout(256, Interop.valueLayout.C_BYTE).withName("dummy3")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("dummy0"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("dummy1"),
+            Interop.valueLayout.ADDRESS.withName("dummy2"),
+            MemoryLayout.sequenceLayout(256, Interop.valueLayout.C_BYTE).withName("dummy3")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -60,10 +58,12 @@ public class UriParamsIter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public UriParamsIter(Addressable address, Ownership ownership) {
+    protected UriParamsIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, UriParamsIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UriParamsIter(input, ownership);
     
     /**
      * Initializes an attribute/value pair iterator.
@@ -108,16 +108,13 @@ public class UriParamsIter extends Struct {
      *   no splitting will occur.
      * @param flags flags to modify the way the parameters are handled.
      */
-    public void init(@NotNull java.lang.String params, long length, @NotNull java.lang.String separators, @NotNull org.gtk.glib.UriParamsFlags flags) {
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
-        java.util.Objects.requireNonNull(separators, "Parameter 'separators' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void init(java.lang.String params, long length, java.lang.String separators, org.gtk.glib.UriParamsFlags flags) {
         try {
             DowncallHandles.g_uri_params_iter_init.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(params),
+                    Marshal.stringToAddress.marshal(params, null),
                     length,
-                    Interop.allocateNativeString(separators),
+                    Marshal.stringToAddress.marshal(separators, null),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -159,9 +156,9 @@ public class UriParamsIter extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (attribute != null) attribute.set(Interop.getStringFrom(attributePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (value != null) value.set(Interop.getStringFrom(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (attribute != null) attribute.set(Marshal.addressToString.marshal(attributePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (value != null) value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -178,56 +175,60 @@ public class UriParamsIter extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link UriParamsIter.Builder} object constructs a {@link UriParamsIter} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link UriParamsIter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private UriParamsIter struct;
+        private final UriParamsIter struct;
         
-         /**
-         * A {@link UriParamsIter.Build} object constructs a {@link UriParamsIter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = UriParamsIter.allocate();
         }
         
          /**
          * Finish building the {@link UriParamsIter} struct.
          * @return A new instance of {@code UriParamsIter} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public UriParamsIter construct() {
+        public UriParamsIter build() {
             return struct;
         }
         
-        public Build setDummy0(int dummy0) {
+        public Builder setDummy0(int dummy0) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy0"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dummy0);
             return this;
         }
         
-        public Build setDummy1(java.lang.foreign.MemoryAddress dummy1) {
+        public Builder setDummy1(java.lang.foreign.MemoryAddress dummy1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy1"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy1 == null ? MemoryAddress.NULL : (Addressable) dummy1));
             return this;
         }
         
-        public Build setDummy2(java.lang.foreign.MemoryAddress dummy2) {
+        public Builder setDummy2(java.lang.foreign.MemoryAddress dummy2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy2"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy2 == null ? MemoryAddress.NULL : (Addressable) dummy2));
             return this;
         }
         
-        public Build setDummy3(byte[] dummy3) {
+        public Builder setDummy3(byte[] dummy3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dummy3"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dummy3 == null ? MemoryAddress.NULL : Interop.allocateNativeArray(dummy3, false)));

@@ -19,19 +19,17 @@ public class GLMemoryPBO extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLMemoryPBO";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gl.GLMemory.getMemoryLayout().withName("mem"),
-        Interop.valueLayout.ADDRESS.withName("pbo"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gl.GLMemory.getMemoryLayout().withName("mem"),
+            Interop.valueLayout.ADDRESS.withName("pbo"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,10 +50,12 @@ public class GLMemoryPBO extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLMemoryPBO(Addressable address, Ownership ownership) {
+    protected GLMemoryPBO(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLMemoryPBO> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLMemoryPBO(input, ownership);
     
     /**
      * Copies {@code gl_mem} into the texture specified by {@code tex_id}.  The format of {@code tex_id}
@@ -80,9 +80,7 @@ public class GLMemoryPBO extends Struct {
      * @param respecify whether to copy the data or copy per texel
      * @return Whether the copy succeeded
      */
-    public boolean copyIntoTexture(int texId, @NotNull org.gstreamer.gl.GLTextureTarget target, @NotNull org.gstreamer.gl.GLFormat texFormat, int width, int height, int stride, boolean respecify) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(texFormat, "Parameter 'texFormat' must not be null");
+    public boolean copyIntoTexture(int texId, org.gstreamer.gl.GLTextureTarget target, org.gstreamer.gl.GLFormat texFormat, int width, int height, int stride, boolean respecify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_memory_pbo_copy_into_texture.invokeExact(
@@ -93,11 +91,11 @@ public class GLMemoryPBO extends Struct {
                     width,
                     height,
                     stride,
-                    respecify ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(respecify, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -158,49 +156,53 @@ public class GLMemoryPBO extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLMemoryPBO.Builder} object constructs a {@link GLMemoryPBO} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLMemoryPBO.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLMemoryPBO struct;
+        private final GLMemoryPBO struct;
         
-         /**
-         * A {@link GLMemoryPBO.Build} object constructs a {@link GLMemoryPBO} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLMemoryPBO.allocate();
         }
         
          /**
          * Finish building the {@link GLMemoryPBO} struct.
          * @return A new instance of {@code GLMemoryPBO} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLMemoryPBO construct() {
+        public GLMemoryPBO build() {
             return struct;
         }
         
-        public Build setMem(org.gstreamer.gl.GLMemory mem) {
+        public Builder setMem(org.gstreamer.gl.GLMemory mem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mem"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
             return this;
         }
         
-        public Build setPbo(org.gstreamer.gl.GLBuffer pbo) {
+        public Builder setPbo(org.gstreamer.gl.GLBuffer pbo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pbo"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pbo == null ? MemoryAddress.NULL : pbo.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

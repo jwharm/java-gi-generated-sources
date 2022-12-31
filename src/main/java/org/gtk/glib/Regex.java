@@ -108,20 +108,19 @@ public class Regex extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Regex(Addressable address, Ownership ownership) {
+    protected Regex(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String pattern, @NotNull org.gtk.glib.RegexCompileFlags compileOptions, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws GErrorException {
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
-        java.util.Objects.requireNonNull(compileOptions, "Parameter 'compileOptions' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Regex> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Regex(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String pattern, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_new.invokeExact(
-                    Interop.allocateNativeString(pattern),
+                    Marshal.stringToAddress.marshal(pattern, null),
                     compileOptions.getValue(),
                     matchOptions.getValue(),
                     (Addressable) GERROR);
@@ -142,7 +141,7 @@ public class Regex extends Struct {
      * @param matchOptions match options for the regular expression, or 0
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public Regex(@NotNull java.lang.String pattern, @NotNull org.gtk.glib.RegexCompileFlags compileOptions, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws GErrorException {
+    public Regex(java.lang.String pattern, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) throws GErrorException {
         super(constructNew(pattern, compileOptions, matchOptions), Ownership.FULL);
     }
     
@@ -169,7 +168,7 @@ public class Regex extends Struct {
      * top-level within the compiled pattern.
      * @return flags from {@link RegexCompileFlags}
      */
-    public @NotNull org.gtk.glib.RegexCompileFlags getCompileFlags() {
+    public org.gtk.glib.RegexCompileFlags getCompileFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_get_compile_flags.invokeExact(
@@ -192,14 +191,14 @@ public class Regex extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Returns the match options that {@code regex} was created with.
      * @return flags from {@link RegexMatchFlags}
      */
-    public @NotNull org.gtk.glib.RegexMatchFlags getMatchFlags() {
+    public org.gtk.glib.RegexMatchFlags getMatchFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_get_match_flags.invokeExact(
@@ -249,7 +248,7 @@ public class Regex extends Struct {
      * the string passed to g_regex_new().
      * @return the pattern of {@code regex}
      */
-    public @NotNull java.lang.String getPattern() {
+    public java.lang.String getPattern() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_get_pattern.invokeExact(
@@ -257,7 +256,7 @@ public class Regex extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -266,13 +265,12 @@ public class Regex extends Struct {
      * @return The number of the subexpression or -1 if {@code name}
      *   does not exists
      */
-    public int getStringNumber(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public int getStringNumber(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_get_string_number.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -325,23 +323,20 @@ public class Regex extends Struct {
      *     the {@link MatchInfo}, or {@code null} if you do not need it
      * @return {@code true} is the string matched, {@code false} otherwise
      */
-    public boolean match(@NotNull java.lang.String string, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull Out<org.gtk.glib.MatchInfo> matchInfo) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
-        java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
+    public boolean match(java.lang.String string, org.gtk.glib.RegexMatchFlags matchOptions, @Nullable Out<org.gtk.glib.MatchInfo> matchInfo) {
         MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_match.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     matchOptions.getValue(),
-                    (Addressable) matchInfoPOINTER.address());
+                    (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        matchInfo.set(new org.gtk.glib.MatchInfo(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -365,23 +360,20 @@ public class Regex extends Struct {
      *     the {@link MatchInfo}, or {@code null} if you do not need it
      * @return {@code true} is the string matched, {@code false} otherwise
      */
-    public boolean matchAll(@NotNull java.lang.String string, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull Out<org.gtk.glib.MatchInfo> matchInfo) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
-        java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
+    public boolean matchAll(java.lang.String string, org.gtk.glib.RegexMatchFlags matchOptions, @Nullable Out<org.gtk.glib.MatchInfo> matchInfo) {
         MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_match_all.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     matchOptions.getValue(),
-                    (Addressable) matchInfoPOINTER.address());
+                    (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        matchInfo.set(new org.gtk.glib.MatchInfo(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -432,10 +424,7 @@ public class Regex extends Struct {
      * @return {@code true} is the string matched, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean matchAllFull(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull Out<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
-        java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
+    public boolean matchAllFull(java.lang.String[] string, long stringLen, int startPosition, org.gtk.glib.RegexMatchFlags matchOptions, @Nullable Out<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -446,7 +435,7 @@ public class Regex extends Struct {
                     stringLen,
                     startPosition,
                     matchOptions.getValue(),
-                    (Addressable) matchInfoPOINTER.address(),
+                    (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -454,8 +443,8 @@ public class Regex extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        matchInfo.set(new org.gtk.glib.MatchInfo(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -518,10 +507,7 @@ public class Regex extends Struct {
      * @return {@code true} is the string matched, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean matchFull(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull Out<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
-        java.util.Objects.requireNonNull(matchInfo, "Parameter 'matchInfo' must not be null");
+    public boolean matchFull(java.lang.String[] string, long stringLen, int startPosition, org.gtk.glib.RegexMatchFlags matchOptions, @Nullable Out<org.gtk.glib.MatchInfo> matchInfo) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment matchInfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -532,7 +518,7 @@ public class Regex extends Struct {
                     stringLen,
                     startPosition,
                     matchOptions.getValue(),
-                    (Addressable) matchInfoPOINTER.address(),
+                    (Addressable) (matchInfo == null ? MemoryAddress.NULL : (Addressable) matchInfoPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -540,15 +526,15 @@ public class Regex extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        matchInfo.set(new org.gtk.glib.MatchInfo(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (matchInfo != null) matchInfo.set(org.gtk.glib.MatchInfo.fromAddress.marshal(matchInfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Increases reference count of {@code regex} by 1.
      * @return {@code regex}
      */
-    public @NotNull org.gtk.glib.Regex ref() {
+    public org.gtk.glib.Regex ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_ref.invokeExact(
@@ -556,7 +542,7 @@ public class Regex extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Regex(RESULT, Ownership.FULL);
+        return org.gtk.glib.Regex.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -595,10 +581,7 @@ public class Regex extends Struct {
      * @return a newly allocated string containing the replacements
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String replace(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull java.lang.String replacement, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
+    public java.lang.String replace(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -607,7 +590,7 @@ public class Regex extends Struct {
                     Interop.allocateNativeArray(string, false),
                     stringLen,
                     startPosition,
-                    Interop.allocateNativeString(replacement),
+                    Marshal.stringToAddress.marshal(replacement, null),
                     matchOptions.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -616,7 +599,7 @@ public class Regex extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -673,10 +656,7 @@ public class Regex extends Struct {
      * @return a newly allocated string containing the replacements
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String replaceEval(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, @NotNull org.gtk.glib.RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
-        java.util.Objects.requireNonNull(eval, "Parameter 'eval' must not be null");
+    public java.lang.String replaceEval(java.lang.String[] string, long stringLen, int startPosition, org.gtk.glib.RegexMatchFlags matchOptions, org.gtk.glib.RegexEvalCallback eval) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -686,12 +666,8 @@ public class Regex extends Struct {
                     stringLen,
                     startPosition,
                     matchOptions.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbRegexEvalCallback",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(eval)),
+                    (Addressable) eval.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -699,7 +675,7 @@ public class Regex extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -719,10 +695,7 @@ public class Regex extends Struct {
      * @return a newly allocated string containing the replacements
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String replaceLiteral(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull java.lang.String replacement, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
+    public java.lang.String replaceLiteral(java.lang.String[] string, long stringLen, int startPosition, java.lang.String replacement, org.gtk.glib.RegexMatchFlags matchOptions) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -731,7 +704,7 @@ public class Regex extends Struct {
                     Interop.allocateNativeArray(string, false),
                     stringLen,
                     startPosition,
-                    Interop.allocateNativeString(replacement),
+                    Marshal.stringToAddress.marshal(replacement, null),
                     matchOptions.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -740,7 +713,7 @@ public class Regex extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -766,14 +739,12 @@ public class Regex extends Struct {
      * @return a {@code null}-terminated gchar ** array. Free
      * it using g_strfreev()
      */
-    public @NotNull PointerString split(@NotNull java.lang.String string, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
+    public PointerString split(java.lang.String string, org.gtk.glib.RegexMatchFlags matchOptions) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_split.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     matchOptions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -813,9 +784,7 @@ public class Regex extends Struct {
      * it using g_strfreev()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull PointerString splitFull(@NotNull java.lang.String[] string, long stringLen, int startPosition, @NotNull org.gtk.glib.RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
+    public PointerString splitFull(java.lang.String[] string, long stringLen, int startPosition, org.gtk.glib.RegexMatchFlags matchOptions, int maxTokens) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -865,16 +834,14 @@ public class Regex extends Struct {
      * @return whether {@code replacement} is a valid replacement string
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean checkReplacement(@NotNull java.lang.String replacement, Out<Boolean> hasReferences) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
-        java.util.Objects.requireNonNull(hasReferences, "Parameter 'hasReferences' must not be null");
+    public static boolean checkReplacement(java.lang.String replacement, Out<Boolean> hasReferences) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment hasReferencesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_check_replacement.invokeExact(
-                    Interop.allocateNativeString(replacement),
-                    (Addressable) hasReferencesPOINTER.address(),
+                    Marshal.stringToAddress.marshal(replacement, null),
+                    (Addressable) (hasReferences == null ? MemoryAddress.NULL : (Addressable) hasReferencesPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -882,11 +849,11 @@ public class Regex extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        hasReferences.set(hasReferencesPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        if (hasReferences != null) hasReferences.set(hasReferencesPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark errorQuark() {
+    public static org.gtk.glib.Quark errorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_error_quark.invokeExact();
@@ -906,17 +873,16 @@ public class Regex extends Struct {
      * @param length the length of {@code string}
      * @return a newly-allocated escaped string
      */
-    public static @NotNull java.lang.String escapeNul(@NotNull java.lang.String string, int length) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String escapeNul(java.lang.String string, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_nul.invokeExact(
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -931,8 +897,7 @@ public class Regex extends Struct {
      * @param length the length of {@code string}, in bytes, or -1 if {@code string} is nul-terminated
      * @return a newly-allocated escaped string
      */
-    public static @NotNull java.lang.String escapeString(@NotNull java.lang.String[] string, int length) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String escapeString(java.lang.String[] string, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_string.invokeExact(
@@ -941,7 +906,7 @@ public class Regex extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -961,22 +926,18 @@ public class Regex extends Struct {
      * @param matchOptions match options, or 0
      * @return {@code true} if the string matched, {@code false} otherwise
      */
-    public static boolean matchSimple(@NotNull java.lang.String pattern, @NotNull java.lang.String string, @NotNull org.gtk.glib.RegexCompileFlags compileOptions, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) {
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(compileOptions, "Parameter 'compileOptions' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
+    public static boolean matchSimple(java.lang.String pattern, java.lang.String string, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_match_simple.invokeExact(
-                    Interop.allocateNativeString(pattern),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(pattern, null),
+                    Marshal.stringToAddress.marshal(string, null),
                     compileOptions.getValue(),
                     matchOptions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1014,16 +975,12 @@ public class Regex extends Struct {
      * @return a {@code null}-terminated array of strings. Free
      * it using g_strfreev()
      */
-    public static @NotNull PointerString splitSimple(@NotNull java.lang.String pattern, @NotNull java.lang.String string, @NotNull org.gtk.glib.RegexCompileFlags compileOptions, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) {
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(compileOptions, "Parameter 'compileOptions' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
+    public static PointerString splitSimple(java.lang.String pattern, java.lang.String string, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_split_simple.invokeExact(
-                    Interop.allocateNativeString(pattern),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(pattern, null),
+                    Marshal.stringToAddress.marshal(string, null),
                     compileOptions.getValue(),
                     matchOptions.getValue());
         } catch (Throwable ERR) {

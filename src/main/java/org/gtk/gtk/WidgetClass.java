@@ -13,44 +13,42 @@ public class WidgetClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkWidgetClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.InitiallyUnownedClass.getMemoryLayout().withName("parent_class"),
-        Interop.valueLayout.ADDRESS.withName("show"),
-        Interop.valueLayout.ADDRESS.withName("hide"),
-        Interop.valueLayout.ADDRESS.withName("map"),
-        Interop.valueLayout.ADDRESS.withName("unmap"),
-        Interop.valueLayout.ADDRESS.withName("realize"),
-        Interop.valueLayout.ADDRESS.withName("unrealize"),
-        Interop.valueLayout.ADDRESS.withName("root"),
-        Interop.valueLayout.ADDRESS.withName("unroot"),
-        Interop.valueLayout.ADDRESS.withName("size_allocate"),
-        Interop.valueLayout.ADDRESS.withName("state_flags_changed"),
-        Interop.valueLayout.ADDRESS.withName("direction_changed"),
-        Interop.valueLayout.ADDRESS.withName("get_request_mode"),
-        Interop.valueLayout.ADDRESS.withName("measure"),
-        Interop.valueLayout.ADDRESS.withName("mnemonic_activate"),
-        Interop.valueLayout.ADDRESS.withName("grab_focus"),
-        Interop.valueLayout.ADDRESS.withName("focus"),
-        Interop.valueLayout.ADDRESS.withName("set_focus_child"),
-        Interop.valueLayout.ADDRESS.withName("move_focus"),
-        Interop.valueLayout.ADDRESS.withName("keynav_failed"),
-        Interop.valueLayout.ADDRESS.withName("query_tooltip"),
-        Interop.valueLayout.ADDRESS.withName("compute_expand"),
-        Interop.valueLayout.ADDRESS.withName("css_changed"),
-        Interop.valueLayout.ADDRESS.withName("system_setting_changed"),
-        Interop.valueLayout.ADDRESS.withName("snapshot"),
-        Interop.valueLayout.ADDRESS.withName("contains"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.InitiallyUnownedClass.getMemoryLayout().withName("parent_class"),
+            Interop.valueLayout.ADDRESS.withName("show"),
+            Interop.valueLayout.ADDRESS.withName("hide"),
+            Interop.valueLayout.ADDRESS.withName("map"),
+            Interop.valueLayout.ADDRESS.withName("unmap"),
+            Interop.valueLayout.ADDRESS.withName("realize"),
+            Interop.valueLayout.ADDRESS.withName("unrealize"),
+            Interop.valueLayout.ADDRESS.withName("root"),
+            Interop.valueLayout.ADDRESS.withName("unroot"),
+            Interop.valueLayout.ADDRESS.withName("size_allocate"),
+            Interop.valueLayout.ADDRESS.withName("state_flags_changed"),
+            Interop.valueLayout.ADDRESS.withName("direction_changed"),
+            Interop.valueLayout.ADDRESS.withName("get_request_mode"),
+            Interop.valueLayout.ADDRESS.withName("measure"),
+            Interop.valueLayout.ADDRESS.withName("mnemonic_activate"),
+            Interop.valueLayout.ADDRESS.withName("grab_focus"),
+            Interop.valueLayout.ADDRESS.withName("focus"),
+            Interop.valueLayout.ADDRESS.withName("set_focus_child"),
+            Interop.valueLayout.ADDRESS.withName("move_focus"),
+            Interop.valueLayout.ADDRESS.withName("keynav_failed"),
+            Interop.valueLayout.ADDRESS.withName("query_tooltip"),
+            Interop.valueLayout.ADDRESS.withName("compute_expand"),
+            Interop.valueLayout.ADDRESS.withName("css_changed"),
+            Interop.valueLayout.ADDRESS.withName("system_setting_changed"),
+            Interop.valueLayout.ADDRESS.withName("snapshot"),
+            Interop.valueLayout.ADDRESS.withName("contains"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -70,9 +68,684 @@ public class WidgetClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gtk.gobject.InitiallyUnownedClass parentClass$get() {
+    public org.gtk.gobject.InitiallyUnownedClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gtk.gobject.InitiallyUnownedClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.InitiallyUnownedClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gtk.gobject.InitiallyUnownedClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface ShowCallback {
+        void run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ShowCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code show}
+     * @param show The new value of the field {@code show}
+     */
+    public void setShow(ShowCallback show) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("show"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (show == null ? MemoryAddress.NULL : show.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface HideCallback {
+        void run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HideCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code hide}
+     * @param hide The new value of the field {@code hide}
+     */
+    public void setHide(HideCallback hide) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("hide"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hide == null ? MemoryAddress.NULL : hide.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface MapCallback {
+        void run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MapCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code map}
+     * @param map The new value of the field {@code map}
+     */
+    public void setMap(MapCallback map) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("map"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : map.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface UnmapCallback {
+        void run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnmapCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code unmap}
+     * @param unmap The new value of the field {@code unmap}
+     */
+    public void setUnmap(UnmapCallback unmap) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("unmap"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unmap == null ? MemoryAddress.NULL : unmap.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface RealizeCallback {
+        void run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RealizeCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code realize}
+     * @param realize The new value of the field {@code realize}
+     */
+    public void setRealize(RealizeCallback realize) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("realize"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (realize == null ? MemoryAddress.NULL : realize.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface UnrealizeCallback {
+        void run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnrealizeCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code unrealize}
+     * @param unrealize The new value of the field {@code unrealize}
+     */
+    public void setUnrealize(UnrealizeCallback unrealize) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("unrealize"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unrealize == null ? MemoryAddress.NULL : unrealize.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface RootCallback {
+        void run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RootCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code root}
+     * @param root The new value of the field {@code root}
+     */
+    public void setRoot(RootCallback root) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("root"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (root == null ? MemoryAddress.NULL : root.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface UnrootCallback {
+        void run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UnrootCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code unroot}
+     * @param unroot The new value of the field {@code unroot}
+     */
+    public void setUnroot(UnrootCallback unroot) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("unroot"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unroot == null ? MemoryAddress.NULL : unroot.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface SizeAllocateCallback {
+        void run(org.gtk.gtk.Widget widget, int width, int height, int baseline);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, int width, int height, int baseline) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), width, height, baseline);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SizeAllocateCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code size_allocate}
+     * @param sizeAllocate The new value of the field {@code size_allocate}
+     */
+    public void setSizeAllocate(SizeAllocateCallback sizeAllocate) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("size_allocate"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sizeAllocate == null ? MemoryAddress.NULL : sizeAllocate.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface StateFlagsChangedCallback {
+        void run(org.gtk.gtk.Widget widget, org.gtk.gtk.StateFlags previousStateFlags);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, int previousStateFlags) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), new org.gtk.gtk.StateFlags(previousStateFlags));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StateFlagsChangedCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code state_flags_changed}
+     * @param stateFlagsChanged The new value of the field {@code state_flags_changed}
+     */
+    public void setStateFlagsChanged(StateFlagsChangedCallback stateFlagsChanged) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("state_flags_changed"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stateFlagsChanged == null ? MemoryAddress.NULL : stateFlagsChanged.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface DirectionChangedCallback {
+        void run(org.gtk.gtk.Widget widget, org.gtk.gtk.TextDirection previousDirection);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, int previousDirection) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), org.gtk.gtk.TextDirection.of(previousDirection));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DirectionChangedCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code direction_changed}
+     * @param directionChanged The new value of the field {@code direction_changed}
+     */
+    public void setDirectionChanged(DirectionChangedCallback directionChanged) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("direction_changed"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (directionChanged == null ? MemoryAddress.NULL : directionChanged.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GetRequestModeCallback {
+        org.gtk.gtk.SizeRequestMode run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress widget) {
+            var RESULT = run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+            return RESULT.getValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetRequestModeCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_request_mode}
+     * @param getRequestMode The new value of the field {@code get_request_mode}
+     */
+    public void setGetRequestMode(GetRequestModeCallback getRequestMode) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface MeasureCallback {
+        void run(org.gtk.gtk.Widget widget, org.gtk.gtk.Orientation orientation, int forSize, Out<Integer> minimum, Out<Integer> natural, Out<Integer> minimumBaseline, Out<Integer> naturalBaseline);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, int orientation, int forSize, MemoryAddress minimum, MemoryAddress natural, MemoryAddress minimumBaseline, MemoryAddress naturalBaseline) {
+            Out<Integer> minimumOUT = new Out<>(minimum.get(Interop.valueLayout.C_INT, 0));
+            Out<Integer> naturalOUT = new Out<>(natural.get(Interop.valueLayout.C_INT, 0));
+            Out<Integer> minimumBaselineOUT = new Out<>(minimumBaseline.get(Interop.valueLayout.C_INT, 0));
+            Out<Integer> naturalBaselineOUT = new Out<>(naturalBaseline.get(Interop.valueLayout.C_INT, 0));
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), org.gtk.gtk.Orientation.of(orientation), forSize, minimumOUT, naturalOUT, minimumBaselineOUT, naturalBaselineOUT);
+            minimum.set(Interop.valueLayout.C_INT, 0, minimumOUT.get());
+            natural.set(Interop.valueLayout.C_INT, 0, naturalOUT.get());
+            minimumBaseline.set(Interop.valueLayout.C_INT, 0, minimumBaselineOUT.get());
+            naturalBaseline.set(Interop.valueLayout.C_INT, 0, naturalBaselineOUT.get());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MeasureCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code measure}
+     * @param measure The new value of the field {@code measure}
+     */
+    public void setMeasure(MeasureCallback measure) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("measure"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (measure == null ? MemoryAddress.NULL : measure.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface MnemonicActivateCallback {
+        boolean run(org.gtk.gtk.Widget widget, boolean groupCycling);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress widget, int groupCycling) {
+            var RESULT = run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), Marshal.integerToBoolean.marshal(groupCycling, null).booleanValue());
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MnemonicActivateCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code mnemonic_activate}
+     * @param mnemonicActivate The new value of the field {@code mnemonic_activate}
+     */
+    public void setMnemonicActivate(MnemonicActivateCallback mnemonicActivate) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mnemonic_activate"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mnemonicActivate == null ? MemoryAddress.NULL : mnemonicActivate.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GrabFocusCallback {
+        boolean run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress widget) {
+            var RESULT = run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GrabFocusCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code grab_focus}
+     * @param grabFocus The new value of the field {@code grab_focus}
+     */
+    public void setGrabFocus(GrabFocusCallback grabFocus) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("grab_focus"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (grabFocus == null ? MemoryAddress.NULL : grabFocus.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface FocusCallback {
+        boolean run(org.gtk.gtk.Widget widget, org.gtk.gtk.DirectionType direction);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress widget, int direction) {
+            var RESULT = run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), org.gtk.gtk.DirectionType.of(direction));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FocusCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code focus}
+     * @param focus The new value of the field {@code focus}
+     */
+    public void setFocus(FocusCallback focus) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("focus"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focus == null ? MemoryAddress.NULL : focus.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface SetFocusChildCallback {
+        void run(org.gtk.gtk.Widget widget, @Nullable org.gtk.gtk.Widget child);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, MemoryAddress child) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(child)), org.gtk.gtk.Widget.fromAddress).marshal(child, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetFocusChildCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code set_focus_child}
+     * @param setFocusChild The new value of the field {@code set_focus_child}
+     */
+    public void setSetFocusChild(SetFocusChildCallback setFocusChild) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("set_focus_child"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setFocusChild == null ? MemoryAddress.NULL : setFocusChild.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface MoveFocusCallback {
+        void run(org.gtk.gtk.Widget widget, org.gtk.gtk.DirectionType direction);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, int direction) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), org.gtk.gtk.DirectionType.of(direction));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveFocusCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code move_focus}
+     * @param moveFocus The new value of the field {@code move_focus}
+     */
+    public void setMoveFocus(MoveFocusCallback moveFocus) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("move_focus"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moveFocus == null ? MemoryAddress.NULL : moveFocus.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface KeynavFailedCallback {
+        boolean run(org.gtk.gtk.Widget widget, org.gtk.gtk.DirectionType direction);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress widget, int direction) {
+            var RESULT = run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), org.gtk.gtk.DirectionType.of(direction));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(KeynavFailedCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code keynav_failed}
+     * @param keynavFailed The new value of the field {@code keynav_failed}
+     */
+    public void setKeynavFailed(KeynavFailedCallback keynavFailed) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("keynav_failed"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keynavFailed == null ? MemoryAddress.NULL : keynavFailed.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface QueryTooltipCallback {
+        boolean run(org.gtk.gtk.Widget widget, int x, int y, boolean keyboardTooltip, org.gtk.gtk.Tooltip tooltip);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress widget, int x, int y, int keyboardTooltip, MemoryAddress tooltip) {
+            var RESULT = run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), x, y, Marshal.integerToBoolean.marshal(keyboardTooltip, null).booleanValue(), (org.gtk.gtk.Tooltip) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tooltip)), org.gtk.gtk.Tooltip.fromAddress).marshal(tooltip, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(QueryTooltipCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code query_tooltip}
+     * @param queryTooltip The new value of the field {@code query_tooltip}
+     */
+    public void setQueryTooltip(QueryTooltipCallback queryTooltip) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("query_tooltip"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (queryTooltip == null ? MemoryAddress.NULL : queryTooltip.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface ComputeExpandCallback {
+        void run(org.gtk.gtk.Widget widget, PointerBoolean hexpandP, PointerBoolean vexpandP);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, MemoryAddress hexpandP, MemoryAddress vexpandP) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), new PointerBoolean(hexpandP), new PointerBoolean(vexpandP));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ComputeExpandCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code compute_expand}
+     * @param computeExpand The new value of the field {@code compute_expand}
+     */
+    public void setComputeExpand(ComputeExpandCallback computeExpand) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("compute_expand"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (computeExpand == null ? MemoryAddress.NULL : computeExpand.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface CssChangedCallback {
+        void run(org.gtk.gtk.Widget widget, org.gtk.gtk.CssStyleChange change);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, MemoryAddress change) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), org.gtk.gtk.CssStyleChange.fromAddress.marshal(change, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CssChangedCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code css_changed}
+     * @param cssChanged The new value of the field {@code css_changed}
+     */
+    public void setCssChanged(CssChangedCallback cssChanged) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("css_changed"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cssChanged == null ? MemoryAddress.NULL : cssChanged.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface SystemSettingChangedCallback {
+        void run(org.gtk.gtk.Widget widget, org.gtk.gtk.SystemSetting settings);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, int settings) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), org.gtk.gtk.SystemSetting.of(settings));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SystemSettingChangedCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code system_setting_changed}
+     * @param systemSettingChanged The new value of the field {@code system_setting_changed}
+     */
+    public void setSystemSettingChanged(SystemSettingChangedCallback systemSettingChanged) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("system_setting_changed"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (systemSettingChanged == null ? MemoryAddress.NULL : systemSettingChanged.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface SnapshotCallback {
+        void run(org.gtk.gtk.Widget widget, org.gtk.gtk.Snapshot snapshot);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress widget, MemoryAddress snapshot) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), (org.gtk.gtk.Snapshot) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(snapshot)), org.gtk.gtk.Snapshot.fromAddress).marshal(snapshot, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SnapshotCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code snapshot}
+     * @param snapshot The new value of the field {@code snapshot}
+     */
+    public void setSnapshot(SnapshotCallback snapshot) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface ContainsCallback {
+        boolean run(org.gtk.gtk.Widget widget, double x, double y);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress widget, double x, double y) {
+            var RESULT = run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), x, y);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ContainsCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code contains}
+     * @param contains The new value of the field {@code contains}
+     */
+    public void setContains(ContainsCallback contains) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("contains"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (contains == null ? MemoryAddress.NULL : contains.toCallback()));
     }
     
     /**
@@ -80,10 +753,12 @@ public class WidgetClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WidgetClass(Addressable address, Ownership ownership) {
+    protected WidgetClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WidgetClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WidgetClass(input, ownership);
     
     /**
      * Creates a new shortcut for {@code widget_class} that calls the given {@code callback}
@@ -104,8 +779,18 @@ public class WidgetClass extends Struct {
      *   or {@code null} for no arguments
      * @param varargs arguments, as given by format string
      */
-    public void addBinding(int keyval, @NotNull org.gtk.gdk.ModifierType mods, @NotNull org.gtk.gtk.ShortcutFunc callback, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void addBinding(int keyval, org.gtk.gdk.ModifierType mods, org.gtk.gtk.ShortcutFunc callback, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
+        try {
+            DowncallHandles.gtk_widget_class_add_binding.invokeExact(
+                    handle(),
+                    keyval,
+                    mods.getValue(),
+                    (Addressable) callback.toCallback(),
+                    (Addressable) (formatString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(formatString, null)),
+                    varargs);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -125,16 +810,14 @@ public class WidgetClass extends Struct {
      *   or {@code null} for no arguments
      * @param varargs arguments, as given by format string
      */
-    public void addBindingAction(int keyval, @NotNull org.gtk.gdk.ModifierType mods, @NotNull java.lang.String actionName, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(mods, "Parameter 'mods' must not be null");
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+    public void addBindingAction(int keyval, org.gtk.gdk.ModifierType mods, java.lang.String actionName, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_widget_class_add_binding_action.invokeExact(
                     handle(),
                     keyval,
                     mods.getValue(),
-                    Interop.allocateNativeString(actionName),
-                    (Addressable) (formatString == null ? MemoryAddress.NULL : Interop.allocateNativeString(formatString)),
+                    Marshal.stringToAddress.marshal(actionName, null),
+                    (Addressable) (formatString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(formatString, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -158,16 +841,14 @@ public class WidgetClass extends Struct {
      *   or {@code null} for no arguments
      * @param varargs arguments, as given by format string
      */
-    public void addBindingSignal(int keyval, @NotNull org.gtk.gdk.ModifierType mods, @NotNull java.lang.String signal, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(mods, "Parameter 'mods' must not be null");
-        java.util.Objects.requireNonNull(signal, "Parameter 'signal' must not be null");
+    public void addBindingSignal(int keyval, org.gtk.gdk.ModifierType mods, java.lang.String signal, @Nullable java.lang.String formatString, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_widget_class_add_binding_signal.invokeExact(
                     handle(),
                     keyval,
                     mods.getValue(),
-                    Interop.allocateNativeString(signal),
-                    (Addressable) (formatString == null ? MemoryAddress.NULL : Interop.allocateNativeString(formatString)),
+                    Marshal.stringToAddress.marshal(signal, null),
+                    (Addressable) (formatString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(formatString, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -187,8 +868,7 @@ public class WidgetClass extends Struct {
      * otherwise it is not guaranteed that the shortcut will be installed.
      * @param shortcut the {@code GtkShortcut} to add
      */
-    public void addShortcut(@NotNull org.gtk.gtk.Shortcut shortcut) {
-        java.util.Objects.requireNonNull(shortcut, "Parameter 'shortcut' must not be null");
+    public void addShortcut(org.gtk.gtk.Shortcut shortcut) {
         try {
             DowncallHandles.gtk_widget_class_add_shortcut.invokeExact(
                     handle(),
@@ -210,8 +890,15 @@ public class WidgetClass extends Struct {
      * @param callbackName The name of the callback as expected in the template XML
      * @param callbackSymbol The callback symbol
      */
-    public void bindTemplateCallbackFull(@NotNull java.lang.String callbackName, @NotNull org.gtk.gobject.Callback callbackSymbol) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void bindTemplateCallbackFull(java.lang.String callbackName, org.gtk.gobject.Callback callbackSymbol) {
+        try {
+            DowncallHandles.gtk_widget_class_bind_template_callback_full.invokeExact(
+                    handle(),
+                    Marshal.stringToAddress.marshal(callbackName, null),
+                    (Addressable) callbackSymbol.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -250,13 +937,12 @@ public class WidgetClass extends Struct {
      *   public or private structure where the automated child pointer should be set,
      *   or 0 to not assign the pointer.
      */
-    public void bindTemplateChildFull(@NotNull java.lang.String name, boolean internalChild, long structOffset) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void bindTemplateChildFull(java.lang.String name, boolean internalChild, long structOffset) {
         try {
             DowncallHandles.gtk_widget_class_bind_template_child_full.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
-                    internalChild ? 1 : 0,
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.booleanToInteger.marshal(internalChild, null).intValue(),
                     structOffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -272,7 +958,7 @@ public class WidgetClass extends Struct {
      * See also: {@link Accessible#getAccessibleRole}.
      * @return the accessible role for the widget class
      */
-    public @NotNull org.gtk.gtk.AccessibleRole getAccessibleRole() {
+    public org.gtk.gtk.AccessibleRole getAccessibleRole() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_class_get_accessible_role.invokeExact(
@@ -308,7 +994,7 @@ public class WidgetClass extends Struct {
      * See {@link WidgetClass#setCssName} for details.
      * @return the CSS name of the given class
      */
-    public @NotNull java.lang.String getCssName() {
+    public java.lang.String getCssName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_class_get_css_name.invokeExact(
@@ -316,7 +1002,7 @@ public class WidgetClass extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -326,7 +1012,7 @@ public class WidgetClass extends Struct {
      * See also: {@link WidgetClass#setLayoutManagerType}.
      * @return type of a {@code GtkLayoutManager} subclass, or {@code G_TYPE_INVALID}
      */
-    public @NotNull org.gtk.glib.Type getLayoutManagerType() {
+    public org.gtk.glib.Type getLayoutManagerType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_widget_class_get_layout_manager_type.invokeExact(
@@ -347,8 +1033,16 @@ public class WidgetClass extends Struct {
      * @param parameterType the parameter type
      * @param activate callback to use when the action is activated
      */
-    public void installAction(@NotNull java.lang.String actionName, @Nullable java.lang.String parameterType, @NotNull org.gtk.gtk.WidgetActionActivateFunc activate) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void installAction(java.lang.String actionName, @Nullable java.lang.String parameterType, org.gtk.gtk.WidgetActionActivateFunc activate) {
+        try {
+            DowncallHandles.gtk_widget_class_install_action.invokeExact(
+                    handle(),
+                    Marshal.stringToAddress.marshal(actionName, null),
+                    (Addressable) (parameterType == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(parameterType, null)),
+                    (Addressable) activate.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -371,14 +1065,12 @@ public class WidgetClass extends Struct {
      * @param propertyName name of the property in instances of {@code widget_class}
      *   or any parent class.
      */
-    public void installPropertyAction(@NotNull java.lang.String actionName, @NotNull java.lang.String propertyName) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
-        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
+    public void installPropertyAction(java.lang.String actionName, java.lang.String propertyName) {
         try {
             DowncallHandles.gtk_widget_class_install_property_action.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName),
-                    Interop.allocateNativeString(propertyName));
+                    Marshal.stringToAddress.marshal(actionName, null),
+                    Marshal.stringToAddress.marshal(propertyName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -402,10 +1094,8 @@ public class WidgetClass extends Struct {
      * @return {@code true} if the action was found, {@code false} if {@code index_}
      *   is out of range
      */
-    public boolean queryAction(int index, @NotNull Out<org.gtk.glib.Type> owner, @NotNull Out<java.lang.String> actionName, @Nullable Out<org.gtk.glib.VariantType> parameterType, @Nullable Out<java.lang.String> propertyName) {
-        java.util.Objects.requireNonNull(owner, "Parameter 'owner' must not be null");
+    public boolean queryAction(int index, org.gtk.glib.Type owner, Out<java.lang.String> actionName, @Nullable Out<org.gtk.glib.VariantType> parameterType, @Nullable Out<java.lang.String> propertyName) {
         MemorySegment ownerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
         MemorySegment actionNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment parameterTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment propertyNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -421,11 +1111,11 @@ public class WidgetClass extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        owner.set(new org.gtk.glib.Type(ownerPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        actionName.set(Interop.getStringFrom(actionNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (parameterType != null) parameterType.set(new org.gtk.glib.VariantType(parameterTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
-        if (propertyName != null) propertyName.set(Interop.getStringFrom(propertyNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        owner.setValue(ownerPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        actionName.set(Marshal.addressToString.marshal(actionNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (parameterType != null) parameterType.set(org.gtk.glib.VariantType.fromAddress.marshal(parameterTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (propertyName != null) propertyName.set(Marshal.addressToString.marshal(propertyNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -435,8 +1125,7 @@ public class WidgetClass extends Struct {
      * rendered differently by assistive technologies.
      * @param accessibleRole the {@code GtkAccessibleRole} used by the {@code widget_class}
      */
-    public void setAccessibleRole(@NotNull org.gtk.gtk.AccessibleRole accessibleRole) {
-        java.util.Objects.requireNonNull(accessibleRole, "Parameter 'accessibleRole' must not be null");
+    public void setAccessibleRole(org.gtk.gtk.AccessibleRole accessibleRole) {
         try {
             DowncallHandles.gtk_widget_class_set_accessible_role.invokeExact(
                     handle(),
@@ -476,12 +1165,11 @@ public class WidgetClass extends Struct {
      * g_signal_new() or g_signal_newv() before calling this function.
      * @param signalName the name of the activate signal of {@code widget_type}
      */
-    public void setActivateSignalFromName(@NotNull java.lang.String signalName) {
-        java.util.Objects.requireNonNull(signalName, "Parameter 'signalName' must not be null");
+    public void setActivateSignalFromName(java.lang.String signalName) {
         try {
             DowncallHandles.gtk_widget_class_set_activate_signal_from_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(signalName));
+                    Marshal.stringToAddress.marshal(signalName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -495,12 +1183,11 @@ public class WidgetClass extends Struct {
      * uses the name "widget".
      * @param name name to use
      */
-    public void setCssName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setCssName(java.lang.String name) {
         try {
             DowncallHandles.gtk_widget_class_set_css_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -517,8 +1204,7 @@ public class WidgetClass extends Struct {
      * @param type The object type that implements the {@code GtkLayoutManager}
      *   for {@code widget_class}
      */
-    public void setLayoutManagerType(@NotNull org.gtk.glib.Type type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void setLayoutManagerType(org.gtk.glib.Type type) {
         try {
             DowncallHandles.gtk_widget_class_set_layout_manager_type.invokeExact(
                     handle(),
@@ -539,8 +1225,7 @@ public class WidgetClass extends Struct {
      * {@link Widget#initTemplate} in the widget’s instance initializer.
      * @param templateBytes A {@code GBytes} holding the {@code GtkBuilder} XML
      */
-    public void setTemplate(@NotNull org.gtk.glib.Bytes templateBytes) {
-        java.util.Objects.requireNonNull(templateBytes, "Parameter 'templateBytes' must not be null");
+    public void setTemplate(org.gtk.glib.Bytes templateBytes) {
         try {
             DowncallHandles.gtk_widget_class_set_template.invokeExact(
                     handle(),
@@ -559,12 +1244,11 @@ public class WidgetClass extends Struct {
      * initializer.
      * @param resourceName The name of the resource to load the template from
      */
-    public void setTemplateFromResource(@NotNull java.lang.String resourceName) {
-        java.util.Objects.requireNonNull(resourceName, "Parameter 'resourceName' must not be null");
+    public void setTemplateFromResource(java.lang.String resourceName) {
         try {
             DowncallHandles.gtk_widget_class_set_template_from_resource.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(resourceName));
+                    Marshal.stringToAddress.marshal(resourceName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -580,8 +1264,7 @@ public class WidgetClass extends Struct {
      * @param scope The {@code GtkBuilderScope} to use when loading
      *   the class template
      */
-    public void setTemplateScope(@NotNull org.gtk.gtk.BuilderScope scope) {
-        java.util.Objects.requireNonNull(scope, "Parameter 'scope' must not be null");
+    public void setTemplateScope(org.gtk.gtk.BuilderScope scope) {
         try {
             DowncallHandles.gtk_widget_class_set_template_scope.invokeExact(
                     handle(),
@@ -719,31 +1402,35 @@ public class WidgetClass extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link WidgetClass.Builder} object constructs a {@link WidgetClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link WidgetClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private WidgetClass struct;
+        private final WidgetClass struct;
         
-         /**
-         * A {@link WidgetClass.Build} object constructs a {@link WidgetClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = WidgetClass.allocate();
         }
         
          /**
          * Finish building the {@link WidgetClass} struct.
          * @return A new instance of {@code WidgetClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public WidgetClass construct() {
+        public WidgetClass build() {
             return struct;
         }
         
@@ -755,196 +1442,196 @@ public class WidgetClass extends Struct {
          * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gtk.gobject.InitiallyUnownedClass parentClass) {
+        public Builder setParentClass(org.gtk.gobject.InitiallyUnownedClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setShow(java.lang.foreign.MemoryAddress show) {
+        public Builder setShow(ShowCallback show) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("show"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (show == null ? MemoryAddress.NULL : show));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (show == null ? MemoryAddress.NULL : show.toCallback()));
             return this;
         }
         
-        public Build setHide(java.lang.foreign.MemoryAddress hide) {
+        public Builder setHide(HideCallback hide) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hide"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hide == null ? MemoryAddress.NULL : hide));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (hide == null ? MemoryAddress.NULL : hide.toCallback()));
             return this;
         }
         
-        public Build setMap(java.lang.foreign.MemoryAddress map) {
+        public Builder setMap(MapCallback map) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : map));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : map.toCallback()));
             return this;
         }
         
-        public Build setUnmap(java.lang.foreign.MemoryAddress unmap) {
+        public Builder setUnmap(UnmapCallback unmap) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unmap"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unmap == null ? MemoryAddress.NULL : unmap));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unmap == null ? MemoryAddress.NULL : unmap.toCallback()));
             return this;
         }
         
-        public Build setRealize(java.lang.foreign.MemoryAddress realize) {
+        public Builder setRealize(RealizeCallback realize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("realize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (realize == null ? MemoryAddress.NULL : realize));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (realize == null ? MemoryAddress.NULL : realize.toCallback()));
             return this;
         }
         
-        public Build setUnrealize(java.lang.foreign.MemoryAddress unrealize) {
+        public Builder setUnrealize(UnrealizeCallback unrealize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unrealize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unrealize == null ? MemoryAddress.NULL : unrealize));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unrealize == null ? MemoryAddress.NULL : unrealize.toCallback()));
             return this;
         }
         
-        public Build setRoot(java.lang.foreign.MemoryAddress root) {
+        public Builder setRoot(RootCallback root) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("root"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (root == null ? MemoryAddress.NULL : root));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (root == null ? MemoryAddress.NULL : root.toCallback()));
             return this;
         }
         
-        public Build setUnroot(java.lang.foreign.MemoryAddress unroot) {
+        public Builder setUnroot(UnrootCallback unroot) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unroot"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unroot == null ? MemoryAddress.NULL : unroot));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (unroot == null ? MemoryAddress.NULL : unroot.toCallback()));
             return this;
         }
         
-        public Build setSizeAllocate(java.lang.foreign.MemoryAddress sizeAllocate) {
+        public Builder setSizeAllocate(SizeAllocateCallback sizeAllocate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size_allocate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sizeAllocate == null ? MemoryAddress.NULL : sizeAllocate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sizeAllocate == null ? MemoryAddress.NULL : sizeAllocate.toCallback()));
             return this;
         }
         
-        public Build setStateFlagsChanged(java.lang.foreign.MemoryAddress stateFlagsChanged) {
+        public Builder setStateFlagsChanged(StateFlagsChangedCallback stateFlagsChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("state_flags_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stateFlagsChanged == null ? MemoryAddress.NULL : stateFlagsChanged));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (stateFlagsChanged == null ? MemoryAddress.NULL : stateFlagsChanged.toCallback()));
             return this;
         }
         
-        public Build setDirectionChanged(java.lang.foreign.MemoryAddress directionChanged) {
+        public Builder setDirectionChanged(DirectionChangedCallback directionChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("direction_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (directionChanged == null ? MemoryAddress.NULL : directionChanged));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (directionChanged == null ? MemoryAddress.NULL : directionChanged.toCallback()));
             return this;
         }
         
-        public Build setGetRequestMode(java.lang.foreign.MemoryAddress getRequestMode) {
+        public Builder setGetRequestMode(GetRequestModeCallback getRequestMode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_request_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getRequestMode == null ? MemoryAddress.NULL : getRequestMode.toCallback()));
             return this;
         }
         
-        public Build setMeasure(java.lang.foreign.MemoryAddress measure) {
+        public Builder setMeasure(MeasureCallback measure) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("measure"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (measure == null ? MemoryAddress.NULL : measure));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (measure == null ? MemoryAddress.NULL : measure.toCallback()));
             return this;
         }
         
-        public Build setMnemonicActivate(java.lang.foreign.MemoryAddress mnemonicActivate) {
+        public Builder setMnemonicActivate(MnemonicActivateCallback mnemonicActivate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mnemonic_activate"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mnemonicActivate == null ? MemoryAddress.NULL : mnemonicActivate));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mnemonicActivate == null ? MemoryAddress.NULL : mnemonicActivate.toCallback()));
             return this;
         }
         
-        public Build setGrabFocus(java.lang.foreign.MemoryAddress grabFocus) {
+        public Builder setGrabFocus(GrabFocusCallback grabFocus) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("grab_focus"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (grabFocus == null ? MemoryAddress.NULL : grabFocus));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (grabFocus == null ? MemoryAddress.NULL : grabFocus.toCallback()));
             return this;
         }
         
-        public Build setFocus(java.lang.foreign.MemoryAddress focus) {
+        public Builder setFocus(FocusCallback focus) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("focus"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focus == null ? MemoryAddress.NULL : focus));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (focus == null ? MemoryAddress.NULL : focus.toCallback()));
             return this;
         }
         
-        public Build setSetFocusChild(java.lang.foreign.MemoryAddress setFocusChild) {
+        public Builder setSetFocusChild(SetFocusChildCallback setFocusChild) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_focus_child"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setFocusChild == null ? MemoryAddress.NULL : setFocusChild));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setFocusChild == null ? MemoryAddress.NULL : setFocusChild.toCallback()));
             return this;
         }
         
-        public Build setMoveFocus(java.lang.foreign.MemoryAddress moveFocus) {
+        public Builder setMoveFocus(MoveFocusCallback moveFocus) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("move_focus"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moveFocus == null ? MemoryAddress.NULL : moveFocus));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (moveFocus == null ? MemoryAddress.NULL : moveFocus.toCallback()));
             return this;
         }
         
-        public Build setKeynavFailed(java.lang.foreign.MemoryAddress keynavFailed) {
+        public Builder setKeynavFailed(KeynavFailedCallback keynavFailed) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("keynav_failed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keynavFailed == null ? MemoryAddress.NULL : keynavFailed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (keynavFailed == null ? MemoryAddress.NULL : keynavFailed.toCallback()));
             return this;
         }
         
-        public Build setQueryTooltip(java.lang.foreign.MemoryAddress queryTooltip) {
+        public Builder setQueryTooltip(QueryTooltipCallback queryTooltip) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("query_tooltip"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (queryTooltip == null ? MemoryAddress.NULL : queryTooltip));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (queryTooltip == null ? MemoryAddress.NULL : queryTooltip.toCallback()));
             return this;
         }
         
-        public Build setComputeExpand(java.lang.foreign.MemoryAddress computeExpand) {
+        public Builder setComputeExpand(ComputeExpandCallback computeExpand) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("compute_expand"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (computeExpand == null ? MemoryAddress.NULL : computeExpand));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (computeExpand == null ? MemoryAddress.NULL : computeExpand.toCallback()));
             return this;
         }
         
-        public Build setCssChanged(java.lang.foreign.MemoryAddress cssChanged) {
+        public Builder setCssChanged(CssChangedCallback cssChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("css_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cssChanged == null ? MemoryAddress.NULL : cssChanged));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cssChanged == null ? MemoryAddress.NULL : cssChanged.toCallback()));
             return this;
         }
         
-        public Build setSystemSettingChanged(java.lang.foreign.MemoryAddress systemSettingChanged) {
+        public Builder setSystemSettingChanged(SystemSettingChangedCallback systemSettingChanged) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("system_setting_changed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (systemSettingChanged == null ? MemoryAddress.NULL : systemSettingChanged));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (systemSettingChanged == null ? MemoryAddress.NULL : systemSettingChanged.toCallback()));
             return this;
         }
         
-        public Build setSnapshot(java.lang.foreign.MemoryAddress snapshot) {
+        public Builder setSnapshot(SnapshotCallback snapshot) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("snapshot"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (snapshot == null ? MemoryAddress.NULL : snapshot.toCallback()));
             return this;
         }
         
-        public Build setContains(java.lang.foreign.MemoryAddress contains) {
+        public Builder setContains(ContainsCallback contains) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("contains"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (contains == null ? MemoryAddress.NULL : contains));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (contains == null ? MemoryAddress.NULL : contains.toCallback()));
             return this;
         }
         
-        public Build setPriv(org.gtk.gtk.WidgetClassPrivate priv) {
+        public Builder setPriv(org.gtk.gtk.WidgetClassPrivate priv) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priv"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));

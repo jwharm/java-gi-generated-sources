@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * as appropriate for a given platform. IEEE floats and doubles are supported
  * (used for storage) by at least Intel, PPC and Sparc.
  */
-public class DoubleIEEE754 extends io.github.jwharm.javagi.ObjectBase {
+public class DoubleIEEE754 extends ObjectBase {
     
     static {
         GLib.javagi$ensureInitialized();
@@ -19,17 +19,15 @@ public class DoubleIEEE754 extends io.github.jwharm.javagi.ObjectBase {
     
     private static final java.lang.String C_TYPE_NAME = "GDoubleIEEE754";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.unionLayout(
-        Interop.valueLayout.C_DOUBLE.withName("v_double")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.unionLayout(
+            Interop.valueLayout.C_DOUBLE.withName("v_double")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,9 +35,11 @@ public class DoubleIEEE754 extends io.github.jwharm.javagi.ObjectBase {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DoubleIEEE754(Addressable address, Ownership ownership) {
+    protected DoubleIEEE754(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DoubleIEEE754> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DoubleIEEE754(input, ownership);
 }
 

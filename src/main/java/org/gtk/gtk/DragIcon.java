@@ -40,37 +40,23 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * Because DragIcon is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DragIcon(Addressable address, Ownership ownership) {
+    protected DragIcon(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to DragIcon if its GType is a (or inherits from) "GtkDragIcon".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DragIcon} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkDragIcon", a ClassCastException will be thrown.
-     */
-    public static DragIcon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DragIcon.getType())) {
-            return new DragIcon(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDragIcon");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DragIcon> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DragIcon(input, ownership);
     
     /**
      * Gets the widget currently used as drag icon.
@@ -84,7 +70,7 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -105,7 +91,7 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_drag_icon_get_type.invokeExact();
@@ -130,8 +116,7 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return A new {@code GtkWidget}
      *   for displaying {@code value} as a drag icon.
      */
-    public static @Nullable org.gtk.gtk.Widget createWidgetForValue(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static @Nullable org.gtk.gtk.Widget createWidgetForValue(org.gtk.gobject.Value value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_create_widget_for_value.invokeExact(
@@ -139,7 +124,7 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -150,8 +135,7 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param drag a {@code GdkDrag}
      * @return the {@code GtkDragIcon}
      */
-    public static @NotNull org.gtk.gtk.Widget getForDrag(@NotNull org.gtk.gdk.Drag drag) {
-        java.util.Objects.requireNonNull(drag, "Parameter 'drag' must not be null");
+    public static org.gtk.gtk.Widget getForDrag(org.gtk.gdk.Drag drag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_drag_icon_get_for_drag.invokeExact(
@@ -159,7 +143,7 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -173,9 +157,7 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param hotX X coordinate of the hotspot
      * @param hotY Y coordinate of the hotspot
      */
-    public static void setFromPaintable(@NotNull org.gtk.gdk.Drag drag, @NotNull org.gtk.gdk.Paintable paintable, int hotX, int hotY) {
-        java.util.Objects.requireNonNull(drag, "Parameter 'drag' must not be null");
-        java.util.Objects.requireNonNull(paintable, "Parameter 'paintable' must not be null");
+    public static void setFromPaintable(org.gtk.gdk.Drag drag, org.gtk.gdk.Paintable paintable, int hotX, int hotY) {
         try {
             DowncallHandles.gtk_drag_icon_set_from_paintable.invokeExact(
                     drag.handle(),
@@ -186,38 +168,40 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DragIcon.Builder} object constructs a {@link DragIcon} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DragIcon.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link DragIcon.Build} object constructs a {@link DragIcon} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DragIcon} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DragIcon} using {@link DragIcon#castFrom}.
+         * {@link DragIcon}.
          * @return A new instance of {@code DragIcon} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DragIcon construct() {
-            return DragIcon.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DragIcon.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DragIcon build() {
+            return (DragIcon) org.gtk.gobject.GObject.newWithProperties(
+                DragIcon.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -226,7 +210,7 @@ public class DragIcon extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;

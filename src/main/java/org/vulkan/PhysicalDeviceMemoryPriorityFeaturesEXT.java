@@ -40,8 +40,10 @@ public class PhysicalDeviceMemoryPriorityFeaturesEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceMemoryPriorityFeaturesEXT(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceMemoryPriorityFeaturesEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceMemoryPriorityFeaturesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceMemoryPriorityFeaturesEXT(input, ownership);
 }

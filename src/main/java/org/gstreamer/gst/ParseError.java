@@ -72,7 +72,7 @@ public enum ParseError implements io.github.jwharm.javagi.Enumeration {
      * Get the error quark used by the parsing subsystem.
      * @return the quark of the parse errors.
      */
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_parse_error_quark.invokeExact();

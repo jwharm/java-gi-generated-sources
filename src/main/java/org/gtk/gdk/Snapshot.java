@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * The subclass of {@code GdkSnapshot} used by GTK is {@link org.gtk.gtk.Snapshot}.
  */
-public class Snapshot extends org.gtk.gobject.Object {
+public class Snapshot extends org.gtk.gobject.GObject {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -32,36 +32,18 @@ public class Snapshot extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Snapshot(Addressable address, Ownership ownership) {
+    protected Snapshot(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Snapshot if its GType is a (or inherits from) "GdkSnapshot".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Snapshot} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkSnapshot", a ClassCastException will be thrown.
-     */
-    public static Snapshot castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Snapshot.getType())) {
-            return new Snapshot(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkSnapshot");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Snapshot> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Snapshot(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_snapshot_get_type.invokeExact();
@@ -70,38 +52,40 @@ public class Snapshot extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Snapshot.Builder} object constructs a {@link Snapshot} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Snapshot.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Snapshot.Build} object constructs a {@link Snapshot} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Snapshot} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Snapshot} using {@link Snapshot#castFrom}.
+         * {@link Snapshot}.
          * @return A new instance of {@code Snapshot} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Snapshot construct() {
-            return Snapshot.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Snapshot.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Snapshot build() {
+            return (Snapshot) org.gtk.gobject.GObject.newWithProperties(
+                Snapshot.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

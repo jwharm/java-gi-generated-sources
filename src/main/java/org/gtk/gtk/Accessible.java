@@ -26,31 +26,14 @@ import org.jetbrains.annotations.*;
  */
 public interface Accessible extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Accessible if its GType is a (or inherits from) "GtkAccessible".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Accessible} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkAccessible", a ClassCastException will be thrown.
-     */
-    public static Accessible castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Accessible.getType())) {
-            return new AccessibleImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAccessible");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AccessibleImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AccessibleImpl(input, ownership);
     
     /**
      * Retrieves the {@code GtkAccessibleRole} for the given {@code GtkAccessible}.
      * @return a {@code GtkAccessibleRole}
      */
-    default @NotNull org.gtk.gtk.AccessibleRole getAccessibleRole() {
+    default org.gtk.gtk.AccessibleRole getAccessibleRole() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_accessible_get_accessible_role.invokeExact(
@@ -65,8 +48,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * Resets the accessible {@code property} to its default value.
      * @param property a {@code GtkAccessibleProperty}
      */
-    default void resetProperty(@NotNull org.gtk.gtk.AccessibleProperty property) {
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+    default void resetProperty(org.gtk.gtk.AccessibleProperty property) {
         try {
             DowncallHandles.gtk_accessible_reset_property.invokeExact(
                     handle(),
@@ -80,8 +62,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * Resets the accessible {@code relation} to its default value.
      * @param relation a {@code GtkAccessibleRelation}
      */
-    default void resetRelation(@NotNull org.gtk.gtk.AccessibleRelation relation) {
-        java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
+    default void resetRelation(org.gtk.gtk.AccessibleRelation relation) {
         try {
             DowncallHandles.gtk_accessible_reset_relation.invokeExact(
                     handle(),
@@ -95,44 +76,11 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * Resets the accessible {@code state} to its default value.
      * @param state a {@code GtkAccessibleState}
      */
-    default void resetState(@NotNull org.gtk.gtk.AccessibleState state) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    default void resetState(org.gtk.gtk.AccessibleState state) {
         try {
             DowncallHandles.gtk_accessible_reset_state.invokeExact(
                     handle(),
                     state.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Updates a list of accessible properties.
-     * <p>
-     * See the {@code Gtk.AccessibleProperty} documentation for the
-     * value types of accessible properties.
-     * <p>
-     * This function should be called by {@code GtkWidget} types whenever
-     * an accessible property change must be communicated to assistive
-     * technologies.
-     * <p>
-     * Example:
-     * <pre>{@code c
-     * value = gtk_adjustment_get_value (adjustment);
-     * gtk_accessible_update_property (GTK_ACCESSIBLE (spin_button),
-     *                                    GTK_ACCESSIBLE_PROPERTY_VALUE_NOW, value,
-     *                                    -1);
-     * }</pre>
-     * @param firstProperty the first {@code GtkAccessibleProperty}
-     * @param varargs a list of property and value pairs, terminated by -1
-     */
-    default void updateProperty(@NotNull org.gtk.gtk.AccessibleProperty firstProperty, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstProperty, "Parameter 'firstProperty' must not be null");
-        try {
-            DowncallHandles.gtk_accessible_update_property.invokeExact(
-                    handle(),
-                    firstProperty.getValue(),
-                    varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,46 +97,13 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * @param properties an array of {@code GtkAccessibleProperty}
      * @param values an array of {@code GValues}, one for each property
      */
-    default void updatePropertyValue(int nProperties, @NotNull org.gtk.gtk.AccessibleProperty[] properties, @NotNull org.gtk.gobject.Value[] values) {
-        java.util.Objects.requireNonNull(properties, "Parameter 'properties' must not be null");
-        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
+    default void updateProperty(int nProperties, org.gtk.gtk.AccessibleProperty[] properties, org.gtk.gobject.Value[] values) {
         try {
             DowncallHandles.gtk_accessible_update_property_value.invokeExact(
                     handle(),
                     nProperties,
                     Interop.allocateNativeArray(Enumeration.getValues(properties), false),
                     Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Updates a list of accessible relations.
-     * <p>
-     * This function should be called by {@code GtkWidget} types whenever an accessible
-     * relation change must be communicated to assistive technologies.
-     * <p>
-     * If the {@code Gtk.AccessibleRelation} requires a list of references,
-     * you should pass each reference individually, followed by {@code null}, e.g.
-     * <pre>{@code c
-     * gtk_accessible_update_relation (accessible,
-     *                                 GTK_ACCESSIBLE_RELATION_CONTROLS,
-     *                                   ref1, NULL,
-     *                                 GTK_ACCESSIBLE_RELATION_LABELLED_BY,
-     *                                   ref1, ref2, ref3, NULL,
-     *                                 -1);
-     * }</pre>
-     * @param firstRelation the first {@code GtkAccessibleRelation}
-     * @param varargs a list of relation and value pairs, terminated by -1
-     */
-    default void updateRelation(@NotNull org.gtk.gtk.AccessibleRelation firstRelation, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstRelation, "Parameter 'firstRelation' must not be null");
-        try {
-            DowncallHandles.gtk_accessible_update_relation.invokeExact(
-                    handle(),
-                    firstRelation.getValue(),
-                    varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -205,44 +120,13 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * @param relations an array of {@code GtkAccessibleRelation}
      * @param values an array of {@code GValues}, one for each relation
      */
-    default void updateRelationValue(int nRelations, @NotNull org.gtk.gtk.AccessibleRelation[] relations, @NotNull org.gtk.gobject.Value[] values) {
-        java.util.Objects.requireNonNull(relations, "Parameter 'relations' must not be null");
-        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
+    default void updateRelation(int nRelations, org.gtk.gtk.AccessibleRelation[] relations, org.gtk.gobject.Value[] values) {
         try {
             DowncallHandles.gtk_accessible_update_relation_value.invokeExact(
                     handle(),
                     nRelations,
                     Interop.allocateNativeArray(Enumeration.getValues(relations), false),
                     Interop.allocateNativeArray(values, org.gtk.gobject.Value.getMemoryLayout(), false));
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Updates a list of accessible states. See the {@code Gtk.AccessibleState}
-     * documentation for the value types of accessible states.
-     * <p>
-     * This function should be called by {@code GtkWidget} types whenever an accessible
-     * state change must be communicated to assistive technologies.
-     * <p>
-     * Example:
-     * <pre>{@code c
-     * value = GTK_ACCESSIBLE_TRISTATE_MIXED;
-     * gtk_accessible_update_state (GTK_ACCESSIBLE (check_button),
-     *                              GTK_ACCESSIBLE_STATE_CHECKED, value,
-     *                              -1);
-     * }</pre>
-     * @param firstState the first {@code GtkAccessibleState}
-     * @param varargs a list of state and value pairs, terminated by -1
-     */
-    default void updateState(@NotNull org.gtk.gtk.AccessibleState firstState, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstState, "Parameter 'firstState' must not be null");
-        try {
-            DowncallHandles.gtk_accessible_update_state.invokeExact(
-                    handle(),
-                    firstState.getValue(),
-                    varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -259,9 +143,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * @param states an array of {@code GtkAccessibleState}
      * @param values an array of {@code GValues}, one for each state
      */
-    default void updateStateValue(int nStates, @NotNull org.gtk.gtk.AccessibleState[] states, @NotNull org.gtk.gobject.Value[] values) {
-        java.util.Objects.requireNonNull(states, "Parameter 'states' must not be null");
-        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
+    default void updateState(int nStates, org.gtk.gtk.AccessibleState[] states, org.gtk.gobject.Value[] values) {
         try {
             DowncallHandles.gtk_accessible_update_state_value.invokeExact(
                     handle(),
@@ -277,7 +159,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_accessible_get_type.invokeExact();
@@ -319,13 +201,6 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         );
         
         @ApiStatus.Internal
-        static final MethodHandle gtk_accessible_update_property = Interop.downcallHandle(
-            "gtk_accessible_update_property",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
-        );
-        
-        @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_property_value = Interop.downcallHandle(
             "gtk_accessible_update_property_value",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
@@ -333,24 +208,10 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         );
         
         @ApiStatus.Internal
-        static final MethodHandle gtk_accessible_update_relation = Interop.downcallHandle(
-            "gtk_accessible_update_relation",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
-        );
-        
-        @ApiStatus.Internal
         static final MethodHandle gtk_accessible_update_relation_value = Interop.downcallHandle(
             "gtk_accessible_update_relation_value",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
-        );
-        
-        @ApiStatus.Internal
-        static final MethodHandle gtk_accessible_update_state = Interop.downcallHandle(
-            "gtk_accessible_update_state",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            true
         );
         
         @ApiStatus.Internal
@@ -368,7 +229,7 @@ public interface Accessible extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class AccessibleImpl extends org.gtk.gobject.Object implements Accessible {
+    class AccessibleImpl extends org.gtk.gobject.GObject implements Accessible {
         
         static {
             Gtk.javagi$ensureInitialized();

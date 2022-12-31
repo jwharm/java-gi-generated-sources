@@ -21,18 +21,16 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
     
     private static final java.lang.String C_TYPE_NAME = "GTcpWrapperConnection";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.TcpConnection.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.TcpConnection.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -40,35 +38,15 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TcpWrapperConnection(Addressable address, Ownership ownership) {
+    protected TcpWrapperConnection(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TcpWrapperConnection if its GType is a (or inherits from) "GTcpWrapperConnection".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TcpWrapperConnection} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GTcpWrapperConnection", a ClassCastException will be thrown.
-     */
-    public static TcpWrapperConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TcpWrapperConnection.getType())) {
-            return new TcpWrapperConnection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTcpWrapperConnection");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TcpWrapperConnection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TcpWrapperConnection(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.IOStream baseIoStream, @NotNull org.gtk.gio.Socket socket) {
-        java.util.Objects.requireNonNull(baseIoStream, "Parameter 'baseIoStream' must not be null");
-        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.IOStream baseIoStream, org.gtk.gio.Socket socket) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tcp_wrapper_connection_new.invokeExact(
                     baseIoStream.handle(),
@@ -84,7 +62,7 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
      * @param baseIoStream the {@link IOStream} to wrap
      * @param socket the {@link Socket} associated with {@code base_io_stream}
      */
-    public TcpWrapperConnection(@NotNull org.gtk.gio.IOStream baseIoStream, @NotNull org.gtk.gio.Socket socket) {
+    public TcpWrapperConnection(org.gtk.gio.IOStream baseIoStream, org.gtk.gio.Socket socket) {
         super(constructNew(baseIoStream, socket), Ownership.FULL);
     }
     
@@ -92,7 +70,7 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
      * Gets {@code conn}'s base {@link IOStream}
      * @return {@code conn}'s base {@link IOStream}
      */
-    public @NotNull org.gtk.gio.IOStream getBaseIoStream() {
+    public org.gtk.gio.IOStream getBaseIoStream() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tcp_wrapper_connection_get_base_io_stream.invokeExact(
@@ -100,14 +78,14 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.IOStream(RESULT, Ownership.NONE);
+        return (org.gtk.gio.IOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.IOStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tcp_wrapper_connection_get_type.invokeExact();
@@ -116,42 +94,44 @@ public class TcpWrapperConnection extends org.gtk.gio.TcpConnection {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TcpWrapperConnection.Builder} object constructs a {@link TcpWrapperConnection} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TcpWrapperConnection.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.TcpConnection.Build {
+    public static class Builder extends org.gtk.gio.TcpConnection.Builder {
         
-         /**
-         * A {@link TcpWrapperConnection.Build} object constructs a {@link TcpWrapperConnection} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TcpWrapperConnection} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TcpWrapperConnection} using {@link TcpWrapperConnection#castFrom}.
+         * {@link TcpWrapperConnection}.
          * @return A new instance of {@code TcpWrapperConnection} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TcpWrapperConnection construct() {
-            return TcpWrapperConnection.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TcpWrapperConnection.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TcpWrapperConnection build() {
+            return (TcpWrapperConnection) org.gtk.gobject.GObject.newWithProperties(
+                TcpWrapperConnection.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setBaseIoStream(org.gtk.gio.IOStream baseIoStream) {
+        public Builder setBaseIoStream(org.gtk.gio.IOStream baseIoStream) {
             names.add("base-io-stream");
             values.add(org.gtk.gobject.Value.create(baseIoStream));
             return this;

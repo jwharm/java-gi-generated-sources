@@ -24,11 +24,15 @@ public class TestDBusFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TestDBusFlags or(TestDBusFlags mask) {
-        return new TestDBusFlags(this.getValue() | mask.getValue());
+    public TestDBusFlags or(TestDBusFlags... masks) {
+        int value = this.getValue();
+        for (TestDBusFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new TestDBusFlags(value);
     }
     
     /**
@@ -38,7 +42,8 @@ public class TestDBusFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TestDBusFlags combined(TestDBusFlags mask, TestDBusFlags... masks) {
-        int value = mask.getValue();        for (TestDBusFlags arg : masks) {
+        int value = mask.getValue();
+        for (TestDBusFlags arg : masks) {
             value |= arg.getValue();
         }
         return new TestDBusFlags(value);

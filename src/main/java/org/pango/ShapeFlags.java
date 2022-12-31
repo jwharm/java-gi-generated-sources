@@ -32,11 +32,15 @@ public class ShapeFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ShapeFlags or(ShapeFlags mask) {
-        return new ShapeFlags(this.getValue() | mask.getValue());
+    public ShapeFlags or(ShapeFlags... masks) {
+        int value = this.getValue();
+        for (ShapeFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ShapeFlags(value);
     }
     
     /**
@@ -46,7 +50,8 @@ public class ShapeFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ShapeFlags combined(ShapeFlags mask, ShapeFlags... masks) {
-        int value = mask.getValue();        for (ShapeFlags arg : masks) {
+        int value = mask.getValue();
+        for (ShapeFlags arg : masks) {
             value |= arg.getValue();
         }
         return new ShapeFlags(value);

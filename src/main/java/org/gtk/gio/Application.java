@@ -126,7 +126,7 @@ import org.jetbrains.annotations.*;
  * <a href="https://gitlab.gnome.org/GNOME/glib/-/blob/HEAD/gio/tests/gapplication-example-dbushooks.c">gapplication-example-dbushooks.c</a>.
  * @version 2.28
  */
-public class Application extends org.gtk.gobject.Object implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap {
+public class Application extends org.gtk.gobject.GObject implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -134,18 +134,16 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     private static final java.lang.String C_TYPE_NAME = "GApplication";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -153,37 +151,18 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Application(Addressable address, Ownership ownership) {
+    protected Application(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Application if its GType is a (or inherits from) "GApplication".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Application} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GApplication", a ClassCastException will be thrown.
-     */
-    public static Application castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Application.getType())) {
-            return new Application(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GApplication");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Application> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Application(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_application_new.invokeExact(
-                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationId)),
+                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(applicationId, null)),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -202,7 +181,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param applicationId the application id
      * @param flags the application flags
      */
-    public Application(@Nullable java.lang.String applicationId, @NotNull org.gtk.gio.ApplicationFlags flags) {
+    public Application(@Nullable java.lang.String applicationId, org.gtk.gio.ApplicationFlags flags) {
         super(constructNew(applicationId, flags), Ownership.FULL);
     }
     
@@ -245,20 +224,16 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param argDescription the placeholder to use for the extra argument
      *    parsed by the option in {@code --help} output
      */
-    public void addMainOption(@NotNull java.lang.String longName, byte shortName, @NotNull org.gtk.glib.OptionFlags flags, @NotNull org.gtk.glib.OptionArg arg, @NotNull java.lang.String description, @Nullable java.lang.String argDescription) {
-        java.util.Objects.requireNonNull(longName, "Parameter 'longName' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(arg, "Parameter 'arg' must not be null");
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
+    public void addMainOption(java.lang.String longName, byte shortName, org.gtk.glib.OptionFlags flags, org.gtk.glib.OptionArg arg, java.lang.String description, @Nullable java.lang.String argDescription) {
         try {
             DowncallHandles.g_application_add_main_option.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(longName),
+                    Marshal.stringToAddress.marshal(longName, null),
                     shortName,
                     flags.getValue(),
                     arg.getValue(),
-                    Interop.allocateNativeString(description),
-                    (Addressable) (argDescription == null ? MemoryAddress.NULL : Interop.allocateNativeString(argDescription)));
+                    Marshal.stringToAddress.marshal(description, null),
+                    (Addressable) (argDescription == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(argDescription, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -324,8 +299,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param entries a
      *           {@code null}-terminated list of {@code GOptionEntrys}
      */
-    public void addMainOptionEntries(@NotNull org.gtk.glib.OptionEntry[] entries) {
-        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
+    public void addMainOptionEntries(org.gtk.glib.OptionEntry[] entries) {
         try {
             DowncallHandles.g_application_add_main_option_entries.invokeExact(
                     handle(),
@@ -363,8 +337,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * {@link ApplicationFlags#HANDLES_COMMAND_LINE} was given.
      * @param group a {@link org.gtk.glib.OptionGroup}
      */
-    public void addOptionGroup(@NotNull org.gtk.glib.OptionGroup group) {
-        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+    public void addOptionGroup(org.gtk.glib.OptionGroup group) {
         try {
             DowncallHandles.g_application_add_option_group.invokeExact(
                     handle(),
@@ -382,17 +355,15 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * The binding holds a reference to {@code application} while it is active, but
      * not to {@code object}. Instead, the binding is destroyed when {@code object} is
      * finalized.
-     * @param object a {@link org.gtk.gobject.Object}
+     * @param object a {@link org.gtk.gobject.GObject}
      * @param property the name of a boolean property of {@code object}
      */
-    public void bindBusyProperty(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String property) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+    public void bindBusyProperty(org.gtk.gobject.GObject object, java.lang.String property) {
         try {
             DowncallHandles.g_application_bind_busy_property.invokeExact(
                     handle(),
                     object.handle(),
-                    Interop.allocateNativeString(property));
+                    Marshal.stringToAddress.marshal(property, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,7 +381,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -437,7 +408,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusConnection(RESULT, Ownership.NONE);
+        return (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -465,7 +436,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -474,7 +445,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * See {@link ApplicationFlags}.
      * @return the flags for {@code application}
      */
-    public @NotNull org.gtk.gio.ApplicationFlags getFlags() {
+    public org.gtk.gio.ApplicationFlags getFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_application_get_flags.invokeExact(
@@ -516,7 +487,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -534,7 +505,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -558,7 +529,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -575,7 +546,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -638,15 +609,13 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param nFiles the length of the {@code files} array
      * @param hint a hint (or ""), but never {@code null}
      */
-    public void open(@NotNull org.gtk.gio.File[] files, int nFiles, @NotNull java.lang.String hint) {
-        java.util.Objects.requireNonNull(files, "Parameter 'files' must not be null");
-        java.util.Objects.requireNonNull(hint, "Parameter 'hint' must not be null");
+    public void open(org.gtk.gio.File[] files, int nFiles, java.lang.String hint) {
         try {
             DowncallHandles.g_application_open.invokeExact(
                     handle(),
                     Interop.allocateNativeArray(files, false),
                     nFiles,
-                    Interop.allocateNativeString(hint));
+                    Marshal.stringToAddress.marshal(hint, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -725,7 +694,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -868,12 +837,11 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param id id of the notification, or {@code null}
      * @param notification the {@link Notification} to send
      */
-    public void sendNotification(@Nullable java.lang.String id, @NotNull org.gtk.gio.Notification notification) {
-        java.util.Objects.requireNonNull(notification, "Parameter 'notification' must not be null");
+    public void sendNotification(@Nullable java.lang.String id, org.gtk.gio.Notification notification) {
         try {
             DowncallHandles.g_application_send_notification.invokeExact(
                     handle(),
-                    (Addressable) (id == null ? MemoryAddress.NULL : Interop.allocateNativeString(id)),
+                    (Addressable) (id == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(id, null)),
                     notification.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -915,7 +883,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         try {
             DowncallHandles.g_application_set_application_id.invokeExact(
                     handle(),
-                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Interop.allocateNativeString(applicationId)));
+                    (Addressable) (applicationId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(applicationId, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -947,8 +915,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * See {@link ApplicationFlags}.
      * @param flags the flags for {@code application}
      */
-    public void setFlags(@NotNull org.gtk.gio.ApplicationFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void setFlags(org.gtk.gio.ApplicationFlags flags) {
         try {
             DowncallHandles.g_application_set_flags.invokeExact(
                     handle(),
@@ -990,7 +957,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         try {
             DowncallHandles.g_application_set_option_context_description.invokeExact(
                     handle(),
-                    (Addressable) (description == null ? MemoryAddress.NULL : Interop.allocateNativeString(description)));
+                    (Addressable) (description == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(description, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1010,7 +977,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         try {
             DowncallHandles.g_application_set_option_context_parameter_string.invokeExact(
                     handle(),
-                    (Addressable) (parameterString == null ? MemoryAddress.NULL : Interop.allocateNativeString(parameterString)));
+                    (Addressable) (parameterString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(parameterString, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1027,7 +994,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         try {
             DowncallHandles.g_application_set_option_context_summary.invokeExact(
                     handle(),
-                    (Addressable) (summary == null ? MemoryAddress.NULL : Interop.allocateNativeString(summary)));
+                    (Addressable) (summary == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(summary, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1073,7 +1040,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         try {
             DowncallHandles.g_application_set_resource_base_path.invokeExact(
                     handle(),
-                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(resourcePath, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1083,17 +1050,15 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * Destroys a binding between {@code property} and the busy state of
      * {@code application} that was previously created with
      * g_application_bind_busy_property().
-     * @param object a {@link org.gtk.gobject.Object}
+     * @param object a {@link org.gtk.gobject.GObject}
      * @param property the name of a boolean property of {@code object}
      */
-    public void unbindBusyProperty(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String property) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+    public void unbindBusyProperty(org.gtk.gobject.GObject object, java.lang.String property) {
         try {
             DowncallHandles.g_application_unbind_busy_property.invokeExact(
                     handle(),
                     object.handle(),
-                    Interop.allocateNativeString(property));
+                    Marshal.stringToAddress.marshal(property, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1133,12 +1098,11 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * there is no need to explicitly withdraw the notification in that case.
      * @param id id of a previously sent notification
      */
-    public void withdrawNotification(@NotNull java.lang.String id) {
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public void withdrawNotification(java.lang.String id) {
         try {
             DowncallHandles.g_application_withdraw_notification.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(id));
+                    Marshal.stringToAddress.marshal(id, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1148,7 +1112,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_application_get_type.invokeExact();
@@ -1175,7 +1139,7 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Application(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Application) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Application.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1232,21 +1196,31 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @param applicationId a potential application identifier
      * @return {@code true} if {@code application_id} is valid
      */
-    public static boolean idIsValid(@NotNull java.lang.String applicationId) {
-        java.util.Objects.requireNonNull(applicationId, "Parameter 'applicationId' must not be null");
+    public static boolean idIsValid(java.lang.String applicationId) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_application_id_is_valid.invokeExact(
-                    Interop.allocateNativeString(applicationId));
+                    Marshal.stringToAddress.marshal(applicationId, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Application sourceApplication);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceApplication) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1258,16 +1232,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public Signal<Application.Activate> onActivate(Application.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Application.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1275,7 +1241,19 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface CommandLine {
-        void signalReceived(Application sourceApplication, @NotNull org.gtk.gio.ApplicationCommandLine commandLine);
+        int run(org.gtk.gio.ApplicationCommandLine commandLine);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceApplication, MemoryAddress commandLine) {
+            var RESULT = run((org.gtk.gio.ApplicationCommandLine) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(commandLine)), org.gtk.gio.ApplicationCommandLine.fromAddress).marshal(commandLine, Ownership.NONE));
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CommandLine.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1288,16 +1266,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public Signal<Application.CommandLine> onCommandLine(Application.CommandLine handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("command-line"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationCommandLine",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Application.CommandLine>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("command-line"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1305,7 +1275,19 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface HandleLocalOptions {
-        void signalReceived(Application sourceApplication, @NotNull org.gtk.glib.VariantDict options);
+        int run(org.gtk.glib.VariantDict options);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceApplication, MemoryAddress options) {
+            var RESULT = run(org.gtk.glib.VariantDict.fromAddress.marshal(options, Ownership.NONE));
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HandleLocalOptions.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1356,16 +1338,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public Signal<Application.HandleLocalOptions> onHandleLocalOptions(Application.HandleLocalOptions handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("handle-local-options"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationHandleLocalOptions",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Application.HandleLocalOptions>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("handle-local-options"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1373,7 +1347,19 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface NameLost {
-        boolean signalReceived(Application sourceApplication);
+        boolean run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceApplication) {
+            var RESULT = run();
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NameLost.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1388,16 +1374,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public Signal<Application.NameLost> onNameLost(Application.NameLost handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("name-lost"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationNameLost",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Application.NameLost>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("name-lost"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1405,7 +1383,18 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface Open {
-        void signalReceived(Application sourceApplication, @NotNull org.gtk.gio.File[] files, int nFiles, @NotNull java.lang.String hint);
+        void run(org.gtk.gio.File[] files, int nFiles, java.lang.String hint);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceApplication, MemoryAddress files, int nFiles, MemoryAddress hint) {
+            run(new PointerProxy<org.gtk.gio.File>(files, org.gtk.gio.File.fromAddress).toArray((int) nFiles, org.gtk.gio.File.class), nFiles, Marshal.addressToString.marshal(hint, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Open.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1415,12 +1404,29 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Application.Open> onOpen(Application.Open handler) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
+                handle(), Interop.allocateNativeString("open"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
     public interface Shutdown {
-        void signalReceived(Application sourceApplication);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceApplication) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Shutdown.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1432,16 +1438,8 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public Signal<Application.Shutdown> onShutdown(Application.Shutdown handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("shutdown"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationShutdown",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Application.Shutdown>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("shutdown"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1449,7 +1447,18 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     
     @FunctionalInterface
     public interface Startup {
-        void signalReceived(Application sourceApplication);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceApplication) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Startup.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1461,74 +1470,68 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
     public Signal<Application.Startup> onStartup(Application.Startup handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("startup"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Application.Callbacks.class, "signalApplicationStartup",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Application.Startup>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("startup"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Application.Builder} object constructs a {@link Application} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Application.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Application.Build} object constructs a {@link Application} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Application} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Application} using {@link Application#castFrom}.
+         * {@link Application}.
          * @return A new instance of {@code Application} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Application construct() {
-            return Application.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Application.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Application build() {
+            return (Application) org.gtk.gobject.GObject.newWithProperties(
+                Application.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setActionGroup(org.gtk.gio.ActionGroup actionGroup) {
+        public Builder setActionGroup(org.gtk.gio.ActionGroup actionGroup) {
             names.add("action-group");
             values.add(org.gtk.gobject.Value.create(actionGroup));
             return this;
         }
         
-        public Build setApplicationId(java.lang.String applicationId) {
+        public Builder setApplicationId(java.lang.String applicationId) {
             names.add("application-id");
             values.add(org.gtk.gobject.Value.create(applicationId));
             return this;
         }
         
-        public Build setFlags(org.gtk.gio.ApplicationFlags flags) {
+        public Builder setFlags(org.gtk.gio.ApplicationFlags flags) {
             names.add("flags");
             values.add(org.gtk.gobject.Value.create(flags));
             return this;
         }
         
-        public Build setInactivityTimeout(int inactivityTimeout) {
+        public Builder setInactivityTimeout(int inactivityTimeout) {
             names.add("inactivity-timeout");
             values.add(org.gtk.gobject.Value.create(inactivityTimeout));
             return this;
@@ -1540,25 +1543,25 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
          * @param isBusy The value for the {@code is-busy} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsBusy(boolean isBusy) {
+        public Builder setIsBusy(boolean isBusy) {
             names.add("is-busy");
             values.add(org.gtk.gobject.Value.create(isBusy));
             return this;
         }
         
-        public Build setIsRegistered(boolean isRegistered) {
+        public Builder setIsRegistered(boolean isRegistered) {
             names.add("is-registered");
             values.add(org.gtk.gobject.Value.create(isRegistered));
             return this;
         }
         
-        public Build setIsRemote(boolean isRemote) {
+        public Builder setIsRemote(boolean isRemote) {
             names.add("is-remote");
             values.add(org.gtk.gobject.Value.create(isRemote));
             return this;
         }
         
-        public Build setResourceBasePath(java.lang.String resourceBasePath) {
+        public Builder setResourceBasePath(java.lang.String resourceBasePath) {
             names.add("resource-base-path");
             values.add(org.gtk.gobject.Value.create(resourceBasePath));
             return this;
@@ -1794,48 +1797,5 @@ public class Application extends org.gtk.gobject.Object implements org.gtk.gio.A
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalApplicationActivate(MemoryAddress sourceApplication, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Application.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
-        }
-        
-        public static void signalApplicationCommandLine(MemoryAddress sourceApplication, MemoryAddress commandLine, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Application.CommandLine) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE), new org.gtk.gio.ApplicationCommandLine(commandLine, Ownership.NONE));
-        }
-        
-        public static void signalApplicationHandleLocalOptions(MemoryAddress sourceApplication, MemoryAddress options, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Application.HandleLocalOptions) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE), new org.gtk.glib.VariantDict(options, Ownership.NONE));
-        }
-        
-        public static boolean signalApplicationNameLost(MemoryAddress sourceApplication, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Application.NameLost) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
-        }
-        
-        public static void signalApplicationOpen(MemoryAddress sourceApplication, MemoryAddress files, int nFiles, MemoryAddress hint, MemoryAddress DATA) {
-        // Operation not supported yet
-    }
-        
-        public static void signalApplicationShutdown(MemoryAddress sourceApplication, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Application.Shutdown) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
-        }
-        
-        public static void signalApplicationStartup(MemoryAddress sourceApplication, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Application.Startup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Application(sourceApplication, Ownership.NONE));
-        }
     }
 }

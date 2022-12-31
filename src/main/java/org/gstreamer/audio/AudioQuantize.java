@@ -40,10 +40,12 @@ public class AudioQuantize extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioQuantize(Addressable address, Ownership ownership) {
+    protected AudioQuantize(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioQuantize> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioQuantize(input, ownership);
     
     /**
      * Free a {@link AudioQuantize}.
@@ -113,11 +115,7 @@ public class AudioQuantize extends Struct {
      * @param quantizer the quantizer to use
      * @return a new {@link AudioQuantize}. Free with gst_audio_quantize_free().
      */
-    public static @NotNull org.gstreamer.audio.AudioQuantize new_(@NotNull org.gstreamer.audio.AudioDitherMethod dither, @NotNull org.gstreamer.audio.AudioNoiseShapingMethod ns, @NotNull org.gstreamer.audio.AudioQuantizeFlags flags, @NotNull org.gstreamer.audio.AudioFormat format, int channels, int quantizer) {
-        java.util.Objects.requireNonNull(dither, "Parameter 'dither' must not be null");
-        java.util.Objects.requireNonNull(ns, "Parameter 'ns' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.audio.AudioQuantize new_(org.gstreamer.audio.AudioDitherMethod dither, org.gstreamer.audio.AudioNoiseShapingMethod ns, org.gstreamer.audio.AudioQuantizeFlags flags, org.gstreamer.audio.AudioFormat format, int channels, int quantizer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_quantize_new.invokeExact(
@@ -130,7 +128,7 @@ public class AudioQuantize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioQuantize(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioQuantize.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

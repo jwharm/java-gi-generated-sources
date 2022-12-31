@@ -40,8 +40,10 @@ public class SocketConnectionPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SocketConnectionPrivate(Addressable address, Ownership ownership) {
+    protected SocketConnectionPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SocketConnectionPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketConnectionPrivate(input, ownership);
 }

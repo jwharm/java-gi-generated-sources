@@ -13,5 +13,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface DrawingAreaDrawFunc {
-        void onDrawingAreaDrawFunc(@NotNull org.gtk.gtk.DrawingArea drawingArea, @NotNull org.cairographics.Context cr, int width, int height);
+    void run(org.gtk.gtk.DrawingArea drawingArea, org.cairographics.Context cr, int width, int height);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress drawingArea, MemoryAddress cr, int width, int height, MemoryAddress userData) {
+        run((org.gtk.gtk.DrawingArea) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drawingArea)), org.gtk.gtk.DrawingArea.fromAddress).marshal(drawingArea, Ownership.NONE), org.cairographics.Context.fromAddress.marshal(cr, Ownership.NONE), width, height);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DrawingAreaDrawFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

@@ -14,31 +14,14 @@ import org.jetbrains.annotations.*;
  */
 public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to ColorBalance if its GType is a (or inherits from) "GstColorBalance".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ColorBalance} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstColorBalance", a ClassCastException will be thrown.
-     */
-    public static ColorBalance castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ColorBalance.getType())) {
-            return new ColorBalanceImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstColorBalance");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ColorBalanceImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorBalanceImpl(input, ownership);
     
     /**
      * Get the {@link ColorBalanceType} of this implementation.
      * @return A the {@link ColorBalanceType}.
      */
-    default @NotNull org.gstreamer.video.ColorBalanceType getBalanceType() {
+    default org.gstreamer.video.ColorBalanceType getBalanceType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_color_balance_get_balance_type.invokeExact(
@@ -59,8 +42,7 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
      * @param channel A {@link ColorBalanceChannel} instance
      * @return The current value of the channel.
      */
-    default int getValue(@NotNull org.gstreamer.video.ColorBalanceChannel channel) {
-        java.util.Objects.requireNonNull(channel, "Parameter 'channel' must not be null");
+    default int getValue(org.gstreamer.video.ColorBalanceChannel channel) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_color_balance_get_value.invokeExact(
@@ -79,7 +61,7 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
      *          objects. The list is owned by the {@link ColorBalance}
      *          instance and must not be freed.
      */
-    default @NotNull org.gtk.glib.List listChannels() {
+    default org.gtk.glib.List listChannels() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_color_balance_list_channels.invokeExact(
@@ -87,7 +69,7 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -100,8 +82,7 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
      * @param channel A {@link ColorBalanceChannel} instance
      * @param value The new value for the channel.
      */
-    default void setValue(@NotNull org.gstreamer.video.ColorBalanceChannel channel, int value) {
-        java.util.Objects.requireNonNull(channel, "Parameter 'channel' must not be null");
+    default void setValue(org.gstreamer.video.ColorBalanceChannel channel, int value) {
         try {
             DowncallHandles.gst_color_balance_set_value.invokeExact(
                     handle(),
@@ -120,8 +101,7 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
      * @param channel A {@link ColorBalanceChannel} whose value has changed
      * @param value The new value of the channel
      */
-    default void valueChanged(@NotNull org.gstreamer.video.ColorBalanceChannel channel, int value) {
-        java.util.Objects.requireNonNull(channel, "Parameter 'channel' must not be null");
+    default void valueChanged(org.gstreamer.video.ColorBalanceChannel channel, int value) {
         try {
             DowncallHandles.gst_color_balance_value_changed.invokeExact(
                     handle(),
@@ -136,7 +116,7 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_color_balance_get_type.invokeExact();
@@ -148,7 +128,18 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ValueChanged {
-        void signalReceived(ColorBalance sourceColorBalance, @NotNull org.gstreamer.video.ColorBalanceChannel channel, int value);
+        void run(org.gstreamer.video.ColorBalanceChannel channel, int value);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceColorBalance, MemoryAddress channel, int value) {
+            run((org.gstreamer.video.ColorBalanceChannel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(channel)), org.gstreamer.video.ColorBalanceChannel.fromAddress).marshal(channel, Ownership.NONE), value);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -159,16 +150,8 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
     public default Signal<ColorBalance.ValueChanged> onValueChanged(ColorBalance.ValueChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("value-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColorBalance.Callbacks.class, "signalColorBalanceValueChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ColorBalance.ValueChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("value-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,17 +203,7 @@ public interface ColorBalance extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalColorBalanceValueChanged(MemoryAddress sourceColorBalance, MemoryAddress channel, int value, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ColorBalance.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorBalance.ColorBalanceImpl(sourceColorBalance, Ownership.NONE), new org.gstreamer.video.ColorBalanceChannel(channel, Ownership.NONE), value);
-        }
-    }
-    
-    class ColorBalanceImpl extends org.gtk.gobject.Object implements ColorBalance {
+    class ColorBalanceImpl extends org.gtk.gobject.GObject implements ColorBalance {
         
         static {
             GstVideo.javagi$ensureInitialized();

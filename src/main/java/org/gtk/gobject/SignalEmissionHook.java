@@ -15,5 +15,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface SignalEmissionHook {
-        boolean onSignalEmissionHook(@NotNull org.gtk.gobject.SignalInvocationHint ihint, int nParamValues, @NotNull PointerProxy<org.gtk.gobject.Value> paramValues);
+    boolean run(org.gtk.gobject.SignalInvocationHint ihint, int nParamValues, org.gtk.gobject.Value[] paramValues);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress ihint, int nParamValues, MemoryAddress paramValues, MemoryAddress userData) {
+        var RESULT = run(org.gtk.gobject.SignalInvocationHint.fromAddress.marshal(ihint, Ownership.NONE), nParamValues, new PointerProxy<org.gtk.gobject.Value>(paramValues, org.gtk.gobject.Value.fromAddress).toArray((int) nParamValues, org.gtk.gobject.Value.class));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SignalEmissionHook.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

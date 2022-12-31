@@ -44,10 +44,12 @@ public class StringChunk extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StringChunk(Addressable address, Ownership ownership) {
+    protected StringChunk(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StringChunk> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringChunk(input, ownership);
     
     /**
      * Frees all strings contained within the {@link StringChunk}.
@@ -93,17 +95,16 @@ public class StringChunk extends Struct {
      * @return a pointer to the copy of {@code string} within
      *     the {@link StringChunk}
      */
-    public @NotNull java.lang.String insert(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public java.lang.String insert(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -124,17 +125,16 @@ public class StringChunk extends Struct {
      * @return a pointer to the new or existing copy of {@code string}
      *     within the {@link StringChunk}
      */
-    public @NotNull java.lang.String insertConst(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public java.lang.String insertConst(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_const.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -152,18 +152,17 @@ public class StringChunk extends Struct {
      *     nul-terminated string
      * @return a pointer to the copy of {@code string} within the {@link StringChunk}
      */
-    public @NotNull java.lang.String insertLen(@NotNull java.lang.String string, long len) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public java.lang.String insertLen(java.lang.String string, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_insert_len.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -174,7 +173,7 @@ public class StringChunk extends Struct {
      *     memory will be allocated for it.
      * @return a new {@link StringChunk}
      */
-    public static @NotNull org.gtk.glib.StringChunk new_(long size) {
+    public static org.gtk.glib.StringChunk new_(long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_string_chunk_new.invokeExact(
@@ -182,7 +181,7 @@ public class StringChunk extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.StringChunk(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.StringChunk.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

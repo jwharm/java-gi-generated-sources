@@ -18,19 +18,17 @@ public class StaticCaps extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstStaticCaps";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("caps"),
-        Interop.valueLayout.ADDRESS.withName("string"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("caps"),
+            Interop.valueLayout.ADDRESS.withName("string"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,42 +48,42 @@ public class StaticCaps extends Struct {
      * Get the value of the field {@code caps}
      * @return The value of the field {@code caps}
      */
-    public org.gstreamer.gst.Caps caps$get() {
+    public org.gstreamer.gst.Caps getCaps() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("caps"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code caps}
      * @param caps The new value of the field {@code caps}
      */
-    public void caps$set(org.gstreamer.gst.Caps caps) {
+    public void setCaps(org.gstreamer.gst.Caps caps) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("caps"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), caps.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
     }
     
     /**
      * Get the value of the field {@code string}
      * @return The value of the field {@code string}
      */
-    public java.lang.String string$get() {
+    public java.lang.String getString() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("string"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code string}
      * @param string The new value of the field {@code string}
      */
-    public void string$set(java.lang.String string) {
+    public void setString(java.lang.String string) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("string"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(string));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (string == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(string, null)));
     }
     
     /**
@@ -93,10 +91,12 @@ public class StaticCaps extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StaticCaps(Addressable address, Ownership ownership) {
+    protected StaticCaps(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StaticCaps> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StaticCaps(input, ownership);
     
     /**
      * Cleans up the cached caps contained in {@code static_caps}.
@@ -124,7 +124,7 @@ public class StaticCaps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -141,31 +141,35 @@ public class StaticCaps extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link StaticCaps.Builder} object constructs a {@link StaticCaps} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link StaticCaps.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private StaticCaps struct;
+        private final StaticCaps struct;
         
-         /**
-         * A {@link StaticCaps.Build} object constructs a {@link StaticCaps} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = StaticCaps.allocate();
         }
         
          /**
          * Finish building the {@link StaticCaps} struct.
          * @return A new instance of {@code StaticCaps} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public StaticCaps construct() {
+        public StaticCaps build() {
             return struct;
         }
         
@@ -174,7 +178,7 @@ public class StaticCaps extends Struct {
          * @param caps The value for the {@code caps} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCaps(org.gstreamer.gst.Caps caps) {
+        public Builder setCaps(org.gstreamer.gst.Caps caps) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("caps"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()));
@@ -186,14 +190,14 @@ public class StaticCaps extends Struct {
          * @param string The value for the {@code string} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setString(java.lang.String string) {
+        public Builder setString(java.lang.String string) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("string"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (string == null ? MemoryAddress.NULL : Interop.allocateNativeString(string)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (string == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(string, null)));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

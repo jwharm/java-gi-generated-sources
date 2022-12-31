@@ -58,12 +58,8 @@ public enum VideoColorRange implements io.github.jwharm.javagi.Enumeration {
      * @param offset output offsets
      * @param scale output scale
      */
-    public static void offsets(@NotNull org.gstreamer.video.VideoColorRange range, @NotNull org.gstreamer.video.VideoFormatInfo info, @NotNull Out<int[]> offset, @NotNull Out<int[]> scale) {
-        java.util.Objects.requireNonNull(range, "Parameter 'range' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
+    public static void offsets(org.gstreamer.video.VideoColorRange range, org.gstreamer.video.VideoFormatInfo info, Out<int[]> offset, Out<int[]> scale) {
         MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(scale, "Parameter 'scale' must not be null");
         MemorySegment scalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_video_color_range_offsets.invokeExact(

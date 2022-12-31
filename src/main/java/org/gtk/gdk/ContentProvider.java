@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * {@link ContentSerializer} if you want
  * to add support for application-specific data formats.
  */
-public class ContentProvider extends org.gtk.gobject.Object {
+public class ContentProvider extends org.gtk.gobject.GObject {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -24,17 +24,15 @@ public class ContentProvider extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GdkContentProvider";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -42,38 +40,18 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ContentProvider(Addressable address, Ownership ownership) {
+    protected ContentProvider(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ContentProvider if its GType is a (or inherits from) "GdkContentProvider".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ContentProvider} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkContentProvider", a ClassCastException will be thrown.
-     */
-    public static ContentProvider castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ContentProvider.getType())) {
-            return new ContentProvider(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkContentProvider");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ContentProvider> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ContentProvider(input, ownership);
     
-    private static Addressable constructNewForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_new_for_bytes.invokeExact(
-                    Interop.allocateNativeString(mimeType),
+                    Marshal.stringToAddress.marshal(mimeType, null),
                     bytes.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -88,13 +66,13 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @param bytes a {@code GBytes} with the data for {@code mime_type}
      * @return a new {@code GdkContentProvider}
      */
-    public static ContentProvider newForBytes(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Bytes bytes) {
-        return new ContentProvider(constructNewForBytes(mimeType, bytes), Ownership.FULL);
+    public static ContentProvider newForBytes(java.lang.String mimeType, org.gtk.glib.Bytes bytes) {
+        var RESULT = constructNewForBytes(mimeType, bytes);
+        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewForValue(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForValue(org.gtk.gobject.Value value) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_new_for_value.invokeExact(
                     value.handle());
@@ -109,13 +87,13 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @param value a {@code GValue}
      * @return a new {@code GdkContentProvider}
      */
-    public static ContentProvider newForValue(@NotNull org.gtk.gobject.Value value) {
-        return new ContentProvider(constructNewForValue(value), Ownership.FULL);
+    public static ContentProvider newForValue(org.gtk.gobject.Value value) {
+        var RESULT = constructNewForValue(value);
+        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewTyped(@NotNull org.gtk.glib.Type type, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewTyped(org.gtk.glib.Type type, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_new_typed.invokeExact(
                     type.getValue().longValue(),
@@ -136,12 +114,13 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @param varargs value
      * @return a new {@code GdkContentProvider}
      */
-    public static ContentProvider newTyped(@NotNull org.gtk.glib.Type type, java.lang.Object... varargs) {
-        return new ContentProvider(constructNewTyped(type, varargs), Ownership.FULL);
+    public static ContentProvider newTyped(org.gtk.glib.Type type, java.lang.Object... varargs) {
+        var RESULT = constructNewTyped(type, varargs);
+        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewUnion(@Nullable org.gtk.gdk.ContentProvider[] providers, long nProviders) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewUnion(@Nullable org.gtk.gdk.ContentProvider[] providers, long nProviders) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_new_union.invokeExact(
                     (Addressable) (providers == null ? MemoryAddress.NULL : Interop.allocateNativeArray(providers, false)),
@@ -173,7 +152,8 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @return a new {@code GdkContentProvider}
      */
     public static ContentProvider newUnion(@Nullable org.gtk.gdk.ContentProvider[] providers, long nProviders) {
-        return new ContentProvider(constructNewUnion(providers, nProviders), Ownership.FULL);
+        var RESULT = constructNewUnion(providers, nProviders);
+        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -201,8 +181,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      *   {@code error} will be set to describe the failure.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getValue(@NotNull org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -216,14 +195,14 @@ public class ContentProvider extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the formats that the provider can provide its current contents in.
      * @return The formats of the provider
      */
-    public @NotNull org.gtk.gdk.ContentFormats refFormats() {
+    public org.gtk.gdk.ContentFormats refFormats() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_ref_formats.invokeExact(
@@ -231,7 +210,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -243,7 +222,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * This can be assumed to be a subset of {@link ContentProvider#refFormats}.
      * @return The storable formats of the provider
      */
-    public @NotNull org.gtk.gdk.ContentFormats refStorableFormats() {
+    public org.gtk.gdk.ContentFormats refStorableFormats() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_provider_ref_storable_formats.invokeExact(
@@ -251,7 +230,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -273,22 +252,16 @@ public class ContentProvider extends org.gtk.gobject.Object {
      * @param cancellable optional {@code GCancellable} object, {@code null} to ignore.
      * @param callback callback to call when the request is satisfied
      */
-    public void writeMimeTypeAsync(@NotNull java.lang.String mimeType, @NotNull org.gtk.gio.OutputStream stream, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
-        java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
+    public void writeMimeTypeAsync(java.lang.String mimeType, org.gtk.gio.OutputStream stream, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.gdk_content_provider_write_mime_type_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(mimeType),
+                    Marshal.stringToAddress.marshal(mimeType, null),
                     stream.handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,8 +276,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
      *   {@code error} will be set to describe the failure.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean writeMimeTypeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean writeMimeTypeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -318,14 +290,14 @@ public class ContentProvider extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_content_provider_get_type.invokeExact();
@@ -337,7 +309,18 @@ public class ContentProvider extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ContentChanged {
-        void signalReceived(ContentProvider sourceContentProvider);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceContentProvider) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ContentChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -348,52 +331,46 @@ public class ContentProvider extends org.gtk.gobject.Object {
     public Signal<ContentProvider.ContentChanged> onContentChanged(ContentProvider.ContentChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("content-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ContentProvider.Callbacks.class, "signalContentProviderContentChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ContentProvider.ContentChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("content-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link ContentProvider.Builder} object constructs a {@link ContentProvider} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ContentProvider.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ContentProvider.Build} object constructs a {@link ContentProvider} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ContentProvider} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ContentProvider} using {@link ContentProvider#castFrom}.
+         * {@link ContentProvider}.
          * @return A new instance of {@code ContentProvider} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ContentProvider construct() {
-            return ContentProvider.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ContentProvider.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ContentProvider build() {
+            return (ContentProvider) org.gtk.gobject.GObject.newWithProperties(
+                ContentProvider.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -402,7 +379,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
          * @param formats The value for the {@code formats} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormats(org.gtk.gdk.ContentFormats formats) {
+        public Builder setFormats(org.gtk.gdk.ContentFormats formats) {
             names.add("formats");
             values.add(org.gtk.gobject.Value.create(formats));
             return this;
@@ -413,7 +390,7 @@ public class ContentProvider extends org.gtk.gobject.Object {
          * @param storableFormats The value for the {@code storable-formats} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStorableFormats(org.gtk.gdk.ContentFormats storableFormats) {
+        public Builder setStorableFormats(org.gtk.gdk.ContentFormats storableFormats) {
             names.add("storable-formats");
             values.add(org.gtk.gobject.Value.create(storableFormats));
             return this;
@@ -487,14 +464,5 @@ public class ContentProvider extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalContentProviderContentChanged(MemoryAddress sourceContentProvider, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ContentProvider.ContentChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ContentProvider(sourceContentProvider, Ownership.NONE));
-        }
     }
 }

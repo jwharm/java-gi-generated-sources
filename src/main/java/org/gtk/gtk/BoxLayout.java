@@ -43,34 +43,15 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BoxLayout(Addressable address, Ownership ownership) {
+    protected BoxLayout(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to BoxLayout if its GType is a (or inherits from) "GtkBoxLayout".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BoxLayout} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkBoxLayout", a ClassCastException will be thrown.
-     */
-    public static BoxLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BoxLayout.getType())) {
-            return new BoxLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBoxLayout");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BoxLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BoxLayout(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gtk.Orientation orientation) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_box_layout_new.invokeExact(
                     orientation.getValue());
@@ -84,7 +65,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      * Creates a new {@code GtkBoxLayout}.
      * @param orientation the orientation for the new layout
      */
-    public BoxLayout(@NotNull org.gtk.gtk.Orientation orientation) {
+    public BoxLayout(org.gtk.gtk.Orientation orientation) {
         super(constructNew(orientation), Ownership.FULL);
     }
     
@@ -92,7 +73,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      * Gets the value set by gtk_box_layout_set_baseline_position().
      * @return the baseline position
      */
-    public @NotNull org.gtk.gtk.BaselinePosition getBaselinePosition() {
+    public org.gtk.gtk.BaselinePosition getBaselinePosition() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_box_layout_get_baseline_position.invokeExact(
@@ -115,7 +96,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -143,8 +124,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      * space available.
      * @param position a {@code GtkBaselinePosition}
      */
-    public void setBaselinePosition(@NotNull org.gtk.gtk.BaselinePosition position) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public void setBaselinePosition(org.gtk.gtk.BaselinePosition position) {
         try {
             DowncallHandles.gtk_box_layout_set_baseline_position.invokeExact(
                     handle(),
@@ -163,7 +143,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
         try {
             DowncallHandles.gtk_box_layout_set_homogeneous.invokeExact(
                     handle(),
-                    homogeneous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(homogeneous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -187,7 +167,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_box_layout_get_type.invokeExact();
@@ -196,38 +176,40 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BoxLayout.Builder} object constructs a {@link BoxLayout} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BoxLayout.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.LayoutManager.Build {
+    public static class Builder extends org.gtk.gtk.LayoutManager.Builder {
         
-         /**
-         * A {@link BoxLayout.Build} object constructs a {@link BoxLayout} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BoxLayout} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BoxLayout} using {@link BoxLayout#castFrom}.
+         * {@link BoxLayout}.
          * @return A new instance of {@code BoxLayout} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BoxLayout construct() {
-            return BoxLayout.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BoxLayout.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BoxLayout build() {
+            return (BoxLayout) org.gtk.gobject.GObject.newWithProperties(
+                BoxLayout.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -240,7 +222,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
          * @param baselinePosition The value for the {@code baseline-position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBaselinePosition(org.gtk.gtk.BaselinePosition baselinePosition) {
+        public Builder setBaselinePosition(org.gtk.gtk.BaselinePosition baselinePosition) {
             names.add("baseline-position");
             values.add(org.gtk.gobject.Value.create(baselinePosition));
             return this;
@@ -252,7 +234,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
          * @param homogeneous The value for the {@code homogeneous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHomogeneous(boolean homogeneous) {
+        public Builder setHomogeneous(boolean homogeneous) {
             names.add("homogeneous");
             values.add(org.gtk.gobject.Value.create(homogeneous));
             return this;
@@ -263,7 +245,7 @@ public class BoxLayout extends org.gtk.gtk.LayoutManager implements org.gtk.gtk.
          * @param spacing The value for the {@code spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSpacing(int spacing) {
+        public Builder setSpacing(int spacing) {
             names.add("spacing");
             values.add(org.gtk.gobject.Value.create(spacing));
             return this;

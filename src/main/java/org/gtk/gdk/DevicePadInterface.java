@@ -40,8 +40,10 @@ public class DevicePadInterface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DevicePadInterface(Addressable address, Ownership ownership) {
+    protected DevicePadInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DevicePadInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DevicePadInterface(input, ownership);
 }

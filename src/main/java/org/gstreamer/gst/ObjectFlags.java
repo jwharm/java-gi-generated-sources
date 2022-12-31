@@ -30,11 +30,15 @@ public class ObjectFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ObjectFlags or(ObjectFlags mask) {
-        return new ObjectFlags(this.getValue() | mask.getValue());
+    public ObjectFlags or(ObjectFlags... masks) {
+        int value = this.getValue();
+        for (ObjectFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ObjectFlags(value);
     }
     
     /**
@@ -44,7 +48,8 @@ public class ObjectFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ObjectFlags combined(ObjectFlags mask, ObjectFlags... masks) {
-        int value = mask.getValue();        for (ObjectFlags arg : masks) {
+        int value = mask.getValue();
+        for (ObjectFlags arg : masks) {
             value |= arg.getValue();
         }
         return new ObjectFlags(value);

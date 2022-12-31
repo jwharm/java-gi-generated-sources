@@ -37,11 +37,15 @@ public class AsciiType extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public AsciiType or(AsciiType mask) {
-        return new AsciiType(this.getValue() | mask.getValue());
+    public AsciiType or(AsciiType... masks) {
+        int value = this.getValue();
+        for (AsciiType arg : masks) {
+            value |= arg.getValue();
+        }
+        return new AsciiType(value);
     }
     
     /**
@@ -51,7 +55,8 @@ public class AsciiType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static AsciiType combined(AsciiType mask, AsciiType... masks) {
-        int value = mask.getValue();        for (AsciiType arg : masks) {
+        int value = mask.getValue();
+        for (AsciiType arg : masks) {
             value |= arg.getValue();
         }
         return new AsciiType(value);

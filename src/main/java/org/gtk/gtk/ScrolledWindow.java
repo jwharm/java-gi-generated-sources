@@ -108,40 +108,26 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * <p>
      * Because ScrolledWindow is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ScrolledWindow(Addressable address, Ownership ownership) {
+    protected ScrolledWindow(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ScrolledWindow if its GType is a (or inherits from) "GtkScrolledWindow".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ScrolledWindow} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkScrolledWindow", a ClassCastException will be thrown.
-     */
-    public static ScrolledWindow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ScrolledWindow.getType())) {
-            return new ScrolledWindow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkScrolledWindow");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ScrolledWindow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScrolledWindow(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_new.invokeExact();
         } catch (Throwable ERR) {
@@ -169,7 +155,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -179,7 +165,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * to the child widget’s horizontal scroll functionality.
      * @return the horizontal {@code GtkAdjustment}
      */
-    public @NotNull org.gtk.gtk.Adjustment getHadjustment() {
+    public org.gtk.gtk.Adjustment getHadjustment() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_hadjustment.invokeExact(
@@ -187,7 +173,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Adjustment) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -202,14 +188,14 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Returns the horizontal scrollbar of {@code scrolled_window}.
      * @return the horizontal scrollbar of the scrolled window.
      */
-    public @NotNull org.gtk.gtk.Widget getHscrollbar() {
+    public org.gtk.gtk.Widget getHscrollbar() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_hscrollbar.invokeExact(
@@ -217,7 +203,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -232,7 +218,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -307,14 +293,14 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the placement of the contents with respect to the scrollbars.
      * @return the current placement value.
      */
-    public @NotNull org.gtk.gtk.CornerType getPlacement() {
+    public org.gtk.gtk.CornerType getPlacement() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_scrolled_window_get_placement.invokeExact(
@@ -335,21 +321,19 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @param vscrollbarPolicy location to store the policy
      *   for the vertical scrollbar
      */
-    public void getPolicy(@NotNull Out<org.gtk.gtk.PolicyType> hscrollbarPolicy, @NotNull Out<org.gtk.gtk.PolicyType> vscrollbarPolicy) {
-        java.util.Objects.requireNonNull(hscrollbarPolicy, "Parameter 'hscrollbarPolicy' must not be null");
+    public void getPolicy(@Nullable Out<org.gtk.gtk.PolicyType> hscrollbarPolicy, @Nullable Out<org.gtk.gtk.PolicyType> vscrollbarPolicy) {
         MemorySegment hscrollbarPolicyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(vscrollbarPolicy, "Parameter 'vscrollbarPolicy' must not be null");
         MemorySegment vscrollbarPolicyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_scrolled_window_get_policy.invokeExact(
                     handle(),
-                    (Addressable) hscrollbarPolicyPOINTER.address(),
-                    (Addressable) vscrollbarPolicyPOINTER.address());
+                    (Addressable) (hscrollbarPolicy == null ? MemoryAddress.NULL : (Addressable) hscrollbarPolicyPOINTER.address()),
+                    (Addressable) (vscrollbarPolicy == null ? MemoryAddress.NULL : (Addressable) vscrollbarPolicyPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        hscrollbarPolicy.set(org.gtk.gtk.PolicyType.of(hscrollbarPolicyPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        vscrollbarPolicy.set(org.gtk.gtk.PolicyType.of(vscrollbarPolicyPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (hscrollbarPolicy != null) hscrollbarPolicy.set(org.gtk.gtk.PolicyType.of(hscrollbarPolicyPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (vscrollbarPolicy != null) vscrollbarPolicy.set(org.gtk.gtk.PolicyType.of(vscrollbarPolicyPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -365,7 +349,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -381,7 +365,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -391,7 +375,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * scrollbar to the child widget’s vertical scroll functionality.
      * @return the vertical {@code GtkAdjustment}
      */
-    public @NotNull org.gtk.gtk.Adjustment getVadjustment() {
+    public org.gtk.gtk.Adjustment getVadjustment() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_vadjustment.invokeExact(
@@ -399,14 +383,14 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Adjustment) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Returns the vertical scrollbar of {@code scrolled_window}.
      * @return the vertical scrollbar of the scrolled window.
      */
-    public @NotNull org.gtk.gtk.Widget getVscrollbar() {
+    public org.gtk.gtk.Widget getVscrollbar() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_scrolled_window_get_vscrollbar.invokeExact(
@@ -414,7 +398,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -453,7 +437,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         try {
             DowncallHandles.gtk_scrolled_window_set_has_frame.invokeExact(
                     handle(),
-                    hasFrame ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hasFrame, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -470,7 +454,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         try {
             DowncallHandles.gtk_scrolled_window_set_kinetic_scrolling.invokeExact(
                     handle(),
-                    kineticScrolling ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(kineticScrolling, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -564,7 +548,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         try {
             DowncallHandles.gtk_scrolled_window_set_overlay_scrolling.invokeExact(
                     handle(),
-                    overlayScrolling ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(overlayScrolling, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -583,8 +567,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * {@link ScrolledWindow#unsetPlacement}.
      * @param windowPlacement position of the child window
      */
-    public void setPlacement(@NotNull org.gtk.gtk.CornerType windowPlacement) {
-        java.util.Objects.requireNonNull(windowPlacement, "Parameter 'windowPlacement' must not be null");
+    public void setPlacement(org.gtk.gtk.CornerType windowPlacement) {
         try {
             DowncallHandles.gtk_scrolled_window_set_placement.invokeExact(
                     handle(),
@@ -606,9 +589,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * @param hscrollbarPolicy policy for horizontal bar
      * @param vscrollbarPolicy policy for vertical bar
      */
-    public void setPolicy(@NotNull org.gtk.gtk.PolicyType hscrollbarPolicy, @NotNull org.gtk.gtk.PolicyType vscrollbarPolicy) {
-        java.util.Objects.requireNonNull(hscrollbarPolicy, "Parameter 'hscrollbarPolicy' must not be null");
-        java.util.Objects.requireNonNull(vscrollbarPolicy, "Parameter 'vscrollbarPolicy' must not be null");
+    public void setPolicy(org.gtk.gtk.PolicyType hscrollbarPolicy, org.gtk.gtk.PolicyType vscrollbarPolicy) {
         try {
             DowncallHandles.gtk_scrolled_window_set_policy.invokeExact(
                     handle(),
@@ -628,7 +609,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         try {
             DowncallHandles.gtk_scrolled_window_set_propagate_natural_height.invokeExact(
                     handle(),
-                    propagate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(propagate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -643,7 +624,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
         try {
             DowncallHandles.gtk_scrolled_window_set_propagate_natural_width.invokeExact(
                     handle(),
-                    propagate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(propagate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -682,7 +663,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_scrolled_window_get_type.invokeExact();
@@ -694,7 +675,18 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     @FunctionalInterface
     public interface EdgeOvershot {
-        void signalReceived(ScrolledWindow sourceScrolledWindow, @NotNull org.gtk.gtk.PositionType pos);
+        void run(org.gtk.gtk.PositionType pos);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceScrolledWindow, int pos) {
+            run(org.gtk.gtk.PositionType.of(pos));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EdgeOvershot.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -713,16 +705,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public Signal<ScrolledWindow.EdgeOvershot> onEdgeOvershot(ScrolledWindow.EdgeOvershot handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("edge-overshot"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScrolledWindow.Callbacks.class, "signalScrolledWindowEdgeOvershot",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ScrolledWindow.EdgeOvershot>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("edge-overshot"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -730,7 +714,18 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     @FunctionalInterface
     public interface EdgeReached {
-        void signalReceived(ScrolledWindow sourceScrolledWindow, @NotNull org.gtk.gtk.PositionType pos);
+        void run(org.gtk.gtk.PositionType pos);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceScrolledWindow, int pos) {
+            run(org.gtk.gtk.PositionType.of(pos));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EdgeReached.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -749,16 +744,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public Signal<ScrolledWindow.EdgeReached> onEdgeReached(ScrolledWindow.EdgeReached handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("edge-reached"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScrolledWindow.Callbacks.class, "signalScrolledWindowEdgeReached",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ScrolledWindow.EdgeReached>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("edge-reached"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -766,7 +753,18 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     @FunctionalInterface
     public interface MoveFocusOut {
-        void signalReceived(ScrolledWindow sourceScrolledWindow, @NotNull org.gtk.gtk.DirectionType directionType);
+        void run(org.gtk.gtk.DirectionType directionType);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceScrolledWindow, int directionType) {
+            run(org.gtk.gtk.DirectionType.of(directionType));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveFocusOut.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -784,16 +782,8 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public Signal<ScrolledWindow.MoveFocusOut> onMoveFocusOut(ScrolledWindow.MoveFocusOut handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-focus-out"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScrolledWindow.Callbacks.class, "signalScrolledWindowMoveFocusOut",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ScrolledWindow.MoveFocusOut>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-focus-out"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -801,7 +791,19 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     
     @FunctionalInterface
     public interface ScrollChild {
-        boolean signalReceived(ScrolledWindow sourceScrolledWindow, @NotNull org.gtk.gtk.ScrollType scroll, boolean horizontal);
+        boolean run(org.gtk.gtk.ScrollType scroll, boolean horizontal);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceScrolledWindow, int scroll, int horizontal) {
+            var RESULT = run(org.gtk.gtk.ScrollType.of(scroll), Marshal.integerToBoolean.marshal(horizontal, null).booleanValue());
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ScrollChild.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -817,52 +819,46 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
     public Signal<ScrolledWindow.ScrollChild> onScrollChild(ScrolledWindow.ScrollChild handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("scroll-child"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ScrolledWindow.Callbacks.class, "signalScrolledWindowScrollChild",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ScrolledWindow.ScrollChild>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("scroll-child"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link ScrolledWindow.Builder} object constructs a {@link ScrolledWindow} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ScrolledWindow.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link ScrolledWindow.Build} object constructs a {@link ScrolledWindow} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ScrolledWindow} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ScrolledWindow} using {@link ScrolledWindow#castFrom}.
+         * {@link ScrolledWindow}.
          * @return A new instance of {@code ScrolledWindow} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ScrolledWindow construct() {
-            return ScrolledWindow.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ScrolledWindow.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ScrolledWindow build() {
+            return (ScrolledWindow) org.gtk.gobject.GObject.newWithProperties(
+                ScrolledWindow.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -871,13 +867,13 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
         }
         
-        public Build setHadjustment(org.gtk.gtk.Adjustment hadjustment) {
+        public Builder setHadjustment(org.gtk.gtk.Adjustment hadjustment) {
             names.add("hadjustment");
             values.add(org.gtk.gobject.Value.create(hadjustment));
             return this;
@@ -888,7 +884,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param hasFrame The value for the {@code has-frame} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasFrame(boolean hasFrame) {
+        public Builder setHasFrame(boolean hasFrame) {
             names.add("has-frame");
             values.add(org.gtk.gobject.Value.create(hasFrame));
             return this;
@@ -902,7 +898,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param hscrollbarPolicy The value for the {@code hscrollbar-policy} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHscrollbarPolicy(org.gtk.gtk.PolicyType hscrollbarPolicy) {
+        public Builder setHscrollbarPolicy(org.gtk.gtk.PolicyType hscrollbarPolicy) {
             names.add("hscrollbar-policy");
             values.add(org.gtk.gobject.Value.create(hscrollbarPolicy));
             return this;
@@ -915,7 +911,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param kineticScrolling The value for the {@code kinetic-scrolling} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKineticScrolling(boolean kineticScrolling) {
+        public Builder setKineticScrolling(boolean kineticScrolling) {
             names.add("kinetic-scrolling");
             values.add(org.gtk.gobject.Value.create(kineticScrolling));
             return this;
@@ -926,7 +922,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param maxContentHeight The value for the {@code max-content-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxContentHeight(int maxContentHeight) {
+        public Builder setMaxContentHeight(int maxContentHeight) {
             names.add("max-content-height");
             values.add(org.gtk.gobject.Value.create(maxContentHeight));
             return this;
@@ -937,7 +933,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param maxContentWidth The value for the {@code max-content-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxContentWidth(int maxContentWidth) {
+        public Builder setMaxContentWidth(int maxContentWidth) {
             names.add("max-content-width");
             values.add(org.gtk.gobject.Value.create(maxContentWidth));
             return this;
@@ -948,7 +944,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param minContentHeight The value for the {@code min-content-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinContentHeight(int minContentHeight) {
+        public Builder setMinContentHeight(int minContentHeight) {
             names.add("min-content-height");
             values.add(org.gtk.gobject.Value.create(minContentHeight));
             return this;
@@ -959,7 +955,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param minContentWidth The value for the {@code min-content-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinContentWidth(int minContentWidth) {
+        public Builder setMinContentWidth(int minContentWidth) {
             names.add("min-content-width");
             values.add(org.gtk.gobject.Value.create(minContentWidth));
             return this;
@@ -977,7 +973,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param overlayScrolling The value for the {@code overlay-scrolling} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOverlayScrolling(boolean overlayScrolling) {
+        public Builder setOverlayScrolling(boolean overlayScrolling) {
             names.add("overlay-scrolling");
             values.add(org.gtk.gobject.Value.create(overlayScrolling));
             return this;
@@ -992,7 +988,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param propagateNaturalHeight The value for the {@code propagate-natural-height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPropagateNaturalHeight(boolean propagateNaturalHeight) {
+        public Builder setPropagateNaturalHeight(boolean propagateNaturalHeight) {
             names.add("propagate-natural-height");
             values.add(org.gtk.gobject.Value.create(propagateNaturalHeight));
             return this;
@@ -1007,13 +1003,13 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param propagateNaturalWidth The value for the {@code propagate-natural-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPropagateNaturalWidth(boolean propagateNaturalWidth) {
+        public Builder setPropagateNaturalWidth(boolean propagateNaturalWidth) {
             names.add("propagate-natural-width");
             values.add(org.gtk.gobject.Value.create(propagateNaturalWidth));
             return this;
         }
         
-        public Build setVadjustment(org.gtk.gtk.Adjustment vadjustment) {
+        public Builder setVadjustment(org.gtk.gtk.Adjustment vadjustment) {
             names.add("vadjustment");
             values.add(org.gtk.gobject.Value.create(vadjustment));
             return this;
@@ -1027,7 +1023,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param vscrollbarPolicy The value for the {@code vscrollbar-policy} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVscrollbarPolicy(org.gtk.gtk.PolicyType vscrollbarPolicy) {
+        public Builder setVscrollbarPolicy(org.gtk.gtk.PolicyType vscrollbarPolicy) {
             names.add("vscrollbar-policy");
             values.add(org.gtk.gobject.Value.create(vscrollbarPolicy));
             return this;
@@ -1038,7 +1034,7 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
          * @param windowPlacement The value for the {@code window-placement} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWindowPlacement(org.gtk.gtk.CornerType windowPlacement) {
+        public Builder setWindowPlacement(org.gtk.gtk.CornerType windowPlacement) {
             names.add("window-placement");
             values.add(org.gtk.gobject.Value.create(windowPlacement));
             return this;
@@ -1244,32 +1240,5 @@ public class ScrolledWindow extends org.gtk.gtk.Widget implements org.gtk.gtk.Ac
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalScrolledWindowEdgeOvershot(MemoryAddress sourceScrolledWindow, int pos, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ScrolledWindow.EdgeOvershot) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScrolledWindow(sourceScrolledWindow, Ownership.NONE), org.gtk.gtk.PositionType.of(pos));
-        }
-        
-        public static void signalScrolledWindowEdgeReached(MemoryAddress sourceScrolledWindow, int pos, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ScrolledWindow.EdgeReached) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScrolledWindow(sourceScrolledWindow, Ownership.NONE), org.gtk.gtk.PositionType.of(pos));
-        }
-        
-        public static void signalScrolledWindowMoveFocusOut(MemoryAddress sourceScrolledWindow, int directionType, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ScrolledWindow.MoveFocusOut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ScrolledWindow(sourceScrolledWindow, Ownership.NONE), org.gtk.gtk.DirectionType.of(directionType));
-        }
-        
-        public static boolean signalScrolledWindowScrollChild(MemoryAddress sourceScrolledWindow, int scroll, int horizontal, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ScrolledWindow.ScrollChild) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new ScrolledWindow(sourceScrolledWindow, Ownership.NONE), org.gtk.gtk.ScrollType.of(scroll), horizontal != 0);
-        }
     }
 }

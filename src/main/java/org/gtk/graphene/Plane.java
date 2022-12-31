@@ -20,18 +20,16 @@ public class Plane extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_plane_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Vec3.getMemoryLayout().withName("normal"),
-        Interop.valueLayout.C_FLOAT.withName("constant")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Vec3.getMemoryLayout().withName("normal"),
+            Interop.valueLayout.C_FLOAT.withName("constant")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,13 +50,15 @@ public class Plane extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Plane(Addressable address, Ownership ownership) {
+    protected Plane(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Plane> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Plane(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_plane_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -76,7 +76,8 @@ public class Plane extends Struct {
      *   this function
      */
     public static Plane alloc() {
-        return new Plane(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -84,8 +85,7 @@ public class Plane extends Struct {
      * @param point a {@link Point3D}
      * @return the distance of the given {@link Point3D} from the plane
      */
-    public float distance(@NotNull org.gtk.graphene.Point3D point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public float distance(org.gtk.graphene.Point3D point) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_plane_distance.invokeExact(
@@ -102,8 +102,7 @@ public class Plane extends Struct {
      * @param b a {@link Plane}
      * @return {@code true} if the given planes are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Plane b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Plane b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_plane_equal.invokeExact(
@@ -148,8 +147,7 @@ public class Plane extends Struct {
      * given {@link Plane}.
      * @param normal return location for the normal vector
      */
-    public void getNormal(@NotNull org.gtk.graphene.Vec3 normal) {
-        java.util.Objects.requireNonNull(normal, "Parameter 'normal' must not be null");
+    public void getNormal(org.gtk.graphene.Vec3 normal) {
         try {
             DowncallHandles.graphene_plane_get_normal.invokeExact(
                     handle(),
@@ -169,7 +167,7 @@ public class Plane extends Struct {
      *   plane
      * @return the initialized plane
      */
-    public @NotNull org.gtk.graphene.Plane init(@Nullable org.gtk.graphene.Vec3 normal, float constant) {
+    public org.gtk.graphene.Plane init(@Nullable org.gtk.graphene.Vec3 normal, float constant) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init.invokeExact(
@@ -179,7 +177,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Plane(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -188,8 +186,7 @@ public class Plane extends Struct {
      * @param src a {@link Plane}
      * @return the initialized plane
      */
-    public @NotNull org.gtk.graphene.Plane initFromPlane(@NotNull org.gtk.graphene.Plane src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Plane initFromPlane(org.gtk.graphene.Plane src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_plane.invokeExact(
@@ -198,7 +195,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Plane(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -208,9 +205,7 @@ public class Plane extends Struct {
      * @param point a {@link Point3D}
      * @return the initialized plane
      */
-    public @NotNull org.gtk.graphene.Plane initFromPoint(@NotNull org.gtk.graphene.Vec3 normal, @NotNull org.gtk.graphene.Point3D point) {
-        java.util.Objects.requireNonNull(normal, "Parameter 'normal' must not be null");
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public org.gtk.graphene.Plane initFromPoint(org.gtk.graphene.Vec3 normal, org.gtk.graphene.Point3D point) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_point.invokeExact(
@@ -220,7 +215,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Plane(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -234,10 +229,7 @@ public class Plane extends Struct {
      * @param c a {@link Point3D}
      * @return the initialized plane
      */
-    public @NotNull org.gtk.graphene.Plane initFromPoints(@NotNull org.gtk.graphene.Point3D a, @NotNull org.gtk.graphene.Point3D b, @NotNull org.gtk.graphene.Point3D c) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(c, "Parameter 'c' must not be null");
+    public org.gtk.graphene.Plane initFromPoints(org.gtk.graphene.Point3D a, org.gtk.graphene.Point3D b, org.gtk.graphene.Point3D c) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_points.invokeExact(
@@ -248,7 +240,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Plane(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -258,8 +250,7 @@ public class Plane extends Struct {
      *   three components, and the distance in its fourth component
      * @return the initialized plane
      */
-    public @NotNull org.gtk.graphene.Plane initFromVec4(@NotNull org.gtk.graphene.Vec4 src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Plane initFromVec4(org.gtk.graphene.Vec4 src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_plane_init_from_vec4.invokeExact(
@@ -268,7 +259,7 @@ public class Plane extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Plane(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Plane.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -276,8 +267,7 @@ public class Plane extends Struct {
      * mirroring the plane across the origin.
      * @param res return location for the negated plane
      */
-    public void negate(@NotNull org.gtk.graphene.Plane res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void negate(org.gtk.graphene.Plane res) {
         try {
             DowncallHandles.graphene_plane_negate.invokeExact(
                     handle(),
@@ -292,8 +282,7 @@ public class Plane extends Struct {
      * and adjusts the constant accordingly.
      * @param res return location for the normalized plane
      */
-    public void normalize(@NotNull org.gtk.graphene.Plane res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void normalize(org.gtk.graphene.Plane res) {
         try {
             DowncallHandles.graphene_plane_normalize.invokeExact(
                     handle(),
@@ -316,9 +305,7 @@ public class Plane extends Struct {
      * @param normalMatrix a {@link Matrix}
      * @param res the transformed plane
      */
-    public void transform(@NotNull org.gtk.graphene.Matrix matrix, @Nullable org.gtk.graphene.Matrix normalMatrix, @NotNull org.gtk.graphene.Plane res) {
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void transform(org.gtk.graphene.Matrix matrix, @Nullable org.gtk.graphene.Matrix normalMatrix, org.gtk.graphene.Plane res) {
         try {
             DowncallHandles.graphene_plane_transform.invokeExact(
                     handle(),
@@ -416,42 +403,46 @@ public class Plane extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Plane.Builder} object constructs a {@link Plane} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Plane.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Plane struct;
+        private final Plane struct;
         
-         /**
-         * A {@link Plane.Build} object constructs a {@link Plane} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Plane.allocate();
         }
         
          /**
          * Finish building the {@link Plane} struct.
          * @return A new instance of {@code Plane} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Plane construct() {
+        public Plane build() {
             return struct;
         }
         
-        public Build setNormal(org.gtk.graphene.Vec3 normal) {
+        public Builder setNormal(org.gtk.graphene.Vec3 normal) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("normal"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (normal == null ? MemoryAddress.NULL : normal.handle()));
             return this;
         }
         
-        public Build setConstant(float constant) {
+        public Builder setConstant(float constant) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("constant"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), constant);

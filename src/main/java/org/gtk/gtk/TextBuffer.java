@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * GtkTextBuffer can support undoing changes to the buffer
  * content, see {@link TextBuffer#setEnableUndo}.
  */
-public class TextBuffer extends org.gtk.gobject.Object {
+public class TextBuffer extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -24,18 +24,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkTextBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -43,33 +41,15 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TextBuffer(Addressable address, Ownership ownership) {
+    protected TextBuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TextBuffer if its GType is a (or inherits from) "GtkTextBuffer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TextBuffer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTextBuffer", a ClassCastException will be thrown.
-     */
-    public static TextBuffer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TextBuffer.getType())) {
-            return new TextBuffer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTextBuffer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TextBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextBuffer(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.TextTagTable table) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.TextTagTable table) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_new.invokeExact(
                     (Addressable) (table == null ? MemoryAddress.NULL : table.handle()));
@@ -99,9 +79,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param mark the mark to add
      * @param where location to place mark
      */
-    public void addMark(@NotNull org.gtk.gtk.TextMark mark, @NotNull org.gtk.gtk.TextIter where) {
-        java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
-        java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
+    public void addMark(org.gtk.gtk.TextMark mark, org.gtk.gtk.TextIter where) {
         try {
             DowncallHandles.gtk_text_buffer_add_mark.invokeExact(
                     handle(),
@@ -120,8 +98,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * {@link Widget#getPrimaryClipboard} for a view of {@code buffer}.
      * @param clipboard a {@code GdkClipboard}
      */
-    public void addSelectionClipboard(@NotNull org.gtk.gdk.Clipboard clipboard) {
-        java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
+    public void addSelectionClipboard(org.gtk.gdk.Clipboard clipboard) {
         try {
             DowncallHandles.gtk_text_buffer_add_selection_clipboard.invokeExact(
                     handle(),
@@ -141,10 +118,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param start one bound of range to be tagged
      * @param end other bound of range to be tagged
      */
-    public void applyTag(@NotNull org.gtk.gtk.TextTag tag, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public void applyTag(org.gtk.gtk.TextTag tag, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         try {
             DowncallHandles.gtk_text_buffer_apply_tag.invokeExact(
                     handle(),
@@ -166,14 +140,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param start one bound of range to be tagged
      * @param end other bound of range to be tagged
      */
-    public void applyTagByName(@NotNull java.lang.String name, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public void applyTagByName(java.lang.String name, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         try {
             DowncallHandles.gtk_text_buffer_apply_tag_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     start.handle(),
                     end.handle());
         } catch (Throwable ERR) {
@@ -198,19 +169,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param defaultEditable whether the buffer is editable by default
      * @return {@code true} if the buffer was modified
      */
-    public boolean backspace(@NotNull org.gtk.gtk.TextIter iter, boolean interactive, boolean defaultEditable) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean backspace(org.gtk.gtk.TextIter iter, boolean interactive, boolean defaultEditable) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_backspace.invokeExact(
                     handle(),
                     iter.handle(),
-                    interactive ? 1 : 0,
-                    defaultEditable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(interactive, null).intValue(),
+                    Marshal.booleanToInteger.marshal(defaultEditable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -268,8 +238,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Copies the currently-selected text to a clipboard.
      * @param clipboard the {@code GdkClipboard} object to copy to
      */
-    public void copyClipboard(@NotNull org.gtk.gdk.Clipboard clipboard) {
-        java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
+    public void copyClipboard(org.gtk.gdk.Clipboard clipboard) {
         try {
             DowncallHandles.gtk_text_buffer_copy_clipboard.invokeExact(
                     handle(),
@@ -291,8 +260,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param iter location in the buffer
      * @return the created child anchor
      */
-    public @NotNull org.gtk.gtk.TextChildAnchor createChildAnchor(@NotNull org.gtk.gtk.TextIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public org.gtk.gtk.TextChildAnchor createChildAnchor(org.gtk.gtk.TextIter iter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_create_child_anchor.invokeExact(
@@ -301,7 +269,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextChildAnchor(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextChildAnchor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextChildAnchor.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -329,19 +297,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param leftGravity whether the mark has left gravity
      * @return the new {@code GtkTextMark} object
      */
-    public @NotNull org.gtk.gtk.TextMark createMark(@Nullable java.lang.String markName, @NotNull org.gtk.gtk.TextIter where, boolean leftGravity) {
-        java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
+    public org.gtk.gtk.TextMark createMark(@Nullable java.lang.String markName, org.gtk.gtk.TextIter where, boolean leftGravity) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_create_mark.invokeExact(
                     handle(),
-                    (Addressable) (markName == null ? MemoryAddress.NULL : Interop.allocateNativeString(markName)),
+                    (Addressable) (markName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(markName, null)),
                     where.handle(),
-                    leftGravity ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(leftGravity, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextMark(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextMark) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextMark.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -363,18 +330,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param varargs {@code null}-terminated list of property names and values
      * @return a new tag
      */
-    public @NotNull org.gtk.gtk.TextTag createTag(@Nullable java.lang.String tagName, @Nullable java.lang.String firstPropertyName, java.lang.Object... varargs) {
+    public org.gtk.gtk.TextTag createTag(@Nullable java.lang.String tagName, @Nullable java.lang.String firstPropertyName, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_create_tag.invokeExact(
                     handle(),
-                    (Addressable) (tagName == null ? MemoryAddress.NULL : Interop.allocateNativeString(tagName)),
-                    (Addressable) (firstPropertyName == null ? MemoryAddress.NULL : Interop.allocateNativeString(firstPropertyName)),
+                    (Addressable) (tagName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tagName, null)),
+                    (Addressable) (firstPropertyName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(firstPropertyName, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextTag(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextTag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextTag.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -383,13 +350,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param clipboard the {@code GdkClipboard} object to cut to
      * @param defaultEditable default editability of the buffer
      */
-    public void cutClipboard(@NotNull org.gtk.gdk.Clipboard clipboard, boolean defaultEditable) {
-        java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
+    public void cutClipboard(org.gtk.gdk.Clipboard clipboard, boolean defaultEditable) {
         try {
             DowncallHandles.gtk_text_buffer_cut_clipboard.invokeExact(
                     handle(),
                     clipboard.handle(),
-                    defaultEditable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(defaultEditable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -409,9 +375,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param start a position in {@code buffer}
      * @param end another position in {@code buffer}
      */
-    public void delete(@NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public void delete(org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         try {
             DowncallHandles.gtk_text_buffer_delete.invokeExact(
                     handle(),
@@ -434,20 +398,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param defaultEditable whether the buffer is editable by default
      * @return whether some text was actually deleted
      */
-    public boolean deleteInteractive(@NotNull org.gtk.gtk.TextIter startIter, @NotNull org.gtk.gtk.TextIter endIter, boolean defaultEditable) {
-        java.util.Objects.requireNonNull(startIter, "Parameter 'startIter' must not be null");
-        java.util.Objects.requireNonNull(endIter, "Parameter 'endIter' must not be null");
+    public boolean deleteInteractive(org.gtk.gtk.TextIter startIter, org.gtk.gtk.TextIter endIter, boolean defaultEditable) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_delete_interactive.invokeExact(
                     handle(),
                     startIter.handle(),
                     endIter.handle(),
-                    defaultEditable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(defaultEditable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -465,8 +427,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * notification after the mark is deleted.
      * @param mark a {@code GtkTextMark} in {@code buffer}
      */
-    public void deleteMark(@NotNull org.gtk.gtk.TextMark mark) {
-        java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
+    public void deleteMark(org.gtk.gtk.TextMark mark) {
         try {
             DowncallHandles.gtk_text_buffer_delete_mark.invokeExact(
                     handle(),
@@ -482,12 +443,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * See {@link TextBuffer#deleteMark} for details.
      * @param name name of a mark in {@code buffer}
      */
-    public void deleteMarkByName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void deleteMarkByName(java.lang.String name) {
         try {
             DowncallHandles.gtk_text_buffer_delete_mark_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -508,12 +468,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_delete_selection.invokeExact(
                     handle(),
-                    interactive ? 1 : 0,
-                    defaultEditable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(interactive, null).intValue(),
+                    Marshal.booleanToInteger.marshal(defaultEditable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -560,9 +520,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param start iterator to initialize with first position in the buffer
      * @param end iterator to initialize with the end iterator
      */
-    public void getBounds(@NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public void getBounds(org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         try {
             DowncallHandles.gtk_text_buffer_get_bounds.invokeExact(
                     handle(),
@@ -585,7 +543,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -600,7 +558,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -640,7 +598,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -654,8 +612,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * character position 0) to the end iterator.
      * @param iter iterator to initialize
      */
-    public void getEndIter(@NotNull org.gtk.gtk.TextIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void getEndIter(org.gtk.gtk.TextIter iter) {
         try {
             DowncallHandles.gtk_text_buffer_get_end_iter.invokeExact(
                     handle(),
@@ -677,7 +634,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -688,7 +645,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * efficient, and involves less typing.
      * @return insertion point mark
      */
-    public @NotNull org.gtk.gtk.TextMark getInsert() {
+    public org.gtk.gtk.TextMark getInsert() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_insert.invokeExact(
@@ -696,7 +653,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextMark(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextMark) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextMark.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -704,9 +661,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param iter an iterator to be initialized
      * @param anchor a child anchor that appears in {@code buffer}
      */
-    public void getIterAtChildAnchor(@NotNull org.gtk.gtk.TextIter iter, @NotNull org.gtk.gtk.TextChildAnchor anchor) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(anchor, "Parameter 'anchor' must not be null");
+    public void getIterAtChildAnchor(org.gtk.gtk.TextIter iter, org.gtk.gtk.TextChildAnchor anchor) {
         try {
             DowncallHandles.gtk_text_buffer_get_iter_at_child_anchor.invokeExact(
                     handle(),
@@ -726,8 +681,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param lineNumber line number counting from 0
      * @return whether the exact position has been found
      */
-    public boolean getIterAtLine(@NotNull org.gtk.gtk.TextIter iter, int lineNumber) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean getIterAtLine(org.gtk.gtk.TextIter iter, int lineNumber) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_get_iter_at_line.invokeExact(
@@ -737,7 +691,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -754,8 +708,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param byteIndex byte index from start of line
      * @return whether the exact position has been found
      */
-    public boolean getIterAtLineIndex(@NotNull org.gtk.gtk.TextIter iter, int lineNumber, int byteIndex) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean getIterAtLineIndex(org.gtk.gtk.TextIter iter, int lineNumber, int byteIndex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_get_iter_at_line_index.invokeExact(
@@ -766,7 +719,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -783,8 +736,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param charOffset char offset from start of line
      * @return whether the exact position has been found
      */
-    public boolean getIterAtLineOffset(@NotNull org.gtk.gtk.TextIter iter, int lineNumber, int charOffset) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean getIterAtLineOffset(org.gtk.gtk.TextIter iter, int lineNumber, int charOffset) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_get_iter_at_line_offset.invokeExact(
@@ -795,7 +747,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -803,9 +755,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param iter iterator to initialize
      * @param mark a {@code GtkTextMark} in {@code buffer}
      */
-    public void getIterAtMark(@NotNull org.gtk.gtk.TextIter iter, @NotNull org.gtk.gtk.TextMark mark) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
+    public void getIterAtMark(org.gtk.gtk.TextIter iter, org.gtk.gtk.TextMark mark) {
         try {
             DowncallHandles.gtk_text_buffer_get_iter_at_mark.invokeExact(
                     handle(),
@@ -826,8 +776,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param iter iterator to initialize
      * @param charOffset char offset from start of buffer, counting from 0, or -1
      */
-    public void getIterAtOffset(@NotNull org.gtk.gtk.TextIter iter, int charOffset) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void getIterAtOffset(org.gtk.gtk.TextIter iter, int charOffset) {
         try {
             DowncallHandles.gtk_text_buffer_get_iter_at_offset.invokeExact(
                     handle(),
@@ -861,17 +810,16 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param name a mark name
      * @return a {@code GtkTextMark}
      */
-    public @Nullable org.gtk.gtk.TextMark getMark(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gtk.gtk.TextMark getMark(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_mark.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextMark(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextMark) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextMark.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -908,7 +856,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -926,7 +874,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * there’s a selection and what its bounds are.
      * @return selection bound mark
      */
-    public @NotNull org.gtk.gtk.TextMark getSelectionBound() {
+    public org.gtk.gtk.TextMark getSelectionBound() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_selection_bound.invokeExact(
@@ -934,7 +882,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextMark(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextMark) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextMark.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -949,9 +897,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param end iterator to initialize with selection end
      * @return whether the selection has nonzero length
      */
-    public boolean getSelectionBounds(@NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public boolean getSelectionBounds(org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_get_selection_bounds.invokeExact(
@@ -961,7 +907,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -971,7 +917,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * in a {@code GdkClipboard}, see {@link org.gtk.gdk.Clipboard#setContent}.
      * @return a new {@code GdkContentProvider}.
      */
-    public @NotNull org.gtk.gdk.ContentProvider getSelectionContent() {
+    public org.gtk.gdk.ContentProvider getSelectionContent() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_selection_content.invokeExact(
@@ -979,7 +925,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentProvider(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -998,20 +944,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param includeHiddenChars whether to include invisible text
      * @return an allocated UTF-8 string
      */
-    public @NotNull java.lang.String getSlice(@NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end, boolean includeHiddenChars) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public java.lang.String getSlice(org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end, boolean includeHiddenChars) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_slice.invokeExact(
                     handle(),
                     start.handle(),
                     end.handle(),
-                    includeHiddenChars ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(includeHiddenChars, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1021,8 +965,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * to get the iter at character offset 0.
      * @param iter iterator to initialize
      */
-    public void getStartIter(@NotNull org.gtk.gtk.TextIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public void getStartIter(org.gtk.gtk.TextIter iter) {
         try {
             DowncallHandles.gtk_text_buffer_get_start_iter.invokeExact(
                     handle(),
@@ -1036,7 +979,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Get the {@code GtkTextTagTable} associated with this buffer.
      * @return the buffer’s tag table
      */
-    public @NotNull org.gtk.gtk.TextTagTable getTagTable() {
+    public org.gtk.gtk.TextTagTable getTagTable() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_tag_table.invokeExact(
@@ -1044,7 +987,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextTagTable(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextTagTable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextTagTable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1061,20 +1004,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param includeHiddenChars whether to include invisible text
      * @return an allocated UTF-8 string
      */
-    public @NotNull java.lang.String getText(@NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end, boolean includeHiddenChars) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public java.lang.String getText(org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end, boolean includeHiddenChars) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_buffer_get_text.invokeExact(
                     handle(),
                     start.handle(),
                     end.handle(),
-                    includeHiddenChars ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(includeHiddenChars, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1090,14 +1031,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param text text in UTF-8 format
      * @param len length of text in bytes, or -1
      */
-    public void insert(@NotNull org.gtk.gtk.TextIter iter, @NotNull java.lang.String text, int len) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public void insert(org.gtk.gtk.TextIter iter, java.lang.String text, int len) {
         try {
             DowncallHandles.gtk_text_buffer_insert.invokeExact(
                     handle(),
                     iter.handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1112,12 +1051,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param text text in UTF-8 format
      * @param len length of text, in bytes
      */
-    public void insertAtCursor(@NotNull java.lang.String text, int len) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public void insertAtCursor(java.lang.String text, int len) {
         try {
             DowncallHandles.gtk_text_buffer_insert_at_cursor.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1141,9 +1079,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param iter location to insert the anchor
      * @param anchor a {@code GtkTextChildAnchor}
      */
-    public void insertChildAnchor(@NotNull org.gtk.gtk.TextIter iter, @NotNull org.gtk.gtk.TextChildAnchor anchor) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(anchor, "Parameter 'anchor' must not be null");
+    public void insertChildAnchor(org.gtk.gtk.TextIter iter, org.gtk.gtk.TextChildAnchor anchor) {
         try {
             DowncallHandles.gtk_text_buffer_insert_child_anchor.invokeExact(
                     handle(),
@@ -1171,21 +1107,19 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param defaultEditable default editability of buffer
      * @return whether text was actually inserted
      */
-    public boolean insertInteractive(@NotNull org.gtk.gtk.TextIter iter, @NotNull java.lang.String text, int len, boolean defaultEditable) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public boolean insertInteractive(org.gtk.gtk.TextIter iter, java.lang.String text, int len, boolean defaultEditable) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_insert_interactive.invokeExact(
                     handle(),
                     iter.handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     len,
-                    defaultEditable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(defaultEditable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1202,19 +1136,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param defaultEditable default editability of buffer
      * @return whether text was actually inserted
      */
-    public boolean insertInteractiveAtCursor(@NotNull java.lang.String text, int len, boolean defaultEditable) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public boolean insertInteractiveAtCursor(java.lang.String text, int len, boolean defaultEditable) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_insert_interactive_at_cursor.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     len,
-                    defaultEditable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(defaultEditable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1228,14 +1161,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param markup a nul-terminated UTF-8 string containing Pango markup
      * @param len length of {@code markup} in bytes, or -1
      */
-    public void insertMarkup(@NotNull org.gtk.gtk.TextIter iter, @NotNull java.lang.String markup, int len) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(markup, "Parameter 'markup' must not be null");
+    public void insertMarkup(org.gtk.gtk.TextIter iter, java.lang.String markup, int len) {
         try {
             DowncallHandles.gtk_text_buffer_insert_markup.invokeExact(
                     handle(),
                     iter.handle(),
-                    Interop.allocateNativeString(markup),
+                    Marshal.stringToAddress.marshal(markup, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1255,9 +1186,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param iter location to insert the paintable
      * @param paintable a {@code GdkPaintable}
      */
-    public void insertPaintable(@NotNull org.gtk.gtk.TextIter iter, @NotNull org.gtk.gdk.Paintable paintable) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(paintable, "Parameter 'paintable' must not be null");
+    public void insertPaintable(org.gtk.gtk.TextIter iter, org.gtk.gdk.Paintable paintable) {
         try {
             DowncallHandles.gtk_text_buffer_insert_paintable.invokeExact(
                     handle(),
@@ -1284,10 +1213,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param start a position in a {@code GtkTextBuffer}
      * @param end another position in the same buffer as {@code start}
      */
-    public void insertRange(@NotNull org.gtk.gtk.TextIter iter, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public void insertRange(org.gtk.gtk.TextIter iter, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         try {
             DowncallHandles.gtk_text_buffer_insert_range.invokeExact(
                     handle(),
@@ -1314,10 +1240,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param defaultEditable default editability of the buffer
      * @return whether an insertion was possible at {@code iter}
      */
-    public boolean insertRangeInteractive(@NotNull org.gtk.gtk.TextIter iter, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end, boolean defaultEditable) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public boolean insertRangeInteractive(org.gtk.gtk.TextIter iter, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end, boolean defaultEditable) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_buffer_insert_range_interactive.invokeExact(
@@ -1325,11 +1248,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
                     iter.handle(),
                     start.handle(),
                     end.handle(),
-                    defaultEditable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(defaultEditable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1346,15 +1269,12 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param firstTag first tag to apply to {@code text}
      * @param varargs {@code null}-terminated list of tags to apply
      */
-    public void insertWithTags(@NotNull org.gtk.gtk.TextIter iter, @NotNull java.lang.String text, int len, @NotNull org.gtk.gtk.TextTag firstTag, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(firstTag, "Parameter 'firstTag' must not be null");
+    public void insertWithTags(org.gtk.gtk.TextIter iter, java.lang.String text, int len, org.gtk.gtk.TextTag firstTag, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_text_buffer_insert_with_tags.invokeExact(
                     handle(),
                     iter.handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     len,
                     firstTag.handle(),
                     varargs);
@@ -1375,17 +1295,14 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param firstTagName name of a tag to apply to {@code text}
      * @param varargs more tag names
      */
-    public void insertWithTagsByName(@NotNull org.gtk.gtk.TextIter iter, @NotNull java.lang.String text, int len, @NotNull java.lang.String firstTagName, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(firstTagName, "Parameter 'firstTagName' must not be null");
+    public void insertWithTagsByName(org.gtk.gtk.TextIter iter, java.lang.String text, int len, java.lang.String firstTagName, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_text_buffer_insert_with_tags_by_name.invokeExact(
                     handle(),
                     iter.handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     len,
-                    Interop.allocateNativeString(firstTagName),
+                    Marshal.stringToAddress.marshal(firstTagName, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1400,9 +1317,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param mark a {@code GtkTextMark}
      * @param where new location for {@code mark} in {@code buffer}
      */
-    public void moveMark(@NotNull org.gtk.gtk.TextMark mark, @NotNull org.gtk.gtk.TextIter where) {
-        java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
-        java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
+    public void moveMark(org.gtk.gtk.TextMark mark, org.gtk.gtk.TextIter where) {
         try {
             DowncallHandles.gtk_text_buffer_move_mark.invokeExact(
                     handle(),
@@ -1420,13 +1335,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param name name of a mark
      * @param where new location for mark
      */
-    public void moveMarkByName(@NotNull java.lang.String name, @NotNull org.gtk.gtk.TextIter where) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
+    public void moveMarkByName(java.lang.String name, org.gtk.gtk.TextIter where) {
         try {
             DowncallHandles.gtk_text_buffer_move_mark_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     where.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1447,14 +1360,13 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param overrideLocation location to insert pasted text
      * @param defaultEditable whether the buffer is editable by default
      */
-    public void pasteClipboard(@NotNull org.gtk.gdk.Clipboard clipboard, @Nullable org.gtk.gtk.TextIter overrideLocation, boolean defaultEditable) {
-        java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
+    public void pasteClipboard(org.gtk.gdk.Clipboard clipboard, @Nullable org.gtk.gtk.TextIter overrideLocation, boolean defaultEditable) {
         try {
             DowncallHandles.gtk_text_buffer_paste_clipboard.invokeExact(
                     handle(),
                     clipboard.handle(),
                     (Addressable) (overrideLocation == null ? MemoryAddress.NULL : overrideLocation.handle()),
-                    defaultEditable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(defaultEditable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1472,8 +1384,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * be optimized.
      * @param where where to put the cursor
      */
-    public void placeCursor(@NotNull org.gtk.gtk.TextIter where) {
-        java.util.Objects.requireNonNull(where, "Parameter 'where' must not be null");
+    public void placeCursor(org.gtk.gtk.TextIter where) {
         try {
             DowncallHandles.gtk_text_buffer_place_cursor.invokeExact(
                     handle(),
@@ -1505,9 +1416,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param start one bound of range to be untagged
      * @param end other bound of range to be untagged
      */
-    public void removeAllTags(@NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public void removeAllTags(org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         try {
             DowncallHandles.gtk_text_buffer_remove_all_tags.invokeExact(
                     handle(),
@@ -1524,8 +1433,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param clipboard a {@code GdkClipboard} added to {@code buffer} by
      *   {@link TextBuffer#addSelectionClipboard}
      */
-    public void removeSelectionClipboard(@NotNull org.gtk.gdk.Clipboard clipboard) {
-        java.util.Objects.requireNonNull(clipboard, "Parameter 'clipboard' must not be null");
+    public void removeSelectionClipboard(org.gtk.gdk.Clipboard clipboard) {
         try {
             DowncallHandles.gtk_text_buffer_remove_selection_clipboard.invokeExact(
                     handle(),
@@ -1545,10 +1453,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param start one bound of range to be untagged
      * @param end other bound of range to be untagged
      */
-    public void removeTag(@NotNull org.gtk.gtk.TextTag tag, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public void removeTag(org.gtk.gtk.TextTag tag, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         try {
             DowncallHandles.gtk_text_buffer_remove_tag.invokeExact(
                     handle(),
@@ -1570,14 +1475,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param start one bound of range to be untagged
      * @param end other bound of range to be untagged
      */
-    public void removeTagByName(@NotNull java.lang.String name, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public void removeTagByName(java.lang.String name, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end) {
         try {
             DowncallHandles.gtk_text_buffer_remove_tag_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     start.handle(),
                     end.handle());
         } catch (Throwable ERR) {
@@ -1598,9 +1500,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param ins where to put the “insert” mark
      * @param bound where to put the “selection_bound” mark
      */
-    public void selectRange(@NotNull org.gtk.gtk.TextIter ins, @NotNull org.gtk.gtk.TextIter bound) {
-        java.util.Objects.requireNonNull(ins, "Parameter 'ins' must not be null");
-        java.util.Objects.requireNonNull(bound, "Parameter 'bound' must not be null");
+    public void selectRange(org.gtk.gtk.TextIter ins, org.gtk.gtk.TextIter bound) {
         try {
             DowncallHandles.gtk_text_buffer_select_range.invokeExact(
                     handle(),
@@ -1629,7 +1529,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_text_buffer_set_enable_undo.invokeExact(
                     handle(),
-                    enableUndo ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enableUndo, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1669,7 +1569,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_text_buffer_set_modified.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1686,12 +1586,11 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * @param text UTF-8 text to insert
      * @param len length of {@code text} in bytes
      */
-    public void setText(@NotNull java.lang.String text, int len) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public void setText(java.lang.String text, int len) {
         try {
             DowncallHandles.gtk_text_buffer_set_text.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1714,7 +1613,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_text_buffer_get_type.invokeExact();
@@ -1726,7 +1625,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ApplyTag {
-        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextTag tag, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
+        void run(org.gtk.gtk.TextTag tag, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer, MemoryAddress tag, MemoryAddress start, MemoryAddress end) {
+            run((org.gtk.gtk.TextTag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tag)), org.gtk.gtk.TextTag.fromAddress).marshal(tag, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(start, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(end, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ApplyTag.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1748,16 +1658,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.ApplyTag> onApplyTag(TextBuffer.ApplyTag handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("apply-tag"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferApplyTag",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.ApplyTag>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("apply-tag"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1765,7 +1667,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface BeginUserAction {
-        void signalReceived(TextBuffer sourceTextBuffer);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BeginUserAction.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1785,16 +1698,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.BeginUserAction> onBeginUserAction(TextBuffer.BeginUserAction handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("begin-user-action"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferBeginUserAction",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.BeginUserAction>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("begin-user-action"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1802,7 +1707,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(TextBuffer sourceTextBuffer);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1813,16 +1729,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.Changed> onChanged(TextBuffer.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.Changed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1830,7 +1738,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DeleteRange {
-        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
+        void run(org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer, MemoryAddress start, MemoryAddress end) {
+            run(org.gtk.gtk.TextIter.fromAddress.marshal(start, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(end, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeleteRange.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1851,16 +1770,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.DeleteRange> onDeleteRange(TextBuffer.DeleteRange handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("delete-range"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferDeleteRange",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.DeleteRange>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("delete-range"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1868,7 +1779,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface EndUserAction {
-        void signalReceived(TextBuffer sourceTextBuffer);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndUserAction.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1889,16 +1811,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.EndUserAction> onEndUserAction(TextBuffer.EndUserAction handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("end-user-action"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferEndUserAction",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.EndUserAction>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("end-user-action"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1906,7 +1820,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertChildAnchor {
-        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gtk.TextChildAnchor anchor);
+        void run(org.gtk.gtk.TextIter location, org.gtk.gtk.TextChildAnchor anchor);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress anchor) {
+            run(org.gtk.gtk.TextIter.fromAddress.marshal(location, Ownership.NONE), (org.gtk.gtk.TextChildAnchor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(anchor)), org.gtk.gtk.TextChildAnchor.fromAddress).marshal(anchor, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertChildAnchor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1926,16 +1851,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.InsertChildAnchor> onInsertChildAnchor(TextBuffer.InsertChildAnchor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-child-anchor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferInsertChildAnchor",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.InsertChildAnchor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-child-anchor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1943,7 +1860,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertPaintable {
-        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gdk.Paintable paintable);
+        void run(org.gtk.gtk.TextIter location, org.gtk.gdk.Paintable paintable);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress paintable) {
+            run(org.gtk.gtk.TextIter.fromAddress.marshal(location, Ownership.NONE), (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(paintable)), org.gtk.gdk.Paintable.fromAddress).marshal(paintable, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertPaintable.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1963,16 +1891,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.InsertPaintable> onInsertPaintable(TextBuffer.InsertPaintable handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-paintable"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferInsertPaintable",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.InsertPaintable>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-paintable"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1980,7 +1900,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface InsertText {
-        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter location, @NotNull java.lang.String text, int len);
+        void run(org.gtk.gtk.TextIter location, java.lang.String text, int len);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress text, int len) {
+            run(org.gtk.gtk.TextIter.fromAddress.marshal(location, Ownership.NONE), Marshal.addressToString.marshal(text, null), len);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertText.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2001,16 +1932,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.InsertText> onInsertText(TextBuffer.InsertText handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-text"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferInsertText",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.InsertText>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-text"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2018,7 +1941,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MarkDeleted {
-        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextMark mark);
+        void run(org.gtk.gtk.TextMark mark);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer, MemoryAddress mark) {
+            run((org.gtk.gtk.TextMark) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mark)), org.gtk.gtk.TextMark.fromAddress).marshal(mark, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MarkDeleted.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2031,16 +1965,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.MarkDeleted> onMarkDeleted(TextBuffer.MarkDeleted handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("mark-deleted"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferMarkDeleted",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.MarkDeleted>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("mark-deleted"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2048,7 +1974,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MarkSet {
-        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gtk.TextMark mark);
+        void run(org.gtk.gtk.TextIter location, org.gtk.gtk.TextMark mark);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress mark) {
+            run(org.gtk.gtk.TextIter.fromAddress.marshal(location, Ownership.NONE), (org.gtk.gtk.TextMark) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(mark)), org.gtk.gtk.TextMark.fromAddress).marshal(mark, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MarkSet.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2063,16 +2000,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.MarkSet> onMarkSet(TextBuffer.MarkSet handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("mark-set"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferMarkSet",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.MarkSet>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("mark-set"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2080,7 +2009,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ModifiedChanged {
-        void signalReceived(TextBuffer sourceTextBuffer);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ModifiedChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2093,16 +2033,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.ModifiedChanged> onModifiedChanged(TextBuffer.ModifiedChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("modified-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferModifiedChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.ModifiedChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("modified-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2110,7 +2042,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PasteDone {
-        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gdk.Clipboard clipboard);
+        void run(org.gtk.gdk.Clipboard clipboard);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer, MemoryAddress clipboard) {
+            run((org.gtk.gdk.Clipboard) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clipboard)), org.gtk.gdk.Clipboard.fromAddress).marshal(clipboard, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PasteDone.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2125,16 +2068,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.PasteDone> onPasteDone(TextBuffer.PasteDone handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("paste-done"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferPasteDone",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.PasteDone>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("paste-done"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2142,7 +2077,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Redo {
-        void signalReceived(TextBuffer sourceTextBuffer);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Redo.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2154,16 +2100,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.Redo> onRedo(TextBuffer.Redo handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("redo"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferRedo",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.Redo>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("redo"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2171,7 +2109,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface RemoveTag {
-        void signalReceived(TextBuffer sourceTextBuffer, @NotNull org.gtk.gtk.TextTag tag, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
+        void run(org.gtk.gtk.TextTag tag, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer, MemoryAddress tag, MemoryAddress start, MemoryAddress end) {
+            run((org.gtk.gtk.TextTag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tag)), org.gtk.gtk.TextTag.fromAddress).marshal(tag, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(start, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(end, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RemoveTag.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2191,16 +2140,8 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.RemoveTag> onRemoveTag(TextBuffer.RemoveTag handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("remove-tag"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferRemoveTag",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.RemoveTag>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("remove-tag"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2208,7 +2149,18 @@ public class TextBuffer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Undo {
-        void signalReceived(TextBuffer sourceTextBuffer);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextBuffer) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Undo.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2221,52 +2173,46 @@ public class TextBuffer extends org.gtk.gobject.Object {
     public Signal<TextBuffer.Undo> onUndo(TextBuffer.Undo handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("undo"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextBuffer.Callbacks.class, "signalTextBufferUndo",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextBuffer.Undo>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("undo"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link TextBuffer.Builder} object constructs a {@link TextBuffer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TextBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TextBuffer.Build} object constructs a {@link TextBuffer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TextBuffer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TextBuffer} using {@link TextBuffer#castFrom}.
+         * {@link TextBuffer}.
          * @return A new instance of {@code TextBuffer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TextBuffer construct() {
-            return TextBuffer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TextBuffer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TextBuffer build() {
+            return (TextBuffer) org.gtk.gobject.GObject.newWithProperties(
+                TextBuffer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -2275,7 +2221,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
          * @param canRedo The value for the {@code can-redo} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanRedo(boolean canRedo) {
+        public Builder setCanRedo(boolean canRedo) {
             names.add("can-redo");
             values.add(org.gtk.gobject.Value.create(canRedo));
             return this;
@@ -2286,7 +2232,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
          * @param canUndo The value for the {@code can-undo} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanUndo(boolean canUndo) {
+        public Builder setCanUndo(boolean canUndo) {
             names.add("can-undo");
             values.add(org.gtk.gobject.Value.create(canUndo));
             return this;
@@ -2300,7 +2246,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
          * @param cursorPosition The value for the {@code cursor-position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCursorPosition(int cursorPosition) {
+        public Builder setCursorPosition(int cursorPosition) {
             names.add("cursor-position");
             values.add(org.gtk.gobject.Value.create(cursorPosition));
             return this;
@@ -2311,7 +2257,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
          * @param enableUndo The value for the {@code enable-undo} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnableUndo(boolean enableUndo) {
+        public Builder setEnableUndo(boolean enableUndo) {
             names.add("enable-undo");
             values.add(org.gtk.gobject.Value.create(enableUndo));
             return this;
@@ -2322,7 +2268,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
          * @param hasSelection The value for the {@code has-selection} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasSelection(boolean hasSelection) {
+        public Builder setHasSelection(boolean hasSelection) {
             names.add("has-selection");
             values.add(org.gtk.gobject.Value.create(hasSelection));
             return this;
@@ -2333,7 +2279,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
          * @param tagTable The value for the {@code tag-table} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTagTable(org.gtk.gtk.TextTagTable tagTable) {
+        public Builder setTagTable(org.gtk.gtk.TextTagTable tagTable) {
             names.add("tag-table");
             values.add(org.gtk.gobject.Value.create(tagTable));
             return this;
@@ -2347,7 +2293,7 @@ public class TextBuffer extends org.gtk.gobject.Object {
          * @param text The value for the {@code text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             names.add("text");
             values.add(org.gtk.gobject.Value.create(text));
             return this;
@@ -2787,98 +2733,5 @@ public class TextBuffer extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalTextBufferApplyTag(MemoryAddress sourceTextBuffer, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.ApplyTag) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferBeginUserAction(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.BeginUserAction) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferChanged(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferDeleteRange(MemoryAddress sourceTextBuffer, MemoryAddress start, MemoryAddress end, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.DeleteRange) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferEndUserAction(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.EndUserAction) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferInsertChildAnchor(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress anchor, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.InsertChildAnchor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextChildAnchor(anchor, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferInsertPaintable(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress paintable, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.InsertPaintable) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gdk.Paintable.PaintableImpl(paintable, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferInsertText(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress text, int len, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.InsertText) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), Interop.getStringFrom(text), len);
-        }
-        
-        public static void signalTextBufferMarkDeleted(MemoryAddress sourceTextBuffer, MemoryAddress mark, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.MarkDeleted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferMarkSet(MemoryAddress sourceTextBuffer, MemoryAddress location, MemoryAddress mark, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.MarkSet) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextMark(mark, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferModifiedChanged(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.ModifiedChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferPasteDone(MemoryAddress sourceTextBuffer, MemoryAddress clipboard, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.PasteDone) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gdk.Clipboard(clipboard, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferRedo(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.Redo) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferRemoveTag(MemoryAddress sourceTextBuffer, MemoryAddress tag, MemoryAddress start, MemoryAddress end, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.RemoveTag) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE), new org.gtk.gtk.TextTag(tag, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
-        }
-        
-        public static void signalTextBufferUndo(MemoryAddress sourceTextBuffer, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextBuffer.Undo) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextBuffer(sourceTextBuffer, Ownership.NONE));
-        }
     }
 }

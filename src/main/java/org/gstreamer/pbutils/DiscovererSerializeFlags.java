@@ -47,11 +47,15 @@ public class DiscovererSerializeFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DiscovererSerializeFlags or(DiscovererSerializeFlags mask) {
-        return new DiscovererSerializeFlags(this.getValue() | mask.getValue());
+    public DiscovererSerializeFlags or(DiscovererSerializeFlags... masks) {
+        int value = this.getValue();
+        for (DiscovererSerializeFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DiscovererSerializeFlags(value);
     }
     
     /**
@@ -61,7 +65,8 @@ public class DiscovererSerializeFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DiscovererSerializeFlags combined(DiscovererSerializeFlags mask, DiscovererSerializeFlags... masks) {
-        int value = mask.getValue();        for (DiscovererSerializeFlags arg : masks) {
+        int value = mask.getValue();
+        for (DiscovererSerializeFlags arg : masks) {
             value |= arg.getValue();
         }
         return new DiscovererSerializeFlags(value);

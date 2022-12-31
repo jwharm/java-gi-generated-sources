@@ -57,13 +57,15 @@ public class Bitset extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Bitset(Addressable address, Ownership ownership) {
+    protected Bitset(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewEmpty() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Bitset> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Bitset(input, ownership);
+    
+    private static MemoryAddress constructNewEmpty() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_new_empty.invokeExact();
         } catch (Throwable ERR) {
@@ -77,11 +79,12 @@ public class Bitset extends Struct {
      * @return A new empty bitset
      */
     public static Bitset newEmpty() {
-        return new Bitset(constructNewEmpty(), Ownership.FULL);
+        var RESULT = constructNewEmpty();
+        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewRange(int start, int nItems) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewRange(int start, int nItems) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_new_range.invokeExact(
                     start,
@@ -99,7 +102,8 @@ public class Bitset extends Struct {
      * @return A new bitset
      */
     public static Bitset newRange(int start, int nItems) {
-        return new Bitset(constructNewRange(start, nItems), Ownership.FULL);
+        var RESULT = constructNewRange(start, nItems);
+        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -117,7 +121,7 @@ public class Bitset extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -189,7 +193,7 @@ public class Bitset extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -197,7 +201,7 @@ public class Bitset extends Struct {
      * @return A new bitset that contains the same
      *   values as {@code self}
      */
-    public @NotNull org.gtk.gtk.Bitset copy() {
+    public org.gtk.gtk.Bitset copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_copy.invokeExact(
@@ -205,7 +209,7 @@ public class Bitset extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Bitset(RESULT, Ownership.FULL);
+        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -219,8 +223,7 @@ public class Bitset extends Struct {
      * will be emptied in that case.
      * @param other the {@code GtkBitset} to compute the difference from
      */
-    public void difference(@NotNull org.gtk.gtk.Bitset other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public void difference(org.gtk.gtk.Bitset other) {
         try {
             DowncallHandles.gtk_bitset_difference.invokeExact(
                     handle(),
@@ -235,8 +238,7 @@ public class Bitset extends Struct {
      * @param other another {@code GtkBitset}
      * @return {@code true} if {@code self} and {@code other} contain the same values
      */
-    public boolean equals(@NotNull org.gtk.gtk.Bitset other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public boolean equals(org.gtk.gtk.Bitset other) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_bitset_equals.invokeExact(
@@ -245,7 +247,7 @@ public class Bitset extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -356,8 +358,7 @@ public class Bitset extends Struct {
      * happen in that case.
      * @param other the {@code GtkBitset} to intersect with
      */
-    public void intersect(@NotNull org.gtk.gtk.Bitset other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public void intersect(org.gtk.gtk.Bitset other) {
         try {
             DowncallHandles.gtk_bitset_intersect.invokeExact(
                     handle(),
@@ -379,14 +380,14 @@ public class Bitset extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Acquires a reference on the given {@code GtkBitset}.
      * @return the {@code GtkBitset} with an additional reference
      */
-    public @NotNull org.gtk.gtk.Bitset ref() {
+    public org.gtk.gtk.Bitset ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_bitset_ref.invokeExact(
@@ -394,7 +395,7 @@ public class Bitset extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Bitset(RESULT, Ownership.NONE);
+        return org.gtk.gtk.Bitset.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -412,7 +413,7 @@ public class Bitset extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -550,8 +551,7 @@ public class Bitset extends Struct {
      * will be emptied in that case.
      * @param other the {@code GtkBitset} to subtract
      */
-    public void subtract(@NotNull org.gtk.gtk.Bitset other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public void subtract(org.gtk.gtk.Bitset other) {
         try {
             DowncallHandles.gtk_bitset_subtract.invokeExact(
                     handle(),
@@ -570,8 +570,7 @@ public class Bitset extends Struct {
      * happen in that case.
      * @param other the {@code GtkBitset} to union with
      */
-    public void union(@NotNull org.gtk.gtk.Bitset other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public void union(org.gtk.gtk.Bitset other) {
         try {
             DowncallHandles.gtk_bitset_union.invokeExact(
                     handle(),

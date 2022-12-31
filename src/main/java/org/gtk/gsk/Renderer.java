@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * in order to create the appropriate windowing system resources needed
  * to render the scene.
  */
-public class Renderer extends org.gtk.gobject.Object {
+public class Renderer extends org.gtk.gobject.GObject {
     
     static {
         Gsk.javagi$ensureInitialized();
@@ -40,34 +40,15 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Renderer(Addressable address, Ownership ownership) {
+    protected Renderer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Renderer if its GType is a (or inherits from) "GskRenderer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Renderer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GskRenderer", a ClassCastException will be thrown.
-     */
-    public static Renderer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Renderer.getType())) {
-            return new Renderer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskRenderer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Renderer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Renderer(input, ownership);
     
-    private static Addressable constructNewForSurface(@NotNull org.gtk.gdk.Surface surface) {
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForSurface(org.gtk.gdk.Surface surface) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_new_for_surface.invokeExact(
                     surface.handle());
@@ -88,8 +69,9 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param surface a {@code GdkSurface}
      * @return a {@code GskRenderer}
      */
-    public static Renderer newForSurface(@NotNull org.gtk.gdk.Surface surface) {
-        return new Renderer(constructNewForSurface(surface), Ownership.FULL);
+    public static Renderer newForSurface(org.gtk.gdk.Surface surface) {
+        var RESULT = constructNewForSurface(surface);
+        return (org.gtk.gsk.Renderer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.Renderer.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -106,7 +88,7 @@ public class Renderer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -121,7 +103,7 @@ public class Renderer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -151,7 +133,7 @@ public class Renderer extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -171,8 +153,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param region the {@code cairo_region_t} that must be redrawn or {@code null}
      *   for the whole window
      */
-    public void render(@NotNull org.gtk.gsk.RenderNode root, @Nullable org.cairographics.Region region) {
-        java.util.Objects.requireNonNull(root, "Parameter 'root' must not be null");
+    public void render(org.gtk.gsk.RenderNode root, @Nullable org.cairographics.Region region) {
         try {
             DowncallHandles.gsk_renderer_render.invokeExact(
                     handle(),
@@ -196,8 +177,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * @param viewport the section to draw or {@code null} to use {@code root}'s bounds
      * @return a {@code GdkTexture} with the rendered contents of {@code root}.
      */
-    public @NotNull org.gtk.gdk.Texture renderTexture(@NotNull org.gtk.gsk.RenderNode root, @Nullable org.gtk.graphene.Rect viewport) {
-        java.util.Objects.requireNonNull(root, "Parameter 'root' must not be null");
+    public org.gtk.gdk.Texture renderTexture(org.gtk.gsk.RenderNode root, @Nullable org.gtk.graphene.Rect viewport) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_renderer_render_texture.invokeExact(
@@ -207,7 +187,7 @@ public class Renderer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Texture(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -226,7 +206,7 @@ public class Renderer extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gsk_renderer_get_type.invokeExact();
@@ -235,38 +215,40 @@ public class Renderer extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Renderer.Builder} object constructs a {@link Renderer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Renderer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Renderer.Build} object constructs a {@link Renderer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Renderer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Renderer} using {@link Renderer#castFrom}.
+         * {@link Renderer}.
          * @return A new instance of {@code Renderer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Renderer construct() {
-            return Renderer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Renderer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Renderer build() {
+            return (Renderer) org.gtk.gobject.GObject.newWithProperties(
+                Renderer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -275,7 +257,7 @@ public class Renderer extends org.gtk.gobject.Object {
          * @param realized The value for the {@code realized} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRealized(boolean realized) {
+        public Builder setRealized(boolean realized) {
             names.add("realized");
             values.add(org.gtk.gobject.Value.create(realized));
             return this;
@@ -286,7 +268,7 @@ public class Renderer extends org.gtk.gobject.Object {
          * @param surface The value for the {@code surface} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSurface(org.gtk.gdk.Surface surface) {
+        public Builder setSurface(org.gtk.gdk.Surface surface) {
             names.add("surface");
             values.add(org.gtk.gobject.Value.create(surface));
             return this;

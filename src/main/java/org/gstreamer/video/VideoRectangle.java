@@ -16,20 +16,18 @@ public class VideoRectangle extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoRectangle";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("x"),
-        Interop.valueLayout.C_INT.withName("y"),
-        Interop.valueLayout.C_INT.withName("w"),
-        Interop.valueLayout.C_INT.withName("h")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("x"),
+            Interop.valueLayout.C_INT.withName("y"),
+            Interop.valueLayout.C_INT.withName("w"),
+            Interop.valueLayout.C_INT.withName("h")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class VideoRectangle extends Struct {
      * Get the value of the field {@code x}
      * @return The value of the field {@code x}
      */
-    public int x$get() {
+    public int getX() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,7 +58,7 @@ public class VideoRectangle extends Struct {
      * Change the value of the field {@code x}
      * @param x The new value of the field {@code x}
      */
-    public void x$set(int x) {
+    public void setX(int x) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -70,7 +68,7 @@ public class VideoRectangle extends Struct {
      * Get the value of the field {@code y}
      * @return The value of the field {@code y}
      */
-    public int y$get() {
+    public int getY() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,7 +79,7 @@ public class VideoRectangle extends Struct {
      * Change the value of the field {@code y}
      * @param y The new value of the field {@code y}
      */
-    public void y$set(int y) {
+    public void setY(int y) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -91,7 +89,7 @@ public class VideoRectangle extends Struct {
      * Get the value of the field {@code w}
      * @return The value of the field {@code w}
      */
-    public int w$get() {
+    public int getW() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("w"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -102,7 +100,7 @@ public class VideoRectangle extends Struct {
      * Change the value of the field {@code w}
      * @param w The new value of the field {@code w}
      */
-    public void w$set(int w) {
+    public void setW(int w) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("w"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
@@ -112,7 +110,7 @@ public class VideoRectangle extends Struct {
      * Get the value of the field {@code h}
      * @return The value of the field {@code h}
      */
-    public int h$get() {
+    public int getH() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("h"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -123,7 +121,7 @@ public class VideoRectangle extends Struct {
      * Change the value of the field {@code h}
      * @param h The new value of the field {@code h}
      */
-    public void h$set(int h) {
+    public void setH(int h) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("h"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), h);
@@ -134,35 +132,41 @@ public class VideoRectangle extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoRectangle(Addressable address, Ownership ownership) {
+    protected VideoRectangle(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoRectangle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoRectangle(input, ownership);
+    
+    /**
+     * A {@link VideoRectangle.Builder} object constructs a {@link VideoRectangle} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoRectangle.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoRectangle struct;
+        private final VideoRectangle struct;
         
-         /**
-         * A {@link VideoRectangle.Build} object constructs a {@link VideoRectangle} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoRectangle.allocate();
         }
         
          /**
          * Finish building the {@link VideoRectangle} struct.
          * @return A new instance of {@code VideoRectangle} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoRectangle construct() {
+        public VideoRectangle build() {
             return struct;
         }
         
@@ -171,7 +175,7 @@ public class VideoRectangle extends Struct {
          * @param x The value for the {@code x} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setX(int x) {
+        public Builder setX(int x) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -183,7 +187,7 @@ public class VideoRectangle extends Struct {
          * @param y The value for the {@code y} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setY(int y) {
+        public Builder setY(int y) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -195,7 +199,7 @@ public class VideoRectangle extends Struct {
          * @param w The value for the {@code w} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setW(int w) {
+        public Builder setW(int w) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("w"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), w);
@@ -207,7 +211,7 @@ public class VideoRectangle extends Struct {
          * @param h The value for the {@code h} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setH(int h) {
+        public Builder setH(int h) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("h"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), h);

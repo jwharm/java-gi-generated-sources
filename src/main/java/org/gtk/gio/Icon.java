@@ -37,25 +37,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Icon extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Icon if its GType is a (or inherits from) "GIcon".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Icon} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GIcon", a ClassCastException will be thrown.
-     */
-    public static Icon castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Icon.getType())) {
-            return new IconImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GIcon");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IconImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IconImpl(input, ownership);
     
     /**
      * Checks if two icons are equal.
@@ -71,7 +54,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -90,7 +73,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -123,14 +106,14 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_icon_get_type.invokeExact();
@@ -145,8 +128,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
      * @param value a {@link org.gtk.glib.Variant} created with g_icon_serialize()
      * @return a {@link Icon}, or {@code null} when deserialization fails.
      */
-    public static @Nullable org.gtk.gio.Icon deserialize(@NotNull org.gtk.glib.Variant value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static @Nullable org.gtk.gio.Icon deserialize(org.gtk.glib.Variant value) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_icon_deserialize.invokeExact(
@@ -154,7 +136,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -163,8 +145,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
      * @return a {@code guint} containing a hash for the {@code icon}, suitable for
      * use in a {@link org.gtk.glib.HashTable} or similar data structure.
      */
-    public static int hash(@NotNull java.lang.foreign.MemoryAddress icon) {
-        java.util.Objects.requireNonNull(icon, "Parameter 'icon' must not be null");
+    public static int hash(java.lang.foreign.MemoryAddress icon) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_icon_hash.invokeExact(
@@ -180,20 +161,19 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
      * {@code str} is not valid - see g_icon_to_string() for discussion.
      * <p>
      * If your application or library provides one or more {@link Icon}
-     * implementations you need to ensure that each {@link org.gtk.gobject.Type} is registered
+     * implementations you need to ensure that each {@link org.gtk.glib.Type} is registered
      * with the type system prior to calling g_icon_new_for_string().
      * @param str A string obtained via g_icon_to_string().
      * @return An object implementing the {@link Icon}
      *          interface or {@code null} if {@code error} is set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.Icon newForString(@NotNull java.lang.String str) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static org.gtk.gio.Icon newForString(java.lang.String str) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_icon_new_for_string.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -201,7 +181,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -257,7 +237,7 @@ public interface Icon extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class IconImpl extends org.gtk.gobject.Object implements Icon {
+    class IconImpl extends org.gtk.gobject.GObject implements Icon {
         
         static {
             Gio.javagi$ensureInitialized();

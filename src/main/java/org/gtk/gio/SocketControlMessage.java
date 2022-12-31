@@ -28,7 +28,7 @@ import org.jetbrains.annotations.*;
  * g_socket_receive_message() to read such a message.
  * @version 2.22
  */
-public class SocketControlMessage extends org.gtk.gobject.Object {
+public class SocketControlMessage extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -36,18 +36,16 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GSocketControlMessage";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -55,30 +53,12 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SocketControlMessage(Addressable address, Ownership ownership) {
+    protected SocketControlMessage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SocketControlMessage if its GType is a (or inherits from) "GSocketControlMessage".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SocketControlMessage} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSocketControlMessage", a ClassCastException will be thrown.
-     */
-    public static SocketControlMessage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SocketControlMessage.getType())) {
-            return new SocketControlMessage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSocketControlMessage");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SocketControlMessage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SocketControlMessage(input, ownership);
     
     /**
      * Returns the "level" (i.e. the originating protocol) of the control message.
@@ -135,13 +115,12 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * {@code data} is guaranteed to have enough space to fit the size
      * returned by g_socket_control_message_get_size() on this
      * object.
-     * @param data A buffer to write data to
      */
-    public void serialize(@NotNull java.lang.foreign.MemoryAddress data) {
+    public void serialize() {
         try {
             DowncallHandles.g_socket_control_message_serialize.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,7 +130,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_socket_control_message_get_type.invokeExact();
@@ -175,8 +154,7 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
      * @param data pointer to the message data
      * @return the deserialized message or {@code null}
      */
-    public static @NotNull org.gtk.gio.SocketControlMessage deserialize(int level, int type, long size, @NotNull byte[] data) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gtk.gio.SocketControlMessage deserialize(int level, int type, long size, byte[] data) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_socket_control_message_deserialize.invokeExact(
@@ -187,40 +165,42 @@ public class SocketControlMessage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.SocketControlMessage(RESULT, Ownership.FULL);
+        return (org.gtk.gio.SocketControlMessage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.SocketControlMessage.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link SocketControlMessage.Builder} object constructs a {@link SocketControlMessage} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SocketControlMessage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SocketControlMessage.Build} object constructs a {@link SocketControlMessage} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SocketControlMessage} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SocketControlMessage} using {@link SocketControlMessage#castFrom}.
+         * {@link SocketControlMessage}.
          * @return A new instance of {@code SocketControlMessage} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SocketControlMessage construct() {
-            return SocketControlMessage.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SocketControlMessage.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SocketControlMessage build() {
+            return (SocketControlMessage) org.gtk.gobject.GObject.newWithProperties(
+                SocketControlMessage.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

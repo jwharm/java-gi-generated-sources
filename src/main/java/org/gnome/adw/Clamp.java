@@ -55,40 +55,26 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * Because Clamp is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Clamp(Addressable address, Ownership ownership) {
+    protected Clamp(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Clamp if its GType is a (or inherits from) "AdwClamp".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Clamp} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwClamp", a ClassCastException will be thrown.
-     */
-    public static Clamp castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Clamp.getType())) {
-            return new Clamp(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwClamp");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Clamp> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Clamp(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_clamp_new.invokeExact();
         } catch (Throwable ERR) {
@@ -116,7 +102,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -210,7 +196,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_clamp_get_type.invokeExact();
@@ -219,38 +205,40 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Clamp.Builder} object constructs a {@link Clamp} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Clamp.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Clamp.Build} object constructs a {@link Clamp} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Clamp} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Clamp} using {@link Clamp#castFrom}.
+         * {@link Clamp}.
          * @return A new instance of {@code Clamp} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Clamp construct() {
-            return Clamp.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Clamp.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Clamp build() {
+            return (Clamp) org.gtk.gobject.GObject.newWithProperties(
+                Clamp.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -259,7 +247,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -272,7 +260,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param maximumSize The value for the {@code maximum-size} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaximumSize(int maximumSize) {
+        public Builder setMaximumSize(int maximumSize) {
             names.add("maximum-size");
             values.add(org.gtk.gobject.Value.create(maximumSize));
             return this;
@@ -296,7 +284,7 @@ public class Clamp extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param tighteningThreshold The value for the {@code tightening-threshold} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTighteningThreshold(int tighteningThreshold) {
+        public Builder setTighteningThreshold(int tighteningThreshold) {
             names.add("tightening-threshold");
             values.add(org.gtk.gobject.Value.create(tighteningThreshold));
             return this;

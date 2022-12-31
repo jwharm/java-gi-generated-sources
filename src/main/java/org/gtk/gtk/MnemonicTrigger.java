@@ -33,33 +33,15 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MnemonicTrigger(Addressable address, Ownership ownership) {
+    protected MnemonicTrigger(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to MnemonicTrigger if its GType is a (or inherits from) "GtkMnemonicTrigger".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MnemonicTrigger} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkMnemonicTrigger", a ClassCastException will be thrown.
-     */
-    public static MnemonicTrigger castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MnemonicTrigger.getType())) {
-            return new MnemonicTrigger(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMnemonicTrigger");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MnemonicTrigger> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MnemonicTrigger(input, ownership);
     
-    private static Addressable constructNew(int keyval) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(int keyval) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_mnemonic_trigger_new.invokeExact(
                     keyval);
@@ -100,7 +82,7 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_mnemonic_trigger_get_type.invokeExact();
@@ -109,38 +91,40 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link MnemonicTrigger.Builder} object constructs a {@link MnemonicTrigger} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MnemonicTrigger.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.ShortcutTrigger.Build {
+    public static class Builder extends org.gtk.gtk.ShortcutTrigger.Builder {
         
-         /**
-         * A {@link MnemonicTrigger.Build} object constructs a {@link MnemonicTrigger} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MnemonicTrigger} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MnemonicTrigger} using {@link MnemonicTrigger#castFrom}.
+         * {@link MnemonicTrigger}.
          * @return A new instance of {@code MnemonicTrigger} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MnemonicTrigger construct() {
-            return MnemonicTrigger.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MnemonicTrigger.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MnemonicTrigger build() {
+            return (MnemonicTrigger) org.gtk.gobject.GObject.newWithProperties(
+                MnemonicTrigger.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -149,7 +133,7 @@ public class MnemonicTrigger extends org.gtk.gtk.ShortcutTrigger {
          * @param keyval The value for the {@code keyval} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKeyval(int keyval) {
+        public Builder setKeyval(int keyval) {
             names.add("keyval");
             values.add(org.gtk.gobject.Value.create(keyval));
             return this;

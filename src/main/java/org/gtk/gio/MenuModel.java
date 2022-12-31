@@ -119,7 +119,7 @@ import org.jetbrains.annotations.*;
  * target value of the menu item.
  * @version 2.32
  */
-public class MenuModel extends org.gtk.gobject.Object {
+public class MenuModel extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -127,18 +127,16 @@ public class MenuModel extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GMenuModel";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -146,30 +144,12 @@ public class MenuModel extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MenuModel(Addressable address, Ownership ownership) {
+    protected MenuModel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to MenuModel if its GType is a (or inherits from) "GMenuModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MenuModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GMenuModel", a ClassCastException will be thrown.
-     */
-    public static MenuModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MenuModel.getType())) {
-            return new MenuModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMenuModel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MenuModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MenuModel(input, ownership);
     
     /**
      * Queries item at position {@code item_index} in {@code model} for the attribute
@@ -195,21 +175,19 @@ public class MenuModel extends org.gtk.gobject.Object {
      * @return {@code true} if the named attribute was found with the expected
      *     type
      */
-    public boolean getItemAttribute(int itemIndex, @NotNull java.lang.String attribute, @NotNull java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+    public boolean getItemAttribute(int itemIndex, java.lang.String attribute, java.lang.String formatString, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_menu_model_get_item_attribute.invokeExact(
                     handle(),
                     itemIndex,
-                    Interop.allocateNativeString(attribute),
-                    Interop.allocateNativeString(formatString),
+                    Marshal.stringToAddress.marshal(attribute, null),
+                    Marshal.stringToAddress.marshal(formatString, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -230,19 +208,18 @@ public class MenuModel extends org.gtk.gobject.Object {
      *     {@code null}
      * @return the value of the attribute
      */
-    public @Nullable org.gtk.glib.Variant getItemAttributeValue(int itemIndex, @NotNull java.lang.String attribute, @Nullable org.gtk.glib.VariantType expectedType) {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+    public @Nullable org.gtk.glib.Variant getItemAttributeValue(int itemIndex, java.lang.String attribute, @Nullable org.gtk.glib.VariantType expectedType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_attribute_value.invokeExact(
                     handle(),
                     itemIndex,
-                    Interop.allocateNativeString(attribute),
+                    Marshal.stringToAddress.marshal(attribute, null),
                     (Addressable) (expectedType == null ? MemoryAddress.NULL : expectedType.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -255,18 +232,17 @@ public class MenuModel extends org.gtk.gobject.Object {
      * @param link the link to query
      * @return the linked {@link MenuModel}, or {@code null}
      */
-    public @Nullable org.gtk.gio.MenuModel getItemLink(int itemIndex, @NotNull java.lang.String link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public @Nullable org.gtk.gio.MenuModel getItemLink(int itemIndex, java.lang.String link) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_model_get_item_link.invokeExact(
                     handle(),
                     itemIndex,
-                    Interop.allocateNativeString(link));
+                    Marshal.stringToAddress.marshal(link, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.FULL);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -300,7 +276,7 @@ public class MenuModel extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -343,7 +319,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * @param itemIndex the index of the item
      * @return a new {@link MenuAttributeIter}
      */
-    public @NotNull org.gtk.gio.MenuAttributeIter iterateItemAttributes(int itemIndex) {
+    public org.gtk.gio.MenuAttributeIter iterateItemAttributes(int itemIndex) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_model_iterate_item_attributes.invokeExact(
@@ -352,7 +328,7 @@ public class MenuModel extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuAttributeIter(RESULT, Ownership.FULL);
+        return (org.gtk.gio.MenuAttributeIter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuAttributeIter.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -363,7 +339,7 @@ public class MenuModel extends org.gtk.gobject.Object {
      * @param itemIndex the index of the item
      * @return a new {@link MenuLinkIter}
      */
-    public @NotNull org.gtk.gio.MenuLinkIter iterateItemLinks(int itemIndex) {
+    public org.gtk.gio.MenuLinkIter iterateItemLinks(int itemIndex) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_model_iterate_item_links.invokeExact(
@@ -372,14 +348,14 @@ public class MenuModel extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuLinkIter(RESULT, Ownership.FULL);
+        return (org.gtk.gio.MenuLinkIter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuLinkIter.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_menu_model_get_type.invokeExact();
@@ -391,7 +367,18 @@ public class MenuModel extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ItemsChanged {
-        void signalReceived(MenuModel sourceMenuModel, int position, int removed, int added);
+        void run(int position, int removed, int added);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceMenuModel, int position, int removed, int added) {
+            run(position, removed, added);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ItemsChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -421,52 +408,46 @@ public class MenuModel extends org.gtk.gobject.Object {
     public Signal<MenuModel.ItemsChanged> onItemsChanged(MenuModel.ItemsChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("items-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MenuModel.Callbacks.class, "signalMenuModelItemsChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<MenuModel.ItemsChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("items-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link MenuModel.Builder} object constructs a {@link MenuModel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MenuModel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link MenuModel.Build} object constructs a {@link MenuModel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MenuModel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MenuModel} using {@link MenuModel#castFrom}.
+         * {@link MenuModel}.
          * @return A new instance of {@code MenuModel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MenuModel construct() {
-            return MenuModel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MenuModel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MenuModel build() {
+            return (MenuModel) org.gtk.gobject.GObject.newWithProperties(
+                MenuModel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -526,14 +507,5 @@ public class MenuModel extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalMenuModelItemsChanged(MemoryAddress sourceMenuModel, int position, int removed, int added, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MenuModel.ItemsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MenuModel(sourceMenuModel, Ownership.NONE), position, removed, added);
-        }
     }
 }

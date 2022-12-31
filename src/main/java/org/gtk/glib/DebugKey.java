@@ -17,18 +17,16 @@ public class DebugKey extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GDebugKey";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("key"),
-        Interop.valueLayout.C_INT.withName("value")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("key"),
+            Interop.valueLayout.C_INT.withName("value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,28 +46,28 @@ public class DebugKey extends Struct {
      * Get the value of the field {@code key}
      * @return The value of the field {@code key}
      */
-    public java.lang.String key$get() {
+    public java.lang.String getKey() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("key"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code key}
      * @param key The new value of the field {@code key}
      */
-    public void key$set(java.lang.String key) {
+    public void setKey(java.lang.String key) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("key"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(key));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
     }
     
     /**
      * Get the value of the field {@code value}
      * @return The value of the field {@code value}
      */
-    public int value$get() {
+    public int getValue() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class DebugKey extends Struct {
      * Change the value of the field {@code value}
      * @param value The new value of the field {@code value}
      */
-    public void value$set(int value) {
+    public void setValue(int value) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);
@@ -91,35 +89,41 @@ public class DebugKey extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DebugKey(Addressable address, Ownership ownership) {
+    protected DebugKey(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DebugKey> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugKey(input, ownership);
+    
+    /**
+     * A {@link DebugKey.Builder} object constructs a {@link DebugKey} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DebugKey.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DebugKey struct;
+        private final DebugKey struct;
         
-         /**
-         * A {@link DebugKey.Build} object constructs a {@link DebugKey} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DebugKey.allocate();
         }
         
          /**
          * Finish building the {@link DebugKey} struct.
          * @return A new instance of {@code DebugKey} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DebugKey construct() {
+        public DebugKey build() {
             return struct;
         }
         
@@ -128,10 +132,10 @@ public class DebugKey extends Struct {
          * @param key The value for the {@code key} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKey(java.lang.String key) {
+        public Builder setKey(java.lang.String key) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("key"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)));
             return this;
         }
         
@@ -140,7 +144,7 @@ public class DebugKey extends Struct {
          * @param value The value for the {@code value} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(int value) {
+        public Builder setValue(int value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), value);

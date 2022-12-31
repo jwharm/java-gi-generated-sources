@@ -126,37 +126,35 @@ public class BaseSrc extends org.gstreamer.gst.Element {
     
     private static final java.lang.String C_TYPE_NAME = "GstBaseSrc";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
-        Interop.valueLayout.ADDRESS.withName("srcpad"),
-        org.gtk.glib.Mutex.getMemoryLayout().withName("live_lock"),
-        org.gtk.glib.Cond.getMemoryLayout().withName("live_cond"),
-        Interop.valueLayout.C_INT.withName("is_live"),
-        Interop.valueLayout.C_INT.withName("live_running"),
-        Interop.valueLayout.C_INT.withName("blocksize"),
-        Interop.valueLayout.C_INT.withName("can_activate_push"),
-        Interop.valueLayout.C_INT.withName("random_access"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("clock_id"),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
-        Interop.valueLayout.C_INT.withName("need_newsegment"),
-        Interop.valueLayout.C_INT.withName("num_buffers"),
-        Interop.valueLayout.C_INT.withName("num_buffers_left"),
-        Interop.valueLayout.C_INT.withName("typefind"),
-        Interop.valueLayout.C_INT.withName("running"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("pending_seek"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
+            Interop.valueLayout.ADDRESS.withName("srcpad"),
+            org.gtk.glib.Mutex.getMemoryLayout().withName("live_lock"),
+            org.gtk.glib.Cond.getMemoryLayout().withName("live_cond"),
+            Interop.valueLayout.C_INT.withName("is_live"),
+            Interop.valueLayout.C_INT.withName("live_running"),
+            Interop.valueLayout.C_INT.withName("blocksize"),
+            Interop.valueLayout.C_INT.withName("can_activate_push"),
+            Interop.valueLayout.C_INT.withName("random_access"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("clock_id"),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
+            Interop.valueLayout.C_INT.withName("need_newsegment"),
+            Interop.valueLayout.C_INT.withName("num_buffers"),
+            Interop.valueLayout.C_INT.withName("num_buffers_left"),
+            Interop.valueLayout.C_INT.withName("typefind"),
+            Interop.valueLayout.C_INT.withName("running"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("pending_seek"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -164,37 +162,23 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * <p>
      * Because BaseSrc is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BaseSrc(Addressable address, Ownership ownership) {
+    protected BaseSrc(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to BaseSrc if its GType is a (or inherits from) "GstBaseSrc".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BaseSrc} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstBaseSrc", a ClassCastException will be thrown.
-     */
-    public static BaseSrc castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BaseSrc.getType())) {
-            return new BaseSrc(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstBaseSrc");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BaseSrc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseSrc(input, ownership);
     
     /**
      * Lets {@link BaseSrc} sub-classes to know the memory {@code allocator}
@@ -205,18 +189,17 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * used
      * @param params the {@link org.gstreamer.gst.AllocationParams} of {@code allocator}
      */
-    public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @NotNull org.gstreamer.gst.AllocationParams params) {
+    public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
         MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         try {
             DowncallHandles.gst_base_src_get_allocator.invokeExact(
                     handle(),
                     (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
-                    params.handle());
+                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (allocator != null) allocator.set(new org.gstreamer.gst.Allocator(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -242,7 +225,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.BufferPool(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.BufferPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.BufferPool.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -257,7 +240,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -272,7 +255,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -287,7 +270,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -308,7 +291,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -336,7 +319,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -352,8 +335,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * @param segment a pointer to a {@link org.gstreamer.gst.Segment}
      * @return {@code true} if preparation of new segment succeeded.
      */
-    public boolean newSegment(@NotNull org.gstreamer.gst.Segment segment) {
-        java.util.Objects.requireNonNull(segment, "Parameter 'segment' must not be null");
+    public boolean newSegment(org.gstreamer.gst.Segment segment) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_src_new_segment.invokeExact(
@@ -362,7 +344,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -377,27 +359,24 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * @param maxLatency the max latency of the source
      * @return {@code true} if the query succeeded.
      */
-    public boolean queryLatency(Out<Boolean> live, @NotNull Out<org.gstreamer.gst.ClockTime> minLatency, @NotNull Out<org.gstreamer.gst.ClockTime> maxLatency) {
-        java.util.Objects.requireNonNull(live, "Parameter 'live' must not be null");
+    public boolean queryLatency(Out<Boolean> live, @Nullable org.gstreamer.gst.ClockTime minLatency, @Nullable org.gstreamer.gst.ClockTime maxLatency) {
         MemorySegment livePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minLatency, "Parameter 'minLatency' must not be null");
         MemorySegment minLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(maxLatency, "Parameter 'maxLatency' must not be null");
         MemorySegment maxLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_src_query_latency.invokeExact(
                     handle(),
-                    (Addressable) livePOINTER.address(),
-                    (Addressable) minLatencyPOINTER.address(),
-                    (Addressable) maxLatencyPOINTER.address());
+                    (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
+                    (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
+                    (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        minLatency.set(new org.gstreamer.gst.ClockTime(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        maxLatency.set(new org.gstreamer.gst.ClockTime(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        return RESULT != 0;
+        if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -411,7 +390,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_src_set_async.invokeExact(
                     handle(),
-                    async ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(async, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -434,7 +413,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_src_set_automatic_eos.invokeExact(
                     handle(),
-                    automaticEos ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(automaticEos, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -460,8 +439,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * @param caps a {@link org.gstreamer.gst.Caps}
      * @return {@code true} if the caps could be set
      */
-    public boolean setCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public boolean setCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_src_set_caps.invokeExact(
@@ -470,7 +448,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -483,7 +461,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_src_set_do_timestamp.invokeExact(
                     handle(),
-                    timestamp ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(timestamp, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -499,7 +477,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_src_set_dynamic_size.invokeExact(
                     handle(),
-                    dynamic ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(dynamic, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -515,8 +493,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * This function must only be called in states &lt; {@link org.gstreamer.gst.State#PAUSED}.
      * @param format the format to use
      */
-    public void setFormat(@NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void setFormat(org.gstreamer.gst.Format format) {
         try {
             DowncallHandles.gst_base_src_set_format.invokeExact(
                     handle(),
@@ -541,7 +518,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_src_set_live.invokeExact(
                     handle(),
-                    live ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(live, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -554,8 +531,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * helper thread.
      * @param ret a {@link org.gstreamer.gst.FlowReturn}
      */
-    public void startComplete(@NotNull org.gstreamer.gst.FlowReturn ret) {
-        java.util.Objects.requireNonNull(ret, "Parameter 'ret' must not be null");
+    public void startComplete(org.gstreamer.gst.FlowReturn ret) {
         try {
             DowncallHandles.gst_base_src_start_complete.invokeExact(
                     handle(),
@@ -569,7 +545,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * Wait until the start operation completes.
      * @return a {@link org.gstreamer.gst.FlowReturn}.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn startWait() {
+    public org.gstreamer.gst.FlowReturn startWait() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_src_start_wait.invokeExact(
@@ -599,8 +575,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * mode.
      * @param bufferList a {@link org.gstreamer.gst.BufferList}
      */
-    public void submitBufferList(@NotNull org.gstreamer.gst.BufferList bufferList) {
-        java.util.Objects.requireNonNull(bufferList, "Parameter 'bufferList' must not be null");
+    public void submitBufferList(org.gstreamer.gst.BufferList bufferList) {
         try {
             DowncallHandles.gst_base_src_submit_buffer_list.invokeExact(
                     handle(),
@@ -623,7 +598,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * @return {@link org.gstreamer.gst.FlowReturn#OK} if {@code src} is PLAYING and processing can
      * continue. Any other return value should be returned from the create vmethod.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn waitPlaying() {
+    public org.gstreamer.gst.FlowReturn waitPlaying() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_src_wait_playing.invokeExact(
@@ -638,7 +613,7 @@ public class BaseSrc extends org.gstreamer.gst.Element {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_base_src_get_type.invokeExact();
@@ -647,60 +622,62 @@ public class BaseSrc extends org.gstreamer.gst.Element {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BaseSrc.Builder} object constructs a {@link BaseSrc} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BaseSrc.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Element.Build {
+    public static class Builder extends org.gstreamer.gst.Element.Builder {
         
-         /**
-         * A {@link BaseSrc.Build} object constructs a {@link BaseSrc} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BaseSrc} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BaseSrc} using {@link BaseSrc#castFrom}.
+         * {@link BaseSrc}.
          * @return A new instance of {@code BaseSrc} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BaseSrc construct() {
-            return BaseSrc.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BaseSrc.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BaseSrc build() {
+            return (BaseSrc) org.gtk.gobject.GObject.newWithProperties(
+                BaseSrc.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setBlocksize(int blocksize) {
+        public Builder setBlocksize(int blocksize) {
             names.add("blocksize");
             values.add(org.gtk.gobject.Value.create(blocksize));
             return this;
         }
         
-        public Build setDoTimestamp(boolean doTimestamp) {
+        public Builder setDoTimestamp(boolean doTimestamp) {
             names.add("do-timestamp");
             values.add(org.gtk.gobject.Value.create(doTimestamp));
             return this;
         }
         
-        public Build setNumBuffers(int numBuffers) {
+        public Builder setNumBuffers(int numBuffers) {
             names.add("num-buffers");
             values.add(org.gtk.gobject.Value.create(numBuffers));
             return this;
         }
         
-        public Build setTypefind(boolean typefind) {
+        public Builder setTypefind(boolean typefind) {
             names.add("typefind");
             values.add(org.gtk.gobject.Value.create(typefind));
             return this;

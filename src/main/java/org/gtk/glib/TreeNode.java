@@ -44,10 +44,12 @@ public class TreeNode extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeNode(Addressable address, Ownership ownership) {
+    protected TreeNode(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeNode(input, ownership);
     
     /**
      * Gets the key stored at a particular tree node.
@@ -77,7 +79,7 @@ public class TreeNode extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -93,7 +95,7 @@ public class TreeNode extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TreeNode(RESULT, Ownership.NONE);
+        return org.gtk.glib.TreeNode.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**

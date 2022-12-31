@@ -43,10 +43,12 @@ public class BuildableParseContext extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BuildableParseContext(Addressable address, Ownership ownership) {
+    protected BuildableParseContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BuildableParseContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuildableParseContext(input, ownership);
     
     /**
      * Retrieves the name of the currently open element.
@@ -64,7 +66,7 @@ public class BuildableParseContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -81,7 +83,7 @@ public class BuildableParseContext extends Struct {
      * processed.
      * @return the element stack, which must not be modified
      */
-    public @NotNull PointerString getElementStack() {
+    public PointerString getElementStack() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_buildable_parse_context_get_element_stack.invokeExact(
@@ -101,20 +103,18 @@ public class BuildableParseContext extends Struct {
      * @param charNumber return location for a char-on-line number
      */
     public void getPosition(Out<Integer> lineNumber, Out<Integer> charNumber) {
-        java.util.Objects.requireNonNull(lineNumber, "Parameter 'lineNumber' must not be null");
         MemorySegment lineNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(charNumber, "Parameter 'charNumber' must not be null");
         MemorySegment charNumberPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_buildable_parse_context_get_position.invokeExact(
                     handle(),
-                    (Addressable) lineNumberPOINTER.address(),
-                    (Addressable) charNumberPOINTER.address());
+                    (Addressable) (lineNumber == null ? MemoryAddress.NULL : (Addressable) lineNumberPOINTER.address()),
+                    (Addressable) (charNumber == null ? MemoryAddress.NULL : (Addressable) charNumberPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        lineNumber.set(lineNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
-        charNumber.set(charNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (lineNumber != null) lineNumber.set(lineNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (charNumber != null) charNumber.set(charNumberPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -175,15 +175,13 @@ public class BuildableParseContext extends Struct {
      * For an example of how to use this, see g_markup_parse_context_push() which
      * has the same kind of API.
      * @param parser a {@code GtkBuildableParser}
-     * @param userData user data to pass to {@code GtkBuildableParser} functions
      */
-    public void push(@NotNull org.gtk.gtk.BuildableParser parser, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(parser, "Parameter 'parser' must not be null");
+    public void push(org.gtk.gtk.BuildableParser parser) {
         try {
             DowncallHandles.gtk_buildable_parse_context_push.invokeExact(
                     handle(),
                     parser.handle(),
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

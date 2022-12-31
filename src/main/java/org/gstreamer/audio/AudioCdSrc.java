@@ -55,21 +55,19 @@ public class AudioCdSrc extends org.gstreamer.base.PushSrc implements org.gstrea
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioCdSrc";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.base.PushSrc.getMemoryLayout().withName("pushsrc"),
-        Interop.valueLayout.ADDRESS.withName("tags"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("_gst_reserved1"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("_gst_reserved2")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.base.PushSrc.getMemoryLayout().withName("pushsrc"),
+            Interop.valueLayout.ADDRESS.withName("tags"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("_gst_reserved1"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("_gst_reserved2")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -77,37 +75,23 @@ public class AudioCdSrc extends org.gstreamer.base.PushSrc implements org.gstrea
      * <p>
      * Because AudioCdSrc is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioCdSrc(Addressable address, Ownership ownership) {
+    protected AudioCdSrc(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AudioCdSrc if its GType is a (or inherits from) "GstAudioCdSrc".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AudioCdSrc} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAudioCdSrc", a ClassCastException will be thrown.
-     */
-    public static AudioCdSrc castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AudioCdSrc.getType())) {
-            return new AudioCdSrc(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAudioCdSrc");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioCdSrc> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioCdSrc(input, ownership);
     
     /**
      * CDDA sources use this function from their start vfunc to announce the
@@ -117,8 +101,7 @@ public class AudioCdSrc extends org.gstreamer.base.PushSrc implements org.gstrea
      * @param track address of {@link AudioCdSrcTrack} to add
      * @return FALSE on error, otherwise TRUE.
      */
-    public boolean addTrack(@NotNull org.gstreamer.audio.AudioCdSrcTrack track) {
-        java.util.Objects.requireNonNull(track, "Parameter 'track' must not be null");
+    public boolean addTrack(org.gstreamer.audio.AudioCdSrcTrack track) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_cd_src_add_track.invokeExact(
@@ -127,14 +110,14 @@ public class AudioCdSrc extends org.gstreamer.base.PushSrc implements org.gstrea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_cd_src_get_type.invokeExact();
@@ -143,54 +126,56 @@ public class AudioCdSrc extends org.gstreamer.base.PushSrc implements org.gstrea
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link AudioCdSrc.Builder} object constructs a {@link AudioCdSrc} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AudioCdSrc.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.base.PushSrc.Build {
+    public static class Builder extends org.gstreamer.base.PushSrc.Builder {
         
-         /**
-         * A {@link AudioCdSrc.Build} object constructs a {@link AudioCdSrc} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AudioCdSrc} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AudioCdSrc} using {@link AudioCdSrc#castFrom}.
+         * {@link AudioCdSrc}.
          * @return A new instance of {@code AudioCdSrc} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioCdSrc construct() {
-            return AudioCdSrc.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AudioCdSrc.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AudioCdSrc build() {
+            return (AudioCdSrc) org.gtk.gobject.GObject.newWithProperties(
+                AudioCdSrc.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setDevice(java.lang.String device) {
+        public Builder setDevice(java.lang.String device) {
             names.add("device");
             values.add(org.gtk.gobject.Value.create(device));
             return this;
         }
         
-        public Build setMode(org.gstreamer.audio.AudioCdSrcMode mode) {
+        public Builder setMode(org.gstreamer.audio.AudioCdSrcMode mode) {
             names.add("mode");
             values.add(org.gtk.gobject.Value.create(mode));
             return this;
         }
         
-        public Build setTrack(int track) {
+        public Builder setTrack(int track) {
             names.add("track");
             values.add(org.gtk.gobject.Value.create(track));
             return this;

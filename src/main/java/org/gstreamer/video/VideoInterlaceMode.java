@@ -73,12 +73,11 @@ public enum VideoInterlaceMode implements io.github.jwharm.javagi.Enumeration {
      *    {@code GST_VIDEO_INTERLACE_MODE_PROGRESSIVE} when {@code mode} is not a valid
      *    string representation for a {@link VideoInterlaceMode}.
      */
-    public static @NotNull org.gstreamer.video.VideoInterlaceMode fromString(@NotNull java.lang.String mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static org.gstreamer.video.VideoInterlaceMode fromString(java.lang.String mode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_interlace_mode_from_string.invokeExact(
-                    Interop.allocateNativeString(mode));
+                    Marshal.stringToAddress.marshal(mode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -90,8 +89,7 @@ public enum VideoInterlaceMode implements io.github.jwharm.javagi.Enumeration {
      * @param mode a {@link VideoInterlaceMode}
      * @return {@code mode} as a string or NULL if {@code mode} in invalid.
      */
-    public static @NotNull java.lang.String toString(@NotNull org.gstreamer.video.VideoInterlaceMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static java.lang.String toString(org.gstreamer.video.VideoInterlaceMode mode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_interlace_mode_to_string.invokeExact(
@@ -99,7 +97,7 @@ public enum VideoInterlaceMode implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

@@ -17,19 +17,17 @@ public class DBusErrorEntry extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusErrorEntry";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("error_code"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("dbus_error_name")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("error_code"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("dbus_error_name")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class DBusErrorEntry extends Struct {
      * Get the value of the field {@code error_code}
      * @return The value of the field {@code error_code}
      */
-    public int errorCode$get() {
+    public int getErrorCode() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("error_code"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,7 +58,7 @@ public class DBusErrorEntry extends Struct {
      * Change the value of the field {@code error_code}
      * @param errorCode The new value of the field {@code error_code}
      */
-    public void errorCode$set(int errorCode) {
+    public void setErrorCode(int errorCode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("error_code"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), errorCode);
@@ -70,21 +68,21 @@ public class DBusErrorEntry extends Struct {
      * Get the value of the field {@code dbus_error_name}
      * @return The value of the field {@code dbus_error_name}
      */
-    public java.lang.String dbusErrorName$get() {
+    public java.lang.String getDbusErrorName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dbus_error_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code dbus_error_name}
      * @param dbusErrorName The new value of the field {@code dbus_error_name}
      */
-    public void dbusErrorName$set(java.lang.String dbusErrorName) {
+    public void setDbusErrorName(java.lang.String dbusErrorName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("dbus_error_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(dbusErrorName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusErrorName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(dbusErrorName, null)));
     }
     
     /**
@@ -92,35 +90,41 @@ public class DBusErrorEntry extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusErrorEntry(Addressable address, Ownership ownership) {
+    protected DBusErrorEntry(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusErrorEntry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusErrorEntry(input, ownership);
+    
+    /**
+     * A {@link DBusErrorEntry.Builder} object constructs a {@link DBusErrorEntry} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DBusErrorEntry.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DBusErrorEntry struct;
+        private final DBusErrorEntry struct;
         
-         /**
-         * A {@link DBusErrorEntry.Build} object constructs a {@link DBusErrorEntry} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DBusErrorEntry.allocate();
         }
         
          /**
          * Finish building the {@link DBusErrorEntry} struct.
          * @return A new instance of {@code DBusErrorEntry} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusErrorEntry construct() {
+        public DBusErrorEntry build() {
             return struct;
         }
         
@@ -129,7 +133,7 @@ public class DBusErrorEntry extends Struct {
          * @param errorCode The value for the {@code errorCode} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setErrorCode(int errorCode) {
+        public Builder setErrorCode(int errorCode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("error_code"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), errorCode);
@@ -141,10 +145,10 @@ public class DBusErrorEntry extends Struct {
          * @param dbusErrorName The value for the {@code dbusErrorName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDbusErrorName(java.lang.String dbusErrorName) {
+        public Builder setDbusErrorName(java.lang.String dbusErrorName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("dbus_error_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusErrorName == null ? MemoryAddress.NULL : Interop.allocateNativeString(dbusErrorName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (dbusErrorName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(dbusErrorName, null)));
             return this;
         }
     }

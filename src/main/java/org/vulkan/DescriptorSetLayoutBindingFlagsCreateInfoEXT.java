@@ -40,8 +40,10 @@ public class DescriptorSetLayoutBindingFlagsCreateInfoEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DescriptorSetLayoutBindingFlagsCreateInfoEXT(Addressable address, Ownership ownership) {
+    protected DescriptorSetLayoutBindingFlagsCreateInfoEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DescriptorSetLayoutBindingFlagsCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorSetLayoutBindingFlagsCreateInfoEXT(input, ownership);
 }

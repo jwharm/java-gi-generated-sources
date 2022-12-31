@@ -40,8 +40,10 @@ public class ComponentTypeNV extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ComponentTypeNV(Addressable address, Ownership ownership) {
+    protected ComponentTypeNV(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ComponentTypeNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ComponentTypeNV(input, ownership);
 }

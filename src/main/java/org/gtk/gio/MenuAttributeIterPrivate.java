@@ -40,8 +40,10 @@ public class MenuAttributeIterPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MenuAttributeIterPrivate(Addressable address, Ownership ownership) {
+    protected MenuAttributeIterPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MenuAttributeIterPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MenuAttributeIterPrivate(input, ownership);
 }

@@ -19,19 +19,17 @@ public class Once extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GOnce";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("status"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("retval")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("status"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("retval")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class Once extends Struct {
      * Get the value of the field {@code status}
      * @return The value of the field {@code status}
      */
-    public org.gtk.glib.OnceStatus status$get() {
+    public org.gtk.glib.OnceStatus getStatus() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("status"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,17 +60,17 @@ public class Once extends Struct {
      * Change the value of the field {@code status}
      * @param status The new value of the field {@code status}
      */
-    public void status$set(org.gtk.glib.OnceStatus status) {
+    public void setStatus(org.gtk.glib.OnceStatus status) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("status"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), status.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (status == null ? MemoryAddress.NULL : status.getValue()));
     }
     
     /**
      * Get the value of the field {@code retval}
      * @return The value of the field {@code retval}
      */
-    public java.lang.foreign.MemoryAddress retval$get() {
+    public java.lang.foreign.MemoryAddress getRetval() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("retval"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,10 +81,10 @@ public class Once extends Struct {
      * Change the value of the field {@code retval}
      * @param retval The new value of the field {@code retval}
      */
-    public void retval$set(java.lang.foreign.MemoryAddress retval) {
+    public void setRetval(java.lang.foreign.MemoryAddress retval) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("retval"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) retval);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));
     }
     
     /**
@@ -94,13 +92,24 @@ public class Once extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Once(Addressable address, Ownership ownership) {
+    protected Once(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    public @Nullable java.lang.foreign.MemoryAddress impl(@NotNull org.gtk.glib.ThreadFunc func, @Nullable java.lang.foreign.MemoryAddress arg) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Once> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Once(input, ownership);
+    
+    public @Nullable java.lang.foreign.MemoryAddress impl(org.gtk.glib.ThreadFunc func, @Nullable java.lang.foreign.MemoryAddress arg) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_once_impl.invokeExact(
+                    handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (arg == null ? MemoryAddress.NULL : (Addressable) arg));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return RESULT;
     }
     
     /**
@@ -133,8 +142,7 @@ public class Once extends Struct {
      * @return {@code true} if the initialization section should be entered,
      *     {@code false} and blocks otherwise
      */
-    public static boolean initEnter(@NotNull java.lang.foreign.MemoryAddress location) {
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
+    public static boolean initEnter(java.lang.foreign.MemoryAddress location) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_once_init_enter.invokeExact(
@@ -142,7 +150,7 @@ public class Once extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -158,8 +166,7 @@ public class Once extends Struct {
      *    containing 0
      * @param result new non-0 value for *{@code value_location}
      */
-    public static void initLeave(@NotNull java.lang.foreign.MemoryAddress location, long result) {
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
+    public static void initLeave(java.lang.foreign.MemoryAddress location, long result) {
         try {
             DowncallHandles.g_once_init_leave.invokeExact(
                     (Addressable) location,
@@ -189,31 +196,35 @@ public class Once extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Once.Builder} object constructs a {@link Once} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Once.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Once struct;
+        private final Once struct;
         
-         /**
-         * A {@link Once.Build} object constructs a {@link Once} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Once.allocate();
         }
         
          /**
          * Finish building the {@link Once} struct.
          * @return A new instance of {@code Once} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Once construct() {
+        public Once build() {
             return struct;
         }
         
@@ -222,7 +233,7 @@ public class Once extends Struct {
          * @param status The value for the {@code status} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStatus(org.gtk.glib.OnceStatus status) {
+        public Builder setStatus(org.gtk.glib.OnceStatus status) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("status"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (status == null ? MemoryAddress.NULL : status.getValue()));
@@ -235,7 +246,7 @@ public class Once extends Struct {
          * @param retval The value for the {@code retval} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRetval(java.lang.foreign.MemoryAddress retval) {
+        public Builder setRetval(java.lang.foreign.MemoryAddress retval) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("retval"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (retval == null ? MemoryAddress.NULL : (Addressable) retval));

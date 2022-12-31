@@ -10,7 +10,15 @@ import org.jetbrains.annotations.*;
  */
 public final class GModule {
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * A portable way to build the filename of a module. The platform-specific
@@ -33,34 +41,33 @@ public final class GModule {
      * @return the complete path of the module, including the standard library
      *     prefix and suffix. This should be freed when no longer needed
      */
-    public static @NotNull java.lang.String moduleBuildPath(@Nullable java.lang.String directory, @NotNull java.lang.String moduleName) {
-        java.util.Objects.requireNonNull(moduleName, "Parameter 'moduleName' must not be null");
+    public static java.lang.String moduleBuildPath(@Nullable java.lang.String directory, java.lang.String moduleName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_module_build_path.invokeExact(
-                    (Addressable) (directory == null ? MemoryAddress.NULL : Interop.allocateNativeString(directory)),
-                    Interop.allocateNativeString(moduleName));
+                    (Addressable) (directory == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(directory, null)),
+                    Marshal.stringToAddress.marshal(moduleName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets a string describing the last module error.
      * @return a string describing the last module error
      */
-    public static @NotNull java.lang.String moduleError() {
+    public static java.lang.String moduleError() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_module_error.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark moduleErrorQuark() {
+    public static org.gtk.glib.Quark moduleErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_module_error_quark.invokeExact();
@@ -81,7 +88,7 @@ public final class GModule {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

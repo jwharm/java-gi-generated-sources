@@ -16,24 +16,22 @@ public class EIT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsEIT";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("transport_stream_id"),
-        Interop.valueLayout.C_SHORT.withName("original_network_id"),
-        Interop.valueLayout.C_BYTE.withName("segment_last_section_number"),
-        Interop.valueLayout.C_BYTE.withName("last_table_id"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.C_INT.withName("actual_stream"),
-        Interop.valueLayout.C_INT.withName("present_following"),
-        Interop.valueLayout.ADDRESS.withName("events")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("transport_stream_id"),
+            Interop.valueLayout.C_SHORT.withName("original_network_id"),
+            Interop.valueLayout.C_BYTE.withName("segment_last_section_number"),
+            Interop.valueLayout.C_BYTE.withName("last_table_id"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.C_INT.withName("actual_stream"),
+            Interop.valueLayout.C_INT.withName("present_following"),
+            Interop.valueLayout.ADDRESS.withName("events")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,7 +51,7 @@ public class EIT extends Struct {
      * Get the value of the field {@code transport_stream_id}
      * @return The value of the field {@code transport_stream_id}
      */
-    public short transportStreamId$get() {
+    public short getTransportStreamId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -64,7 +62,7 @@ public class EIT extends Struct {
      * Change the value of the field {@code transport_stream_id}
      * @param transportStreamId The new value of the field {@code transport_stream_id}
      */
-    public void transportStreamId$set(short transportStreamId) {
+    public void setTransportStreamId(short transportStreamId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
@@ -74,7 +72,7 @@ public class EIT extends Struct {
      * Get the value of the field {@code original_network_id}
      * @return The value of the field {@code original_network_id}
      */
-    public short originalNetworkId$get() {
+    public short getOriginalNetworkId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -85,7 +83,7 @@ public class EIT extends Struct {
      * Change the value of the field {@code original_network_id}
      * @param originalNetworkId The new value of the field {@code original_network_id}
      */
-    public void originalNetworkId$set(short originalNetworkId) {
+    public void setOriginalNetworkId(short originalNetworkId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
@@ -95,7 +93,7 @@ public class EIT extends Struct {
      * Get the value of the field {@code segment_last_section_number}
      * @return The value of the field {@code segment_last_section_number}
      */
-    public byte segmentLastSectionNumber$get() {
+    public byte getSegmentLastSectionNumber() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segment_last_section_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -106,7 +104,7 @@ public class EIT extends Struct {
      * Change the value of the field {@code segment_last_section_number}
      * @param segmentLastSectionNumber The new value of the field {@code segment_last_section_number}
      */
-    public void segmentLastSectionNumber$set(byte segmentLastSectionNumber) {
+    public void setSegmentLastSectionNumber(byte segmentLastSectionNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("segment_last_section_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentLastSectionNumber);
@@ -116,7 +114,7 @@ public class EIT extends Struct {
      * Get the value of the field {@code last_table_id}
      * @return The value of the field {@code last_table_id}
      */
-    public byte lastTableId$get() {
+    public byte getLastTableId() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("last_table_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -127,7 +125,7 @@ public class EIT extends Struct {
      * Change the value of the field {@code last_table_id}
      * @param lastTableId The new value of the field {@code last_table_id}
      */
-    public void lastTableId$set(byte lastTableId) {
+    public void setLastTableId(byte lastTableId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("last_table_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastTableId);
@@ -137,42 +135,63 @@ public class EIT extends Struct {
      * Get the value of the field {@code actual_stream}
      * @return The value of the field {@code actual_stream}
      */
-    public boolean actualStream$get() {
+    public boolean getActualStream() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("actual_stream"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code actual_stream}
      * @param actualStream The new value of the field {@code actual_stream}
      */
-    public void actualStream$set(boolean actualStream) {
+    public void setActualStream(boolean actualStream) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("actual_stream"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), actualStream ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualStream, null).intValue());
     }
     
     /**
      * Get the value of the field {@code present_following}
      * @return The value of the field {@code present_following}
      */
-    public boolean presentFollowing$get() {
+    public boolean getPresentFollowing() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("present_following"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code present_following}
      * @param presentFollowing The new value of the field {@code present_following}
      */
-    public void presentFollowing$set(boolean presentFollowing) {
+    public void setPresentFollowing(boolean presentFollowing) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("present_following"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), presentFollowing ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(presentFollowing, null).intValue());
+    }
+    
+    /**
+     * Get the value of the field {@code events}
+     * @return The value of the field {@code events}
+     */
+    public PointerProxy<org.gstreamer.mpegts.EITEvent> getEvents() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("events"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.EITEvent>(RESULT, org.gstreamer.mpegts.EITEvent.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code events}
+     * @param events The new value of the field {@code events}
+     */
+    public void setEvents(org.gstreamer.mpegts.EITEvent[] events) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("events"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.EITEvent.getMemoryLayout(), false)));
     }
     
     /**
@@ -180,77 +199,83 @@ public class EIT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EIT(Addressable address, Ownership ownership) {
+    protected EIT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EIT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EIT(input, ownership);
+    
+    /**
+     * A {@link EIT.Builder} object constructs a {@link EIT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link EIT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private EIT struct;
+        private final EIT struct;
         
-         /**
-         * A {@link EIT.Build} object constructs a {@link EIT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = EIT.allocate();
         }
         
          /**
          * Finish building the {@link EIT} struct.
          * @return A new instance of {@code EIT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EIT construct() {
+        public EIT build() {
             return struct;
         }
         
-        public Build setTransportStreamId(short transportStreamId) {
+        public Builder setTransportStreamId(short transportStreamId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
             return this;
         }
         
-        public Build setOriginalNetworkId(short originalNetworkId) {
+        public Builder setOriginalNetworkId(short originalNetworkId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
             return this;
         }
         
-        public Build setSegmentLastSectionNumber(byte segmentLastSectionNumber) {
+        public Builder setSegmentLastSectionNumber(byte segmentLastSectionNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segment_last_section_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), segmentLastSectionNumber);
             return this;
         }
         
-        public Build setLastTableId(byte lastTableId) {
+        public Builder setLastTableId(byte lastTableId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("last_table_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastTableId);
             return this;
         }
         
-        public Build setActualStream(boolean actualStream) {
+        public Builder setActualStream(boolean actualStream) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("actual_stream"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), actualStream ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(actualStream, null).intValue());
             return this;
         }
         
-        public Build setPresentFollowing(boolean presentFollowing) {
+        public Builder setPresentFollowing(boolean presentFollowing) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("present_following"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), presentFollowing ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(presentFollowing, null).intValue());
             return this;
         }
         
@@ -259,7 +284,7 @@ public class EIT extends Struct {
          * @param events The value for the {@code events} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEvents(org.gstreamer.mpegts.EITEvent[] events) {
+        public Builder setEvents(org.gstreamer.mpegts.EITEvent[] events) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("events"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (events == null ? MemoryAddress.NULL : Interop.allocateNativeArray(events, org.gstreamer.mpegts.EITEvent.getMemoryLayout(), false)));

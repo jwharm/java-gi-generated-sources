@@ -34,25 +34,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Initable extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Initable if its GType is a (or inherits from) "GInitable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Initable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GInitable", a ClassCastException will be thrown.
-     */
-    public static Initable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Initable.getType())) {
-            return new InitableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GInitable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InitableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InitableImpl(input, ownership);
     
     /**
      * Initializes the object implementing the interface.
@@ -112,14 +95,14 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_initable_get_type.invokeExact();
@@ -133,7 +116,7 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      * Helper function for constructing {@link Initable} object. This is
      * similar to g_object_new() but also initializes the object
      * and returns {@code null}, setting an error on failure.
-     * @param objectType a {@link org.gtk.gobject.Type} supporting {@link Initable}.
+     * @param objectType a {@link org.gtk.glib.Type} supporting {@link Initable}.
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param error a {@link org.gtk.glib.Error} location to store the error occurring, or {@code null} to
      *    ignore.
@@ -142,47 +125,43 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
      * @param varargs the value if the first property, followed by and other property
      *    value pairs, and ended by {@code null}.
      * @return a newly allocated
-     *      {@link org.gtk.gobject.Object}, or {@code null} on error
+     *      {@link org.gtk.gobject.GObject}, or {@code null} on error
      */
-    public static @NotNull org.gtk.gobject.Object new_(@NotNull org.gtk.glib.Type objectType, @Nullable org.gtk.gio.Cancellable cancellable, @NotNull PointerProxy<org.gtk.glib.Error> error, @Nullable java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
+    public static org.gtk.gobject.GObject new_(org.gtk.glib.Type objectType, @Nullable org.gtk.gio.Cancellable cancellable, PointerProxy<org.gtk.glib.Error> error, @Nullable java.lang.String firstPropertyName, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_initable_new.invokeExact(
                     objectType.getValue().longValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     error.handle(),
-                    (Addressable) (firstPropertyName == null ? MemoryAddress.NULL : Interop.allocateNativeString(firstPropertyName)),
+                    (Addressable) (firstPropertyName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(firstPropertyName, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Helper function for constructing {@link Initable} object. This is
      * similar to g_object_new_valist() but also initializes the object
      * and returns {@code null}, setting an error on failure.
-     * @param objectType a {@link org.gtk.gobject.Type} supporting {@link Initable}.
+     * @param objectType a {@link org.gtk.glib.Type} supporting {@link Initable}.
      * @param firstPropertyName the name of the first property, followed by
      * the value, and other property value pairs, and ended by {@code null}.
      * @param varArgs The var args list generated from {@code first_property_name}.
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @return a newly allocated
-     *      {@link org.gtk.gobject.Object}, or {@code null} on error
+     *      {@link org.gtk.gobject.GObject}, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gobject.Object newValist(@NotNull org.gtk.glib.Type objectType, @NotNull java.lang.String firstPropertyName, @NotNull VaList varArgs, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
-        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+    public static org.gtk.gobject.GObject newValist(org.gtk.glib.Type objectType, java.lang.String firstPropertyName, VaList varArgs, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_initable_new_valist.invokeExact(
                     objectType.getValue().longValue(),
-                    Interop.allocateNativeString(firstPropertyName),
+                    Marshal.stringToAddress.marshal(firstPropertyName, null),
                     varArgs,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
@@ -192,27 +171,25 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Helper function for constructing {@link Initable} object. This is
      * similar to g_object_newv() but also initializes the object
      * and returns {@code null}, setting an error on failure.
-     * @param objectType a {@link org.gtk.gobject.Type} supporting {@link Initable}.
+     * @param objectType a {@link org.gtk.glib.Type} supporting {@link Initable}.
      * @param nParameters the number of parameters in {@code parameters}
      * @param parameters the parameters to use to construct the object
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @return a newly allocated
-     *      {@link org.gtk.gobject.Object}, or {@code null} on error
+     *      {@link org.gtk.gobject.GObject}, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      * @deprecated Use g_object_new_with_properties() and
      * g_initable_init() instead. See {@link org.gtk.gobject.Parameter} for more information.
      */
     @Deprecated
-    public static @NotNull org.gtk.gobject.Object newv(@NotNull org.gtk.glib.Type objectType, int nParameters, @NotNull org.gtk.gobject.Parameter[] parameters, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(objectType, "Parameter 'objectType' must not be null");
-        java.util.Objects.requireNonNull(parameters, "Parameter 'parameters' must not be null");
+    public static org.gtk.gobject.GObject newv(org.gtk.glib.Type objectType, int nParameters, org.gtk.gobject.Parameter[] parameters, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -228,7 +205,7 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -270,7 +247,7 @@ public interface Initable extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class InitableImpl extends org.gtk.gobject.Object implements Initable {
+    class InitableImpl extends org.gtk.gobject.GObject implements Initable {
         
         static {
             Gio.javagi$ensureInitialized();

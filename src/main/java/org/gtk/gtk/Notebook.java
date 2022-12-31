@@ -118,40 +118,26 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * Because Notebook is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Notebook(Addressable address, Ownership ownership) {
+    protected Notebook(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Notebook if its GType is a (or inherits from) "GtkNotebook".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Notebook} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkNotebook", a ClassCastException will be thrown.
-     */
-    public static Notebook castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Notebook.getType())) {
-            return new Notebook(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkNotebook");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Notebook> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Notebook(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_new.invokeExact();
         } catch (Throwable ERR) {
@@ -175,8 +161,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return the index (starting from 0) of the appended
      *   page in the notebook, or -1 if function fails
      */
-    public int appendPage(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public int appendPage(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_append_page.invokeExact(
@@ -204,8 +189,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return the index (starting from 0) of the appended
      *   page in the notebook, or -1 if function fails
      */
-    public int appendPageMenu(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, @Nullable org.gtk.gtk.Widget menuLabel) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public int appendPageMenu(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, @Nullable org.gtk.gtk.Widget menuLabel) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_append_page_menu.invokeExact(
@@ -228,8 +212,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * not be cancelled.
      * @param child a child
      */
-    public void detachTab(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void detachTab(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_notebook_detach_tab.invokeExact(
                     handle(),
@@ -248,8 +231,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   with the given {@code pack_type} or {@code null} when this action
      *   widget has not been set
      */
-    public @Nullable org.gtk.gtk.Widget getActionWidget(@NotNull org.gtk.gtk.PackType packType) {
-        java.util.Objects.requireNonNull(packType, "Parameter 'packType' must not be null");
+    public @Nullable org.gtk.gtk.Widget getActionWidget(org.gtk.gtk.PackType packType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_action_widget.invokeExact(
@@ -258,7 +240,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -291,7 +273,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -301,8 +283,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   if the notebook page does not have a menu label other than
      *   the default (the tab label).
      */
-    public @Nullable org.gtk.gtk.Widget getMenuLabel(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public @Nullable org.gtk.gtk.Widget getMenuLabel(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_menu_label.invokeExact(
@@ -311,7 +292,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -323,8 +304,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   menu label, or the menu label widget is not a {@code GtkLabel}.
      *   The string is owned by the widget and must not be freed.
      */
-    public @Nullable java.lang.String getMenuLabelText(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public @Nullable java.lang.String getMenuLabelText(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_menu_label_text.invokeExact(
@@ -333,7 +313,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -367,7 +347,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -375,8 +355,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child a child of {@code notebook}
      * @return the {@code GtkNotebookPage} for {@code child}
      */
-    public @NotNull org.gtk.gtk.NotebookPage getPage(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public org.gtk.gtk.NotebookPage getPage(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_page.invokeExact(
@@ -385,7 +364,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.NotebookPage(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.NotebookPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.NotebookPage.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -397,7 +376,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return a
      *   {@code GListModel} for the notebook's children
      */
-    public @NotNull org.gtk.gio.ListModel getPages() {
+    public org.gtk.gio.ListModel getPages() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_pages.invokeExact(
@@ -405,7 +384,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -420,7 +399,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -435,7 +414,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -450,7 +429,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -458,8 +437,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child a child {@code GtkWidget}
      * @return {@code true} if the tab is detachable.
      */
-    public boolean getTabDetachable(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public boolean getTabDetachable(org.gtk.gtk.Widget child) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_get_tab_detachable.invokeExact(
@@ -468,7 +446,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -479,8 +457,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child the page
      * @return the tab label
      */
-    public @Nullable org.gtk.gtk.Widget getTabLabel(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public @Nullable org.gtk.gtk.Widget getTabLabel(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_tab_label.invokeExact(
@@ -489,7 +466,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -500,8 +477,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *   the tab label idget is not a {@code GtkLabel}. The string is owned
      *   by the widget and must not be freed.
      */
-    public @Nullable java.lang.String getTabLabelText(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public @Nullable java.lang.String getTabLabelText(org.gtk.gtk.Widget child) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_notebook_get_tab_label_text.invokeExact(
@@ -510,14 +486,14 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the edge at which the tabs are drawn.
      * @return the edge at which the tabs are drawn
      */
-    public @NotNull org.gtk.gtk.PositionType getTabPos() {
+    public org.gtk.gtk.PositionType getTabPos() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_get_tab_pos.invokeExact(
@@ -533,8 +509,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child a child {@code GtkWidget}
      * @return {@code true} if the tab is reorderable.
      */
-    public boolean getTabReorderable(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public boolean getTabReorderable(org.gtk.gtk.Widget child) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_get_tab_reorderable.invokeExact(
@@ -543,7 +518,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -556,8 +531,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return the index (starting from 0) of the inserted
      *   page in the notebook, or -1 if function fails
      */
-    public int insertPage(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, int position) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public int insertPage(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, int position) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_insert_page.invokeExact(
@@ -588,8 +562,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return the index (starting from 0) of the inserted
      *   page in the notebook
      */
-    public int insertPageMenu(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, @Nullable org.gtk.gtk.Widget menuLabel, int position) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public int insertPageMenu(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, @Nullable org.gtk.gtk.Widget menuLabel, int position) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_insert_page_menu.invokeExact(
@@ -625,8 +598,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return the index of the page containing {@code child}, or
      *   -1 if {@code child} is not in the notebook
      */
-    public int pageNum(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public int pageNum(org.gtk.gtk.Widget child) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_page_num.invokeExact(
@@ -673,8 +645,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return the index (starting from 0) of the prepended
      *   page in the notebook, or -1 if function fails
      */
-    public int prependPage(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public int prependPage(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_prepend_page.invokeExact(
@@ -702,8 +673,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @return the index (starting from 0) of the prepended
      *   page in the notebook, or -1 if function fails
      */
-    public int prependPageMenu(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, @Nullable org.gtk.gtk.Widget menuLabel) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public int prependPageMenu(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel, @Nullable org.gtk.gtk.Widget menuLabel) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_notebook_prepend_page_menu.invokeExact(
@@ -756,8 +726,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child the child to move
      * @param position the new position, or -1 to move to the end
      */
-    public void reorderChild(@NotNull org.gtk.gtk.Widget child, int position) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void reorderChild(org.gtk.gtk.Widget child, int position) {
         try {
             DowncallHandles.gtk_notebook_reorder_child.invokeExact(
                     handle(),
@@ -777,9 +746,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param widget a {@code GtkWidget}
      * @param packType pack type of the action widget
      */
-    public void setActionWidget(@NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.PackType packType) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
-        java.util.Objects.requireNonNull(packType, "Parameter 'packType' must not be null");
+    public void setActionWidget(org.gtk.gtk.Widget widget, org.gtk.gtk.PackType packType) {
         try {
             DowncallHandles.gtk_notebook_set_action_widget.invokeExact(
                     handle(),
@@ -825,7 +792,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_notebook_set_group_name.invokeExact(
                     handle(),
-                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)));
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -836,8 +803,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child the child widget
      * @param menuLabel the menu label, or {@code null} for default
      */
-    public void setMenuLabel(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget menuLabel) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void setMenuLabel(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget menuLabel) {
         try {
             DowncallHandles.gtk_notebook_set_menu_label.invokeExact(
                     handle(),
@@ -853,14 +819,12 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child the child widget
      * @param menuText the label text
      */
-    public void setMenuLabelText(@NotNull org.gtk.gtk.Widget child, @NotNull java.lang.String menuText) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(menuText, "Parameter 'menuText' must not be null");
+    public void setMenuLabelText(org.gtk.gtk.Widget child, java.lang.String menuText) {
         try {
             DowncallHandles.gtk_notebook_set_menu_label_text.invokeExact(
                     handle(),
                     child.handle(),
-                    Interop.allocateNativeString(menuText));
+                    Marshal.stringToAddress.marshal(menuText, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -875,7 +839,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_notebook_set_scrollable.invokeExact(
                     handle(),
-                    scrollable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(scrollable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -891,7 +855,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_notebook_set_show_border.invokeExact(
                     handle(),
-                    showBorder ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showBorder, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -905,7 +869,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_notebook_set_show_tabs.invokeExact(
                     handle(),
-                    showTabs ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showTabs, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -958,13 +922,12 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child a child {@code GtkWidget}
      * @param detachable whether the tab is detachable or not
      */
-    public void setTabDetachable(@NotNull org.gtk.gtk.Widget child, boolean detachable) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void setTabDetachable(org.gtk.gtk.Widget child, boolean detachable) {
         try {
             DowncallHandles.gtk_notebook_set_tab_detachable.invokeExact(
                     handle(),
                     child.handle(),
-                    detachable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(detachable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -979,8 +942,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param tabLabel the tab label widget to use, or {@code null}
      *   for default tab label
      */
-    public void setTabLabel(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void setTabLabel(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget tabLabel) {
         try {
             DowncallHandles.gtk_notebook_set_tab_label.invokeExact(
                     handle(),
@@ -997,14 +959,12 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child the page
      * @param tabText the label text
      */
-    public void setTabLabelText(@NotNull org.gtk.gtk.Widget child, @NotNull java.lang.String tabText) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(tabText, "Parameter 'tabText' must not be null");
+    public void setTabLabelText(org.gtk.gtk.Widget child, java.lang.String tabText) {
         try {
             DowncallHandles.gtk_notebook_set_tab_label_text.invokeExact(
                     handle(),
                     child.handle(),
-                    Interop.allocateNativeString(tabText));
+                    Marshal.stringToAddress.marshal(tabText, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1014,8 +974,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Sets the edge at which the tabs are drawn.
      * @param pos the edge to draw the tabs at
      */
-    public void setTabPos(@NotNull org.gtk.gtk.PositionType pos) {
-        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+    public void setTabPos(org.gtk.gtk.PositionType pos) {
         try {
             DowncallHandles.gtk_notebook_set_tab_pos.invokeExact(
                     handle(),
@@ -1031,13 +990,12 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child a child {@code GtkWidget}
      * @param reorderable whether the tab is reorderable or not
      */
-    public void setTabReorderable(@NotNull org.gtk.gtk.Widget child, boolean reorderable) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void setTabReorderable(org.gtk.gtk.Widget child, boolean reorderable) {
         try {
             DowncallHandles.gtk_notebook_set_tab_reorderable.invokeExact(
                     handle(),
                     child.handle(),
-                    reorderable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(reorderable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1047,7 +1005,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_notebook_get_type.invokeExact();
@@ -1059,22 +1017,26 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ChangeCurrentPage {
-        boolean signalReceived(Notebook sourceNotebook, int object);
+        boolean run(int object);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceNotebook, int object) {
+            var RESULT = run(object);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeCurrentPage.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<Notebook.ChangeCurrentPage> onChangeCurrentPage(Notebook.ChangeCurrentPage handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("change-current-page"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookChangeCurrentPage",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.ChangeCurrentPage>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("change-current-page"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1082,7 +1044,19 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface CreateWindow {
-        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget page);
+        @Nullable org.gtk.gtk.Notebook run(org.gtk.gtk.Widget page);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceNotebook, MemoryAddress page) {
+            var RESULT = run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gtk.gtk.Widget.fromAddress).marshal(page, Ownership.NONE));
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateWindow.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1100,16 +1074,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<Notebook.CreateWindow> onCreateWindow(Notebook.CreateWindow handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("create-window"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookCreateWindow",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.CreateWindow>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("create-window"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1117,22 +1083,26 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface FocusTab {
-        boolean signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.NotebookTab object);
+        boolean run(org.gtk.gtk.NotebookTab object);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceNotebook, int object) {
+            var RESULT = run(org.gtk.gtk.NotebookTab.of(object));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(FocusTab.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<Notebook.FocusTab> onFocusTab(Notebook.FocusTab handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("focus-tab"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookFocusTab",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.FocusTab>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("focus-tab"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1140,22 +1110,25 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface MoveFocusOut {
-        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.DirectionType object);
+        void run(org.gtk.gtk.DirectionType object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceNotebook, int object) {
+            run(org.gtk.gtk.DirectionType.of(object));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveFocusOut.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<Notebook.MoveFocusOut> onMoveFocusOut(Notebook.MoveFocusOut handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-focus-out"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookMoveFocusOut",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.MoveFocusOut>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-focus-out"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1163,7 +1136,18 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PageAdded {
-        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget child, int pageNum);
+        void run(org.gtk.gtk.Widget child, int pageNum);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceNotebook, MemoryAddress child, int pageNum) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(child)), org.gtk.gtk.Widget.fromAddress).marshal(child, Ownership.NONE), pageNum);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageAdded.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1175,16 +1159,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<Notebook.PageAdded> onPageAdded(Notebook.PageAdded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("page-added"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookPageAdded",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.PageAdded>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("page-added"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1192,7 +1168,18 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PageRemoved {
-        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget child, int pageNum);
+        void run(org.gtk.gtk.Widget child, int pageNum);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceNotebook, MemoryAddress child, int pageNum) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(child)), org.gtk.gtk.Widget.fromAddress).marshal(child, Ownership.NONE), pageNum);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageRemoved.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1204,16 +1191,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<Notebook.PageRemoved> onPageRemoved(Notebook.PageRemoved handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("page-removed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookPageRemoved",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.PageRemoved>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("page-removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1221,7 +1200,18 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PageReordered {
-        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget child, int pageNum);
+        void run(org.gtk.gtk.Widget child, int pageNum);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceNotebook, MemoryAddress child, int pageNum) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(child)), org.gtk.gtk.Widget.fromAddress).marshal(child, Ownership.NONE), pageNum);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageReordered.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1233,16 +1223,8 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<Notebook.PageReordered> onPageReordered(Notebook.PageReordered handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("page-reordered"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookPageReordered",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.PageReordered>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("page-reordered"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1250,22 +1232,26 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ReorderTab {
-        boolean signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.DirectionType object, boolean p0);
+        boolean run(org.gtk.gtk.DirectionType object, boolean p0);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceNotebook, int object, int p0) {
+            var RESULT = run(org.gtk.gtk.DirectionType.of(object), Marshal.integerToBoolean.marshal(p0, null).booleanValue());
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReorderTab.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<Notebook.ReorderTab> onReorderTab(Notebook.ReorderTab handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("reorder-tab"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookReorderTab",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.ReorderTab>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("reorder-tab"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1273,22 +1259,26 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectPage {
-        boolean signalReceived(Notebook sourceNotebook, boolean object);
+        boolean run(boolean object);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceNotebook, int object) {
+            var RESULT = run(Marshal.integerToBoolean.marshal(object, null).booleanValue());
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectPage.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<Notebook.SelectPage> onSelectPage(Notebook.SelectPage handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("select-page"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookSelectPage",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.SelectPage>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("select-page"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1296,7 +1286,18 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SwitchPage {
-        void signalReceived(Notebook sourceNotebook, @NotNull org.gtk.gtk.Widget page, int pageNum);
+        void run(org.gtk.gtk.Widget page, int pageNum);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceNotebook, MemoryAddress page, int pageNum) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gtk.gtk.Widget.fromAddress).marshal(page, Ownership.NONE), pageNum);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SwitchPage.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1307,52 +1308,46 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<Notebook.SwitchPage> onSwitchPage(Notebook.SwitchPage handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("switch-page"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Notebook.Callbacks.class, "signalNotebookSwitchPage",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Notebook.SwitchPage>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("switch-page"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Notebook.Builder} object constructs a {@link Notebook} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Notebook.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Notebook.Build} object constructs a {@link Notebook} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Notebook} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Notebook} using {@link Notebook#castFrom}.
+         * {@link Notebook}.
          * @return A new instance of {@code Notebook} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Notebook construct() {
-            return Notebook.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Notebook.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Notebook build() {
+            return (Notebook) org.gtk.gobject.GObject.newWithProperties(
+                Notebook.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1361,7 +1356,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param enablePopup The value for the {@code enable-popup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnablePopup(boolean enablePopup) {
+        public Builder setEnablePopup(boolean enablePopup) {
             names.add("enable-popup");
             values.add(org.gtk.gobject.Value.create(enablePopup));
             return this;
@@ -1372,7 +1367,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param groupName The value for the {@code group-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGroupName(java.lang.String groupName) {
+        public Builder setGroupName(java.lang.String groupName) {
             names.add("group-name");
             values.add(org.gtk.gobject.Value.create(groupName));
             return this;
@@ -1383,7 +1378,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param page The value for the {@code page} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPage(int page) {
+        public Builder setPage(int page) {
             names.add("page");
             values.add(org.gtk.gobject.Value.create(page));
             return this;
@@ -1394,7 +1389,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param pages The value for the {@code pages} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPages(org.gtk.gio.ListModel pages) {
+        public Builder setPages(org.gtk.gio.ListModel pages) {
             names.add("pages");
             values.add(org.gtk.gobject.Value.create(pages));
             return this;
@@ -1405,7 +1400,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param scrollable The value for the {@code scrollable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScrollable(boolean scrollable) {
+        public Builder setScrollable(boolean scrollable) {
             names.add("scrollable");
             values.add(org.gtk.gobject.Value.create(scrollable));
             return this;
@@ -1416,7 +1411,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param showBorder The value for the {@code show-border} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowBorder(boolean showBorder) {
+        public Builder setShowBorder(boolean showBorder) {
             names.add("show-border");
             values.add(org.gtk.gobject.Value.create(showBorder));
             return this;
@@ -1427,7 +1422,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param showTabs The value for the {@code show-tabs} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowTabs(boolean showTabs) {
+        public Builder setShowTabs(boolean showTabs) {
             names.add("show-tabs");
             values.add(org.gtk.gobject.Value.create(showTabs));
             return this;
@@ -1438,7 +1433,7 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param tabPos The value for the {@code tab-pos} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTabPos(org.gtk.gtk.PositionType tabPos) {
+        public Builder setTabPos(org.gtk.gtk.PositionType tabPos) {
             names.add("tab-pos");
             values.add(org.gtk.gobject.Value.create(tabPos));
             return this;
@@ -1722,68 +1717,5 @@ public class Notebook extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalNotebookChangeCurrentPage(MemoryAddress sourceNotebook, int object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.ChangeCurrentPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), object);
-        }
-        
-        public static void signalNotebookCreateWindow(MemoryAddress sourceNotebook, MemoryAddress page, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.CreateWindow) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE));
-        }
-        
-        public static boolean signalNotebookFocusTab(MemoryAddress sourceNotebook, int object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.FocusTab) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), org.gtk.gtk.NotebookTab.of(object));
-        }
-        
-        public static void signalNotebookMoveFocusOut(MemoryAddress sourceNotebook, int object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.MoveFocusOut) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), org.gtk.gtk.DirectionType.of(object));
-        }
-        
-        public static void signalNotebookPageAdded(MemoryAddress sourceNotebook, MemoryAddress child, int pageNum, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.PageAdded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
-        }
-        
-        public static void signalNotebookPageRemoved(MemoryAddress sourceNotebook, MemoryAddress child, int pageNum, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.PageRemoved) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
-        }
-        
-        public static void signalNotebookPageReordered(MemoryAddress sourceNotebook, MemoryAddress child, int pageNum, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.PageReordered) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(child, Ownership.NONE), pageNum);
-        }
-        
-        public static boolean signalNotebookReorderTab(MemoryAddress sourceNotebook, int object, int p0, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.ReorderTab) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), org.gtk.gtk.DirectionType.of(object), p0 != 0);
-        }
-        
-        public static boolean signalNotebookSelectPage(MemoryAddress sourceNotebook, int object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.SelectPage) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), object != 0);
-        }
-        
-        public static void signalNotebookSwitchPage(MemoryAddress sourceNotebook, MemoryAddress page, int pageNum, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Notebook.SwitchPage) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Notebook(sourceNotebook, Ownership.NONE), new org.gtk.gtk.Widget(page, Ownership.NONE), pageNum);
-        }
     }
 }

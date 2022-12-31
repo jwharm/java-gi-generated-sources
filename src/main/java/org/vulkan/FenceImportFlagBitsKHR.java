@@ -40,8 +40,10 @@ public class FenceImportFlagBitsKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FenceImportFlagBitsKHR(Addressable address, Ownership ownership) {
+    protected FenceImportFlagBitsKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FenceImportFlagBitsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FenceImportFlagBitsKHR(input, ownership);
 }

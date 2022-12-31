@@ -52,11 +52,15 @@ public class UriHideFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public UriHideFlags or(UriHideFlags mask) {
-        return new UriHideFlags(this.getValue() | mask.getValue());
+    public UriHideFlags or(UriHideFlags... masks) {
+        int value = this.getValue();
+        for (UriHideFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new UriHideFlags(value);
     }
     
     /**
@@ -66,7 +70,8 @@ public class UriHideFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static UriHideFlags combined(UriHideFlags mask, UriHideFlags... masks) {
-        int value = mask.getValue();        for (UriHideFlags arg : masks) {
+        int value = mask.getValue();
+        for (UriHideFlags arg : masks) {
             value |= arg.getValue();
         }
         return new UriHideFlags(value);

@@ -57,20 +57,18 @@ public class DBusInterfaceVTable extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GDBusInterfaceVTable";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("method_call"),
-        Interop.valueLayout.ADDRESS.withName("get_property"),
-        Interop.valueLayout.ADDRESS.withName("set_property"),
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("method_call"),
+            Interop.valueLayout.ADDRESS.withName("get_property"),
+            Interop.valueLayout.ADDRESS.withName("set_property"),
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -90,7 +88,7 @@ public class DBusInterfaceVTable extends Struct {
      * Get the value of the field {@code method_call}
      * @return The value of the field {@code method_call}
      */
-    public org.gtk.gio.DBusInterfaceMethodCallFunc methodCall$get() {
+    public org.gtk.gio.DBusInterfaceMethodCallFunc getMethodCall() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("method_call"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -98,10 +96,20 @@ public class DBusInterfaceVTable extends Struct {
     }
     
     /**
+     * Change the value of the field {@code method_call}
+     * @param methodCall The new value of the field {@code method_call}
+     */
+    public void setMethodCall(org.gtk.gio.DBusInterfaceMethodCallFunc methodCall) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("method_call"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (methodCall == null ? MemoryAddress.NULL : (Addressable) methodCall.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code get_property}
      * @return The value of the field {@code get_property}
      */
-    public org.gtk.gio.DBusInterfaceGetPropertyFunc getProperty$get() {
+    public org.gtk.gio.DBusInterfaceGetPropertyFunc getGetProperty() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -109,10 +117,20 @@ public class DBusInterfaceVTable extends Struct {
     }
     
     /**
+     * Change the value of the field {@code get_property}
+     * @param getProperty The new value of the field {@code get_property}
+     */
+    public void setGetProperty(org.gtk.gio.DBusInterfaceGetPropertyFunc getProperty) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProperty == null ? MemoryAddress.NULL : (Addressable) getProperty.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code set_property}
      * @return The value of the field {@code set_property}
      */
-    public org.gtk.gio.DBusInterfaceSetPropertyFunc setProperty$get() {
+    public org.gtk.gio.DBusInterfaceSetPropertyFunc getSetProperty() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -120,39 +138,55 @@ public class DBusInterfaceVTable extends Struct {
     }
     
     /**
+     * Change the value of the field {@code set_property}
+     * @param setProperty The new value of the field {@code set_property}
+     */
+    public void setSetProperty(org.gtk.gio.DBusInterfaceSetPropertyFunc setProperty) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setProperty == null ? MemoryAddress.NULL : (Addressable) setProperty.toCallback()));
+    }
+    
+    /**
      * Create a DBusInterfaceVTable proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusInterfaceVTable(Addressable address, Ownership ownership) {
+    protected DBusInterfaceVTable(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusInterfaceVTable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusInterfaceVTable(input, ownership);
+    
+    /**
+     * A {@link DBusInterfaceVTable.Builder} object constructs a {@link DBusInterfaceVTable} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DBusInterfaceVTable.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DBusInterfaceVTable struct;
+        private final DBusInterfaceVTable struct;
         
-         /**
-         * A {@link DBusInterfaceVTable.Build} object constructs a {@link DBusInterfaceVTable} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DBusInterfaceVTable.allocate();
         }
         
          /**
          * Finish building the {@link DBusInterfaceVTable} struct.
          * @return A new instance of {@code DBusInterfaceVTable} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusInterfaceVTable construct() {
+        public DBusInterfaceVTable build() {
             return struct;
         }
         
@@ -161,10 +195,10 @@ public class DBusInterfaceVTable extends Struct {
          * @param methodCall The value for the {@code methodCall} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMethodCall(java.lang.foreign.MemoryAddress methodCall) {
+        public Builder setMethodCall(org.gtk.gio.DBusInterfaceMethodCallFunc methodCall) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("method_call"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (methodCall == null ? MemoryAddress.NULL : methodCall));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (methodCall == null ? MemoryAddress.NULL : (Addressable) methodCall.toCallback()));
             return this;
         }
         
@@ -173,10 +207,10 @@ public class DBusInterfaceVTable extends Struct {
          * @param getProperty The value for the {@code getProperty} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGetProperty(java.lang.foreign.MemoryAddress getProperty) {
+        public Builder setGetProperty(org.gtk.gio.DBusInterfaceGetPropertyFunc getProperty) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProperty == null ? MemoryAddress.NULL : getProperty));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getProperty == null ? MemoryAddress.NULL : (Addressable) getProperty.toCallback()));
             return this;
         }
         
@@ -185,14 +219,14 @@ public class DBusInterfaceVTable extends Struct {
          * @param setProperty The value for the {@code setProperty} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSetProperty(java.lang.foreign.MemoryAddress setProperty) {
+        public Builder setSetProperty(org.gtk.gio.DBusInterfaceSetPropertyFunc setProperty) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("set_property"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setProperty == null ? MemoryAddress.NULL : setProperty));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (setProperty == null ? MemoryAddress.NULL : (Addressable) setProperty.toCallback()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(padding, false)));

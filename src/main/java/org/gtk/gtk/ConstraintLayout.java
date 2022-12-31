@@ -44,7 +44,7 @@ import org.jetbrains.annotations.*;
  * <strong>GtkConstraintLayout as GtkBuildable</strong><br/>
  * {@code GtkConstraintLayout} implements the {@code Gtk.Buildable} interface and
  * has a custom "constraints" element which allows describing constraints in
- * a {@link Builder} UI file.
+ * a {@link GtkBuilder} UI file.
  * <p>
  * An example of a UI definition fragment specifying a constraint:
  * <pre>{@code xml
@@ -184,33 +184,15 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ConstraintLayout(Addressable address, Ownership ownership) {
+    protected ConstraintLayout(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ConstraintLayout if its GType is a (or inherits from) "GtkConstraintLayout".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ConstraintLayout} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkConstraintLayout", a ClassCastException will be thrown.
-     */
-    public static ConstraintLayout castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ConstraintLayout.getType())) {
-            return new ConstraintLayout(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkConstraintLayout");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ConstraintLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ConstraintLayout(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_new.invokeExact();
         } catch (Throwable ERR) {
@@ -243,8 +225,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * this function.
      * @param constraint a {@link Constraint}
      */
-    public void addConstraint(@NotNull org.gtk.gtk.Constraint constraint) {
-        java.util.Objects.requireNonNull(constraint, "Parameter 'constraint' must not be null");
+    public void addConstraint(org.gtk.gtk.Constraint constraint) {
         try {
             DowncallHandles.gtk_constraint_layout_add_constraint.invokeExact(
                     handle(),
@@ -253,44 +234,6 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         constraint.yieldOwnership();
-    }
-    
-    /**
-     * Creates a list of constraints from a VFL description.
-     * <p>
-     * This function is a convenience wrapper around
-     * {@link ConstraintLayout#addConstraintsFromDescriptionv}, using
-     * variadic arguments to populate the view/target map.
-     * @param lines an array of Visual Format Language lines
-     *   defining a set of constraints
-     * @param nLines the number of lines
-     * @param hspacing default horizontal spacing value, or -1 for the fallback value
-     * @param vspacing default vertical spacing value, or -1 for the fallback value
-     * @param error return location for a {@code GError}
-     * @param firstView the name of a view in the VFL description, followed by the
-     *   {@code Gtk.ConstraintTarget} to which it maps
-     * @param varargs a {@code NULL}-terminated list of view names and {@code Gtk.ConstraintTarget}s
-     * @return the list of
-     *   {@link Constraint}s that were added to the layout
-     */
-    public @NotNull org.gtk.glib.List addConstraintsFromDescription(@NotNull java.lang.String[] lines, long nLines, int hspacing, int vspacing, @NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String firstView, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(lines, "Parameter 'lines' must not be null");
-        java.util.Objects.requireNonNull(firstView, "Parameter 'firstView' must not be null");
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_add_constraints_from_description.invokeExact(
-                    handle(),
-                    Interop.allocateNativeArray(lines, false),
-                    nLines,
-                    hspacing,
-                    vspacing,
-                    error.handle(),
-                    Interop.allocateNativeString(firstView),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -382,9 +325,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      *   {@link Constraint} instances that were added to the layout
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.List addConstraintsFromDescriptionv(@NotNull java.lang.String[] lines, long nLines, int hspacing, int vspacing, @NotNull org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(lines, "Parameter 'lines' must not be null");
-        java.util.Objects.requireNonNull(views, "Parameter 'views' must not be null");
+    public org.gtk.glib.List addConstraintsFromDescription(java.lang.String[] lines, long nLines, int hspacing, int vspacing, org.gtk.glib.HashTable views) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -402,7 +343,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -415,8 +356,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * this function.
      * @param guide a {@link ConstraintGuide} object
      */
-    public void addGuide(@NotNull org.gtk.gtk.ConstraintGuide guide) {
-        java.util.Objects.requireNonNull(guide, "Parameter 'guide' must not be null");
+    public void addGuide(org.gtk.gtk.ConstraintGuide guide) {
         try {
             DowncallHandles.gtk_constraint_layout_add_guide.invokeExact(
                     handle(),
@@ -440,7 +380,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * @return a
      *   {@code GListModel} tracking the layout's constraints
      */
-    public @NotNull org.gtk.gio.ListModel observeConstraints() {
+    public org.gtk.gio.ListModel observeConstraints() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_observe_constraints.invokeExact(
@@ -448,7 +388,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -464,7 +404,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * @return a
      *   {@code GListModel} tracking the layout's guides
      */
-    public @NotNull org.gtk.gio.ListModel observeGuides() {
+    public org.gtk.gio.ListModel observeGuides() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_layout_observe_guides.invokeExact(
@@ -472,7 +412,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -492,8 +432,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * so that it no longer influences the layout.
      * @param constraint a {@link Constraint}
      */
-    public void removeConstraint(@NotNull org.gtk.gtk.Constraint constraint) {
-        java.util.Objects.requireNonNull(constraint, "Parameter 'constraint' must not be null");
+    public void removeConstraint(org.gtk.gtk.Constraint constraint) {
         try {
             DowncallHandles.gtk_constraint_layout_remove_constraint.invokeExact(
                     handle(),
@@ -508,8 +447,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * so that it no longer influences the layout.
      * @param guide a {@link ConstraintGuide} object
      */
-    public void removeGuide(@NotNull org.gtk.gtk.ConstraintGuide guide) {
-        java.util.Objects.requireNonNull(guide, "Parameter 'guide' must not be null");
+    public void removeGuide(org.gtk.gtk.ConstraintGuide guide) {
         try {
             DowncallHandles.gtk_constraint_layout_remove_guide.invokeExact(
                     handle(),
@@ -523,7 +461,7 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_constraint_layout_get_type.invokeExact();
@@ -532,38 +470,40 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ConstraintLayout.Builder} object constructs a {@link ConstraintLayout} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ConstraintLayout.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.LayoutManager.Build {
+    public static class Builder extends org.gtk.gtk.LayoutManager.Builder {
         
-         /**
-         * A {@link ConstraintLayout.Build} object constructs a {@link ConstraintLayout} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ConstraintLayout} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ConstraintLayout} using {@link ConstraintLayout#castFrom}.
+         * {@link ConstraintLayout}.
          * @return A new instance of {@code ConstraintLayout} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ConstraintLayout construct() {
-            return ConstraintLayout.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ConstraintLayout.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ConstraintLayout build() {
+            return (ConstraintLayout) org.gtk.gobject.GObject.newWithProperties(
+                ConstraintLayout.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }
@@ -580,12 +520,6 @@ public class ConstraintLayout extends org.gtk.gtk.LayoutManager implements org.g
             "gtk_constraint_layout_add_constraint",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
-        );
-        
-        private static final MethodHandle gtk_constraint_layout_add_constraints_from_description = Interop.downcallHandle(
-            "gtk_constraint_layout_add_constraints_from_description",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
         );
         
         private static final MethodHandle gtk_constraint_layout_add_constraints_from_descriptionv = Interop.downcallHandle(

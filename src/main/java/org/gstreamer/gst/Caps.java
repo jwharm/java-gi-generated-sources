@@ -49,17 +49,15 @@ public class Caps extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstCaps";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -79,9 +77,19 @@ public class Caps extends Struct {
      * Get the value of the field {@code mini_object}
      * @return The value of the field {@code mini_object}
      */
-    public org.gstreamer.gst.MiniObject miniObject$get() {
+    public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return new org.gstreamer.gst.MiniObject(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mini_object}
+     * @param miniObject The new value of the field {@code mini_object}
+     */
+    public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
     }
     
     /**
@@ -89,13 +97,15 @@ public class Caps extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Caps(Addressable address, Ownership ownership) {
+    protected Caps(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewAny() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Caps> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Caps(input, ownership);
+    
+    private static MemoryAddress constructNewAny() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_any.invokeExact();
         } catch (Throwable ERR) {
@@ -110,11 +120,12 @@ public class Caps extends Struct {
      * @return the new {@link Caps}
      */
     public static Caps newAny() {
-        return new Caps(constructNewAny(), Ownership.FULL);
+        var RESULT = constructNewAny();
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewEmpty() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewEmpty() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_empty.invokeExact();
         } catch (Throwable ERR) {
@@ -130,15 +141,15 @@ public class Caps extends Struct {
      * @return the new {@link Caps}
      */
     public static Caps newEmpty() {
-        return new Caps(constructNewEmpty(), Ownership.FULL);
+        var RESULT = constructNewEmpty();
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewEmptySimple(@NotNull java.lang.String mediaType) {
-        java.util.Objects.requireNonNull(mediaType, "Parameter 'mediaType' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewEmptySimple(java.lang.String mediaType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_empty_simple.invokeExact(
-                    Interop.allocateNativeString(mediaType));
+                    Marshal.stringToAddress.marshal(mediaType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,13 +162,13 @@ public class Caps extends Struct {
      * @param mediaType the media type of the structure
      * @return the new {@link Caps}
      */
-    public static Caps newEmptySimple(@NotNull java.lang.String mediaType) {
-        return new Caps(constructNewEmptySimple(mediaType), Ownership.FULL);
+    public static Caps newEmptySimple(java.lang.String mediaType) {
+        var RESULT = constructNewEmptySimple(mediaType);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFull(@NotNull org.gstreamer.gst.Structure struct1, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(struct1, "Parameter 'struct1' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFull(org.gstreamer.gst.Structure struct1, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_full.invokeExact(
                     struct1.handle(),
@@ -176,14 +187,13 @@ public class Caps extends Struct {
      * @param varargs additional structures to add
      * @return the new {@link Caps}
      */
-    public static Caps newFull(@NotNull org.gstreamer.gst.Structure struct1, java.lang.Object... varargs) {
-        return new Caps(constructNewFull(struct1, varargs), Ownership.FULL);
+    public static Caps newFull(org.gstreamer.gst.Structure struct1, java.lang.Object... varargs) {
+        var RESULT = constructNewFull(struct1, varargs);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFullValist(@NotNull org.gstreamer.gst.Structure structure, @NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFullValist(org.gstreamer.gst.Structure structure, VaList varArgs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_full_valist.invokeExact(
                     structure.handle(),
@@ -202,18 +212,17 @@ public class Caps extends Struct {
      * @param varArgs additional structures to add
      * @return the new {@link Caps}
      */
-    public static Caps newFullValist(@NotNull org.gstreamer.gst.Structure structure, @NotNull VaList varArgs) {
-        return new Caps(constructNewFullValist(structure, varArgs), Ownership.FULL);
+    public static Caps newFullValist(org.gstreamer.gst.Structure structure, VaList varArgs) {
+        var RESULT = constructNewFullValist(structure, varArgs);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSimple(@NotNull java.lang.String mediaType, @NotNull java.lang.String fieldname, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(mediaType, "Parameter 'mediaType' must not be null");
-        java.util.Objects.requireNonNull(fieldname, "Parameter 'fieldname' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSimple(java.lang.String mediaType, java.lang.String fieldname, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_new_simple.invokeExact(
-                    Interop.allocateNativeString(mediaType),
-                    Interop.allocateNativeString(fieldname),
+                    Marshal.stringToAddress.marshal(mediaType, null),
+                    Marshal.stringToAddress.marshal(fieldname, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -230,8 +239,9 @@ public class Caps extends Struct {
      * @param varargs additional arguments
      * @return the new {@link Caps}
      */
-    public static Caps newSimple(@NotNull java.lang.String mediaType, @NotNull java.lang.String fieldname, java.lang.Object... varargs) {
-        return new Caps(constructNewSimple(mediaType, fieldname, varargs), Ownership.FULL);
+    public static Caps newSimple(java.lang.String mediaType, java.lang.String fieldname, java.lang.Object... varargs) {
+        var RESULT = constructNewSimple(mediaType, fieldname, varargs);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -240,8 +250,7 @@ public class Caps extends Struct {
      * freed. If either caps is ANY, the resulting caps will be ANY.
      * @param caps2 the {@link Caps} to append
      */
-    public void append(@NotNull org.gstreamer.gst.Caps caps2) {
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
+    public void append(org.gstreamer.gst.Caps caps2) {
         try {
             DowncallHandles.gst_caps_append.invokeExact(
                     handle(),
@@ -257,8 +266,7 @@ public class Caps extends Struct {
      * becomes the owner of {@code structure}.
      * @param structure the {@link Structure} to append
      */
-    public void appendStructure(@NotNull org.gstreamer.gst.Structure structure) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public void appendStructure(org.gstreamer.gst.Structure structure) {
         try {
             DowncallHandles.gst_caps_append_structure.invokeExact(
                     handle(),
@@ -275,8 +283,7 @@ public class Caps extends Struct {
      * @param structure the {@link Structure} to append
      * @param features the {@link CapsFeatures} to append
      */
-    public void appendStructureFull(@NotNull org.gstreamer.gst.Structure structure, @Nullable org.gstreamer.gst.CapsFeatures features) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public void appendStructureFull(org.gstreamer.gst.Structure structure, @Nullable org.gstreamer.gst.CapsFeatures features) {
         try {
             DowncallHandles.gst_caps_append_structure_full.invokeExact(
                     handle(),
@@ -295,8 +302,7 @@ public class Caps extends Struct {
      * @param caps2 a {@link Caps} to intersect
      * @return {@code true} if intersection would be not empty
      */
-    public boolean canIntersect(@NotNull org.gstreamer.gst.Caps caps2) {
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
+    public boolean canIntersect(org.gstreamer.gst.Caps caps2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_can_intersect.invokeExact(
@@ -305,7 +311,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -317,7 +323,7 @@ public class Caps extends Struct {
      * reference to the data, you should use gst_caps_ref().
      * @return the new {@link Caps}
      */
-    public @NotNull org.gstreamer.gst.Caps copy() {
+    public org.gstreamer.gst.Caps copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_copy.invokeExact(
@@ -325,7 +331,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -334,7 +340,7 @@ public class Caps extends Struct {
      * @param nth the nth structure to copy
      * @return the new {@link Caps}
      */
-    public @NotNull org.gstreamer.gst.Caps copyNth(int nth) {
+    public org.gstreamer.gst.Caps copyNth(int nth) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_copy_nth.invokeExact(
@@ -343,7 +349,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -355,17 +361,12 @@ public class Caps extends Struct {
      * The caps must be mutable.
      * @param func a function to call for each field
      */
-    public void filterAndMapInPlace(@NotNull org.gstreamer.gst.CapsFilterMapFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void filterAndMapInPlace(org.gstreamer.gst.CapsFilterMapFunc func) {
         try {
             DowncallHandles.gst_caps_filter_and_map_in_place.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbCapsFilterMapFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,7 +388,7 @@ public class Caps extends Struct {
      * Calling this function with ANY caps is not allowed.
      * @return the fixated caps
      */
-    public @NotNull org.gstreamer.gst.Caps fixate() {
+    public org.gstreamer.gst.Caps fixate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_fixate.invokeExact(
@@ -396,7 +397,7 @@ public class Caps extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -407,22 +408,17 @@ public class Caps extends Struct {
      * @return {@code true} if the supplied function returns {@code true} for each call,
      * {@code false} otherwise.
      */
-    public boolean foreach(@NotNull org.gstreamer.gst.CapsForeachFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public boolean foreach(org.gstreamer.gst.CapsForeachFunc func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbCapsForeachFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -449,7 +445,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.CapsFeatures(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -482,7 +478,7 @@ public class Caps extends Struct {
      * @return a pointer to the {@link Structure} corresponding
      *     to {@code index}
      */
-    public @NotNull org.gstreamer.gst.Structure getStructure(int index) {
+    public org.gstreamer.gst.Structure getStructure(int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_get_structure.invokeExact(
@@ -491,7 +487,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -500,8 +496,7 @@ public class Caps extends Struct {
      * @param caps2 a {@link Caps} to intersect
      * @return the new {@link Caps}
      */
-    public @NotNull org.gstreamer.gst.Caps intersect(@NotNull org.gstreamer.gst.Caps caps2) {
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
+    public org.gstreamer.gst.Caps intersect(org.gstreamer.gst.Caps caps2) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_intersect.invokeExact(
@@ -510,7 +505,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -521,9 +516,7 @@ public class Caps extends Struct {
      * @param mode The intersection algorithm/mode to use
      * @return the new {@link Caps}
      */
-    public @NotNull org.gstreamer.gst.Caps intersectFull(@NotNull org.gstreamer.gst.Caps caps2, @NotNull org.gstreamer.gst.CapsIntersectMode mode) {
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public org.gstreamer.gst.Caps intersectFull(org.gstreamer.gst.Caps caps2, org.gstreamer.gst.CapsIntersectMode mode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_intersect_full.invokeExact(
@@ -533,7 +526,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -543,8 +536,7 @@ public class Caps extends Struct {
      * @param caps2 the {@link Caps} to test
      * @return {@code true} if {@code caps1} is a subset of {@code caps2}.
      */
-    public boolean isAlwaysCompatible(@NotNull org.gstreamer.gst.Caps caps2) {
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
+    public boolean isAlwaysCompatible(org.gstreamer.gst.Caps caps2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_is_always_compatible.invokeExact(
@@ -553,7 +545,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -568,7 +560,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -583,7 +575,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -591,8 +583,7 @@ public class Caps extends Struct {
      * @param caps2 another {@link Caps}
      * @return {@code true} if both caps are equal.
      */
-    public boolean isEqual(@NotNull org.gstreamer.gst.Caps caps2) {
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
+    public boolean isEqual(org.gstreamer.gst.Caps caps2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_is_equal.invokeExact(
@@ -601,7 +592,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -610,8 +601,7 @@ public class Caps extends Struct {
      * @param caps2 the {@link Caps} to test
      * @return {@code true} if the arguments represent the same format
      */
-    public boolean isEqualFixed(@NotNull org.gstreamer.gst.Caps caps2) {
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
+    public boolean isEqualFixed(org.gstreamer.gst.Caps caps2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_is_equal_fixed.invokeExact(
@@ -620,7 +610,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -637,7 +627,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -645,8 +635,7 @@ public class Caps extends Struct {
      * @param caps2 another {@link Caps}
      * @return {@code true} if both caps are strictly equal.
      */
-    public boolean isStrictlyEqual(@NotNull org.gstreamer.gst.Caps caps2) {
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
+    public boolean isStrictlyEqual(org.gstreamer.gst.Caps caps2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_is_strictly_equal.invokeExact(
@@ -655,7 +644,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -663,8 +652,7 @@ public class Caps extends Struct {
      * @param superset a potentially greater {@link Caps}
      * @return {@code true} if {@code subset} is a subset of {@code superset}
      */
-    public boolean isSubset(@NotNull org.gstreamer.gst.Caps superset) {
-        java.util.Objects.requireNonNull(superset, "Parameter 'superset' must not be null");
+    public boolean isSubset(org.gstreamer.gst.Caps superset) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_is_subset.invokeExact(
@@ -673,7 +661,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -682,8 +670,7 @@ public class Caps extends Struct {
      * @param structure a potential {@link Structure} subset of {@code caps}
      * @return {@code true} if {@code structure} is a subset of {@code caps}
      */
-    public boolean isSubsetStructure(@NotNull org.gstreamer.gst.Structure structure) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public boolean isSubsetStructure(org.gstreamer.gst.Structure structure) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_is_subset_structure.invokeExact(
@@ -692,7 +679,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -702,8 +689,7 @@ public class Caps extends Struct {
      * @param features a {@link CapsFeatures} for {@code structure}
      * @return {@code true} if {@code structure} is a subset of {@code caps}
      */
-    public boolean isSubsetStructureFull(@NotNull org.gstreamer.gst.Structure structure, @Nullable org.gstreamer.gst.CapsFeatures features) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public boolean isSubsetStructureFull(org.gstreamer.gst.Structure structure, @Nullable org.gstreamer.gst.CapsFeatures features) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_is_subset_structure_full.invokeExact(
@@ -713,7 +699,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -724,22 +710,17 @@ public class Caps extends Struct {
      * @return {@code true} if the supplied function returns {@code true} for each call,
      * {@code false} otherwise.
      */
-    public boolean mapInPlace(@NotNull org.gstreamer.gst.CapsMapFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public boolean mapInPlace(org.gstreamer.gst.CapsMapFunc func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_map_in_place.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbCapsMapFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -750,8 +731,7 @@ public class Caps extends Struct {
      * @param caps2 the {@link Caps} to merge in
      * @return the merged caps.
      */
-    public @NotNull org.gstreamer.gst.Caps merge(@NotNull org.gstreamer.gst.Caps caps2) {
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
+    public org.gstreamer.gst.Caps merge(org.gstreamer.gst.Caps caps2) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_merge.invokeExact(
@@ -762,7 +742,7 @@ public class Caps extends Struct {
         }
         this.yieldOwnership();
         caps2.yieldOwnership();
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -770,8 +750,7 @@ public class Caps extends Struct {
      * @param structure the {@link Structure} to merge
      * @return the merged caps.
      */
-    public @NotNull org.gstreamer.gst.Caps mergeStructure(@NotNull org.gstreamer.gst.Structure structure) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public org.gstreamer.gst.Caps mergeStructure(org.gstreamer.gst.Structure structure) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_merge_structure.invokeExact(
@@ -782,7 +761,7 @@ public class Caps extends Struct {
         }
         this.yieldOwnership();
         structure.yieldOwnership();
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -791,8 +770,7 @@ public class Caps extends Struct {
      * @param features the {@link CapsFeatures} to merge
      * @return the merged caps.
      */
-    public @NotNull org.gstreamer.gst.Caps mergeStructureFull(@NotNull org.gstreamer.gst.Structure structure, @Nullable org.gstreamer.gst.CapsFeatures features) {
-        java.util.Objects.requireNonNull(structure, "Parameter 'structure' must not be null");
+    public org.gstreamer.gst.Caps mergeStructureFull(org.gstreamer.gst.Structure structure, @Nullable org.gstreamer.gst.CapsFeatures features) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_merge_structure_full.invokeExact(
@@ -805,7 +783,7 @@ public class Caps extends Struct {
         this.yieldOwnership();
         structure.yieldOwnership();
         features.yieldOwnership();
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -818,7 +796,7 @@ public class Caps extends Struct {
      * reference to it with gst_caps_ref().
      * @return the normalized {@link Caps}
      */
-    public @NotNull org.gstreamer.gst.Caps normalize() {
+    public org.gstreamer.gst.Caps normalize() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_normalize.invokeExact(
@@ -827,7 +805,7 @@ public class Caps extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -858,8 +836,7 @@ public class Caps extends Struct {
      * @param flags a {@link SerializeFlags}
      * @return a newly allocated string representing {@code caps}.
      */
-    public @NotNull java.lang.String serialize(@NotNull org.gstreamer.gst.SerializeFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public java.lang.String serialize(org.gstreamer.gst.SerializeFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_serialize.invokeExact(
@@ -868,7 +845,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -909,12 +886,11 @@ public class Caps extends Struct {
      * @param field first field to set
      * @param varargs additional parameters
      */
-    public void setSimple(@NotNull java.lang.String field, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
+    public void setSimple(java.lang.String field, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_caps_set_simple.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(field),
+                    Marshal.stringToAddress.marshal(field, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -927,13 +903,11 @@ public class Caps extends Struct {
      * @param field first field to set
      * @param varargs additional parameters
      */
-    public void setSimpleValist(@NotNull java.lang.String field, @NotNull VaList varargs) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
-        java.util.Objects.requireNonNull(varargs, "Parameter 'varargs' must not be null");
+    public void setSimpleValist(java.lang.String field, VaList varargs) {
         try {
             DowncallHandles.gst_caps_set_simple_valist.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(field),
+                    Marshal.stringToAddress.marshal(field, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -947,13 +921,11 @@ public class Caps extends Struct {
      * @param field name of the field to set
      * @param value value to set the field to
      */
-    public void setValue(@NotNull java.lang.String field, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(field, "Parameter 'field' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setValue(java.lang.String field, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gst_caps_set_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(field),
+                    Marshal.stringToAddress.marshal(field, null),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -973,7 +945,7 @@ public class Caps extends Struct {
      * This method does not preserve the original order of {@code caps}.
      * @return The simplified caps.
      */
-    public @NotNull org.gstreamer.gst.Caps simplify() {
+    public org.gstreamer.gst.Caps simplify() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_simplify.invokeExact(
@@ -982,7 +954,7 @@ public class Caps extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1001,7 +973,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1013,8 +985,7 @@ public class Caps extends Struct {
      * @param subtrahend {@link Caps} to subtract
      * @return the resulting caps
      */
-    public @NotNull org.gstreamer.gst.Caps subtract(@NotNull org.gstreamer.gst.Caps subtrahend) {
-        java.util.Objects.requireNonNull(subtrahend, "Parameter 'subtrahend' must not be null");
+    public org.gstreamer.gst.Caps subtract(org.gstreamer.gst.Caps subtrahend) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_subtract.invokeExact(
@@ -1023,7 +994,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1041,7 +1012,7 @@ public class Caps extends Struct {
      * when there were nested {@link Caps} / {@link Structure} deeper than one level.
      * @return a newly allocated string representing {@code caps}.
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_to_string.invokeExact(
@@ -1049,7 +1020,7 @@ public class Caps extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1065,7 +1036,7 @@ public class Caps extends Struct {
      * the same and contain no structure at all.
      * @return truncated caps
      */
-    public @NotNull org.gstreamer.gst.Caps truncate() {
+    public org.gstreamer.gst.Caps truncate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_truncate.invokeExact(
@@ -1074,7 +1045,7 @@ public class Caps extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1085,16 +1056,15 @@ public class Caps extends Struct {
      * @param string a string to convert to {@link Caps}
      * @return a newly allocated {@link Caps}
      */
-    public static @Nullable org.gstreamer.gst.Caps fromString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static @Nullable org.gstreamer.gst.Caps fromString(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_from_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -1387,31 +1357,35 @@ public class Caps extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Caps.Builder} object constructs a {@link Caps} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Caps.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Caps struct;
+        private final Caps struct;
         
-         /**
-         * A {@link Caps.Build} object constructs a {@link Caps} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Caps.allocate();
         }
         
          /**
          * Finish building the {@link Caps} struct.
          * @return A new instance of {@code Caps} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Caps construct() {
+        public Caps build() {
             return struct;
         }
         
@@ -1420,7 +1394,7 @@ public class Caps extends Struct {
          * @param miniObject The value for the {@code miniObject} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));

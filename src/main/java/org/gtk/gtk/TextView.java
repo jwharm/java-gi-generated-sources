@@ -47,18 +47,16 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     private static final java.lang.String C_TYPE_NAME = "GtkTextView";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -66,40 +64,26 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * Because TextView is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TextView(Addressable address, Ownership ownership) {
+    protected TextView(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to TextView if its GType is a (or inherits from) "GtkTextView".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TextView} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTextView", a ClassCastException will be thrown.
-     */
-    public static TextView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TextView.getType())) {
-            return new TextView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTextView");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TextView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextView(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_view_new.invokeExact();
         } catch (Throwable ERR) {
@@ -120,9 +104,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithBuffer(@NotNull org.gtk.gtk.TextBuffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithBuffer(org.gtk.gtk.TextBuffer buffer) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_view_new_with_buffer.invokeExact(
                     buffer.handle());
@@ -142,8 +125,9 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param buffer a {@code GtkTextBuffer}
      * @return a new {@code GtkTextView}.
      */
-    public static TextView newWithBuffer(@NotNull org.gtk.gtk.TextBuffer buffer) {
-        return new TextView(constructNewWithBuffer(buffer), Ownership.NONE);
+    public static TextView newWithBuffer(org.gtk.gtk.TextBuffer buffer) {
+        var RESULT = constructNewWithBuffer(buffer);
+        return (org.gtk.gtk.TextView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextView.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -151,9 +135,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param child a {@code GtkWidget}
      * @param anchor a {@code GtkTextChildAnchor} in the {@code GtkTextBuffer} for {@code text_view}
      */
-    public void addChildAtAnchor(@NotNull org.gtk.gtk.Widget child, @NotNull org.gtk.gtk.TextChildAnchor anchor) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(anchor, "Parameter 'anchor' must not be null");
+    public void addChildAtAnchor(org.gtk.gtk.Widget child, org.gtk.gtk.TextChildAnchor anchor) {
         try {
             DowncallHandles.gtk_text_view_add_child_at_anchor.invokeExact(
                     handle(),
@@ -179,8 +161,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param xpos X position of child in window coordinates
      * @param ypos Y position of child in window coordinates
      */
-    public void addOverlay(@NotNull org.gtk.gtk.Widget child, int xpos, int ypos) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void addOverlay(org.gtk.gtk.Widget child, int xpos, int ypos) {
         try {
             DowncallHandles.gtk_text_view_add_overlay.invokeExact(
                     handle(),
@@ -205,8 +186,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a {@code GtkTextIter}
      * @return {@code true} if {@code iter} was moved and is not on the end iterator
      */
-    public boolean backwardDisplayLine(@NotNull org.gtk.gtk.TextIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean backwardDisplayLine(org.gtk.gtk.TextIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_backward_display_line.invokeExact(
@@ -215,7 +195,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -231,8 +211,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a {@code GtkTextIter}
      * @return {@code true} if {@code iter} was moved and is not on the end iterator
      */
-    public boolean backwardDisplayLineStart(@NotNull org.gtk.gtk.TextIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean backwardDisplayLineStart(org.gtk.gtk.TextIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_backward_display_line_start.invokeExact(
@@ -241,7 +220,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -252,11 +231,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param windowX window x coordinate return location
      * @param windowY window y coordinate return location
      */
-    public void bufferToWindowCoords(@NotNull org.gtk.gtk.TextWindowType win, int bufferX, int bufferY, Out<Integer> windowX, Out<Integer> windowY) {
-        java.util.Objects.requireNonNull(win, "Parameter 'win' must not be null");
-        java.util.Objects.requireNonNull(windowX, "Parameter 'windowX' must not be null");
+    public void bufferToWindowCoords(org.gtk.gtk.TextWindowType win, int bufferX, int bufferY, Out<Integer> windowX, Out<Integer> windowY) {
         MemorySegment windowXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(windowY, "Parameter 'windowY' must not be null");
         MemorySegment windowYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_text_view_buffer_to_window_coords.invokeExact(
@@ -264,13 +240,13 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     win.getValue(),
                     bufferX,
                     bufferY,
-                    (Addressable) windowXPOINTER.address(),
-                    (Addressable) windowYPOINTER.address());
+                    (Addressable) (windowX == null ? MemoryAddress.NULL : (Addressable) windowXPOINTER.address()),
+                    (Addressable) (windowY == null ? MemoryAddress.NULL : (Addressable) windowYPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        windowX.set(windowXPOINTER.get(Interop.valueLayout.C_INT, 0));
-        windowY.set(windowYPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (windowX != null) windowX.set(windowXPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (windowY != null) windowY.set(windowYPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -286,8 +262,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a {@code GtkTextIter}
      * @return {@code true} if {@code iter} was moved and is not on the end iterator
      */
-    public boolean forwardDisplayLine(@NotNull org.gtk.gtk.TextIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean forwardDisplayLine(org.gtk.gtk.TextIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_forward_display_line.invokeExact(
@@ -296,7 +271,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -312,8 +287,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a {@code GtkTextIter}
      * @return {@code true} if {@code iter} was moved and is not on the end iterator
      */
-    public boolean forwardDisplayLineEnd(@NotNull org.gtk.gtk.TextIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean forwardDisplayLineEnd(org.gtk.gtk.TextIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_forward_display_line_end.invokeExact(
@@ -322,7 +296,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -340,7 +314,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -365,7 +339,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * of this function won’t own a new reference.
      * @return a {@code GtkTextBuffer}
      */
-    public @NotNull org.gtk.gtk.TextBuffer getBuffer() {
+    public org.gtk.gtk.TextBuffer getBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_view_get_buffer.invokeExact(
@@ -373,7 +347,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TextBuffer(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TextBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TextBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -401,15 +375,13 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param strong location to store the strong cursor position
      * @param weak location to store the weak cursor position
      */
-    public void getCursorLocations(@Nullable org.gtk.gtk.TextIter iter, @NotNull org.gtk.gdk.Rectangle strong, @NotNull org.gtk.gdk.Rectangle weak) {
-        java.util.Objects.requireNonNull(strong, "Parameter 'strong' must not be null");
-        java.util.Objects.requireNonNull(weak, "Parameter 'weak' must not be null");
+    public void getCursorLocations(@Nullable org.gtk.gtk.TextIter iter, @Nullable org.gtk.gdk.Rectangle strong, @Nullable org.gtk.gdk.Rectangle weak) {
         try {
             DowncallHandles.gtk_text_view_get_cursor_locations.invokeExact(
                     handle(),
                     (Addressable) (iter == null ? MemoryAddress.NULL : iter.handle()),
-                    strong.handle(),
-                    weak.handle());
+                    (Addressable) (strong == null ? MemoryAddress.NULL : strong.handle()),
+                    (Addressable) (weak == null ? MemoryAddress.NULL : weak.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,7 +399,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -444,7 +416,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -452,7 +424,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * or {@code null} if none has been set.
      * @return the menu model
      */
-    public @NotNull org.gtk.gio.MenuModel getExtraMenu() {
+    public org.gtk.gio.MenuModel getExtraMenu() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_view_get_extra_menu.invokeExact(
@@ -460,7 +432,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -473,8 +445,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param win a {@code GtkTextWindowType}
      * @return a {@code GtkWidget}
      */
-    public @Nullable org.gtk.gtk.Widget getGutter(@NotNull org.gtk.gtk.TextWindowType win) {
-        java.util.Objects.requireNonNull(win, "Parameter 'win' must not be null");
+    public @Nullable org.gtk.gtk.Widget getGutter(org.gtk.gtk.TextWindowType win) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_view_get_gutter.invokeExact(
@@ -483,7 +454,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -507,7 +478,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     /**
      * Gets the {@code input-hints} of the {@code GtkTextView}.
      */
-    public @NotNull org.gtk.gtk.InputHints getInputHints() {
+    public org.gtk.gtk.InputHints getInputHints() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_get_input_hints.invokeExact(
@@ -521,7 +492,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     /**
      * Gets the {@code input-purpose} of the {@code GtkTextView}.
      */
-    public @NotNull org.gtk.gtk.InputPurpose getInputPurpose() {
+    public org.gtk.gtk.InputPurpose getInputPurpose() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_get_input_purpose.invokeExact(
@@ -544,8 +515,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param y y position, in buffer coordinates
      * @return {@code true} if the position is over text
      */
-    public boolean getIterAtLocation(@NotNull org.gtk.gtk.TextIter iter, int x, int y) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean getIterAtLocation(org.gtk.gtk.TextIter iter, int x, int y) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_get_iter_at_location.invokeExact(
@@ -556,7 +526,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -579,23 +549,21 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param y y position, in buffer coordinates
      * @return {@code true} if the position is over text
      */
-    public boolean getIterAtPosition(@NotNull org.gtk.gtk.TextIter iter, Out<Integer> trailing, int x, int y) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(trailing, "Parameter 'trailing' must not be null");
+    public boolean getIterAtPosition(org.gtk.gtk.TextIter iter, Out<Integer> trailing, int x, int y) {
         MemorySegment trailingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_get_iter_at_position.invokeExact(
                     handle(),
                     iter.handle(),
-                    (Addressable) trailingPOINTER.address(),
+                    (Addressable) (trailing == null ? MemoryAddress.NULL : (Addressable) trailingPOINTER.address()),
                     x,
                     y);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (trailing != null) trailing.set(trailingPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -607,9 +575,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a {@code GtkTextIter}
      * @param location bounds of the character at {@code iter}
      */
-    public void getIterLocation(@NotNull org.gtk.gtk.TextIter iter, @NotNull org.gtk.gdk.Rectangle location) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
+    public void getIterLocation(org.gtk.gtk.TextIter iter, org.gtk.gdk.Rectangle location) {
         try {
             DowncallHandles.gtk_text_view_get_iter_location.invokeExact(
                     handle(),
@@ -626,7 +592,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Tags in the buffer may override the default.
      * @return default justification
      */
-    public @NotNull org.gtk.gtk.Justification getJustification() {
+    public org.gtk.gtk.Justification getJustification() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_get_justification.invokeExact(
@@ -666,9 +632,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param y a y coordinate
      * @param lineTop return location for top coordinate of the line
      */
-    public void getLineAtY(@NotNull org.gtk.gtk.TextIter targetIter, int y, Out<Integer> lineTop) {
-        java.util.Objects.requireNonNull(targetIter, "Parameter 'targetIter' must not be null");
-        java.util.Objects.requireNonNull(lineTop, "Parameter 'lineTop' must not be null");
+    public void getLineAtY(org.gtk.gtk.TextIter targetIter, int y, Out<Integer> lineTop) {
         MemorySegment lineTopPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_text_view_get_line_at_y.invokeExact(
@@ -692,11 +656,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param y return location for a y coordinate
      * @param height return location for a height
      */
-    public void getLineYrange(@NotNull org.gtk.gtk.TextIter iter, Out<Integer> y, Out<Integer> height) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
+    public void getLineYrange(org.gtk.gtk.TextIter iter, Out<Integer> y, Out<Integer> height) {
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_text_view_get_line_yrange.invokeExact(
@@ -718,7 +679,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * The context may be replaced when CSS changes occur.
      * @return a {@code PangoContext}
      */
-    public @NotNull org.pango.Context getLtrContext() {
+    public org.pango.Context getLtrContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_view_get_ltr_context.invokeExact(
@@ -726,7 +687,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(RESULT, Ownership.NONE);
+        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -741,7 +702,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -756,7 +717,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -835,7 +796,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * The context may be replaced when CSS changes occur.
      * @return a {@code PangoContext}
      */
-    public @NotNull org.pango.Context getRtlContext() {
+    public org.pango.Context getRtlContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_view_get_rtl_context.invokeExact(
@@ -843,7 +804,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(RESULT, Ownership.NONE);
+        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -864,7 +825,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(RESULT, Ownership.FULL);
+        return org.pango.TabArray.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -890,8 +851,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * {@link TextView#bufferToWindowCoords}.
      * @param visibleRect rectangle to fill
      */
-    public void getVisibleRect(@NotNull org.gtk.gdk.Rectangle visibleRect) {
-        java.util.Objects.requireNonNull(visibleRect, "Parameter 'visibleRect' must not be null");
+    public void getVisibleRect(org.gtk.gdk.Rectangle visibleRect) {
         try {
             DowncallHandles.gtk_text_view_get_visible_rect.invokeExact(
                     handle(),
@@ -905,7 +865,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Gets the line wrapping for the view.
      * @return the line wrap setting
      */
-    public @NotNull org.gtk.gtk.WrapMode getWrapMode() {
+    public org.gtk.gtk.WrapMode getWrapMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_get_wrap_mode.invokeExact(
@@ -950,8 +910,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param event the key event
      * @return {@code true} if the input method handled the key event.
      */
-    public boolean imContextFilterKeypress(@NotNull org.gtk.gdk.Event event) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public boolean imContextFilterKeypress(org.gtk.gdk.Event event) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_im_context_filter_keypress.invokeExact(
@@ -960,7 +919,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -969,8 +928,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param mark a {@code GtkTextMark}
      * @return {@code true} if the mark moved (wasn’t already onscreen)
      */
-    public boolean moveMarkOnscreen(@NotNull org.gtk.gtk.TextMark mark) {
-        java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
+    public boolean moveMarkOnscreen(org.gtk.gtk.TextMark mark) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_move_mark_onscreen.invokeExact(
@@ -979,7 +937,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -990,8 +948,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param xpos new X position in buffer coordinates
      * @param ypos new Y position in buffer coordinates
      */
-    public void moveOverlay(@NotNull org.gtk.gtk.Widget child, int xpos, int ypos) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void moveOverlay(org.gtk.gtk.Widget child, int xpos, int ypos) {
         try {
             DowncallHandles.gtk_text_view_move_overlay.invokeExact(
                     handle(),
@@ -1021,8 +978,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      *    positive moves right)
      * @return {@code true} if {@code iter} moved and is not on the end iterator
      */
-    public boolean moveVisually(@NotNull org.gtk.gtk.TextIter iter, int count) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean moveVisually(org.gtk.gtk.TextIter iter, int count) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_move_visually.invokeExact(
@@ -1032,7 +988,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1048,15 +1004,14 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Removes a child widget from {@code text_view}.
      * @param child the child to remove
      */
-    public void remove(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void remove(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_text_view_remove.invokeExact(
                     handle(),
@@ -1105,8 +1060,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * within the visible area of the widget.
      * @param mark a mark in the buffer for {@code text_view}
      */
-    public void scrollMarkOnscreen(@NotNull org.gtk.gtk.TextMark mark) {
-        java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
+    public void scrollMarkOnscreen(org.gtk.gtk.TextMark mark) {
         try {
             DowncallHandles.gtk_text_view_scroll_mark_onscreen.invokeExact(
                     handle(),
@@ -1140,21 +1094,20 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param yalign vertical alignment of mark within visible area
      * @return {@code true} if scrolling occurred
      */
-    public boolean scrollToIter(@NotNull org.gtk.gtk.TextIter iter, double withinMargin, boolean useAlign, double xalign, double yalign) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean scrollToIter(org.gtk.gtk.TextIter iter, double withinMargin, boolean useAlign, double xalign, double yalign) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_scroll_to_iter.invokeExact(
                     handle(),
                     iter.handle(),
                     withinMargin,
-                    useAlign ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(useAlign, null).intValue(),
                     xalign,
                     yalign);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1173,14 +1126,13 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param xalign horizontal alignment of mark within visible area
      * @param yalign vertical alignment of mark within visible area
      */
-    public void scrollToMark(@NotNull org.gtk.gtk.TextMark mark, double withinMargin, boolean useAlign, double xalign, double yalign) {
-        java.util.Objects.requireNonNull(mark, "Parameter 'mark' must not be null");
+    public void scrollToMark(org.gtk.gtk.TextMark mark, double withinMargin, boolean useAlign, double xalign, double yalign) {
         try {
             DowncallHandles.gtk_text_view_scroll_to_mark.invokeExact(
                     handle(),
                     mark.handle(),
                     withinMargin,
-                    useAlign ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(useAlign, null).intValue(),
                     xalign,
                     yalign);
         } catch (Throwable ERR) {
@@ -1202,7 +1154,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_text_view_set_accepts_tab.invokeExact(
                     handle(),
-                    acceptsTab ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(acceptsTab, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1258,7 +1210,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_text_view_set_cursor_visible.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1275,7 +1227,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_text_view_set_editable.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1306,8 +1258,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param win a {@code GtkTextWindowType}
      * @param widget a {@code GtkWidget}
      */
-    public void setGutter(@NotNull org.gtk.gtk.TextWindowType win, @Nullable org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(win, "Parameter 'win' must not be null");
+    public void setGutter(org.gtk.gtk.TextWindowType win, @Nullable org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.gtk_text_view_set_gutter.invokeExact(
                     handle(),
@@ -1341,8 +1292,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * their behaviour.
      * @param hints the hints
      */
-    public void setInputHints(@NotNull org.gtk.gtk.InputHints hints) {
-        java.util.Objects.requireNonNull(hints, "Parameter 'hints' must not be null");
+    public void setInputHints(org.gtk.gtk.InputHints hints) {
         try {
             DowncallHandles.gtk_text_view_set_input_hints.invokeExact(
                     handle(),
@@ -1359,8 +1309,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * and other input methods to adjust their behaviour.
      * @param purpose the purpose
      */
-    public void setInputPurpose(@NotNull org.gtk.gtk.InputPurpose purpose) {
-        java.util.Objects.requireNonNull(purpose, "Parameter 'purpose' must not be null");
+    public void setInputPurpose(org.gtk.gtk.InputPurpose purpose) {
         try {
             DowncallHandles.gtk_text_view_set_input_purpose.invokeExact(
                     handle(),
@@ -1376,8 +1325,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Tags in the view’s buffer may override the default.
      * @param justification justification
      */
-    public void setJustification(@NotNull org.gtk.gtk.Justification justification) {
-        java.util.Objects.requireNonNull(justification, "Parameter 'justification' must not be null");
+    public void setJustification(org.gtk.gtk.Justification justification) {
         try {
             DowncallHandles.gtk_text_view_set_justification.invokeExact(
                     handle(),
@@ -1415,7 +1363,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_text_view_set_monospace.invokeExact(
                     handle(),
-                    monospace ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(monospace, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1429,7 +1377,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_text_view_set_overwrite.invokeExact(
                     handle(),
-                    overwrite ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(overwrite, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1510,8 +1458,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Tags in the buffer may override the default.
      * @param tabs tabs as a {@code PangoTabArray}
      */
-    public void setTabs(@NotNull org.pango.TabArray tabs) {
-        java.util.Objects.requireNonNull(tabs, "Parameter 'tabs' must not be null");
+    public void setTabs(org.pango.TabArray tabs) {
         try {
             DowncallHandles.gtk_text_view_set_tabs.invokeExact(
                     handle(),
@@ -1542,8 +1489,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Sets the line wrapping for the view.
      * @param wrapMode a {@code GtkWrapMode}
      */
-    public void setWrapMode(@NotNull org.gtk.gtk.WrapMode wrapMode) {
-        java.util.Objects.requireNonNull(wrapMode, "Parameter 'wrapMode' must not be null");
+    public void setWrapMode(org.gtk.gtk.WrapMode wrapMode) {
         try {
             DowncallHandles.gtk_text_view_set_wrap_mode.invokeExact(
                     handle(),
@@ -1561,8 +1507,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param iter a {@code GtkTextIter}
      * @return {@code true} if {@code iter} begins a wrapped line
      */
-    public boolean startsDisplayLine(@NotNull org.gtk.gtk.TextIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public boolean startsDisplayLine(org.gtk.gtk.TextIter iter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_view_starts_display_line.invokeExact(
@@ -1571,7 +1516,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1583,11 +1528,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param bufferX buffer x coordinate return location
      * @param bufferY buffer y coordinate return location
      */
-    public void windowToBufferCoords(@NotNull org.gtk.gtk.TextWindowType win, int windowX, int windowY, Out<Integer> bufferX, Out<Integer> bufferY) {
-        java.util.Objects.requireNonNull(win, "Parameter 'win' must not be null");
-        java.util.Objects.requireNonNull(bufferX, "Parameter 'bufferX' must not be null");
+    public void windowToBufferCoords(org.gtk.gtk.TextWindowType win, int windowX, int windowY, Out<Integer> bufferX, Out<Integer> bufferY) {
         MemorySegment bufferXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(bufferY, "Parameter 'bufferY' must not be null");
         MemorySegment bufferYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_text_view_window_to_buffer_coords.invokeExact(
@@ -1595,20 +1537,20 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
                     win.getValue(),
                     windowX,
                     windowY,
-                    (Addressable) bufferXPOINTER.address(),
-                    (Addressable) bufferYPOINTER.address());
+                    (Addressable) (bufferX == null ? MemoryAddress.NULL : (Addressable) bufferXPOINTER.address()),
+                    (Addressable) (bufferY == null ? MemoryAddress.NULL : (Addressable) bufferYPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bufferX.set(bufferXPOINTER.get(Interop.valueLayout.C_INT, 0));
-        bufferY.set(bufferYPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (bufferX != null) bufferX.set(bufferXPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (bufferY != null) bufferY.set(bufferYPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_text_view_get_type.invokeExact();
@@ -1620,7 +1562,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface Backspace {
-        void signalReceived(TextView sourceTextView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Backspace.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1636,16 +1589,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.Backspace> onBackspace(TextView.Backspace handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("backspace"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewBackspace",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.Backspace>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("backspace"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1653,7 +1598,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface CopyClipboard {
-        void signalReceived(TextView sourceTextView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CopyClipboard.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1670,16 +1626,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.CopyClipboard> onCopyClipboard(TextView.CopyClipboard handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("copy-clipboard"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewCopyClipboard",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.CopyClipboard>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("copy-clipboard"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1687,7 +1635,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface CutClipboard {
-        void signalReceived(TextView sourceTextView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CutClipboard.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1704,16 +1663,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.CutClipboard> onCutClipboard(TextView.CutClipboard handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("cut-clipboard"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewCutClipboard",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.CutClipboard>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("cut-clipboard"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1721,7 +1672,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface DeleteFromCursor {
-        void signalReceived(TextView sourceTextView, @NotNull org.gtk.gtk.DeleteType type, int count);
+        void run(org.gtk.gtk.DeleteType type, int count);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView, int type, int count) {
+            run(org.gtk.gtk.DeleteType.of(type), count);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeleteFromCursor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1743,16 +1705,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.DeleteFromCursor> onDeleteFromCursor(TextView.DeleteFromCursor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("delete-from-cursor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewDeleteFromCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.DeleteFromCursor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("delete-from-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1760,7 +1714,19 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ExtendSelection {
-        boolean signalReceived(TextView sourceTextView, @NotNull org.gtk.gtk.TextExtendSelection granularity, @NotNull org.gtk.gtk.TextIter location, @NotNull org.gtk.gtk.TextIter start, @NotNull org.gtk.gtk.TextIter end);
+        boolean run(org.gtk.gtk.TextExtendSelection granularity, org.gtk.gtk.TextIter location, org.gtk.gtk.TextIter start, org.gtk.gtk.TextIter end);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceTextView, int granularity, MemoryAddress location, MemoryAddress start, MemoryAddress end) {
+            var RESULT = run(org.gtk.gtk.TextExtendSelection.of(granularity), org.gtk.gtk.TextIter.fromAddress.marshal(location, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(start, Ownership.NONE), org.gtk.gtk.TextIter.fromAddress.marshal(end, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ExtendSelection.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1771,16 +1737,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.ExtendSelection> onExtendSelection(TextView.ExtendSelection handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("extend-selection"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewExtendSelection",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.ExtendSelection>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("extend-selection"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1788,7 +1746,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface InsertAtCursor {
-        void signalReceived(TextView sourceTextView, @NotNull java.lang.String string);
+        void run(java.lang.String string);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView, MemoryAddress string) {
+            run(Marshal.addressToString.marshal(string, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertAtCursor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1804,16 +1773,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.InsertAtCursor> onInsertAtCursor(TextView.InsertAtCursor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-at-cursor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewInsertAtCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.InsertAtCursor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-at-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1821,7 +1782,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface InsertEmoji {
-        void signalReceived(TextView sourceTextView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertEmoji.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1838,16 +1810,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.InsertEmoji> onInsertEmoji(TextView.InsertEmoji handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-emoji"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewInsertEmoji",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.InsertEmoji>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-emoji"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1855,7 +1819,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface MoveCursor {
-        void signalReceived(TextView sourceTextView, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extendSelection);
+        void run(org.gtk.gtk.MovementStep step, int count, boolean extendSelection);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView, int step, int count, int extendSelection) {
+            run(org.gtk.gtk.MovementStep.of(step), count, Marshal.integerToBoolean.marshal(extendSelection, null).booleanValue());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveCursor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1888,16 +1863,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.MoveCursor> onMoveCursor(TextView.MoveCursor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-cursor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewMoveCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.MoveCursor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1905,7 +1872,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface MoveViewport {
-        void signalReceived(TextView sourceTextView, @NotNull org.gtk.gtk.ScrollStep step, int count);
+        void run(org.gtk.gtk.ScrollStep step, int count);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView, int step, int count) {
+            run(org.gtk.gtk.ScrollStep.of(step), count);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveViewport.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1923,16 +1901,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.MoveViewport> onMoveViewport(TextView.MoveViewport handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-viewport"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewMoveViewport",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.MoveViewport>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-viewport"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1940,7 +1910,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PasteClipboard {
-        void signalReceived(TextView sourceTextView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PasteClipboard.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1958,16 +1939,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.PasteClipboard> onPasteClipboard(TextView.PasteClipboard handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("paste-clipboard"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewPasteClipboard",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.PasteClipboard>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("paste-clipboard"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1975,7 +1948,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface PreeditChanged {
-        void signalReceived(TextView sourceTextView, @NotNull java.lang.String preedit);
+        void run(java.lang.String preedit);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView, MemoryAddress preedit) {
+            run(Marshal.addressToString.marshal(preedit, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreeditChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1993,16 +1977,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.PreeditChanged> onPreeditChanged(TextView.PreeditChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("preedit-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewPreeditChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.PreeditChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("preedit-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2010,7 +1986,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SelectAll {
-        void signalReceived(TextView sourceTextView, boolean select);
+        void run(boolean select);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView, int select) {
+            run(Marshal.integerToBoolean.marshal(select, null).booleanValue());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SelectAll.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2029,16 +2016,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.SelectAll> onSelectAll(TextView.SelectAll handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("select-all"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewSelectAll",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.SelectAll>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("select-all"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2046,7 +2025,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface SetAnchor {
-        void signalReceived(TextView sourceTextView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SetAnchor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2064,16 +2054,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.SetAnchor> onSetAnchor(TextView.SetAnchor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("set-anchor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewSetAnchor",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.SetAnchor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("set-anchor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2081,7 +2063,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ToggleCursorVisible {
-        void signalReceived(TextView sourceTextView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleCursorVisible.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2097,16 +2090,8 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.ToggleCursorVisible> onToggleCursorVisible(TextView.ToggleCursorVisible handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("toggle-cursor-visible"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewToggleCursorVisible",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.ToggleCursorVisible>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("toggle-cursor-visible"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2114,7 +2099,18 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     
     @FunctionalInterface
     public interface ToggleOverwrite {
-        void signalReceived(TextView sourceTextView);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceTextView) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleOverwrite.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -2129,52 +2125,46 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
     public Signal<TextView.ToggleOverwrite> onToggleOverwrite(TextView.ToggleOverwrite handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("toggle-overwrite"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TextView.Callbacks.class, "signalTextViewToggleOverwrite",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TextView.ToggleOverwrite>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("toggle-overwrite"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link TextView.Builder} object constructs a {@link TextView} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TextView.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link TextView.Build} object constructs a {@link TextView} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TextView} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TextView} using {@link TextView#castFrom}.
+         * {@link TextView}.
          * @return A new instance of {@code TextView} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TextView construct() {
-            return TextView.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TextView.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TextView build() {
+            return (TextView) org.gtk.gobject.GObject.newWithProperties(
+                TextView.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -2183,7 +2173,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param acceptsTab The value for the {@code accepts-tab} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAcceptsTab(boolean acceptsTab) {
+        public Builder setAcceptsTab(boolean acceptsTab) {
             names.add("accepts-tab");
             values.add(org.gtk.gobject.Value.create(acceptsTab));
             return this;
@@ -2200,7 +2190,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param bottomMargin The value for the {@code bottom-margin} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBottomMargin(int bottomMargin) {
+        public Builder setBottomMargin(int bottomMargin) {
             names.add("bottom-margin");
             values.add(org.gtk.gobject.Value.create(bottomMargin));
             return this;
@@ -2211,7 +2201,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param buffer The value for the {@code buffer} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBuffer(org.gtk.gtk.TextBuffer buffer) {
+        public Builder setBuffer(org.gtk.gtk.TextBuffer buffer) {
             names.add("buffer");
             values.add(org.gtk.gobject.Value.create(buffer));
             return this;
@@ -2222,13 +2212,13 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param cursorVisible The value for the {@code cursor-visible} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCursorVisible(boolean cursorVisible) {
+        public Builder setCursorVisible(boolean cursorVisible) {
             names.add("cursor-visible");
             values.add(org.gtk.gobject.Value.create(cursorVisible));
             return this;
         }
         
-        public Build setEditable(boolean editable) {
+        public Builder setEditable(boolean editable) {
             names.add("editable");
             values.add(org.gtk.gobject.Value.create(editable));
             return this;
@@ -2239,7 +2229,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param extraMenu The value for the {@code extra-menu} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
+        public Builder setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
             names.add("extra-menu");
             values.add(org.gtk.gobject.Value.create(extraMenu));
             return this;
@@ -2255,7 +2245,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param imModule The value for the {@code im-module} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setImModule(java.lang.String imModule) {
+        public Builder setImModule(java.lang.String imModule) {
             names.add("im-module");
             values.add(org.gtk.gobject.Value.create(imModule));
             return this;
@@ -2266,7 +2256,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param indent The value for the {@code indent} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIndent(int indent) {
+        public Builder setIndent(int indent) {
             names.add("indent");
             values.add(org.gtk.gobject.Value.create(indent));
             return this;
@@ -2278,7 +2268,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param inputHints The value for the {@code input-hints} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputHints(org.gtk.gtk.InputHints inputHints) {
+        public Builder setInputHints(org.gtk.gtk.InputHints inputHints) {
             names.add("input-hints");
             values.add(org.gtk.gobject.Value.create(inputHints));
             return this;
@@ -2292,13 +2282,13 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param inputPurpose The value for the {@code input-purpose} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
+        public Builder setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
             names.add("input-purpose");
             values.add(org.gtk.gobject.Value.create(inputPurpose));
             return this;
         }
         
-        public Build setJustification(org.gtk.gtk.Justification justification) {
+        public Builder setJustification(org.gtk.gtk.Justification justification) {
             names.add("justification");
             values.add(org.gtk.gobject.Value.create(justification));
             return this;
@@ -2315,7 +2305,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param leftMargin The value for the {@code left-margin} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLeftMargin(int leftMargin) {
+        public Builder setLeftMargin(int leftMargin) {
             names.add("left-margin");
             values.add(org.gtk.gobject.Value.create(leftMargin));
             return this;
@@ -2329,7 +2319,7 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param monospace The value for the {@code monospace} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMonospace(boolean monospace) {
+        public Builder setMonospace(boolean monospace) {
             names.add("monospace");
             values.add(org.gtk.gobject.Value.create(monospace));
             return this;
@@ -2340,25 +2330,25 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param overwrite The value for the {@code overwrite} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOverwrite(boolean overwrite) {
+        public Builder setOverwrite(boolean overwrite) {
             names.add("overwrite");
             values.add(org.gtk.gobject.Value.create(overwrite));
             return this;
         }
         
-        public Build setPixelsAboveLines(int pixelsAboveLines) {
+        public Builder setPixelsAboveLines(int pixelsAboveLines) {
             names.add("pixels-above-lines");
             values.add(org.gtk.gobject.Value.create(pixelsAboveLines));
             return this;
         }
         
-        public Build setPixelsBelowLines(int pixelsBelowLines) {
+        public Builder setPixelsBelowLines(int pixelsBelowLines) {
             names.add("pixels-below-lines");
             values.add(org.gtk.gobject.Value.create(pixelsBelowLines));
             return this;
         }
         
-        public Build setPixelsInsideWrap(int pixelsInsideWrap) {
+        public Builder setPixelsInsideWrap(int pixelsInsideWrap) {
             names.add("pixels-inside-wrap");
             values.add(org.gtk.gobject.Value.create(pixelsInsideWrap));
             return this;
@@ -2375,13 +2365,13 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param rightMargin The value for the {@code right-margin} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRightMargin(int rightMargin) {
+        public Builder setRightMargin(int rightMargin) {
             names.add("right-margin");
             values.add(org.gtk.gobject.Value.create(rightMargin));
             return this;
         }
         
-        public Build setTabs(org.pango.TabArray tabs) {
+        public Builder setTabs(org.pango.TabArray tabs) {
             names.add("tabs");
             values.add(org.gtk.gobject.Value.create(tabs));
             return this;
@@ -2398,13 +2388,13 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param topMargin The value for the {@code top-margin} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTopMargin(int topMargin) {
+        public Builder setTopMargin(int topMargin) {
             names.add("top-margin");
             values.add(org.gtk.gobject.Value.create(topMargin));
             return this;
         }
         
-        public Build setWrapMode(org.gtk.gtk.WrapMode wrapMode) {
+        public Builder setWrapMode(org.gtk.gtk.WrapMode wrapMode) {
             names.add("wrap-mode");
             values.add(org.gtk.gobject.Value.create(wrapMode));
             return this;
@@ -2856,98 +2846,5 @@ public class TextView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalTextViewBackspace(MemoryAddress sourceTextView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.Backspace) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE));
-        }
-        
-        public static void signalTextViewCopyClipboard(MemoryAddress sourceTextView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.CopyClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE));
-        }
-        
-        public static void signalTextViewCutClipboard(MemoryAddress sourceTextView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.CutClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE));
-        }
-        
-        public static void signalTextViewDeleteFromCursor(MemoryAddress sourceTextView, int type, int count, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.DeleteFromCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE), org.gtk.gtk.DeleteType.of(type), count);
-        }
-        
-        public static boolean signalTextViewExtendSelection(MemoryAddress sourceTextView, int granularity, MemoryAddress location, MemoryAddress start, MemoryAddress end, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.ExtendSelection) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE), org.gtk.gtk.TextExtendSelection.of(granularity), new org.gtk.gtk.TextIter(location, Ownership.NONE), new org.gtk.gtk.TextIter(start, Ownership.NONE), new org.gtk.gtk.TextIter(end, Ownership.NONE));
-        }
-        
-        public static void signalTextViewInsertAtCursor(MemoryAddress sourceTextView, MemoryAddress string, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.InsertAtCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE), Interop.getStringFrom(string));
-        }
-        
-        public static void signalTextViewInsertEmoji(MemoryAddress sourceTextView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.InsertEmoji) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE));
-        }
-        
-        public static void signalTextViewMoveCursor(MemoryAddress sourceTextView, int step, int count, int extendSelection, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), count, extendSelection != 0);
-        }
-        
-        public static void signalTextViewMoveViewport(MemoryAddress sourceTextView, int step, int count, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.MoveViewport) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE), org.gtk.gtk.ScrollStep.of(step), count);
-        }
-        
-        public static void signalTextViewPasteClipboard(MemoryAddress sourceTextView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.PasteClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE));
-        }
-        
-        public static void signalTextViewPreeditChanged(MemoryAddress sourceTextView, MemoryAddress preedit, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.PreeditChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE), Interop.getStringFrom(preedit));
-        }
-        
-        public static void signalTextViewSelectAll(MemoryAddress sourceTextView, int select, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.SelectAll) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE), select != 0);
-        }
-        
-        public static void signalTextViewSetAnchor(MemoryAddress sourceTextView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.SetAnchor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE));
-        }
-        
-        public static void signalTextViewToggleCursorVisible(MemoryAddress sourceTextView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.ToggleCursorVisible) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE));
-        }
-        
-        public static void signalTextViewToggleOverwrite(MemoryAddress sourceTextView, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TextView.ToggleOverwrite) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new TextView(sourceTextView, Ownership.NONE));
-        }
     }
 }

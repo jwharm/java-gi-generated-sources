@@ -13,18 +13,16 @@ public class VulkanFenceCacheClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanFenceCacheClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.vulkan.VulkanHandlePoolClass.getMemoryLayout().withName("parent_class"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.vulkan.VulkanHandlePoolClass.getMemoryLayout().withName("parent_class"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,9 +42,19 @@ public class VulkanFenceCacheClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gstreamer.vulkan.VulkanHandlePoolClass parentClass$get() {
+    public org.gstreamer.vulkan.VulkanHandlePoolClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gstreamer.vulkan.VulkanHandlePoolClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.vulkan.VulkanHandlePoolClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gstreamer.vulkan.VulkanHandlePoolClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
     }
     
     /**
@@ -54,35 +62,41 @@ public class VulkanFenceCacheClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanFenceCacheClass(Addressable address, Ownership ownership) {
+    protected VulkanFenceCacheClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanFenceCacheClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanFenceCacheClass(input, ownership);
+    
+    /**
+     * A {@link VulkanFenceCacheClass.Builder} object constructs a {@link VulkanFenceCacheClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VulkanFenceCacheClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VulkanFenceCacheClass struct;
+        private final VulkanFenceCacheClass struct;
         
-         /**
-         * A {@link VulkanFenceCacheClass.Build} object constructs a {@link VulkanFenceCacheClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VulkanFenceCacheClass.allocate();
         }
         
          /**
          * Finish building the {@link VulkanFenceCacheClass} struct.
          * @return A new instance of {@code VulkanFenceCacheClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanFenceCacheClass construct() {
+        public VulkanFenceCacheClass build() {
             return struct;
         }
         
@@ -91,14 +105,14 @@ public class VulkanFenceCacheClass extends Struct {
          * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gstreamer.vulkan.VulkanHandlePoolClass parentClass) {
+        public Builder setParentClass(org.gstreamer.vulkan.VulkanHandlePoolClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
             return this;
         }
         
-        public Build setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
+        public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));

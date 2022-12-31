@@ -100,40 +100,26 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * <p>
      * Because InfoBar is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InfoBar(Addressable address, Ownership ownership) {
+    protected InfoBar(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to InfoBar if its GType is a (or inherits from) "GtkInfoBar".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code InfoBar} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkInfoBar", a ClassCastException will be thrown.
-     */
-    public static InfoBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), InfoBar.getType())) {
-            return new InfoBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkInfoBar");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InfoBar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InfoBar(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_info_bar_new.invokeExact();
         } catch (Throwable ERR) {
@@ -149,11 +135,11 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithButtons(@Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithButtons(@Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_info_bar_new_with_buttons.invokeExact(
-                    (Addressable) (firstButtonText == null ? MemoryAddress.NULL : Interop.allocateNativeString(firstButtonText)),
+                    (Addressable) (firstButtonText == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(firstButtonText, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -176,7 +162,8 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return a new {@code GtkInfoBar}
      */
     public static InfoBar newWithButtons(@Nullable java.lang.String firstButtonText, java.lang.Object... varargs) {
-        return new InfoBar(constructNewWithButtons(firstButtonText, varargs), Ownership.NONE);
+        var RESULT = constructNewWithButtons(firstButtonText, varargs);
+        return (org.gtk.gtk.InfoBar) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.InfoBar.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -189,8 +176,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param child an activatable widget
      * @param responseId response ID for {@code child}
      */
-    public void addActionWidget(@NotNull org.gtk.gtk.Widget child, int responseId) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void addActionWidget(org.gtk.gtk.Widget child, int responseId) {
         try {
             DowncallHandles.gtk_info_bar_add_action_widget.invokeExact(
                     handle(),
@@ -213,18 +199,17 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return the {@code GtkButton} widget
      * that was added
      */
-    public @NotNull org.gtk.gtk.Button addButton(@NotNull java.lang.String buttonText, int responseId) {
-        java.util.Objects.requireNonNull(buttonText, "Parameter 'buttonText' must not be null");
+    public org.gtk.gtk.Button addButton(java.lang.String buttonText, int responseId) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_info_bar_add_button.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(buttonText),
+                    Marshal.stringToAddress.marshal(buttonText, null),
                     responseId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Button(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Button) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Button.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -238,12 +223,11 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @param varargs response ID for first button, then more text-response_id pairs,
      *   ending with {@code null}
      */
-    public void addButtons(@NotNull java.lang.String firstButtonText, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstButtonText, "Parameter 'firstButtonText' must not be null");
+    public void addButtons(java.lang.String firstButtonText, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_info_bar_add_buttons.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(firstButtonText),
+                    Marshal.stringToAddress.marshal(firstButtonText, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -254,8 +238,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Adds a widget to the content area of the info bar.
      * @param widget the child to be added
      */
-    public void addChild(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void addChild(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.gtk_info_bar_add_child.invokeExact(
                     handle(),
@@ -269,7 +252,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Returns the message type of the message area.
      * @return the message type of the message area.
      */
-    public @NotNull org.gtk.gtk.MessageType getMessageType() {
+    public org.gtk.gtk.MessageType getMessageType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_info_bar_get_message_type.invokeExact(
@@ -292,7 +275,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -307,7 +290,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -317,8 +300,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * {@link InfoBar#addActionWidget} or {@link InfoBar#addButton}.
      * @param widget an action widget to remove
      */
-    public void removeActionWidget(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void removeActionWidget(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.gtk_info_bar_remove_action_widget.invokeExact(
                     handle(),
@@ -332,8 +314,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Removes a widget from the content area of the info bar.
      * @param widget a child that has been added to the content area
      */
-    public void removeChild(@NotNull org.gtk.gtk.Widget widget) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void removeChild(org.gtk.gtk.Widget widget) {
         try {
             DowncallHandles.gtk_info_bar_remove_child.invokeExact(
                     handle(),
@@ -383,8 +364,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * GTK uses this type to determine how the message is displayed.
      * @param messageType a {@code GtkMessageType}
      */
-    public void setMessageType(@NotNull org.gtk.gtk.MessageType messageType) {
-        java.util.Objects.requireNonNull(messageType, "Parameter 'messageType' must not be null");
+    public void setMessageType(org.gtk.gtk.MessageType messageType) {
         try {
             DowncallHandles.gtk_info_bar_set_message_type.invokeExact(
                     handle(),
@@ -408,7 +388,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
             DowncallHandles.gtk_info_bar_set_response_sensitive.invokeExact(
                     handle(),
                     responseId,
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -429,7 +409,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_info_bar_set_revealed.invokeExact(
                     handle(),
-                    revealed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(revealed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -445,7 +425,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_info_bar_set_show_close_button.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -455,7 +435,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_info_bar_get_type.invokeExact();
@@ -467,7 +447,18 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface Close {
-        void signalReceived(InfoBar sourceInfoBar);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceInfoBar) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Close.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -482,16 +473,8 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<InfoBar.Close> onClose(InfoBar.Close handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("close"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(InfoBar.Callbacks.class, "signalInfoBarClose",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<InfoBar.Close>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("close"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -499,7 +482,18 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     
     @FunctionalInterface
     public interface Response {
-        void signalReceived(InfoBar sourceInfoBar, int responseId);
+        void run(int responseId);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceInfoBar, int responseId) {
+            run(responseId);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Response.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -514,52 +508,46 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
     public Signal<InfoBar.Response> onResponse(InfoBar.Response handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("response"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(InfoBar.Callbacks.class, "signalInfoBarResponse",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<InfoBar.Response>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("response"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link InfoBar.Builder} object constructs a {@link InfoBar} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link InfoBar.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link InfoBar.Build} object constructs a {@link InfoBar} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link InfoBar} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link InfoBar} using {@link InfoBar#castFrom}.
+         * {@link InfoBar}.
          * @return A new instance of {@code InfoBar} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public InfoBar construct() {
-            return InfoBar.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    InfoBar.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public InfoBar build() {
+            return (InfoBar) org.gtk.gobject.GObject.newWithProperties(
+                InfoBar.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -570,7 +558,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param messageType The value for the {@code message-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMessageType(org.gtk.gtk.MessageType messageType) {
+        public Builder setMessageType(org.gtk.gtk.MessageType messageType) {
             names.add("message-type");
             values.add(org.gtk.gobject.Value.create(messageType));
             return this;
@@ -581,7 +569,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param revealed The value for the {@code revealed} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRevealed(boolean revealed) {
+        public Builder setRevealed(boolean revealed) {
             names.add("revealed");
             values.add(org.gtk.gobject.Value.create(revealed));
             return this;
@@ -592,7 +580,7 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param showCloseButton The value for the {@code show-close-button} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowCloseButton(boolean showCloseButton) {
+        public Builder setShowCloseButton(boolean showCloseButton) {
             names.add("show-close-button");
             values.add(org.gtk.gobject.Value.create(showCloseButton));
             return this;
@@ -708,20 +696,5 @@ public class InfoBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalInfoBarClose(MemoryAddress sourceInfoBar, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (InfoBar.Close) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InfoBar(sourceInfoBar, Ownership.NONE));
-        }
-        
-        public static void signalInfoBarResponse(MemoryAddress sourceInfoBar, int responseId, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (InfoBar.Response) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new InfoBar(sourceInfoBar, Ownership.NONE), responseId);
-        }
     }
 }

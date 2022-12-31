@@ -18,22 +18,20 @@ public class RTPBuffer extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTPBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("buffer"),
-        Interop.valueLayout.C_INT.withName("state"),
-        MemoryLayout.paddingLayout(160),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("data"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_LONG).withName("size"),
-        MemoryLayout.sequenceLayout(4, org.gstreamer.gst.MapInfo.getMemoryLayout()).withName("map")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("buffer"),
+            Interop.valueLayout.C_INT.withName("state"),
+            MemoryLayout.paddingLayout(160),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("data"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.C_LONG).withName("size"),
+            MemoryLayout.sequenceLayout(4, org.gstreamer.gst.MapInfo.getMemoryLayout()).withName("map")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,28 +51,28 @@ public class RTPBuffer extends Struct {
      * Get the value of the field {@code buffer}
      * @return The value of the field {@code buffer}
      */
-    public org.gstreamer.gst.Buffer buffer$get() {
+    public org.gstreamer.gst.Buffer getBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code buffer}
      * @param buffer The new value of the field {@code buffer}
      */
-    public void buffer$set(org.gstreamer.gst.Buffer buffer) {
+    public void setBuffer(org.gstreamer.gst.Buffer buffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), buffer.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
     }
     
     /**
      * Get the value of the field {@code state}
      * @return The value of the field {@code state}
      */
-    public int state$get() {
+    public int getState() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("state"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -85,10 +83,73 @@ public class RTPBuffer extends Struct {
      * Change the value of the field {@code state}
      * @param state The new value of the field {@code state}
      */
-    public void state$set(int state) {
+    public void setState(int state) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("state"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), state);
+    }
+    
+    /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public java.lang.foreign.MemoryAddress[] getData() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getAddressArrayFrom(RESULT, 4);
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void setData(java.lang.foreign.MemoryAddress[] data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code size}
+     * @return The value of the field {@code size}
+     */
+    public long[] getSize() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("size"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return MemorySegment.ofAddress(RESULT, 4, Interop.getScope()).toArray(Interop.valueLayout.C_LONG);
+    }
+    
+    /**
+     * Change the value of the field {@code size}
+     * @param size The new value of the field {@code size}
+     */
+    public void setSize(long[] size) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("size"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size == null ? MemoryAddress.NULL : Interop.allocateNativeArray(size, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code map}
+     * @return The value of the field {@code map}
+     */
+    public org.gstreamer.gst.MapInfo[] getMap() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("map"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.gst.MapInfo>(RESULT, org.gstreamer.gst.MapInfo.fromAddress).toArray((int) 4, org.gstreamer.gst.MapInfo.class);
+    }
+    
+    /**
+     * Change the value of the field {@code map}
+     * @param map The new value of the field {@code map}
+     */
+    public void setMap(org.gstreamer.gst.MapInfo[] map) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("map"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : Interop.allocateNativeArray(map, org.gstreamer.gst.MapInfo.getMemoryLayout(), false)));
     }
     
     /**
@@ -96,10 +157,12 @@ public class RTPBuffer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTPBuffer(Addressable address, Ownership ownership) {
+    protected RTPBuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTPBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPBuffer(input, ownership);
     
     /**
      * Adds a RFC 5285 header extension with a one byte header to the end of the
@@ -114,8 +177,7 @@ public class RTPBuffer extends Struct {
      * @param size the size of the data in bytes
      * @return {@code true} if header extension could be added
      */
-    public boolean addExtensionOnebyteHeader(byte id, @NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean addExtensionOnebyteHeader(byte id, byte[] data, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_buffer_add_extension_onebyte_header.invokeExact(
@@ -126,7 +188,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -143,8 +205,7 @@ public class RTPBuffer extends Struct {
      * @param size the size of the data in bytes
      * @return {@code true} if header extension could be added
      */
-    public boolean addExtensionTwobytesHeader(byte appbits, byte id, @NotNull byte[] data, int size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean addExtensionTwobytesHeader(byte appbits, byte id, byte[] data, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_buffer_add_extension_twobytes_header.invokeExact(
@@ -156,7 +217,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -203,7 +264,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -219,8 +280,7 @@ public class RTPBuffer extends Struct {
      * @return A new {@link org.gtk.glib.Bytes} if an extension header was present
      * and {@code null} otherwise.
      */
-    public @NotNull org.gtk.glib.Bytes getExtensionBytes(Out<Short> bits) {
-        java.util.Objects.requireNonNull(bits, "Parameter 'bits' must not be null");
+    public org.gtk.glib.Bytes getExtensionData(Out<Short> bits) {
         MemorySegment bitsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         MemoryAddress RESULT;
         try {
@@ -231,23 +291,7 @@ public class RTPBuffer extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         bits.set(bitsPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
-    }
-    
-    /**
-     * Get the extension data. {@code bits} will contain the extension 16 bits of custom
-     * data. {@code data} will point to the data in the extension and {@code wordlen} will contain
-     * the length of {@code data} in 32 bits words.
-     * <p>
-     * If {@code buffer} did not contain an extension, this function will return {@code false}
-     * with {@code bits}, {@code data} and {@code wordlen} unchanged.
-     * @param bits location for result bits
-     * @param data location for data
-     * @param wordlen location for length of {@code data} in 32 bits words
-     * @return TRUE if {@code buffer} had the extension bit set.
-     */
-    public boolean getExtensionData(Out<Short> bits, @NotNull Out<byte[]> data, Out<Integer> wordlen) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -259,10 +303,8 @@ public class RTPBuffer extends Struct {
      * @param size the size of the data in bytes
      * @return TRUE if {@code buffer} had the requested header extension
      */
-    public boolean getExtensionOnebyteHeader(byte id, int nth, @NotNull Out<byte[]> data, Out<Integer> size) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean getExtensionOnebyteHeader(byte id, int nth, Out<byte[]> data, Out<Integer> size) {
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -270,14 +312,14 @@ public class RTPBuffer extends Struct {
                     handle(),
                     id,
                     nth,
-                    (Addressable) dataPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) dataPOINTER.address()),
+                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
         data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,29 +332,26 @@ public class RTPBuffer extends Struct {
      * @param size the size of the data in bytes
      * @return TRUE if {@code buffer} had the requested header extension
      */
-    public boolean getExtensionTwobytesHeader(Out<Byte> appbits, byte id, int nth, @NotNull Out<byte[]> data, Out<Integer> size) {
-        java.util.Objects.requireNonNull(appbits, "Parameter 'appbits' must not be null");
+    public boolean getExtensionTwobytesHeader(Out<Byte> appbits, byte id, int nth, Out<byte[]> data, Out<Integer> size) {
         MemorySegment appbitsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_buffer_get_extension_twobytes_header.invokeExact(
                     handle(),
-                    (Addressable) appbitsPOINTER.address(),
+                    (Addressable) (appbits == null ? MemoryAddress.NULL : (Addressable) appbitsPOINTER.address()),
                     id,
                     nth,
-                    (Addressable) dataPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) dataPOINTER.address()),
+                    (Addressable) (size == null ? MemoryAddress.NULL : (Addressable) sizePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        appbits.set(appbitsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (appbits != null) appbits.set(appbitsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (size != null) size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
         data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -343,7 +382,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -373,24 +412,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
-    }
-    
-    /**
-     * Get a pointer to the payload data in {@code buffer}. This pointer is valid as long
-     * as a reference to {@code buffer} is held.
-     * @return A pointer
-     * to the payload data in {@code buffer}.
-     */
-    public @NotNull PointerByte getPayload() {
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_payload.invokeExact(
-                    handle());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return new PointerByte(RESULT);
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -399,7 +421,7 @@ public class RTPBuffer extends Struct {
      * avoided.
      * @return A new buffer with the data of the payload.
      */
-    public @NotNull org.gstreamer.gst.Buffer getPayloadBuffer() {
+    public org.gstreamer.gst.Buffer getPayloadBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_payload_buffer.invokeExact(
@@ -407,7 +429,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -416,7 +438,7 @@ public class RTPBuffer extends Struct {
      * containing the payload data in {@code rtp}.
      * @return A new {@link org.gtk.glib.Bytes} containing the payload data in {@code rtp}.
      */
-    public @NotNull org.gtk.glib.Bytes getPayloadBytes() {
+    public org.gtk.glib.Bytes getPayload() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_payload_bytes.invokeExact(
@@ -424,7 +446,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -450,7 +472,7 @@ public class RTPBuffer extends Struct {
      * @param len the length in the payload
      * @return A new buffer with the specified data of the payload.
      */
-    public @NotNull org.gstreamer.gst.Buffer getPayloadSubbuffer(int offset, int len) {
+    public org.gstreamer.gst.Buffer getPayloadSubbuffer(int offset, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_get_payload_subbuffer.invokeExact(
@@ -460,7 +482,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -596,7 +618,7 @@ public class RTPBuffer extends Struct {
         try {
             DowncallHandles.gst_rtp_buffer_set_extension.invokeExact(
                     handle(),
-                    extension ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(extension, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -623,7 +645,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -634,7 +656,7 @@ public class RTPBuffer extends Struct {
         try {
             DowncallHandles.gst_rtp_buffer_set_marker.invokeExact(
                     handle(),
-                    marker ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(marker, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -663,7 +685,7 @@ public class RTPBuffer extends Struct {
         try {
             DowncallHandles.gst_rtp_buffer_set_padding.invokeExact(
                     handle(),
-                    padding ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(padding, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -762,8 +784,7 @@ public class RTPBuffer extends Struct {
      * @param padLen the amount of padding
      * @param csrcCount the number of CSRC entries
      */
-    public static void allocateData(@NotNull org.gstreamer.gst.Buffer buffer, int payloadLen, byte padLen, byte csrcCount) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void allocateData(org.gstreamer.gst.Buffer buffer, int payloadLen, byte padLen, byte csrcCount) {
         try {
             DowncallHandles.gst_rtp_buffer_allocate_data.invokeExact(
                     buffer.handle(),
@@ -887,7 +908,6 @@ public class RTPBuffer extends Struct {
      * @return The extended timestamp of {@code timestamp} or 0 if the result can't go anywhere backwards.
      */
     public static long extTimestamp(Out<Long> exttimestamp, int timestamp) {
-        java.util.Objects.requireNonNull(exttimestamp, "Parameter 'exttimestamp' must not be null");
         MemorySegment exttimestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
@@ -914,11 +934,8 @@ public class RTPBuffer extends Struct {
      * @param size the size of the data in bytes
      * @return TRUE if {@code bytes} had the requested header extension
      */
-    public static boolean getExtensionOnebyteHeaderFromBytes(@NotNull org.gtk.glib.Bytes bytes, short bitPattern, byte id, int nth, @NotNull Out<byte[]> data, Out<Integer> size) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static boolean getExtensionOnebyteHeaderFromBytes(org.gtk.glib.Bytes bytes, short bitPattern, byte id, int nth, Out<byte[]> data, Out<Integer> size) {
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -934,7 +951,7 @@ public class RTPBuffer extends Struct {
         }
         size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
         data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -944,10 +961,7 @@ public class RTPBuffer extends Struct {
      * @param rtp a {@link RTPBuffer}
      * @return {@code true} if {@code buffer} could be mapped.
      */
-    public static boolean map(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.MapFlags flags, @NotNull org.gstreamer.rtp.RTPBuffer rtp) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(rtp, "Parameter 'rtp' must not be null");
+    public static boolean map(org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.MapFlags flags, org.gstreamer.rtp.RTPBuffer rtp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_buffer_map.invokeExact(
@@ -957,7 +971,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -970,7 +984,7 @@ public class RTPBuffer extends Struct {
      * @return A newly allocated buffer that can hold an RTP packet with given
      * parameters.
      */
-    public static @NotNull org.gstreamer.gst.Buffer newAllocate(int payloadLen, byte padLen, byte csrcCount) {
+    public static org.gstreamer.gst.Buffer newAllocate(int payloadLen, byte padLen, byte csrcCount) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_allocate.invokeExact(
@@ -980,7 +994,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -993,7 +1007,7 @@ public class RTPBuffer extends Struct {
      * @param csrcCount the number of CSRC entries
      * @return A newly allocated buffer that can hold an RTP packet of {@code packet_len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer newAllocateLen(int packetLen, byte padLen, byte csrcCount) {
+    public static org.gstreamer.gst.Buffer newAllocateLen(int packetLen, byte padLen, byte csrcCount) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_allocate_len.invokeExact(
@@ -1003,7 +1017,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1015,8 +1029,7 @@ public class RTPBuffer extends Struct {
      * @param len the length of data
      * @return A newly allocated buffer with a copy of {@code data} and of size {@code len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer newCopyData(@NotNull byte[] data, long len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.gst.Buffer newCopyData(byte[] data, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_copy_data.invokeExact(
@@ -1025,7 +1038,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1036,8 +1049,7 @@ public class RTPBuffer extends Struct {
      * @param len the length of data
      * @return A newly allocated buffer with {@code data} and of size {@code len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer newTakeData(@NotNull byte[] data, long len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.gst.Buffer newTakeData(byte[] data, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_take_data.invokeExact(
@@ -1046,7 +1058,7 @@ public class RTPBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -1087,12 +1099,6 @@ public class RTPBuffer extends Struct {
             false
         );
         
-        private static final MethodHandle gst_rtp_buffer_get_extension_data = Interop.downcallHandle(
-            "gst_rtp_buffer_get_extension_data",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
-        );
-        
         private static final MethodHandle gst_rtp_buffer_get_extension_onebyte_header = Interop.downcallHandle(
             "gst_rtp_buffer_get_extension_onebyte_header",
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_BYTE, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
@@ -1126,12 +1132,6 @@ public class RTPBuffer extends Struct {
         private static final MethodHandle gst_rtp_buffer_get_padding = Interop.downcallHandle(
             "gst_rtp_buffer_get_padding",
             FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-            false
-        );
-        
-        private static final MethodHandle gst_rtp_buffer_get_payload = Interop.downcallHandle(
-            "gst_rtp_buffer_get_payload",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -1351,31 +1351,35 @@ public class RTPBuffer extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RTPBuffer.Builder} object constructs a {@link RTPBuffer} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RTPBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RTPBuffer struct;
+        private final RTPBuffer struct;
         
-         /**
-         * A {@link RTPBuffer.Build} object constructs a {@link RTPBuffer} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RTPBuffer.allocate();
         }
         
          /**
          * Finish building the {@link RTPBuffer} struct.
          * @return A new instance of {@code RTPBuffer} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTPBuffer construct() {
+        public RTPBuffer build() {
             return struct;
         }
         
@@ -1384,7 +1388,7 @@ public class RTPBuffer extends Struct {
          * @param buffer The value for the {@code buffer} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBuffer(org.gstreamer.gst.Buffer buffer) {
+        public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
@@ -1396,7 +1400,7 @@ public class RTPBuffer extends Struct {
          * @param state The value for the {@code state} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setState(int state) {
+        public Builder setState(int state) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("state"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), state);
@@ -1408,7 +1412,7 @@ public class RTPBuffer extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(java.lang.foreign.MemoryAddress[] data) {
+        public Builder setData(java.lang.foreign.MemoryAddress[] data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
@@ -1420,7 +1424,7 @@ public class RTPBuffer extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(long[] size) {
+        public Builder setSize(long[] size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size == null ? MemoryAddress.NULL : Interop.allocateNativeArray(size, false)));
@@ -1432,7 +1436,7 @@ public class RTPBuffer extends Struct {
          * @param map The value for the {@code map} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMap(org.gstreamer.gst.MapInfo[] map) {
+        public Builder setMap(org.gstreamer.gst.MapInfo[] map) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (map == null ? MemoryAddress.NULL : Interop.allocateNativeArray(map, org.gstreamer.gst.MapInfo.getMemoryLayout(), false)));

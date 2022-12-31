@@ -27,21 +27,19 @@ public class AudioClippingMeta extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioClippingMeta";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
-        Interop.valueLayout.C_INT.withName("format"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("start"),
-        Interop.valueLayout.C_LONG.withName("end")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
+            Interop.valueLayout.C_INT.withName("format"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("start"),
+            Interop.valueLayout.C_LONG.withName("end")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -61,16 +59,26 @@ public class AudioClippingMeta extends Struct {
      * Get the value of the field {@code meta}
      * @return The value of the field {@code meta}
      */
-    public org.gstreamer.gst.Meta meta$get() {
+    public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return new org.gstreamer.gst.Meta(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code meta}
+     * @param meta The new value of the field {@code meta}
+     */
+    public void setMeta(org.gstreamer.gst.Meta meta) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
     }
     
     /**
      * Get the value of the field {@code format}
      * @return The value of the field {@code format}
      */
-    public org.gstreamer.gst.Format format$get() {
+    public org.gstreamer.gst.Format getFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,17 +89,17 @@ public class AudioClippingMeta extends Struct {
      * Change the value of the field {@code format}
      * @param format The new value of the field {@code format}
      */
-    public void format$set(org.gstreamer.gst.Format format) {
+    public void setFormat(org.gstreamer.gst.Format format) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), format.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
     }
     
     /**
      * Get the value of the field {@code start}
      * @return The value of the field {@code start}
      */
-    public long start$get() {
+    public long getStart() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -102,7 +110,7 @@ public class AudioClippingMeta extends Struct {
      * Change the value of the field {@code start}
      * @param start The new value of the field {@code start}
      */
-    public void start$set(long start) {
+    public void setStart(long start) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("start"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -112,7 +120,7 @@ public class AudioClippingMeta extends Struct {
      * Get the value of the field {@code end}
      * @return The value of the field {@code end}
      */
-    public long end$get() {
+    public long getEnd() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -123,7 +131,7 @@ public class AudioClippingMeta extends Struct {
      * Change the value of the field {@code end}
      * @param end The new value of the field {@code end}
      */
-    public void end$set(long end) {
+    public void setEnd(long end) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("end"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);
@@ -134,19 +142,21 @@ public class AudioClippingMeta extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioClippingMeta(Addressable address, Ownership ownership) {
+    protected AudioClippingMeta(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo getInfo() {
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioClippingMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioClippingMeta(input, ownership);
+    
+    public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_clipping_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -157,31 +167,35 @@ public class AudioClippingMeta extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AudioClippingMeta.Builder} object constructs a {@link AudioClippingMeta} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AudioClippingMeta.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AudioClippingMeta struct;
+        private final AudioClippingMeta struct;
         
-         /**
-         * A {@link AudioClippingMeta.Build} object constructs a {@link AudioClippingMeta} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AudioClippingMeta.allocate();
         }
         
          /**
          * Finish building the {@link AudioClippingMeta} struct.
          * @return A new instance of {@code AudioClippingMeta} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioClippingMeta construct() {
+        public AudioClippingMeta build() {
             return struct;
         }
         
@@ -190,7 +204,7 @@ public class AudioClippingMeta extends Struct {
          * @param meta The value for the {@code meta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMeta(org.gstreamer.gst.Meta meta) {
+        public Builder setMeta(org.gstreamer.gst.Meta meta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
@@ -202,7 +216,7 @@ public class AudioClippingMeta extends Struct {
          * @param format The value for the {@code format} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormat(org.gstreamer.gst.Format format) {
+        public Builder setFormat(org.gstreamer.gst.Format format) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (format == null ? MemoryAddress.NULL : format.getValue()));
@@ -214,7 +228,7 @@ public class AudioClippingMeta extends Struct {
          * @param start The value for the {@code start} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStart(long start) {
+        public Builder setStart(long start) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("start"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), start);
@@ -226,7 +240,7 @@ public class AudioClippingMeta extends Struct {
          * @param end The value for the {@code end} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnd(long end) {
+        public Builder setEnd(long end) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), end);

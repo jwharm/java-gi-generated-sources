@@ -15,25 +15,8 @@ import org.jetbrains.annotations.*;
  */
 public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to PrintOperationPreview if its GType is a (or inherits from) "GtkPrintOperationPreview".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PrintOperationPreview} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPrintOperationPreview", a ClassCastException will be thrown.
-     */
-    public static PrintOperationPreview castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PrintOperationPreview.getType())) {
-            return new PrintOperationPreviewImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPrintOperationPreview");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PrintOperationPreviewImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintOperationPreviewImpl(input, ownership);
     
     /**
      * Ends a preview.
@@ -64,7 +47,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -95,7 +78,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_print_operation_preview_get_type.invokeExact();
@@ -107,7 +90,18 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface GotPageSize {
-        void signalReceived(PrintOperationPreview sourcePrintOperationPreview, @NotNull org.gtk.gtk.PrintContext context, @NotNull org.gtk.gtk.PageSetup pageSetup);
+        void run(org.gtk.gtk.PrintContext context, org.gtk.gtk.PageSetup pageSetup);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperationPreview, MemoryAddress context, MemoryAddress pageSetup) {
+            run((org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pageSetup)), org.gtk.gtk.PageSetup.fromAddress).marshal(pageSetup, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GotPageSize.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -122,16 +116,8 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     public default Signal<PrintOperationPreview.GotPageSize> onGotPageSize(PrintOperationPreview.GotPageSize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("got-page-size"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperationPreview.Callbacks.class, "signalPrintOperationPreviewGotPageSize",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperationPreview.GotPageSize>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("got-page-size"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +125,18 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Ready {
-        void signalReceived(PrintOperationPreview sourcePrintOperationPreview, @NotNull org.gtk.gtk.PrintContext context);
+        void run(org.gtk.gtk.PrintContext context);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperationPreview, MemoryAddress context) {
+            run((org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Ready.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -153,16 +150,8 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
     public default Signal<PrintOperationPreview.Ready> onReady(PrintOperationPreview.Ready handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("ready"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperationPreview.Callbacks.class, "signalPrintOperationPreviewReady",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperationPreview.Ready>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("ready"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -200,23 +189,7 @@ public interface PrintOperationPreview extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalPrintOperationPreviewGotPageSize(MemoryAddress sourcePrintOperationPreview, MemoryAddress context, MemoryAddress pageSetup, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperationPreview.GotPageSize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(sourcePrintOperationPreview, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), new org.gtk.gtk.PageSetup(pageSetup, Ownership.NONE));
-        }
-        
-        public static void signalPrintOperationPreviewReady(MemoryAddress sourcePrintOperationPreview, MemoryAddress context, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperationPreview.Ready) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperationPreview.PrintOperationPreviewImpl(sourcePrintOperationPreview, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
-        }
-    }
-    
-    class PrintOperationPreviewImpl extends org.gtk.gobject.Object implements PrintOperationPreview {
+    class PrintOperationPreviewImpl extends org.gtk.gobject.GObject implements PrintOperationPreview {
         
         static {
             Gtk.javagi$ensureInitialized();

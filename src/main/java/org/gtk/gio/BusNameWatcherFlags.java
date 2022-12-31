@@ -31,11 +31,15 @@ public class BusNameWatcherFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BusNameWatcherFlags or(BusNameWatcherFlags mask) {
-        return new BusNameWatcherFlags(this.getValue() | mask.getValue());
+    public BusNameWatcherFlags or(BusNameWatcherFlags... masks) {
+        int value = this.getValue();
+        for (BusNameWatcherFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new BusNameWatcherFlags(value);
     }
     
     /**
@@ -45,7 +49,8 @@ public class BusNameWatcherFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BusNameWatcherFlags combined(BusNameWatcherFlags mask, BusNameWatcherFlags... masks) {
-        int value = mask.getValue();        for (BusNameWatcherFlags arg : masks) {
+        int value = mask.getValue();
+        for (BusNameWatcherFlags arg : masks) {
             value |= arg.getValue();
         }
         return new BusNameWatcherFlags(value);

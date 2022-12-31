@@ -12,5 +12,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface DesktopAppLaunchCallback {
-        void onDesktopAppLaunchCallback(@NotNull org.gtk.gio.DesktopAppInfo appinfo, @NotNull org.gtk.glib.Pid pid);
+    void run(org.gtk.gio.DesktopAppInfo appinfo, org.gtk.glib.Pid pid);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress appinfo, int pid, MemoryAddress userData) {
+        run((org.gtk.gio.DesktopAppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(appinfo)), org.gtk.gio.DesktopAppInfo.fromAddress).marshal(appinfo, Ownership.NONE), new org.gtk.glib.Pid(pid));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DesktopAppLaunchCallback.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

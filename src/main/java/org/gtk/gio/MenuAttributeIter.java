@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * using the functions below.
  * @version 2.32
  */
-public class MenuAttributeIter extends org.gtk.gobject.Object {
+public class MenuAttributeIter extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -18,18 +18,16 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GMenuAttributeIter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,30 +35,12 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MenuAttributeIter(Addressable address, Ownership ownership) {
+    protected MenuAttributeIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to MenuAttributeIter if its GType is a (or inherits from) "GMenuAttributeIter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MenuAttributeIter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GMenuAttributeIter", a ClassCastException will be thrown.
-     */
-    public static MenuAttributeIter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MenuAttributeIter.getType())) {
-            return new MenuAttributeIter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMenuAttributeIter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MenuAttributeIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MenuAttributeIter(input, ownership);
     
     /**
      * Gets the name of the attribute at the current iterator position, as
@@ -69,7 +49,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * The iterator is not advanced.
      * @return the name of the attribute
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_attribute_iter_get_name.invokeExact(
@@ -77,7 +57,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -101,23 +81,21 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * @return {@code true} on success, or {@code false} if there is no additional
      *     attribute
      */
-    public boolean getNext(@NotNull Out<java.lang.String> outName, @NotNull Out<org.gtk.glib.Variant> value) {
-        java.util.Objects.requireNonNull(outName, "Parameter 'outName' must not be null");
+    public boolean getNext(@Nullable Out<java.lang.String> outName, @Nullable Out<org.gtk.glib.Variant> value) {
         MemorySegment outNamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_menu_attribute_iter_get_next.invokeExact(
                     handle(),
-                    (Addressable) outNamePOINTER.address(),
-                    (Addressable) valuePOINTER.address());
+                    (Addressable) (outName == null ? MemoryAddress.NULL : (Addressable) outNamePOINTER.address()),
+                    (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outName.set(Interop.getStringFrom(outNamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        value.set(new org.gtk.glib.Variant(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (outName != null) outName.set(Marshal.addressToString.marshal(outNamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (value != null) value.set(org.gtk.glib.Variant.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -126,7 +104,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
      * The iterator is not advanced.
      * @return the value of the current attribute
      */
-    public @NotNull org.gtk.glib.Variant getValue() {
+    public org.gtk.glib.Variant getValue() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_menu_attribute_iter_get_value.invokeExact(
@@ -134,7 +112,7 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -157,14 +135,14 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_menu_attribute_iter_get_type.invokeExact();
@@ -173,38 +151,40 @@ public class MenuAttributeIter extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link MenuAttributeIter.Builder} object constructs a {@link MenuAttributeIter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MenuAttributeIter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link MenuAttributeIter.Build} object constructs a {@link MenuAttributeIter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MenuAttributeIter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MenuAttributeIter} using {@link MenuAttributeIter#castFrom}.
+         * {@link MenuAttributeIter}.
          * @return A new instance of {@code MenuAttributeIter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MenuAttributeIter construct() {
-            return MenuAttributeIter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MenuAttributeIter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MenuAttributeIter build() {
+            return (MenuAttributeIter) org.gtk.gobject.GObject.newWithProperties(
+                MenuAttributeIter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

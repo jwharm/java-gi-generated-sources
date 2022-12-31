@@ -18,20 +18,18 @@ public class Border extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkBorder";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("left"),
-        Interop.valueLayout.C_SHORT.withName("right"),
-        Interop.valueLayout.C_SHORT.withName("top"),
-        Interop.valueLayout.C_SHORT.withName("bottom")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("left"),
+            Interop.valueLayout.C_SHORT.withName("right"),
+            Interop.valueLayout.C_SHORT.withName("top"),
+            Interop.valueLayout.C_SHORT.withName("bottom")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class Border extends Struct {
      * Get the value of the field {@code left}
      * @return The value of the field {@code left}
      */
-    public short left$get() {
+    public short getLeft() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("left"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,7 +60,7 @@ public class Border extends Struct {
      * Change the value of the field {@code left}
      * @param left The new value of the field {@code left}
      */
-    public void left$set(short left) {
+    public void setLeft(short left) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("left"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), left);
@@ -72,7 +70,7 @@ public class Border extends Struct {
      * Get the value of the field {@code right}
      * @return The value of the field {@code right}
      */
-    public short right$get() {
+    public short getRight() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("right"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,7 +81,7 @@ public class Border extends Struct {
      * Change the value of the field {@code right}
      * @param right The new value of the field {@code right}
      */
-    public void right$set(short right) {
+    public void setRight(short right) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("right"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), right);
@@ -93,7 +91,7 @@ public class Border extends Struct {
      * Get the value of the field {@code top}
      * @return The value of the field {@code top}
      */
-    public short top$get() {
+    public short getTop() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("top"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,7 +102,7 @@ public class Border extends Struct {
      * Change the value of the field {@code top}
      * @param top The new value of the field {@code top}
      */
-    public void top$set(short top) {
+    public void setTop(short top) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("top"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), top);
@@ -114,7 +112,7 @@ public class Border extends Struct {
      * Get the value of the field {@code bottom}
      * @return The value of the field {@code bottom}
      */
-    public short bottom$get() {
+    public short getBottom() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -125,7 +123,7 @@ public class Border extends Struct {
      * Change the value of the field {@code bottom}
      * @param bottom The new value of the field {@code bottom}
      */
-    public void bottom$set(short bottom) {
+    public void setBottom(short bottom) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bottom);
@@ -136,13 +134,15 @@ public class Border extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Border(Addressable address, Ownership ownership) {
+    protected Border(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Border> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Border(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_border_new.invokeExact();
         } catch (Throwable ERR) {
@@ -162,7 +162,7 @@ public class Border extends Struct {
      * Copies a {@code GtkBorder}.
      * @return a copy of {@code border_}.
      */
-    public @NotNull org.gtk.gtk.Border copy() {
+    public org.gtk.gtk.Border copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_border_copy.invokeExact(
@@ -170,7 +170,7 @@ public class Border extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Border(RESULT, Ownership.FULL);
+        return org.gtk.gtk.Border.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -205,31 +205,35 @@ public class Border extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Border.Builder} object constructs a {@link Border} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Border.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Border struct;
+        private final Border struct;
         
-         /**
-         * A {@link Border.Build} object constructs a {@link Border} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Border.allocate();
         }
         
          /**
          * Finish building the {@link Border} struct.
          * @return A new instance of {@code Border} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Border construct() {
+        public Border build() {
             return struct;
         }
         
@@ -238,7 +242,7 @@ public class Border extends Struct {
          * @param left The value for the {@code left} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLeft(short left) {
+        public Builder setLeft(short left) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("left"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), left);
@@ -250,7 +254,7 @@ public class Border extends Struct {
          * @param right The value for the {@code right} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRight(short right) {
+        public Builder setRight(short right) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("right"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), right);
@@ -262,7 +266,7 @@ public class Border extends Struct {
          * @param top The value for the {@code top} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTop(short top) {
+        public Builder setTop(short top) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("top"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), top);
@@ -274,7 +278,7 @@ public class Border extends Struct {
          * @param bottom The value for the {@code bottom} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBottom(short bottom) {
+        public Builder setBottom(short bottom) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bottom"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bottom);

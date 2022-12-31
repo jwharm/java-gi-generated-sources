@@ -42,24 +42,22 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTPBaseAudioPayload";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.rtp.RTPBasePayload.getMemoryLayout().withName("payload"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        Interop.valueLayout.C_LONG.withName("base_ts"),
-        Interop.valueLayout.C_INT.withName("frame_size"),
-        Interop.valueLayout.C_INT.withName("frame_duration"),
-        Interop.valueLayout.C_INT.withName("sample_size"),
-        MemoryLayout.paddingLayout(224),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.rtp.RTPBasePayload.getMemoryLayout().withName("payload"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            Interop.valueLayout.C_LONG.withName("base_ts"),
+            Interop.valueLayout.C_INT.withName("frame_size"),
+            Interop.valueLayout.C_INT.withName("frame_duration"),
+            Interop.valueLayout.C_INT.withName("sample_size"),
+            MemoryLayout.paddingLayout(224),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -67,37 +65,23 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
      * <p>
      * Because RTPBaseAudioPayload is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTPBaseAudioPayload(Addressable address, Ownership ownership) {
+    protected RTPBaseAudioPayload(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to RTPBaseAudioPayload if its GType is a (or inherits from) "GstRTPBaseAudioPayload".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code RTPBaseAudioPayload} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstRTPBaseAudioPayload", a ClassCastException will be thrown.
-     */
-    public static RTPBaseAudioPayload castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), RTPBaseAudioPayload.getType())) {
-            return new RTPBaseAudioPayload(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstRTPBaseAudioPayload");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTPBaseAudioPayload> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPBaseAudioPayload(input, ownership);
     
     /**
      * Create an RTP buffer and store {@code payload_len} bytes of the adapter as the
@@ -110,8 +94,7 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
      * @param timestamp a {@link org.gstreamer.gst.ClockTime}
      * @return a {@link org.gstreamer.gst.FlowReturn}
      */
-    public @NotNull org.gstreamer.gst.FlowReturn flush(int payloadLen, @NotNull org.gstreamer.gst.ClockTime timestamp) {
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
+    public org.gstreamer.gst.FlowReturn flush(int payloadLen, org.gstreamer.gst.ClockTime timestamp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_base_audio_payload_flush.invokeExact(
@@ -128,7 +111,7 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
      * Gets the internal adapter used by the depayloader.
      * @return a {@link org.gstreamer.base.Adapter}.
      */
-    public @NotNull org.gstreamer.base.Adapter getAdapter() {
+    public org.gstreamer.base.Adapter getAdapter() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_base_audio_payload_get_adapter.invokeExact(
@@ -136,7 +119,7 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.Adapter(RESULT, Ownership.FULL);
+        return (org.gstreamer.base.Adapter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.base.Adapter.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -148,9 +131,7 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
      * @param timestamp a {@link org.gstreamer.gst.ClockTime}
      * @return a {@link org.gstreamer.gst.FlowReturn}
      */
-    public @NotNull org.gstreamer.gst.FlowReturn push(@NotNull byte[] data, int payloadLen, @NotNull org.gstreamer.gst.ClockTime timestamp) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
+    public org.gstreamer.gst.FlowReturn push(byte[] data, int payloadLen, org.gstreamer.gst.ClockTime timestamp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_base_audio_payload_push.invokeExact(
@@ -238,7 +219,7 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_rtp_base_audio_payload_get_type.invokeExact();
@@ -247,42 +228,44 @@ public class RTPBaseAudioPayload extends org.gstreamer.rtp.RTPBasePayload {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link RTPBaseAudioPayload.Builder} object constructs a {@link RTPBaseAudioPayload} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link RTPBaseAudioPayload.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.rtp.RTPBasePayload.Build {
+    public static class Builder extends org.gstreamer.rtp.RTPBasePayload.Builder {
         
-         /**
-         * A {@link RTPBaseAudioPayload.Build} object constructs a {@link RTPBaseAudioPayload} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link RTPBaseAudioPayload} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link RTPBaseAudioPayload} using {@link RTPBaseAudioPayload#castFrom}.
+         * {@link RTPBaseAudioPayload}.
          * @return A new instance of {@code RTPBaseAudioPayload} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTPBaseAudioPayload construct() {
-            return RTPBaseAudioPayload.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    RTPBaseAudioPayload.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public RTPBaseAudioPayload build() {
+            return (RTPBaseAudioPayload) org.gtk.gobject.GObject.newWithProperties(
+                RTPBaseAudioPayload.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setBufferList(boolean bufferList) {
+        public Builder setBufferList(boolean bufferList) {
             names.add("buffer-list");
             values.add(org.gtk.gobject.Value.create(bufferList));
             return this;

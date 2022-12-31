@@ -44,10 +44,12 @@ public class RTSPConnection extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTSPConnection(Addressable address, Ownership ownership) {
+    protected RTSPConnection(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTSPConnection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPConnection(input, ownership);
     
     /**
      * Clear the list of authentication directives stored in {@code conn}.
@@ -66,7 +68,7 @@ public class RTSPConnection extends Struct {
      * state as when it was first created.
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult close() {
+    public org.gstreamer.rtsp.RTSPResult close() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_close.invokeExact(
@@ -88,8 +90,7 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} when a connection could be made.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult connect(@NotNull org.gtk.glib.TimeVal timeout) {
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public org.gstreamer.rtsp.RTSPResult connect(org.gtk.glib.TimeVal timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_connect.invokeExact(
@@ -111,7 +112,7 @@ public class RTSPConnection extends Struct {
      * @param timeout a timeout in microseconds
      * @return {@code GST_RTSP_OK} when a connection could be made.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult connectUsec(long timeout) {
+    public org.gstreamer.rtsp.RTSPResult connectUsec(long timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_connect_usec.invokeExact(
@@ -136,9 +137,7 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} when a connection could be made.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult connectWithResponse(@NotNull org.gtk.glib.TimeVal timeout, @NotNull org.gstreamer.rtsp.RTSPMessage response) {
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
+    public org.gstreamer.rtsp.RTSPResult connectWithResponse(org.gtk.glib.TimeVal timeout, org.gstreamer.rtsp.RTSPMessage response) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_connect_with_response.invokeExact(
@@ -163,8 +162,7 @@ public class RTSPConnection extends Struct {
      * @param response a {@link RTSPMessage}
      * @return {@code GST_RTSP_OK} when a connection could be made.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult connectWithResponseUsec(long timeout, @NotNull org.gstreamer.rtsp.RTSPMessage response) {
-        java.util.Objects.requireNonNull(response, "Parameter 'response' must not be null");
+    public org.gstreamer.rtsp.RTSPResult connectWithResponseUsec(long timeout, org.gstreamer.rtsp.RTSPMessage response) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_connect_with_response_usec.invokeExact(
@@ -190,8 +188,7 @@ public class RTSPConnection extends Struct {
      * @param conn2 a {@link RTSPConnection} or {@code null}
      * @return return GST_RTSP_OK on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult doTunnel(@NotNull org.gstreamer.rtsp.RTSPConnection conn2) {
-        java.util.Objects.requireNonNull(conn2, "Parameter 'conn2' must not be null");
+    public org.gstreamer.rtsp.RTSPResult doTunnel(org.gstreamer.rtsp.RTSPConnection conn2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_do_tunnel.invokeExact(
@@ -210,12 +207,12 @@ public class RTSPConnection extends Struct {
      * @param flush start or stop the flush
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult flush(boolean flush) {
+    public org.gstreamer.rtsp.RTSPResult flush(boolean flush) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_flush.invokeExact(
                     handle(),
-                    flush ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flush, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -226,7 +223,7 @@ public class RTSPConnection extends Struct {
      * Close and free {@code conn}.
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult free() {
+    public org.gstreamer.rtsp.RTSPResult free() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_free.invokeExact(
@@ -250,7 +247,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -258,7 +255,7 @@ public class RTSPConnection extends Struct {
      * @return The IP address as a string. this value remains valid until the
      * connection is closed.
      */
-    public @NotNull java.lang.String getIp() {
+    public java.lang.String getIp() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_ip.invokeExact(
@@ -266,7 +263,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -274,7 +271,7 @@ public class RTSPConnection extends Struct {
      * @return the file descriptor used for reading or {@code null} on
      * error. The file descriptor remains valid until the connection is closed.
      */
-    public @NotNull org.gtk.gio.Socket getReadSocket() {
+    public org.gtk.gio.Socket getReadSocket() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_read_socket.invokeExact(
@@ -282,7 +279,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Socket(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Socket) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Socket.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     public boolean getRememberSessionId() {
@@ -293,7 +290,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -308,7 +305,7 @@ public class RTSPConnection extends Struct {
      * @return the TLS connection for {@code conn}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gio.TlsConnection getTls() throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.gio.TlsConnection getTls() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -321,7 +318,7 @@ public class RTSPConnection extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.TlsConnection(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsConnection.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -332,7 +329,7 @@ public class RTSPConnection extends Struct {
      * database has been previously set. Use g_object_unref() to release the
      * certificate database.
      */
-    public @NotNull org.gtk.gio.TlsDatabase getTlsDatabase() {
+    public org.gtk.gio.TlsDatabase getTlsDatabase() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tls_database.invokeExact(
@@ -340,7 +337,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsDatabase(RESULT, Ownership.FULL);
+        return (org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -350,7 +347,7 @@ public class RTSPConnection extends Struct {
      * @return a reference on the {@link org.gtk.gio.TlsInteraction}. Use
      * g_object_unref() to release.
      */
-    public @NotNull org.gtk.gio.TlsInteraction getTlsInteraction() {
+    public org.gtk.gio.TlsInteraction getTlsInteraction() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tls_interaction.invokeExact(
@@ -358,7 +355,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsInteraction(RESULT, Ownership.FULL);
+        return (org.gtk.gio.TlsInteraction) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsInteraction.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -375,7 +372,7 @@ public class RTSPConnection extends Struct {
      * the only error flag set even if other problems exist with the certificate.
      * @return the validation flags.
      */
-    public @NotNull org.gtk.gio.TlsCertificateFlags getTlsValidationFlags() {
+    public org.gtk.gio.TlsCertificateFlags getTlsValidationFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_get_tls_validation_flags.invokeExact(
@@ -390,7 +387,7 @@ public class RTSPConnection extends Struct {
      * Get the tunnel session id the connection.
      * @return returns a non-empty string if {@code conn} is being tunneled over HTTP.
      */
-    public @NotNull java.lang.String getTunnelid() {
+    public java.lang.String getTunnelid() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_tunnelid.invokeExact(
@@ -398,7 +395,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -406,7 +403,7 @@ public class RTSPConnection extends Struct {
      * @return The URL. This value remains valid until the
      * connection is freed.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPUrl getUrl() {
+    public org.gstreamer.rtsp.RTSPUrl getUrl() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_url.invokeExact(
@@ -414,7 +411,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.rtsp.RTSPUrl(RESULT, Ownership.FULL);
+        return org.gstreamer.rtsp.RTSPUrl.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -422,7 +419,7 @@ public class RTSPConnection extends Struct {
      * @return the file descriptor used for writing or NULL on
      * error. The file descriptor remains valid until the connection is closed.
      */
-    public @NotNull org.gtk.gio.Socket getWriteSocket() {
+    public org.gtk.gio.Socket getWriteSocket() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_connection_get_write_socket.invokeExact(
@@ -430,7 +427,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Socket(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Socket) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Socket.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -445,7 +442,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -454,8 +451,7 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK}.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult nextTimeout(@NotNull org.gtk.glib.TimeVal timeout) {
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public org.gstreamer.rtsp.RTSPResult nextTimeout(org.gtk.glib.TimeVal timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_next_timeout.invokeExact(
@@ -497,16 +493,13 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} on success.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult poll(@NotNull org.gstreamer.rtsp.RTSPEvent events, @NotNull org.gstreamer.rtsp.RTSPEvent revents, @NotNull org.gtk.glib.TimeVal timeout) {
-        java.util.Objects.requireNonNull(events, "Parameter 'events' must not be null");
-        java.util.Objects.requireNonNull(revents, "Parameter 'revents' must not be null");
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public org.gstreamer.rtsp.RTSPResult poll(org.gstreamer.rtsp.RTSPEvent events, PointerBitfield<org.gstreamer.rtsp.RTSPEvent> revents, org.gtk.glib.TimeVal timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_poll.invokeExact(
                     handle(),
                     events.getValue(),
-                    new PointerInteger(revents.getValue()).handle(),
+                    revents.handle(),
                     timeout.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -528,15 +521,13 @@ public class RTSPConnection extends Struct {
      * @param timeout a timeout in microseconds
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult pollUsec(@NotNull org.gstreamer.rtsp.RTSPEvent events, @NotNull org.gstreamer.rtsp.RTSPEvent revents, long timeout) {
-        java.util.Objects.requireNonNull(events, "Parameter 'events' must not be null");
-        java.util.Objects.requireNonNull(revents, "Parameter 'revents' must not be null");
+    public org.gstreamer.rtsp.RTSPResult pollUsec(org.gstreamer.rtsp.RTSPEvent events, PointerBitfield<org.gstreamer.rtsp.RTSPEvent> revents, long timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_poll_usec.invokeExact(
                     handle(),
                     events.getValue(),
-                    new PointerInteger(revents.getValue()).handle(),
+                    revents.handle(),
                     timeout);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -556,9 +547,7 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} on success.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult read(PointerByte data, int size, @NotNull org.gtk.glib.TimeVal timeout) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public org.gstreamer.rtsp.RTSPResult read(PointerByte data, int size, org.gtk.glib.TimeVal timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_read.invokeExact(
@@ -583,8 +572,7 @@ public class RTSPConnection extends Struct {
      * @param timeout a timeout value in microseconds
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult readUsec(PointerByte data, int size, long timeout) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public org.gstreamer.rtsp.RTSPResult readUsec(PointerByte data, int size, long timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_read_usec.invokeExact(
@@ -609,9 +597,7 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} on success.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult receive(@NotNull org.gstreamer.rtsp.RTSPMessage message, @NotNull org.gtk.glib.TimeVal timeout) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public org.gstreamer.rtsp.RTSPResult receive(org.gstreamer.rtsp.RTSPMessage message, org.gtk.glib.TimeVal timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_receive.invokeExact(
@@ -634,8 +620,7 @@ public class RTSPConnection extends Struct {
      * @param timeout a timeout value or 0
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult receiveUsec(@NotNull org.gstreamer.rtsp.RTSPMessage message, long timeout) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public org.gstreamer.rtsp.RTSPResult receiveUsec(org.gstreamer.rtsp.RTSPMessage message, long timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_receive_usec.invokeExact(
@@ -652,7 +637,7 @@ public class RTSPConnection extends Struct {
      * Reset the timeout of {@code conn}.
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult resetTimeout() {
+    public org.gstreamer.rtsp.RTSPResult resetTimeout() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_reset_timeout.invokeExact(
@@ -674,9 +659,7 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} on success.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult send(@NotNull org.gstreamer.rtsp.RTSPMessage message, @NotNull org.gtk.glib.TimeVal timeout) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public org.gstreamer.rtsp.RTSPResult send(org.gstreamer.rtsp.RTSPMessage message, org.gtk.glib.TimeVal timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_send.invokeExact(
@@ -701,9 +684,7 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} on success.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult sendMessages(@NotNull org.gstreamer.rtsp.RTSPMessage[] messages, int nMessages, @NotNull org.gtk.glib.TimeVal timeout) {
-        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public org.gstreamer.rtsp.RTSPResult sendMessages(org.gstreamer.rtsp.RTSPMessage[] messages, int nMessages, org.gtk.glib.TimeVal timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_send_messages.invokeExact(
@@ -728,8 +709,7 @@ public class RTSPConnection extends Struct {
      * @param timeout a timeout value in microseconds
      * @return {@code GST_RTSP_OK} on Since.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult sendMessagesUsec(@NotNull org.gstreamer.rtsp.RTSPMessage[] messages, int nMessages, long timeout) {
-        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
+    public org.gstreamer.rtsp.RTSPResult sendMessagesUsec(org.gstreamer.rtsp.RTSPMessage[] messages, int nMessages, long timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_send_messages_usec.invokeExact(
@@ -753,8 +733,7 @@ public class RTSPConnection extends Struct {
      * @param timeout a timeout value in microseconds
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult sendUsec(@NotNull org.gstreamer.rtsp.RTSPMessage message, long timeout) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public org.gstreamer.rtsp.RTSPResult sendUsec(org.gstreamer.rtsp.RTSPMessage message, long timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_send_usec.invokeExact(
@@ -775,19 +754,15 @@ public class RTSPConnection extends Struct {
      * have failed. If no {@link org.gtk.gio.TlsDatabase} is set on this connection, only {@code func} will
      * be called.
      * @param func a {@link RTSPConnectionAcceptCertificateFunc} to check certificates
+     * @param destroyNotify {@link org.gtk.glib.DestroyNotify} for {@code user_data}
      */
-    public void setAcceptCertificateFunc(@NotNull org.gstreamer.rtsp.RTSPConnectionAcceptCertificateFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setAcceptCertificateFunc(org.gstreamer.rtsp.RTSPConnectionAcceptCertificateFunc func, org.gtk.glib.DestroyNotify destroyNotify) {
         try {
             DowncallHandles.gst_rtsp_connection_set_accept_certificate_func.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstRtsp.Callbacks.class, "cbRTSPConnectionAcceptCertificateFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyNotify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -801,17 +776,14 @@ public class RTSPConnection extends Struct {
      * @param pass the password
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult setAuth(@NotNull org.gstreamer.rtsp.RTSPAuthMethod method, @NotNull java.lang.String user, @NotNull java.lang.String pass) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(user, "Parameter 'user' must not be null");
-        java.util.Objects.requireNonNull(pass, "Parameter 'pass' must not be null");
+    public org.gstreamer.rtsp.RTSPResult setAuth(org.gstreamer.rtsp.RTSPAuthMethod method, java.lang.String user, java.lang.String pass) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_set_auth.invokeExact(
                     handle(),
                     method.getValue(),
-                    Interop.allocateNativeString(user),
-                    Interop.allocateNativeString(pass));
+                    Marshal.stringToAddress.marshal(user, null),
+                    Marshal.stringToAddress.marshal(pass, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -827,14 +799,12 @@ public class RTSPConnection extends Struct {
      * @param param authentication directive
      * @param value value
      */
-    public void setAuthParam(@NotNull java.lang.String param, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(param, "Parameter 'param' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setAuthParam(java.lang.String param, java.lang.String value) {
         try {
             DowncallHandles.gst_rtsp_connection_set_auth_param.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(param),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(param, null),
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -866,7 +836,7 @@ public class RTSPConnection extends Struct {
         try {
             DowncallHandles.gst_rtsp_connection_set_http_mode.invokeExact(
                     handle(),
-                    enable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -882,7 +852,7 @@ public class RTSPConnection extends Struct {
         try {
             DowncallHandles.gst_rtsp_connection_set_ignore_x_server_reply.invokeExact(
                     handle(),
-                    ignore ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(ignore, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -892,12 +862,11 @@ public class RTSPConnection extends Struct {
      * Set the IP address of the server.
      * @param ip an ip address
      */
-    public void setIp(@NotNull java.lang.String ip) {
-        java.util.Objects.requireNonNull(ip, "Parameter 'ip' must not be null");
+    public void setIp(java.lang.String ip) {
         try {
             DowncallHandles.gst_rtsp_connection_set_ip.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(ip));
+                    Marshal.stringToAddress.marshal(ip, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -909,13 +878,12 @@ public class RTSPConnection extends Struct {
      * @param port the proxy port
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult setProxy(@NotNull java.lang.String host, int port) {
-        java.util.Objects.requireNonNull(host, "Parameter 'host' must not be null");
+    public org.gstreamer.rtsp.RTSPResult setProxy(java.lang.String host, int port) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_set_proxy.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(host),
+                    Marshal.stringToAddress.marshal(host, null),
                     port);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -928,7 +896,7 @@ public class RTSPConnection extends Struct {
      * @param qosDscp DSCP value
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult setQosDscp(int qosDscp) {
+    public org.gstreamer.rtsp.RTSPResult setQosDscp(int qosDscp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_set_qos_dscp.invokeExact(
@@ -951,7 +919,7 @@ public class RTSPConnection extends Struct {
         try {
             DowncallHandles.gst_rtsp_connection_set_remember_session_id.invokeExact(
                     handle(),
-                    remember ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(remember, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -963,8 +931,7 @@ public class RTSPConnection extends Struct {
      * can't be verified with the default certificate database first.
      * @param database a {@link org.gtk.gio.TlsDatabase}
      */
-    public void setTlsDatabase(@NotNull org.gtk.gio.TlsDatabase database) {
-        java.util.Objects.requireNonNull(database, "Parameter 'database' must not be null");
+    public void setTlsDatabase(org.gtk.gio.TlsDatabase database) {
         try {
             DowncallHandles.gst_rtsp_connection_set_tls_database.invokeExact(
                     handle(),
@@ -980,8 +947,7 @@ public class RTSPConnection extends Struct {
      * user for passwords where necessary.
      * @param interaction a {@link org.gtk.gio.TlsInteraction}
      */
-    public void setTlsInteraction(@NotNull org.gtk.gio.TlsInteraction interaction) {
-        java.util.Objects.requireNonNull(interaction, "Parameter 'interaction' must not be null");
+    public void setTlsInteraction(org.gtk.gio.TlsInteraction interaction) {
         try {
             DowncallHandles.gst_rtsp_connection_set_tls_interaction.invokeExact(
                     handle(),
@@ -1007,8 +973,7 @@ public class RTSPConnection extends Struct {
      * @return TRUE if the validation flags are set correctly, or FALSE if
      * {@code conn} is NULL or is not a TLS connection.
      */
-    public boolean setTlsValidationFlags(@NotNull org.gtk.gio.TlsCertificateFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean setTlsValidationFlags(org.gtk.gio.TlsCertificateFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_set_tls_validation_flags.invokeExact(
@@ -1017,7 +982,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1029,7 +994,7 @@ public class RTSPConnection extends Struct {
         try {
             DowncallHandles.gst_rtsp_connection_set_tunneled.invokeExact(
                     handle(),
-                    tunneled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(tunneled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1047,9 +1012,7 @@ public class RTSPConnection extends Struct {
      * @return {@code GST_RTSP_OK} on success.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult write(PointerByte data, int size, @NotNull org.gtk.glib.TimeVal timeout) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public org.gstreamer.rtsp.RTSPResult write(PointerByte data, int size, org.gtk.glib.TimeVal timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_write.invokeExact(
@@ -1074,8 +1037,7 @@ public class RTSPConnection extends Struct {
      * @param timeout a timeout value or 0
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult writeUsec(PointerByte data, int size, long timeout) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public org.gstreamer.rtsp.RTSPResult writeUsec(PointerByte data, int size, long timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_write_usec.invokeExact(
@@ -1097,9 +1059,7 @@ public class RTSPConnection extends Struct {
      * @param cancellable a {@link org.gtk.gio.Cancellable} to cancel the operation
      * @return {@code GST_RTSP_OK} when {@code conn} contains a valid connection.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult accept(@NotNull org.gtk.gio.Socket socket, @NotNull Out<org.gstreamer.rtsp.RTSPConnection> conn, @Nullable org.gtk.gio.Cancellable cancellable) {
-        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult accept(org.gtk.gio.Socket socket, Out<org.gstreamer.rtsp.RTSPConnection> conn, @Nullable org.gtk.gio.Cancellable cancellable) {
         MemorySegment connPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -1110,7 +1070,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        conn.set(new org.gstreamer.rtsp.RTSPConnection(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -1124,9 +1084,7 @@ public class RTSPConnection extends Struct {
      * @param conn storage for a {@link RTSPConnection}
      * @return {@code GST_RTSP_OK} when {@code conn} contains a valid connection.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult create(@NotNull org.gstreamer.rtsp.RTSPUrl url, @NotNull Out<org.gstreamer.rtsp.RTSPConnection> conn) {
-        java.util.Objects.requireNonNull(url, "Parameter 'url' must not be null");
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult create(org.gstreamer.rtsp.RTSPUrl url, Out<org.gstreamer.rtsp.RTSPConnection> conn) {
         MemorySegment connPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -1136,7 +1094,7 @@ public class RTSPConnection extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        conn.set(new org.gstreamer.rtsp.RTSPConnection(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -1151,24 +1109,20 @@ public class RTSPConnection extends Struct {
      * @param conn storage for a {@link RTSPConnection}
      * @return {@code GST_RTSP_OK} when {@code conn} contains a valid connection.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult createFromSocket(@NotNull org.gtk.gio.Socket socket, @NotNull java.lang.String ip, short port, @NotNull java.lang.String initialBuffer, @NotNull Out<org.gstreamer.rtsp.RTSPConnection> conn) {
-        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
-        java.util.Objects.requireNonNull(ip, "Parameter 'ip' must not be null");
-        java.util.Objects.requireNonNull(initialBuffer, "Parameter 'initialBuffer' must not be null");
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult createFromSocket(org.gtk.gio.Socket socket, java.lang.String ip, short port, java.lang.String initialBuffer, Out<org.gstreamer.rtsp.RTSPConnection> conn) {
         MemorySegment connPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_connection_create_from_socket.invokeExact(
                     socket.handle(),
-                    Interop.allocateNativeString(ip),
+                    Marshal.stringToAddress.marshal(ip, null),
                     port,
-                    Interop.allocateNativeString(initialBuffer),
+                    Marshal.stringToAddress.marshal(initialBuffer, null),
                     (Addressable) connPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        conn.set(new org.gstreamer.rtsp.RTSPConnection(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        conn.set(org.gstreamer.rtsp.RTSPConnection.fromAddress.marshal(connPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     

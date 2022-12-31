@@ -40,8 +40,10 @@ public class PhysicalDeviceImageDrmFormatModifierInfoEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceImageDrmFormatModifierInfoEXT(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceImageDrmFormatModifierInfoEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceImageDrmFormatModifierInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceImageDrmFormatModifierInfoEXT(input, ownership);
 }

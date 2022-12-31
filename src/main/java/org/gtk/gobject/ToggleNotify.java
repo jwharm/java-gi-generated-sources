@@ -13,5 +13,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ToggleNotify {
-        void onToggleNotify(@NotNull org.gtk.gobject.Object object, boolean isLastRef);
+    void run(org.gtk.gobject.GObject object, boolean isLastRef);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress data, MemoryAddress object, int isLastRef) {
+        run((org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gtk.gobject.GObject.fromAddress).marshal(object, Ownership.NONE), Marshal.integerToBoolean.marshal(isLastRef, null).booleanValue());
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleNotify.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

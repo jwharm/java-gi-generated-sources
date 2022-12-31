@@ -47,11 +47,15 @@ public class TestTrapFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TestTrapFlags or(TestTrapFlags mask) {
-        return new TestTrapFlags(this.getValue() | mask.getValue());
+    public TestTrapFlags or(TestTrapFlags... masks) {
+        int value = this.getValue();
+        for (TestTrapFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new TestTrapFlags(value);
     }
     
     /**
@@ -61,7 +65,8 @@ public class TestTrapFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TestTrapFlags combined(TestTrapFlags mask, TestTrapFlags... masks) {
-        int value = mask.getValue();        for (TestTrapFlags arg : masks) {
+        int value = mask.getValue();
+        for (TestTrapFlags arg : masks) {
             value |= arg.getValue();
         }
         return new TestTrapFlags(value);

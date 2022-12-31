@@ -40,8 +40,10 @@ public class VulkanQueuePrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanQueuePrivate(Addressable address, Ownership ownership) {
+    protected VulkanQueuePrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanQueuePrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanQueuePrivate(input, ownership);
 }

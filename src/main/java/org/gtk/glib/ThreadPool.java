@@ -18,19 +18,17 @@ public class ThreadPool extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GThreadPool";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("func"),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.C_INT.withName("exclusive")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("func"),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.C_INT.withName("exclusive")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class ThreadPool extends Struct {
      * Get the value of the field {@code func}
      * @return The value of the field {@code func}
      */
-    public org.gtk.glib.Func func$get() {
+    public org.gtk.glib.Func getFunc() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -58,10 +56,20 @@ public class ThreadPool extends Struct {
     }
     
     /**
+     * Change the value of the field {@code func}
+     * @param func The new value of the field {@code func}
+     */
+    public void setFunc(org.gtk.glib.Func func) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("func"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code user_data}
      * @return The value of the field {@code user_data}
      */
-    public java.lang.foreign.MemoryAddress userData$get() {
+    public java.lang.foreign.MemoryAddress getUserData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -72,31 +80,31 @@ public class ThreadPool extends Struct {
      * Change the value of the field {@code user_data}
      * @param userData The new value of the field {@code user_data}
      */
-    public void userData$set(java.lang.foreign.MemoryAddress userData) {
+    public void setUserData(java.lang.foreign.MemoryAddress userData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) userData);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
     }
     
     /**
      * Get the value of the field {@code exclusive}
      * @return The value of the field {@code exclusive}
      */
-    public boolean exclusive$get() {
+    public boolean getExclusive() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code exclusive}
      * @param exclusive The new value of the field {@code exclusive}
      */
-    public void exclusive$set(boolean exclusive) {
+    public void setExclusive(boolean exclusive) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), exclusive ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(exclusive, null).intValue());
     }
     
     /**
@@ -104,10 +112,12 @@ public class ThreadPool extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ThreadPool(Addressable address, Ownership ownership) {
+    protected ThreadPool(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ThreadPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ThreadPool(input, ownership);
     
     /**
      * Frees all resources allocated for {@code pool}.
@@ -131,8 +141,8 @@ public class ThreadPool extends Struct {
         try {
             DowncallHandles.g_thread_pool_free.invokeExact(
                     handle(),
-                    immediate ? 1 : 0,
-                    wait_ ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(immediate, null).intValue(),
+                    Marshal.booleanToInteger.marshal(wait_, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -171,19 +181,18 @@ public class ThreadPool extends Struct {
     /**
      * Moves the item to the front of the queue of unprocessed
      * items, so that it will be processed next.
-     * @param data an unprocessed item in the pool
      * @return {@code true} if the item was found and moved
      */
-    public boolean moveToFront(@Nullable java.lang.foreign.MemoryAddress data) {
+    public boolean moveToFront() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_thread_pool_move_to_front.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -201,17 +210,16 @@ public class ThreadPool extends Struct {
      * work to do.
      * <p>
      * Before version 2.32, this function did not return a success status.
-     * @param data a new task for {@code pool}
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean push(@Nullable java.lang.foreign.MemoryAddress data) throws io.github.jwharm.javagi.GErrorException {
+    public boolean push() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_thread_pool_push.invokeExact(
                     handle(),
-                    (Addressable) data,
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -219,7 +227,7 @@ public class ThreadPool extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -262,7 +270,7 @@ public class ThreadPool extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -282,17 +290,12 @@ public class ThreadPool extends Struct {
      *     the second or a positive value if the second task should be
      *     processed first.
      */
-    public void setSortFunction(@NotNull org.gtk.glib.CompareDataFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setSortFunction(org.gtk.glib.CompareDataFunc func) {
         try {
             DowncallHandles.g_thread_pool_set_sort_function.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -401,20 +404,15 @@ public class ThreadPool extends Struct {
      * @return the new {@link ThreadPool}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.ThreadPool new_(@NotNull org.gtk.glib.Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gtk.glib.ThreadPool new_(org.gtk.glib.Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
                     maxThreads,
-                    exclusive ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(exclusive, null).intValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -422,7 +420,7 @@ public class ThreadPool extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.ThreadPool(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.ThreadPool.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -431,27 +429,24 @@ public class ThreadPool extends Struct {
      * to g_thread_pool_push() in the case that the {@link ThreadPool} is stopped
      * and freed before all tasks have been executed.
      * @param func a function to execute in the threads of the new thread pool
+     * @param itemFreeFunc used to pass as a free function to
+     *     g_async_queue_new_full()
      * @param maxThreads the maximal number of threads to execute concurrently
      *     in the new thread pool, {@code -1} means no limit
      * @param exclusive should this thread pool be exclusive?
      * @return the new {@link ThreadPool}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.ThreadPool newFull(@NotNull org.gtk.glib.Func func, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gtk.glib.ThreadPool newFull(org.gtk.glib.Func func, @Nullable org.gtk.glib.DestroyNotify itemFreeFunc, int maxThreads, boolean exclusive) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_pool_new_full.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (itemFreeFunc == null ? MemoryAddress.NULL : (Addressable) itemFreeFunc.toCallback()),
                     maxThreads,
-                    exclusive ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(exclusive, null).intValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -459,7 +454,7 @@ public class ThreadPool extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.ThreadPool(RESULT, Ownership.FULL);
+        return org.gtk.glib.ThreadPool.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -612,31 +607,35 @@ public class ThreadPool extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link ThreadPool.Builder} object constructs a {@link ThreadPool} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ThreadPool.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ThreadPool struct;
+        private final ThreadPool struct;
         
-         /**
-         * A {@link ThreadPool.Build} object constructs a {@link ThreadPool} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ThreadPool.allocate();
         }
         
          /**
          * Finish building the {@link ThreadPool} struct.
          * @return A new instance of {@code ThreadPool} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ThreadPool construct() {
+        public ThreadPool build() {
             return struct;
         }
         
@@ -645,10 +644,10 @@ public class ThreadPool extends Struct {
          * @param func The value for the {@code func} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFunc(java.lang.foreign.MemoryAddress func) {
+        public Builder setFunc(org.gtk.glib.Func func) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : func));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
             return this;
         }
         
@@ -657,7 +656,7 @@ public class ThreadPool extends Struct {
          * @param userData The value for the {@code userData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
@@ -669,10 +668,10 @@ public class ThreadPool extends Struct {
          * @param exclusive The value for the {@code exclusive} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExclusive(boolean exclusive) {
+        public Builder setExclusive(boolean exclusive) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("exclusive"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), exclusive ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(exclusive, null).intValue());
             return this;
         }
     }

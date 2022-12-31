@@ -13,20 +13,18 @@ public class ISO639LanguageDescriptor extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsISO639LanguageDescriptor";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("nb_language"),
-        MemoryLayout.paddingLayout(4064),
-        MemoryLayout.sequenceLayout(64, Interop.valueLayout.ADDRESS).withName("language"),
-        MemoryLayout.sequenceLayout(64, Interop.valueLayout.C_INT).withName("audio_type")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("nb_language"),
+            MemoryLayout.paddingLayout(4064),
+            MemoryLayout.sequenceLayout(64, Interop.valueLayout.ADDRESS).withName("language"),
+            MemoryLayout.sequenceLayout(64, Interop.valueLayout.C_INT).withName("audio_type")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -46,7 +44,7 @@ public class ISO639LanguageDescriptor extends Struct {
      * Get the value of the field {@code nb_language}
      * @return The value of the field {@code nb_language}
      */
-    public int nbLanguage$get() {
+    public int getNbLanguage() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("nb_language"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -57,10 +55,52 @@ public class ISO639LanguageDescriptor extends Struct {
      * Change the value of the field {@code nb_language}
      * @param nbLanguage The new value of the field {@code nb_language}
      */
-    public void nbLanguage$set(int nbLanguage) {
+    public void setNbLanguage(int nbLanguage) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("nb_language"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nbLanguage);
+    }
+    
+    /**
+     * Get the value of the field {@code language}
+     * @return The value of the field {@code language}
+     */
+    public java.lang.String[] getLanguage() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("language"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return Interop.getStringArrayFrom(RESULT, 64);
+    }
+    
+    /**
+     * Change the value of the field {@code language}
+     * @param language The new value of the field {@code language}
+     */
+    public void setLanguage(java.lang.String[] language) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("language"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (language == null ? MemoryAddress.NULL : Interop.allocateNativeArray(language, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code audio_type}
+     * @return The value of the field {@code audio_type}
+     */
+    public org.gstreamer.mpegts.Iso639AudioType[] getAudioType() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("audio_type"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerEnumeration<org.gstreamer.mpegts.Iso639AudioType>(RESULT, org.gstreamer.mpegts.Iso639AudioType::of).toArray((int) 64, org.gstreamer.mpegts.Iso639AudioType.class);
+    }
+    
+    /**
+     * Change the value of the field {@code audio_type}
+     * @param audioType The new value of the field {@code audio_type}
+     */
+    public void setAudioType(org.gstreamer.mpegts.Iso639AudioType[] audioType) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("audio_type"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (audioType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(audioType), false)));
     }
     
     /**
@@ -68,10 +108,12 @@ public class ISO639LanguageDescriptor extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ISO639LanguageDescriptor(Addressable address, Ownership ownership) {
+    protected ISO639LanguageDescriptor(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ISO639LanguageDescriptor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ISO639LanguageDescriptor(input, ownership);
     
     public void descriptorFree() {
         try {
@@ -90,49 +132,53 @@ public class ISO639LanguageDescriptor extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link ISO639LanguageDescriptor.Builder} object constructs a {@link ISO639LanguageDescriptor} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ISO639LanguageDescriptor.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ISO639LanguageDescriptor struct;
+        private final ISO639LanguageDescriptor struct;
         
-         /**
-         * A {@link ISO639LanguageDescriptor.Build} object constructs a {@link ISO639LanguageDescriptor} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ISO639LanguageDescriptor.allocate();
         }
         
          /**
          * Finish building the {@link ISO639LanguageDescriptor} struct.
          * @return A new instance of {@code ISO639LanguageDescriptor} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ISO639LanguageDescriptor construct() {
+        public ISO639LanguageDescriptor build() {
             return struct;
         }
         
-        public Build setNbLanguage(int nbLanguage) {
+        public Builder setNbLanguage(int nbLanguage) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("nb_language"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nbLanguage);
             return this;
         }
         
-        public Build setLanguage(java.lang.String[] language) {
+        public Builder setLanguage(java.lang.String[] language) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("language"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (language == null ? MemoryAddress.NULL : Interop.allocateNativeArray(language, false)));
             return this;
         }
         
-        public Build setAudioType(org.gstreamer.mpegts.Iso639AudioType[] audioType) {
+        public Builder setAudioType(org.gstreamer.mpegts.Iso639AudioType[] audioType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("audio_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (audioType == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Enumeration.getValues(audioType), false)));

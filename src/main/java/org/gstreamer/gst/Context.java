@@ -72,18 +72,19 @@ public class Context extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Context(Addressable address, Ownership ownership) {
+    protected Context(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String contextType, boolean persistent) {
-        java.util.Objects.requireNonNull(contextType, "Parameter 'contextType' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Context> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Context(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String contextType, boolean persistent) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_context_new.invokeExact(
-                    Interop.allocateNativeString(contextType),
-                    persistent ? 1 : 0);
+                    Marshal.stringToAddress.marshal(contextType, null),
+                    Marshal.booleanToInteger.marshal(persistent, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +96,7 @@ public class Context extends Struct {
      * @param contextType Context type
      * @param persistent Persistent context
      */
-    public Context(@NotNull java.lang.String contextType, boolean persistent) {
+    public Context(java.lang.String contextType, boolean persistent) {
         super(constructNew(contextType, persistent), Ownership.FULL);
     }
     
@@ -103,7 +104,7 @@ public class Context extends Struct {
      * Gets the type of {@code context}.
      * @return The type of the context.
      */
-    public @NotNull java.lang.String getContextType() {
+    public java.lang.String getContextType() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_context_get_context_type.invokeExact(
@@ -111,7 +112,7 @@ public class Context extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -120,7 +121,7 @@ public class Context extends Struct {
      * still owned by the context, which means that you should not modify it,
      * free it and that the pointer becomes invalid when you free the context.
      */
-    public @NotNull org.gstreamer.gst.Structure getStructure() {
+    public org.gstreamer.gst.Structure getStructure() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_context_get_structure.invokeExact(
@@ -128,7 +129,7 @@ public class Context extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -136,17 +137,16 @@ public class Context extends Struct {
      * @param contextType Context type to check.
      * @return {@code true} if {@code context} has {@code context_type}.
      */
-    public boolean hasContextType(@NotNull java.lang.String contextType) {
-        java.util.Objects.requireNonNull(contextType, "Parameter 'contextType' must not be null");
+    public boolean hasContextType(java.lang.String contextType) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_context_has_context_type.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(contextType));
+                    Marshal.stringToAddress.marshal(contextType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -161,7 +161,7 @@ public class Context extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -171,7 +171,7 @@ public class Context extends Struct {
      * that the pointer becomes invalid when you free the context.
      * This function checks if {@code context} is writable.
      */
-    public @NotNull org.gstreamer.gst.Structure writableStructure() {
+    public org.gstreamer.gst.Structure writableStructure() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_context_writable_structure.invokeExact(
@@ -179,7 +179,7 @@ public class Context extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {

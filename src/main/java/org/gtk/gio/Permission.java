@@ -22,7 +22,7 @@ import org.jetbrains.annotations.*;
  * unlock" button in a dialog and to provide the mechanism to invoke
  * when that button is clicked.
  */
-public class Permission extends org.gtk.gobject.Object {
+public class Permission extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -30,18 +30,16 @@ public class Permission extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GPermission";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -49,30 +47,12 @@ public class Permission extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Permission(Addressable address, Ownership ownership) {
+    protected Permission(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Permission if its GType is a (or inherits from) "GPermission".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Permission} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GPermission", a ClassCastException will be thrown.
-     */
-    public static Permission castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Permission.getType())) {
-            return new Permission(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GPermission");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Permission> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Permission(input, ownership);
     
     /**
      * Attempts to acquire the permission represented by {@code permission}.
@@ -108,7 +88,7 @@ public class Permission extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -124,12 +104,8 @@ public class Permission extends org.gtk.gobject.Object {
             DowncallHandles.g_permission_acquire_async.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,8 +121,7 @@ public class Permission extends org.gtk.gobject.Object {
      * @return {@code true} if the permission was successfully acquired
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean acquireFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean acquireFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -160,7 +135,7 @@ public class Permission extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -177,7 +152,7 @@ public class Permission extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -194,7 +169,7 @@ public class Permission extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -211,7 +186,7 @@ public class Permission extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -228,9 +203,9 @@ public class Permission extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_permission_impl_update.invokeExact(
                     handle(),
-                    allowed ? 1 : 0,
-                    canAcquire ? 1 : 0,
-                    canRelease ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(allowed, null).intValue(),
+                    Marshal.booleanToInteger.marshal(canAcquire, null).intValue(),
+                    Marshal.booleanToInteger.marshal(canRelease, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,7 +245,7 @@ public class Permission extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -286,12 +261,8 @@ public class Permission extends org.gtk.gobject.Object {
             DowncallHandles.g_permission_release_async.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -307,8 +278,7 @@ public class Permission extends org.gtk.gobject.Object {
      * @return {@code true} if the permission was successfully released
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean releaseFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public boolean releaseFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -322,14 +292,14 @@ public class Permission extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_permission_get_type.invokeExact();
@@ -338,38 +308,40 @@ public class Permission extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Permission.Builder} object constructs a {@link Permission} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Permission.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Permission.Build} object constructs a {@link Permission} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Permission} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Permission} using {@link Permission#castFrom}.
+         * {@link Permission}.
          * @return A new instance of {@code Permission} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Permission construct() {
-            return Permission.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Permission.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Permission build() {
+            return (Permission) org.gtk.gobject.GObject.newWithProperties(
+                Permission.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -379,7 +351,7 @@ public class Permission extends org.gtk.gobject.Object {
          * @param allowed The value for the {@code allowed} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllowed(boolean allowed) {
+        public Builder setAllowed(boolean allowed) {
             names.add("allowed");
             values.add(org.gtk.gobject.Value.create(allowed));
             return this;
@@ -391,7 +363,7 @@ public class Permission extends org.gtk.gobject.Object {
          * @param canAcquire The value for the {@code can-acquire} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanAcquire(boolean canAcquire) {
+        public Builder setCanAcquire(boolean canAcquire) {
             names.add("can-acquire");
             values.add(org.gtk.gobject.Value.create(canAcquire));
             return this;
@@ -403,7 +375,7 @@ public class Permission extends org.gtk.gobject.Object {
          * @param canRelease The value for the {@code can-release} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanRelease(boolean canRelease) {
+        public Builder setCanRelease(boolean canRelease) {
             names.add("can-release");
             values.add(org.gtk.gobject.Value.create(canRelease));
             return this;

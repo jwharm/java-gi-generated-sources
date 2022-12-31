@@ -202,7 +202,7 @@ import org.jetbrains.annotations.*;
  * {@code .gschema.override}.
  * <p>
  * <strong>Binding</strong><br/>
- * A very convenient feature of GSettings lets you bind {@link org.gtk.gobject.Object} properties
+ * A very convenient feature of GSettings lets you bind {@link org.gtk.gobject.GObject} properties
  * directly to settings, using g_settings_bind(). Once a GObject property
  * has been bound to a setting, changes on either side are automatically
  * propagated to the other side. GSettings handles details like mapping
@@ -290,7 +290,7 @@ import org.jetbrains.annotations.*;
  * rules. It should not be committed to version control or included in
  * {@code EXTRA_DIST}.
  */
-public class Settings extends org.gtk.gobject.Object {
+public class Settings extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -298,18 +298,16 @@ public class Settings extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GSettings";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -317,37 +315,18 @@ public class Settings extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Settings(Addressable address, Ownership ownership) {
+    protected Settings(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Settings if its GType is a (or inherits from) "GSettings".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Settings} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSettings", a ClassCastException will be thrown.
-     */
-    public static Settings castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Settings.getType())) {
-            return new Settings(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSettings");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Settings> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Settings(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String schemaId) {
-        java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String schemaId) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_new.invokeExact(
-                    Interop.allocateNativeString(schemaId));
+                    Marshal.stringToAddress.marshal(schemaId, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -370,18 +349,17 @@ public class Settings extends org.gtk.gobject.Object {
      * on the context.  See g_main_context_push_thread_default().
      * @param schemaId the id of the schema
      */
-    public Settings(@NotNull java.lang.String schemaId) {
+    public Settings(java.lang.String schemaId) {
         super(constructNew(schemaId), Ownership.FULL);
     }
     
-    private static Addressable constructNewFull(@NotNull org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
-        java.util.Objects.requireNonNull(schema, "Parameter 'schema' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFull(org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_new_full.invokeExact(
                     schema.handle(),
                     (Addressable) (backend == null ? MemoryAddress.NULL : backend.handle()),
-                    (Addressable) (path == null ? MemoryAddress.NULL : Interop.allocateNativeString(path)));
+                    (Addressable) (path == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(path, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -417,17 +395,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @param path the path to use
      * @return a new {@link Settings} object
      */
-    public static Settings newFull(@NotNull org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
-        return new Settings(constructNewFull(schema, backend, path), Ownership.FULL);
+    public static Settings newFull(org.gtk.gio.SettingsSchema schema, @Nullable org.gtk.gio.SettingsBackend backend, @Nullable java.lang.String path) {
+        var RESULT = constructNewFull(schema, backend, path);
+        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWithBackend(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend) {
-        java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
-        java.util.Objects.requireNonNull(backend, "Parameter 'backend' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithBackend(java.lang.String schemaId, org.gtk.gio.SettingsBackend backend) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_backend.invokeExact(
-                    Interop.allocateNativeString(schemaId),
+                    Marshal.stringToAddress.marshal(schemaId, null),
                     backend.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -448,20 +425,18 @@ public class Settings extends org.gtk.gobject.Object {
      * @param backend the {@link SettingsBackend} to use
      * @return a new {@link Settings} object
      */
-    public static Settings newWithBackend(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend) {
-        return new Settings(constructNewWithBackend(schemaId, backend), Ownership.FULL);
+    public static Settings newWithBackend(java.lang.String schemaId, org.gtk.gio.SettingsBackend backend) {
+        var RESULT = constructNewWithBackend(schemaId, backend);
+        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWithBackendAndPath(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend, @NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
-        java.util.Objects.requireNonNull(backend, "Parameter 'backend' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithBackendAndPath(java.lang.String schemaId, org.gtk.gio.SettingsBackend backend, java.lang.String path) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_backend_and_path.invokeExact(
-                    Interop.allocateNativeString(schemaId),
+                    Marshal.stringToAddress.marshal(schemaId, null),
                     backend.handle(),
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -479,18 +454,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @param path the path to use
      * @return a new {@link Settings} object
      */
-    public static Settings newWithBackendAndPath(@NotNull java.lang.String schemaId, @NotNull org.gtk.gio.SettingsBackend backend, @NotNull java.lang.String path) {
-        return new Settings(constructNewWithBackendAndPath(schemaId, backend, path), Ownership.FULL);
+    public static Settings newWithBackendAndPath(java.lang.String schemaId, org.gtk.gio.SettingsBackend backend, java.lang.String path) {
+        var RESULT = constructNewWithBackendAndPath(schemaId, backend, path);
+        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWithPath(@NotNull java.lang.String schemaId, @NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(schemaId, "Parameter 'schemaId' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithPath(java.lang.String schemaId, java.lang.String path) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_new_with_path.invokeExact(
-                    Interop.allocateNativeString(schemaId),
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(schemaId, null),
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -515,8 +489,9 @@ public class Settings extends org.gtk.gobject.Object {
      * @param path the path to use
      * @return a new {@link Settings} object
      */
-    public static Settings newWithPath(@NotNull java.lang.String schemaId, @NotNull java.lang.String path) {
-        return new Settings(constructNewWithPath(schemaId, path), Ownership.FULL);
+    public static Settings newWithPath(java.lang.String schemaId, java.lang.String path) {
+        var RESULT = constructNewWithPath(schemaId, path);
+        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -556,21 +531,17 @@ public class Settings extends org.gtk.gobject.Object {
      * If you bind the same property twice on the same object, the second
      * binding overrides the first one.
      * @param key the key to bind
-     * @param object a {@link org.gtk.gobject.Object}
+     * @param object a {@link org.gtk.gobject.GObject}
      * @param property the name of the property to bind
      * @param flags flags for the binding
      */
-    public void bind(@NotNull java.lang.String key, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String property, @NotNull org.gtk.gio.SettingsBindFlags flags) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void bind(java.lang.String key, org.gtk.gobject.GObject object, java.lang.String property, org.gtk.gio.SettingsBindFlags flags) {
         try {
             DowncallHandles.g_settings_bind.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     object.handle(),
-                    Interop.allocateNativeString(property),
+                    Marshal.stringToAddress.marshal(property, null),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -589,40 +560,27 @@ public class Settings extends org.gtk.gobject.Object {
      * If you bind the same property twice on the same object, the second
      * binding overrides the first one.
      * @param key the key to bind
-     * @param object a {@link org.gtk.gobject.Object}
+     * @param object a {@link org.gtk.gobject.GObject}
      * @param property the name of the property to bind
      * @param flags flags for the binding
      * @param getMapping a function that gets called to convert values
      *     from {@code settings} to {@code object}, or {@code null} to use the default GIO mapping
      * @param setMapping a function that gets called to convert values
      *     from {@code object} to {@code settings}, or {@code null} to use the default GIO mapping
+     * @param destroy {@link org.gtk.glib.DestroyNotify} function for {@code user_data}
      */
-    public void bindWithMapping(@NotNull java.lang.String key, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String property, @NotNull org.gtk.gio.SettingsBindFlags flags, @NotNull org.gtk.gio.SettingsBindGetMapping getMapping, @NotNull org.gtk.gio.SettingsBindSetMapping setMapping) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(getMapping, "Parameter 'getMapping' must not be null");
-        java.util.Objects.requireNonNull(setMapping, "Parameter 'setMapping' must not be null");
+    public void bindWithMapping(java.lang.String key, org.gtk.gobject.GObject object, java.lang.String property, org.gtk.gio.SettingsBindFlags flags, org.gtk.gio.SettingsBindGetMapping getMapping, org.gtk.gio.SettingsBindSetMapping setMapping, org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.g_settings_bind_with_mapping.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     object.handle(),
-                    Interop.allocateNativeString(property),
+                    Marshal.stringToAddress.marshal(property, null),
                     flags.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSettingsBindGetMapping",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSettingsBindSetMapping",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(getMapping)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) getMapping.toCallback(),
+                    (Addressable) setMapping.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroy.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -647,21 +605,18 @@ public class Settings extends org.gtk.gobject.Object {
      * If you bind the same property twice on the same object, the second
      * binding overrides the first one.
      * @param key the key to bind
-     * @param object a {@link org.gtk.gobject.Object}
+     * @param object a {@link org.gtk.gobject.GObject}
      * @param property the name of a boolean property to bind
      * @param inverted whether to 'invert' the value
      */
-    public void bindWritable(@NotNull java.lang.String key, @NotNull org.gtk.gobject.Object object, @NotNull java.lang.String property, boolean inverted) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+    public void bindWritable(java.lang.String key, org.gtk.gobject.GObject object, java.lang.String property, boolean inverted) {
         try {
             DowncallHandles.g_settings_bind_writable.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     object.handle(),
-                    Interop.allocateNativeString(property),
-                    inverted ? 1 : 0);
+                    Marshal.stringToAddress.marshal(property, null),
+                    Marshal.booleanToInteger.marshal(inverted, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -685,17 +640,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the name of a key in {@code settings}
      * @return a new {@link Action}
      */
-    public @NotNull org.gtk.gio.Action createAction(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public org.gtk.gio.Action createAction(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_create_action.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Action.ActionImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Action) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Action.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -725,14 +679,12 @@ public class Settings extends org.gtk.gobject.Object {
      * @param format a {@link org.gtk.glib.Variant} format string
      * @param varargs arguments as per {@code format}
      */
-    public void get(@NotNull java.lang.String key, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void get(java.lang.String key, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_settings_get.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -749,17 +701,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return a boolean
      */
-    public boolean getBoolean(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean getBoolean(java.lang.String key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_get_boolean.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -775,17 +726,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @param name the name of the child schema
      * @return a 'child' settings object
      */
-    public @NotNull org.gtk.gio.Settings getChild(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public org.gtk.gio.Settings getChild(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_get_child.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Settings(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Settings.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -813,17 +763,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the default value for
      * @return the default value
      */
-    public @Nullable org.gtk.glib.Variant getDefaultValue(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable org.gtk.glib.Variant getDefaultValue(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_get_default_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -836,13 +785,12 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return a double
      */
-    public double getDouble(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public double getDouble(java.lang.String key) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.g_settings_get_double.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -865,13 +813,12 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return the enum value
      */
-    public int getEnum(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public int getEnum(java.lang.String key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_get_enum.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -894,13 +841,12 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return the flags value
      */
-    public int getFlags(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public int getFlags(java.lang.String key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_get_flags.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -920,7 +866,7 @@ public class Settings extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -933,13 +879,12 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return an integer
      */
-    public int getInt(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public int getInt(java.lang.String key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_get_int.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -956,13 +901,12 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return a 64-bit integer
      */
-    public long getInt64(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public long getInt64(java.lang.String key) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_settings_get_int64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1002,20 +946,14 @@ public class Settings extends org.gtk.gobject.Object {
      *           settings database to the value used by the application
      * @return the result, which may be {@code null}
      */
-    public @Nullable java.lang.foreign.MemoryAddress getMapped(@NotNull java.lang.String key, @NotNull org.gtk.gio.SettingsGetMapping mapping) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(mapping, "Parameter 'mapping' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress getMapped(java.lang.String key, org.gtk.gio.SettingsGetMapping mapping) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_get_mapped.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbSettingsGetMapping",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(mapping)));
+                    Marshal.stringToAddress.marshal(key, null),
+                    (Addressable) mapping.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1028,17 +966,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @deprecated Use g_settings_schema_key_get_range() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.glib.Variant getRange(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public org.gtk.glib.Variant getRange(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_get_range.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1051,17 +988,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return a newly-allocated string
      */
-    public @NotNull java.lang.String getString(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public java.lang.String getString(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_get_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1074,13 +1010,12 @@ public class Settings extends org.gtk.gobject.Object {
      * newly-allocated, {@code null}-terminated array of strings, the value that
      * is stored at {@code key} in {@code settings}.
      */
-    public @NotNull PointerString getStrv(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public PointerString getStrv(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_get_strv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1098,13 +1033,12 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return an unsigned integer
      */
-    public int getUint(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public int getUint(java.lang.String key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_get_uint.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1122,13 +1056,12 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return a 64-bit unsigned integer
      */
-    public long getUint64(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public long getUint64(java.lang.String key) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_settings_get_uint64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1157,17 +1090,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the user value for
      * @return the user's value, if set
      */
-    public @Nullable org.gtk.glib.Variant getUserValue(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable org.gtk.glib.Variant getUserValue(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_get_user_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1178,17 +1110,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @param key the key to get the value for
      * @return a new {@link org.gtk.glib.Variant}
      */
-    public @NotNull org.gtk.glib.Variant getValue(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public org.gtk.glib.Variant getValue(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_get_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1196,17 +1127,16 @@ public class Settings extends org.gtk.gobject.Object {
      * @param name the name of a key
      * @return {@code true} if the key {@code name} is writable
      */
-    public boolean isWritable(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public boolean isWritable(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_is_writable.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1224,7 +1154,7 @@ public class Settings extends org.gtk.gobject.Object {
      * @return a list of the children
      *    on {@code settings}, in no defined order
      */
-    public @NotNull PointerString listChildren() {
+    public PointerString listChildren() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_list_children.invokeExact(
@@ -1249,7 +1179,7 @@ public class Settings extends org.gtk.gobject.Object {
      * @deprecated Use g_settings_schema_list_keys() instead.
      */
     @Deprecated
-    public @NotNull PointerString listKeys() {
+    public PointerString listKeys() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_list_keys.invokeExact(
@@ -1269,19 +1199,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @deprecated Use g_settings_schema_key_range_check() instead.
      */
     @Deprecated
-    public boolean rangeCheck(@NotNull java.lang.String key, @NotNull org.gtk.glib.Variant value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean rangeCheck(java.lang.String key, org.gtk.glib.Variant value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_range_check.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1292,12 +1220,11 @@ public class Settings extends org.gtk.gobject.Object {
      * administrator.
      * @param key the name of a key
      */
-    public void reset(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public void reset(java.lang.String key) {
         try {
             DowncallHandles.g_settings_reset.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1335,20 +1262,18 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean set(@NotNull java.lang.String key, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public boolean set(java.lang.String key, java.lang.String format, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1363,18 +1288,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setBoolean(@NotNull java.lang.String key, boolean value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean setBoolean(java.lang.String key, boolean value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_boolean.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    value ? 1 : 0);
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.booleanToInteger.marshal(value, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1389,18 +1313,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setDouble(@NotNull java.lang.String key, double value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean setDouble(java.lang.String key, double value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_double.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1418,18 +1341,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @param value an enumerated value
      * @return {@code true}, if the set succeeds
      */
-    public boolean setEnum(@NotNull java.lang.String key, int value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean setEnum(java.lang.String key, int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_enum.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1448,18 +1370,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @param value a flags value
      * @return {@code true}, if the set succeeds
      */
-    public boolean setFlags(@NotNull java.lang.String key, int value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean setFlags(java.lang.String key, int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_flags.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1474,18 +1395,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setInt(@NotNull java.lang.String key, int value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean setInt(java.lang.String key, int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_int.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1500,18 +1420,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setInt64(@NotNull java.lang.String key, long value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean setInt64(java.lang.String key, long value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_int64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1526,19 +1445,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setString(@NotNull java.lang.String key, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean setString(java.lang.String key, java.lang.String value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1554,18 +1471,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setStrv(@NotNull java.lang.String key, @Nullable java.lang.String[] value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean setStrv(java.lang.String key, @Nullable java.lang.String[] value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_strv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeArray(value, false)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1581,18 +1497,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setUint(@NotNull java.lang.String key, int value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean setUint(java.lang.String key, int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_uint.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1608,18 +1523,17 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setUint64(@NotNull java.lang.String key, long value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean setUint64(java.lang.String key, long value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_uint64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1635,26 +1549,24 @@ public class Settings extends org.gtk.gobject.Object {
      * @return {@code true} if setting the key succeeded,
      *     {@code false} if the key was not writable
      */
-    public boolean setValue(@NotNull java.lang.String key, @NotNull org.gtk.glib.Variant value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean setValue(java.lang.String key, org.gtk.glib.Variant value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_settings_set_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_settings_get_type.invokeExact();
@@ -1672,7 +1584,7 @@ public class Settings extends org.gtk.gobject.Object {
      * @deprecated Use g_settings_schema_source_list_schemas() instead
      */
     @Deprecated
-    public static @NotNull PointerString listRelocatableSchemas() {
+    public static PointerString listRelocatableSchemas() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_list_relocatable_schemas.invokeExact();
@@ -1693,7 +1605,7 @@ public class Settings extends org.gtk.gobject.Object {
      * of your whole loop.
      */
     @Deprecated
-    public static @NotNull PointerString listSchemas() {
+    public static PointerString listSchemas() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_settings_list_schemas.invokeExact();
@@ -1732,13 +1644,11 @@ public class Settings extends org.gtk.gobject.Object {
      * @param object the object
      * @param property the property whose binding is removed
      */
-    public static void unbind(@NotNull org.gtk.gobject.Object object, @NotNull java.lang.String property) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(property, "Parameter 'property' must not be null");
+    public static void unbind(org.gtk.gobject.GObject object, java.lang.String property) {
         try {
             DowncallHandles.g_settings_unbind.invokeExact(
                     object.handle(),
-                    Interop.allocateNativeString(property));
+                    Marshal.stringToAddress.marshal(property, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1746,7 +1656,19 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ChangeEvent {
-        boolean signalReceived(Settings sourceSettings, @Nullable org.gtk.glib.Quark[] keys, int nKeys);
+        boolean run(@Nullable org.gtk.glib.Quark[] keys, int nKeys);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceSettings, MemoryAddress keys, int nKeys) {
+            var RESULT = run(org.gtk.glib.Quark.fromNativeArray(keys, nKeys), nKeys);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeEvent.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1769,12 +1691,29 @@ public class Settings extends org.gtk.gobject.Object {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<Settings.ChangeEvent> onChangeEvent(Settings.ChangeEvent handler) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
+                handle(), Interop.allocateNativeString("change-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Settings sourceSettings, @NotNull java.lang.String key);
+        void run(java.lang.String key);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSettings, MemoryAddress key) {
+            run(Marshal.addressToString.marshal(key, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1795,16 +1734,8 @@ public class Settings extends org.gtk.gobject.Object {
     public Signal<Settings.Changed> onChanged(@Nullable String detail, Settings.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Settings.Changed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1812,7 +1743,19 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface WritableChangeEvent {
-        boolean signalReceived(Settings sourceSettings, int key);
+        boolean run(int key);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceSettings, int key) {
+            var RESULT = run(key);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WritableChangeEvent.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1840,16 +1783,8 @@ public class Settings extends org.gtk.gobject.Object {
     public Signal<Settings.WritableChangeEvent> onWritableChangeEvent(Settings.WritableChangeEvent handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("writable-change-event"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsWritableChangeEvent",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Settings.WritableChangeEvent>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("writable-change-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1857,7 +1792,18 @@ public class Settings extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface WritableChanged {
-        void signalReceived(Settings sourceSettings, @NotNull java.lang.String key);
+        void run(java.lang.String key);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSettings, MemoryAddress key) {
+            run(Marshal.addressToString.marshal(key, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WritableChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1875,52 +1821,46 @@ public class Settings extends org.gtk.gobject.Object {
     public Signal<Settings.WritableChanged> onWritableChanged(@Nullable String detail, Settings.WritableChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("writable-changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Settings.Callbacks.class, "signalSettingsWritableChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Settings.WritableChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("writable-changed" + ((detail == null || detail.isBlank()) ? "" : ("::" + detail))), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Settings.Builder} object constructs a {@link Settings} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Settings.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Settings.Build} object constructs a {@link Settings} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Settings} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Settings} using {@link Settings#castFrom}.
+         * {@link Settings}.
          * @return A new instance of {@code Settings} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Settings construct() {
-            return Settings.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Settings.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Settings build() {
+            return (Settings) org.gtk.gobject.GObject.newWithProperties(
+                Settings.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1929,7 +1869,7 @@ public class Settings extends org.gtk.gobject.Object {
          * @param backend The value for the {@code backend} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBackend(org.gtk.gio.SettingsBackend backend) {
+        public Builder setBackend(org.gtk.gio.SettingsBackend backend) {
             names.add("backend");
             values.add(org.gtk.gobject.Value.create(backend));
             return this;
@@ -1941,7 +1881,7 @@ public class Settings extends org.gtk.gobject.Object {
          * @param delayApply The value for the {@code delay-apply} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDelayApply(boolean delayApply) {
+        public Builder setDelayApply(boolean delayApply) {
             names.add("delay-apply");
             values.add(org.gtk.gobject.Value.create(delayApply));
             return this;
@@ -1953,7 +1893,7 @@ public class Settings extends org.gtk.gobject.Object {
          * @param hasUnapplied The value for the {@code has-unapplied} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasUnapplied(boolean hasUnapplied) {
+        public Builder setHasUnapplied(boolean hasUnapplied) {
             names.add("has-unapplied");
             values.add(org.gtk.gobject.Value.create(hasUnapplied));
             return this;
@@ -1964,7 +1904,7 @@ public class Settings extends org.gtk.gobject.Object {
          * @param path The value for the {@code path} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPath(java.lang.String path) {
+        public Builder setPath(java.lang.String path) {
             names.add("path");
             values.add(org.gtk.gobject.Value.create(path));
             return this;
@@ -1983,7 +1923,7 @@ public class Settings extends org.gtk.gobject.Object {
          * @param schema The value for the {@code schema} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSchema(java.lang.String schema) {
+        public Builder setSchema(java.lang.String schema) {
             names.add("schema");
             values.add(org.gtk.gobject.Value.create(schema));
             return this;
@@ -1995,7 +1935,7 @@ public class Settings extends org.gtk.gobject.Object {
          * @param schemaId The value for the {@code schema-id} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSchemaId(java.lang.String schemaId) {
+        public Builder setSchemaId(java.lang.String schemaId) {
             names.add("schema-id");
             values.add(org.gtk.gobject.Value.create(schemaId));
             return this;
@@ -2012,7 +1952,7 @@ public class Settings extends org.gtk.gobject.Object {
          * @param settingsSchema The value for the {@code settings-schema} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSettingsSchema(org.gtk.gio.SettingsSchema settingsSchema) {
+        public Builder setSettingsSchema(org.gtk.gio.SettingsSchema settingsSchema) {
             names.add("settings-schema");
             values.add(org.gtk.gobject.Value.create(settingsSchema));
             return this;
@@ -2332,31 +2272,5 @@ public class Settings extends org.gtk.gobject.Object {
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalSettingsChangeEvent(MemoryAddress sourceSettings, MemoryAddress keys, int nKeys, MemoryAddress DATA) {
-        // Operation not supported yet
-    return false;
-    }
-        
-        public static void signalSettingsChanged(MemoryAddress sourceSettings, MemoryAddress key, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Settings.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Settings(sourceSettings, Ownership.NONE), Interop.getStringFrom(key));
-        }
-        
-        public static boolean signalSettingsWritableChangeEvent(MemoryAddress sourceSettings, int key, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Settings.WritableChangeEvent) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Settings(sourceSettings, Ownership.NONE), key);
-        }
-        
-        public static void signalSettingsWritableChanged(MemoryAddress sourceSettings, MemoryAddress key, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Settings.WritableChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Settings(sourceSettings, Ownership.NONE), Interop.getStringFrom(key));
-        }
     }
 }

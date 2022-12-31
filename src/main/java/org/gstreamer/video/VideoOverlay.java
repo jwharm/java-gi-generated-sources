@@ -264,25 +264,8 @@ import org.jetbrains.annotations.*;
  */
 public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to VideoOverlay if its GType is a (or inherits from) "GstVideoOverlay".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VideoOverlay} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVideoOverlay", a ClassCastException will be thrown.
-     */
-    public static VideoOverlay castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VideoOverlay.getType())) {
-            return new VideoOverlayImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVideoOverlay");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoOverlayImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoOverlayImpl(input, ownership);
     
     /**
      * Tell an overlay that it has been exposed. This will redraw the current frame
@@ -325,7 +308,7 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.gst_video_overlay_handle_events.invokeExact(
                     handle(),
-                    handleEvents ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(handleEvents, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,7 +360,7 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -401,7 +384,7 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_overlay_get_type.invokeExact();
@@ -419,8 +402,7 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
      * @param oclass The class on which the properties will be installed
      * @param lastPropId The first free property ID to use
      */
-    public static void installProperties(@NotNull org.gtk.gobject.ObjectClass oclass, int lastPropId) {
-        java.util.Objects.requireNonNull(oclass, "Parameter 'oclass' must not be null");
+    public static void installProperties(org.gtk.gobject.ObjectClass oclass, int lastPropId) {
         try {
             DowncallHandles.gst_video_overlay_install_properties.invokeExact(
                     oclass.handle(),
@@ -441,9 +423,7 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
      * @param value The {@link org.gtk.gobject.Value} to be set
      * @return {@code true} if the {@code property_id} matches the GstVideoOverlay property
      */
-    public static boolean setProperty(@NotNull org.gtk.gobject.Object object, int lastPropId, int propertyId, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static boolean setProperty(org.gtk.gobject.GObject object, int lastPropId, int propertyId, org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_overlay_set_property.invokeExact(
@@ -454,7 +434,7 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     @ApiStatus.Internal
@@ -524,7 +504,7 @@ public interface VideoOverlay extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class VideoOverlayImpl extends org.gtk.gobject.Object implements VideoOverlay {
+    class VideoOverlayImpl extends org.gtk.gobject.GObject implements VideoOverlay {
         
         static {
             GstVideo.javagi$ensureInitialized();

@@ -14,7 +14,15 @@ public final class GstNet {
         System.loadLibrary("gstnet-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * The size of the packets sent between network clocks.
@@ -41,9 +49,7 @@ public final class GstNet {
      * @param addr a {@code GSocketAddress} to connect to {@code buffer}
      * @return a {@link NetAddressMeta} connected to {@code buffer}
      */
-    public static @NotNull org.gstreamer.net.NetAddressMeta bufferAddNetAddressMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gtk.gio.SocketAddress addr) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(addr, "Parameter 'addr' must not be null");
+    public static org.gstreamer.net.NetAddressMeta bufferAddNetAddressMeta(org.gstreamer.gst.Buffer buffer, org.gtk.gio.SocketAddress addr) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_net_address_meta.invokeExact(
@@ -52,7 +58,7 @@ public final class GstNet {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.net.NetAddressMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.net.NetAddressMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -61,9 +67,7 @@ public final class GstNet {
      * @param message a {@code GSocketControlMessage} to attach to {@code buffer}
      * @return a {@link NetControlMessageMeta} connected to {@code buffer}
      */
-    public static @NotNull org.gstreamer.net.NetControlMessageMeta bufferAddNetControlMessageMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gtk.gio.SocketControlMessage message) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public static org.gstreamer.net.NetControlMessageMeta bufferAddNetControlMessageMeta(org.gstreamer.gst.Buffer buffer, org.gtk.gio.SocketControlMessage message) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_net_control_message_meta.invokeExact(
@@ -72,7 +76,7 @@ public final class GstNet {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.net.NetControlMessageMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.net.NetControlMessageMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -81,8 +85,7 @@ public final class GstNet {
      * @return the {@link NetAddressMeta} or {@code null} when there
      * is no such metadata on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.net.NetAddressMeta bufferGetNetAddressMeta(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.net.NetAddressMeta bufferGetNetAddressMeta(org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_net_address_meta.invokeExact(
@@ -90,10 +93,10 @@ public final class GstNet {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.net.NetAddressMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.net.NetAddressMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.Type netAddressMetaApiGetType() {
+    public static org.gtk.glib.Type netAddressMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_net_address_meta_api_get_type.invokeExact();
@@ -103,17 +106,17 @@ public final class GstNet {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo netAddressMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo netAddressMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_net_address_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.Type netControlMessageMetaApiGetType() {
+    public static org.gtk.glib.Type netControlMessageMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_net_control_message_meta_api_get_type.invokeExact();
@@ -123,14 +126,14 @@ public final class GstNet {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo netControlMessageMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo netControlMessageMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_net_control_message_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -142,9 +145,7 @@ public final class GstNet {
      *    with gst_net_time_packet_free() when done.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.net.NetTimePacket netTimePacketReceive(@NotNull org.gtk.gio.Socket socket, @NotNull Out<org.gtk.gio.SocketAddress> srcAddress) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
-        java.util.Objects.requireNonNull(srcAddress, "Parameter 'srcAddress' must not be null");
+    public static org.gstreamer.net.NetTimePacket netTimePacketReceive(org.gtk.gio.Socket socket, Out<org.gtk.gio.SocketAddress> srcAddress) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment srcAddressPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -159,8 +160,8 @@ public final class GstNet {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        srcAddress.set(new org.gtk.gio.SocketAddress(srcAddressPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gstreamer.net.NetTimePacket(RESULT, Ownership.FULL);
+        srcAddress.set((org.gtk.gio.SocketAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(srcAddressPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gio.SocketAddress.fromAddress).marshal(srcAddressPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return org.gstreamer.net.NetTimePacket.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -169,8 +170,7 @@ public final class GstNet {
      * @param qosDscp QoS DSCP value
      * @return TRUE if successful, FALSE in case an error occurred.
      */
-    public static boolean netUtilsSetSocketTos(@NotNull org.gtk.gio.Socket socket, int qosDscp) {
-        java.util.Objects.requireNonNull(socket, "Parameter 'socket' must not be null");
+    public static boolean netUtilsSetSocketTos(org.gtk.gio.Socket socket, int qosDscp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_net_utils_set_socket_tos.invokeExact(
@@ -179,7 +179,7 @@ public final class GstNet {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -218,7 +218,7 @@ public final class GstNet {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -232,7 +232,7 @@ public final class GstNet {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -248,28 +248,24 @@ public final class GstNet {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Installs a new statistics callback for gathering PTP statistics. See
      * GstPtpStatisticsCallback for a list of statistics that are provided.
      * @param callback GstPtpStatisticsCallback to call
+     * @param destroyData GDestroyNotify to destroy the data
      * @return Id for the callback that can be passed to
      * gst_ptp_statistics_callback_remove()
      */
-    public static long ptpStatisticsCallbackAdd(@NotNull org.gstreamer.net.PtpStatisticsCallback callback) {
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public static long ptpStatisticsCallbackAdd(org.gstreamer.net.PtpStatisticsCallback callback, org.gtk.glib.DestroyNotify destroyData) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_ptp_statistics_callback_add.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstNet.Callbacks.class, "cbPtpStatisticsCallback",
-                            MethodType.methodType(int.class, byte.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyData.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -385,12 +381,5 @@ public final class GstNet {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static int cbPtpStatisticsCallback(byte domain, MemoryAddress stats, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PtpStatisticsCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPtpStatisticsCallback(domain, new org.gstreamer.gst.Structure(stats, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
     }
 }

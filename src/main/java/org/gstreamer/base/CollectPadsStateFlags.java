@@ -44,11 +44,15 @@ public class CollectPadsStateFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public CollectPadsStateFlags or(CollectPadsStateFlags mask) {
-        return new CollectPadsStateFlags(this.getValue() | mask.getValue());
+    public CollectPadsStateFlags or(CollectPadsStateFlags... masks) {
+        int value = this.getValue();
+        for (CollectPadsStateFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new CollectPadsStateFlags(value);
     }
     
     /**
@@ -58,7 +62,8 @@ public class CollectPadsStateFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static CollectPadsStateFlags combined(CollectPadsStateFlags mask, CollectPadsStateFlags... masks) {
-        int value = mask.getValue();        for (CollectPadsStateFlags arg : masks) {
+        int value = mask.getValue();
+        for (CollectPadsStateFlags arg : masks) {
             value |= arg.getValue();
         }
         return new CollectPadsStateFlags(value);

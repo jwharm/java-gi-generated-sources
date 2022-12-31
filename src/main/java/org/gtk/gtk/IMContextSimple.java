@@ -49,18 +49,16 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
     
     private static final java.lang.String C_TYPE_NAME = "GtkIMContextSimple";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.IMContext.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.IMContext.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -68,33 +66,15 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IMContextSimple(Addressable address, Ownership ownership) {
+    protected IMContextSimple(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to IMContextSimple if its GType is a (or inherits from) "GtkIMContextSimple".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code IMContextSimple} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkIMContextSimple", a ClassCastException will be thrown.
-     */
-    public static IMContextSimple castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IMContextSimple.getType())) {
-            return new IMContextSimple(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkIMContextSimple");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IMContextSimple> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IMContextSimple(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_im_context_simple_new.invokeExact();
         } catch (Throwable ERR) {
@@ -114,12 +94,11 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * Adds an additional table from the X11 compose file.
      * @param composeFile The path of compose file
      */
-    public void addComposeFile(@NotNull java.lang.String composeFile) {
-        java.util.Objects.requireNonNull(composeFile, "Parameter 'composeFile' must not be null");
+    public void addComposeFile(java.lang.String composeFile) {
         try {
             DowncallHandles.gtk_im_context_simple_add_compose_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(composeFile));
+                    Marshal.stringToAddress.marshal(composeFile, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -141,8 +120,7 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * @deprecated Use gtk_im_context_simple_add_compose_file()
      */
     @Deprecated
-    public void addTable(@NotNull short[] data, int maxSeqLen, int nSeqs) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void addTable(short[] data, int maxSeqLen, int nSeqs) {
         try {
             DowncallHandles.gtk_im_context_simple_add_table.invokeExact(
                     handle(),
@@ -158,7 +136,7 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_im_context_simple_get_type.invokeExact();
@@ -167,38 +145,40 @@ public class IMContextSimple extends org.gtk.gtk.IMContext {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link IMContextSimple.Builder} object constructs a {@link IMContextSimple} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link IMContextSimple.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.IMContext.Build {
+    public static class Builder extends org.gtk.gtk.IMContext.Builder {
         
-         /**
-         * A {@link IMContextSimple.Build} object constructs a {@link IMContextSimple} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link IMContextSimple} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link IMContextSimple} using {@link IMContextSimple#castFrom}.
+         * {@link IMContextSimple}.
          * @return A new instance of {@code IMContextSimple} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public IMContextSimple construct() {
-            return IMContextSimple.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    IMContextSimple.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public IMContextSimple build() {
+            return (IMContextSimple) org.gtk.gobject.GObject.newWithProperties(
+                IMContextSimple.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

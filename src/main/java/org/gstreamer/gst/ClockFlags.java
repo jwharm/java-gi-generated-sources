@@ -58,11 +58,15 @@ public class ClockFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ClockFlags or(ClockFlags mask) {
-        return new ClockFlags(this.getValue() | mask.getValue());
+    public ClockFlags or(ClockFlags... masks) {
+        int value = this.getValue();
+        for (ClockFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ClockFlags(value);
     }
     
     /**
@@ -72,7 +76,8 @@ public class ClockFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ClockFlags combined(ClockFlags mask, ClockFlags... masks) {
-        int value = mask.getValue();        for (ClockFlags arg : masks) {
+        int value = mask.getValue();
+        for (ClockFlags arg : masks) {
             value |= arg.getValue();
         }
         return new ClockFlags(value);

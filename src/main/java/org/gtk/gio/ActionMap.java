@@ -19,25 +19,8 @@ import org.jetbrains.annotations.*;
  */
 public interface ActionMap extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to ActionMap if its GType is a (or inherits from) "GActionMap".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ActionMap} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GActionMap", a ClassCastException will be thrown.
-     */
-    public static ActionMap castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ActionMap.getType())) {
-            return new ActionMapImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GActionMap");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ActionMapImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ActionMapImpl(input, ownership);
     
     /**
      * Adds an action to the {@code action_map}.
@@ -48,8 +31,7 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * The action map takes its own reference on {@code action}.
      * @param action a {@link Action}
      */
-    default void addAction(@NotNull org.gtk.gio.Action action) {
-        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+    default void addAction(org.gtk.gio.Action action) {
         try {
             DowncallHandles.g_action_map_add_action.invokeExact(
                     handle(),
@@ -99,16 +81,14 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * @param entries a pointer to
      *           the first item in an array of {@link ActionEntry} structs
      * @param nEntries the length of {@code entries}, or -1 if {@code entries} is {@code null}-terminated
-     * @param userData the user data for signal connections
      */
-    default void addActionEntries(@NotNull org.gtk.gio.ActionEntry[] entries, int nEntries, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
+    default void addActionEntries(org.gtk.gio.ActionEntry[] entries, int nEntries) {
         try {
             DowncallHandles.g_action_map_add_action_entries.invokeExact(
                     handle(),
                     Interop.allocateNativeArray(entries, org.gtk.gio.ActionEntry.getMemoryLayout(), false),
                     nEntries,
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -121,17 +101,16 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * @param actionName the name of an action
      * @return a {@link Action}, or {@code null}
      */
-    default @Nullable org.gtk.gio.Action lookupAction(@NotNull java.lang.String actionName) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+    default @Nullable org.gtk.gio.Action lookupAction(java.lang.String actionName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_action_map_lookup_action.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName));
+                    Marshal.stringToAddress.marshal(actionName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Action.ActionImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Action) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Action.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -140,12 +119,11 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * If no action of this name is in the map then nothing happens.
      * @param actionName the name of the action
      */
-    default void removeAction(@NotNull java.lang.String actionName) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+    default void removeAction(java.lang.String actionName) {
         try {
             DowncallHandles.g_action_map_remove_action.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName));
+                    Marshal.stringToAddress.marshal(actionName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -155,7 +133,7 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_action_map_get_type.invokeExact();
@@ -204,7 +182,7 @@ public interface ActionMap extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class ActionMapImpl extends org.gtk.gobject.Object implements ActionMap {
+    class ActionMapImpl extends org.gtk.gobject.GObject implements ActionMap {
         
         static {
             Gio.javagi$ensureInitialized();

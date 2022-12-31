@@ -40,8 +40,10 @@ public class DescriptorSetVariableDescriptorCountAllocateInfoEXT extends Struct 
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DescriptorSetVariableDescriptorCountAllocateInfoEXT(Addressable address, Ownership ownership) {
+    protected DescriptorSetVariableDescriptorCountAllocateInfoEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DescriptorSetVariableDescriptorCountAllocateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DescriptorSetVariableDescriptorCountAllocateInfoEXT(input, ownership);
 }

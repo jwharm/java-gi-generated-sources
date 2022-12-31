@@ -59,39 +59,37 @@ public class Section extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsSection";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.C_INT.withName("section_type"),
-        Interop.valueLayout.C_SHORT.withName("pid"),
-        Interop.valueLayout.C_BYTE.withName("table_id"),
-        MemoryLayout.paddingLayout(8),
-        Interop.valueLayout.C_SHORT.withName("subtable_extension"),
-        Interop.valueLayout.C_BYTE.withName("version_number"),
-        MemoryLayout.paddingLayout(8),
-        Interop.valueLayout.C_INT.withName("current_next_indicator"),
-        Interop.valueLayout.C_BYTE.withName("section_number"),
-        Interop.valueLayout.C_BYTE.withName("last_section_number"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.C_INT.withName("crc"),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.C_INT.withName("section_length"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("cached_parsed"),
-        Interop.valueLayout.ADDRESS.withName("destroy_parsed"),
-        Interop.valueLayout.C_LONG.withName("offset"),
-        Interop.valueLayout.C_INT.withName("short_section"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("packetizer"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.C_INT.withName("section_type"),
+            Interop.valueLayout.C_SHORT.withName("pid"),
+            Interop.valueLayout.C_BYTE.withName("table_id"),
+            MemoryLayout.paddingLayout(8),
+            Interop.valueLayout.C_SHORT.withName("subtable_extension"),
+            Interop.valueLayout.C_BYTE.withName("version_number"),
+            MemoryLayout.paddingLayout(8),
+            Interop.valueLayout.C_INT.withName("current_next_indicator"),
+            Interop.valueLayout.C_BYTE.withName("section_number"),
+            Interop.valueLayout.C_BYTE.withName("last_section_number"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.C_INT.withName("crc"),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.C_INT.withName("section_length"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("cached_parsed"),
+            Interop.valueLayout.ADDRESS.withName("destroy_parsed"),
+            Interop.valueLayout.C_LONG.withName("offset"),
+            Interop.valueLayout.C_INT.withName("short_section"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("packetizer"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -111,7 +109,7 @@ public class Section extends Struct {
      * Get the value of the field {@code section_type}
      * @return The value of the field {@code section_type}
      */
-    public org.gstreamer.mpegts.SectionType sectionType$get() {
+    public org.gstreamer.mpegts.SectionType getSectionType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("section_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -122,17 +120,17 @@ public class Section extends Struct {
      * Change the value of the field {@code section_type}
      * @param sectionType The new value of the field {@code section_type}
      */
-    public void sectionType$set(org.gstreamer.mpegts.SectionType sectionType) {
+    public void setSectionType(org.gstreamer.mpegts.SectionType sectionType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("section_type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sectionType.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sectionType == null ? MemoryAddress.NULL : sectionType.getValue()));
     }
     
     /**
      * Get the value of the field {@code pid}
      * @return The value of the field {@code pid}
      */
-    public short pid$get() {
+    public short getPid() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pid"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -143,7 +141,7 @@ public class Section extends Struct {
      * Change the value of the field {@code pid}
      * @param pid The new value of the field {@code pid}
      */
-    public void pid$set(short pid) {
+    public void setPid(short pid) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pid"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pid);
@@ -153,7 +151,7 @@ public class Section extends Struct {
      * Get the value of the field {@code table_id}
      * @return The value of the field {@code table_id}
      */
-    public byte tableId$get() {
+    public byte getTableId() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("table_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -164,7 +162,7 @@ public class Section extends Struct {
      * Change the value of the field {@code table_id}
      * @param tableId The new value of the field {@code table_id}
      */
-    public void tableId$set(byte tableId) {
+    public void setTableId(byte tableId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("table_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tableId);
@@ -174,7 +172,7 @@ public class Section extends Struct {
      * Get the value of the field {@code subtable_extension}
      * @return The value of the field {@code subtable_extension}
      */
-    public short subtableExtension$get() {
+    public short getSubtableExtension() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("subtable_extension"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -185,7 +183,7 @@ public class Section extends Struct {
      * Change the value of the field {@code subtable_extension}
      * @param subtableExtension The new value of the field {@code subtable_extension}
      */
-    public void subtableExtension$set(short subtableExtension) {
+    public void setSubtableExtension(short subtableExtension) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("subtable_extension"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), subtableExtension);
@@ -195,7 +193,7 @@ public class Section extends Struct {
      * Get the value of the field {@code version_number}
      * @return The value of the field {@code version_number}
      */
-    public byte versionNumber$get() {
+    public byte getVersionNumber() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("version_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -206,7 +204,7 @@ public class Section extends Struct {
      * Change the value of the field {@code version_number}
      * @param versionNumber The new value of the field {@code version_number}
      */
-    public void versionNumber$set(byte versionNumber) {
+    public void setVersionNumber(byte versionNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("version_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), versionNumber);
@@ -216,28 +214,28 @@ public class Section extends Struct {
      * Get the value of the field {@code current_next_indicator}
      * @return The value of the field {@code current_next_indicator}
      */
-    public boolean currentNextIndicator$get() {
+    public boolean getCurrentNextIndicator() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("current_next_indicator"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code current_next_indicator}
      * @param currentNextIndicator The new value of the field {@code current_next_indicator}
      */
-    public void currentNextIndicator$set(boolean currentNextIndicator) {
+    public void setCurrentNextIndicator(boolean currentNextIndicator) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("current_next_indicator"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentNextIndicator ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(currentNextIndicator, null).intValue());
     }
     
     /**
      * Get the value of the field {@code section_number}
      * @return The value of the field {@code section_number}
      */
-    public byte sectionNumber$get() {
+    public byte getSectionNumber() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("section_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -248,7 +246,7 @@ public class Section extends Struct {
      * Change the value of the field {@code section_number}
      * @param sectionNumber The new value of the field {@code section_number}
      */
-    public void sectionNumber$set(byte sectionNumber) {
+    public void setSectionNumber(byte sectionNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("section_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sectionNumber);
@@ -258,7 +256,7 @@ public class Section extends Struct {
      * Get the value of the field {@code last_section_number}
      * @return The value of the field {@code last_section_number}
      */
-    public byte lastSectionNumber$get() {
+    public byte getLastSectionNumber() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("last_section_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -269,7 +267,7 @@ public class Section extends Struct {
      * Change the value of the field {@code last_section_number}
      * @param lastSectionNumber The new value of the field {@code last_section_number}
      */
-    public void lastSectionNumber$set(byte lastSectionNumber) {
+    public void setLastSectionNumber(byte lastSectionNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("last_section_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastSectionNumber);
@@ -279,7 +277,7 @@ public class Section extends Struct {
      * Get the value of the field {@code crc}
      * @return The value of the field {@code crc}
      */
-    public int crc$get() {
+    public int getCrc() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("crc"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -290,7 +288,7 @@ public class Section extends Struct {
      * Change the value of the field {@code crc}
      * @param crc The new value of the field {@code crc}
      */
-    public void crc$set(int crc) {
+    public void setCrc(int crc) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("crc"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), crc);
@@ -301,14 +299,15 @@ public class Section extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Section(Addressable address, Ownership ownership) {
+    protected Section(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(short pid, @NotNull byte[] data, long dataSize) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Section> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Section(input, ownership);
+    
+    private static MemoryAddress constructNew(short pid, byte[] data, long dataSize) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_new.invokeExact(
                     pid,
@@ -334,7 +333,7 @@ public class Section extends Struct {
      * the section (i.e. the first byte should contain the {@code table_id} field).
      * @param dataSize size of the {@code data} argument.
      */
-    public Section(short pid, @NotNull byte[] data, long dataSize) {
+    public Section(short pid, byte[] data, long dataSize) {
         super(constructNew(pid, data, dataSize), Ownership.FULL);
     }
     
@@ -343,7 +342,7 @@ public class Section extends Struct {
      * @return The {@link AtscVCT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.AtscVCT getAtscCvct() {
+    public org.gstreamer.mpegts.AtscVCT getAtscCvct() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_cvct.invokeExact(
@@ -351,7 +350,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.AtscVCT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscVCT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -359,7 +358,7 @@ public class Section extends Struct {
      * @return The {@link AtscEIT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.AtscEIT getAtscEit() {
+    public org.gstreamer.mpegts.AtscEIT getAtscEit() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_eit.invokeExact(
@@ -367,7 +366,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.AtscEIT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscEIT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -375,7 +374,7 @@ public class Section extends Struct {
      * @return The {@link AtscETT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.AtscETT getAtscEtt() {
+    public org.gstreamer.mpegts.AtscETT getAtscEtt() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_ett.invokeExact(
@@ -383,7 +382,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.AtscETT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscETT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -391,7 +390,7 @@ public class Section extends Struct {
      * @return The {@link AtscMGT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.AtscMGT getAtscMgt() {
+    public org.gstreamer.mpegts.AtscMGT getAtscMgt() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_mgt.invokeExact(
@@ -399,7 +398,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.AtscMGT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscMGT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -407,7 +406,7 @@ public class Section extends Struct {
      * @return The {@link AtscRRT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.AtscRRT getAtscRrt() {
+    public org.gstreamer.mpegts.AtscRRT getAtscRrt() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_rrt.invokeExact(
@@ -415,7 +414,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.AtscRRT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscRRT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -423,7 +422,7 @@ public class Section extends Struct {
      * @return The {@link AtscSTT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.AtscSTT getAtscStt() {
+    public org.gstreamer.mpegts.AtscSTT getAtscStt() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_stt.invokeExact(
@@ -431,7 +430,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.AtscSTT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscSTT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -439,7 +438,7 @@ public class Section extends Struct {
      * @return The {@link AtscVCT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.AtscVCT getAtscTvct() {
+    public org.gstreamer.mpegts.AtscVCT getAtscTvct() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_atsc_tvct.invokeExact(
@@ -447,7 +446,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.AtscVCT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.AtscVCT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -455,7 +454,7 @@ public class Section extends Struct {
      * @return The {@link BAT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.BAT getBat() {
+    public org.gstreamer.mpegts.BAT getBat() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_bat.invokeExact(
@@ -463,7 +462,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.BAT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.BAT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -475,7 +474,7 @@ public class Section extends Struct {
      * of {@link Descriptor} contained in the section, or {@code null} if an error
      * happened. Release with {@code g_array_unref} when done.
      */
-    public @NotNull PointerProxy<org.gstreamer.mpegts.Descriptor> getCat() {
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getCat() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_cat.invokeExact(
@@ -483,14 +482,14 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.class);
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
     }
     
     /**
      * Gets the original unparsed section data.
      * @return The original unparsed section data.
      */
-    public @NotNull org.gtk.glib.Bytes getData() {
+    public org.gtk.glib.Bytes getData() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_data.invokeExact(
@@ -498,7 +497,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -506,7 +505,7 @@ public class Section extends Struct {
      * @return The {@link EIT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.EIT getEit() {
+    public org.gstreamer.mpegts.EIT getEit() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_eit.invokeExact(
@@ -514,7 +513,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.EIT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.EIT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -522,7 +521,7 @@ public class Section extends Struct {
      * @return The {@link NIT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.NIT getNit() {
+    public org.gstreamer.mpegts.NIT getNit() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_nit.invokeExact(
@@ -530,7 +529,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.NIT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.NIT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -545,7 +544,7 @@ public class Section extends Struct {
      * or the {@code section} did not contain a valid PAT. Release with {@code g_ptr_array_unref}
      * when done.
      */
-    public @NotNull PointerProxy<org.gstreamer.mpegts.PatProgram> getPat() {
+    public PointerProxy<org.gstreamer.mpegts.PatProgram> getPat() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_pat.invokeExact(
@@ -553,7 +552,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<org.gstreamer.mpegts.PatProgram>(RESULT, org.gstreamer.mpegts.PatProgram.class);
+        return new PointerProxy<org.gstreamer.mpegts.PatProgram>(RESULT, org.gstreamer.mpegts.PatProgram.fromAddress);
     }
     
     /**
@@ -561,7 +560,7 @@ public class Section extends Struct {
      * @return The {@link PMT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.PMT getPmt() {
+    public org.gstreamer.mpegts.PMT getPmt() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_pmt.invokeExact(
@@ -569,7 +568,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.PMT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.PMT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -577,7 +576,7 @@ public class Section extends Struct {
      * @return The {@link SCTESIT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.SCTESIT getScteSit() {
+    public org.gstreamer.mpegts.SCTESIT getScteSit() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_scte_sit.invokeExact(
@@ -585,7 +584,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.SCTESIT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.SCTESIT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -593,7 +592,7 @@ public class Section extends Struct {
      * @return The {@link SDT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.SDT getSdt() {
+    public org.gstreamer.mpegts.SDT getSdt() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_sdt.invokeExact(
@@ -601,7 +600,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.SDT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.SDT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -609,7 +608,7 @@ public class Section extends Struct {
      * @return The {@link SIT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.SIT getSit() {
+    public org.gstreamer.mpegts.SIT getSit() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_sit.invokeExact(
@@ -617,7 +616,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.SIT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.SIT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -625,7 +624,7 @@ public class Section extends Struct {
      * @return The {@link org.gstreamer.gst.DateTime} contained in the section, or {@code null}
      * if an error happened. Release with {@code gst_date_time_unref} when done.
      */
-    public @NotNull org.gstreamer.gst.DateTime getTdt() {
+    public org.gstreamer.gst.DateTime getTdt() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_tdt.invokeExact(
@@ -633,7 +632,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.DateTime(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -641,7 +640,7 @@ public class Section extends Struct {
      * @return The {@link TOT} contained in the section, or {@code null} if an error
      * happened.
      */
-    public @NotNull org.gstreamer.mpegts.TOT getTot() {
+    public org.gstreamer.mpegts.TOT getTot() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_tot.invokeExact(
@@ -649,7 +648,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.TOT(RESULT, Ownership.NONE);
+        return org.gstreamer.mpegts.TOT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -660,7 +659,7 @@ public class Section extends Struct {
      * of {@link Descriptor} contained in the section, or {@code null} if an error
      * happened. Release with {@code g_array_unref} when done.
      */
-    public @NotNull PointerProxy<org.gstreamer.mpegts.Descriptor> getTsdt() {
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getTsdt() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_get_tsdt.invokeExact(
@@ -668,7 +667,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.class);
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
     }
     
     /**
@@ -679,7 +678,6 @@ public class Section extends Struct {
      * @return pointer to section data, or {@code null} on failure.
      */
     public PointerByte packetize(Out<Long> outputSize) {
-        java.util.Objects.requireNonNull(outputSize, "Parameter 'outputSize' must not be null");
         MemorySegment outputSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
@@ -699,8 +697,7 @@ public class Section extends Struct {
      * @param element The {@link org.gstreamer.gst.Element} to send to section event to
      * @return {@code true} if the event was sent to the element.
      */
-    public boolean sendEvent(@NotNull org.gstreamer.gst.Element element) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public boolean sendEvent(org.gstreamer.gst.Element element) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_mpegts_section_send_event.invokeExact(
@@ -709,11 +706,10 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gstreamer.mpegts.Section fromAtscMgt(@NotNull org.gstreamer.mpegts.AtscMGT mgt) {
-        java.util.Objects.requireNonNull(mgt, "Parameter 'mgt' must not be null");
+    public static org.gstreamer.mpegts.Section fromAtscMgt(org.gstreamer.mpegts.AtscMGT mgt) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_atsc_mgt.invokeExact(
@@ -722,11 +718,10 @@ public class Section extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         mgt.yieldOwnership();
-        return new org.gstreamer.mpegts.Section(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.mpegts.Section fromAtscRrt(@NotNull org.gstreamer.mpegts.AtscRRT rrt) {
-        java.util.Objects.requireNonNull(rrt, "Parameter 'rrt' must not be null");
+    public static org.gstreamer.mpegts.Section fromAtscRrt(org.gstreamer.mpegts.AtscRRT rrt) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_atsc_rrt.invokeExact(
@@ -734,11 +729,10 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Section(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.mpegts.Section fromAtscStt(@NotNull org.gstreamer.mpegts.AtscSTT stt) {
-        java.util.Objects.requireNonNull(stt, "Parameter 'stt' must not be null");
+    public static org.gstreamer.mpegts.Section fromAtscStt(org.gstreamer.mpegts.AtscSTT stt) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_atsc_stt.invokeExact(
@@ -746,7 +740,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Section(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -754,8 +748,7 @@ public class Section extends Struct {
      * @param nit a {@link NIT} to create the {@link Section} from
      * @return the {@link Section}
      */
-    public static @NotNull org.gstreamer.mpegts.Section fromNit(@NotNull org.gstreamer.mpegts.NIT nit) {
-        java.util.Objects.requireNonNull(nit, "Parameter 'nit' must not be null");
+    public static org.gstreamer.mpegts.Section fromNit(org.gstreamer.mpegts.NIT nit) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_nit.invokeExact(
@@ -764,7 +757,7 @@ public class Section extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         nit.yieldOwnership();
-        return new org.gstreamer.mpegts.Section(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -773,8 +766,7 @@ public class Section extends Struct {
      * @param tsId Transport stream ID of the PAT
      * @return a {@link Section}
      */
-    public static @NotNull org.gstreamer.mpegts.Section fromPat(@NotNull org.gstreamer.mpegts.PatProgram[] programs, short tsId) {
-        java.util.Objects.requireNonNull(programs, "Parameter 'programs' must not be null");
+    public static org.gstreamer.mpegts.Section fromPat(org.gstreamer.mpegts.PatProgram[] programs, short tsId) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_pat.invokeExact(
@@ -783,7 +775,7 @@ public class Section extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.mpegts.Section(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -792,8 +784,7 @@ public class Section extends Struct {
      * @param pid The PID that the {@link PMT} belongs to
      * @return {@link Section}
      */
-    public static @NotNull org.gstreamer.mpegts.Section fromPmt(@NotNull org.gstreamer.mpegts.PMT pmt, short pid) {
-        java.util.Objects.requireNonNull(pmt, "Parameter 'pmt' must not be null");
+    public static org.gstreamer.mpegts.Section fromPmt(org.gstreamer.mpegts.PMT pmt, short pid) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_pmt.invokeExact(
@@ -803,7 +794,7 @@ public class Section extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         pmt.yieldOwnership();
-        return new org.gstreamer.mpegts.Section(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -811,8 +802,7 @@ public class Section extends Struct {
      * @param sit a {@link SCTESIT} to create the {@link Section} from
      * @return the {@link Section}
      */
-    public static @NotNull org.gstreamer.mpegts.Section fromScteSit(@NotNull org.gstreamer.mpegts.SCTESIT sit, short pid) {
-        java.util.Objects.requireNonNull(sit, "Parameter 'sit' must not be null");
+    public static org.gstreamer.mpegts.Section fromScteSit(org.gstreamer.mpegts.SCTESIT sit, short pid) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_scte_sit.invokeExact(
@@ -822,7 +812,7 @@ public class Section extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         sit.yieldOwnership();
-        return new org.gstreamer.mpegts.Section(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -830,8 +820,7 @@ public class Section extends Struct {
      * @param sdt a {@link SDT} to create the {@link Section} from
      * @return the {@link Section}
      */
-    public static @NotNull org.gstreamer.mpegts.Section fromSdt(@NotNull org.gstreamer.mpegts.SDT sdt) {
-        java.util.Objects.requireNonNull(sdt, "Parameter 'sdt' must not be null");
+    public static org.gstreamer.mpegts.Section fromSdt(org.gstreamer.mpegts.SDT sdt) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_section_from_sdt.invokeExact(
@@ -840,7 +829,7 @@ public class Section extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         sdt.yieldOwnership();
-        return new org.gstreamer.mpegts.Section(RESULT, Ownership.FULL);
+        return org.gstreamer.mpegts.Section.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -1031,35 +1020,39 @@ public class Section extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Section.Builder} object constructs a {@link Section} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Section.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Section struct;
+        private final Section struct;
         
-         /**
-         * A {@link Section.Build} object constructs a {@link Section} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Section.allocate();
         }
         
          /**
          * Finish building the {@link Section} struct.
          * @return A new instance of {@code Section} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Section construct() {
+        public Section build() {
             return struct;
         }
         
-        public Build setParent(org.gstreamer.gst.MiniObject parent) {
+        public Builder setParent(org.gstreamer.gst.MiniObject parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -1071,7 +1064,7 @@ public class Section extends Struct {
          * @param sectionType The value for the {@code sectionType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSectionType(org.gstreamer.mpegts.SectionType sectionType) {
+        public Builder setSectionType(org.gstreamer.mpegts.SectionType sectionType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("section_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sectionType == null ? MemoryAddress.NULL : sectionType.getValue()));
@@ -1083,7 +1076,7 @@ public class Section extends Struct {
          * @param pid The value for the {@code pid} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPid(short pid) {
+        public Builder setPid(short pid) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pid"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pid);
@@ -1096,7 +1089,7 @@ public class Section extends Struct {
          * @param tableId The value for the {@code tableId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTableId(byte tableId) {
+        public Builder setTableId(byte tableId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("table_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tableId);
@@ -1109,7 +1102,7 @@ public class Section extends Struct {
          * @param subtableExtension The value for the {@code subtableExtension} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSubtableExtension(short subtableExtension) {
+        public Builder setSubtableExtension(short subtableExtension) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("subtable_extension"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), subtableExtension);
@@ -1121,7 +1114,7 @@ public class Section extends Struct {
          * @param versionNumber The value for the {@code versionNumber} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVersionNumber(byte versionNumber) {
+        public Builder setVersionNumber(byte versionNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("version_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), versionNumber);
@@ -1133,10 +1126,10 @@ public class Section extends Struct {
          * @param currentNextIndicator The value for the {@code currentNextIndicator} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentNextIndicator(boolean currentNextIndicator) {
+        public Builder setCurrentNextIndicator(boolean currentNextIndicator) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("current_next_indicator"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), currentNextIndicator ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(currentNextIndicator, null).intValue());
             return this;
         }
         
@@ -1145,7 +1138,7 @@ public class Section extends Struct {
          * @param sectionNumber The value for the {@code sectionNumber} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSectionNumber(byte sectionNumber) {
+        public Builder setSectionNumber(byte sectionNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("section_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sectionNumber);
@@ -1157,7 +1150,7 @@ public class Section extends Struct {
          * @param lastSectionNumber The value for the {@code lastSectionNumber} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLastSectionNumber(byte lastSectionNumber) {
+        public Builder setLastSectionNumber(byte lastSectionNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("last_section_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lastSectionNumber);
@@ -1169,63 +1162,63 @@ public class Section extends Struct {
          * @param crc The value for the {@code crc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCrc(int crc) {
+        public Builder setCrc(int crc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("crc"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), crc);
             return this;
         }
         
-        public Build setData(PointerByte data) {
+        public Builder setData(PointerByte data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
             return this;
         }
         
-        public Build setSectionLength(int sectionLength) {
+        public Builder setSectionLength(int sectionLength) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("section_length"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), sectionLength);
             return this;
         }
         
-        public Build setCachedParsed(java.lang.foreign.MemoryAddress cachedParsed) {
+        public Builder setCachedParsed(java.lang.foreign.MemoryAddress cachedParsed) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cached_parsed"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cachedParsed == null ? MemoryAddress.NULL : (Addressable) cachedParsed));
             return this;
         }
         
-        public Build setDestroyParsed(java.lang.foreign.MemoryAddress destroyParsed) {
+        public Builder setDestroyParsed(org.gtk.glib.DestroyNotify destroyParsed) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("destroy_parsed"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyParsed == null ? MemoryAddress.NULL : destroyParsed));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyParsed == null ? MemoryAddress.NULL : (Addressable) destroyParsed.toCallback()));
             return this;
         }
         
-        public Build setOffset(long offset) {
+        public Builder setOffset(long offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
             return this;
         }
         
-        public Build setShortSection(boolean shortSection) {
+        public Builder setShortSection(boolean shortSection) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("short_section"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), shortSection ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(shortSection, null).intValue());
             return this;
         }
         
-        public Build setPacketizer(java.lang.foreign.MemoryAddress packetizer) {
+        public Builder setPacketizer(org.gstreamer.mpegts.PacketizeFunc packetizer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("packetizer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packetizer == null ? MemoryAddress.NULL : packetizer));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (packetizer == null ? MemoryAddress.NULL : (Addressable) packetizer.toCallback()));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

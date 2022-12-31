@@ -32,46 +32,32 @@ public class TracerFactory extends org.gstreamer.gst.PluginFeature {
      * <p>
      * Because TracerFactory is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TracerFactory(Addressable address, Ownership ownership) {
+    protected TracerFactory(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to TracerFactory if its GType is a (or inherits from) "GstTracerFactory".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TracerFactory} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstTracerFactory", a ClassCastException will be thrown.
-     */
-    public static TracerFactory castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TracerFactory.getType())) {
-            return new TracerFactory(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstTracerFactory");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TracerFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TracerFactory(input, ownership);
     
     /**
-     * Get the {@link org.gtk.gobject.Type} for elements managed by this factory. The type can
+     * Get the {@link org.gtk.glib.Type} for elements managed by this factory. The type can
      * only be retrieved if the element factory is loaded, which can be
      * assured with gst_plugin_feature_load().
-     * @return the {@link org.gtk.gobject.Type} for tracers managed by this factory or 0 if
+     * @return the {@link org.gtk.glib.Type} for tracers managed by this factory or 0 if
      * the factory is not loaded.
      */
-    public @NotNull org.gtk.glib.Type getTracerType() {
+    public org.gtk.glib.Type getTracerType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_tracer_factory_get_tracer_type.invokeExact(
@@ -86,7 +72,7 @@ public class TracerFactory extends org.gstreamer.gst.PluginFeature {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_tracer_factory_get_type.invokeExact();
@@ -106,47 +92,49 @@ public class TracerFactory extends org.gstreamer.gst.PluginFeature {
      * @return the list of all
      *     registered {@link TracerFactory}.
      */
-    public static @NotNull org.gtk.glib.List getList() {
+    public static org.gtk.glib.List getList() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tracer_factory_get_list.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link TracerFactory.Builder} object constructs a {@link TracerFactory} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TracerFactory.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.PluginFeature.Build {
+    public static class Builder extends org.gstreamer.gst.PluginFeature.Builder {
         
-         /**
-         * A {@link TracerFactory.Build} object constructs a {@link TracerFactory} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TracerFactory} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TracerFactory} using {@link TracerFactory#castFrom}.
+         * {@link TracerFactory}.
          * @return A new instance of {@code TracerFactory} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TracerFactory construct() {
-            return TracerFactory.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TracerFactory.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TracerFactory build() {
+            return (TracerFactory) org.gtk.gobject.GObject.newWithProperties(
+                TracerFactory.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

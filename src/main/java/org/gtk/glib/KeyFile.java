@@ -44,13 +44,15 @@ public class KeyFile extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public KeyFile(Addressable address, Ownership ownership) {
+    protected KeyFile(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, KeyFile> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new KeyFile(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_new.invokeExact();
         } catch (Throwable ERR) {
@@ -97,16 +99,14 @@ public class KeyFile extends Struct {
      *    or {@code false} if the key was not found or could not be parsed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean getBoolean(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean getBoolean(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_get_boolean.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -114,7 +114,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -133,18 +133,15 @@ public class KeyFile extends Struct {
      *    should be freed with g_free() when no longer needed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull boolean[] getBooleanList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public boolean[] getBooleanList(java.lang.String groupName, java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_boolean_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) lengthPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -157,7 +154,7 @@ public class KeyFile extends Struct {
         boolean[] resultARRAY = new boolean[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.C_INT, I);
-            resultARRAY[I] = OBJ != 0;
+            resultARRAY[I] = Marshal.integerToBoolean.marshal(OBJ, null).booleanValue();
         }
         return resultARRAY;
     }
@@ -176,14 +173,14 @@ public class KeyFile extends Struct {
      * @return a comment that should be freed with g_free()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String getComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
+    public java.lang.String getComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_comment.invokeExact(
                     handle(),
-                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)),
-                    (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, null)),
+                    (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -191,7 +188,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -208,16 +205,14 @@ public class KeyFile extends Struct {
      *     0.0 if the key was not found or could not be parsed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public double getDouble(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public double getDouble(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.g_key_file_get_double.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -244,18 +239,15 @@ public class KeyFile extends Struct {
      *     should be freed with g_free() when no longer needed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull double[] getDoubleList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public double[] getDoubleList(java.lang.String groupName, java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_double_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) lengthPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -276,18 +268,17 @@ public class KeyFile extends Struct {
      * @return a newly-allocated {@code null}-terminated array of strings.
      *   Use g_strfreev() to free it.
      */
-    public @NotNull PointerString getGroups(Out<Long> length) {
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public PointerString getGroups(Out<Long> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_groups.invokeExact(
                     handle(),
-                    (Addressable) lengthPOINTER.address());
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerString(RESULT);
     }
     
@@ -301,16 +292,14 @@ public class KeyFile extends Struct {
      * 0 if the key was not found or could not be parsed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long getInt64(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public long getInt64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_key_file_get_int64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -336,16 +325,14 @@ public class KeyFile extends Struct {
      *     0 if the key was not found or could not be parsed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public int getInteger(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public int getInteger(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_get_integer.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -373,18 +360,15 @@ public class KeyFile extends Struct {
      *     integers should be freed with g_free() when no longer needed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull int[] getIntegerList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public int[] getIntegerList(java.lang.String groupName, java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_integer_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) lengthPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -409,17 +393,15 @@ public class KeyFile extends Struct {
      *     Use g_strfreev() to free it.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull PointerString getKeys(@NotNull java.lang.String groupName, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public PointerString getKeys(java.lang.String groupName, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_keys.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    (Addressable) lengthPOINTER.address(),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -427,7 +409,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerString(RESULT);
     }
     
@@ -447,20 +429,18 @@ public class KeyFile extends Struct {
      * @return the locale from the file, or {@code null} if the key was not
      *   found or the entry in the file was was untranslated
      */
-    public @Nullable java.lang.String getLocaleForKey(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable java.lang.String getLocaleForKey(java.lang.String groupName, java.lang.String key, @Nullable java.lang.String locale) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_for_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
-                    (Addressable) (locale == null ? MemoryAddress.NULL : Interop.allocateNativeString(locale)));
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
+                    (Addressable) (locale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(locale, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -483,17 +463,15 @@ public class KeyFile extends Struct {
      *   key cannot be found.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String getLocaleString(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public java.lang.String getLocaleString(java.lang.String groupName, java.lang.String key, @Nullable java.lang.String locale) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
-                    (Addressable) (locale == null ? MemoryAddress.NULL : Interop.allocateNativeString(locale)),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
+                    (Addressable) (locale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(locale, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -501,7 +479,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -528,20 +506,17 @@ public class KeyFile extends Struct {
      *   with g_strfreev().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String[] getLocaleStringList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @Nullable java.lang.String locale, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String[] getLocaleStringList(java.lang.String groupName, java.lang.String key, @Nullable java.lang.String locale, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_locale_string_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
-                    (Addressable) (locale == null ? MemoryAddress.NULL : Interop.allocateNativeString(locale)),
-                    (Addressable) lengthPOINTER.address(),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
+                    (Addressable) (locale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(locale, null)),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -549,11 +524,11 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -570,7 +545,7 @@ public class KeyFile extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -588,16 +563,14 @@ public class KeyFile extends Struct {
      *   key cannot be found.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String getString(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public java.lang.String getString(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -605,7 +578,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -622,19 +595,16 @@ public class KeyFile extends Struct {
      *  key cannot be found. The array should be freed with g_strfreev().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String[] getStringList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String[] getStringList(java.lang.String groupName, java.lang.String key, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_string_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
-                    (Addressable) lengthPOINTER.address(),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -642,11 +612,11 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -661,16 +631,14 @@ public class KeyFile extends Struct {
      * or 0 if the key was not found or could not be parsed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public long getUint64(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public long getUint64(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_key_file_get_uint64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -695,16 +663,14 @@ public class KeyFile extends Struct {
      *  key cannot be found.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String getValue(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public java.lang.String getValue(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_get_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -712,7 +678,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -721,17 +687,16 @@ public class KeyFile extends Struct {
      * @return {@code true} if {@code group_name} is a part of {@code key_file}, {@code false}
      * otherwise.
      */
-    public boolean hasGroup(@NotNull java.lang.String groupName) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
+    public boolean hasGroup(java.lang.String groupName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_has_group.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName));
+                    Marshal.stringToAddress.marshal(groupName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -750,16 +715,14 @@ public class KeyFile extends Struct {
      * @return {@code true} if {@code key} is a part of {@code group_name}, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean hasKey(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean hasKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_has_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -767,7 +730,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -778,9 +741,7 @@ public class KeyFile extends Struct {
      * @return {@code true} if a key file could be loaded, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean loadFromBytes(@NotNull org.gtk.glib.Bytes bytes, @NotNull org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean loadFromBytes(org.gtk.glib.Bytes bytes, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -795,7 +756,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -807,15 +768,13 @@ public class KeyFile extends Struct {
      * @return {@code true} if a key file could be loaded, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean loadFromData(@NotNull java.lang.String data, long length, @NotNull org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean loadFromData(java.lang.String data, long length, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_load_from_data.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(data),
+                    Marshal.stringToAddress.marshal(data, null),
                     length,
                     flags.getValue(),
                     (Addressable) GERROR);
@@ -825,7 +784,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -841,18 +800,15 @@ public class KeyFile extends Struct {
      * @return {@code true} if a key file could be loaded, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean loadFromDataDirs(@NotNull java.lang.String file, @NotNull Out<java.lang.String> fullPath, @NotNull org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(fullPath, "Parameter 'fullPath' must not be null");
+    public boolean loadFromDataDirs(java.lang.String file, @Nullable Out<java.lang.String> fullPath, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_load_from_data_dirs.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(file),
-                    (Addressable) fullPathPOINTER.address(),
+                    Marshal.stringToAddress.marshal(file, null),
+                    (Addressable) (fullPath == null ? MemoryAddress.NULL : (Addressable) fullPathPOINTER.address()),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -861,8 +817,8 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (fullPath != null) fullPath.set(Marshal.addressToString.marshal(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -883,20 +839,16 @@ public class KeyFile extends Struct {
      * @return {@code true} if a key file could be loaded, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean loadFromDirs(@NotNull java.lang.String file, @NotNull java.lang.String[] searchDirs, @NotNull Out<java.lang.String> fullPath, @NotNull org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(searchDirs, "Parameter 'searchDirs' must not be null");
-        java.util.Objects.requireNonNull(fullPath, "Parameter 'fullPath' must not be null");
+    public boolean loadFromDirs(java.lang.String file, java.lang.String[] searchDirs, @Nullable Out<java.lang.String> fullPath, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment fullPathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_load_from_dirs.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(file, null),
                     Interop.allocateNativeArray(searchDirs, false),
-                    (Addressable) fullPathPOINTER.address(),
+                    (Addressable) (fullPath == null ? MemoryAddress.NULL : (Addressable) fullPathPOINTER.address()),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -905,8 +857,8 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        fullPath.set(Interop.getStringFrom(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (fullPath != null) fullPath.set(Marshal.addressToString.marshal(fullPathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -923,15 +875,13 @@ public class KeyFile extends Struct {
      * @return {@code true} if a key file could be loaded, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean loadFromFile(@NotNull java.lang.String file, @NotNull org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public boolean loadFromFile(java.lang.String file, org.gtk.glib.KeyFileFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_load_from_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(file, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -940,14 +890,14 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Increases the reference count of {@code key_file}.
      * @return the same {@code key_file}.
      */
-    public @NotNull org.gtk.glib.KeyFile ref() {
+    public org.gtk.glib.KeyFile ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_ref.invokeExact(
@@ -955,7 +905,7 @@ public class KeyFile extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.KeyFile(RESULT, Ownership.FULL);
+        return org.gtk.glib.KeyFile.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -974,8 +924,8 @@ public class KeyFile extends Struct {
         try {
             RESULT = (int) DowncallHandles.g_key_file_remove_comment.invokeExact(
                     handle(),
-                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)),
-                    (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, null)),
+                    (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -983,7 +933,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -993,14 +943,13 @@ public class KeyFile extends Struct {
      * @return {@code true} if the group was removed, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean removeGroup(@NotNull java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
+    public boolean removeGroup(java.lang.String groupName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_remove_group.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
+                    Marshal.stringToAddress.marshal(groupName, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1008,7 +957,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1018,16 +967,14 @@ public class KeyFile extends Struct {
      * @return {@code true} if the key was removed, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean removeKey(@NotNull java.lang.String groupName, @NotNull java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public boolean removeKey(java.lang.String groupName, java.lang.String key) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_remove_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1035,7 +982,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1050,14 +997,13 @@ public class KeyFile extends Struct {
      * @return {@code true} if successful, else {@code false} with {@code error} set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean saveToFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public boolean saveToFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_save_to_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1065,7 +1011,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1075,15 +1021,13 @@ public class KeyFile extends Struct {
      * @param key a key
      * @param value {@code true} or {@code false}
      */
-    public void setBoolean(@NotNull java.lang.String groupName, @NotNull java.lang.String key, boolean value) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public void setBoolean(java.lang.String groupName, java.lang.String key, boolean value) {
         try {
             DowncallHandles.g_key_file_set_boolean.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
-                    value ? 1 : 0);
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.booleanToInteger.marshal(value, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1098,15 +1042,12 @@ public class KeyFile extends Struct {
      * @param list an array of boolean values
      * @param length length of {@code list}
      */
-    public void setBooleanList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull boolean[] list, long length) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public void setBooleanList(java.lang.String groupName, java.lang.String key, boolean[] list, long length) {
         try {
             DowncallHandles.g_key_file_set_boolean_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     Interop.allocateNativeArray(list, false),
                     length);
         } catch (Throwable ERR) {
@@ -1129,16 +1070,15 @@ public class KeyFile extends Struct {
      * @return {@code true} if the comment was written, {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean setComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key, @NotNull java.lang.String comment) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(comment, "Parameter 'comment' must not be null");
+    public boolean setComment(@Nullable java.lang.String groupName, @Nullable java.lang.String key, java.lang.String comment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_set_comment.invokeExact(
                     handle(),
-                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)),
-                    (Addressable) (key == null ? MemoryAddress.NULL : Interop.allocateNativeString(key)),
-                    Interop.allocateNativeString(comment),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, null)),
+                    (Addressable) (key == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(key, null)),
+                    Marshal.stringToAddress.marshal(comment, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1146,7 +1086,7 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1156,14 +1096,12 @@ public class KeyFile extends Struct {
      * @param key a key
      * @param value a double value
      */
-    public void setDouble(@NotNull java.lang.String groupName, @NotNull java.lang.String key, double value) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public void setDouble(java.lang.String groupName, java.lang.String key, double value) {
         try {
             DowncallHandles.g_key_file_set_double.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1178,15 +1116,12 @@ public class KeyFile extends Struct {
      * @param list an array of double values
      * @param length number of double values in {@code list}
      */
-    public void setDoubleList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull double[] list, long length) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public void setDoubleList(java.lang.String groupName, java.lang.String key, double[] list, long length) {
         try {
             DowncallHandles.g_key_file_set_double_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     Interop.allocateNativeArray(list, false),
                     length);
         } catch (Throwable ERR) {
@@ -1201,14 +1136,12 @@ public class KeyFile extends Struct {
      * @param key a key
      * @param value an integer value
      */
-    public void setInt64(@NotNull java.lang.String groupName, @NotNull java.lang.String key, long value) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public void setInt64(java.lang.String groupName, java.lang.String key, long value) {
         try {
             DowncallHandles.g_key_file_set_int64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1222,14 +1155,12 @@ public class KeyFile extends Struct {
      * @param key a key
      * @param value an integer value
      */
-    public void setInteger(@NotNull java.lang.String groupName, @NotNull java.lang.String key, int value) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public void setInteger(java.lang.String groupName, java.lang.String key, int value) {
         try {
             DowncallHandles.g_key_file_set_integer.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1244,15 +1175,12 @@ public class KeyFile extends Struct {
      * @param list an array of integer values
      * @param length number of integer values in {@code list}
      */
-    public void setIntegerList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull int[] list, long length) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public void setIntegerList(java.lang.String groupName, java.lang.String key, int[] list, long length) {
         try {
             DowncallHandles.g_key_file_set_integer_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     Interop.allocateNativeArray(list, false),
                     length);
         } catch (Throwable ERR) {
@@ -1284,18 +1212,14 @@ public class KeyFile extends Struct {
      * @param locale a locale identifier
      * @param string a string
      */
-    public void setLocaleString(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String locale, @NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(locale, "Parameter 'locale' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public void setLocaleString(java.lang.String groupName, java.lang.String key, java.lang.String locale, java.lang.String string) {
         try {
             DowncallHandles.g_key_file_set_locale_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(locale),
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(locale, null),
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1311,17 +1235,13 @@ public class KeyFile extends Struct {
      * @param list a {@code null}-terminated array of locale string values
      * @param length the length of {@code list}
      */
-    public void setLocaleStringList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String locale, @NotNull java.lang.String[] list, long length) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(locale, "Parameter 'locale' must not be null");
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public void setLocaleStringList(java.lang.String groupName, java.lang.String key, java.lang.String locale, java.lang.String[] list, long length) {
         try {
             DowncallHandles.g_key_file_set_locale_string_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(locale),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(locale, null),
                     Interop.allocateNativeArray(list, true),
                     length);
         } catch (Throwable ERR) {
@@ -1339,16 +1259,13 @@ public class KeyFile extends Struct {
      * @param key a key
      * @param string a string
      */
-    public void setString(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public void setString(java.lang.String groupName, java.lang.String key, java.lang.String string) {
         try {
             DowncallHandles.g_key_file_set_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1363,15 +1280,12 @@ public class KeyFile extends Struct {
      * @param list an array of string values
      * @param length number of string values in {@code list}
      */
-    public void setStringList(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String[] list, long length) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public void setStringList(java.lang.String groupName, java.lang.String key, java.lang.String[] list, long length) {
         try {
             DowncallHandles.g_key_file_set_string_list.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     Interop.allocateNativeArray(list, true),
                     length);
         } catch (Throwable ERR) {
@@ -1386,14 +1300,12 @@ public class KeyFile extends Struct {
      * @param key a key
      * @param value an integer value
      */
-    public void setUint64(@NotNull java.lang.String groupName, @NotNull java.lang.String key, long value) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public void setUint64(java.lang.String groupName, java.lang.String key, long value) {
         try {
             DowncallHandles.g_key_file_set_uint64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1411,16 +1323,13 @@ public class KeyFile extends Struct {
      * @param key a key
      * @param value a string
      */
-    public void setValue(@NotNull java.lang.String groupName, @NotNull java.lang.String key, @NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setValue(java.lang.String groupName, java.lang.String key, java.lang.String value) {
         try {
             DowncallHandles.g_key_file_set_value.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(groupName),
-                    Interop.allocateNativeString(key),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(groupName, null),
+                    Marshal.stringToAddress.marshal(key, null),
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1437,15 +1346,14 @@ public class KeyFile extends Struct {
      *   the contents of the {@link KeyFile}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull java.lang.String toData(Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String toData(Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_key_file_to_data.invokeExact(
                     handle(),
-                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1453,8 +1361,8 @@ public class KeyFile extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Interop.getStringFrom(RESULT);
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1470,7 +1378,7 @@ public class KeyFile extends Struct {
         }
     }
     
-    public static @NotNull org.gtk.glib.Quark errorQuark() {
+    public static org.gtk.glib.Quark errorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_error_quark.invokeExact();

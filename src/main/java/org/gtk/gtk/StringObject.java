@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * A {@code GtkStringObject} is a wrapper around a {@code const char*}; it has
  * a {@code Gtk.StringObject:string} property.
  */
-public class StringObject extends org.gtk.gobject.Object {
+public class StringObject extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -33,37 +33,18 @@ public class StringObject extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StringObject(Addressable address, Ownership ownership) {
+    protected StringObject(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to StringObject if its GType is a (or inherits from) "GtkStringObject".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code StringObject} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkStringObject", a ClassCastException will be thrown.
-     */
-    public static StringObject castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StringObject.getType())) {
-            return new StringObject(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStringObject");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StringObject> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringObject(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String string) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_new.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -74,7 +55,7 @@ public class StringObject extends org.gtk.gobject.Object {
      * Wraps a string in an object for use with {@code GListModel}.
      * @param string The string to wrap
      */
-    public StringObject(@NotNull java.lang.String string) {
+    public StringObject(java.lang.String string) {
         super(constructNew(string), Ownership.FULL);
     }
     
@@ -82,7 +63,7 @@ public class StringObject extends org.gtk.gobject.Object {
      * Returns the string contained in a {@code GtkStringObject}.
      * @return the string of {@code self}
      */
-    public @NotNull java.lang.String getString() {
+    public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_string_object_get_string.invokeExact(
@@ -90,14 +71,14 @@ public class StringObject extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_string_object_get_type.invokeExact();
@@ -106,38 +87,40 @@ public class StringObject extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link StringObject.Builder} object constructs a {@link StringObject} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link StringObject.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link StringObject.Build} object constructs a {@link StringObject} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link StringObject} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link StringObject} using {@link StringObject#castFrom}.
+         * {@link StringObject}.
          * @return A new instance of {@code StringObject} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public StringObject construct() {
-            return StringObject.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    StringObject.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public StringObject build() {
+            return (StringObject) org.gtk.gobject.GObject.newWithProperties(
+                StringObject.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -146,7 +129,7 @@ public class StringObject extends org.gtk.gobject.Object {
          * @param string The value for the {@code string} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setString(java.lang.String string) {
+        public Builder setString(java.lang.String string) {
             names.add("string");
             values.add(org.gtk.gobject.Value.create(string));
             return this;

@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * is responsible for updating the accessible state in response to state
  * changes in {@code GtkAccessible}.
  */
-public class ATContext extends org.gtk.gobject.Object {
+public class ATContext extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -35,36 +35,15 @@ public class ATContext extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ATContext(Addressable address, Ownership ownership) {
+    protected ATContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ATContext if its GType is a (or inherits from) "GtkATContext".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ATContext} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkATContext", a ClassCastException will be thrown.
-     */
-    public static ATContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ATContext.getType())) {
-            return new ATContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkATContext");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ATContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ATContext(input, ownership);
     
-    private static Addressable constructCreate(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {
-        java.util.Objects.requireNonNull(accessibleRole, "Parameter 'accessibleRole' must not be null");
-        java.util.Objects.requireNonNull(accessible, "Parameter 'accessible' must not be null");
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructCreate(org.gtk.gtk.AccessibleRole accessibleRole, org.gtk.gtk.Accessible accessible, org.gtk.gdk.Display display) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_at_context_create.invokeExact(
                     accessibleRole.getValue(),
@@ -87,15 +66,16 @@ public class ATContext extends org.gtk.gobject.Object {
      * @param display the {@code GdkDisplay} used by the {@code GtkATContext}
      * @return the {@code GtkATContext}
      */
-    public static ATContext create(@NotNull org.gtk.gtk.AccessibleRole accessibleRole, @NotNull org.gtk.gtk.Accessible accessible, @NotNull org.gtk.gdk.Display display) {
-        return new ATContext(constructCreate(accessibleRole, accessible, display), Ownership.FULL);
+    public static ATContext create(org.gtk.gtk.AccessibleRole accessibleRole, org.gtk.gtk.Accessible accessible, org.gtk.gdk.Display display) {
+        var RESULT = constructCreate(accessibleRole, accessible, display);
+        return (org.gtk.gtk.ATContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ATContext.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Retrieves the {@code GtkAccessible} using this context.
      * @return a {@code GtkAccessible}
      */
-    public @NotNull org.gtk.gtk.Accessible getAccessible() {
+    public org.gtk.gtk.Accessible getAccessible() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_at_context_get_accessible.invokeExact(
@@ -103,14 +83,14 @@ public class ATContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Accessible.AccessibleImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Accessible) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Accessible.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves the accessible role of this context.
      * @return a {@code GtkAccessibleRole}
      */
-    public @NotNull org.gtk.gtk.AccessibleRole getAccessibleRole() {
+    public org.gtk.gtk.AccessibleRole getAccessibleRole() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_at_context_get_accessible_role.invokeExact(
@@ -125,7 +105,7 @@ public class ATContext extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_at_context_get_type.invokeExact();
@@ -137,7 +117,18 @@ public class ATContext extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface StateChange {
-        void signalReceived(ATContext sourceATContext);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceATContext) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StateChange.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -149,52 +140,46 @@ public class ATContext extends org.gtk.gobject.Object {
     public Signal<ATContext.StateChange> onStateChange(ATContext.StateChange handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("state-change"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ATContext.Callbacks.class, "signalATContextStateChange",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ATContext.StateChange>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("state-change"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link ATContext.Builder} object constructs a {@link ATContext} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ATContext.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ATContext.Build} object constructs a {@link ATContext} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ATContext} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ATContext} using {@link ATContext#castFrom}.
+         * {@link ATContext}.
          * @return A new instance of {@code ATContext} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ATContext construct() {
-            return ATContext.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ATContext.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ATContext build() {
+            return (ATContext) org.gtk.gobject.GObject.newWithProperties(
+                ATContext.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -203,7 +188,7 @@ public class ATContext extends org.gtk.gobject.Object {
          * @param accessible The value for the {@code accessible} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAccessible(org.gtk.gtk.Accessible accessible) {
+        public Builder setAccessible(org.gtk.gtk.Accessible accessible) {
             names.add("accessible");
             values.add(org.gtk.gobject.Value.create(accessible));
             return this;
@@ -217,7 +202,7 @@ public class ATContext extends org.gtk.gobject.Object {
          * @param accessibleRole The value for the {@code accessible-role} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAccessibleRole(org.gtk.gtk.AccessibleRole accessibleRole) {
+        public Builder setAccessibleRole(org.gtk.gtk.AccessibleRole accessibleRole) {
             names.add("accessible-role");
             values.add(org.gtk.gobject.Value.create(accessibleRole));
             return this;
@@ -228,7 +213,7 @@ public class ATContext extends org.gtk.gobject.Object {
          * @param display The value for the {@code display} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplay(org.gtk.gdk.Display display) {
+        public Builder setDisplay(org.gtk.gdk.Display display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;
@@ -260,14 +245,5 @@ public class ATContext extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalATContextStateChange(MemoryAddress sourceATContext, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ATContext.StateChange) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ATContext(sourceATContext, Ownership.NONE));
-        }
     }
 }

@@ -44,18 +44,19 @@ public class RTSPWatch extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTSPWatch(Addressable address, Ownership ownership) {
+    protected RTSPWatch(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTSPWatch> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPWatch(input, ownership);
     
     /**
      * Adds a {@link RTSPWatch} to a context so that it will be executed within that context.
      * @param context a GMainContext (if NULL, the default context will be used)
      * @return the ID (greater than 0) for the watch within the GMainContext.
      */
-    public int attach(@NotNull org.gtk.glib.MainContext context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public int attach(org.gtk.glib.MainContext context) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_watch_attach.invokeExact(
@@ -74,20 +75,18 @@ public class RTSPWatch extends Struct {
      * @param messages maximum messages
      */
     public void getSendBacklog(Out<Long> bytes, Out<Integer> messages) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
         MemorySegment bytesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
         MemorySegment messagesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_rtsp_watch_get_send_backlog.invokeExact(
                     handle(),
-                    (Addressable) bytesPOINTER.address(),
-                    (Addressable) messagesPOINTER.address());
+                    (Addressable) (bytes == null ? MemoryAddress.NULL : (Addressable) bytesPOINTER.address()),
+                    (Addressable) (messages == null ? MemoryAddress.NULL : (Addressable) messagesPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bytes.set(bytesPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        messages.set(messagesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (bytes != null) bytes.set(bytesPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (messages != null) messages.set(messagesPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -114,20 +113,18 @@ public class RTSPWatch extends Struct {
      * @param id location for a message ID or {@code null}
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult sendMessage(@NotNull org.gstreamer.rtsp.RTSPMessage message, Out<Integer> id) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public org.gstreamer.rtsp.RTSPResult sendMessage(org.gstreamer.rtsp.RTSPMessage message, Out<Integer> id) {
         MemorySegment idPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_watch_send_message.invokeExact(
                     handle(),
                     message.handle(),
-                    (Addressable) idPOINTER.address());
+                    (Addressable) (id == null ? MemoryAddress.NULL : (Addressable) idPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (id != null) id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -144,9 +141,7 @@ public class RTSPWatch extends Struct {
      * @param id location for a message ID or {@code null}
      * @return {@code GST_RTSP_OK} on success.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult sendMessages(@NotNull org.gstreamer.rtsp.RTSPMessage[] messages, int nMessages, Out<Integer> id) {
-        java.util.Objects.requireNonNull(messages, "Parameter 'messages' must not be null");
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public org.gstreamer.rtsp.RTSPResult sendMessages(org.gstreamer.rtsp.RTSPMessage[] messages, int nMessages, Out<Integer> id) {
         MemorySegment idPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -154,11 +149,11 @@ public class RTSPWatch extends Struct {
                     handle(),
                     Interop.allocateNativeArray(messages, org.gstreamer.rtsp.RTSPMessage.getMemoryLayout(), false),
                     nMessages,
-                    (Addressable) idPOINTER.address());
+                    (Addressable) (id == null ? MemoryAddress.NULL : (Addressable) idPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (id != null) id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -172,7 +167,7 @@ public class RTSPWatch extends Struct {
         try {
             DowncallHandles.gst_rtsp_watch_set_flushing.invokeExact(
                     handle(),
-                    flushing ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flushing, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,8 +224,7 @@ public class RTSPWatch extends Struct {
      *          {@link RTSPResult#EINVAL} when called with invalid parameters.
      */
     @Deprecated
-    public @NotNull org.gstreamer.rtsp.RTSPResult waitBacklog(@NotNull org.gtk.glib.TimeVal timeout) {
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public org.gstreamer.rtsp.RTSPResult waitBacklog(org.gtk.glib.TimeVal timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_watch_wait_backlog.invokeExact(
@@ -259,7 +253,7 @@ public class RTSPWatch extends Struct {
      *          {@link RTSPResult#EINTR} when {@code watch} is flushing
      *          {@link RTSPResult#EINVAL} when called with invalid parameters.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult waitBacklogUsec(long timeout) {
+    public org.gstreamer.rtsp.RTSPResult waitBacklogUsec(long timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_watch_wait_backlog_usec.invokeExact(
@@ -290,9 +284,7 @@ public class RTSPWatch extends Struct {
      * @return {@code GST_RTSP_OK} on success. {@code GST_RTSP_ENOMEM} when the backlog limits
      * are reached. {@code GST_RTSP_EINTR} when {@code watch} was flushing.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult writeData(@NotNull byte[] data, int size, Out<Integer> id) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(id, "Parameter 'id' must not be null");
+    public org.gstreamer.rtsp.RTSPResult writeData(byte[] data, int size, Out<Integer> id) {
         MemorySegment idPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -300,11 +292,11 @@ public class RTSPWatch extends Struct {
                     handle(),
                     Interop.allocateNativeArray(data, false),
                     size,
-                    (Addressable) idPOINTER.address());
+                    (Addressable) (id == null ? MemoryAddress.NULL : (Addressable) idPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (id != null) id.set(idPOINTER.get(Interop.valueLayout.C_INT, 0));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -318,25 +310,22 @@ public class RTSPWatch extends Struct {
      * {@code conn} must exist for the entire lifetime of the watch.
      * @param conn a {@link RTSPConnection}
      * @param funcs watch functions
-     * @param userData user data to pass to {@code funcs}
      * @param notify notify when {@code user_data} is not referenced anymore
      * @return a {@link RTSPWatch} that can be used for asynchronous RTSP
      * communication. Free with gst_rtsp_watch_unref () after usage.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPWatch new_(@NotNull org.gstreamer.rtsp.RTSPConnection conn, @NotNull org.gstreamer.rtsp.RTSPWatchFuncs funcs, @Nullable java.lang.foreign.MemoryAddress userData, @NotNull org.gtk.glib.DestroyNotify notify) {
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
-        java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
+    public static org.gstreamer.rtsp.RTSPWatch new_(org.gstreamer.rtsp.RTSPConnection conn, org.gstreamer.rtsp.RTSPWatchFuncs funcs, org.gtk.glib.DestroyNotify notify) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_watch_new.invokeExact(
                     conn.handle(),
                     funcs.handle(),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.rtsp.RTSPWatch(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPWatch.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

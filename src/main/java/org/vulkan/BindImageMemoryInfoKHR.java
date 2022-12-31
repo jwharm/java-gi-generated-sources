@@ -40,8 +40,10 @@ public class BindImageMemoryInfoKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BindImageMemoryInfoKHR(Addressable address, Ownership ownership) {
+    protected BindImageMemoryInfoKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BindImageMemoryInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BindImageMemoryInfoKHR(input, ownership);
 }

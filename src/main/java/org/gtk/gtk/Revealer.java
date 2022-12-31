@@ -48,40 +48,26 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * Because Revealer is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Revealer(Addressable address, Ownership ownership) {
+    protected Revealer(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Revealer if its GType is a (or inherits from) "GtkRevealer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Revealer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkRevealer", a ClassCastException will be thrown.
-     */
-    public static Revealer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Revealer.getType())) {
-            return new Revealer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkRevealer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Revealer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Revealer(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_revealer_new.invokeExact();
         } catch (Throwable ERR) {
@@ -109,7 +95,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -127,7 +113,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -147,7 +133,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -171,7 +157,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * for transitions in {@code revealer}.
      * @return the current transition type of {@code revealer}
      */
-    public @NotNull org.gtk.gtk.RevealerTransitionType getTransitionType() {
+    public org.gtk.gtk.RevealerTransitionType getTransitionType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_revealer_get_transition_type.invokeExact(
@@ -207,7 +193,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_revealer_set_reveal_child.invokeExact(
                     handle(),
-                    revealChild ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(revealChild, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -234,8 +220,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Available types include various kinds of fades and slides.
      * @param transition the new transition type
      */
-    public void setTransitionType(@NotNull org.gtk.gtk.RevealerTransitionType transition) {
-        java.util.Objects.requireNonNull(transition, "Parameter 'transition' must not be null");
+    public void setTransitionType(org.gtk.gtk.RevealerTransitionType transition) {
         try {
             DowncallHandles.gtk_revealer_set_transition_type.invokeExact(
                     handle(),
@@ -249,7 +234,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_revealer_get_type.invokeExact();
@@ -258,38 +243,40 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Revealer.Builder} object constructs a {@link Revealer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Revealer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Revealer.Build} object constructs a {@link Revealer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Revealer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Revealer} using {@link Revealer#castFrom}.
+         * {@link Revealer}.
          * @return A new instance of {@code Revealer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Revealer construct() {
-            return Revealer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Revealer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Revealer build() {
+            return (Revealer) org.gtk.gobject.GObject.newWithProperties(
+                Revealer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -298,7 +285,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -309,7 +296,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param childRevealed The value for the {@code child-revealed} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChildRevealed(boolean childRevealed) {
+        public Builder setChildRevealed(boolean childRevealed) {
             names.add("child-revealed");
             values.add(org.gtk.gobject.Value.create(childRevealed));
             return this;
@@ -320,7 +307,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param revealChild The value for the {@code reveal-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRevealChild(boolean revealChild) {
+        public Builder setRevealChild(boolean revealChild) {
             names.add("reveal-child");
             values.add(org.gtk.gobject.Value.create(revealChild));
             return this;
@@ -331,7 +318,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param transitionDuration The value for the {@code transition-duration} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTransitionDuration(int transitionDuration) {
+        public Builder setTransitionDuration(int transitionDuration) {
             names.add("transition-duration");
             values.add(org.gtk.gobject.Value.create(transitionDuration));
             return this;
@@ -342,7 +329,7 @@ public class Revealer extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param transitionType The value for the {@code transition-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTransitionType(org.gtk.gtk.RevealerTransitionType transitionType) {
+        public Builder setTransitionType(org.gtk.gtk.RevealerTransitionType transitionType) {
             names.add("transition-type");
             values.add(org.gtk.gobject.Value.create(transitionType));
             return this;

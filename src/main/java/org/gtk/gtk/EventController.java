@@ -19,7 +19,7 @@ import org.jetbrains.annotations.*;
  * an overview of the basic concepts, such as the capture and bubble
  * phases of even propagation.
  */
-public class EventController extends org.gtk.gobject.Object {
+public class EventController extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -41,30 +41,12 @@ public class EventController extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EventController(Addressable address, Ownership ownership) {
+    protected EventController(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EventController if its GType is a (or inherits from) "GtkEventController".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EventController} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkEventController", a ClassCastException will be thrown.
-     */
-    public static EventController castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EventController.getType())) {
-            return new EventController(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEventController");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EventController> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EventController(input, ownership);
     
     /**
      * Returns the event that is currently being handled by the controller.
@@ -81,7 +63,7 @@ public class EventController extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Event(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Event) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Event.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -100,7 +82,7 @@ public class EventController extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Device(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Device.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -110,7 +92,7 @@ public class EventController extends org.gtk.gobject.Object {
      * At other times, 0 is returned.
      * @return modifier state of the event is currently handled by {@code controller}
      */
-    public @NotNull org.gtk.gdk.ModifierType getCurrentEventState() {
+    public org.gtk.gdk.ModifierType getCurrentEventState() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_event_controller_get_current_event_state.invokeExact(
@@ -151,14 +133,14 @@ public class EventController extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the propagation limit of the event controller.
      * @return the propagation limit
      */
-    public @NotNull org.gtk.gtk.PropagationLimit getPropagationLimit() {
+    public org.gtk.gtk.PropagationLimit getPropagationLimit() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_event_controller_get_propagation_limit.invokeExact(
@@ -173,7 +155,7 @@ public class EventController extends org.gtk.gobject.Object {
      * Gets the propagation phase at which {@code controller} handles events.
      * @return the propagation phase
      */
-    public @NotNull org.gtk.gtk.PropagationPhase getPropagationPhase() {
+    public org.gtk.gtk.PropagationPhase getPropagationPhase() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_event_controller_get_propagation_phase.invokeExact(
@@ -188,7 +170,7 @@ public class EventController extends org.gtk.gobject.Object {
      * Returns the {@code GtkWidget} this controller relates to.
      * @return a {@code GtkWidget}
      */
-    public @NotNull org.gtk.gtk.Widget getWidget() {
+    public org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_get_widget.invokeExact(
@@ -196,7 +178,7 @@ public class EventController extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -219,7 +201,7 @@ public class EventController extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_event_controller_set_name.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,8 +215,7 @@ public class EventController extends org.gtk.gobject.Object {
      * surface, such as popovers.
      * @param limit the propagation limit
      */
-    public void setPropagationLimit(@NotNull org.gtk.gtk.PropagationLimit limit) {
-        java.util.Objects.requireNonNull(limit, "Parameter 'limit' must not be null");
+    public void setPropagationLimit(org.gtk.gtk.PropagationLimit limit) {
         try {
             DowncallHandles.gtk_event_controller_set_propagation_limit.invokeExact(
                     handle(),
@@ -251,8 +232,7 @@ public class EventController extends org.gtk.gobject.Object {
      * performed, but other additional gesture maintenance will.
      * @param phase a propagation phase
      */
-    public void setPropagationPhase(@NotNull org.gtk.gtk.PropagationPhase phase) {
-        java.util.Objects.requireNonNull(phase, "Parameter 'phase' must not be null");
+    public void setPropagationPhase(org.gtk.gtk.PropagationPhase phase) {
         try {
             DowncallHandles.gtk_event_controller_set_propagation_phase.invokeExact(
                     handle(),
@@ -270,7 +250,7 @@ public class EventController extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_event_controller_set_static_name.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -280,7 +260,7 @@ public class EventController extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_event_controller_get_type.invokeExact();
@@ -289,38 +269,40 @@ public class EventController extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link EventController.Builder} object constructs a {@link EventController} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EventController.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link EventController.Build} object constructs a {@link EventController} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EventController} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EventController} using {@link EventController#castFrom}.
+         * {@link EventController}.
          * @return A new instance of {@code EventController} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EventController construct() {
-            return EventController.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EventController.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EventController build() {
+            return (EventController) org.gtk.gobject.GObject.newWithProperties(
+                EventController.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -329,7 +311,7 @@ public class EventController extends org.gtk.gobject.Object {
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
@@ -340,7 +322,7 @@ public class EventController extends org.gtk.gobject.Object {
          * @param propagationLimit The value for the {@code propagation-limit} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPropagationLimit(org.gtk.gtk.PropagationLimit propagationLimit) {
+        public Builder setPropagationLimit(org.gtk.gtk.PropagationLimit propagationLimit) {
             names.add("propagation-limit");
             values.add(org.gtk.gobject.Value.create(propagationLimit));
             return this;
@@ -351,7 +333,7 @@ public class EventController extends org.gtk.gobject.Object {
          * @param propagationPhase The value for the {@code propagation-phase} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPropagationPhase(org.gtk.gtk.PropagationPhase propagationPhase) {
+        public Builder setPropagationPhase(org.gtk.gtk.PropagationPhase propagationPhase) {
             names.add("propagation-phase");
             values.add(org.gtk.gobject.Value.create(propagationPhase));
             return this;
@@ -362,7 +344,7 @@ public class EventController extends org.gtk.gobject.Object {
          * @param widget The value for the {@code widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidget(org.gtk.gtk.Widget widget) {
+        public Builder setWidget(org.gtk.gtk.Widget widget) {
             names.add("widget");
             values.add(org.gtk.gobject.Value.create(widget));
             return this;

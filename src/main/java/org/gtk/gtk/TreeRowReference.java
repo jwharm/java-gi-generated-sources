@@ -45,15 +45,15 @@ public class TreeRowReference extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeRowReference(Addressable address, Ownership ownership) {
+    protected TreeRowReference(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeRowReference> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeRowReference(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gtk.gtk.TreeModel model, org.gtk.gtk.TreePath path) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_new.invokeExact(
                     model.handle(),
@@ -74,15 +74,12 @@ public class TreeRowReference extends Struct {
      * @param model a {@code GtkTreeModel}
      * @param path a valid {@code GtkTreePath} to monitor
      */
-    public TreeRowReference(@NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreePath path) {
+    public TreeRowReference(org.gtk.gtk.TreeModel model, org.gtk.gtk.TreePath path) {
         super(constructNew(model, path), Ownership.FULL);
     }
     
-    private static Addressable constructNewProxy(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
-        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewProxy(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreeModel model, org.gtk.gtk.TreePath path) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_new_proxy.invokeExact(
                     proxy.handle(),
@@ -124,15 +121,16 @@ public class TreeRowReference extends Struct {
      * @param path a valid {@code GtkTreePath} to monitor
      * @return a newly allocated {@code GtkTreeRowReference}
      */
-    public static TreeRowReference newProxy(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreePath path) {
-        return new TreeRowReference(constructNewProxy(proxy, model, path), Ownership.FULL);
+    public static TreeRowReference newProxy(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreeModel model, org.gtk.gtk.TreePath path) {
+        var RESULT = constructNewProxy(proxy, model, path);
+        return org.gtk.gtk.TreeRowReference.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Copies a {@code GtkTreeRowReference}.
      * @return a copy of {@code reference}
      */
-    public @NotNull org.gtk.gtk.TreeRowReference copy() {
+    public org.gtk.gtk.TreeRowReference copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_copy.invokeExact(
@@ -140,7 +138,7 @@ public class TreeRowReference extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeRowReference(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TreeRowReference.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -159,7 +157,7 @@ public class TreeRowReference extends Struct {
      * Returns the model that the row reference is monitoring.
      * @return the model
      */
-    public @NotNull org.gtk.gtk.TreeModel getModel() {
+    public org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_row_reference_get_model.invokeExact(
@@ -167,7 +165,7 @@ public class TreeRowReference extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -183,7 +181,7 @@ public class TreeRowReference extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -199,7 +197,7 @@ public class TreeRowReference extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -209,9 +207,7 @@ public class TreeRowReference extends Struct {
      * @param proxy a {@code GObject}
      * @param path the path position that was deleted
      */
-    public static void deleted(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static void deleted(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreePath path) {
         try {
             DowncallHandles.gtk_tree_row_reference_deleted.invokeExact(
                     proxy.handle(),
@@ -228,9 +224,7 @@ public class TreeRowReference extends Struct {
      * @param proxy a {@code GObject}
      * @param path the row position that was inserted
      */
-    public static void inserted(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path) {
-        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static void inserted(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreePath path) {
         try {
             DowncallHandles.gtk_tree_row_reference_inserted.invokeExact(
                     proxy.handle(),
@@ -249,11 +243,7 @@ public class TreeRowReference extends Struct {
      * @param iter the iter pointing to the parent of the reordered
      * @param newOrder the new order of rows
      */
-    public static void reordered(@NotNull org.gtk.gobject.Object proxy, @NotNull org.gtk.gtk.TreePath path, @NotNull org.gtk.gtk.TreeIter iter, @NotNull int[] newOrder) {
-        java.util.Objects.requireNonNull(proxy, "Parameter 'proxy' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
-        java.util.Objects.requireNonNull(newOrder, "Parameter 'newOrder' must not be null");
+    public static void reordered(org.gtk.gobject.GObject proxy, org.gtk.gtk.TreePath path, org.gtk.gtk.TreeIter iter, int[] newOrder) {
         try {
             DowncallHandles.gtk_tree_row_reference_reordered.invokeExact(
                     proxy.handle(),

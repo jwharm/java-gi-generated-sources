@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Structure containing the media information of a URI.
  */
-public class PlayerMediaInfo extends org.gtk.gobject.Object {
+public class PlayerMediaInfo extends org.gtk.gobject.GObject {
     
     static {
         GstPlayer.javagi$ensureInitialized();
@@ -30,32 +30,14 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PlayerMediaInfo(Addressable address, Ownership ownership) {
+    protected PlayerMediaInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PlayerMediaInfo if its GType is a (or inherits from) "GstPlayerMediaInfo".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PlayerMediaInfo} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPlayerMediaInfo", a ClassCastException will be thrown.
-     */
-    public static PlayerMediaInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PlayerMediaInfo.getType())) {
-            return new PlayerMediaInfo(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPlayerMediaInfo");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PlayerMediaInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayerMediaInfo(input, ownership);
     
-    public @NotNull org.gtk.glib.List getAudioStreams() {
+    public org.gtk.glib.List getAudioStreams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_media_info_get_audio_streams.invokeExact(
@@ -63,7 +45,7 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     public @Nullable java.lang.String getContainerFormat() {
@@ -74,10 +56,10 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull org.gstreamer.gst.ClockTime getDuration() {
+    public org.gstreamer.gst.ClockTime getDuration() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_player_media_info_get_duration.invokeExact(
@@ -101,7 +83,7 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Sample(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     public int getNumberOfAudioStreams() {
@@ -148,7 +130,7 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         return RESULT;
     }
     
-    public @NotNull org.gtk.glib.List getStreamList() {
+    public org.gtk.glib.List getStreamList() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_media_info_get_stream_list.invokeExact(
@@ -156,10 +138,10 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public @NotNull org.gtk.glib.List getSubtitleStreams() {
+    public org.gtk.glib.List getSubtitleStreams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_media_info_get_subtitle_streams.invokeExact(
@@ -167,7 +149,7 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     public @Nullable org.gstreamer.gst.TagList getTags() {
@@ -178,7 +160,7 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     public @Nullable java.lang.String getTitle() {
@@ -189,10 +171,10 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull java.lang.String getUri() {
+    public java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_media_info_get_uri.invokeExact(
@@ -200,10 +182,10 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public @NotNull org.gtk.glib.List getVideoStreams() {
+    public org.gtk.glib.List getVideoStreams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_media_info_get_video_streams.invokeExact(
@@ -211,7 +193,7 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     public boolean isLive() {
@@ -222,7 +204,7 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean isSeekable() {
@@ -233,14 +215,14 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_player_media_info_get_type.invokeExact();
@@ -249,38 +231,40 @@ public class PlayerMediaInfo extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PlayerMediaInfo.Builder} object constructs a {@link PlayerMediaInfo} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PlayerMediaInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PlayerMediaInfo.Build} object constructs a {@link PlayerMediaInfo} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PlayerMediaInfo} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PlayerMediaInfo} using {@link PlayerMediaInfo#castFrom}.
+         * {@link PlayerMediaInfo}.
          * @return A new instance of {@code PlayerMediaInfo} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PlayerMediaInfo construct() {
-            return PlayerMediaInfo.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PlayerMediaInfo.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PlayerMediaInfo build() {
+            return (PlayerMediaInfo) org.gtk.gobject.GObject.newWithProperties(
+                PlayerMediaInfo.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

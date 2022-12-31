@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  * and so they are not normally needed in GTK applications. See the
  * "Drag and Drop" section of the GTK documentation for more information.
  */
-public class Drop extends org.gtk.gobject.Object {
+public class Drop extends org.gtk.gobject.GObject {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -43,30 +43,12 @@ public class Drop extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Drop(Addressable address, Ownership ownership) {
+    protected Drop(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Drop if its GType is a (or inherits from) "GdkDrop".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Drop} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkDrop", a ClassCastException will be thrown.
-     */
-    public static Drop castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Drop.getType())) {
-            return new Drop(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkDrop");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Drop> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Drop(input, ownership);
     
     /**
      * Ends the drag operation after a drop.
@@ -75,8 +57,7 @@ public class Drop extends org.gtk.gobject.Object {
      * available via {@link Drop#getActions}.
      * @param action the action performed by the destination or 0 if the drop failed
      */
-    public void finish(@NotNull org.gtk.gdk.DragAction action) {
-        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+    public void finish(org.gtk.gdk.DragAction action) {
         try {
             DowncallHandles.gdk_drop_finish.invokeExact(
                     handle(),
@@ -103,7 +84,7 @@ public class Drop extends org.gtk.gobject.Object {
      * side will not change this value anymore once a drop has started.
      * @return The possible {@code GdkDragActions}
      */
-    public @NotNull org.gtk.gdk.DragAction getActions() {
+    public org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_drop_get_actions.invokeExact(
@@ -118,7 +99,7 @@ public class Drop extends org.gtk.gobject.Object {
      * Returns the {@code GdkDevice} performing the drop.
      * @return The {@code GdkDevice} performing the drop.
      */
-    public @NotNull org.gtk.gdk.Device getDevice() {
+    public org.gtk.gdk.Device getDevice() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drop_get_device.invokeExact(
@@ -126,14 +107,14 @@ public class Drop extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Device(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Device) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Device.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the {@code GdkDisplay} that {@code self} was created for.
      * @return a {@code GdkDisplay}
      */
-    public @NotNull org.gtk.gdk.Display getDisplay() {
+    public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drop_get_display.invokeExact(
@@ -141,7 +122,7 @@ public class Drop extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -159,7 +140,7 @@ public class Drop extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Drag(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Drag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Drag.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -167,7 +148,7 @@ public class Drop extends org.gtk.gobject.Object {
      * to be read in.
      * @return The possible {@code GdkContentFormats}
      */
-    public @NotNull org.gtk.gdk.ContentFormats getFormats() {
+    public org.gtk.gdk.ContentFormats getFormats() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drop_get_formats.invokeExact(
@@ -175,14 +156,14 @@ public class Drop extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.NONE);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Returns the {@code GdkSurface} performing the drop.
      * @return The {@code GdkSurface} performing the drop.
      */
-    public @NotNull org.gtk.gdk.Surface getSurface() {
+    public org.gtk.gdk.Surface getSurface() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_drop_get_surface.invokeExact(
@@ -190,7 +171,7 @@ public class Drop extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -202,20 +183,15 @@ public class Drop extends org.gtk.gobject.Object {
      * @param callback a {@code GAsyncReadyCallback} to call when
      *   the request is satisfied
      */
-    public void readAsync(@NotNull java.lang.String[] mimeTypes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(mimeTypes, "Parameter 'mimeTypes' must not be null");
+    public void readAsync(java.lang.String[] mimeTypes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.gdk_drop_read_async.invokeExact(
                     handle(),
                     Interop.allocateNativeArray(mimeTypes, false),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -235,9 +211,7 @@ public class Drop extends org.gtk.gobject.Object {
      * @return the {@code GInputStream}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @Nullable org.gtk.gio.InputStream readFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<java.lang.String> outMimeType) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNull(outMimeType, "Parameter 'outMimeType' must not be null");
+    public @Nullable org.gtk.gio.InputStream readFinish(org.gtk.gio.AsyncResult result, Out<java.lang.String> outMimeType) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment outMimeTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -253,8 +227,8 @@ public class Drop extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outMimeType.set(Interop.getStringFrom(outMimeTypePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return new org.gtk.gio.InputStream(RESULT, Ownership.FULL);
+        outMimeType.set(Marshal.addressToString.marshal(outMimeTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return (org.gtk.gio.InputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -273,20 +247,15 @@ public class Drop extends org.gtk.gobject.Object {
      * @param cancellable optional {@code GCancellable} object, {@code null} to ignore.
      * @param callback callback to call when the request is satisfied
      */
-    public void readValueAsync(@NotNull org.gtk.glib.Type type, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void readValueAsync(org.gtk.glib.Type type, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.gdk_drop_read_value_async.invokeExact(
                     handle(),
                     type.getValue().longValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -300,8 +269,7 @@ public class Drop extends org.gtk.gobject.Object {
      * @return a {@code GValue} containing the result.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gobject.Value readValueFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public org.gtk.gobject.Value readValueFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -315,7 +283,7 @@ public class Drop extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -337,9 +305,7 @@ public class Drop extends org.gtk.gobject.Object {
      * @param preferred A unique action that's a member of {@code actions} indicating the
      *    preferred action
      */
-    public void status(@NotNull org.gtk.gdk.DragAction actions, @NotNull org.gtk.gdk.DragAction preferred) {
-        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
-        java.util.Objects.requireNonNull(preferred, "Parameter 'preferred' must not be null");
+    public void status(org.gtk.gdk.DragAction actions, org.gtk.gdk.DragAction preferred) {
         try {
             DowncallHandles.gdk_drop_status.invokeExact(
                     handle(),
@@ -354,7 +320,7 @@ public class Drop extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_drop_get_type.invokeExact();
@@ -363,38 +329,40 @@ public class Drop extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Drop.Builder} object constructs a {@link Drop} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Drop.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Drop.Build} object constructs a {@link Drop} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Drop} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Drop} using {@link Drop#castFrom}.
+         * {@link Drop}.
          * @return A new instance of {@code Drop} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Drop construct() {
-            return Drop.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Drop.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Drop build() {
+            return (Drop) org.gtk.gobject.GObject.newWithProperties(
+                Drop.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -403,7 +371,7 @@ public class Drop extends org.gtk.gobject.Object {
          * @param actions The value for the {@code actions} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActions(org.gtk.gdk.DragAction actions) {
+        public Builder setActions(org.gtk.gdk.DragAction actions) {
             names.add("actions");
             values.add(org.gtk.gobject.Value.create(actions));
             return this;
@@ -414,7 +382,7 @@ public class Drop extends org.gtk.gobject.Object {
          * @param device The value for the {@code device} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDevice(org.gtk.gdk.Device device) {
+        public Builder setDevice(org.gtk.gdk.Device device) {
             names.add("device");
             values.add(org.gtk.gobject.Value.create(device));
             return this;
@@ -425,7 +393,7 @@ public class Drop extends org.gtk.gobject.Object {
          * @param display The value for the {@code display} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplay(org.gtk.gdk.Display display) {
+        public Builder setDisplay(org.gtk.gdk.Display display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;
@@ -436,7 +404,7 @@ public class Drop extends org.gtk.gobject.Object {
          * @param drag The value for the {@code drag} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDrag(org.gtk.gdk.Drag drag) {
+        public Builder setDrag(org.gtk.gdk.Drag drag) {
             names.add("drag");
             values.add(org.gtk.gobject.Value.create(drag));
             return this;
@@ -447,7 +415,7 @@ public class Drop extends org.gtk.gobject.Object {
          * @param formats The value for the {@code formats} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFormats(org.gtk.gdk.ContentFormats formats) {
+        public Builder setFormats(org.gtk.gdk.ContentFormats formats) {
             names.add("formats");
             values.add(org.gtk.gobject.Value.create(formats));
             return this;
@@ -458,7 +426,7 @@ public class Drop extends org.gtk.gobject.Object {
          * @param surface The value for the {@code surface} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSurface(org.gtk.gdk.Surface surface) {
+        public Builder setSurface(org.gtk.gdk.Surface surface) {
             names.add("surface");
             values.add(org.gtk.gobject.Value.create(surface));
             return this;

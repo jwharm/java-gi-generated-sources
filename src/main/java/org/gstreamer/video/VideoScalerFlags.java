@@ -28,11 +28,15 @@ public class VideoScalerFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public VideoScalerFlags or(VideoScalerFlags mask) {
-        return new VideoScalerFlags(this.getValue() | mask.getValue());
+    public VideoScalerFlags or(VideoScalerFlags... masks) {
+        int value = this.getValue();
+        for (VideoScalerFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new VideoScalerFlags(value);
     }
     
     /**
@@ -42,7 +46,8 @@ public class VideoScalerFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static VideoScalerFlags combined(VideoScalerFlags mask, VideoScalerFlags... masks) {
-        int value = mask.getValue();        for (VideoScalerFlags arg : masks) {
+        int value = mask.getValue();
+        for (VideoScalerFlags arg : masks) {
             value |= arg.getValue();
         }
         return new VideoScalerFlags(value);

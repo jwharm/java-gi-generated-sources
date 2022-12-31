@@ -25,20 +25,18 @@ public class VideoAggregator extends org.gstreamer.base.Aggregator {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoAggregator";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.base.Aggregator.getMemoryLayout().withName("aggregator"),
-        org.gstreamer.video.VideoInfo.getMemoryLayout().withName("info"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.base.Aggregator.getMemoryLayout().withName("aggregator"),
+            org.gstreamer.video.VideoInfo.getMemoryLayout().withName("info"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -46,37 +44,23 @@ public class VideoAggregator extends org.gstreamer.base.Aggregator {
      * <p>
      * Because VideoAggregator is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoAggregator(Addressable address, Ownership ownership) {
+    protected VideoAggregator(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VideoAggregator if its GType is a (or inherits from) "GstVideoAggregator".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VideoAggregator} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVideoAggregator", a ClassCastException will be thrown.
-     */
-    public static VideoAggregator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VideoAggregator.getType())) {
-            return new VideoAggregator(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVideoAggregator");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoAggregator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregator(input, ownership);
     
     /**
      * The returned {@link org.gstreamer.gst.TaskPool} is used internally for performing parallel
@@ -87,7 +71,7 @@ public class VideoAggregator extends org.gstreamer.base.Aggregator {
      * @return the {@link org.gstreamer.gst.TaskPool} that can be used by subclasses
      *     for performing concurrent operations
      */
-    public @NotNull org.gstreamer.gst.TaskPool getExecutionTaskPool() {
+    public org.gstreamer.gst.TaskPool getExecutionTaskPool() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_aggregator_get_execution_task_pool.invokeExact(
@@ -95,14 +79,14 @@ public class VideoAggregator extends org.gstreamer.base.Aggregator {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TaskPool(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.TaskPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.TaskPool.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_aggregator_get_type.invokeExact();
@@ -111,38 +95,40 @@ public class VideoAggregator extends org.gstreamer.base.Aggregator {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link VideoAggregator.Builder} object constructs a {@link VideoAggregator} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VideoAggregator.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.base.Aggregator.Build {
+    public static class Builder extends org.gstreamer.base.Aggregator.Builder {
         
-         /**
-         * A {@link VideoAggregator.Build} object constructs a {@link VideoAggregator} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VideoAggregator} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VideoAggregator} using {@link VideoAggregator#castFrom}.
+         * {@link VideoAggregator}.
          * @return A new instance of {@code VideoAggregator} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoAggregator construct() {
-            return VideoAggregator.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VideoAggregator.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VideoAggregator build() {
+            return (VideoAggregator) org.gtk.gobject.GObject.newWithProperties(
+                VideoAggregator.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

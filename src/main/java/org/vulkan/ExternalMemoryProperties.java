@@ -40,8 +40,10 @@ public class ExternalMemoryProperties extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ExternalMemoryProperties(Addressable address, Ownership ownership) {
+    protected ExternalMemoryProperties(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ExternalMemoryProperties> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExternalMemoryProperties(input, ownership);
 }

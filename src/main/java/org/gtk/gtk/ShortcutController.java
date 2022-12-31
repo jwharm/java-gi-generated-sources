@@ -68,33 +68,15 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ShortcutController(Addressable address, Ownership ownership) {
+    protected ShortcutController(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ShortcutController if its GType is a (or inherits from) "GtkShortcutController".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ShortcutController} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkShortcutController", a ClassCastException will be thrown.
-     */
-    public static ShortcutController castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ShortcutController.getType())) {
-            return new ShortcutController(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkShortcutController");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ShortcutController> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ShortcutController(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_controller_new.invokeExact();
         } catch (Throwable ERR) {
@@ -110,9 +92,8 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewForModel(@NotNull org.gtk.gio.ListModel model) {
-        java.util.Objects.requireNonNull(model, "Parameter 'model' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForModel(org.gtk.gio.ListModel model) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_shortcut_controller_new_for_model.invokeExact(
                     model.handle());
@@ -132,8 +113,9 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * @param model a {@code GListModel} containing shortcuts
      * @return a newly created shortcut controller
      */
-    public static ShortcutController newForModel(@NotNull org.gtk.gio.ListModel model) {
-        return new ShortcutController(constructNewForModel(model), Ownership.FULL);
+    public static ShortcutController newForModel(org.gtk.gio.ListModel model) {
+        var RESULT = constructNewForModel(model);
+        return (org.gtk.gtk.ShortcutController) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ShortcutController.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -143,8 +125,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * function does nothing.
      * @param shortcut a {@code GtkShortcut}
      */
-    public void addShortcut(@NotNull org.gtk.gtk.Shortcut shortcut) {
-        java.util.Objects.requireNonNull(shortcut, "Parameter 'shortcut' must not be null");
+    public void addShortcut(org.gtk.gtk.Shortcut shortcut) {
         try {
             DowncallHandles.gtk_shortcut_controller_add_shortcut.invokeExact(
                     handle(),
@@ -159,7 +140,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * Gets the mnemonics modifiers for when this controller activates its shortcuts.
      * @return the controller's mnemonics modifiers
      */
-    public @NotNull org.gtk.gdk.ModifierType getMnemonicsModifiers() {
+    public org.gtk.gdk.ModifierType getMnemonicsModifiers() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_mnemonics_modifiers.invokeExact(
@@ -176,7 +157,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * See {@link ShortcutController#setScope} for details.
      * @return the controller's scope
      */
-    public @NotNull org.gtk.gtk.ShortcutScope getScope() {
+    public org.gtk.gtk.ShortcutScope getScope() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_shortcut_controller_get_scope.invokeExact(
@@ -194,8 +175,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * uses an external shortcut list, this function does nothing.
      * @param shortcut a {@code GtkShortcut}
      */
-    public void removeShortcut(@NotNull org.gtk.gtk.Shortcut shortcut) {
-        java.util.Objects.requireNonNull(shortcut, "Parameter 'shortcut' must not be null");
+    public void removeShortcut(org.gtk.gtk.Shortcut shortcut) {
         try {
             DowncallHandles.gtk_shortcut_controller_remove_shortcut.invokeExact(
                     handle(),
@@ -221,8 +201,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * have their own modifiers for activating mnemonics.
      * @param modifiers the new mnemonics_modifiers to use
      */
-    public void setMnemonicsModifiers(@NotNull org.gtk.gdk.ModifierType modifiers) {
-        java.util.Objects.requireNonNull(modifiers, "Parameter 'modifiers' must not be null");
+    public void setMnemonicsModifiers(org.gtk.gdk.ModifierType modifiers) {
         try {
             DowncallHandles.gtk_shortcut_controller_set_mnemonics_modifiers.invokeExact(
                     handle(),
@@ -244,8 +223,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * when the widget has focus.
      * @param scope the new scope to use
      */
-    public void setScope(@NotNull org.gtk.gtk.ShortcutScope scope) {
-        java.util.Objects.requireNonNull(scope, "Parameter 'scope' must not be null");
+    public void setScope(org.gtk.gtk.ShortcutScope scope) {
         try {
             DowncallHandles.gtk_shortcut_controller_set_scope.invokeExact(
                     handle(),
@@ -259,7 +237,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_shortcut_controller_get_type.invokeExact();
@@ -268,38 +246,40 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ShortcutController.Builder} object constructs a {@link ShortcutController} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ShortcutController.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.EventController.Build {
+    public static class Builder extends org.gtk.gtk.EventController.Builder {
         
-         /**
-         * A {@link ShortcutController.Build} object constructs a {@link ShortcutController} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ShortcutController} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ShortcutController} using {@link ShortcutController#castFrom}.
+         * {@link ShortcutController}.
          * @return A new instance of {@code ShortcutController} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ShortcutController construct() {
-            return ShortcutController.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ShortcutController.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ShortcutController build() {
+            return (ShortcutController) org.gtk.gobject.GObject.newWithProperties(
+                ShortcutController.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -308,7 +288,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -319,7 +299,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
          * @param mnemonicModifiers The value for the {@code mnemonic-modifiers} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMnemonicModifiers(org.gtk.gdk.ModifierType mnemonicModifiers) {
+        public Builder setMnemonicModifiers(org.gtk.gdk.ModifierType mnemonicModifiers) {
             names.add("mnemonic-modifiers");
             values.add(org.gtk.gobject.Value.create(mnemonicModifiers));
             return this;
@@ -330,7 +310,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gio.ListModel model) {
+        public Builder setModel(org.gtk.gio.ListModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -341,7 +321,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;
@@ -352,7 +332,7 @@ public class ShortcutController extends org.gtk.gtk.EventController implements o
          * @param scope The value for the {@code scope} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScope(org.gtk.gtk.ShortcutScope scope) {
+        public Builder setScope(org.gtk.gtk.ShortcutScope scope) {
             names.add("scope");
             values.add(org.gtk.gobject.Value.create(scope));
             return this;

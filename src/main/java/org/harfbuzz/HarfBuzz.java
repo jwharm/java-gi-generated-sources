@@ -14,7 +14,15 @@ public final class HarfBuzz {
         System.loadLibrary("harfbuzz");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Used when getting or setting AAT feature selectors. Indicates that
@@ -115,9 +123,7 @@ public final class HarfBuzz {
      * @param featureType The {@link AatLayoutFeatureTypeT} of the requested feature type
      * @return Name identifier of the requested feature type
      */
-    public static @NotNull org.harfbuzz.OtNameIdT aatLayoutFeatureTypeGetNameId(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.AatLayoutFeatureTypeT featureType) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(featureType, "Parameter 'featureType' must not be null");
+    public static org.harfbuzz.OtNameIdT aatLayoutFeatureTypeGetNameId(org.harfbuzz.FaceT face, org.harfbuzz.AatLayoutFeatureTypeT featureType) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_aat_layout_feature_type_get_name_id.invokeExact(
@@ -144,14 +150,9 @@ public final class HarfBuzz {
      * @param defaultIndex The index of the feature's default selector, if any
      * @return Number of all available feature selectors
      */
-    public static int aatLayoutFeatureTypeGetSelectorInfos(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.AatLayoutFeatureTypeT featureType, int startOffset, Out<Integer> selectorCount, @NotNull Out<org.harfbuzz.AatLayoutFeatureSelectorInfoT[]> selectors, Out<Integer> defaultIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(featureType, "Parameter 'featureType' must not be null");
-        java.util.Objects.requireNonNull(selectorCount, "Parameter 'selectorCount' must not be null");
+    public static int aatLayoutFeatureTypeGetSelectorInfos(org.harfbuzz.FaceT face, org.harfbuzz.AatLayoutFeatureTypeT featureType, int startOffset, Out<Integer> selectorCount, @Nullable Out<org.harfbuzz.AatLayoutFeatureSelectorInfoT[]> selectors, Out<Integer> defaultIndex) {
         MemorySegment selectorCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(selectors, "Parameter 'selectors' must not be null");
         MemorySegment selectorsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(defaultIndex, "Parameter 'defaultIndex' must not be null");
         MemorySegment defaultIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -159,18 +160,18 @@ public final class HarfBuzz {
                     face.handle(),
                     featureType.getValue(),
                     startOffset,
-                    (Addressable) selectorCountPOINTER.address(),
-                    (Addressable) selectorsPOINTER.address(),
-                    (Addressable) defaultIndexPOINTER.address());
+                    (Addressable) (selectorCount == null ? MemoryAddress.NULL : (Addressable) selectorCountPOINTER.address()),
+                    (Addressable) (selectors == null ? MemoryAddress.NULL : (Addressable) selectorsPOINTER.address()),
+                    (Addressable) (defaultIndex == null ? MemoryAddress.NULL : (Addressable) defaultIndexPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        selectorCount.set(selectorCountPOINTER.get(Interop.valueLayout.C_INT, 0));
-        defaultIndex.set(defaultIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (selectorCount != null) selectorCount.set(selectorCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (defaultIndex != null) defaultIndex.set(defaultIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.AatLayoutFeatureSelectorInfoT[] selectorsARRAY = new org.harfbuzz.AatLayoutFeatureSelectorInfoT[selectorCount.get().intValue()];
         for (int I = 0; I < selectorCount.get().intValue(); I++) {
             var OBJ = selectorsPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            selectorsARRAY[I] = new org.harfbuzz.AatLayoutFeatureSelectorInfoT(OBJ, Ownership.NONE);
+            selectorsARRAY[I] = org.harfbuzz.AatLayoutFeatureSelectorInfoT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         selectors.set(selectorsARRAY);
         return RESULT;
@@ -185,23 +186,20 @@ public final class HarfBuzz {
      * @param features Array of feature types found
      * @return Number of all available feature types.
      */
-    public static int aatLayoutGetFeatureTypes(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> featureCount, @NotNull Out<org.harfbuzz.AatLayoutFeatureTypeT[]> features) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
+    public static int aatLayoutGetFeatureTypes(org.harfbuzz.FaceT face, int startOffset, Out<Integer> featureCount, Out<org.harfbuzz.AatLayoutFeatureTypeT[]> features) {
         MemorySegment featureCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
         MemorySegment featuresPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_aat_layout_get_feature_types.invokeExact(
                     face.handle(),
                     startOffset,
-                    (Addressable) featureCountPOINTER.address(),
+                    (Addressable) (featureCount == null ? MemoryAddress.NULL : (Addressable) featureCountPOINTER.address()),
                     (Addressable) featuresPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        featureCount.set(featureCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (featureCount != null) featureCount.set(featureCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.AatLayoutFeatureTypeT[] featuresARRAY = new org.harfbuzz.AatLayoutFeatureTypeT[featureCount.get().intValue()];
         for (int I = 0; I < featureCount.get().intValue(); I++) {
             var OBJ = featuresPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -219,8 +217,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT aatLayoutHasPositioning(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT aatLayoutHasPositioning(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_aat_layout_has_positioning.invokeExact(
@@ -239,8 +236,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT aatLayoutHasSubstitution(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT aatLayoutHasSubstitution(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_aat_layout_has_substitution.invokeExact(
@@ -257,8 +253,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT aatLayoutHasTracking(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT aatLayoutHasTracking(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_aat_layout_has_tracking.invokeExact(
@@ -274,8 +269,7 @@ public final class HarfBuzz {
      * @param blob A blob.
      * @return The new blob, or nullptr if allocation failed
      */
-    public static @NotNull org.harfbuzz.BlobT blobCopyWritableOrFail(@NotNull org.harfbuzz.BlobT blob) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+    public static org.harfbuzz.BlobT blobCopyWritableOrFail(org.harfbuzz.BlobT blob) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_blob_copy_writable_or_fail.invokeExact(
@@ -283,7 +277,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -297,8 +291,19 @@ public final class HarfBuzz {
      * @return New blob, or the empty blob if something failed or if {@code length} is
      * zero.  Destroy with hb_blob_destroy().
      */
-    public static @NotNull org.harfbuzz.BlobT blobCreate(@NotNull java.lang.String data, int length, @NotNull org.harfbuzz.MemoryModeT mode, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BlobT blobCreate(java.lang.String data, int length, org.harfbuzz.MemoryModeT mode, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create.invokeExact(
+                    Marshal.stringToAddress.marshal(data, null),
+                    length,
+                    mode.getValue(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -308,16 +313,15 @@ public final class HarfBuzz {
      * @return An {@link BlobT} pointer with the content of the file,
      * or hb_blob_get_empty() if failed.
      */
-    public static @NotNull org.harfbuzz.BlobT blobCreateFromFile(@NotNull java.lang.String fileName) {
-        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
+    public static org.harfbuzz.BlobT blobCreateFromFile(java.lang.String fileName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_from_file.invokeExact(
-                    Interop.allocateNativeString(fileName));
+                    Marshal.stringToAddress.marshal(fileName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -327,16 +331,15 @@ public final class HarfBuzz {
      * @return An {@link BlobT} pointer with the content of the file,
      * or {@code NULL} if failed.
      */
-    public static @NotNull org.harfbuzz.BlobT blobCreateFromFileOrFail(@NotNull java.lang.String fileName) {
-        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
+    public static org.harfbuzz.BlobT blobCreateFromFileOrFail(java.lang.String fileName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_from_file_or_fail.invokeExact(
-                    Interop.allocateNativeString(fileName));
+                    Marshal.stringToAddress.marshal(fileName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -353,8 +356,19 @@ public final class HarfBuzz {
      * @param destroy Callback to call when {@code data} is not needed anymore.
      * @return New blob, or {@code NULL} if failed.  Destroy with hb_blob_destroy().
      */
-    public static @NotNull org.harfbuzz.BlobT blobCreateOrFail(@NotNull java.lang.String data, int length, @NotNull org.harfbuzz.MemoryModeT mode, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BlobT blobCreateOrFail(java.lang.String data, int length, org.harfbuzz.MemoryModeT mode, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_or_fail.invokeExact(
+                    Marshal.stringToAddress.marshal(data, null),
+                    length,
+                    mode.getValue(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -372,8 +386,7 @@ public final class HarfBuzz {
      * {@code length} is zero or {@code offset} is beyond the end of {@code parent}'s data.  Destroy
      * with hb_blob_destroy().
      */
-    public static @NotNull org.harfbuzz.BlobT blobCreateSubBlob(@NotNull org.harfbuzz.BlobT parent, int offset, int length) {
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    public static org.harfbuzz.BlobT blobCreateSubBlob(org.harfbuzz.BlobT parent, int offset, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_blob_create_sub_blob.invokeExact(
@@ -383,7 +396,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -394,8 +407,7 @@ public final class HarfBuzz {
      * See TODO:link object types for more information.
      * @param blob a blob.
      */
-    public static void blobDestroy(@NotNull org.harfbuzz.BlobT blob) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+    public static void blobDestroy(org.harfbuzz.BlobT blob) {
         try {
             DowncallHandles.hb_blob_destroy.invokeExact(
                     blob.handle());
@@ -410,9 +422,7 @@ public final class HarfBuzz {
      * @param length The length in bytes of the data retrieved
      * @return the byte data of {@code blob}.
      */
-    public static @Nullable java.lang.String[] blobGetData(@NotNull org.harfbuzz.BlobT blob, Out<Integer> length) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public static @Nullable java.lang.String[] blobGetData(org.harfbuzz.BlobT blob, Out<Integer> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -427,7 +437,7 @@ public final class HarfBuzz {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -443,9 +453,7 @@ public final class HarfBuzz {
      * @return Writable blob data,
      * or {@code NULL} if failed.
      */
-    public static @NotNull java.lang.String[] blobGetDataWritable(@NotNull org.harfbuzz.BlobT blob, Out<Integer> length) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public static java.lang.String[] blobGetDataWritable(org.harfbuzz.BlobT blob, Out<Integer> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -459,7 +467,7 @@ public final class HarfBuzz {
         java.lang.String[] resultARRAY = new java.lang.String[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = Interop.getStringFrom(OBJ);
+            resultARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         return resultARRAY;
     }
@@ -470,14 +478,14 @@ public final class HarfBuzz {
      * See TODO:link object types for more information.
      * @return The empty blob.
      */
-    public static @NotNull org.harfbuzz.BlobT blobGetEmpty() {
+    public static org.harfbuzz.BlobT blobGetEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -485,8 +493,7 @@ public final class HarfBuzz {
      * @param blob a blob.
      * @return the length of {@code blob} data in bytes.
      */
-    public static int blobGetLength(@NotNull org.harfbuzz.BlobT blob) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+    public static int blobGetLength(org.harfbuzz.BlobT blob) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_blob_get_length.invokeExact(
@@ -504,9 +511,7 @@ public final class HarfBuzz {
      * @param key The user-data key to query
      * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress blobGetUserData(@NotNull org.harfbuzz.BlobT blob, @NotNull org.harfbuzz.UserDataKeyT key) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress blobGetUserData(org.harfbuzz.BlobT blob, org.harfbuzz.UserDataKeyT key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_blob_get_user_data.invokeExact(
@@ -523,8 +528,7 @@ public final class HarfBuzz {
      * @param blob a blob.
      * @return {@code true} if {@code blob} is immutable, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT blobIsImmutable(@NotNull org.harfbuzz.BlobT blob) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+    public static org.harfbuzz.BoolT blobIsImmutable(org.harfbuzz.BlobT blob) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_blob_is_immutable.invokeExact(
@@ -539,8 +543,7 @@ public final class HarfBuzz {
      * Makes a blob immutable.
      * @param blob a blob
      */
-    public static void blobMakeImmutable(@NotNull org.harfbuzz.BlobT blob) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+    public static void blobMakeImmutable(org.harfbuzz.BlobT blob) {
         try {
             DowncallHandles.hb_blob_make_immutable.invokeExact(
                     blob.handle());
@@ -556,8 +559,7 @@ public final class HarfBuzz {
      * @param blob a blob.
      * @return {@code blob}.
      */
-    public static @NotNull org.harfbuzz.BlobT blobReference(@NotNull org.harfbuzz.BlobT blob) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+    public static org.harfbuzz.BlobT blobReference(org.harfbuzz.BlobT blob) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_blob_reference.invokeExact(
@@ -565,7 +567,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -577,8 +579,19 @@ public final class HarfBuzz {
      * @param replace Whether to replace an existing data with the same key
      * @return {@code true} if success, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT blobSetUserData(@NotNull org.harfbuzz.BlobT blob, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BoolT blobSetUserData(org.harfbuzz.BlobT blob, org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, org.harfbuzz.BoolT replace) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_blob_set_user_data.invokeExact(
+                    blob.handle(),
+                    key.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    replace.getValue().intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
     /**
@@ -594,9 +607,7 @@ public final class HarfBuzz {
      * @param codepoint A Unicode code point.
      * @param cluster The cluster value of {@code codepoint}.
      */
-    public static void bufferAdd(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT codepoint, int cluster) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
+    public static void bufferAdd(org.harfbuzz.BufferT buffer, org.harfbuzz.CodepointT codepoint, int cluster) {
         try {
             DowncallHandles.hb_buffer_add.invokeExact(
                     buffer.handle(),
@@ -627,9 +638,7 @@ public final class HarfBuzz {
      * @param itemLength the number of code points to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code NULL} terminated).
      */
-    public static void bufferAddCodepoints(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT[] text, int textLength, int itemOffset, int itemLength) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static void bufferAddCodepoints(org.harfbuzz.BufferT buffer, org.harfbuzz.CodepointT[] text, int textLength, int itemOffset, int itemLength) {
         try {
             DowncallHandles.hb_buffer_add_codepoints.invokeExact(
                     buffer.handle(),
@@ -655,9 +664,7 @@ public final class HarfBuzz {
      * @param itemLength the number of characters to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code NULL} terminated)
      */
-    public static void bufferAddLatin1(@NotNull org.harfbuzz.BufferT buffer, @NotNull byte[] text, int textLength, int itemOffset, int itemLength) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static void bufferAddLatin1(org.harfbuzz.BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
         try {
             DowncallHandles.hb_buffer_add_latin1.invokeExact(
                     buffer.handle(),
@@ -682,9 +689,7 @@ public final class HarfBuzz {
      * @param itemLength The number of characters to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code NULL} terminated)
      */
-    public static void bufferAddUtf16(@NotNull org.harfbuzz.BufferT buffer, @NotNull short[] text, int textLength, int itemOffset, int itemLength) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static void bufferAddUtf16(org.harfbuzz.BufferT buffer, short[] text, int textLength, int itemOffset, int itemLength) {
         try {
             DowncallHandles.hb_buffer_add_utf16.invokeExact(
                     buffer.handle(),
@@ -709,9 +714,7 @@ public final class HarfBuzz {
      * @param itemLength The number of characters to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code NULL} terminated)
      */
-    public static void bufferAddUtf32(@NotNull org.harfbuzz.BufferT buffer, @NotNull int[] text, int textLength, int itemOffset, int itemLength) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static void bufferAddUtf32(org.harfbuzz.BufferT buffer, int[] text, int textLength, int itemOffset, int itemLength) {
         try {
             DowncallHandles.hb_buffer_add_utf32.invokeExact(
                     buffer.handle(),
@@ -737,9 +740,7 @@ public final class HarfBuzz {
      * @param itemLength The number of characters to add to the {@code buffer}, or -1 for the
      *               end of {@code text} (assuming it is {@code NULL} terminated).
      */
-    public static void bufferAddUtf8(@NotNull org.harfbuzz.BufferT buffer, @NotNull byte[] text, int textLength, int itemOffset, int itemLength) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static void bufferAddUtf8(org.harfbuzz.BufferT buffer, byte[] text, int textLength, int itemOffset, int itemLength) {
         try {
             DowncallHandles.hb_buffer_add_utf8.invokeExact(
                     buffer.handle(),
@@ -757,8 +758,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return {@code true} if {@code buffer} memory allocation succeeded, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT bufferAllocationSuccessful(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.BoolT bufferAllocationSuccessful(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_allocation_successful.invokeExact(
@@ -776,9 +776,7 @@ public final class HarfBuzz {
      * @param start start index into source buffer to copy.  Use 0 to copy from start of buffer.
      * @param end end index into source buffer to copy.  Use {@code HB_FEATURE_GLOBAL_END} to copy to end of buffer.
      */
-    public static void bufferAppend(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferT source, int start, int end) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
+    public static void bufferAppend(org.harfbuzz.BufferT buffer, org.harfbuzz.BufferT source, int start, int end) {
         try {
             DowncallHandles.hb_buffer_append.invokeExact(
                     buffer.handle(),
@@ -795,8 +793,7 @@ public final class HarfBuzz {
      * the replacement code point.
      * @param buffer An {@link BufferT}
      */
-    public static void bufferClearContents(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void bufferClearContents(org.harfbuzz.BufferT buffer) {
         try {
             DowncallHandles.hb_buffer_clear_contents.invokeExact(
                     buffer.handle());
@@ -813,14 +810,14 @@ public final class HarfBuzz {
      * be allocated, a special {@link BufferT} object will be returned on which
      * hb_buffer_allocation_successful() returns {@code false}.
      */
-    public static @NotNull org.harfbuzz.BufferT bufferCreate() {
+    public static org.harfbuzz.BufferT bufferCreate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_buffer_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BufferT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -829,8 +826,7 @@ public final class HarfBuzz {
      * @param src An {@link BufferT}
      * @return A newly allocated {@link BufferT}, similar to hb_buffer_create().
      */
-    public static @NotNull org.harfbuzz.BufferT bufferCreateSimilar(@NotNull org.harfbuzz.BufferT src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static org.harfbuzz.BufferT bufferCreateSimilar(org.harfbuzz.BufferT src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_buffer_create_similar.invokeExact(
@@ -838,7 +834,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BufferT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -853,25 +849,21 @@ public final class HarfBuzz {
      * @param format the {@link BufferSerializeFormatT} of the input {@code buf}
      * @return {@code true} if {@code buf} is not fully consumed, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT bufferDeserializeGlyphs(@NotNull org.harfbuzz.BufferT buffer, @NotNull java.lang.String[] buf, int bufLen, @NotNull Out<java.lang.String> endPtr, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        java.util.Objects.requireNonNull(endPtr, "Parameter 'endPtr' must not be null");
+    public static org.harfbuzz.BoolT bufferDeserializeGlyphs(org.harfbuzz.BufferT buffer, java.lang.String[] buf, int bufLen, @Nullable Out<java.lang.String> endPtr, @Nullable org.harfbuzz.FontT font, org.harfbuzz.BufferSerializeFormatT format) {
         MemorySegment endPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_deserialize_glyphs.invokeExact(
                     buffer.handle(),
                     Interop.allocateNativeArray(buf, false),
                     bufLen,
-                    (Addressable) endPtrPOINTER.address(),
+                    (Addressable) (endPtr == null ? MemoryAddress.NULL : (Addressable) endPtrPOINTER.address()),
                     (Addressable) (font == null ? MemoryAddress.NULL : font.handle()),
                     format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endPtr.set(Interop.getStringFrom(endPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (endPtr != null) endPtr.set(Marshal.addressToString.marshal(endPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -886,24 +878,20 @@ public final class HarfBuzz {
      * @param format the {@link BufferSerializeFormatT} of the input {@code buf}
      * @return {@code true} if {@code buf} is not fully consumed, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT bufferDeserializeUnicode(@NotNull org.harfbuzz.BufferT buffer, @NotNull java.lang.String[] buf, int bufLen, @NotNull Out<java.lang.String> endPtr, @NotNull org.harfbuzz.BufferSerializeFormatT format) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        java.util.Objects.requireNonNull(endPtr, "Parameter 'endPtr' must not be null");
+    public static org.harfbuzz.BoolT bufferDeserializeUnicode(org.harfbuzz.BufferT buffer, java.lang.String[] buf, int bufLen, @Nullable Out<java.lang.String> endPtr, org.harfbuzz.BufferSerializeFormatT format) {
         MemorySegment endPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_deserialize_unicode.invokeExact(
                     buffer.handle(),
                     Interop.allocateNativeArray(buf, false),
                     bufLen,
-                    (Addressable) endPtrPOINTER.address(),
+                    (Addressable) (endPtr == null ? MemoryAddress.NULL : (Addressable) endPtrPOINTER.address()),
                     format.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endPtr.set(Interop.getStringFrom(endPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (endPtr != null) endPtr.set(Marshal.addressToString.marshal(endPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -913,8 +901,7 @@ public final class HarfBuzz {
      * {@code buffer} and all associated resources are freed. See hb_buffer_reference().
      * @param buffer An {@link BufferT}
      */
-    public static void bufferDestroy(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void bufferDestroy(org.harfbuzz.BufferT buffer) {
         try {
             DowncallHandles.hb_buffer_destroy.invokeExact(
                     buffer.handle());
@@ -932,10 +919,7 @@ public final class HarfBuzz {
      * @param dottedcircleGlyph glyph id of U+25CC DOTTED CIRCLE, or (hb_codepont_t) -1.
      * @param positionFuzz allowed absolute difference in position values.
      */
-    public static @NotNull org.harfbuzz.BufferDiffFlagsT bufferDiff(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferT reference, @NotNull org.harfbuzz.CodepointT dottedcircleGlyph, int positionFuzz) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(reference, "Parameter 'reference' must not be null");
-        java.util.Objects.requireNonNull(dottedcircleGlyph, "Parameter 'dottedcircleGlyph' must not be null");
+    public static org.harfbuzz.BufferDiffFlagsT bufferDiff(org.harfbuzz.BufferT buffer, org.harfbuzz.BufferT reference, org.harfbuzz.CodepointT dottedcircleGlyph, int positionFuzz) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_diff.invokeExact(
@@ -956,8 +940,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The cluster level of {@code buffer}
      */
-    public static @NotNull org.harfbuzz.BufferClusterLevelT bufferGetClusterLevel(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.BufferClusterLevelT bufferGetClusterLevel(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_get_cluster_level.invokeExact(
@@ -974,8 +957,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The type of {@code buffer} contents
      */
-    public static @NotNull org.harfbuzz.BufferContentTypeT bufferGetContentType(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.BufferContentTypeT bufferGetContentType(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_get_content_type.invokeExact(
@@ -991,8 +973,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The direction of the {@code buffer}.
      */
-    public static @NotNull org.harfbuzz.DirectionT bufferGetDirection(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.DirectionT bufferGetDirection(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_get_direction.invokeExact(
@@ -1007,14 +988,14 @@ public final class HarfBuzz {
      * Fetches an empty {@link BufferT}.
      * @return The empty buffer
      */
-    public static @NotNull org.harfbuzz.BufferT bufferGetEmpty() {
+    public static org.harfbuzz.BufferT bufferGetEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BufferT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1022,8 +1003,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The {@code buffer} flags
      */
-    public static @NotNull org.harfbuzz.BufferFlagsT bufferGetFlags(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.BufferFlagsT bufferGetFlags(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_get_flags.invokeExact(
@@ -1042,9 +1022,7 @@ public final class HarfBuzz {
      * @return The {@code buffer} glyph information array.
      * The value valid as long as buffer has not been modified.
      */
-    public static @NotNull org.harfbuzz.GlyphInfoT[] bufferGetGlyphInfos(@NotNull org.harfbuzz.BufferT buffer, Out<Integer> length) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public static org.harfbuzz.GlyphInfoT[] bufferGetGlyphInfos(org.harfbuzz.BufferT buffer, Out<Integer> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -1058,7 +1036,7 @@ public final class HarfBuzz {
         org.harfbuzz.GlyphInfoT[] resultARRAY = new org.harfbuzz.GlyphInfoT[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.harfbuzz.GlyphInfoT(OBJ, Ownership.NONE);
+            resultARRAY[I] = org.harfbuzz.GlyphInfoT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -1076,9 +1054,7 @@ public final class HarfBuzz {
      * @return The {@code buffer} glyph position array.
      * The value valid as long as buffer has not been modified.
      */
-    public static @NotNull org.harfbuzz.GlyphPositionT[] bufferGetGlyphPositions(@NotNull org.harfbuzz.BufferT buffer, Out<Integer> length) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public static org.harfbuzz.GlyphPositionT[] bufferGetGlyphPositions(org.harfbuzz.BufferT buffer, Out<Integer> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -1092,7 +1068,7 @@ public final class HarfBuzz {
         org.harfbuzz.GlyphPositionT[] resultARRAY = new org.harfbuzz.GlyphPositionT[length.get().intValue()];
         for (int I = 0; I < length.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.harfbuzz.GlyphPositionT(OBJ, Ownership.NONE);
+            resultARRAY[I] = org.harfbuzz.GlyphPositionT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -1102,8 +1078,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The {@code buffer} invisible {@link CodepointT}
      */
-    public static @NotNull org.harfbuzz.CodepointT bufferGetInvisibleGlyph(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.CodepointT bufferGetInvisibleGlyph(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_get_invisible_glyph.invokeExact(
@@ -1119,8 +1094,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The {@link LanguageT} of the buffer. Must not be freed by the caller.
      */
-    public static @NotNull org.harfbuzz.LanguageT bufferGetLanguage(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.LanguageT bufferGetLanguage(org.harfbuzz.BufferT buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_language.invokeExact(
@@ -1128,7 +1102,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.LanguageT(RESULT, Ownership.NONE);
+        return org.harfbuzz.LanguageT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1137,8 +1111,7 @@ public final class HarfBuzz {
      * @return The {@code buffer} length.
      * The value valid as long as buffer has not been modified.
      */
-    public static int bufferGetLength(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static int bufferGetLength(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_get_length.invokeExact(
@@ -1154,8 +1127,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The {@code buffer} not-found {@link CodepointT}
      */
-    public static @NotNull org.harfbuzz.CodepointT bufferGetNotFoundGlyph(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.CodepointT bufferGetNotFoundGlyph(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_get_not_found_glyph.invokeExact(
@@ -1172,8 +1144,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The {@code buffer} replacement {@link CodepointT}
      */
-    public static @NotNull org.harfbuzz.CodepointT bufferGetReplacementCodepoint(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.CodepointT bufferGetReplacementCodepoint(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_get_replacement_codepoint.invokeExact(
@@ -1189,8 +1160,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The {@link ScriptT} of the {@code buffer}
      */
-    public static @NotNull org.harfbuzz.ScriptT bufferGetScript(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.ScriptT bufferGetScript(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_get_script.invokeExact(
@@ -1206,9 +1176,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param props The output {@link SegmentPropertiesT}
      */
-    public static void bufferGetSegmentProperties(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.SegmentPropertiesT props) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
+    public static void bufferGetSegmentProperties(org.harfbuzz.BufferT buffer, org.harfbuzz.SegmentPropertiesT props) {
         try {
             DowncallHandles.hb_buffer_get_segment_properties.invokeExact(
                     buffer.handle(),
@@ -1223,8 +1191,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The Unicode-functions structure
      */
-    public static @NotNull org.harfbuzz.UnicodeFuncsT bufferGetUnicodeFuncs(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.UnicodeFuncsT bufferGetUnicodeFuncs(org.harfbuzz.BufferT buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_unicode_funcs.invokeExact(
@@ -1232,7 +1199,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.UnicodeFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1242,9 +1209,7 @@ public final class HarfBuzz {
      * @param key The user-data key to query
      * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress bufferGetUserData(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.UserDataKeyT key) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress bufferGetUserData(org.harfbuzz.BufferT buffer, org.harfbuzz.UserDataKeyT key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_buffer_get_user_data.invokeExact(
@@ -1280,8 +1245,7 @@ public final class HarfBuzz {
      * it is called.  See documentation for that function for details.
      * @param buffer An {@link BufferT}
      */
-    public static void bufferGuessSegmentProperties(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void bufferGuessSegmentProperties(org.harfbuzz.BufferT buffer) {
         try {
             DowncallHandles.hb_buffer_guess_segment_properties.invokeExact(
                     buffer.handle());
@@ -1297,8 +1261,7 @@ public final class HarfBuzz {
      * @param buffer an {@link BufferT}.
      * @return {@code true} if the {@code buffer} has position array, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT bufferHasPositions(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.BoolT bufferHasPositions(org.harfbuzz.BufferT buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_has_positions.invokeExact(
@@ -1316,8 +1279,7 @@ public final class HarfBuzz {
      * &lt;note&gt;This has nothing to do with Unicode normalization.&lt;/note&gt;
      * @param buffer An {@link BufferT}
      */
-    public static void bufferNormalizeGlyphs(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void bufferNormalizeGlyphs(org.harfbuzz.BufferT buffer) {
         try {
             DowncallHandles.hb_buffer_normalize_glyphs.invokeExact(
                     buffer.handle());
@@ -1332,8 +1294,7 @@ public final class HarfBuzz {
      * @param size Number of items to pre allocate.
      * @return {@code true} if {@code buffer} memory allocation succeeded, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT bufferPreAllocate(@NotNull org.harfbuzz.BufferT buffer, int size) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.BoolT bufferPreAllocate(org.harfbuzz.BufferT buffer, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_pre_allocate.invokeExact(
@@ -1351,8 +1312,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @return The referenced {@link BufferT}.
      */
-    public static @NotNull org.harfbuzz.BufferT bufferReference(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.BufferT bufferReference(org.harfbuzz.BufferT buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_buffer_reference.invokeExact(
@@ -1360,7 +1320,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BufferT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BufferT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1368,8 +1328,7 @@ public final class HarfBuzz {
      * with hb_buffer_create().
      * @param buffer An {@link BufferT}
      */
-    public static void bufferReset(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void bufferReset(org.harfbuzz.BufferT buffer) {
         try {
             DowncallHandles.hb_buffer_reset.invokeExact(
                     buffer.handle());
@@ -1382,8 +1341,7 @@ public final class HarfBuzz {
      * Reverses buffer contents.
      * @param buffer An {@link BufferT}
      */
-    public static void bufferReverse(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void bufferReverse(org.harfbuzz.BufferT buffer) {
         try {
             DowncallHandles.hb_buffer_reverse.invokeExact(
                     buffer.handle());
@@ -1398,8 +1356,7 @@ public final class HarfBuzz {
      * same cluster number) are reversed again.
      * @param buffer An {@link BufferT}
      */
-    public static void bufferReverseClusters(@NotNull org.harfbuzz.BufferT buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void bufferReverseClusters(org.harfbuzz.BufferT buffer) {
         try {
             DowncallHandles.hb_buffer_reverse_clusters.invokeExact(
                     buffer.handle());
@@ -1414,8 +1371,7 @@ public final class HarfBuzz {
      * @param start start index
      * @param end end index
      */
-    public static void bufferReverseRange(@NotNull org.harfbuzz.BufferT buffer, int start, int end) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void bufferReverseRange(org.harfbuzz.BufferT buffer, int start, int end) {
         try {
             DowncallHandles.hb_buffer_reverse_range.invokeExact(
                     buffer.handle(),
@@ -1446,15 +1402,9 @@ public final class HarfBuzz {
      *         to serialize.
      * @return The number of serialized items.
      */
-    public static int bufferSerialize(@NotNull org.harfbuzz.BufferT buffer, int start, int end, @NotNull Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public static int bufferSerialize(org.harfbuzz.BufferT buffer, int start, int end, Out<byte[]> buf, int bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, org.harfbuzz.BufferSerializeFormatT format, org.harfbuzz.BufferSerializeFlagsT flags) {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment bufSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
         MemorySegment bufConsumedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_serialize.invokeExact(
@@ -1462,17 +1412,16 @@ public final class HarfBuzz {
                     start,
                     end,
                     (Addressable) bufPOINTER.address(),
-                    (Addressable) bufSizePOINTER.address(),
-                    (Addressable) bufConsumedPOINTER.address(),
+                    bufSize,
+                    (Addressable) (bufConsumed == null ? MemoryAddress.NULL : (Addressable) bufConsumedPOINTER.address()),
                     (Addressable) (font == null ? MemoryAddress.NULL : font.handle()),
                     format.getValue(),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bufSize.set(bufSizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        bufConsumed.set(bufConsumedPOINTER.get(Interop.valueLayout.C_INT, 0));
-        buf.set(MemorySegment.ofAddress(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), bufSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
+        if (bufConsumed != null) bufConsumed.set(bufConsumedPOINTER.get(Interop.valueLayout.C_INT, 0));
+        buf.set(MemorySegment.ofAddress(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), bufSize * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT;
     }
     
@@ -1484,8 +1433,7 @@ public final class HarfBuzz {
      * @param len length of {@code str}, or -1 if string is {@code NULL} terminated
      * @return The parsed {@link BufferSerializeFormatT}.
      */
-    public static @NotNull org.harfbuzz.BufferSerializeFormatT bufferSerializeFormatFromString(@NotNull byte[] str, int len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static org.harfbuzz.BufferSerializeFormatT bufferSerializeFormatFromString(byte[] str, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_serialize_format_from_string.invokeExact(
@@ -1503,8 +1451,7 @@ public final class HarfBuzz {
      * @param format an {@link BufferSerializeFormatT} to convert.
      * @return A {@code NULL} terminated string corresponding to {@code format}. Should not be freed.
      */
-    public static @NotNull java.lang.String bufferSerializeFormatToString(@NotNull org.harfbuzz.BufferSerializeFormatT format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static java.lang.String bufferSerializeFormatToString(org.harfbuzz.BufferSerializeFormatT format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_buffer_serialize_format_to_string.invokeExact(
@@ -1512,7 +1459,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1573,15 +1520,9 @@ public final class HarfBuzz {
      *         to serialize.
      * @return The number of serialized items.
      */
-    public static int bufferSerializeGlyphs(@NotNull org.harfbuzz.BufferT buffer, int start, int end, @NotNull Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public static int bufferSerializeGlyphs(org.harfbuzz.BufferT buffer, int start, int end, Out<byte[]> buf, int bufSize, Out<Integer> bufConsumed, @Nullable org.harfbuzz.FontT font, org.harfbuzz.BufferSerializeFormatT format, org.harfbuzz.BufferSerializeFlagsT flags) {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment bufSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
         MemorySegment bufConsumedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_serialize_glyphs.invokeExact(
@@ -1589,17 +1530,16 @@ public final class HarfBuzz {
                     start,
                     end,
                     (Addressable) bufPOINTER.address(),
-                    (Addressable) bufSizePOINTER.address(),
-                    (Addressable) bufConsumedPOINTER.address(),
+                    bufSize,
+                    (Addressable) (bufConsumed == null ? MemoryAddress.NULL : (Addressable) bufConsumedPOINTER.address()),
                     (Addressable) (font == null ? MemoryAddress.NULL : font.handle()),
                     format.getValue(),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bufSize.set(bufSizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        bufConsumed.set(bufConsumedPOINTER.get(Interop.valueLayout.C_INT, 0));
-        buf.set(MemorySegment.ofAddress(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), bufSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
+        if (bufConsumed != null) bufConsumed.set(bufConsumedPOINTER.get(Interop.valueLayout.C_INT, 0));
+        buf.set(MemorySegment.ofAddress(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), bufSize * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT;
     }
     
@@ -1607,7 +1547,7 @@ public final class HarfBuzz {
      * Returns a list of supported buffer serialization formats.
      * @return A string array of buffer serialization formats. Should not be freed.
      */
-    public static @NotNull PointerString bufferSerializeListFormats() {
+    public static PointerString bufferSerializeListFormats() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_buffer_serialize_list_formats.invokeExact();
@@ -1663,15 +1603,9 @@ public final class HarfBuzz {
      *         to serialize.
      * @return The number of serialized items.
      */
-    public static int bufferSerializeUnicode(@NotNull org.harfbuzz.BufferT buffer, int start, int end, @NotNull Out<byte[]> buf, Out<Integer> bufSize, Out<Integer> bufConsumed, @NotNull org.harfbuzz.BufferSerializeFormatT format, @NotNull org.harfbuzz.BufferSerializeFlagsT flags) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public static int bufferSerializeUnicode(org.harfbuzz.BufferT buffer, int start, int end, Out<byte[]> buf, int bufSize, Out<Integer> bufConsumed, org.harfbuzz.BufferSerializeFormatT format, org.harfbuzz.BufferSerializeFlagsT flags) {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment bufSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(bufConsumed, "Parameter 'bufConsumed' must not be null");
         MemorySegment bufConsumedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_serialize_unicode.invokeExact(
@@ -1679,16 +1613,15 @@ public final class HarfBuzz {
                     start,
                     end,
                     (Addressable) bufPOINTER.address(),
-                    (Addressable) bufSizePOINTER.address(),
-                    (Addressable) bufConsumedPOINTER.address(),
+                    bufSize,
+                    (Addressable) (bufConsumed == null ? MemoryAddress.NULL : (Addressable) bufConsumedPOINTER.address()),
                     format.getValue(),
                     flags.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        bufSize.set(bufSizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        bufConsumed.set(bufConsumedPOINTER.get(Interop.valueLayout.C_INT, 0));
-        buf.set(MemorySegment.ofAddress(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), bufSize.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
+        if (bufConsumed != null) bufConsumed.set(bufConsumedPOINTER.get(Interop.valueLayout.C_INT, 0));
+        buf.set(MemorySegment.ofAddress(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), bufSize * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return RESULT;
     }
     
@@ -1699,9 +1632,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param clusterLevel The cluster level to set on the buffer
      */
-    public static void bufferSetClusterLevel(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferClusterLevelT clusterLevel) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(clusterLevel, "Parameter 'clusterLevel' must not be null");
+    public static void bufferSetClusterLevel(org.harfbuzz.BufferT buffer, org.harfbuzz.BufferClusterLevelT clusterLevel) {
         try {
             DowncallHandles.hb_buffer_set_cluster_level.invokeExact(
                     buffer.handle(),
@@ -1717,9 +1648,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param contentType The type of buffer contents to set
      */
-    public static void bufferSetContentType(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferContentTypeT contentType) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
+    public static void bufferSetContentType(org.harfbuzz.BufferT buffer, org.harfbuzz.BufferContentTypeT contentType) {
         try {
             DowncallHandles.hb_buffer_set_content_type.invokeExact(
                     buffer.handle(),
@@ -1740,9 +1669,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param direction the {@link DirectionT} of the {@code buffer}
      */
-    public static void bufferSetDirection(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.DirectionT direction) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public static void bufferSetDirection(org.harfbuzz.BufferT buffer, org.harfbuzz.DirectionT direction) {
         try {
             DowncallHandles.hb_buffer_set_direction.invokeExact(
                     buffer.handle(),
@@ -1757,9 +1684,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param flags The buffer flags to set
      */
-    public static void bufferSetFlags(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferFlagsT flags) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static void bufferSetFlags(org.harfbuzz.BufferT buffer, org.harfbuzz.BufferFlagsT flags) {
         try {
             DowncallHandles.hb_buffer_set_flags.invokeExact(
                     buffer.handle(),
@@ -1777,9 +1702,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param invisible the invisible {@link CodepointT}
      */
-    public static void bufferSetInvisibleGlyph(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT invisible) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(invisible, "Parameter 'invisible' must not be null");
+    public static void bufferSetInvisibleGlyph(org.harfbuzz.BufferT buffer, org.harfbuzz.CodepointT invisible) {
         try {
             DowncallHandles.hb_buffer_set_invisible_glyph.invokeExact(
                     buffer.handle(),
@@ -1802,9 +1725,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param language An hb_language_t to set
      */
-    public static void bufferSetLanguage(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.LanguageT language) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+    public static void bufferSetLanguage(org.harfbuzz.BufferT buffer, org.harfbuzz.LanguageT language) {
         try {
             DowncallHandles.hb_buffer_set_language.invokeExact(
                     buffer.handle(),
@@ -1821,8 +1742,7 @@ public final class HarfBuzz {
      * @param length The new length of {@code buffer}
      * @return {@code true} if {@code buffer} memory allocation succeeded, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT bufferSetLength(@NotNull org.harfbuzz.BufferT buffer, int length) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.BoolT bufferSetLength(org.harfbuzz.BufferT buffer, int length) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_buffer_set_length.invokeExact(
@@ -1841,8 +1761,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void bufferSetMessageFunc(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.BufferMessageFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void bufferSetMessageFunc(org.harfbuzz.BufferT buffer, org.harfbuzz.BufferMessageFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_buffer_set_message_func.invokeExact(
+                    buffer.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -1854,9 +1782,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param notFound the not-found {@link CodepointT}
      */
-    public static void bufferSetNotFoundGlyph(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT notFound) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(notFound, "Parameter 'notFound' must not be null");
+    public static void bufferSetNotFoundGlyph(org.harfbuzz.BufferT buffer, org.harfbuzz.CodepointT notFound) {
         try {
             DowncallHandles.hb_buffer_set_not_found_glyph.invokeExact(
                     buffer.handle(),
@@ -1874,9 +1800,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param replacement the replacement {@link CodepointT}
      */
-    public static void bufferSetReplacementCodepoint(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.CodepointT replacement) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
+    public static void bufferSetReplacementCodepoint(org.harfbuzz.BufferT buffer, org.harfbuzz.CodepointT replacement) {
         try {
             DowncallHandles.hb_buffer_set_replacement_codepoint.invokeExact(
                     buffer.handle(),
@@ -1899,9 +1823,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param script An {@link ScriptT} to set.
      */
-    public static void bufferSetScript(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.ScriptT script) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public static void bufferSetScript(org.harfbuzz.BufferT buffer, org.harfbuzz.ScriptT script) {
         try {
             DowncallHandles.hb_buffer_set_script.invokeExact(
                     buffer.handle(),
@@ -1918,9 +1840,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param props An {@link SegmentPropertiesT} to use
      */
-    public static void bufferSetSegmentProperties(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.SegmentPropertiesT props) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
+    public static void bufferSetSegmentProperties(org.harfbuzz.BufferT buffer, org.harfbuzz.SegmentPropertiesT props) {
         try {
             DowncallHandles.hb_buffer_set_segment_properties.invokeExact(
                     buffer.handle(),
@@ -1936,9 +1856,7 @@ public final class HarfBuzz {
      * @param buffer An {@link BufferT}
      * @param unicodeFuncs The Unicode-functions structure
      */
-    public static void bufferSetUnicodeFuncs(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncs) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(unicodeFuncs, "Parameter 'unicodeFuncs' must not be null");
+    public static void bufferSetUnicodeFuncs(org.harfbuzz.BufferT buffer, org.harfbuzz.UnicodeFuncsT unicodeFuncs) {
         try {
             DowncallHandles.hb_buffer_set_unicode_funcs.invokeExact(
                     buffer.handle(),
@@ -1957,8 +1875,19 @@ public final class HarfBuzz {
      * @param replace Whether to replace an existing data with the same key
      * @return {@code true} if success, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT bufferSetUserData(@NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BoolT bufferSetUserData(org.harfbuzz.BufferT buffer, org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, org.harfbuzz.BoolT replace) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_buffer_set_user_data.invokeExact(
+                    buffer.handle(),
+                    key.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    replace.getValue().intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
     /**
@@ -1966,8 +1895,7 @@ public final class HarfBuzz {
      * @param color an {@link ColorT} we are interested in its channels.
      * @return Alpha channel value
      */
-    public static byte colorGetAlpha(@NotNull org.harfbuzz.ColorT color) {
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    public static byte colorGetAlpha(org.harfbuzz.ColorT color) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.hb_color_get_alpha.invokeExact(
@@ -1983,8 +1911,7 @@ public final class HarfBuzz {
      * @param color an {@link ColorT} we are interested in its channels.
      * @return Blue channel value
      */
-    public static byte colorGetBlue(@NotNull org.harfbuzz.ColorT color) {
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    public static byte colorGetBlue(org.harfbuzz.ColorT color) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.hb_color_get_blue.invokeExact(
@@ -2000,8 +1927,7 @@ public final class HarfBuzz {
      * @param color an {@link ColorT} we are interested in its channels.
      * @return Green channel value
      */
-    public static byte colorGetGreen(@NotNull org.harfbuzz.ColorT color) {
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    public static byte colorGetGreen(org.harfbuzz.ColorT color) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.hb_color_get_green.invokeExact(
@@ -2017,8 +1943,7 @@ public final class HarfBuzz {
      * @param color an {@link ColorT} we are interested in its channels.
      * @return Red channel value
      */
-    public static byte colorGetRed(@NotNull org.harfbuzz.ColorT color) {
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    public static byte colorGetRed(org.harfbuzz.ColorT color) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.hb_color_get_red.invokeExact(
@@ -2040,8 +1965,7 @@ public final class HarfBuzz {
      * @param len Length of {@code str}, or -1 if it is {@code NULL}-terminated
      * @return The {@link DirectionT} matching {@code str}
      */
-    public static @NotNull org.harfbuzz.DirectionT directionFromString(@NotNull byte[] str, int len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static org.harfbuzz.DirectionT directionFromString(byte[] str, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_direction_from_string.invokeExact(
@@ -2058,8 +1982,7 @@ public final class HarfBuzz {
      * @param direction The {@link DirectionT} to convert
      * @return The string corresponding to {@code direction}
      */
-    public static @NotNull java.lang.String directionToString(@NotNull org.harfbuzz.DirectionT direction) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public static java.lang.String directionToString(org.harfbuzz.DirectionT direction) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_direction_to_string.invokeExact(
@@ -2067,7 +1990,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2076,9 +1999,7 @@ public final class HarfBuzz {
      * @param drawData associated draw data passed by the caller
      * @param st current draw state
      */
-    public static void drawClosePath(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st) {
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
+    public static void drawClosePath(org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, org.harfbuzz.DrawStateT st) {
         try {
             DowncallHandles.hb_draw_close_path.invokeExact(
                     dfuncs.handle(),
@@ -2101,9 +2022,7 @@ public final class HarfBuzz {
      * @param toX X component of target point
      * @param toY Y component of target point
      */
-    public static void drawCubicTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float control1X, float control1Y, float control2X, float control2Y, float toX, float toY) {
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
+    public static void drawCubicTo(org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, org.harfbuzz.DrawStateT st, float control1X, float control1Y, float control2X, float control2Y, float toX, float toY) {
         try {
             DowncallHandles.hb_draw_cubic_to.invokeExact(
                     dfuncs.handle(),
@@ -2128,14 +2047,14 @@ public final class HarfBuzz {
      * memory cannot be allocated, a special singleton {@link DrawFuncsT} object will
      * be returned.
      */
-    public static @NotNull org.harfbuzz.DrawFuncsT drawFuncsCreate() {
+    public static org.harfbuzz.DrawFuncsT drawFuncsCreate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_draw_funcs_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.DrawFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.DrawFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2144,8 +2063,7 @@ public final class HarfBuzz {
      * {@code dfuncs} and all associated resources are freed. See hb_draw_funcs_reference().
      * @param dfuncs draw functions
      */
-    public static void drawFuncsDestroy(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+    public static void drawFuncsDestroy(org.harfbuzz.DrawFuncsT dfuncs) {
         try {
             DowncallHandles.hb_draw_funcs_destroy.invokeExact(
                     dfuncs.handle());
@@ -2159,8 +2077,7 @@ public final class HarfBuzz {
      * @param dfuncs draw functions
      * @return {@code true} if {@code dfuncs} is immutable, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT drawFuncsIsImmutable(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+    public static org.harfbuzz.BoolT drawFuncsIsImmutable(org.harfbuzz.DrawFuncsT dfuncs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_draw_funcs_is_immutable.invokeExact(
@@ -2175,8 +2092,7 @@ public final class HarfBuzz {
      * Makes {@code dfuncs} object immutable.
      * @param dfuncs draw functions
      */
-    public static void drawFuncsMakeImmutable(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+    public static void drawFuncsMakeImmutable(org.harfbuzz.DrawFuncsT dfuncs) {
         try {
             DowncallHandles.hb_draw_funcs_make_immutable.invokeExact(
                     dfuncs.handle());
@@ -2191,8 +2107,7 @@ public final class HarfBuzz {
      * @param dfuncs draw functions
      * @return The referenced {@link DrawFuncsT}.
      */
-    public static @NotNull org.harfbuzz.DrawFuncsT drawFuncsReference(@NotNull org.harfbuzz.DrawFuncsT dfuncs) {
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+    public static org.harfbuzz.DrawFuncsT drawFuncsReference(org.harfbuzz.DrawFuncsT dfuncs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_draw_funcs_reference.invokeExact(
@@ -2200,7 +2115,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.DrawFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.DrawFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2210,8 +2125,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void drawFuncsSetClosePathFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawClosePathFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void drawFuncsSetClosePathFunc(org.harfbuzz.DrawFuncsT dfuncs, org.harfbuzz.DrawClosePathFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_draw_funcs_set_close_path_func.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -2221,8 +2144,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void drawFuncsSetCubicToFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawCubicToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void drawFuncsSetCubicToFunc(org.harfbuzz.DrawFuncsT dfuncs, org.harfbuzz.DrawCubicToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_draw_funcs_set_cubic_to_func.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -2232,8 +2163,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void drawFuncsSetLineToFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawLineToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void drawFuncsSetLineToFunc(org.harfbuzz.DrawFuncsT dfuncs, org.harfbuzz.DrawLineToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_draw_funcs_set_line_to_func.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -2243,8 +2182,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void drawFuncsSetMoveToFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawMoveToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void drawFuncsSetMoveToFunc(org.harfbuzz.DrawFuncsT dfuncs, org.harfbuzz.DrawMoveToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_draw_funcs_set_move_to_func.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -2254,8 +2201,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void drawFuncsSetQuadraticToFunc(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @NotNull org.harfbuzz.DrawQuadraticToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void drawFuncsSetQuadraticToFunc(org.harfbuzz.DrawFuncsT dfuncs, org.harfbuzz.DrawQuadraticToFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_draw_funcs_set_quadratic_to_func.invokeExact(
+                    dfuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -2266,9 +2221,7 @@ public final class HarfBuzz {
      * @param toX X component of target point
      * @param toY Y component of target point
      */
-    public static void drawLineTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float toX, float toY) {
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
+    public static void drawLineTo(org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, org.harfbuzz.DrawStateT st, float toX, float toY) {
         try {
             DowncallHandles.hb_draw_line_to.invokeExact(
                     dfuncs.handle(),
@@ -2289,9 +2242,7 @@ public final class HarfBuzz {
      * @param toX X component of target point
      * @param toY Y component of target point
      */
-    public static void drawMoveTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float toX, float toY) {
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
+    public static void drawMoveTo(org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, org.harfbuzz.DrawStateT st, float toX, float toY) {
         try {
             DowncallHandles.hb_draw_move_to.invokeExact(
                     dfuncs.handle(),
@@ -2314,9 +2265,7 @@ public final class HarfBuzz {
      * @param toX X component of target point
      * @param toY Y component of target point
      */
-    public static void drawQuadraticTo(@NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, @NotNull org.harfbuzz.DrawStateT st, float controlX, float controlY, float toX, float toY) {
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
-        java.util.Objects.requireNonNull(st, "Parameter 'st' must not be null");
+    public static void drawQuadraticTo(org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData, org.harfbuzz.DrawStateT st, float controlX, float controlY, float toX, float toY) {
         try {
             DowncallHandles.hb_draw_quadratic_to.invokeExact(
                     dfuncs.handle(),
@@ -2338,10 +2287,7 @@ public final class HarfBuzz {
      * @param tag The {@link TagT} of the table to add
      * @param blob The blob containing the table data to add
      */
-    public static @NotNull org.harfbuzz.BoolT faceBuilderAddTable(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tag, @NotNull org.harfbuzz.BlobT blob) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+    public static org.harfbuzz.BoolT faceBuilderAddTable(org.harfbuzz.FaceT face, org.harfbuzz.TagT tag, org.harfbuzz.BlobT blob) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_face_builder_add_table.invokeExact(
@@ -2360,14 +2306,14 @@ public final class HarfBuzz {
      * font file by calling hb_face_reference_blob().
      * @return New face.
      */
-    public static @NotNull org.harfbuzz.FaceT faceBuilderCreate() {
+    public static org.harfbuzz.FaceT faceBuilderCreate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_face_builder_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FaceT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2376,9 +2322,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @param out The set to add Unicode characters to
      */
-    public static void faceCollectUnicodes(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SetT out) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+    public static void faceCollectUnicodes(org.harfbuzz.FaceT face, org.harfbuzz.SetT out) {
         try {
             DowncallHandles.hb_face_collect_unicodes.invokeExact(
                     face.handle(),
@@ -2394,9 +2338,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @param out The set to add Variation Selector characters to
      */
-    public static void faceCollectVariationSelectors(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SetT out) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+    public static void faceCollectVariationSelectors(org.harfbuzz.FaceT face, org.harfbuzz.SetT out) {
         try {
             DowncallHandles.hb_face_collect_variation_selectors.invokeExact(
                     face.handle(),
@@ -2413,10 +2355,7 @@ public final class HarfBuzz {
      * @param variationSelector The Variation Selector to query
      * @param out The set to add Unicode characters to
      */
-    public static void faceCollectVariationUnicodes(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT variationSelector, @NotNull org.harfbuzz.SetT out) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(variationSelector, "Parameter 'variationSelector' must not be null");
-        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+    public static void faceCollectVariationUnicodes(org.harfbuzz.FaceT face, org.harfbuzz.CodepointT variationSelector, org.harfbuzz.SetT out) {
         try {
             DowncallHandles.hb_face_collect_variation_unicodes.invokeExact(
                     face.handle(),
@@ -2432,8 +2371,7 @@ public final class HarfBuzz {
      * @param blob a blob.
      * @return Number of faces in {@code blob}
      */
-    public static int faceCount(@NotNull org.harfbuzz.BlobT blob) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+    public static int faceCount(org.harfbuzz.BlobT blob) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_face_count.invokeExact(
@@ -2463,8 +2401,7 @@ public final class HarfBuzz {
      * @param index The index of the face within {@code blob}
      * @return The new face object
      */
-    public static @NotNull org.harfbuzz.FaceT faceCreate(@NotNull org.harfbuzz.BlobT blob, int index) {
-        java.util.Objects.requireNonNull(blob, "Parameter 'blob' must not be null");
+    public static org.harfbuzz.FaceT faceCreate(org.harfbuzz.BlobT blob, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_face_create.invokeExact(
@@ -2473,7 +2410,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FaceT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2489,8 +2426,17 @@ public final class HarfBuzz {
      * @param destroy A callback to call when {@code data} is not needed anymore
      * @return The new face object
      */
-    public static @NotNull org.harfbuzz.FaceT faceCreateForTables(@NotNull org.harfbuzz.ReferenceTableFuncT referenceTableFunc, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.FaceT faceCreateForTables(org.harfbuzz.ReferenceTableFuncT referenceTableFunc, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_face_create_for_tables.invokeExact(
+                    (Addressable) referenceTableFunc.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.harfbuzz.FaceT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2499,8 +2445,7 @@ public final class HarfBuzz {
      * freeing all memory.
      * @param face A face object
      */
-    public static void faceDestroy(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static void faceDestroy(org.harfbuzz.FaceT face) {
         try {
             DowncallHandles.hb_face_destroy.invokeExact(
                     face.handle());
@@ -2513,14 +2458,14 @@ public final class HarfBuzz {
      * Fetches the singleton empty face object.
      * @return The empty face object
      */
-    public static @NotNull org.harfbuzz.FaceT faceGetEmpty() {
+    public static org.harfbuzz.FaceT faceGetEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_face_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FaceT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2528,8 +2473,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @return The glyph-count value of {@code face}
      */
-    public static int faceGetGlyphCount(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static int faceGetGlyphCount(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_face_get_glyph_count.invokeExact(
@@ -2547,8 +2491,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @return The index of {@code face}.
      */
-    public static int faceGetIndex(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static int faceGetIndex(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_face_get_index.invokeExact(
@@ -2569,11 +2512,8 @@ public final class HarfBuzz {
      * @param tableTags The array of table tags found
      * @return Total number of tables, or zero if it is not possible to list
      */
-    public static int faceGetTableTags(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> tableCount, @NotNull Out<org.harfbuzz.TagT[]> tableTags) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableCount, "Parameter 'tableCount' must not be null");
+    public static int faceGetTableTags(org.harfbuzz.FaceT face, int startOffset, Out<Integer> tableCount, Out<org.harfbuzz.TagT[]> tableTags) {
         MemorySegment tableCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(tableTags, "Parameter 'tableTags' must not be null");
         MemorySegment tableTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -2600,8 +2540,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @return The upem value of {@code face}
      */
-    public static int faceGetUpem(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static int faceGetUpem(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_face_get_upem.invokeExact(
@@ -2619,9 +2558,7 @@ public final class HarfBuzz {
      * @param key The user-data key to query
      * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress faceGetUserData(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.UserDataKeyT key) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress faceGetUserData(org.harfbuzz.FaceT face, org.harfbuzz.UserDataKeyT key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_face_get_user_data.invokeExact(
@@ -2638,8 +2575,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @return {@code true} is {@code face} is immutable, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT faceIsImmutable(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT faceIsImmutable(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_face_is_immutable.invokeExact(
@@ -2654,8 +2590,7 @@ public final class HarfBuzz {
      * Makes the given face object immutable.
      * @param face A face object
      */
-    public static void faceMakeImmutable(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static void faceMakeImmutable(org.harfbuzz.FaceT face) {
         try {
             DowncallHandles.hb_face_make_immutable.invokeExact(
                     face.handle());
@@ -2669,8 +2604,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @return The {@code face} object
      */
-    public static @NotNull org.harfbuzz.FaceT faceReference(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.FaceT faceReference(org.harfbuzz.FaceT face) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_face_reference.invokeExact(
@@ -2678,7 +2612,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FaceT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2688,8 +2622,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @return A pointer to the blob for {@code face}
      */
-    public static @NotNull org.harfbuzz.BlobT faceReferenceBlob(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BlobT faceReferenceBlob(org.harfbuzz.FaceT face) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_face_reference_blob.invokeExact(
@@ -2697,7 +2630,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2707,9 +2640,7 @@ public final class HarfBuzz {
      * @param tag The {@link TagT} of the table to query
      * @return A pointer to the {@code tag} table within {@code face}
      */
-    public static @NotNull org.harfbuzz.BlobT faceReferenceTable(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tag) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static org.harfbuzz.BlobT faceReferenceTable(org.harfbuzz.FaceT face, org.harfbuzz.TagT tag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_face_reference_table.invokeExact(
@@ -2718,7 +2649,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2726,8 +2657,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @param glyphCount The glyph-count value to assign
      */
-    public static void faceSetGlyphCount(@NotNull org.harfbuzz.FaceT face, int glyphCount) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static void faceSetGlyphCount(org.harfbuzz.FaceT face, int glyphCount) {
         try {
             DowncallHandles.hb_face_set_glyph_count.invokeExact(
                     face.handle(),
@@ -2746,8 +2676,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @param index The index to assign
      */
-    public static void faceSetIndex(@NotNull org.harfbuzz.FaceT face, int index) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static void faceSetIndex(org.harfbuzz.FaceT face, int index) {
         try {
             DowncallHandles.hb_face_set_index.invokeExact(
                     face.handle(),
@@ -2762,8 +2691,7 @@ public final class HarfBuzz {
      * @param face A face object
      * @param upem The units-per-em value to assign
      */
-    public static void faceSetUpem(@NotNull org.harfbuzz.FaceT face, int upem) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static void faceSetUpem(org.harfbuzz.FaceT face, int upem) {
         try {
             DowncallHandles.hb_face_set_upem.invokeExact(
                     face.handle(),
@@ -2782,8 +2710,19 @@ public final class HarfBuzz {
      * @param replace Whether to replace an existing data with the same key
      * @return {@code true} if success, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT faceSetUserData(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BoolT faceSetUserData(org.harfbuzz.FaceT face, org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, org.harfbuzz.BoolT replace) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_face_set_user_data.invokeExact(
+                    face.handle(),
+                    key.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    replace.getValue().intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
     /**
@@ -2829,9 +2768,7 @@ public final class HarfBuzz {
      * @param feature the {@link FeatureT} to initialize with the parsed values
      * @return {@code true} if {@code str} is successfully parsed, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT featureFromString(@NotNull byte[] str, int len, @NotNull org.harfbuzz.FeatureT feature) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    public static org.harfbuzz.BoolT featureFromString(byte[] str, int len, org.harfbuzz.FeatureT feature) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_feature_from_string.invokeExact(
@@ -2852,24 +2789,20 @@ public final class HarfBuzz {
      * @param buf output string
      * @param size the allocated size of {@code buf}
      */
-    public static void featureToString(@NotNull org.harfbuzz.FeatureT feature, @NotNull Out<java.lang.String[]> buf, Out<Integer> size) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public static void featureToString(org.harfbuzz.FeatureT feature, Out<java.lang.String[]> buf, int size) {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_feature_to_string.invokeExact(
                     feature.handle(),
                     (Addressable) bufPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        java.lang.String[] bufARRAY = new java.lang.String[size.get().intValue()];
-        for (int I = 0; I < size.get().intValue(); I++) {
+        java.lang.String[] bufARRAY = new java.lang.String[size];
+        for (int I = 0; I < size; I++) {
             var OBJ = bufPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            bufARRAY[I] = Interop.getStringFrom(OBJ);
+            bufARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         buf.set(bufARRAY);
     }
@@ -2888,13 +2821,8 @@ public final class HarfBuzz {
      * @param y Input = The original Y coordinate
      *     Output = The Y coordinate plus the Y-coordinate of the origin
      */
-    public static void fontAddGlyphOriginForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static void fontAddGlyphOriginForDirection(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.DirectionT direction, org.harfbuzz.PositionT x, org.harfbuzz.PositionT y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_add_glyph_origin_for_direction.invokeExact(
@@ -2906,8 +2834,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new org.harfbuzz.PositionT(xPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        y.set(new org.harfbuzz.PositionT(yPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        x.setValue(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        y.setValue(yPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -2916,8 +2844,7 @@ public final class HarfBuzz {
      * by hb_font_get_serial(), which invalidates internal caches.
      * @param font {@link FontT} to work upon
      */
-    public static void fontChanged(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void fontChanged(org.harfbuzz.FontT font) {
         try {
             DowncallHandles.hb_font_changed.invokeExact(
                     font.handle());
@@ -2938,8 +2865,7 @@ public final class HarfBuzz {
      * @param face a face.
      * @return The new font object
      */
-    public static @NotNull org.harfbuzz.FontT fontCreate(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.FontT fontCreate(org.harfbuzz.FaceT face) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_create.invokeExact(
@@ -2947,7 +2873,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FontT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2956,8 +2882,7 @@ public final class HarfBuzz {
      * @param parent The parent font object
      * @return The new sub-font font object
      */
-    public static @NotNull org.harfbuzz.FontT fontCreateSubFont(@NotNull org.harfbuzz.FontT parent) {
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    public static org.harfbuzz.FontT fontCreateSubFont(org.harfbuzz.FontT parent) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_create_sub_font.invokeExact(
@@ -2965,7 +2890,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FontT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2974,8 +2899,7 @@ public final class HarfBuzz {
      * freeing all memory.
      * @param font {@link FontT} to work upon
      */
-    public static void fontDestroy(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void fontDestroy(org.harfbuzz.FontT font) {
         try {
             DowncallHandles.hb_font_destroy.invokeExact(
                     font.handle());
@@ -2988,14 +2912,14 @@ public final class HarfBuzz {
      * Creates a new {@link FontFuncsT} structure of font functions.
      * @return The font-functions structure
      */
-    public static @NotNull org.harfbuzz.FontFuncsT fontFuncsCreate() {
+    public static org.harfbuzz.FontFuncsT fontFuncsCreate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FontFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3004,8 +2928,7 @@ public final class HarfBuzz {
      * destroyed, freeing all memory.
      * @param ffuncs The font-functions structure
      */
-    public static void fontFuncsDestroy(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
-        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
+    public static void fontFuncsDestroy(org.harfbuzz.FontFuncsT ffuncs) {
         try {
             DowncallHandles.hb_font_funcs_destroy.invokeExact(
                     ffuncs.handle());
@@ -3018,14 +2941,14 @@ public final class HarfBuzz {
      * Fetches an empty font-functions structure.
      * @return The font-functions structure
      */
-    public static @NotNull org.harfbuzz.FontFuncsT fontFuncsGetEmpty() {
+    public static org.harfbuzz.FontFuncsT fontFuncsGetEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FontFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3035,9 +2958,7 @@ public final class HarfBuzz {
      * @param key The user-data key to query
      * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress fontFuncsGetUserData(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.UserDataKeyT key) {
-        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress fontFuncsGetUserData(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.UserDataKeyT key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_get_user_data.invokeExact(
@@ -3054,8 +2975,7 @@ public final class HarfBuzz {
      * @param ffuncs The font-functions structure
      * @return {@code true} if {@code ffuncs} is immutable, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontFuncsIsImmutable(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
-        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
+    public static org.harfbuzz.BoolT fontFuncsIsImmutable(org.harfbuzz.FontFuncsT ffuncs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_funcs_is_immutable.invokeExact(
@@ -3070,8 +2990,7 @@ public final class HarfBuzz {
      * Makes a font-functions structure immutable.
      * @param ffuncs The font-functions structure
      */
-    public static void fontFuncsMakeImmutable(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
-        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
+    public static void fontFuncsMakeImmutable(org.harfbuzz.FontFuncsT ffuncs) {
         try {
             DowncallHandles.hb_font_funcs_make_immutable.invokeExact(
                     ffuncs.handle());
@@ -3085,8 +3004,7 @@ public final class HarfBuzz {
      * @param ffuncs The font-functions structure
      * @return The font-functions structure
      */
-    public static @NotNull org.harfbuzz.FontFuncsT fontFuncsReference(@NotNull org.harfbuzz.FontFuncsT ffuncs) {
-        java.util.Objects.requireNonNull(ffuncs, "Parameter 'ffuncs' must not be null");
+    public static org.harfbuzz.FontFuncsT fontFuncsReference(org.harfbuzz.FontFuncsT ffuncs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_funcs_reference.invokeExact(
@@ -3094,7 +3012,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FontFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3104,8 +3022,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetFontHExtentsFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetFontHExtentsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetFontHExtentsFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetFontHExtentsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_font_h_extents_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3115,8 +3041,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetFontVExtentsFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetFontVExtentsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetFontVExtentsFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetFontVExtentsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_font_v_extents_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3126,8 +3060,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphContourPointFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphContourPointFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphContourPointFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphContourPointFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_contour_point_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3137,8 +3079,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphExtentsFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphExtentsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphExtentsFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphExtentsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_extents_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3148,8 +3098,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphFromNameFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphFromNameFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphFromNameFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphFromNameFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_from_name_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3161,8 +3119,16 @@ public final class HarfBuzz {
      * @param destroy function to call when {@code user_data} is not needed anymore
      */
     @Deprecated
-    public static void fontFuncsSetGlyphFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3172,8 +3138,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphHAdvanceFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphHAdvanceFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphHAdvanceFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphHAdvanceFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_h_advance_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3183,8 +3157,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphHAdvancesFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphHAdvancesFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphHAdvancesFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphHAdvancesFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_h_advances_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3194,8 +3176,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphHKerningFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphHKerningFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphHKerningFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphHKerningFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_h_kerning_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3205,8 +3195,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphHOriginFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphHOriginFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphHOriginFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphHOriginFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_h_origin_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3216,8 +3214,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphNameFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphNameFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphNameFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphNameFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_name_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3227,8 +3233,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphShapeFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphShapeFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphShapeFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphShapeFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_shape_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3238,8 +3252,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphVAdvanceFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphVAdvanceFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphVAdvanceFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphVAdvanceFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_v_advance_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3249,8 +3271,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphVAdvancesFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphVAdvancesFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphVAdvancesFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphVAdvancesFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_v_advances_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3261,8 +3291,16 @@ public final class HarfBuzz {
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
     @Deprecated
-    public static void fontFuncsSetGlyphVKerningFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphVKerningFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphVKerningFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphVKerningFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_v_kerning_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3272,8 +3310,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetGlyphVOriginFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetGlyphVOriginFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetGlyphVOriginFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetGlyphVOriginFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_glyph_v_origin_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3283,8 +3329,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetNominalGlyphFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetNominalGlyphFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetNominalGlyphFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetNominalGlyphFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_nominal_glyph_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3294,8 +3348,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetNominalGlyphsFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetNominalGlyphsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetNominalGlyphsFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetNominalGlyphsFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_nominal_glyphs_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3307,8 +3369,19 @@ public final class HarfBuzz {
      * @param replace Whether to replace an existing data with the same key
      * @return {@code true} if success, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontFuncsSetUserData(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BoolT fontFuncsSetUserData(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, org.harfbuzz.BoolT replace) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_font_funcs_set_user_data.invokeExact(
+                    ffuncs.handle(),
+                    key.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    replace.getValue().intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
     /**
@@ -3318,22 +3391,30 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void fontFuncsSetVariationGlyphFunc(@NotNull org.harfbuzz.FontFuncsT ffuncs, @NotNull org.harfbuzz.FontGetVariationGlyphFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontFuncsSetVariationGlyphFunc(org.harfbuzz.FontFuncsT ffuncs, org.harfbuzz.FontGetVariationGlyphFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_funcs_set_variation_glyph_func.invokeExact(
+                    ffuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
      * Fetches the empty font object.
      * @return The empty font object
      */
-    public static @NotNull org.harfbuzz.FontT fontGetEmpty() {
+    public static org.harfbuzz.FontT fontGetEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FontT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3346,10 +3427,7 @@ public final class HarfBuzz {
      * @param direction The direction of the text segment
      * @param extents The {@link FontExtentsT} retrieved
      */
-    public static void fontGetExtentsForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.FontExtentsT extents) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
+    public static void fontGetExtentsForDirection(org.harfbuzz.FontT font, org.harfbuzz.DirectionT direction, org.harfbuzz.FontExtentsT extents) {
         try {
             DowncallHandles.hb_font_get_extents_for_direction.invokeExact(
                     font.handle(),
@@ -3365,8 +3443,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return The {@link FaceT} value
      */
-    public static @NotNull org.harfbuzz.FaceT fontGetFace(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static org.harfbuzz.FaceT fontGetFace(org.harfbuzz.FontT font) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_get_face.invokeExact(
@@ -3374,7 +3451,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(RESULT, Ownership.NONE);
+        return org.harfbuzz.FaceT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3389,11 +3466,7 @@ public final class HarfBuzz {
      * @param glyph The glyph ID retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyph(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT unicode, @NotNull org.harfbuzz.CodepointT variationSelector, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
-        java.util.Objects.requireNonNull(variationSelector, "Parameter 'variationSelector' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.BoolT fontGetGlyph(org.harfbuzz.FontT font, org.harfbuzz.CodepointT unicode, org.harfbuzz.CodepointT variationSelector, org.harfbuzz.CodepointT glyph) {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -3405,7 +3478,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        glyph.setValue(glyphPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3421,13 +3494,8 @@ public final class HarfBuzz {
      * @param x The horizontal advance retrieved
      * @param y The vertical advance retrieved
      */
-    public static void fontGetGlyphAdvanceForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static void fontGetGlyphAdvanceForDirection(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.DirectionT direction, org.harfbuzz.PositionT x, org.harfbuzz.PositionT y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_get_glyph_advance_for_direction.invokeExact(
@@ -3439,8 +3507,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new org.harfbuzz.PositionT(xPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        y.set(new org.harfbuzz.PositionT(yPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        x.setValue(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        y.setValue(yPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -3457,29 +3525,23 @@ public final class HarfBuzz {
      * @param firstAdvance The first advance retrieved
      * @param advanceStride The stride between successive advances
      */
-    public static void fontGetGlyphAdvancesForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, int count, @NotNull org.harfbuzz.CodepointT firstGlyph, int glyphStride, @NotNull Out<org.harfbuzz.PositionT> firstAdvance, Out<Integer> advanceStride) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
-        PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
-        java.util.Objects.requireNonNull(firstAdvance, "Parameter 'firstAdvance' must not be null");
+    public static void fontGetGlyphAdvancesForDirection(org.harfbuzz.FontT font, org.harfbuzz.DirectionT direction, int count, org.harfbuzz.CodepointT firstGlyph, int glyphStride, org.harfbuzz.PositionT firstAdvance, int advanceStride) {
+        MemorySegment firstGlyphPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment firstAdvancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment advanceStridePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_get_glyph_advances_for_direction.invokeExact(
                     font.handle(),
                     direction.getValue(),
                     count,
-                    new PointerInteger(firstGlyph.getValue().intValue()).handle(),
+                    (Addressable) firstGlyphPOINTER.address(),
                     glyphStride,
                     (Addressable) firstAdvancePOINTER.address(),
-                    (Addressable) advanceStridePOINTER.address());
+                    advanceStride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            firstGlyph.setValue(firstGlyphPOINTER.get());
-        firstAdvance.set(new org.harfbuzz.PositionT(firstAdvancePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        advanceStride.set(advanceStridePOINTER.get(Interop.valueLayout.C_INT, 0));
+        firstGlyph.setValue(firstGlyphPOINTER.get(Interop.valueLayout.C_INT, 0));
+        firstAdvance.setValue(firstAdvancePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -3492,12 +3554,8 @@ public final class HarfBuzz {
      * @param y The Y value retrieved for the contour point
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphContourPoint(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, int pointIndex, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static org.harfbuzz.BoolT fontGetGlyphContourPoint(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, int pointIndex, org.harfbuzz.PositionT x, org.harfbuzz.PositionT y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -3510,8 +3568,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new org.harfbuzz.PositionT(xPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        y.set(new org.harfbuzz.PositionT(yPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        x.setValue(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        y.setValue(yPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3530,13 +3588,8 @@ public final class HarfBuzz {
      * @param y The Y value retrieved for the contour point
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphContourPointForOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, int pointIndex, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static org.harfbuzz.BoolT fontGetGlyphContourPointForOrigin(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, int pointIndex, org.harfbuzz.DirectionT direction, org.harfbuzz.PositionT x, org.harfbuzz.PositionT y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -3550,8 +3603,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new org.harfbuzz.PositionT(xPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        y.set(new org.harfbuzz.PositionT(yPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        x.setValue(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        y.setValue(yPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3563,10 +3616,7 @@ public final class HarfBuzz {
      * @param extents The {@link GlyphExtentsT} retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphExtents(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.GlyphExtentsT extents) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
+    public static org.harfbuzz.BoolT fontGetGlyphExtents(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.GlyphExtentsT extents) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_glyph_extents.invokeExact(
@@ -3592,11 +3642,7 @@ public final class HarfBuzz {
      * @param extents The {@link GlyphExtentsT} retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphExtentsForOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.GlyphExtentsT extents) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
+    public static org.harfbuzz.BoolT fontGetGlyphExtentsForOrigin(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.DirectionT direction, org.harfbuzz.GlyphExtentsT extents) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_glyph_extents_for_origin.invokeExact(
@@ -3620,10 +3666,7 @@ public final class HarfBuzz {
      * @param glyph The glyph ID retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphFromName(@NotNull org.harfbuzz.FontT font, @NotNull java.lang.String[] name, int len, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.BoolT fontGetGlyphFromName(org.harfbuzz.FontT font, java.lang.String[] name, int len, org.harfbuzz.CodepointT glyph) {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -3635,7 +3678,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        glyph.setValue(glyphPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3646,9 +3689,7 @@ public final class HarfBuzz {
      * @param glyph The glyph ID to query
      * @return The advance of {@code glyph} within {@code font}
      */
-    public static @NotNull org.harfbuzz.PositionT fontGetGlyphHAdvance(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.PositionT fontGetGlyphHAdvance(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_glyph_h_advance.invokeExact(
@@ -3670,25 +3711,22 @@ public final class HarfBuzz {
      * @param firstAdvance The first advance retrieved
      * @param advanceStride The stride between successive advances
      */
-    public static void fontGetGlyphHAdvances(@NotNull org.harfbuzz.FontT font, int count, @NotNull org.harfbuzz.CodepointT firstGlyph, int glyphStride, @NotNull Out<org.harfbuzz.PositionT> firstAdvance, int advanceStride) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
-        PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
-        java.util.Objects.requireNonNull(firstAdvance, "Parameter 'firstAdvance' must not be null");
+    public static void fontGetGlyphHAdvances(org.harfbuzz.FontT font, int count, org.harfbuzz.CodepointT firstGlyph, int glyphStride, org.harfbuzz.PositionT firstAdvance, int advanceStride) {
+        MemorySegment firstGlyphPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment firstAdvancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_get_glyph_h_advances.invokeExact(
                     font.handle(),
                     count,
-                    new PointerInteger(firstGlyph.getValue().intValue()).handle(),
+                    (Addressable) firstGlyphPOINTER.address(),
                     glyphStride,
                     (Addressable) firstAdvancePOINTER.address(),
                     advanceStride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            firstGlyph.setValue(firstGlyphPOINTER.get());
-        firstAdvance.set(new org.harfbuzz.PositionT(firstAdvancePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        firstGlyph.setValue(firstGlyphPOINTER.get(Interop.valueLayout.C_INT, 0));
+        firstAdvance.setValue(firstAdvancePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -3702,10 +3740,7 @@ public final class HarfBuzz {
      * @param rightGlyph The glyph ID of the right glyph in the glyph pair
      * @return The kerning adjustment value
      */
-    public static @NotNull org.harfbuzz.PositionT fontGetGlyphHKerning(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT leftGlyph, @NotNull org.harfbuzz.CodepointT rightGlyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(leftGlyph, "Parameter 'leftGlyph' must not be null");
-        java.util.Objects.requireNonNull(rightGlyph, "Parameter 'rightGlyph' must not be null");
+    public static org.harfbuzz.PositionT fontGetGlyphHKerning(org.harfbuzz.FontT font, org.harfbuzz.CodepointT leftGlyph, org.harfbuzz.CodepointT rightGlyph) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_glyph_h_kerning.invokeExact(
@@ -3727,12 +3762,8 @@ public final class HarfBuzz {
      * @param y The Y coordinate of the origin
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphHOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static org.harfbuzz.BoolT fontGetGlyphHOrigin(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.PositionT x, org.harfbuzz.PositionT y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -3744,8 +3775,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new org.harfbuzz.PositionT(xPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        y.set(new org.harfbuzz.PositionT(yPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        x.setValue(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        y.setValue(yPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3761,14 +3792,8 @@ public final class HarfBuzz {
      * @param x The horizontal kerning-adjustment value retrieved
      * @param y The vertical kerning-adjustment value retrieved
      */
-    public static void fontGetGlyphKerningForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT firstGlyph, @NotNull org.harfbuzz.CodepointT secondGlyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
-        java.util.Objects.requireNonNull(secondGlyph, "Parameter 'secondGlyph' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static void fontGetGlyphKerningForDirection(org.harfbuzz.FontT font, org.harfbuzz.CodepointT firstGlyph, org.harfbuzz.CodepointT secondGlyph, org.harfbuzz.DirectionT direction, org.harfbuzz.PositionT x, org.harfbuzz.PositionT y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_get_glyph_kerning_for_direction.invokeExact(
@@ -3781,8 +3806,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new org.harfbuzz.PositionT(xPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        y.set(new org.harfbuzz.PositionT(yPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        x.setValue(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        y.setValue(yPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -3793,27 +3818,22 @@ public final class HarfBuzz {
      * @param size Length of the glyph-name string retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphName(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<java.lang.String[]> name, Out<Integer> size) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.harfbuzz.BoolT fontGetGlyphName(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, Out<java.lang.String[]> name, int size) {
         MemorySegment namePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_glyph_name.invokeExact(
                     font.handle(),
                     glyph.getValue().intValue(),
                     (Addressable) namePOINTER.address(),
-                    (Addressable) sizePOINTER.address());
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        java.lang.String[] nameARRAY = new java.lang.String[size.get().intValue()];
-        for (int I = 0; I < size.get().intValue(); I++) {
+        java.lang.String[] nameARRAY = new java.lang.String[size];
+        for (int I = 0; I < size; I++) {
             var OBJ = namePOINTER.get(Interop.valueLayout.ADDRESS, I);
-            nameARRAY[I] = Interop.getStringFrom(OBJ);
+            nameARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         name.set(nameARRAY);
         return new org.harfbuzz.BoolT(RESULT);
@@ -3831,13 +3851,8 @@ public final class HarfBuzz {
      * @param x The X coordinate retrieved for the origin
      * @param y The Y coordinate retrieved for the origin
      */
-    public static void fontGetGlyphOriginForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static void fontGetGlyphOriginForDirection(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.DirectionT direction, org.harfbuzz.PositionT x, org.harfbuzz.PositionT y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_get_glyph_origin_for_direction.invokeExact(
@@ -3849,8 +3864,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new org.harfbuzz.PositionT(xPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        y.set(new org.harfbuzz.PositionT(yPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        x.setValue(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        y.setValue(yPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -3862,10 +3877,7 @@ public final class HarfBuzz {
      * @param dfuncs {@link DrawFuncsT} to draw to
      * @param drawData User data to pass to draw callbacks
      */
-    public static void fontGetGlyphShape(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(dfuncs, "Parameter 'dfuncs' must not be null");
+    public static void fontGetGlyphShape(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.DrawFuncsT dfuncs, @Nullable java.lang.foreign.MemoryAddress drawData) {
         try {
             DowncallHandles.hb_font_get_glyph_shape.invokeExact(
                     font.handle(),
@@ -3884,9 +3896,7 @@ public final class HarfBuzz {
      * @param glyph The glyph ID to query
      * @return The advance of {@code glyph} within {@code font}
      */
-    public static @NotNull org.harfbuzz.PositionT fontGetGlyphVAdvance(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.PositionT fontGetGlyphVAdvance(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_glyph_v_advance.invokeExact(
@@ -3908,27 +3918,22 @@ public final class HarfBuzz {
      * @param firstAdvance The first advance retrieved
      * @param advanceStride The stride between successive advances
      */
-    public static void fontGetGlyphVAdvances(@NotNull org.harfbuzz.FontT font, int count, @NotNull org.harfbuzz.CodepointT firstGlyph, int glyphStride, @NotNull Out<org.harfbuzz.PositionT> firstAdvance, Out<Integer> advanceStride) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
-        PointerInteger firstGlyphPOINTER = new PointerInteger(firstGlyph.getValue());
-        java.util.Objects.requireNonNull(firstAdvance, "Parameter 'firstAdvance' must not be null");
+    public static void fontGetGlyphVAdvances(org.harfbuzz.FontT font, int count, org.harfbuzz.CodepointT firstGlyph, int glyphStride, org.harfbuzz.PositionT firstAdvance, int advanceStride) {
+        MemorySegment firstGlyphPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment firstAdvancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        MemorySegment advanceStridePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_get_glyph_v_advances.invokeExact(
                     font.handle(),
                     count,
-                    new PointerInteger(firstGlyph.getValue().intValue()).handle(),
+                    (Addressable) firstGlyphPOINTER.address(),
                     glyphStride,
                     (Addressable) firstAdvancePOINTER.address(),
-                    (Addressable) advanceStridePOINTER.address());
+                    advanceStride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            firstGlyph.setValue(firstGlyphPOINTER.get());
-        firstAdvance.set(new org.harfbuzz.PositionT(firstAdvancePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        advanceStride.set(advanceStridePOINTER.get(Interop.valueLayout.C_INT, 0));
+        firstGlyph.setValue(firstGlyphPOINTER.get(Interop.valueLayout.C_INT, 0));
+        firstAdvance.setValue(firstAdvancePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -3943,10 +3948,7 @@ public final class HarfBuzz {
      * @return The kerning adjustment value
      */
     @Deprecated
-    public static @NotNull org.harfbuzz.PositionT fontGetGlyphVKerning(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT topGlyph, @NotNull org.harfbuzz.CodepointT bottomGlyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(topGlyph, "Parameter 'topGlyph' must not be null");
-        java.util.Objects.requireNonNull(bottomGlyph, "Parameter 'bottomGlyph' must not be null");
+    public static org.harfbuzz.PositionT fontGetGlyphVKerning(org.harfbuzz.FontT font, org.harfbuzz.CodepointT topGlyph, org.harfbuzz.CodepointT bottomGlyph) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_glyph_v_kerning.invokeExact(
@@ -3968,12 +3970,8 @@ public final class HarfBuzz {
      * @param y The Y coordinate of the origin
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetGlyphVOrigin(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static org.harfbuzz.BoolT fontGetGlyphVOrigin(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.PositionT x, org.harfbuzz.PositionT y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -3985,8 +3983,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new org.harfbuzz.PositionT(xPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        y.set(new org.harfbuzz.PositionT(yPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        x.setValue(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        y.setValue(yPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -3997,9 +3995,7 @@ public final class HarfBuzz {
      * @param extents The font extents retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetHExtents(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FontExtentsT extents) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
+    public static org.harfbuzz.BoolT fontGetHExtents(org.harfbuzz.FontT font, org.harfbuzz.FontExtentsT extents) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_h_extents.invokeExact(
@@ -4023,10 +4019,7 @@ public final class HarfBuzz {
      * @param glyph The glyph ID retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetNominalGlyph(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT unicode, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.BoolT fontGetNominalGlyph(org.harfbuzz.FontT font, org.harfbuzz.CodepointT unicode, org.harfbuzz.CodepointT glyph) {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -4037,7 +4030,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        glyph.setValue(glyphPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -4052,26 +4045,23 @@ public final class HarfBuzz {
      * @param glyphStride The stride between successive glyph IDs
      * @return the number of code points processed
      */
-    public static int fontGetNominalGlyphs(@NotNull org.harfbuzz.FontT font, int count, @NotNull org.harfbuzz.CodepointT firstUnicode, int unicodeStride, @NotNull Out<org.harfbuzz.CodepointT> firstGlyph, int glyphStride) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(firstUnicode, "Parameter 'firstUnicode' must not be null");
-        PointerInteger firstUnicodePOINTER = new PointerInteger(firstUnicode.getValue());
-        java.util.Objects.requireNonNull(firstGlyph, "Parameter 'firstGlyph' must not be null");
+    public static int fontGetNominalGlyphs(org.harfbuzz.FontT font, int count, org.harfbuzz.CodepointT firstUnicode, int unicodeStride, org.harfbuzz.CodepointT firstGlyph, int glyphStride) {
+        MemorySegment firstUnicodePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment firstGlyphPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_nominal_glyphs.invokeExact(
                     font.handle(),
                     count,
-                    new PointerInteger(firstUnicode.getValue().intValue()).handle(),
+                    (Addressable) firstUnicodePOINTER.address(),
                     unicodeStride,
                     (Addressable) firstGlyphPOINTER.address(),
                     glyphStride);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            firstUnicode.setValue(firstUnicodePOINTER.get());
-        firstGlyph.set(new org.harfbuzz.CodepointT(firstGlyphPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        firstUnicode.setValue(firstUnicodePOINTER.get(Interop.valueLayout.C_INT, 0));
+        firstGlyph.setValue(firstGlyphPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT;
     }
     
@@ -4080,8 +4070,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return The parent font object
      */
-    public static @NotNull org.harfbuzz.FontT fontGetParent(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static org.harfbuzz.FontT fontGetParent(org.harfbuzz.FontT font) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_get_parent.invokeExact(
@@ -4089,7 +4078,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(RESULT, Ownership.NONE);
+        return org.harfbuzz.FontT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -4098,11 +4087,8 @@ public final class HarfBuzz {
      * @param xPpem Horizontal ppem value
      * @param yPpem Vertical ppem value
      */
-    public static void fontGetPpem(@NotNull org.harfbuzz.FontT font, Out<Integer> xPpem, Out<Integer> yPpem) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(xPpem, "Parameter 'xPpem' must not be null");
+    public static void fontGetPpem(org.harfbuzz.FontT font, Out<Integer> xPpem, Out<Integer> yPpem) {
         MemorySegment xPpemPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(yPpem, "Parameter 'yPpem' must not be null");
         MemorySegment yPpemPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_get_ppem.invokeExact(
@@ -4122,8 +4108,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return Point size.  A value of zero means "not set."
      */
-    public static float fontGetPtem(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static float fontGetPtem(org.harfbuzz.FontT font) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.hb_font_get_ptem.invokeExact(
@@ -4140,11 +4125,8 @@ public final class HarfBuzz {
      * @param xScale Horizontal scale value
      * @param yScale Vertical scale value
      */
-    public static void fontGetScale(@NotNull org.harfbuzz.FontT font, Out<Integer> xScale, Out<Integer> yScale) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(xScale, "Parameter 'xScale' must not be null");
+    public static void fontGetScale(org.harfbuzz.FontT font, Out<Integer> xScale, Out<Integer> yScale) {
         MemorySegment xScalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(yScale, "Parameter 'yScale' must not be null");
         MemorySegment yScalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_get_scale.invokeExact(
@@ -4165,8 +4147,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return serial number
      */
-    public static int fontGetSerial(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static int fontGetSerial(org.harfbuzz.FontT font) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_serial.invokeExact(
@@ -4182,8 +4163,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return Synthetic slant.  By default is zero.
      */
-    public static float fontGetSyntheticSlant(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static float fontGetSyntheticSlant(org.harfbuzz.FontT font) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.hb_font_get_synthetic_slant.invokeExact(
@@ -4201,9 +4181,7 @@ public final class HarfBuzz {
      * @param key The user-data key to query
      * @return Pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress fontGetUserData(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.UserDataKeyT key) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress fontGetUserData(org.harfbuzz.FontT font, org.harfbuzz.UserDataKeyT key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_get_user_data.invokeExact(
@@ -4222,9 +4200,7 @@ public final class HarfBuzz {
      * @param extents The font extents retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetVExtents(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FontExtentsT extents) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(extents, "Parameter 'extents' must not be null");
+    public static org.harfbuzz.BoolT fontGetVExtents(org.harfbuzz.FontT font, org.harfbuzz.FontExtentsT extents) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_get_v_extents.invokeExact(
@@ -4250,9 +4226,7 @@ public final class HarfBuzz {
      * @param length Number of coordinates retrieved
      * @return coordinates array
      */
-    public static PointerFloat fontGetVarCoordsDesign(@NotNull org.harfbuzz.FontT font, Out<Integer> length) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public static PointerFloat fontGetVarCoordsDesign(org.harfbuzz.FontT font, Out<Integer> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -4279,9 +4253,7 @@ public final class HarfBuzz {
      * @param length Number of coordinates retrieved
      * @return coordinates array
      */
-    public static PointerInteger fontGetVarCoordsNormalized(@NotNull org.harfbuzz.FontT font, Out<Integer> length) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public static PointerInteger fontGetVarCoordsNormalized(org.harfbuzz.FontT font, Out<Integer> length) {
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -4305,11 +4277,7 @@ public final class HarfBuzz {
      * @param glyph The glyph ID retrieved
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGetVariationGlyph(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT unicode, @NotNull org.harfbuzz.CodepointT variationSelector, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
-        java.util.Objects.requireNonNull(variationSelector, "Parameter 'variationSelector' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.BoolT fontGetVariationGlyph(org.harfbuzz.FontT font, org.harfbuzz.CodepointT unicode, org.harfbuzz.CodepointT variationSelector, org.harfbuzz.CodepointT glyph) {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -4321,7 +4289,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        glyph.setValue(glyphPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -4336,10 +4304,7 @@ public final class HarfBuzz {
      * @param glyph The glyph ID corresponding to the string requested
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontGlyphFromString(@NotNull org.harfbuzz.FontT font, @NotNull byte[] s, int len, @NotNull Out<org.harfbuzz.CodepointT> glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.BoolT fontGlyphFromString(org.harfbuzz.FontT font, byte[] s, int len, org.harfbuzz.CodepointT glyph) {
         MemorySegment glyphPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -4351,7 +4316,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        glyph.set(new org.harfbuzz.CodepointT(glyphPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        glyph.setValue(glyphPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -4366,26 +4331,21 @@ public final class HarfBuzz {
      * @param s The string containing the glyph name
      * @param size Length of string {@code s}
      */
-    public static void fontGlyphToString(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull Out<java.lang.String[]> s, Out<Integer> size) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
+    public static void fontGlyphToString(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, Out<java.lang.String[]> s, int size) {
         MemorySegment sPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_glyph_to_string.invokeExact(
                     font.handle(),
                     glyph.getValue().intValue(),
                     (Addressable) sPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        java.lang.String[] sARRAY = new java.lang.String[size.get().intValue()];
-        for (int I = 0; I < size.get().intValue(); I++) {
+        java.lang.String[] sARRAY = new java.lang.String[size];
+        for (int I = 0; I < size; I++) {
             var OBJ = sPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            sARRAY[I] = Interop.getStringFrom(OBJ);
+            sARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         s.set(sARRAY);
     }
@@ -4395,8 +4355,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return {@code true} if {@code font} is immutable, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontIsImmutable(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static org.harfbuzz.BoolT fontIsImmutable(org.harfbuzz.FontT font) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_font_is_immutable.invokeExact(
@@ -4411,8 +4370,7 @@ public final class HarfBuzz {
      * Makes {@code font} immutable.
      * @param font {@link FontT} to work upon
      */
-    public static void fontMakeImmutable(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void fontMakeImmutable(org.harfbuzz.FontT font) {
         try {
             DowncallHandles.hb_font_make_immutable.invokeExact(
                     font.handle());
@@ -4426,8 +4384,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return The {@code font} object
      */
-    public static @NotNull org.harfbuzz.FontT fontReference(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static org.harfbuzz.FontT fontReference(org.harfbuzz.FontT font) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_font_reference.invokeExact(
@@ -4435,7 +4392,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FontT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4443,9 +4400,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @param face The {@link FaceT} to assign
      */
-    public static void fontSetFace(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static void fontSetFace(org.harfbuzz.FontT font, org.harfbuzz.FaceT face) {
         try {
             DowncallHandles.hb_font_set_face.invokeExact(
                     font.handle(),
@@ -4463,8 +4418,16 @@ public final class HarfBuzz {
      * @param fontData Data to attach to {@code font}
      * @param destroy The function to call when {@code font_data} is not needed anymore
      */
-    public static void fontSetFuncs(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FontFuncsT klass, @Nullable java.lang.foreign.MemoryAddress fontData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontSetFuncs(org.harfbuzz.FontT font, org.harfbuzz.FontFuncsT klass, @Nullable java.lang.foreign.MemoryAddress fontData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_set_funcs.invokeExact(
+                    font.handle(),
+                    klass.handle(),
+                    (Addressable) (fontData == null ? MemoryAddress.NULL : (Addressable) fontData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -4474,8 +4437,15 @@ public final class HarfBuzz {
      * @param fontData Data to attach to {@code font}
      * @param destroy The function to call when {@code font_data} is not needed anymore
      */
-    public static void fontSetFuncsData(@NotNull org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void fontSetFuncsData(org.harfbuzz.FontT font, @Nullable java.lang.foreign.MemoryAddress fontData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_font_set_funcs_data.invokeExact(
+                    font.handle(),
+                    (Addressable) (fontData == null ? MemoryAddress.NULL : (Addressable) fontData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -4483,9 +4453,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @param parent The parent font object to assign
      */
-    public static void fontSetParent(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.FontT parent) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    public static void fontSetParent(org.harfbuzz.FontT font, org.harfbuzz.FontT parent) {
         try {
             DowncallHandles.hb_font_set_parent.invokeExact(
                     font.handle(),
@@ -4501,8 +4469,7 @@ public final class HarfBuzz {
      * @param xPpem Horizontal ppem value to assign
      * @param yPpem Vertical ppem value to assign
      */
-    public static void fontSetPpem(@NotNull org.harfbuzz.FontT font, int xPpem, int yPpem) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void fontSetPpem(org.harfbuzz.FontT font, int xPpem, int yPpem) {
         try {
             DowncallHandles.hb_font_set_ppem.invokeExact(
                     font.handle(),
@@ -4521,8 +4488,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @param ptem font size in points.
      */
-    public static void fontSetPtem(@NotNull org.harfbuzz.FontT font, float ptem) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void fontSetPtem(org.harfbuzz.FontT font, float ptem) {
         try {
             DowncallHandles.hb_font_set_ptem.invokeExact(
                     font.handle(),
@@ -4538,8 +4504,7 @@ public final class HarfBuzz {
      * @param xScale Horizontal scale value to assign
      * @param yScale Vertical scale value to assign
      */
-    public static void fontSetScale(@NotNull org.harfbuzz.FontT font, int xScale, int yScale) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void fontSetScale(org.harfbuzz.FontT font, int xScale, int yScale) {
         try {
             DowncallHandles.hb_font_set_scale.invokeExact(
                     font.handle(),
@@ -4567,8 +4532,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @param slant synthetic slant value.
      */
-    public static void fontSetSyntheticSlant(@NotNull org.harfbuzz.FontT font, float slant) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void fontSetSyntheticSlant(org.harfbuzz.FontT font, float slant) {
         try {
             DowncallHandles.hb_font_set_synthetic_slant.invokeExact(
                     font.handle(),
@@ -4587,8 +4551,19 @@ public final class HarfBuzz {
      * @param replace Whether to replace an existing data with the same key
      * @return {@code true} if success, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT fontSetUserData(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BoolT fontSetUserData(org.harfbuzz.FontT font, org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, org.harfbuzz.BoolT replace) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_font_set_user_data.invokeExact(
+                    font.handle(),
+                    key.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    replace.getValue().intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
     /**
@@ -4602,9 +4577,7 @@ public final class HarfBuzz {
      * @param coords Array of variation coordinates to apply
      * @param coordsLength Number of coordinates to apply
      */
-    public static void fontSetVarCoordsDesign(@NotNull org.harfbuzz.FontT font, @NotNull float[] coords, int coordsLength) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
+    public static void fontSetVarCoordsDesign(org.harfbuzz.FontT font, float[] coords, int coordsLength) {
         try {
             DowncallHandles.hb_font_set_var_coords_design.invokeExact(
                     font.handle(),
@@ -4628,9 +4601,7 @@ public final class HarfBuzz {
      * @param coords Array of variation coordinates to apply
      * @param coordsLength Number of coordinates to apply
      */
-    public static void fontSetVarCoordsNormalized(@NotNull org.harfbuzz.FontT font, @NotNull int[] coords, int coordsLength) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
+    public static void fontSetVarCoordsNormalized(org.harfbuzz.FontT font, int[] coords, int coordsLength) {
         try {
             DowncallHandles.hb_font_set_var_coords_normalized.invokeExact(
                     font.handle(),
@@ -4646,8 +4617,7 @@ public final class HarfBuzz {
      * @param font a font.
      * @param instanceIndex named instance index.
      */
-    public static void fontSetVarNamedInstance(@NotNull org.harfbuzz.FontT font, int instanceIndex) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void fontSetVarNamedInstance(org.harfbuzz.FontT font, int instanceIndex) {
         try {
             DowncallHandles.hb_font_set_var_named_instance.invokeExact(
                     font.handle(),
@@ -4667,9 +4637,7 @@ public final class HarfBuzz {
      * @param variations Array of variation settings to apply
      * @param variationsLength Number of variations to apply
      */
-    public static void fontSetVariations(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.VariationT[] variations, int variationsLength) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(variations, "Parameter 'variations' must not be null");
+    public static void fontSetVariations(org.harfbuzz.FontT font, org.harfbuzz.VariationT[] variations, int variationsLength) {
         try {
             DowncallHandles.hb_font_set_variations.invokeExact(
                     font.handle(),
@@ -4694,13 +4662,8 @@ public final class HarfBuzz {
      * @param y Input = The original Y coordinate
      *     Output = The Y coordinate minus the Y-coordinate of the origin
      */
-    public static void fontSubtractGlyphOriginForDirection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, @NotNull Out<org.harfbuzz.PositionT> x, @NotNull Out<org.harfbuzz.PositionT> y) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static void fontSubtractGlyphOriginForDirection(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.DirectionT direction, org.harfbuzz.PositionT x, org.harfbuzz.PositionT y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_font_subtract_glyph_origin_for_direction.invokeExact(
@@ -4712,8 +4675,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(new org.harfbuzz.PositionT(xPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        y.set(new org.harfbuzz.PositionT(yPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        x.setValue(xPOINTER.get(Interop.valueLayout.C_INT, 0));
+        y.setValue(yPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -4731,8 +4694,16 @@ public final class HarfBuzz {
      * @param destroy A callback to call when the face object is not needed anymore
      * @return the new {@link FaceT} face object
      */
-    public static @NotNull org.harfbuzz.FaceT ftFaceCreate(@NotNull org.freetype.Face ftFace, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.FaceT ftFaceCreate(org.freetype.Face ftFace, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_ft_face_create.invokeExact(
+                    ftFace.handle(),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.harfbuzz.FaceT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4749,8 +4720,7 @@ public final class HarfBuzz {
      * @param ftFace FT_Face to work upon
      * @return the new {@link FaceT} face object
      */
-    public static @NotNull org.harfbuzz.FaceT ftFaceCreateCached(@NotNull org.freetype.Face ftFace) {
-        java.util.Objects.requireNonNull(ftFace, "Parameter 'ftFace' must not be null");
+    public static org.harfbuzz.FaceT ftFaceCreateCached(org.freetype.Face ftFace) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ft_face_create_cached.invokeExact(
@@ -4758,7 +4728,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FaceT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4774,8 +4744,7 @@ public final class HarfBuzz {
      * @param ftFace FT_Face to work upon
      * @return the new {@link FaceT} face object
      */
-    public static @NotNull org.harfbuzz.FaceT ftFaceCreateReferenced(@NotNull org.freetype.Face ftFace) {
-        java.util.Objects.requireNonNull(ftFace, "Parameter 'ftFace' must not be null");
+    public static org.harfbuzz.FaceT ftFaceCreateReferenced(org.freetype.Face ftFace) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ft_face_create_referenced.invokeExact(
@@ -4783,7 +4752,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FaceT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FaceT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4792,8 +4761,7 @@ public final class HarfBuzz {
      * variation-axis settings on the FT_Face.
      * @param font {@link FontT} to work upon
      */
-    public static void ftFontChanged(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void ftFontChanged(org.harfbuzz.FontT font) {
         try {
             DowncallHandles.hb_ft_font_changed.invokeExact(
                     font.handle());
@@ -4827,8 +4795,16 @@ public final class HarfBuzz {
      * @param destroy A callback to call when the font object is not needed anymore
      * @return the new {@link FontT} font object
      */
-    public static @NotNull org.harfbuzz.FontT ftFontCreate(@NotNull org.freetype.Face ftFace, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.FontT ftFontCreate(org.freetype.Face ftFace, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.hb_ft_font_create.invokeExact(
+                    ftFace.handle(),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return org.harfbuzz.FontT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4847,8 +4823,7 @@ public final class HarfBuzz {
      * @param ftFace FT_Face to work upon
      * @return the new {@link FontT} font object
      */
-    public static @NotNull org.harfbuzz.FontT ftFontCreateReferenced(@NotNull org.freetype.Face ftFace) {
-        java.util.Objects.requireNonNull(ftFace, "Parameter 'ftFace' must not be null");
+    public static org.harfbuzz.FontT ftFontCreateReferenced(org.freetype.Face ftFace) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ft_font_create_referenced.invokeExact(
@@ -4856,7 +4831,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.FontT(RESULT, Ownership.FULL);
+        return org.harfbuzz.FontT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4865,8 +4840,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return the FT_Face found or {@code NULL}
      */
-    public static @Nullable org.freetype.Face ftFontGetFace(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static @Nullable org.freetype.Face ftFontGetFace(org.harfbuzz.FontT font) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ft_font_get_face.invokeExact(
@@ -4874,7 +4848,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.freetype.Face(RESULT, Ownership.UNKNOWN);
+        return org.freetype.Face.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -4885,8 +4859,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return FT_Load_Glyph flags found
      */
-    public static int ftFontGetLoadFlags(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static int ftFontGetLoadFlags(org.harfbuzz.FontT font) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ft_font_get_load_flags.invokeExact(
@@ -4903,8 +4876,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return the FT_Face associated with {@code font} or {@code NULL}
      */
-    public static @Nullable org.freetype.Face ftFontLockFace(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static @Nullable org.freetype.Face ftFontLockFace(org.harfbuzz.FontT font) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ft_font_lock_face.invokeExact(
@@ -4912,7 +4884,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.freetype.Face(RESULT, Ownership.NONE);
+        return org.freetype.Face.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -4933,8 +4905,7 @@ public final class HarfBuzz {
      * &lt;/note&gt;
      * @param font {@link FontT} to work upon
      */
-    public static void ftFontSetFuncs(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void ftFontSetFuncs(org.harfbuzz.FontT font) {
         try {
             DowncallHandles.hb_ft_font_set_funcs.invokeExact(
                     font.handle());
@@ -4951,8 +4922,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @param loadFlags The FreeType load flags to set
      */
-    public static void ftFontSetLoadFlags(@NotNull org.harfbuzz.FontT font, int loadFlags) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void ftFontSetLoadFlags(org.harfbuzz.FontT font, int loadFlags) {
         try {
             DowncallHandles.hb_ft_font_set_load_flags.invokeExact(
                     font.handle(),
@@ -4966,8 +4936,7 @@ public final class HarfBuzz {
      * Releases an FT_Face previously obtained with hb_ft_font_lock_face().
      * @param font {@link FontT} to work upon
      */
-    public static void ftFontUnlockFace(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void ftFontUnlockFace(org.harfbuzz.FontT font) {
         try {
             DowncallHandles.hb_ft_font_unlock_face.invokeExact(
                     font.handle());
@@ -4985,8 +4954,7 @@ public final class HarfBuzz {
      * @param font {@link FontT} to work upon
      * @return true if changed, false otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT ftHbFontChanged(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static org.harfbuzz.BoolT ftHbFontChanged(org.harfbuzz.FontT font) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ft_hb_font_changed.invokeExact(
@@ -5003,8 +4971,7 @@ public final class HarfBuzz {
      * @param gbytes the GBytes structure to work upon
      * @return the new {@link BlobT} blob object
      */
-    public static @NotNull org.harfbuzz.BlobT glibBlobCreate(@NotNull org.gtk.glib.Bytes gbytes) {
-        java.util.Objects.requireNonNull(gbytes, "Parameter 'gbytes' must not be null");
+    public static org.harfbuzz.BlobT glibBlobCreate(org.gtk.glib.Bytes gbytes) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_glib_blob_create.invokeExact(
@@ -5012,7 +4979,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5020,14 +4987,14 @@ public final class HarfBuzz {
      * with the appropriate GLib function for each method.
      * @return a pointer to the {@link UnicodeFuncsT} Unicode-functions structure
      */
-    public static @NotNull org.harfbuzz.UnicodeFuncsT glibGetUnicodeFuncs() {
+    public static org.harfbuzz.UnicodeFuncsT glibGetUnicodeFuncs() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_glib_get_unicode_funcs.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.NONE);
+        return org.harfbuzz.UnicodeFuncsT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5036,8 +5003,7 @@ public final class HarfBuzz {
      * @param script The {@link ScriptT} to query
      * @return the GUnicodeScript identifier found
      */
-    public static @NotNull org.gtk.glib.UnicodeScript glibScriptFromScript(@NotNull org.harfbuzz.ScriptT script) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public static org.gtk.glib.UnicodeScript glibScriptFromScript(org.harfbuzz.ScriptT script) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_glib_script_from_script.invokeExact(
@@ -5054,8 +5020,7 @@ public final class HarfBuzz {
      * @param script The GUnicodeScript identifier to query
      * @return the {@link ScriptT} script found
      */
-    public static @NotNull org.harfbuzz.ScriptT glibScriptToScript(@NotNull org.gtk.glib.UnicodeScript script) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public static org.harfbuzz.ScriptT glibScriptToScript(org.gtk.glib.UnicodeScript script) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_glib_script_to_script.invokeExact(
@@ -5071,8 +5036,7 @@ public final class HarfBuzz {
      * @param info a {@link GlyphInfoT}
      * @return The {@link GlyphFlagsT} encoded within {@code info}
      */
-    public static @NotNull org.harfbuzz.GlyphFlagsT glyphInfoGetGlyphFlags(@NotNull org.harfbuzz.GlyphInfoT info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public static org.harfbuzz.GlyphFlagsT glyphInfoGetGlyphFlags(org.harfbuzz.GlyphInfoT info) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_glyph_info_get_glyph_flags.invokeExact(
@@ -5089,8 +5053,7 @@ public final class HarfBuzz {
      * @param face {@code hb_face_t} to query
      * @return the gr_face found
      */
-    public static @NotNull java.lang.foreign.MemoryAddress graphite2FaceGetGrFace(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static java.lang.foreign.MemoryAddress graphite2FaceGetGrFace(org.harfbuzz.FaceT face) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_graphite2_face_get_gr_face.invokeExact(
@@ -5107,8 +5070,7 @@ public final class HarfBuzz {
      * @return Graphite2 font associated with {@code font}.
      */
     @Deprecated
-    public static @Nullable java.lang.foreign.MemoryAddress graphite2FontGetGrFont(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress graphite2FontGetGrFont(org.harfbuzz.FontT font) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_graphite2_font_get_gr_font.invokeExact(
@@ -5127,8 +5089,7 @@ public final class HarfBuzz {
      * @param len length of the {@code str}, or -1 if it is {@code NULL}-terminated.
      * @return The {@link LanguageT} corresponding to the BCP 47 language tag.
      */
-    public static @NotNull org.harfbuzz.LanguageT languageFromString(@NotNull byte[] str, int len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static org.harfbuzz.LanguageT languageFromString(byte[] str, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_language_from_string.invokeExact(
@@ -5137,7 +5098,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.LanguageT(RESULT, Ownership.NONE);
+        return org.harfbuzz.LanguageT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5152,14 +5113,14 @@ public final class HarfBuzz {
      * @return The default language of the locale as
      * an {@link LanguageT}
      */
-    public static @NotNull org.harfbuzz.LanguageT languageGetDefault() {
+    public static org.harfbuzz.LanguageT languageGetDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_language_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.LanguageT(RESULT, Ownership.NONE);
+        return org.harfbuzz.LanguageT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -5170,9 +5131,7 @@ public final class HarfBuzz {
      * @param specific Another {@link LanguageT}
      * @return {@code true} if languages match, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT languageMatches(@NotNull org.harfbuzz.LanguageT language, @NotNull org.harfbuzz.LanguageT specific) {
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
-        java.util.Objects.requireNonNull(specific, "Parameter 'specific' must not be null");
+    public static org.harfbuzz.BoolT languageMatches(org.harfbuzz.LanguageT language, org.harfbuzz.LanguageT specific) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_language_matches.invokeExact(
@@ -5190,8 +5149,7 @@ public final class HarfBuzz {
      * @return A {@code NULL}-terminated string representing the {@code language}. Must not be freed by
      * the caller.
      */
-    public static @NotNull java.lang.String languageToString(@NotNull org.harfbuzz.LanguageT language) {
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+    public static java.lang.String languageToString(org.harfbuzz.LanguageT language) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_language_to_string.invokeExact(
@@ -5199,7 +5157,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5207,8 +5165,7 @@ public final class HarfBuzz {
      * @param map A map
      * @return {@code true} if allocation succeeded, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT mapAllocationSuccessful(@NotNull org.harfbuzz.MapT map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public static org.harfbuzz.BoolT mapAllocationSuccessful(org.harfbuzz.MapT map) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_map_allocation_successful.invokeExact(
@@ -5223,8 +5180,7 @@ public final class HarfBuzz {
      * Clears out the contents of {@code map}.
      * @param map A map
      */
-    public static void mapClear(@NotNull org.harfbuzz.MapT map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public static void mapClear(org.harfbuzz.MapT map) {
         try {
             DowncallHandles.hb_map_clear.invokeExact(
                     map.handle());
@@ -5238,8 +5194,7 @@ public final class HarfBuzz {
      * @param map A map
      * @return Newly-allocated map.
      */
-    public static @NotNull org.harfbuzz.MapT mapCopy(@NotNull org.harfbuzz.MapT map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public static org.harfbuzz.MapT mapCopy(org.harfbuzz.MapT map) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_map_copy.invokeExact(
@@ -5247,21 +5202,21 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.MapT(RESULT, Ownership.FULL);
+        return org.harfbuzz.MapT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new, initially empty map.
      * @return The new {@link MapT}
      */
-    public static @NotNull org.harfbuzz.MapT mapCreate() {
+    public static org.harfbuzz.MapT mapCreate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_map_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.MapT(RESULT, Ownership.FULL);
+        return org.harfbuzz.MapT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5269,9 +5224,7 @@ public final class HarfBuzz {
      * @param map A map
      * @param key The key to delete
      */
-    public static void mapDel(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.CodepointT key) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static void mapDel(org.harfbuzz.MapT map, org.harfbuzz.CodepointT key) {
         try {
             DowncallHandles.hb_map_del.invokeExact(
                     map.handle(),
@@ -5287,8 +5240,7 @@ public final class HarfBuzz {
      * destroyed, freeing all memory.
      * @param map A map
      */
-    public static void mapDestroy(@NotNull org.harfbuzz.MapT map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public static void mapDestroy(org.harfbuzz.MapT map) {
         try {
             DowncallHandles.hb_map_destroy.invokeExact(
                     map.handle());
@@ -5302,9 +5254,7 @@ public final class HarfBuzz {
      * @param map A map
      * @param key The key to query
      */
-    public static @NotNull org.harfbuzz.CodepointT mapGet(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.CodepointT key) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static org.harfbuzz.CodepointT mapGet(org.harfbuzz.MapT map, org.harfbuzz.CodepointT key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_map_get.invokeExact(
@@ -5320,14 +5270,14 @@ public final class HarfBuzz {
      * Fetches the singleton empty {@link MapT}.
      * @return The empty {@link MapT}
      */
-    public static @NotNull org.harfbuzz.MapT mapGetEmpty() {
+    public static org.harfbuzz.MapT mapGetEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_map_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.MapT(RESULT, Ownership.FULL);
+        return org.harfbuzz.MapT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5335,8 +5285,7 @@ public final class HarfBuzz {
      * @param map A map
      * @return The population of {@code map}
      */
-    public static int mapGetPopulation(@NotNull org.harfbuzz.MapT map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public static int mapGetPopulation(org.harfbuzz.MapT map) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_map_get_population.invokeExact(
@@ -5354,9 +5303,7 @@ public final class HarfBuzz {
      * @param key The user-data key to query
      * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress mapGetUserData(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.UserDataKeyT key) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress mapGetUserData(org.harfbuzz.MapT map, org.harfbuzz.UserDataKeyT key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_map_get_user_data.invokeExact(
@@ -5374,9 +5321,7 @@ public final class HarfBuzz {
      * @param key The key to query
      * @return {@code true} if {@code key} is found in {@code map}, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT mapHas(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.CodepointT key) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static org.harfbuzz.BoolT mapHas(org.harfbuzz.MapT map, org.harfbuzz.CodepointT key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_map_has.invokeExact(
@@ -5393,8 +5338,7 @@ public final class HarfBuzz {
      * @param map A map
      * @return A hash of {@code map}.
      */
-    public static int mapHash(@NotNull org.harfbuzz.MapT map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public static int mapHash(org.harfbuzz.MapT map) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_map_hash.invokeExact(
@@ -5410,8 +5354,7 @@ public final class HarfBuzz {
      * @param map A map
      * @return {@code true} if {@code map} is empty
      */
-    public static @NotNull org.harfbuzz.BoolT mapIsEmpty(@NotNull org.harfbuzz.MapT map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public static org.harfbuzz.BoolT mapIsEmpty(org.harfbuzz.MapT map) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_map_is_empty.invokeExact(
@@ -5429,9 +5372,7 @@ public final class HarfBuzz {
      * @param other Another map
      * @return {@code true} if the two maps are equal, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT mapIsEqual(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.MapT other) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public static org.harfbuzz.BoolT mapIsEqual(org.harfbuzz.MapT map, org.harfbuzz.MapT other) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_map_is_equal.invokeExact(
@@ -5448,8 +5389,7 @@ public final class HarfBuzz {
      * @param map A map
      * @return The map
      */
-    public static @NotNull org.harfbuzz.MapT mapReference(@NotNull org.harfbuzz.MapT map) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
+    public static org.harfbuzz.MapT mapReference(org.harfbuzz.MapT map) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_map_reference.invokeExact(
@@ -5457,7 +5397,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.MapT(RESULT, Ownership.FULL);
+        return org.harfbuzz.MapT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5466,10 +5406,7 @@ public final class HarfBuzz {
      * @param key The key to store in the map
      * @param value The value to store for {@code key}
      */
-    public static void mapSet(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.CodepointT key, @NotNull org.harfbuzz.CodepointT value) {
-        java.util.Objects.requireNonNull(map, "Parameter 'map' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void mapSet(org.harfbuzz.MapT map, org.harfbuzz.CodepointT key, org.harfbuzz.CodepointT value) {
         try {
             DowncallHandles.hb_map_set.invokeExact(
                     map.handle(),
@@ -5489,8 +5426,19 @@ public final class HarfBuzz {
      * @param replace Whether to replace an existing data with the same key
      * @return {@code true} if success, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT mapSetUserData(@NotNull org.harfbuzz.MapT map, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BoolT mapSetUserData(org.harfbuzz.MapT map, org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, org.harfbuzz.BoolT replace) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_map_set_user_data.invokeExact(
+                    map.handle(),
+                    key.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    replace.getValue().intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
     /**
@@ -5504,10 +5452,7 @@ public final class HarfBuzz {
      * @param layers The array of layers found
      * @return Total number of layers available for the glyph index queried
      */
-    public static int otColorGlyphGetLayers(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> layerCount, @Nullable Out<org.harfbuzz.OtColorLayerT[]> layers) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(layerCount, "Parameter 'layerCount' must not be null");
+    public static int otColorGlyphGetLayers(org.harfbuzz.FaceT face, org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> layerCount, @Nullable Out<org.harfbuzz.OtColorLayerT[]> layers) {
         MemorySegment layerCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment layersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -5516,16 +5461,16 @@ public final class HarfBuzz {
                     face.handle(),
                     glyph.getValue().intValue(),
                     startOffset,
-                    (Addressable) layerCountPOINTER.address(),
+                    (Addressable) (layerCount == null ? MemoryAddress.NULL : (Addressable) layerCountPOINTER.address()),
                     (Addressable) (layers == null ? MemoryAddress.NULL : (Addressable) layersPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        layerCount.set(layerCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (layerCount != null) layerCount.set(layerCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.OtColorLayerT[] layersARRAY = new org.harfbuzz.OtColorLayerT[layerCount.get().intValue()];
         for (int I = 0; I < layerCount.get().intValue(); I++) {
             var OBJ = layersPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            layersARRAY[I] = new org.harfbuzz.OtColorLayerT(OBJ, Ownership.NONE);
+            layersARRAY[I] = org.harfbuzz.OtColorLayerT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         layers.set(layersARRAY);
         return RESULT;
@@ -5541,9 +5486,7 @@ public final class HarfBuzz {
      * @param glyph a glyph index
      * @return An {@link BlobT} containing the PNG image for the glyph, if available
      */
-    public static @NotNull org.harfbuzz.BlobT otColorGlyphReferencePng(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.BlobT otColorGlyphReferencePng(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ot_color_glyph_reference_png.invokeExact(
@@ -5552,7 +5495,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5563,9 +5506,7 @@ public final class HarfBuzz {
      * @param glyph a svg glyph index
      * @return An {@link BlobT} containing the SVG document of the glyph, if available
      */
-    public static @NotNull org.harfbuzz.BlobT otColorGlyphReferenceSvg(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.BlobT otColorGlyphReferenceSvg(org.harfbuzz.FaceT face, org.harfbuzz.CodepointT glyph) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ot_color_glyph_reference_svg.invokeExact(
@@ -5574,7 +5515,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5582,8 +5523,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otColorHasLayers(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT otColorHasLayers(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_color_has_layers.invokeExact(
@@ -5599,8 +5539,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otColorHasPalettes(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT otColorHasPalettes(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_color_has_palettes.invokeExact(
@@ -5616,8 +5555,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otColorHasPng(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT otColorHasPng(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_color_has_png.invokeExact(
@@ -5633,8 +5571,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon.
      * @return {@code true} if data found, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT otColorHasSvg(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT otColorHasSvg(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_color_has_svg.invokeExact(
@@ -5655,8 +5592,7 @@ public final class HarfBuzz {
      * @param colorIndex The index of the color
      * @return the Name ID found for the color.
      */
-    public static @NotNull org.harfbuzz.OtNameIdT otColorPaletteColorGetNameId(@NotNull org.harfbuzz.FaceT face, int colorIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.OtNameIdT otColorPaletteColorGetNameId(org.harfbuzz.FaceT face, int colorIndex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_color_palette_color_get_name_id.invokeExact(
@@ -5684,9 +5620,7 @@ public final class HarfBuzz {
      * @param colors The array of {@link ColorT} records found
      * @return the total number of colors in the palette
      */
-    public static int otColorPaletteGetColors(@NotNull org.harfbuzz.FaceT face, int paletteIndex, int startOffset, Out<Integer> colorCount, @Nullable Out<org.harfbuzz.ColorT[]> colors) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(colorCount, "Parameter 'colorCount' must not be null");
+    public static int otColorPaletteGetColors(org.harfbuzz.FaceT face, int paletteIndex, int startOffset, Out<Integer> colorCount, @Nullable Out<org.harfbuzz.ColorT[]> colors) {
         MemorySegment colorCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment colorsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -5695,12 +5629,12 @@ public final class HarfBuzz {
                     face.handle(),
                     paletteIndex,
                     startOffset,
-                    (Addressable) colorCountPOINTER.address(),
+                    (Addressable) (colorCount == null ? MemoryAddress.NULL : (Addressable) colorCountPOINTER.address()),
                     (Addressable) (colors == null ? MemoryAddress.NULL : (Addressable) colorsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        colorCount.set(colorCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (colorCount != null) colorCount.set(colorCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.ColorT[] colorsARRAY = new org.harfbuzz.ColorT[colorCount.get().intValue()];
         for (int I = 0; I < colorCount.get().intValue(); I++) {
             var OBJ = colorsPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -5715,8 +5649,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return the number of palettes found
      */
-    public static int otColorPaletteGetCount(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static int otColorPaletteGetCount(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_color_palette_get_count.invokeExact(
@@ -5733,8 +5666,7 @@ public final class HarfBuzz {
      * @param paletteIndex The index of the color palette
      * @return the {@link OtColorPaletteFlagsT} of the requested color palette
      */
-    public static @NotNull org.harfbuzz.OtColorPaletteFlagsT otColorPaletteGetFlags(@NotNull org.harfbuzz.FaceT face, int paletteIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.OtColorPaletteFlagsT otColorPaletteGetFlags(org.harfbuzz.FaceT face, int paletteIndex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_color_palette_get_flags.invokeExact(
@@ -5757,8 +5689,7 @@ public final class HarfBuzz {
      * @return the Named ID found for the palette.
      * If the requested palette has no name the result is {@code HB_OT_NAME_ID_INVALID}.
      */
-    public static @NotNull org.harfbuzz.OtNameIdT otColorPaletteGetNameId(@NotNull org.harfbuzz.FaceT face, int paletteIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.OtNameIdT otColorPaletteGetNameId(org.harfbuzz.FaceT face, int paletteIndex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_color_palette_get_name_id.invokeExact(
@@ -5774,8 +5705,7 @@ public final class HarfBuzz {
      * Sets the font functions to use when working with {@code font}.
      * @param font {@link FontT} to work upon
      */
-    public static void otFontSetFuncs(@NotNull org.harfbuzz.FontT font) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
+    public static void otFontSetFuncs(org.harfbuzz.FontT font) {
         try {
             DowncallHandles.hb_ot_font_set_funcs.invokeExact(
                     font.handle());
@@ -5800,10 +5730,7 @@ public final class HarfBuzz {
      *   terminated by {@code HB_TAG_NONE}
      * @param featureIndexes The array of feature indexes found for the query
      */
-    public static void otLayoutCollectFeatures(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @Nullable org.harfbuzz.TagT[] scripts, @Nullable org.harfbuzz.TagT[] languages, @Nullable org.harfbuzz.TagT[] features, @NotNull org.harfbuzz.SetT featureIndexes) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(featureIndexes, "Parameter 'featureIndexes' must not be null");
+    public static void otLayoutCollectFeatures(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, @Nullable org.harfbuzz.TagT[] scripts, @Nullable org.harfbuzz.TagT[] languages, @Nullable org.harfbuzz.TagT[] features, org.harfbuzz.SetT featureIndexes) {
         try {
             DowncallHandles.hb_ot_layout_collect_features.invokeExact(
                     face.handle(),
@@ -5833,10 +5760,7 @@ public final class HarfBuzz {
      *   terminated by {@code HB_TAG_NONE}
      * @param lookupIndexes The array of lookup indexes found for the query
      */
-    public static void otLayoutCollectLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @Nullable org.harfbuzz.TagT[] scripts, @Nullable org.harfbuzz.TagT[] languages, @Nullable org.harfbuzz.TagT[] features, @NotNull org.harfbuzz.SetT lookupIndexes) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(lookupIndexes, "Parameter 'lookupIndexes' must not be null");
+    public static void otLayoutCollectLookups(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, @Nullable org.harfbuzz.TagT[] scripts, @Nullable org.harfbuzz.TagT[] languages, @Nullable org.harfbuzz.TagT[] features, org.harfbuzz.SetT lookupIndexes) {
         try {
             DowncallHandles.hb_ot_layout_collect_lookups.invokeExact(
                     face.handle(),
@@ -5864,12 +5788,8 @@ public final class HarfBuzz {
      *               glyph variants.
      * @return Number of total sample characters in the cvXX feature.
      */
-    public static int otLayoutFeatureGetCharacters(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> charCount, @NotNull Out<org.harfbuzz.CodepointT[]> characters) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(charCount, "Parameter 'charCount' must not be null");
+    public static int otLayoutFeatureGetCharacters(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> charCount, Out<org.harfbuzz.CodepointT[]> characters) {
         MemorySegment charCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(characters, "Parameter 'characters' must not be null");
         MemorySegment charactersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -5878,12 +5798,12 @@ public final class HarfBuzz {
                     tableTag.getValue().intValue(),
                     featureIndex,
                     startOffset,
-                    (Addressable) charCountPOINTER.address(),
+                    (Addressable) (charCount == null ? MemoryAddress.NULL : (Addressable) charCountPOINTER.address()),
                     (Addressable) charactersPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        charCount.set(charCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (charCount != null) charCount.set(charCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.CodepointT[] charactersARRAY = new org.harfbuzz.CodepointT[charCount.get().intValue()];
         for (int I = 0; I < charCount.get().intValue(); I++) {
             var OBJ = charactersPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -5906,12 +5826,8 @@ public final class HarfBuzz {
      * @param lookupIndexes The array of lookup indexes found for the query
      * @return Total number of lookups.
      */
-    public static int otLayoutFeatureGetLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> lookupCount, @NotNull Out<int[]> lookupIndexes) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(lookupCount, "Parameter 'lookupCount' must not be null");
+    public static int otLayoutFeatureGetLookups(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int featureIndex, int startOffset, Out<Integer> lookupCount, Out<int[]> lookupIndexes) {
         MemorySegment lookupCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(lookupIndexes, "Parameter 'lookupIndexes' must not be null");
         MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -5920,12 +5836,12 @@ public final class HarfBuzz {
                     tableTag.getValue().intValue(),
                     featureIndex,
                     startOffset,
-                    (Addressable) lookupCountPOINTER.address(),
+                    (Addressable) (lookupCount == null ? MemoryAddress.NULL : (Addressable) lookupCountPOINTER.address()),
                     (Addressable) lookupIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        lookupCount.set(lookupCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (lookupCount != null) lookupCount.set(lookupCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         lookupIndexes.set(MemorySegment.ofAddress(lookupIndexesPOINTER.get(Interop.valueLayout.ADDRESS, 0), lookupCount.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
         return RESULT;
     }
@@ -5949,18 +5865,11 @@ public final class HarfBuzz {
      *                  parameters. (Must be zero if numParameters is zero.)
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutFeatureGetNameIds(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, @NotNull Out<org.harfbuzz.OtNameIdT> labelId, @NotNull Out<org.harfbuzz.OtNameIdT> tooltipId, @NotNull Out<org.harfbuzz.OtNameIdT> sampleId, Out<Integer> numNamedParameters, @NotNull Out<org.harfbuzz.OtNameIdT> firstParamId) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(labelId, "Parameter 'labelId' must not be null");
+    public static org.harfbuzz.BoolT otLayoutFeatureGetNameIds(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int featureIndex, @Nullable org.harfbuzz.OtNameIdT labelId, @Nullable org.harfbuzz.OtNameIdT tooltipId, @Nullable org.harfbuzz.OtNameIdT sampleId, Out<Integer> numNamedParameters, @Nullable org.harfbuzz.OtNameIdT firstParamId) {
         MemorySegment labelIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(tooltipId, "Parameter 'tooltipId' must not be null");
         MemorySegment tooltipIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(sampleId, "Parameter 'sampleId' must not be null");
         MemorySegment sampleIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(numNamedParameters, "Parameter 'numNamedParameters' must not be null");
         MemorySegment numNamedParametersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(firstParamId, "Parameter 'firstParamId' must not be null");
         MemorySegment firstParamIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -5968,19 +5877,19 @@ public final class HarfBuzz {
                     face.handle(),
                     tableTag.getValue().intValue(),
                     featureIndex,
-                    (Addressable) labelIdPOINTER.address(),
-                    (Addressable) tooltipIdPOINTER.address(),
-                    (Addressable) sampleIdPOINTER.address(),
-                    (Addressable) numNamedParametersPOINTER.address(),
-                    (Addressable) firstParamIdPOINTER.address());
+                    (Addressable) (labelId == null ? MemoryAddress.NULL : (Addressable) labelIdPOINTER.address()),
+                    (Addressable) (tooltipId == null ? MemoryAddress.NULL : (Addressable) tooltipIdPOINTER.address()),
+                    (Addressable) (sampleId == null ? MemoryAddress.NULL : (Addressable) sampleIdPOINTER.address()),
+                    (Addressable) (numNamedParameters == null ? MemoryAddress.NULL : (Addressable) numNamedParametersPOINTER.address()),
+                    (Addressable) (firstParamId == null ? MemoryAddress.NULL : (Addressable) firstParamIdPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        labelId.set(new org.harfbuzz.OtNameIdT(labelIdPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        tooltipId.set(new org.harfbuzz.OtNameIdT(tooltipIdPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        sampleId.set(new org.harfbuzz.OtNameIdT(sampleIdPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        numNamedParameters.set(numNamedParametersPOINTER.get(Interop.valueLayout.C_INT, 0));
-        firstParamId.set(new org.harfbuzz.OtNameIdT(firstParamIdPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (labelId != null) labelId.setValue(labelIdPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (tooltipId != null) tooltipId.setValue(tooltipIdPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (sampleId != null) sampleId.setValue(sampleIdPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (numNamedParameters != null) numNamedParameters.set(numNamedParametersPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (firstParamId != null) firstParamId.setValue(firstParamIdPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -5998,12 +5907,8 @@ public final class HarfBuzz {
      * @param lookupIndexes The array of lookups found for the query
      * @return Total number of lookups.
      */
-    public static int otLayoutFeatureWithVariationsGetLookups(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int featureIndex, int variationsIndex, int startOffset, Out<Integer> lookupCount, @NotNull Out<int[]> lookupIndexes) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(lookupCount, "Parameter 'lookupCount' must not be null");
+    public static int otLayoutFeatureWithVariationsGetLookups(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int featureIndex, int variationsIndex, int startOffset, Out<Integer> lookupCount, Out<int[]> lookupIndexes) {
         MemorySegment lookupCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(lookupIndexes, "Parameter 'lookupIndexes' must not be null");
         MemorySegment lookupIndexesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -6013,12 +5918,12 @@ public final class HarfBuzz {
                     featureIndex,
                     variationsIndex,
                     startOffset,
-                    (Addressable) lookupCountPOINTER.address(),
+                    (Addressable) (lookupCount == null ? MemoryAddress.NULL : (Addressable) lookupCountPOINTER.address()),
                     (Addressable) lookupIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        lookupCount.set(lookupCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (lookupCount != null) lookupCount.set(lookupCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         lookupIndexes.set(MemorySegment.ofAddress(lookupIndexesPOINTER.get(Interop.valueLayout.ADDRESS, 0), lookupCount.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
         return RESULT;
     }
@@ -6036,12 +5941,8 @@ public final class HarfBuzz {
      * @param pointArray The array of attachment points found for the query
      * @return Total number of attachment points for {@code glyph}.
      */
-    public static int otLayoutGetAttachPoints(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> pointCount, @NotNull Out<int[]> pointArray) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(pointCount, "Parameter 'pointCount' must not be null");
+    public static int otLayoutGetAttachPoints(org.harfbuzz.FaceT face, org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> pointCount, Out<int[]> pointArray) {
         MemorySegment pointCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(pointArray, "Parameter 'pointArray' must not be null");
         MemorySegment pointArrayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -6049,12 +5950,12 @@ public final class HarfBuzz {
                     face.handle(),
                     glyph.getValue().intValue(),
                     startOffset,
-                    (Addressable) pointCountPOINTER.address(),
+                    (Addressable) (pointCount == null ? MemoryAddress.NULL : (Addressable) pointCountPOINTER.address()),
                     (Addressable) pointArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        pointCount.set(pointCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (pointCount != null) pointCount.set(pointCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         pointArray.set(MemorySegment.ofAddress(pointArrayPOINTER.get(Interop.valueLayout.ADDRESS, 0), pointCount.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
         return RESULT;
     }
@@ -6069,12 +5970,7 @@ public final class HarfBuzz {
      * @param coord baseline value if found.
      * @return {@code true} if found baseline value in the font.
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutGetBaseline(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtLayoutBaselineTagT baselineTag, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.TagT scriptTag, @NotNull org.harfbuzz.TagT languageTag, @Nullable Out<org.harfbuzz.PositionT> coord) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(baselineTag, "Parameter 'baselineTag' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
-        java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
+    public static org.harfbuzz.BoolT otLayoutGetBaseline(org.harfbuzz.FontT font, org.harfbuzz.OtLayoutBaselineTagT baselineTag, org.harfbuzz.DirectionT direction, org.harfbuzz.TagT scriptTag, org.harfbuzz.TagT languageTag, @Nullable org.harfbuzz.PositionT coord) {
         MemorySegment coordPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -6088,7 +5984,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (coord != null) coord.set(new org.harfbuzz.PositionT(coordPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (coord != null) coord.setValue(coordPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -6102,13 +5998,7 @@ public final class HarfBuzz {
      * @param languageTag language tag, currently unused.
      * @param coord baseline value if found.
      */
-    public static void otLayoutGetBaselineWithFallback(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtLayoutBaselineTagT baselineTag, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.TagT scriptTag, @NotNull org.harfbuzz.TagT languageTag, @NotNull Out<org.harfbuzz.PositionT> coord) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(baselineTag, "Parameter 'baselineTag' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
-        java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
-        java.util.Objects.requireNonNull(coord, "Parameter 'coord' must not be null");
+    public static void otLayoutGetBaselineWithFallback(org.harfbuzz.FontT font, org.harfbuzz.OtLayoutBaselineTagT baselineTag, org.harfbuzz.DirectionT direction, org.harfbuzz.TagT scriptTag, org.harfbuzz.TagT languageTag, org.harfbuzz.PositionT coord) {
         MemorySegment coordPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_ot_layout_get_baseline_with_fallback.invokeExact(
@@ -6121,7 +6011,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        coord.set(new org.harfbuzz.PositionT(coordPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        coord.setValue(coordPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -6131,9 +6021,7 @@ public final class HarfBuzz {
      * @return The {@link OtLayoutGlyphClassT} glyph class of the given code
      * point in the GDEF table of the face.
      */
-    public static @NotNull org.harfbuzz.OtLayoutGlyphClassT otLayoutGetGlyphClass(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.OtLayoutGlyphClassT otLayoutGetGlyphClass(org.harfbuzz.FaceT face, org.harfbuzz.CodepointT glyph) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_layout_get_glyph_class.invokeExact(
@@ -6153,10 +6041,7 @@ public final class HarfBuzz {
      * @param glyphs The {@link SetT} set of all glyphs belonging to the requested
      *          class.
      */
-    public static void otLayoutGetGlyphsInClass(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtLayoutGlyphClassT klass, @NotNull org.harfbuzz.SetT glyphs) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(klass, "Parameter 'klass' must not be null");
-        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+    public static void otLayoutGetGlyphsInClass(org.harfbuzz.FaceT face, org.harfbuzz.OtLayoutGlyphClassT klass, org.harfbuzz.SetT glyphs) {
         try {
             DowncallHandles.hb_ot_layout_get_glyphs_in_class.invokeExact(
                     face.handle(),
@@ -6172,8 +6057,7 @@ public final class HarfBuzz {
      * @param script a script tag.
      * @return dominant baseline tag for the {@code script}.
      */
-    public static @NotNull org.harfbuzz.OtLayoutBaselineTagT otLayoutGetHorizontalBaselineTagForScript(@NotNull org.harfbuzz.ScriptT script) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public static org.harfbuzz.OtLayoutBaselineTagT otLayoutGetHorizontalBaselineTagForScript(org.harfbuzz.ScriptT script) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_layout_get_horizontal_baseline_tag_for_script.invokeExact(
@@ -6203,13 +6087,8 @@ public final class HarfBuzz {
      * @param caretArray The array of caret positions found for the query
      * @return Total number of ligature caret positions for {@code glyph}.
      */
-    public static int otLayoutGetLigatureCarets(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> caretCount, @NotNull Out<org.harfbuzz.PositionT[]> caretArray) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(caretCount, "Parameter 'caretCount' must not be null");
+    public static int otLayoutGetLigatureCarets(org.harfbuzz.FontT font, org.harfbuzz.DirectionT direction, org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> caretCount, Out<org.harfbuzz.PositionT[]> caretArray) {
         MemorySegment caretCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(caretArray, "Parameter 'caretArray' must not be null");
         MemorySegment caretArrayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -6218,12 +6097,12 @@ public final class HarfBuzz {
                     direction.getValue(),
                     glyph.getValue().intValue(),
                     startOffset,
-                    (Addressable) caretCountPOINTER.address(),
+                    (Addressable) (caretCount == null ? MemoryAddress.NULL : (Addressable) caretCountPOINTER.address()),
                     (Addressable) caretArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        caretCount.set(caretCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (caretCount != null) caretCount.set(caretCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.PositionT[] caretArrayARRAY = new org.harfbuzz.PositionT[caretCount.get().intValue()];
         for (int I = 0; I < caretCount.get().intValue(); I++) {
             var OBJ = caretArrayPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -6250,17 +6129,11 @@ public final class HarfBuzz {
      * @param rangeEnd The maximum size of the recommended size range for the face
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutGetSizeParams(@NotNull org.harfbuzz.FaceT face, Out<Integer> designSize, Out<Integer> subfamilyId, @NotNull Out<org.harfbuzz.OtNameIdT> subfamilyNameId, Out<Integer> rangeStart, Out<Integer> rangeEnd) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(designSize, "Parameter 'designSize' must not be null");
+    public static org.harfbuzz.BoolT otLayoutGetSizeParams(org.harfbuzz.FaceT face, Out<Integer> designSize, Out<Integer> subfamilyId, org.harfbuzz.OtNameIdT subfamilyNameId, Out<Integer> rangeStart, Out<Integer> rangeEnd) {
         MemorySegment designSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(subfamilyId, "Parameter 'subfamilyId' must not be null");
         MemorySegment subfamilyIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(subfamilyNameId, "Parameter 'subfamilyNameId' must not be null");
         MemorySegment subfamilyNameIdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(rangeStart, "Parameter 'rangeStart' must not be null");
         MemorySegment rangeStartPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(rangeEnd, "Parameter 'rangeEnd' must not be null");
         MemorySegment rangeEndPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -6276,7 +6149,7 @@ public final class HarfBuzz {
         }
         designSize.set(designSizePOINTER.get(Interop.valueLayout.C_INT, 0));
         subfamilyId.set(subfamilyIdPOINTER.get(Interop.valueLayout.C_INT, 0));
-        subfamilyNameId.set(new org.harfbuzz.OtNameIdT(subfamilyNameIdPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        subfamilyNameId.setValue(subfamilyNameIdPOINTER.get(Interop.valueLayout.C_INT, 0));
         rangeStart.set(rangeStartPOINTER.get(Interop.valueLayout.C_INT, 0));
         rangeEnd.set(rangeEndPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
@@ -6287,8 +6160,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutHasGlyphClasses(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT otLayoutHasGlyphClasses(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_layout_has_glyph_classes.invokeExact(
@@ -6304,8 +6176,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return {@code true} if the face has GPOS data, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutHasPositioning(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT otLayoutHasPositioning(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_layout_has_positioning.invokeExact(
@@ -6321,8 +6192,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to work upon
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutHasSubstitution(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT otLayoutHasSubstitution(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_layout_has_substitution.invokeExact(
@@ -6344,11 +6214,7 @@ public final class HarfBuzz {
      * @param featureIndex The index of the requested feature
      * @return {@code true} if the feature is found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutLanguageFindFeature(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, @NotNull org.harfbuzz.TagT featureTag, Out<Integer> featureIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(featureTag, "Parameter 'featureTag' must not be null");
-        java.util.Objects.requireNonNull(featureIndex, "Parameter 'featureIndex' must not be null");
+    public static org.harfbuzz.BoolT otLayoutLanguageFindFeature(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, org.harfbuzz.TagT featureTag, Out<Integer> featureIndex) {
         MemorySegment featureIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -6380,12 +6246,8 @@ public final class HarfBuzz {
      * @param featureIndexes The array of feature indexes found for the query
      * @return Total number of features.
      */
-    public static int otLayoutLanguageGetFeatureIndexes(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, @NotNull Out<int[]> featureIndexes) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
+    public static int otLayoutLanguageGetFeatureIndexes(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, Out<int[]> featureIndexes) {
         MemorySegment featureCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(featureIndexes, "Parameter 'featureIndexes' must not be null");
         MemorySegment featureIndexesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -6395,12 +6257,12 @@ public final class HarfBuzz {
                     scriptIndex,
                     languageIndex,
                     startOffset,
-                    (Addressable) featureCountPOINTER.address(),
+                    (Addressable) (featureCount == null ? MemoryAddress.NULL : (Addressable) featureCountPOINTER.address()),
                     (Addressable) featureIndexesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        featureCount.set(featureCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (featureCount != null) featureCount.set(featureCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         featureIndexes.set(MemorySegment.ofAddress(featureIndexesPOINTER.get(Interop.valueLayout.ADDRESS, 0), featureCount.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
         return RESULT;
     }
@@ -6419,12 +6281,8 @@ public final class HarfBuzz {
      * @param featureTags The array of {@link TagT} feature tags found for the query
      * @return Total number of feature tags.
      */
-    public static int otLayoutLanguageGetFeatureTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, @NotNull Out<org.harfbuzz.TagT[]> featureTags) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
+    public static int otLayoutLanguageGetFeatureTags(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, int startOffset, Out<Integer> featureCount, Out<org.harfbuzz.TagT[]> featureTags) {
         MemorySegment featureCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(featureTags, "Parameter 'featureTags' must not be null");
         MemorySegment featureTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -6434,12 +6292,12 @@ public final class HarfBuzz {
                     scriptIndex,
                     languageIndex,
                     startOffset,
-                    (Addressable) featureCountPOINTER.address(),
+                    (Addressable) (featureCount == null ? MemoryAddress.NULL : (Addressable) featureCountPOINTER.address()),
                     (Addressable) featureTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        featureCount.set(featureCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (featureCount != null) featureCount.set(featureCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.TagT[] featureTagsARRAY = new org.harfbuzz.TagT[featureCount.get().intValue()];
         for (int I = 0; I < featureCount.get().intValue(); I++) {
             var OBJ = featureTagsPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -6460,12 +6318,8 @@ public final class HarfBuzz {
      * @param featureTag The {@link TagT} of the requested feature
      * @return {@code true} if the feature is found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutLanguageGetRequiredFeature(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, Out<Integer> featureIndex, @NotNull Out<org.harfbuzz.TagT> featureTag) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(featureIndex, "Parameter 'featureIndex' must not be null");
+    public static org.harfbuzz.BoolT otLayoutLanguageGetRequiredFeature(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, Out<Integer> featureIndex, org.harfbuzz.TagT featureTag) {
         MemorySegment featureIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(featureTag, "Parameter 'featureTag' must not be null");
         MemorySegment featureTagPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -6480,7 +6334,7 @@ public final class HarfBuzz {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         featureIndex.set(featureIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        featureTag.set(new org.harfbuzz.TagT(featureTagPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        featureTag.setValue(featureTagPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -6494,10 +6348,7 @@ public final class HarfBuzz {
      * @param featureIndex The index of the requested feature
      * @return {@code true} if the feature is found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutLanguageGetRequiredFeatureIndex(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, Out<Integer> featureIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(featureIndex, "Parameter 'featureIndex' must not be null");
+    public static org.harfbuzz.BoolT otLayoutLanguageGetRequiredFeatureIndex(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int scriptIndex, int languageIndex, Out<Integer> featureIndex) {
         MemorySegment featureIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -6525,13 +6376,7 @@ public final class HarfBuzz {
      * @param glyphsAfter Array of glyphs following the substitution range
      * @param glyphsOutput Array of glyphs that would be the substituted output of the lookup
      */
-    public static void otLayoutLookupCollectGlyphs(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int lookupIndex, @NotNull org.harfbuzz.SetT glyphsBefore, @NotNull org.harfbuzz.SetT glyphsInput, @NotNull org.harfbuzz.SetT glyphsAfter, @NotNull org.harfbuzz.SetT glyphsOutput) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(glyphsBefore, "Parameter 'glyphsBefore' must not be null");
-        java.util.Objects.requireNonNull(glyphsInput, "Parameter 'glyphsInput' must not be null");
-        java.util.Objects.requireNonNull(glyphsAfter, "Parameter 'glyphsAfter' must not be null");
-        java.util.Objects.requireNonNull(glyphsOutput, "Parameter 'glyphsOutput' must not be null");
+    public static void otLayoutLookupCollectGlyphs(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int lookupIndex, org.harfbuzz.SetT glyphsBefore, org.harfbuzz.SetT glyphsInput, org.harfbuzz.SetT glyphsAfter, org.harfbuzz.SetT glyphsOutput) {
         try {
             DowncallHandles.hb_ot_layout_lookup_collect_glyphs.invokeExact(
                     face.handle(),
@@ -6558,12 +6403,8 @@ public final class HarfBuzz {
      *                    Alternate glyphs associated with the glyph id.
      * @return Total number of alternates found in the specific lookup index for the given glyph id.
      */
-    public static int otLayoutLookupGetGlyphAlternates(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> alternateCount, @NotNull Out<org.harfbuzz.CodepointT[]> alternateGlyphs) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(alternateCount, "Parameter 'alternateCount' must not be null");
+    public static int otLayoutLookupGetGlyphAlternates(org.harfbuzz.FaceT face, int lookupIndex, org.harfbuzz.CodepointT glyph, int startOffset, Out<Integer> alternateCount, Out<org.harfbuzz.CodepointT[]> alternateGlyphs) {
         MemorySegment alternateCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(alternateGlyphs, "Parameter 'alternateGlyphs' must not be null");
         MemorySegment alternateGlyphsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -6572,12 +6413,12 @@ public final class HarfBuzz {
                     lookupIndex,
                     glyph.getValue().intValue(),
                     startOffset,
-                    (Addressable) alternateCountPOINTER.address(),
+                    (Addressable) (alternateCount == null ? MemoryAddress.NULL : (Addressable) alternateCountPOINTER.address()),
                     (Addressable) alternateGlyphsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        alternateCount.set(alternateCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (alternateCount != null) alternateCount.set(alternateCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.CodepointT[] alternateGlyphsARRAY = new org.harfbuzz.CodepointT[alternateCount.get().intValue()];
         for (int I = 0; I < alternateCount.get().intValue(); I++) {
             var OBJ = alternateGlyphsPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -6594,9 +6435,7 @@ public final class HarfBuzz {
      * @param lookupIndex index of the feature lookup to query
      * @param glyphs Array of glyphs comprising the transitive closure of the lookup
      */
-    public static void otLayoutLookupSubstituteClosure(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull org.harfbuzz.SetT glyphs) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+    public static void otLayoutLookupSubstituteClosure(org.harfbuzz.FaceT face, int lookupIndex, org.harfbuzz.SetT glyphs) {
         try {
             DowncallHandles.hb_ot_layout_lookup_substitute_closure.invokeExact(
                     face.handle(),
@@ -6618,23 +6457,20 @@ public final class HarfBuzz {
      * in substitutions
      * @return {@code true} if a substitution would be triggered, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutLookupWouldSubstitute(@NotNull org.harfbuzz.FaceT face, int lookupIndex, @NotNull org.harfbuzz.CodepointT glyphs, int glyphsLength, @NotNull org.harfbuzz.BoolT zeroContext) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
-        PointerInteger glyphsPOINTER = new PointerInteger(glyphs.getValue());
-        java.util.Objects.requireNonNull(zeroContext, "Parameter 'zeroContext' must not be null");
+    public static org.harfbuzz.BoolT otLayoutLookupWouldSubstitute(org.harfbuzz.FaceT face, int lookupIndex, org.harfbuzz.CodepointT glyphs, int glyphsLength, org.harfbuzz.BoolT zeroContext) {
+        MemorySegment glyphsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_layout_lookup_would_substitute.invokeExact(
                     face.handle(),
                     lookupIndex,
-                    new PointerInteger(glyphs.getValue().intValue()).handle(),
+                    (Addressable) glyphsPOINTER.address(),
                     glyphsLength,
                     zeroContext.getValue().intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            glyphs.setValue(glyphsPOINTER.get());
+        glyphs.setValue(glyphsPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -6645,10 +6481,7 @@ public final class HarfBuzz {
      * @param lookups The set of lookups to query
      * @param glyphs Array of glyphs comprising the transitive closure of the lookups
      */
-    public static void otLayoutLookupsSubstituteClosure(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SetT lookups, @NotNull org.harfbuzz.SetT glyphs) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(lookups, "Parameter 'lookups' must not be null");
-        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+    public static void otLayoutLookupsSubstituteClosure(org.harfbuzz.FaceT face, org.harfbuzz.SetT lookups, org.harfbuzz.SetT glyphs) {
         try {
             DowncallHandles.hb_ot_layout_lookups_substitute_closure.invokeExact(
                     face.handle(),
@@ -6670,11 +6503,7 @@ public final class HarfBuzz {
      * @return {@code true} if the language tag is found, {@code false} otherwise
      */
     @Deprecated
-    public static @NotNull org.harfbuzz.BoolT otLayoutScriptFindLanguage(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, @NotNull org.harfbuzz.TagT languageTag, PointerInteger languageIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
-        java.util.Objects.requireNonNull(languageIndex, "Parameter 'languageIndex' must not be null");
+    public static org.harfbuzz.BoolT otLayoutScriptFindLanguage(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int scriptIndex, org.harfbuzz.TagT languageTag, PointerInteger languageIndex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_layout_script_find_language.invokeExact(
@@ -6701,12 +6530,8 @@ public final class HarfBuzz {
      * @param languageTags Array of language tags found in the table
      * @return Total number of language tags.
      */
-    public static int otLayoutScriptGetLanguageTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int startOffset, Out<Integer> languageCount, @NotNull Out<org.harfbuzz.TagT[]> languageTags) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(languageCount, "Parameter 'languageCount' must not be null");
+    public static int otLayoutScriptGetLanguageTags(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int scriptIndex, int startOffset, Out<Integer> languageCount, Out<org.harfbuzz.TagT[]> languageTags) {
         MemorySegment languageCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(languageTags, "Parameter 'languageTags' must not be null");
         MemorySegment languageTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -6715,12 +6540,12 @@ public final class HarfBuzz {
                     tableTag.getValue().intValue(),
                     scriptIndex,
                     startOffset,
-                    (Addressable) languageCountPOINTER.address(),
+                    (Addressable) (languageCount == null ? MemoryAddress.NULL : (Addressable) languageCountPOINTER.address()),
                     (Addressable) languageTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        languageCount.set(languageCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (languageCount != null) languageCount.set(languageCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.TagT[] languageTagsARRAY = new org.harfbuzz.TagT[languageCount.get().intValue()];
         for (int I = 0; I < languageCount.get().intValue(); I++) {
             var OBJ = languageTagsPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -6745,12 +6570,8 @@ public final class HarfBuzz {
      * @param languageIndex The index of the requested language
      * @return {@code true} if one of the given language tags is found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutScriptSelectLanguage(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptIndex, int languageCount, @NotNull org.harfbuzz.TagT languageTags, Out<Integer> languageIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(languageTags, "Parameter 'languageTags' must not be null");
-        PointerInteger languageTagsPOINTER = new PointerInteger(languageTags.getValue());
-        java.util.Objects.requireNonNull(languageIndex, "Parameter 'languageIndex' must not be null");
+    public static org.harfbuzz.BoolT otLayoutScriptSelectLanguage(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int scriptIndex, int languageCount, org.harfbuzz.TagT languageTags, Out<Integer> languageIndex) {
+        MemorySegment languageTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment languageIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -6759,12 +6580,12 @@ public final class HarfBuzz {
                     tableTag.getValue().intValue(),
                     scriptIndex,
                     languageCount,
-                    new PointerInteger(languageTags.getValue().intValue()).handle(),
+                    (Addressable) languageTagsPOINTER.address(),
                     (Addressable) languageIndexPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            languageTags.setValue(languageTagsPOINTER.get());
+        languageTags.setValue(languageTagsPOINTER.get(Interop.valueLayout.C_INT, 0));
         languageIndex.set(languageIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
@@ -6777,29 +6598,24 @@ public final class HarfBuzz {
      * @param scriptIndex The index of the requested script tag
      * @param chosenScript {@link TagT} of the script tag requested
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutTableChooseScript(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scriptTags, Out<Integer> scriptIndex, @NotNull Out<org.harfbuzz.TagT> chosenScript) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(scriptTags, "Parameter 'scriptTags' must not be null");
-        PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
-        java.util.Objects.requireNonNull(scriptIndex, "Parameter 'scriptIndex' must not be null");
+    public static org.harfbuzz.BoolT otLayoutTableChooseScript(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, org.harfbuzz.TagT scriptTags, Out<Integer> scriptIndex, org.harfbuzz.TagT chosenScript) {
+        MemorySegment scriptTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment scriptIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(chosenScript, "Parameter 'chosenScript' must not be null");
         MemorySegment chosenScriptPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_layout_table_choose_script.invokeExact(
                     face.handle(),
                     tableTag.getValue().intValue(),
-                    new PointerInteger(scriptTags.getValue().intValue()).handle(),
+                    (Addressable) scriptTagsPOINTER.address(),
                     (Addressable) scriptIndexPOINTER.address(),
                     (Addressable) chosenScriptPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            scriptTags.setValue(scriptTagsPOINTER.get());
+        scriptTags.setValue(scriptTagsPOINTER.get(Interop.valueLayout.C_INT, 0));
         scriptIndex.set(scriptIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        chosenScript.set(new org.harfbuzz.TagT(chosenScriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        chosenScript.setValue(chosenScriptPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -6813,11 +6629,7 @@ public final class HarfBuzz {
      * @param variationsIndex The array of feature variations found for the query
      * @return {@code true} if feature variations were found, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutTableFindFeatureVariations(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, PointerInteger coords, int numCoords, Out<Integer> variationsIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
-        java.util.Objects.requireNonNull(variationsIndex, "Parameter 'variationsIndex' must not be null");
+    public static org.harfbuzz.BoolT otLayoutTableFindFeatureVariations(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, PointerInteger coords, int numCoords, Out<Integer> variationsIndex) {
         MemorySegment variationsIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -6843,11 +6655,7 @@ public final class HarfBuzz {
      * @param scriptIndex The index of the requested script tag
      * @return {@code true} if the script is found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutTableFindScript(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.TagT scriptTag, Out<Integer> scriptIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
-        java.util.Objects.requireNonNull(scriptIndex, "Parameter 'scriptIndex' must not be null");
+    public static org.harfbuzz.BoolT otLayoutTableFindScript(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, org.harfbuzz.TagT scriptTag, Out<Integer> scriptIndex) {
         MemorySegment scriptIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -6875,12 +6683,8 @@ public final class HarfBuzz {
      * @param featureTags Array of feature tags found in the table
      * @return Total number of feature tags.
      */
-    public static int otLayoutTableGetFeatureTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> featureCount, @NotNull Out<org.harfbuzz.TagT[]> featureTags) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(featureCount, "Parameter 'featureCount' must not be null");
+    public static int otLayoutTableGetFeatureTags(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> featureCount, Out<org.harfbuzz.TagT[]> featureTags) {
         MemorySegment featureCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(featureTags, "Parameter 'featureTags' must not be null");
         MemorySegment featureTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -6888,12 +6692,12 @@ public final class HarfBuzz {
                     face.handle(),
                     tableTag.getValue().intValue(),
                     startOffset,
-                    (Addressable) featureCountPOINTER.address(),
+                    (Addressable) (featureCount == null ? MemoryAddress.NULL : (Addressable) featureCountPOINTER.address()),
                     (Addressable) featureTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        featureCount.set(featureCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (featureCount != null) featureCount.set(featureCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.TagT[] featureTagsARRAY = new org.harfbuzz.TagT[featureCount.get().intValue()];
         for (int I = 0; I < featureCount.get().intValue(); I++) {
             var OBJ = featureTagsPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -6910,9 +6714,7 @@ public final class HarfBuzz {
      * @param tableTag {@code HB_OT_TAG_GSUB} or {@code HB_OT_TAG_GPOS}
      * @return Total number of lookups.
      */
-    public static int otLayoutTableGetLookupCount(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
+    public static int otLayoutTableGetLookupCount(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_layout_table_get_lookup_count.invokeExact(
@@ -6935,12 +6737,8 @@ public final class HarfBuzz {
      * @param scriptTags The array of {@link TagT} script tags found for the query
      * @return Total number of script tags.
      */
-    public static int otLayoutTableGetScriptTags(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> scriptCount, @NotNull Out<org.harfbuzz.TagT[]> scriptTags) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(scriptCount, "Parameter 'scriptCount' must not be null");
+    public static int otLayoutTableGetScriptTags(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int startOffset, Out<Integer> scriptCount, Out<org.harfbuzz.TagT[]> scriptTags) {
         MemorySegment scriptCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(scriptTags, "Parameter 'scriptTags' must not be null");
         MemorySegment scriptTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -6948,12 +6746,12 @@ public final class HarfBuzz {
                     face.handle(),
                     tableTag.getValue().intValue(),
                     startOffset,
-                    (Addressable) scriptCountPOINTER.address(),
+                    (Addressable) (scriptCount == null ? MemoryAddress.NULL : (Addressable) scriptCountPOINTER.address()),
                     (Addressable) scriptTagsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        scriptCount.set(scriptCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (scriptCount != null) scriptCount.set(scriptCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.TagT[] scriptTagsARRAY = new org.harfbuzz.TagT[scriptCount.get().intValue()];
         for (int I = 0; I < scriptCount.get().intValue(); I++) {
             var OBJ = scriptTagsPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -6979,14 +6777,9 @@ public final class HarfBuzz {
      * @return {@code true} if one of the requested scripts is selected, {@code false} if a fallback
      * script is selected or if no scripts are selected.
      */
-    public static @NotNull org.harfbuzz.BoolT otLayoutTableSelectScript(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT tableTag, int scriptCount, @NotNull org.harfbuzz.TagT scriptTags, Out<Integer> scriptIndex, @NotNull Out<org.harfbuzz.TagT> chosenScript) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(scriptTags, "Parameter 'scriptTags' must not be null");
-        PointerInteger scriptTagsPOINTER = new PointerInteger(scriptTags.getValue());
-        java.util.Objects.requireNonNull(scriptIndex, "Parameter 'scriptIndex' must not be null");
+    public static org.harfbuzz.BoolT otLayoutTableSelectScript(org.harfbuzz.FaceT face, org.harfbuzz.TagT tableTag, int scriptCount, org.harfbuzz.TagT scriptTags, Out<Integer> scriptIndex, @Nullable org.harfbuzz.TagT chosenScript) {
+        MemorySegment scriptTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment scriptIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(chosenScript, "Parameter 'chosenScript' must not be null");
         MemorySegment chosenScriptPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -6994,15 +6787,15 @@ public final class HarfBuzz {
                     face.handle(),
                     tableTag.getValue().intValue(),
                     scriptCount,
-                    new PointerInteger(scriptTags.getValue().intValue()).handle(),
-                    (Addressable) scriptIndexPOINTER.address(),
-                    (Addressable) chosenScriptPOINTER.address());
+                    (Addressable) scriptTagsPOINTER.address(),
+                    (Addressable) (scriptIndex == null ? MemoryAddress.NULL : (Addressable) scriptIndexPOINTER.address()),
+                    (Addressable) (chosenScript == null ? MemoryAddress.NULL : (Addressable) chosenScriptPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            scriptTags.setValue(scriptTagsPOINTER.get());
-        scriptIndex.set(scriptIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        chosenScript.set(new org.harfbuzz.TagT(chosenScriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        scriptTags.setValue(scriptTagsPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (scriptIndex != null) scriptIndex.set(scriptIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (chosenScript != null) chosenScript.setValue(chosenScriptPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -7018,9 +6811,7 @@ public final class HarfBuzz {
      * @param constant {@link OtMathConstantT} the constant to retrieve
      * @return the requested constant or zero
      */
-    public static @NotNull org.harfbuzz.PositionT otMathGetConstant(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMathConstantT constant) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(constant, "Parameter 'constant' must not be null");
+    public static org.harfbuzz.PositionT otMathGetConstant(org.harfbuzz.FontT font, org.harfbuzz.OtMathConstantT constant) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_math_get_constant.invokeExact(
@@ -7052,15 +6843,9 @@ public final class HarfBuzz {
      * @param italicsCorrection italics correction of the glyph assembly
      * @return the total number of parts in the glyph assembly
      */
-    public static int otMathGetGlyphAssembly(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> partsCount, @NotNull Out<org.harfbuzz.OtMathGlyphPartT[]> parts, @NotNull Out<org.harfbuzz.PositionT> italicsCorrection) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(partsCount, "Parameter 'partsCount' must not be null");
+    public static int otMathGetGlyphAssembly(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> partsCount, Out<org.harfbuzz.OtMathGlyphPartT[]> parts, org.harfbuzz.PositionT italicsCorrection) {
         MemorySegment partsCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(parts, "Parameter 'parts' must not be null");
         MemorySegment partsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(italicsCorrection, "Parameter 'italicsCorrection' must not be null");
         MemorySegment italicsCorrectionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -7076,11 +6861,11 @@ public final class HarfBuzz {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         partsCount.set(partsCountPOINTER.get(Interop.valueLayout.C_INT, 0));
-        italicsCorrection.set(new org.harfbuzz.PositionT(italicsCorrectionPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        italicsCorrection.setValue(italicsCorrectionPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.OtMathGlyphPartT[] partsARRAY = new org.harfbuzz.OtMathGlyphPartT[partsCount.get().intValue()];
         for (int I = 0; I < partsCount.get().intValue(); I++) {
             var OBJ = partsPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            partsARRAY[I] = new org.harfbuzz.OtMathGlyphPartT(OBJ, Ownership.NONE);
+            partsARRAY[I] = org.harfbuzz.OtMathGlyphPartT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         parts.set(partsARRAY);
         return RESULT;
@@ -7093,9 +6878,7 @@ public final class HarfBuzz {
      * @param glyph The glyph index from which to retrieve the value
      * @return the italics correction of the glyph or zero
      */
-    public static @NotNull org.harfbuzz.PositionT otMathGetGlyphItalicsCorrection(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.PositionT otMathGetGlyphItalicsCorrection(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_italics_correction.invokeExact(
@@ -7121,11 +6904,7 @@ public final class HarfBuzz {
      * @param correctionHeight the correction height to use to determine the kerning.
      * @return requested kerning value or zero
      */
-    public static @NotNull org.harfbuzz.PositionT otMathGetGlyphKerning(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.OtMathKernT kern, @NotNull org.harfbuzz.PositionT correctionHeight) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(kern, "Parameter 'kern' must not be null");
-        java.util.Objects.requireNonNull(correctionHeight, "Parameter 'correctionHeight' must not be null");
+    public static org.harfbuzz.PositionT otMathGetGlyphKerning(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.OtMathKernT kern, org.harfbuzz.PositionT correctionHeight) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_kerning.invokeExact(
@@ -7163,13 +6942,8 @@ public final class HarfBuzz {
      * @param kernEntries array of kern entries returned
      * @return the total number of kern values available or zero
      */
-    public static int otMathGetGlyphKernings(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.OtMathKernT kern, int startOffset, Out<Integer> entriesCount, @NotNull Out<org.harfbuzz.OtMathKernEntryT[]> kernEntries) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(kern, "Parameter 'kern' must not be null");
-        java.util.Objects.requireNonNull(entriesCount, "Parameter 'entriesCount' must not be null");
+    public static int otMathGetGlyphKernings(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.OtMathKernT kern, int startOffset, Out<Integer> entriesCount, Out<org.harfbuzz.OtMathKernEntryT[]> kernEntries) {
         MemorySegment entriesCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(kernEntries, "Parameter 'kernEntries' must not be null");
         MemorySegment kernEntriesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -7178,16 +6952,16 @@ public final class HarfBuzz {
                     glyph.getValue().intValue(),
                     kern.getValue(),
                     startOffset,
-                    (Addressable) entriesCountPOINTER.address(),
+                    (Addressable) (entriesCount == null ? MemoryAddress.NULL : (Addressable) entriesCountPOINTER.address()),
                     (Addressable) kernEntriesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        entriesCount.set(entriesCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (entriesCount != null) entriesCount.set(entriesCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.OtMathKernEntryT[] kernEntriesARRAY = new org.harfbuzz.OtMathKernEntryT[entriesCount.get().intValue()];
         for (int I = 0; I < entriesCount.get().intValue(); I++) {
             var OBJ = kernEntriesPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            kernEntriesARRAY[I] = new org.harfbuzz.OtMathKernEntryT(OBJ, Ownership.NONE);
+            kernEntriesARRAY[I] = org.harfbuzz.OtMathKernEntryT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         kernEntries.set(kernEntriesARRAY);
         return RESULT;
@@ -7207,9 +6981,7 @@ public final class HarfBuzz {
      * @return the top accent attachment of the glyph or 0.5 * the advance
      *               width of {@code glyph}
      */
-    public static @NotNull org.harfbuzz.PositionT otMathGetGlyphTopAccentAttachment(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.PositionT otMathGetGlyphTopAccentAttachment(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_math_get_glyph_top_accent_attachment.invokeExact(
@@ -7239,13 +7011,8 @@ public final class HarfBuzz {
      * @param variants array of variants returned
      * @return the total number of size variants available or zero
      */
-    public static int otMathGetGlyphVariants(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.CodepointT glyph, @NotNull org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> variantsCount, @NotNull Out<org.harfbuzz.OtMathGlyphVariantT[]> variants) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(variantsCount, "Parameter 'variantsCount' must not be null");
+    public static int otMathGetGlyphVariants(org.harfbuzz.FontT font, org.harfbuzz.CodepointT glyph, org.harfbuzz.DirectionT direction, int startOffset, Out<Integer> variantsCount, Out<org.harfbuzz.OtMathGlyphVariantT[]> variants) {
         MemorySegment variantsCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(variants, "Parameter 'variants' must not be null");
         MemorySegment variantsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -7263,7 +7030,7 @@ public final class HarfBuzz {
         org.harfbuzz.OtMathGlyphVariantT[] variantsARRAY = new org.harfbuzz.OtMathGlyphVariantT[variantsCount.get().intValue()];
         for (int I = 0; I < variantsCount.get().intValue(); I++) {
             var OBJ = variantsPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            variantsARRAY[I] = new org.harfbuzz.OtMathGlyphVariantT(OBJ, Ownership.NONE);
+            variantsARRAY[I] = org.harfbuzz.OtMathGlyphVariantT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         variants.set(variantsARRAY);
         return RESULT;
@@ -7282,9 +7049,7 @@ public final class HarfBuzz {
      * @param direction direction of the stretching (horizontal or vertical)
      * @return requested minimum connector overlap or zero
      */
-    public static @NotNull org.harfbuzz.PositionT otMathGetMinConnectorOverlap(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.DirectionT direction) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public static org.harfbuzz.PositionT otMathGetMinConnectorOverlap(org.harfbuzz.FontT font, org.harfbuzz.DirectionT direction) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_math_get_min_connector_overlap.invokeExact(
@@ -7301,8 +7066,7 @@ public final class HarfBuzz {
      * @param face {@link FaceT} to test
      * @return {@code true} if the table is found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otMathHasData(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT otMathHasData(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_math_has_data.invokeExact(
@@ -7319,9 +7083,7 @@ public final class HarfBuzz {
      * @param glyph The glyph index to test
      * @return {@code true} if the glyph is an extended shape, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otMathIsGlyphExtendedShape(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.CodepointT glyph) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(glyph, "Parameter 'glyph' must not be null");
+    public static org.harfbuzz.BoolT otMathIsGlyphExtendedShape(org.harfbuzz.FaceT face, org.harfbuzz.CodepointT glyph) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_math_is_glyph_extended_shape.invokeExact(
@@ -7341,23 +7103,20 @@ public final class HarfBuzz {
      * @param entries entries tags buffer
      * @return Number of all available feature types.
      */
-    public static int otMetaGetEntryTags(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> entriesCount, @NotNull Out<org.harfbuzz.OtMetaTagT[]> entries) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(entriesCount, "Parameter 'entriesCount' must not be null");
+    public static int otMetaGetEntryTags(org.harfbuzz.FaceT face, int startOffset, Out<Integer> entriesCount, Out<org.harfbuzz.OtMetaTagT[]> entries) {
         MemorySegment entriesCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
         MemorySegment entriesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_meta_get_entry_tags.invokeExact(
                     face.handle(),
                     startOffset,
-                    (Addressable) entriesCountPOINTER.address(),
+                    (Addressable) (entriesCount == null ? MemoryAddress.NULL : (Addressable) entriesCountPOINTER.address()),
                     (Addressable) entriesPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        entriesCount.set(entriesCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (entriesCount != null) entriesCount.set(entriesCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.OtMetaTagT[] entriesARRAY = new org.harfbuzz.OtMetaTagT[entriesCount.get().intValue()];
         for (int I = 0; I < entriesCount.get().intValue(); I++) {
             var OBJ = entriesPOINTER.get(Interop.valueLayout.C_INT, I);
@@ -7373,9 +7132,7 @@ public final class HarfBuzz {
      * @param metaTag tag of metadata you like to have.
      * @return A blob containing the blob.
      */
-    public static @NotNull org.harfbuzz.BlobT otMetaReferenceEntry(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtMetaTagT metaTag) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(metaTag, "Parameter 'metaTag' must not be null");
+    public static org.harfbuzz.BlobT otMetaReferenceEntry(org.harfbuzz.FaceT face, org.harfbuzz.OtMetaTagT metaTag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ot_meta_reference_entry.invokeExact(
@@ -7384,7 +7141,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.BlobT(RESULT, Ownership.FULL);
+        return org.harfbuzz.BlobT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -7394,21 +7151,18 @@ public final class HarfBuzz {
      * @param position result of metrics value from the font.
      * @return Whether found the requested metrics in the font.
      */
-    public static @NotNull org.harfbuzz.BoolT otMetricsGetPosition(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag, @NotNull Out<org.harfbuzz.PositionT> position) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public static org.harfbuzz.BoolT otMetricsGetPosition(org.harfbuzz.FontT font, org.harfbuzz.OtMetricsTagT metricsTag, @Nullable org.harfbuzz.PositionT position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_metrics_get_position.invokeExact(
                     font.handle(),
                     metricsTag.getValue(),
-                    (Addressable) positionPOINTER.address());
+                    (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(new org.harfbuzz.PositionT(positionPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (position != null) position.setValue(positionPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -7419,20 +7173,17 @@ public final class HarfBuzz {
      * @param metricsTag tag of metrics value you like to fetch.
      * @param position result of metrics value from the font.
      */
-    public static void otMetricsGetPositionWithFallback(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag, @NotNull Out<org.harfbuzz.PositionT> position) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public static void otMetricsGetPositionWithFallback(org.harfbuzz.FontT font, org.harfbuzz.OtMetricsTagT metricsTag, @Nullable org.harfbuzz.PositionT position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_ot_metrics_get_position_with_fallback.invokeExact(
                     font.handle(),
                     metricsTag.getValue(),
-                    (Addressable) positionPOINTER.address());
+                    (Addressable) (position == null ? MemoryAddress.NULL : (Addressable) positionPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(new org.harfbuzz.PositionT(positionPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (position != null) position.setValue(positionPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -7442,9 +7193,7 @@ public final class HarfBuzz {
      * @param metricsTag tag of metrics value you like to fetch.
      * @return The requested metric value.
      */
-    public static float otMetricsGetVariation(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
+    public static float otMetricsGetVariation(org.harfbuzz.FontT font, org.harfbuzz.OtMetricsTagT metricsTag) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.hb_ot_metrics_get_variation.invokeExact(
@@ -7463,9 +7212,7 @@ public final class HarfBuzz {
      * @param metricsTag tag of metrics value you like to fetch.
      * @return The requested metric value.
      */
-    public static @NotNull org.harfbuzz.PositionT otMetricsGetXVariation(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
+    public static org.harfbuzz.PositionT otMetricsGetXVariation(org.harfbuzz.FontT font, org.harfbuzz.OtMetricsTagT metricsTag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_metrics_get_x_variation.invokeExact(
@@ -7484,9 +7231,7 @@ public final class HarfBuzz {
      * @param metricsTag tag of metrics value you like to fetch.
      * @return The requested metric value.
      */
-    public static @NotNull org.harfbuzz.PositionT otMetricsGetYVariation(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.OtMetricsTagT metricsTag) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(metricsTag, "Parameter 'metricsTag' must not be null");
+    public static org.harfbuzz.PositionT otMetricsGetYVariation(org.harfbuzz.FontT font, org.harfbuzz.OtMetricsTagT metricsTag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_metrics_get_y_variation.invokeExact(
@@ -7511,13 +7256,8 @@ public final class HarfBuzz {
      * @param text buffer to write fetched name into.
      * @return full length of the requested string, or 0 if not found.
      */
-    public static int otNameGetUtf16(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, @NotNull Out<short[]> text) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(nameId, "Parameter 'nameId' must not be null");
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
-        java.util.Objects.requireNonNull(textSize, "Parameter 'textSize' must not be null");
+    public static int otNameGetUtf16(org.harfbuzz.FaceT face, org.harfbuzz.OtNameIdT nameId, org.harfbuzz.LanguageT language, Out<Integer> textSize, Out<short[]> text) {
         MemorySegment textSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -7525,12 +7265,12 @@ public final class HarfBuzz {
                     face.handle(),
                     nameId.getValue().intValue(),
                     language.handle(),
-                    (Addressable) textSizePOINTER.address(),
+                    (Addressable) (textSize == null ? MemoryAddress.NULL : (Addressable) textSizePOINTER.address()),
                     (Addressable) textPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        textSize.set(textSizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (textSize != null) textSize.set(textSizePOINTER.get(Interop.valueLayout.C_INT, 0));
         text.set(MemorySegment.ofAddress(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), textSize.get().intValue() * Interop.valueLayout.C_SHORT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_SHORT));
         return RESULT;
     }
@@ -7548,13 +7288,8 @@ public final class HarfBuzz {
      * @param text buffer to write fetched name into.
      * @return full length of the requested string, or 0 if not found.
      */
-    public static int otNameGetUtf32(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, @NotNull Out<int[]> text) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(nameId, "Parameter 'nameId' must not be null");
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
-        java.util.Objects.requireNonNull(textSize, "Parameter 'textSize' must not be null");
+    public static int otNameGetUtf32(org.harfbuzz.FaceT face, org.harfbuzz.OtNameIdT nameId, org.harfbuzz.LanguageT language, Out<Integer> textSize, Out<int[]> text) {
         MemorySegment textSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -7562,12 +7297,12 @@ public final class HarfBuzz {
                     face.handle(),
                     nameId.getValue().intValue(),
                     language.handle(),
-                    (Addressable) textSizePOINTER.address(),
+                    (Addressable) (textSize == null ? MemoryAddress.NULL : (Addressable) textSizePOINTER.address()),
                     (Addressable) textPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        textSize.set(textSizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (textSize != null) textSize.set(textSizePOINTER.get(Interop.valueLayout.C_INT, 0));
         text.set(MemorySegment.ofAddress(textPOINTER.get(Interop.valueLayout.ADDRESS, 0), textSize.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
         return RESULT;
     }
@@ -7585,13 +7320,8 @@ public final class HarfBuzz {
      * @param text buffer to write fetched name into.
      * @return full length of the requested string, or 0 if not found.
      */
-    public static int otNameGetUtf8(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.OtNameIdT nameId, @NotNull org.harfbuzz.LanguageT language, Out<Integer> textSize, @NotNull Out<java.lang.String[]> text) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(nameId, "Parameter 'nameId' must not be null");
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
-        java.util.Objects.requireNonNull(textSize, "Parameter 'textSize' must not be null");
+    public static int otNameGetUtf8(org.harfbuzz.FaceT face, org.harfbuzz.OtNameIdT nameId, org.harfbuzz.LanguageT language, Out<Integer> textSize, Out<java.lang.String[]> text) {
         MemorySegment textSizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -7599,16 +7329,16 @@ public final class HarfBuzz {
                     face.handle(),
                     nameId.getValue().intValue(),
                     language.handle(),
-                    (Addressable) textSizePOINTER.address(),
+                    (Addressable) (textSize == null ? MemoryAddress.NULL : (Addressable) textSizePOINTER.address()),
                     (Addressable) textPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        textSize.set(textSizePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (textSize != null) textSize.set(textSizePOINTER.get(Interop.valueLayout.C_INT, 0));
         java.lang.String[] textARRAY = new java.lang.String[textSize.get().intValue()];
         for (int I = 0; I < textSize.get().intValue(); I++) {
             var OBJ = textPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            textARRAY[I] = Interop.getStringFrom(OBJ);
+            textARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         text.set(textARRAY);
         return RESULT;
@@ -7622,23 +7352,21 @@ public final class HarfBuzz {
      * @param numEntries number of returned entries.
      * @return Array of available name entries.
      */
-    public static @NotNull org.harfbuzz.OtNameEntryT[] otNameListNames(@NotNull org.harfbuzz.FaceT face, Out<Integer> numEntries) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(numEntries, "Parameter 'numEntries' must not be null");
+    public static org.harfbuzz.OtNameEntryT[] otNameListNames(org.harfbuzz.FaceT face, Out<Integer> numEntries) {
         MemorySegment numEntriesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ot_name_list_names.invokeExact(
                     face.handle(),
-                    (Addressable) numEntriesPOINTER.address());
+                    (Addressable) (numEntries == null ? MemoryAddress.NULL : (Addressable) numEntriesPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        numEntries.set(numEntriesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (numEntries != null) numEntries.set(numEntriesPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.OtNameEntryT[] resultARRAY = new org.harfbuzz.OtNameEntryT[numEntries.get().intValue()];
         for (int I = 0; I < numEntries.get().intValue(); I++) {
             var OBJ = RESULT.get(Interop.valueLayout.ADDRESS, I);
-            resultARRAY[I] = new org.harfbuzz.OtNameEntryT(OBJ, Ownership.NONE);
+            resultARRAY[I] = org.harfbuzz.OtNameEntryT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         return resultARRAY;
     }
@@ -7653,11 +7381,7 @@ public final class HarfBuzz {
      * @param numFeatures The number of features enabled on the buffer
      * @param glyphs The {@link SetT} set of glyphs comprising the transitive closure of the query
      */
-    public static void otShapeGlyphsClosure(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.FeatureT[] features, int numFeatures, @NotNull org.harfbuzz.SetT glyphs) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
-        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+    public static void otShapeGlyphsClosure(org.harfbuzz.FontT font, org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures, org.harfbuzz.SetT glyphs) {
         try {
             DowncallHandles.hb_ot_shape_glyphs_closure.invokeExact(
                     font.handle(),
@@ -7677,10 +7401,7 @@ public final class HarfBuzz {
      * @param tableTag GSUB or GPOS
      * @param lookupIndexes The {@link SetT} set of lookups returned
      */
-    public static void otShapePlanCollectLookups(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.TagT tableTag, @NotNull org.harfbuzz.SetT lookupIndexes) {
-        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
-        java.util.Objects.requireNonNull(tableTag, "Parameter 'tableTag' must not be null");
-        java.util.Objects.requireNonNull(lookupIndexes, "Parameter 'lookupIndexes' must not be null");
+    public static void otShapePlanCollectLookups(org.harfbuzz.ShapePlanT shapePlan, org.harfbuzz.TagT tableTag, org.harfbuzz.SetT lookupIndexes) {
         try {
             DowncallHandles.hb_ot_shape_plan_collect_lookups.invokeExact(
                     shapePlan.handle(),
@@ -7691,8 +7412,7 @@ public final class HarfBuzz {
         }
     }
     
-    public static @NotNull org.harfbuzz.TagT otTagFromLanguage(@NotNull org.harfbuzz.LanguageT language) {
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+    public static org.harfbuzz.TagT otTagFromLanguage(org.harfbuzz.LanguageT language) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_tag_from_language.invokeExact(
@@ -7708,8 +7428,7 @@ public final class HarfBuzz {
      * @param tag an language tag
      * @return The {@link LanguageT} corresponding to {@code tag}.
      */
-    public static @Nullable org.harfbuzz.LanguageT otTagToLanguage(@NotNull org.harfbuzz.TagT tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static @Nullable org.harfbuzz.LanguageT otTagToLanguage(org.harfbuzz.TagT tag) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_ot_tag_to_language.invokeExact(
@@ -7717,7 +7436,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.LanguageT(RESULT, Ownership.NONE);
+        return org.harfbuzz.LanguageT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -7725,8 +7444,7 @@ public final class HarfBuzz {
      * @param tag a script tag
      * @return The {@link ScriptT} corresponding to {@code tag}.
      */
-    public static @NotNull org.harfbuzz.ScriptT otTagToScript(@NotNull org.harfbuzz.TagT tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static org.harfbuzz.ScriptT otTagToScript(org.harfbuzz.TagT tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_tag_to_script.invokeExact(
@@ -7737,22 +7455,19 @@ public final class HarfBuzz {
         return org.harfbuzz.ScriptT.of(RESULT);
     }
     
-    public static void otTagsFromScript(@NotNull org.harfbuzz.ScriptT script, @NotNull org.harfbuzz.TagT scriptTag1, @NotNull org.harfbuzz.TagT scriptTag2) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
-        java.util.Objects.requireNonNull(scriptTag1, "Parameter 'scriptTag1' must not be null");
-        PointerInteger scriptTag1POINTER = new PointerInteger(scriptTag1.getValue());
-        java.util.Objects.requireNonNull(scriptTag2, "Parameter 'scriptTag2' must not be null");
-        PointerInteger scriptTag2POINTER = new PointerInteger(scriptTag2.getValue());
+    public static void otTagsFromScript(org.harfbuzz.ScriptT script, org.harfbuzz.TagT scriptTag1, org.harfbuzz.TagT scriptTag2) {
+        MemorySegment scriptTag1POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment scriptTag2POINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_ot_tags_from_script.invokeExact(
                     script.getValue(),
-                    new PointerInteger(scriptTag1.getValue().intValue()).handle(),
-                    new PointerInteger(scriptTag2.getValue().intValue()).handle());
+                    (Addressable) scriptTag1POINTER.address(),
+                    (Addressable) scriptTag2POINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-            scriptTag1.setValue(scriptTag1POINTER.get());
-            scriptTag2.setValue(scriptTag2POINTER.get());
+        scriptTag1.setValue(scriptTag1POINTER.get(Interop.valueLayout.C_INT, 0));
+        scriptTag2.setValue(scriptTag2POINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -7768,32 +7483,26 @@ public final class HarfBuzz {
      * @param languageTags array of size at least {@code language_count} to store
      * the language tag results
      */
-    public static void otTagsFromScriptAndLanguage(@NotNull org.harfbuzz.ScriptT script, @NotNull org.harfbuzz.LanguageT language, Out<Integer> scriptCount, @NotNull Out<org.harfbuzz.TagT> scriptTags, Out<Integer> languageCount, @NotNull Out<org.harfbuzz.TagT> languageTags) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
-        java.util.Objects.requireNonNull(scriptCount, "Parameter 'scriptCount' must not be null");
+    public static void otTagsFromScriptAndLanguage(org.harfbuzz.ScriptT script, org.harfbuzz.LanguageT language, Out<Integer> scriptCount, @Nullable org.harfbuzz.TagT scriptTags, Out<Integer> languageCount, @Nullable org.harfbuzz.TagT languageTags) {
         MemorySegment scriptCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(scriptTags, "Parameter 'scriptTags' must not be null");
         MemorySegment scriptTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(languageCount, "Parameter 'languageCount' must not be null");
         MemorySegment languageCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(languageTags, "Parameter 'languageTags' must not be null");
         MemorySegment languageTagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_ot_tags_from_script_and_language.invokeExact(
                     script.getValue(),
                     language.handle(),
-                    (Addressable) scriptCountPOINTER.address(),
-                    (Addressable) scriptTagsPOINTER.address(),
-                    (Addressable) languageCountPOINTER.address(),
-                    (Addressable) languageTagsPOINTER.address());
+                    (Addressable) (scriptCount == null ? MemoryAddress.NULL : (Addressable) scriptCountPOINTER.address()),
+                    (Addressable) (scriptTags == null ? MemoryAddress.NULL : (Addressable) scriptTagsPOINTER.address()),
+                    (Addressable) (languageCount == null ? MemoryAddress.NULL : (Addressable) languageCountPOINTER.address()),
+                    (Addressable) (languageTags == null ? MemoryAddress.NULL : (Addressable) languageTagsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        scriptCount.set(scriptCountPOINTER.get(Interop.valueLayout.C_INT, 0));
-        scriptTags.set(new org.harfbuzz.TagT(scriptTagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        languageCount.set(languageCountPOINTER.get(Interop.valueLayout.C_INT, 0));
-        languageTags.set(new org.harfbuzz.TagT(languageTagsPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (scriptCount != null) scriptCount.set(scriptCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (scriptTags != null) scriptTags.setValue(scriptTagsPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (languageCount != null) languageCount.set(languageCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (languageTags != null) languageTags.setValue(languageTagsPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -7805,22 +7514,18 @@ public final class HarfBuzz {
      * @param language the {@link LanguageT} corresponding to {@code script_tag} and
      * {@code language_tag}.
      */
-    public static void otTagsToScriptAndLanguage(@NotNull org.harfbuzz.TagT scriptTag, @NotNull org.harfbuzz.TagT languageTag, @NotNull Out<org.harfbuzz.ScriptT> script, @NotNull org.harfbuzz.LanguageT language) {
-        java.util.Objects.requireNonNull(scriptTag, "Parameter 'scriptTag' must not be null");
-        java.util.Objects.requireNonNull(languageTag, "Parameter 'languageTag' must not be null");
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public static void otTagsToScriptAndLanguage(org.harfbuzz.TagT scriptTag, org.harfbuzz.TagT languageTag, @Nullable Out<org.harfbuzz.ScriptT> script, @Nullable org.harfbuzz.LanguageT language) {
         MemorySegment scriptPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
         try {
             DowncallHandles.hb_ot_tags_to_script_and_language.invokeExact(
                     scriptTag.getValue().intValue(),
                     languageTag.getValue().intValue(),
-                    (Addressable) scriptPOINTER.address(),
-                    language.handle());
+                    (Addressable) (script == null ? MemoryAddress.NULL : (Addressable) scriptPOINTER.address()),
+                    (Addressable) (language == null ? MemoryAddress.NULL : language.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        script.set(org.harfbuzz.ScriptT.of(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (script != null) script.set(org.harfbuzz.ScriptT.of(scriptPOINTER.get(Interop.valueLayout.C_INT, 0)));
     }
     
     /**
@@ -7835,11 +7540,7 @@ public final class HarfBuzz {
      * </ul>
      */
     @Deprecated
-    public static @NotNull org.harfbuzz.BoolT otVarFindAxis(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT axisTag, PointerInteger axisIndex, @NotNull org.harfbuzz.OtVarAxisT axisInfo) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(axisTag, "Parameter 'axisTag' must not be null");
-        java.util.Objects.requireNonNull(axisIndex, "Parameter 'axisIndex' must not be null");
-        java.util.Objects.requireNonNull(axisInfo, "Parameter 'axisInfo' must not be null");
+    public static org.harfbuzz.BoolT otVarFindAxis(org.harfbuzz.FaceT face, org.harfbuzz.TagT axisTag, PointerInteger axisIndex, org.harfbuzz.OtVarAxisT axisInfo) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_find_axis.invokeExact(
@@ -7861,10 +7562,7 @@ public final class HarfBuzz {
      * @param axisInfo The {@link OtVarAxisInfoT} of the axis tag queried
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otVarFindAxisInfo(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.TagT axisTag, @NotNull org.harfbuzz.OtVarAxisInfoT axisInfo) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(axisTag, "Parameter 'axisTag' must not be null");
-        java.util.Objects.requireNonNull(axisInfo, "Parameter 'axisInfo' must not be null");
+    public static org.harfbuzz.BoolT otVarFindAxisInfo(org.harfbuzz.FaceT face, org.harfbuzz.TagT axisTag, org.harfbuzz.OtVarAxisInfoT axisInfo) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_find_axis_info.invokeExact(
@@ -7888,27 +7586,24 @@ public final class HarfBuzz {
      * @deprecated use hb_ot_var_get_axis_infos() instead
      */
     @Deprecated
-    public static int otVarGetAxes(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, @NotNull Out<org.harfbuzz.OtVarAxisT[]> axesArray) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(axesCount, "Parameter 'axesCount' must not be null");
+    public static int otVarGetAxes(org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, Out<org.harfbuzz.OtVarAxisT[]> axesArray) {
         MemorySegment axesCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(axesArray, "Parameter 'axesArray' must not be null");
         MemorySegment axesArrayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_get_axes.invokeExact(
                     face.handle(),
                     startOffset,
-                    (Addressable) axesCountPOINTER.address(),
+                    (Addressable) (axesCount == null ? MemoryAddress.NULL : (Addressable) axesCountPOINTER.address()),
                     (Addressable) axesArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        axesCount.set(axesCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (axesCount != null) axesCount.set(axesCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.OtVarAxisT[] axesArrayARRAY = new org.harfbuzz.OtVarAxisT[axesCount.get().intValue()];
         for (int I = 0; I < axesCount.get().intValue(); I++) {
             var OBJ = axesArrayPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            axesArrayARRAY[I] = new org.harfbuzz.OtVarAxisT(OBJ, Ownership.NONE);
+            axesArrayARRAY[I] = org.harfbuzz.OtVarAxisT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         axesArray.set(axesArrayARRAY);
         return RESULT;
@@ -7919,8 +7614,7 @@ public final class HarfBuzz {
      * @param face The {@link FaceT} to work on
      * @return the number of variation axes defined
      */
-    public static int otVarGetAxisCount(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static int otVarGetAxisCount(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_get_axis_count.invokeExact(
@@ -7941,27 +7635,24 @@ public final class HarfBuzz {
      * @param axesArray The array of variation axes found
      * @return the number of variation axes in the face
      */
-    public static int otVarGetAxisInfos(@NotNull org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, @NotNull Out<org.harfbuzz.OtVarAxisInfoT[]> axesArray) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(axesCount, "Parameter 'axesCount' must not be null");
+    public static int otVarGetAxisInfos(org.harfbuzz.FaceT face, int startOffset, Out<Integer> axesCount, Out<org.harfbuzz.OtVarAxisInfoT[]> axesArray) {
         MemorySegment axesCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(axesArray, "Parameter 'axesArray' must not be null");
         MemorySegment axesArrayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_get_axis_infos.invokeExact(
                     face.handle(),
                     startOffset,
-                    (Addressable) axesCountPOINTER.address(),
+                    (Addressable) (axesCount == null ? MemoryAddress.NULL : (Addressable) axesCountPOINTER.address()),
                     (Addressable) axesArrayPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        axesCount.set(axesCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (axesCount != null) axesCount.set(axesCountPOINTER.get(Interop.valueLayout.C_INT, 0));
         org.harfbuzz.OtVarAxisInfoT[] axesArrayARRAY = new org.harfbuzz.OtVarAxisInfoT[axesCount.get().intValue()];
         for (int I = 0; I < axesCount.get().intValue(); I++) {
             var OBJ = axesArrayPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            axesArrayARRAY[I] = new org.harfbuzz.OtVarAxisInfoT(OBJ, Ownership.NONE);
+            axesArrayARRAY[I] = org.harfbuzz.OtVarAxisInfoT.fromAddress.marshal(OBJ, Ownership.NONE);
         }
         axesArray.set(axesArrayARRAY);
         return RESULT;
@@ -7972,8 +7663,7 @@ public final class HarfBuzz {
      * @param face The {@link FaceT} to work on
      * @return the number of named instances defined
      */
-    public static int otVarGetNamedInstanceCount(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static int otVarGetNamedInstanceCount(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_get_named_instance_count.invokeExact(
@@ -7989,8 +7679,7 @@ public final class HarfBuzz {
      * @param face The {@link FaceT} to work on
      * @return {@code true} if data found, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT otVarHasData(@NotNull org.harfbuzz.FaceT face) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.BoolT otVarHasData(org.harfbuzz.FaceT face) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_has_data.invokeExact(
@@ -8011,23 +7700,20 @@ public final class HarfBuzz {
      * @param coords The array of coordinates found for the query
      * @return the number of variation axes in the face
      */
-    public static int otVarNamedInstanceGetDesignCoords(@NotNull org.harfbuzz.FaceT face, int instanceIndex, Out<Integer> coordsLength, @NotNull Out<float[]> coords) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(coordsLength, "Parameter 'coordsLength' must not be null");
+    public static int otVarNamedInstanceGetDesignCoords(org.harfbuzz.FaceT face, int instanceIndex, Out<Integer> coordsLength, Out<float[]> coords) {
         MemorySegment coordsLengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
         MemorySegment coordsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_design_coords.invokeExact(
                     face.handle(),
                     instanceIndex,
-                    (Addressable) coordsLengthPOINTER.address(),
+                    (Addressable) (coordsLength == null ? MemoryAddress.NULL : (Addressable) coordsLengthPOINTER.address()),
                     (Addressable) coordsPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        coordsLength.set(coordsLengthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (coordsLength != null) coordsLength.set(coordsLengthPOINTER.get(Interop.valueLayout.C_INT, 0));
         coords.set(MemorySegment.ofAddress(coordsPOINTER.get(Interop.valueLayout.ADDRESS, 0), coordsLength.get().intValue() * Interop.valueLayout.C_FLOAT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_FLOAT));
         return RESULT;
     }
@@ -8039,8 +7725,7 @@ public final class HarfBuzz {
      * @param instanceIndex The index of the named instance to query
      * @return the Name ID found for the PostScript name
      */
-    public static @NotNull org.harfbuzz.OtNameIdT otVarNamedInstanceGetPostscriptNameId(@NotNull org.harfbuzz.FaceT face, int instanceIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.OtNameIdT otVarNamedInstanceGetPostscriptNameId(org.harfbuzz.FaceT face, int instanceIndex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_postscript_name_id.invokeExact(
@@ -8059,8 +7744,7 @@ public final class HarfBuzz {
      * @param instanceIndex The index of the named instance to query
      * @return the Name ID found for the Subfamily name
      */
-    public static @NotNull org.harfbuzz.OtNameIdT otVarNamedInstanceGetSubfamilyNameId(@NotNull org.harfbuzz.FaceT face, int instanceIndex) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
+    public static org.harfbuzz.OtNameIdT otVarNamedInstanceGetSubfamilyNameId(org.harfbuzz.FaceT face, int instanceIndex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_ot_var_named_instance_get_subfamily_name_id.invokeExact(
@@ -8087,10 +7771,7 @@ public final class HarfBuzz {
      * @param designCoords The design-space coordinates to normalize
      * @param normalizedCoords The normalized coordinates
      */
-    public static void otVarNormalizeCoords(@NotNull org.harfbuzz.FaceT face, int coordsLength, PointerFloat designCoords, Out<Integer> normalizedCoords) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(designCoords, "Parameter 'designCoords' must not be null");
-        java.util.Objects.requireNonNull(normalizedCoords, "Parameter 'normalizedCoords' must not be null");
+    public static void otVarNormalizeCoords(org.harfbuzz.FaceT face, int coordsLength, PointerFloat designCoords, Out<Integer> normalizedCoords) {
         MemorySegment normalizedCoordsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_ot_var_normalize_coords.invokeExact(
@@ -8112,24 +7793,19 @@ public final class HarfBuzz {
      * @param coords The array of normalized coordinates
      * @param coordsLength The length of the coordinate array
      */
-    public static void otVarNormalizeVariations(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.VariationT variations, int variationsLength, @NotNull Out<int[]> coords, Out<Integer> coordsLength) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(variations, "Parameter 'variations' must not be null");
-        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
+    public static void otVarNormalizeVariations(org.harfbuzz.FaceT face, org.harfbuzz.VariationT variations, int variationsLength, Out<int[]> coords, int coordsLength) {
         MemorySegment coordsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment coordsLengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_ot_var_normalize_variations.invokeExact(
                     face.handle(),
                     variations.handle(),
                     variationsLength,
                     (Addressable) coordsPOINTER.address(),
-                    (Addressable) coordsLengthPOINTER.address());
+                    coordsLength);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        coordsLength.set(coordsLengthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        coords.set(MemorySegment.ofAddress(coordsPOINTER.get(Interop.valueLayout.ADDRESS, 0), coordsLength.get().intValue() * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
+        coords.set(MemorySegment.ofAddress(coordsPOINTER.get(Interop.valueLayout.ADDRESS, 0), coordsLength * Interop.valueLayout.C_INT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_INT));
     }
     
     /**
@@ -8137,8 +7813,7 @@ public final class HarfBuzz {
      * @param tag an {@link TagT} representing an ISO 15924 tag.
      * @return An {@link ScriptT} corresponding to the ISO 15924 tag.
      */
-    public static @NotNull org.harfbuzz.ScriptT scriptFromIso15924Tag(@NotNull org.harfbuzz.TagT tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static org.harfbuzz.ScriptT scriptFromIso15924Tag(org.harfbuzz.TagT tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_script_from_iso15924_tag.invokeExact(
@@ -8158,8 +7833,7 @@ public final class HarfBuzz {
      * @param len length of the {@code str}, or -1 if it is {@code NULL}-terminated.
      * @return An {@link ScriptT} corresponding to the ISO 15924 tag.
      */
-    public static @NotNull org.harfbuzz.ScriptT scriptFromString(@NotNull byte[] str, int len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static org.harfbuzz.ScriptT scriptFromString(byte[] str, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_script_from_string.invokeExact(
@@ -8181,8 +7855,7 @@ public final class HarfBuzz {
      * @param script The {@link ScriptT} to query
      * @return The horizontal {@link DirectionT} of {@code script}
      */
-    public static @NotNull org.harfbuzz.DirectionT scriptGetHorizontalDirection(@NotNull org.harfbuzz.ScriptT script) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public static org.harfbuzz.DirectionT scriptGetHorizontalDirection(org.harfbuzz.ScriptT script) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_script_get_horizontal_direction.invokeExact(
@@ -8198,8 +7871,7 @@ public final class HarfBuzz {
      * @param script an {@link ScriptT} to convert.
      * @return An {@link TagT} representing an ISO 15924 script tag.
      */
-    public static @NotNull org.harfbuzz.TagT scriptToIso15924Tag(@NotNull org.harfbuzz.ScriptT script) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public static org.harfbuzz.TagT scriptToIso15924Tag(org.harfbuzz.ScriptT script) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_script_to_iso15924_tag.invokeExact(
@@ -8216,9 +7888,7 @@ public final class HarfBuzz {
      * @param b second {@link SegmentPropertiesT} to compare.
      * @return {@code true} if all properties of {@code a} equal those of {@code b}, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT segmentPropertiesEqual(@NotNull org.harfbuzz.SegmentPropertiesT a, @NotNull org.harfbuzz.SegmentPropertiesT b) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public static org.harfbuzz.BoolT segmentPropertiesEqual(org.harfbuzz.SegmentPropertiesT a, org.harfbuzz.SegmentPropertiesT b) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_segment_properties_equal.invokeExact(
@@ -8235,8 +7905,7 @@ public final class HarfBuzz {
      * @param p {@link SegmentPropertiesT} to hash.
      * @return A hash of {@code p}.
      */
-    public static int segmentPropertiesHash(@NotNull org.harfbuzz.SegmentPropertiesT p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public static int segmentPropertiesHash(org.harfbuzz.SegmentPropertiesT p) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_segment_properties_hash.invokeExact(
@@ -8261,9 +7930,7 @@ public final class HarfBuzz {
      * @param p {@link SegmentPropertiesT} to fill in.
      * @param src {@link SegmentPropertiesT} to fill in from.
      */
-    public static void segmentPropertiesOverlay(@NotNull org.harfbuzz.SegmentPropertiesT p, @NotNull org.harfbuzz.SegmentPropertiesT src) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static void segmentPropertiesOverlay(org.harfbuzz.SegmentPropertiesT p, org.harfbuzz.SegmentPropertiesT src) {
         try {
             DowncallHandles.hb_segment_properties_overlay.invokeExact(
                     p.handle(),
@@ -8278,9 +7945,7 @@ public final class HarfBuzz {
      * @param set A set
      * @param codepoint The element to add to {@code set}
      */
-    public static void setAdd(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT codepoint) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
+    public static void setAdd(org.harfbuzz.SetT set, org.harfbuzz.CodepointT codepoint) {
         try {
             DowncallHandles.hb_set_add.invokeExact(
                     set.handle(),
@@ -8297,10 +7962,7 @@ public final class HarfBuzz {
      * @param first The first element to add to {@code set}
      * @param last The final element to add to {@code set}
      */
-    public static void setAddRange(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT first, @NotNull org.harfbuzz.CodepointT last) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
-        java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
+    public static void setAddRange(org.harfbuzz.SetT set, org.harfbuzz.CodepointT first, org.harfbuzz.CodepointT last) {
         try {
             DowncallHandles.hb_set_add_range.invokeExact(
                     set.handle(),
@@ -8319,9 +7981,7 @@ public final class HarfBuzz {
      * @param sortedCodepoints Array of codepoints to add
      * @param numCodepoints Length of {@code sorted_codepoints}
      */
-    public static void setAddSortedArray(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT[] sortedCodepoints, int numCodepoints) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(sortedCodepoints, "Parameter 'sortedCodepoints' must not be null");
+    public static void setAddSortedArray(org.harfbuzz.SetT set, org.harfbuzz.CodepointT[] sortedCodepoints, int numCodepoints) {
         try {
             DowncallHandles.hb_set_add_sorted_array.invokeExact(
                     set.handle(),
@@ -8337,8 +7997,7 @@ public final class HarfBuzz {
      * @param set A set
      * @return {@code true} if allocation succeeded, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT setAllocationSuccessful(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static org.harfbuzz.BoolT setAllocationSuccessful(org.harfbuzz.SetT set) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_allocation_successful.invokeExact(
@@ -8353,8 +8012,7 @@ public final class HarfBuzz {
      * Clears out the contents of a set.
      * @param set A set
      */
-    public static void setClear(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static void setClear(org.harfbuzz.SetT set) {
         try {
             DowncallHandles.hb_set_clear.invokeExact(
                     set.handle());
@@ -8368,8 +8026,7 @@ public final class HarfBuzz {
      * @param set A set
      * @return Newly-allocated set.
      */
-    public static @NotNull org.harfbuzz.SetT setCopy(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static org.harfbuzz.SetT setCopy(org.harfbuzz.SetT set) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_set_copy.invokeExact(
@@ -8377,21 +8034,21 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.SetT(RESULT, Ownership.FULL);
+        return org.harfbuzz.SetT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new, initially empty set.
      * @return The new {@link SetT}
      */
-    public static @NotNull org.harfbuzz.SetT setCreate() {
+    public static org.harfbuzz.SetT setCreate() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_set_create.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.SetT(RESULT, Ownership.FULL);
+        return org.harfbuzz.SetT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8399,9 +8056,7 @@ public final class HarfBuzz {
      * @param set A set
      * @param codepoint Removes {@code codepoint} from {@code set}
      */
-    public static void setDel(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT codepoint) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
+    public static void setDel(org.harfbuzz.SetT set, org.harfbuzz.CodepointT codepoint) {
         try {
             DowncallHandles.hb_set_del.invokeExact(
                     set.handle(),
@@ -8421,10 +8076,7 @@ public final class HarfBuzz {
      * @param first The first element to remove from {@code set}
      * @param last The final element to remove from {@code set}
      */
-    public static void setDelRange(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT first, @NotNull org.harfbuzz.CodepointT last) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
-        java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
+    public static void setDelRange(org.harfbuzz.SetT set, org.harfbuzz.CodepointT first, org.harfbuzz.CodepointT last) {
         try {
             DowncallHandles.hb_set_del_range.invokeExact(
                     set.handle(),
@@ -8441,8 +8093,7 @@ public final class HarfBuzz {
      * destroyed, freeing all memory.
      * @param set A set
      */
-    public static void setDestroy(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static void setDestroy(org.harfbuzz.SetT set) {
         try {
             DowncallHandles.hb_set_destroy.invokeExact(
                     set.handle());
@@ -8455,14 +8106,14 @@ public final class HarfBuzz {
      * Fetches the singleton empty {@link SetT}.
      * @return The empty {@link SetT}
      */
-    public static @NotNull org.harfbuzz.SetT setGetEmpty() {
+    public static org.harfbuzz.SetT setGetEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_set_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.SetT(RESULT, Ownership.FULL);
+        return org.harfbuzz.SetT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8470,8 +8121,7 @@ public final class HarfBuzz {
      * @param set A set
      * @return maximum of {@code set}, or {@code HB_SET_VALUE_INVALID} if {@code set} is empty.
      */
-    public static @NotNull org.harfbuzz.CodepointT setGetMax(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static org.harfbuzz.CodepointT setGetMax(org.harfbuzz.SetT set) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_get_max.invokeExact(
@@ -8487,8 +8137,7 @@ public final class HarfBuzz {
      * @param set A set
      * @return minimum of {@code set}, or {@code HB_SET_VALUE_INVALID} if {@code set} is empty.
      */
-    public static @NotNull org.harfbuzz.CodepointT setGetMin(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static org.harfbuzz.CodepointT setGetMin(org.harfbuzz.SetT set) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_get_min.invokeExact(
@@ -8504,8 +8153,7 @@ public final class HarfBuzz {
      * @param set A set
      * @return The population of {@code set}
      */
-    public static int setGetPopulation(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static int setGetPopulation(org.harfbuzz.SetT set) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_get_population.invokeExact(
@@ -8523,9 +8171,7 @@ public final class HarfBuzz {
      * @param key The user-data key to query
      * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress setGetUserData(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.UserDataKeyT key) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress setGetUserData(org.harfbuzz.SetT set, org.harfbuzz.UserDataKeyT key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_set_get_user_data.invokeExact(
@@ -8543,9 +8189,7 @@ public final class HarfBuzz {
      * @param codepoint The element to query
      * @return {@code true} if {@code codepoint} is in {@code set}, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT setHas(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT codepoint) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
+    public static org.harfbuzz.BoolT setHas(org.harfbuzz.SetT set, org.harfbuzz.CodepointT codepoint) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_has.invokeExact(
@@ -8562,8 +8206,7 @@ public final class HarfBuzz {
      * @param set A set
      * @return A hash of {@code set}.
      */
-    public static int setHash(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static int setHash(org.harfbuzz.SetT set) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_hash.invokeExact(
@@ -8579,9 +8222,7 @@ public final class HarfBuzz {
      * @param set A set
      * @param other Another set
      */
-    public static void setIntersect(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public static void setIntersect(org.harfbuzz.SetT set, org.harfbuzz.SetT other) {
         try {
             DowncallHandles.hb_set_intersect.invokeExact(
                     set.handle(),
@@ -8595,8 +8236,7 @@ public final class HarfBuzz {
      * Inverts the contents of {@code set}.
      * @param set A set
      */
-    public static void setInvert(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static void setInvert(org.harfbuzz.SetT set) {
         try {
             DowncallHandles.hb_set_invert.invokeExact(
                     set.handle());
@@ -8610,8 +8250,7 @@ public final class HarfBuzz {
      * @param set a set.
      * @return {@code true} if {@code set} is empty
      */
-    public static @NotNull org.harfbuzz.BoolT setIsEmpty(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static org.harfbuzz.BoolT setIsEmpty(org.harfbuzz.SetT set) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_is_empty.invokeExact(
@@ -8629,9 +8268,7 @@ public final class HarfBuzz {
      * @param other Another set
      * @return {@code true} if the two sets are equal, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT setIsEqual(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public static org.harfbuzz.BoolT setIsEqual(org.harfbuzz.SetT set, org.harfbuzz.SetT other) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_is_equal.invokeExact(
@@ -8649,9 +8286,7 @@ public final class HarfBuzz {
      * @param largerSet Another set
      * @return {@code true} if the {@code set} is a subset of (or equal to) {@code larger_set}, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT setIsSubset(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT largerSet) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(largerSet, "Parameter 'largerSet' must not be null");
+    public static org.harfbuzz.BoolT setIsSubset(org.harfbuzz.SetT set, org.harfbuzz.SetT largerSet) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_is_subset.invokeExact(
@@ -8672,9 +8307,7 @@ public final class HarfBuzz {
      *             Output = Code point retrieved
      * @return {@code true} if there was a next value, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT setNext(@NotNull org.harfbuzz.SetT set, @NotNull Out<org.harfbuzz.CodepointT> codepoint) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
+    public static org.harfbuzz.BoolT setNext(org.harfbuzz.SetT set, org.harfbuzz.CodepointT codepoint) {
         MemorySegment codepointPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -8684,7 +8317,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        codepoint.set(new org.harfbuzz.CodepointT(codepointPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        codepoint.setValue(codepointPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -8699,10 +8332,7 @@ public final class HarfBuzz {
      * @param size The maximum number of codepoints to write out.
      * @return the number of values written.
      */
-    public static int setNextMany(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.CodepointT codepoint, @NotNull org.harfbuzz.CodepointT[] out, int size) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
-        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+    public static int setNextMany(org.harfbuzz.SetT set, org.harfbuzz.CodepointT codepoint, org.harfbuzz.CodepointT[] out, int size) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_set_next_many.invokeExact(
@@ -8727,11 +8357,8 @@ public final class HarfBuzz {
      *         Output = The last code point in the range
      * @return {@code true} if there was a next range, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT setNextRange(@NotNull org.harfbuzz.SetT set, @NotNull Out<org.harfbuzz.CodepointT> first, @NotNull Out<org.harfbuzz.CodepointT> last) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
+    public static org.harfbuzz.BoolT setNextRange(org.harfbuzz.SetT set, org.harfbuzz.CodepointT first, org.harfbuzz.CodepointT last) {
         MemorySegment firstPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
         MemorySegment lastPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -8742,8 +8369,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        first.set(new org.harfbuzz.CodepointT(firstPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        last.set(new org.harfbuzz.CodepointT(lastPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        first.setValue(firstPOINTER.get(Interop.valueLayout.C_INT, 0));
+        last.setValue(lastPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -8756,9 +8383,7 @@ public final class HarfBuzz {
      *             Output = Code point retrieved
      * @return {@code true} if there was a previous value, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT setPrevious(@NotNull org.harfbuzz.SetT set, @NotNull Out<org.harfbuzz.CodepointT> codepoint) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(codepoint, "Parameter 'codepoint' must not be null");
+    public static org.harfbuzz.BoolT setPrevious(org.harfbuzz.SetT set, org.harfbuzz.CodepointT codepoint) {
         MemorySegment codepointPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -8768,7 +8393,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        codepoint.set(new org.harfbuzz.CodepointT(codepointPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        codepoint.setValue(codepointPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -8783,11 +8408,8 @@ public final class HarfBuzz {
      * @param last The last code point in the range
      * @return {@code true} if there was a previous range, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT setPreviousRange(@NotNull org.harfbuzz.SetT set, @NotNull Out<org.harfbuzz.CodepointT> first, @NotNull Out<org.harfbuzz.CodepointT> last) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(first, "Parameter 'first' must not be null");
+    public static org.harfbuzz.BoolT setPreviousRange(org.harfbuzz.SetT set, org.harfbuzz.CodepointT first, org.harfbuzz.CodepointT last) {
         MemorySegment firstPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(last, "Parameter 'last' must not be null");
         MemorySegment lastPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -8798,8 +8420,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        first.set(new org.harfbuzz.CodepointT(firstPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        last.set(new org.harfbuzz.CodepointT(lastPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        first.setValue(firstPOINTER.get(Interop.valueLayout.C_INT, 0));
+        last.setValue(lastPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -8808,8 +8430,7 @@ public final class HarfBuzz {
      * @param set A set
      * @return The set
      */
-    public static @NotNull org.harfbuzz.SetT setReference(@NotNull org.harfbuzz.SetT set) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
+    public static org.harfbuzz.SetT setReference(org.harfbuzz.SetT set) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_set_reference.invokeExact(
@@ -8817,7 +8438,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.SetT(RESULT, Ownership.FULL);
+        return org.harfbuzz.SetT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8825,9 +8446,7 @@ public final class HarfBuzz {
      * @param set A set
      * @param other Another set
      */
-    public static void setSet(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public static void setSet(org.harfbuzz.SetT set, org.harfbuzz.SetT other) {
         try {
             DowncallHandles.hb_set_set.invokeExact(
                     set.handle(),
@@ -8846,8 +8465,19 @@ public final class HarfBuzz {
      * @param replace Whether to replace an existing data with the same key
      * @return {@code true} if success, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT setSetUserData(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BoolT setSetUserData(org.harfbuzz.SetT set, org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, org.harfbuzz.BoolT replace) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_set_set_user_data.invokeExact(
+                    set.handle(),
+                    key.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    replace.getValue().intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
     /**
@@ -8855,9 +8485,7 @@ public final class HarfBuzz {
      * @param set A set
      * @param other Another set
      */
-    public static void setSubtract(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public static void setSubtract(org.harfbuzz.SetT set, org.harfbuzz.SetT other) {
         try {
             DowncallHandles.hb_set_subtract.invokeExact(
                     set.handle(),
@@ -8873,9 +8501,7 @@ public final class HarfBuzz {
      * @param set A set
      * @param other Another set
      */
-    public static void setSymmetricDifference(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public static void setSymmetricDifference(org.harfbuzz.SetT set, org.harfbuzz.SetT other) {
         try {
             DowncallHandles.hb_set_symmetric_difference.invokeExact(
                     set.handle(),
@@ -8890,9 +8516,7 @@ public final class HarfBuzz {
      * @param set A set
      * @param other Another set
      */
-    public static void setUnion(@NotNull org.harfbuzz.SetT set, @NotNull org.harfbuzz.SetT other) {
-        java.util.Objects.requireNonNull(set, "Parameter 'set' must not be null");
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public static void setUnion(org.harfbuzz.SetT set, org.harfbuzz.SetT other) {
         try {
             DowncallHandles.hb_set_union.invokeExact(
                     set.handle(),
@@ -8914,9 +8538,7 @@ public final class HarfBuzz {
      *    specified {@link FeatureT} or {@code NULL}
      * @param numFeatures the length of {@code features} array
      */
-    public static void shape(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, @Nullable org.harfbuzz.FeatureT[] features, int numFeatures) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void shape(org.harfbuzz.FontT font, org.harfbuzz.BufferT buffer, @Nullable org.harfbuzz.FeatureT[] features, int numFeatures) {
         try {
             DowncallHandles.hb_shape.invokeExact(
                     font.handle(),
@@ -8941,9 +8563,7 @@ public final class HarfBuzz {
      *    array of shapers to use or {@code NULL}
      * @return false if all shapers failed, true otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT shapeFull(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, @Nullable org.harfbuzz.FeatureT[] features, int numFeatures, @Nullable java.lang.String[] shaperList) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.harfbuzz.BoolT shapeFull(org.harfbuzz.FontT font, org.harfbuzz.BufferT buffer, @Nullable org.harfbuzz.FeatureT[] features, int numFeatures, @Nullable java.lang.String[] shaperList) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_shape_full.invokeExact(
@@ -8963,7 +8583,7 @@ public final class HarfBuzz {
      * @return an array of
      *    constant strings
      */
-    public static @NotNull PointerString shapeListShapers() {
+    public static PointerString shapeListShapers() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_shape_list_shapers.invokeExact();
@@ -8983,11 +8603,7 @@ public final class HarfBuzz {
      * @param shaperList List of shapers to try
      * @return The shaping plan
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreate(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, @NotNull org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, @NotNull java.lang.String[] shaperList) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
-        java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
-        java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
+    public static org.harfbuzz.ShapePlanT shapePlanCreate(org.harfbuzz.FaceT face, org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create.invokeExact(
@@ -8999,7 +8615,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
+        return org.harfbuzz.ShapePlanT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9015,12 +8631,7 @@ public final class HarfBuzz {
      * @param shaperList List of shapers to try
      * @return The shaping plan
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreate2(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, @NotNull org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, @NotNull int[] coords, int numCoords, @NotNull java.lang.String[] shaperList) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
-        java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
-        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
-        java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
+    public static org.harfbuzz.ShapePlanT shapePlanCreate2(org.harfbuzz.FaceT face, org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create2.invokeExact(
@@ -9034,7 +8645,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
+        return org.harfbuzz.ShapePlanT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9047,11 +8658,7 @@ public final class HarfBuzz {
      * @param shaperList List of shapers to try
      * @return The shaping plan
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreateCached(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, @NotNull org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, @NotNull java.lang.String[] shaperList) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
-        java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
-        java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
+    public static org.harfbuzz.ShapePlanT shapePlanCreateCached(org.harfbuzz.FaceT face, org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, java.lang.String[] shaperList) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create_cached.invokeExact(
@@ -9063,7 +8670,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
+        return org.harfbuzz.ShapePlanT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9080,12 +8687,7 @@ public final class HarfBuzz {
      * @param shaperList List of shapers to try
      * @return The shaping plan
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanCreateCached2(@NotNull org.harfbuzz.FaceT face, @NotNull org.harfbuzz.SegmentPropertiesT props, @NotNull org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, @NotNull int[] coords, int numCoords, @NotNull java.lang.String[] shaperList) {
-        java.util.Objects.requireNonNull(face, "Parameter 'face' must not be null");
-        java.util.Objects.requireNonNull(props, "Parameter 'props' must not be null");
-        java.util.Objects.requireNonNull(userFeatures, "Parameter 'userFeatures' must not be null");
-        java.util.Objects.requireNonNull(coords, "Parameter 'coords' must not be null");
-        java.util.Objects.requireNonNull(shaperList, "Parameter 'shaperList' must not be null");
+    public static org.harfbuzz.ShapePlanT shapePlanCreateCached2(org.harfbuzz.FaceT face, org.harfbuzz.SegmentPropertiesT props, org.harfbuzz.FeatureT[] userFeatures, int numUserFeatures, int[] coords, int numCoords, java.lang.String[] shaperList) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_create_cached2.invokeExact(
@@ -9099,7 +8701,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
+        return org.harfbuzz.ShapePlanT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9108,8 +8710,7 @@ public final class HarfBuzz {
      * freeing all memory.
      * @param shapePlan A shaping plan
      */
-    public static void shapePlanDestroy(@NotNull org.harfbuzz.ShapePlanT shapePlan) {
-        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
+    public static void shapePlanDestroy(org.harfbuzz.ShapePlanT shapePlan) {
         try {
             DowncallHandles.hb_shape_plan_destroy.invokeExact(
                     shapePlan.handle());
@@ -9128,11 +8729,7 @@ public final class HarfBuzz {
      * @param numFeatures The number of features to enable
      * @return {@code true} if success, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT shapePlanExecute(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.BufferT buffer, @NotNull org.harfbuzz.FeatureT[] features, int numFeatures) {
-        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
+    public static org.harfbuzz.BoolT shapePlanExecute(org.harfbuzz.ShapePlanT shapePlan, org.harfbuzz.FontT font, org.harfbuzz.BufferT buffer, org.harfbuzz.FeatureT[] features, int numFeatures) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_shape_plan_execute.invokeExact(
@@ -9151,14 +8748,14 @@ public final class HarfBuzz {
      * Fetches the singleton empty shaping plan.
      * @return The empty shaping plan
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanGetEmpty() {
+    public static org.harfbuzz.ShapePlanT shapePlanGetEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
+        return org.harfbuzz.ShapePlanT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9166,8 +8763,7 @@ public final class HarfBuzz {
      * @param shapePlan A shaping plan
      * @return The shaper
      */
-    public static @NotNull java.lang.String shapePlanGetShaper(@NotNull org.harfbuzz.ShapePlanT shapePlan) {
-        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
+    public static java.lang.String shapePlanGetShaper(org.harfbuzz.ShapePlanT shapePlan) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_shaper.invokeExact(
@@ -9175,7 +8771,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -9185,9 +8781,7 @@ public final class HarfBuzz {
      * @param key The user-data key to query
      * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress shapePlanGetUserData(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.UserDataKeyT key) {
-        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress shapePlanGetUserData(org.harfbuzz.ShapePlanT shapePlan, org.harfbuzz.UserDataKeyT key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_get_user_data.invokeExact(
@@ -9204,8 +8798,7 @@ public final class HarfBuzz {
      * @param shapePlan A shaping plan
      * @return {@code shape_plan}
      */
-    public static @NotNull org.harfbuzz.ShapePlanT shapePlanReference(@NotNull org.harfbuzz.ShapePlanT shapePlan) {
-        java.util.Objects.requireNonNull(shapePlan, "Parameter 'shapePlan' must not be null");
+    public static org.harfbuzz.ShapePlanT shapePlanReference(org.harfbuzz.ShapePlanT shapePlan) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_shape_plan_reference.invokeExact(
@@ -9213,7 +8806,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.ShapePlanT(RESULT, Ownership.FULL);
+        return org.harfbuzz.ShapePlanT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9225,8 +8818,19 @@ public final class HarfBuzz {
      * @param replace Whether to replace an existing data with the same key
      * @return {@code true} if success, {@code false} otherwise.
      */
-    public static @NotNull org.harfbuzz.BoolT shapePlanSetUserData(@NotNull org.harfbuzz.ShapePlanT shapePlan, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BoolT shapePlanSetUserData(org.harfbuzz.ShapePlanT shapePlan, org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, org.harfbuzz.BoolT replace) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_shape_plan_set_user_data.invokeExact(
+                    shapePlan.handle(),
+                    key.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    replace.getValue().intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
     /**
@@ -9237,9 +8841,7 @@ public final class HarfBuzz {
      * @param styleTag a style tag.
      * @return Corresponding axis or default value to a style tag.
      */
-    public static float styleGetValue(@NotNull org.harfbuzz.FontT font, @NotNull org.harfbuzz.StyleTagT styleTag) {
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(styleTag, "Parameter 'styleTag' must not be null");
+    public static float styleGetValue(org.harfbuzz.FontT font, org.harfbuzz.StyleTagT styleTag) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.hb_style_get_value.invokeExact(
@@ -9260,8 +8862,7 @@ public final class HarfBuzz {
      * @param len Length of {@code str}, or -1 if it is {@code NULL}-terminated
      * @return The {@link TagT} corresponding to {@code str}
      */
-    public static @NotNull org.harfbuzz.TagT tagFromString(@NotNull byte[] str, int len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static org.harfbuzz.TagT tagFromString(byte[] str, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_tag_from_string.invokeExact(
@@ -9279,9 +8880,7 @@ public final class HarfBuzz {
      * @param tag {@link TagT} to convert
      * @param buf Converted string
      */
-    public static void tagToString(@NotNull org.harfbuzz.TagT tag, @NotNull Out<byte[]> buf) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public static void tagToString(org.harfbuzz.TagT tag, Out<byte[]> buf) {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.hb_tag_to_string.invokeExact(
@@ -9300,9 +8899,7 @@ public final class HarfBuzz {
      * @param unicode The code point to query
      * @return The {@link UnicodeCombiningClassT} of {@code unicode}
      */
-    public static @NotNull org.harfbuzz.UnicodeCombiningClassT unicodeCombiningClass(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
-        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
+    public static org.harfbuzz.UnicodeCombiningClassT unicodeCombiningClass(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT unicode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_unicode_combining_class.invokeExact(
@@ -9326,11 +8923,7 @@ public final class HarfBuzz {
      * @param ab The composition of {@code a}, {@code b}
      * @return {@code true} if {@code a} and {@code b} composed, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT unicodeCompose(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT a, @NotNull org.harfbuzz.CodepointT b, @NotNull Out<org.harfbuzz.CodepointT> ab) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(ab, "Parameter 'ab' must not be null");
+    public static org.harfbuzz.BoolT unicodeCompose(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT a, org.harfbuzz.CodepointT b, org.harfbuzz.CodepointT ab) {
         MemorySegment abPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -9342,7 +8935,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        ab.set(new org.harfbuzz.CodepointT(abPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        ab.setValue(abPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -9357,12 +8950,8 @@ public final class HarfBuzz {
      * @param b The second code point of the decomposition of {@code ab}
      * @return {@code true} if {@code ab} was decomposed, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT unicodeDecompose(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT ab, @NotNull Out<org.harfbuzz.CodepointT> a, @NotNull Out<org.harfbuzz.CodepointT> b) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
-        java.util.Objects.requireNonNull(ab, "Parameter 'ab' must not be null");
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
+    public static org.harfbuzz.BoolT unicodeDecompose(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT ab, org.harfbuzz.CodepointT a, org.harfbuzz.CodepointT b) {
         MemorySegment aPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         MemorySegment bPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -9374,8 +8963,8 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        a.set(new org.harfbuzz.CodepointT(aPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        b.set(new org.harfbuzz.CodepointT(bPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        a.setValue(aPOINTER.get(Interop.valueLayout.C_INT, 0));
+        b.setValue(bPOINTER.get(Interop.valueLayout.C_INT, 0));
         return new org.harfbuzz.BoolT(RESULT);
     }
     
@@ -9388,10 +8977,7 @@ public final class HarfBuzz {
      * @return length of {@code decomposed}.
      */
     @Deprecated
-    public static int unicodeDecomposeCompatibility(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT u, @NotNull Out<org.harfbuzz.CodepointT> decomposed) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
-        java.util.Objects.requireNonNull(u, "Parameter 'u' must not be null");
-        java.util.Objects.requireNonNull(decomposed, "Parameter 'decomposed' must not be null");
+    public static int unicodeDecomposeCompatibility(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT u, org.harfbuzz.CodepointT decomposed) {
         MemorySegment decomposedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -9402,7 +8988,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        decomposed.set(new org.harfbuzz.CodepointT(decomposedPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        decomposed.setValue(decomposedPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT;
     }
     
@@ -9412,9 +8998,7 @@ public final class HarfBuzz {
      * @param unicode The code point to query
      */
     @Deprecated
-    public static int unicodeEastasianWidth(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
-        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
+    public static int unicodeEastasianWidth(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT unicode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_unicode_eastasian_width.invokeExact(
@@ -9431,7 +9015,7 @@ public final class HarfBuzz {
      * @param parent Parent Unicode-functions structure
      * @return The Unicode-functions structure
      */
-    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsCreate(@Nullable org.harfbuzz.UnicodeFuncsT parent) {
+    public static org.harfbuzz.UnicodeFuncsT unicodeFuncsCreate(@Nullable org.harfbuzz.UnicodeFuncsT parent) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_create.invokeExact(
@@ -9439,7 +9023,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.UnicodeFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9448,8 +9032,7 @@ public final class HarfBuzz {
      * destroyed, freeing all memory.
      * @param ufuncs The Unicode-functions structure
      */
-    public static void unicodeFuncsDestroy(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+    public static void unicodeFuncsDestroy(org.harfbuzz.UnicodeFuncsT ufuncs) {
         try {
             DowncallHandles.hb_unicode_funcs_destroy.invokeExact(
                     ufuncs.handle());
@@ -9463,28 +9046,28 @@ public final class HarfBuzz {
      * when no functions are explicitly set on {@link BufferT}.
      * @return a pointer to the {@link UnicodeFuncsT} Unicode-functions structure
      */
-    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsGetDefault() {
+    public static org.harfbuzz.UnicodeFuncsT unicodeFuncsGetDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.NONE);
+        return org.harfbuzz.UnicodeFuncsT.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Fetches the singleton empty Unicode-functions structure.
      * @return The empty Unicode-functions structure
      */
-    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsGetEmpty() {
+    public static org.harfbuzz.UnicodeFuncsT unicodeFuncsGetEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.UnicodeFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9493,8 +9076,7 @@ public final class HarfBuzz {
      * @param ufuncs The Unicode-functions structure
      * @return The parent Unicode-functions structure
      */
-    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsGetParent(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+    public static org.harfbuzz.UnicodeFuncsT unicodeFuncsGetParent(org.harfbuzz.UnicodeFuncsT ufuncs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_parent.invokeExact(
@@ -9502,7 +9084,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.UnicodeFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9512,9 +9094,7 @@ public final class HarfBuzz {
      * @param key The user-data key to query
      * @return A pointer to the user data
      */
-    public static @Nullable java.lang.foreign.MemoryAddress unicodeFuncsGetUserData(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UserDataKeyT key) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress unicodeFuncsGetUserData(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UserDataKeyT key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_get_user_data.invokeExact(
@@ -9532,8 +9112,7 @@ public final class HarfBuzz {
      * @param ufuncs The Unicode-functions structure
      * @return {@code true} if {@code ufuncs} is immutable, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT unicodeFuncsIsImmutable(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+    public static org.harfbuzz.BoolT unicodeFuncsIsImmutable(org.harfbuzz.UnicodeFuncsT ufuncs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_unicode_funcs_is_immutable.invokeExact(
@@ -9549,8 +9128,7 @@ public final class HarfBuzz {
      * immutable.
      * @param ufuncs The Unicode-functions structure
      */
-    public static void unicodeFuncsMakeImmutable(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+    public static void unicodeFuncsMakeImmutable(org.harfbuzz.UnicodeFuncsT ufuncs) {
         try {
             DowncallHandles.hb_unicode_funcs_make_immutable.invokeExact(
                     ufuncs.handle());
@@ -9564,8 +9142,7 @@ public final class HarfBuzz {
      * @param ufuncs The Unicode-functions structure
      * @return The Unicode-functions structure
      */
-    public static @NotNull org.harfbuzz.UnicodeFuncsT unicodeFuncsReference(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
+    public static org.harfbuzz.UnicodeFuncsT unicodeFuncsReference(org.harfbuzz.UnicodeFuncsT ufuncs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_unicode_funcs_reference.invokeExact(
@@ -9573,7 +9150,7 @@ public final class HarfBuzz {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.harfbuzz.UnicodeFuncsT(RESULT, Ownership.FULL);
+        return org.harfbuzz.UnicodeFuncsT.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -9583,8 +9160,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void unicodeFuncsSetCombiningClassFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeCombiningClassFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void unicodeFuncsSetCombiningClassFunc(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UnicodeCombiningClassFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_unicode_funcs_set_combining_class_func.invokeExact(
+                    ufuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -9594,8 +9179,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void unicodeFuncsSetComposeFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeComposeFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void unicodeFuncsSetComposeFunc(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UnicodeComposeFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_unicode_funcs_set_compose_func.invokeExact(
+                    ufuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -9606,8 +9199,16 @@ public final class HarfBuzz {
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
     @Deprecated
-    public static void unicodeFuncsSetDecomposeCompatibilityFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeDecomposeCompatibilityFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void unicodeFuncsSetDecomposeCompatibilityFunc(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UnicodeDecomposeCompatibilityFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_unicode_funcs_set_decompose_compatibility_func.invokeExact(
+                    ufuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -9617,8 +9218,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void unicodeFuncsSetDecomposeFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeDecomposeFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void unicodeFuncsSetDecomposeFunc(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UnicodeDecomposeFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_unicode_funcs_set_decompose_func.invokeExact(
+                    ufuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -9629,8 +9238,16 @@ public final class HarfBuzz {
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
     @Deprecated
-    public static void unicodeFuncsSetEastasianWidthFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeEastasianWidthFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void unicodeFuncsSetEastasianWidthFunc(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UnicodeEastasianWidthFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_unicode_funcs_set_eastasian_width_func.invokeExact(
+                    ufuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -9640,8 +9257,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void unicodeFuncsSetGeneralCategoryFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeGeneralCategoryFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void unicodeFuncsSetGeneralCategoryFunc(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UnicodeGeneralCategoryFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_unicode_funcs_set_general_category_func.invokeExact(
+                    ufuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -9651,8 +9276,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void unicodeFuncsSetMirroringFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeMirroringFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void unicodeFuncsSetMirroringFunc(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UnicodeMirroringFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_unicode_funcs_set_mirroring_func.invokeExact(
+                    ufuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -9662,8 +9295,16 @@ public final class HarfBuzz {
      * @param userData Data to pass to {@code func}
      * @param destroy The function to call when {@code user_data} is not needed anymore
      */
-    public static void unicodeFuncsSetScriptFunc(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UnicodeScriptFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void unicodeFuncsSetScriptFunc(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UnicodeScriptFuncT func, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.harfbuzz.DestroyFuncT destroy) {
+        try {
+            DowncallHandles.hb_unicode_funcs_set_script_func.invokeExact(
+                    ufuncs.handle(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -9675,8 +9316,19 @@ public final class HarfBuzz {
      * @param replace Whether to replace an existing data with the same key
      * @return {@code true} if success, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT unicodeFuncsSetUserData(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, @NotNull org.harfbuzz.BoolT replace) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.harfbuzz.BoolT unicodeFuncsSetUserData(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.UserDataKeyT key, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.harfbuzz.DestroyFuncT destroy, org.harfbuzz.BoolT replace) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.hb_unicode_funcs_set_user_data.invokeExact(
+                    ufuncs.handle(),
+                    key.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    replace.getValue().intValue());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new org.harfbuzz.BoolT(RESULT);
     }
     
     /**
@@ -9686,9 +9338,7 @@ public final class HarfBuzz {
      * @param unicode The code point to query
      * @return The {@link UnicodeGeneralCategoryT} of {@code unicode}
      */
-    public static @NotNull org.harfbuzz.UnicodeGeneralCategoryT unicodeGeneralCategory(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
-        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
+    public static org.harfbuzz.UnicodeGeneralCategoryT unicodeGeneralCategory(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT unicode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_unicode_general_category.invokeExact(
@@ -9707,9 +9357,7 @@ public final class HarfBuzz {
      * @param unicode The code point to query
      * @return The {@link CodepointT} of the Mirroring Glyph for {@code unicode}
      */
-    public static @NotNull org.harfbuzz.CodepointT unicodeMirroring(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
-        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
+    public static org.harfbuzz.CodepointT unicodeMirroring(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT unicode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_unicode_mirroring.invokeExact(
@@ -9728,9 +9376,7 @@ public final class HarfBuzz {
      * @param unicode The code point to query
      * @return The {@link ScriptT} of {@code unicode}
      */
-    public static @NotNull org.harfbuzz.ScriptT unicodeScript(@NotNull org.harfbuzz.UnicodeFuncsT ufuncs, @NotNull org.harfbuzz.CodepointT unicode) {
-        java.util.Objects.requireNonNull(ufuncs, "Parameter 'ufuncs' must not be null");
-        java.util.Objects.requireNonNull(unicode, "Parameter 'unicode' must not be null");
+    public static org.harfbuzz.ScriptT unicodeScript(org.harfbuzz.UnicodeFuncsT ufuncs, org.harfbuzz.CodepointT unicode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_unicode_script.invokeExact(
@@ -9756,9 +9402,7 @@ public final class HarfBuzz {
      * @param variation the {@link VariationT} to initialize with the parsed values
      * @return {@code true} if {@code str} is successfully parsed, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT variationFromString(@NotNull byte[] str, int len, @NotNull org.harfbuzz.VariationT variation) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(variation, "Parameter 'variation' must not be null");
+    public static org.harfbuzz.BoolT variationFromString(byte[] str, int len, org.harfbuzz.VariationT variation) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_variation_from_string.invokeExact(
@@ -9779,24 +9423,20 @@ public final class HarfBuzz {
      * @param buf output string
      * @param size the allocated size of {@code buf}
      */
-    public static void variationToString(@NotNull org.harfbuzz.VariationT variation, @NotNull Out<java.lang.String[]> buf, Out<Integer> size) {
-        java.util.Objects.requireNonNull(variation, "Parameter 'variation' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public static void variationToString(org.harfbuzz.VariationT variation, Out<java.lang.String[]> buf, int size) {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_variation_to_string.invokeExact(
                     variation.handle(),
                     (Addressable) bufPOINTER.address(),
-                    (Addressable) sizePOINTER.address());
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
-        java.lang.String[] bufARRAY = new java.lang.String[size.get().intValue()];
-        for (int I = 0; I < size.get().intValue(); I++) {
+        java.lang.String[] bufARRAY = new java.lang.String[size];
+        for (int I = 0; I < size; I++) {
             var OBJ = bufPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            bufARRAY[I] = Interop.getStringFrom(OBJ);
+            bufARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         buf.set(bufARRAY);
     }
@@ -9808,11 +9448,8 @@ public final class HarfBuzz {
      * @param micro Library micro version component
      */
     public static void version(Out<Integer> major, Out<Integer> minor, Out<Integer> micro) {
-        java.util.Objects.requireNonNull(major, "Parameter 'major' must not be null");
         MemorySegment majorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minor, "Parameter 'minor' must not be null");
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(micro, "Parameter 'micro' must not be null");
         MemorySegment microPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.hb_version.invokeExact(
@@ -9836,7 +9473,7 @@ public final class HarfBuzz {
      * @return {@code true} if the library is equal to or greater than
      * the test value, {@code false} otherwise
      */
-    public static @NotNull org.harfbuzz.BoolT versionAtleast(int major, int minor, int micro) {
+    public static org.harfbuzz.BoolT versionAtleast(int major, int minor, int micro) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.hb_version_atleast.invokeExact(
@@ -9853,14 +9490,14 @@ public final class HarfBuzz {
      * Returns library version as a string with three components.
      * @return Library version string
      */
-    public static @NotNull java.lang.String versionString() {
+    public static java.lang.String versionString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.hb_version_string.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

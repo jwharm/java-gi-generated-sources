@@ -51,8 +51,7 @@ public enum PlayerState implements io.github.jwharm.javagi.Enumeration {
      * @param state a {@link PlayerState}
      * @return a string with the name of the state.
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.player.PlayerState state) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public static java.lang.String getName(org.gstreamer.player.PlayerState state) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_player_state_get_name.invokeExact(
@@ -60,7 +59,7 @@ public enum PlayerState implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

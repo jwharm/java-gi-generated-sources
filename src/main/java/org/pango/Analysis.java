@@ -17,26 +17,24 @@ public class Analysis extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAnalysis";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("shape_engine"),
-        Interop.valueLayout.ADDRESS.withName("lang_engine"),
-        Interop.valueLayout.ADDRESS.withName("font"),
-        Interop.valueLayout.C_BYTE.withName("level"),
-        Interop.valueLayout.C_BYTE.withName("gravity"),
-        Interop.valueLayout.C_BYTE.withName("flags"),
-        Interop.valueLayout.C_BYTE.withName("script"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("language"),
-        Interop.valueLayout.ADDRESS.withName("extra_attrs")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("shape_engine"),
+            Interop.valueLayout.ADDRESS.withName("lang_engine"),
+            Interop.valueLayout.ADDRESS.withName("font"),
+            Interop.valueLayout.C_BYTE.withName("level"),
+            Interop.valueLayout.C_BYTE.withName("gravity"),
+            Interop.valueLayout.C_BYTE.withName("flags"),
+            Interop.valueLayout.C_BYTE.withName("script"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("language"),
+            Interop.valueLayout.ADDRESS.withName("extra_attrs")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,7 +54,7 @@ public class Analysis extends Struct {
      * Get the value of the field {@code shape_engine}
      * @return The value of the field {@code shape_engine}
      */
-    public java.lang.foreign.MemoryAddress shapeEngine$get() {
+    public java.lang.foreign.MemoryAddress getShapeEngine() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("shape_engine"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -67,17 +65,17 @@ public class Analysis extends Struct {
      * Change the value of the field {@code shape_engine}
      * @param shapeEngine The new value of the field {@code shape_engine}
      */
-    public void shapeEngine$set(java.lang.foreign.MemoryAddress shapeEngine) {
+    public void setShapeEngine(java.lang.foreign.MemoryAddress shapeEngine) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("shape_engine"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) shapeEngine);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shapeEngine == null ? MemoryAddress.NULL : (Addressable) shapeEngine));
     }
     
     /**
      * Get the value of the field {@code lang_engine}
      * @return The value of the field {@code lang_engine}
      */
-    public java.lang.foreign.MemoryAddress langEngine$get() {
+    public java.lang.foreign.MemoryAddress getLangEngine() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lang_engine"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -88,38 +86,38 @@ public class Analysis extends Struct {
      * Change the value of the field {@code lang_engine}
      * @param langEngine The new value of the field {@code lang_engine}
      */
-    public void langEngine$set(java.lang.foreign.MemoryAddress langEngine) {
+    public void setLangEngine(java.lang.foreign.MemoryAddress langEngine) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lang_engine"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) langEngine);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (langEngine == null ? MemoryAddress.NULL : (Addressable) langEngine));
     }
     
     /**
      * Get the value of the field {@code font}
      * @return The value of the field {@code font}
      */
-    public org.pango.Font font$get() {
+    public org.pango.Font getFont() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("font"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.Font(RESULT, Ownership.UNKNOWN);
+        return (org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Font.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code font}
      * @param font The new value of the field {@code font}
      */
-    public void font$set(org.pango.Font font) {
+    public void setFont(org.pango.Font font) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("font"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), font.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (font == null ? MemoryAddress.NULL : font.handle()));
     }
     
     /**
      * Get the value of the field {@code level}
      * @return The value of the field {@code level}
      */
-    public byte level$get() {
+    public byte getLevel() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("level"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -130,7 +128,7 @@ public class Analysis extends Struct {
      * Change the value of the field {@code level}
      * @param level The new value of the field {@code level}
      */
-    public void level$set(byte level) {
+    public void setLevel(byte level) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("level"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), level);
@@ -140,7 +138,7 @@ public class Analysis extends Struct {
      * Get the value of the field {@code gravity}
      * @return The value of the field {@code gravity}
      */
-    public byte gravity$get() {
+    public byte getGravity() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("gravity"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -151,7 +149,7 @@ public class Analysis extends Struct {
      * Change the value of the field {@code gravity}
      * @param gravity The new value of the field {@code gravity}
      */
-    public void gravity$set(byte gravity) {
+    public void setGravity(byte gravity) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("gravity"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), gravity);
@@ -161,7 +159,7 @@ public class Analysis extends Struct {
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public byte flags$get() {
+    public byte getFlags() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -172,7 +170,7 @@ public class Analysis extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(byte flags) {
+    public void setFlags(byte flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -182,7 +180,7 @@ public class Analysis extends Struct {
      * Get the value of the field {@code script}
      * @return The value of the field {@code script}
      */
-    public byte script$get() {
+    public byte getScript() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("script"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -193,7 +191,7 @@ public class Analysis extends Struct {
      * Change the value of the field {@code script}
      * @param script The new value of the field {@code script}
      */
-    public void script$set(byte script) {
+    public void setScript(byte script) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("script"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), script);
@@ -203,42 +201,42 @@ public class Analysis extends Struct {
      * Get the value of the field {@code language}
      * @return The value of the field {@code language}
      */
-    public org.pango.Language language$get() {
+    public org.pango.Language getLanguage() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.pango.Language(RESULT, Ownership.UNKNOWN);
+        return org.pango.Language.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code language}
      * @param language The new value of the field {@code language}
      */
-    public void language$set(org.pango.Language language) {
+    public void setLanguage(org.pango.Language language) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), language.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (language == null ? MemoryAddress.NULL : language.handle()));
     }
     
     /**
      * Get the value of the field {@code extra_attrs}
      * @return The value of the field {@code extra_attrs}
      */
-    public org.gtk.glib.SList extraAttrs$get() {
+    public org.gtk.glib.SList getExtraAttrs() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("extra_attrs"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.SList(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code extra_attrs}
      * @param extraAttrs The new value of the field {@code extra_attrs}
      */
-    public void extraAttrs$set(org.gtk.glib.SList extraAttrs) {
+    public void setExtraAttrs(org.gtk.glib.SList extraAttrs) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("extra_attrs"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), extraAttrs.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (extraAttrs == null ? MemoryAddress.NULL : extraAttrs.handle()));
     }
     
     /**
@@ -246,35 +244,41 @@ public class Analysis extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Analysis(Addressable address, Ownership ownership) {
+    protected Analysis(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Analysis> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Analysis(input, ownership);
+    
+    /**
+     * A {@link Analysis.Builder} object constructs a {@link Analysis} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Analysis.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Analysis struct;
+        private final Analysis struct;
         
-         /**
-         * A {@link Analysis.Build} object constructs a {@link Analysis} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Analysis.allocate();
         }
         
          /**
          * Finish building the {@link Analysis} struct.
          * @return A new instance of {@code Analysis} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Analysis construct() {
+        public Analysis build() {
             return struct;
         }
         
@@ -283,7 +287,7 @@ public class Analysis extends Struct {
          * @param shapeEngine The value for the {@code shapeEngine} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShapeEngine(java.lang.foreign.MemoryAddress shapeEngine) {
+        public Builder setShapeEngine(java.lang.foreign.MemoryAddress shapeEngine) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("shape_engine"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (shapeEngine == null ? MemoryAddress.NULL : (Addressable) shapeEngine));
@@ -295,7 +299,7 @@ public class Analysis extends Struct {
          * @param langEngine The value for the {@code langEngine} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLangEngine(java.lang.foreign.MemoryAddress langEngine) {
+        public Builder setLangEngine(java.lang.foreign.MemoryAddress langEngine) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lang_engine"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (langEngine == null ? MemoryAddress.NULL : (Addressable) langEngine));
@@ -307,7 +311,7 @@ public class Analysis extends Struct {
          * @param font The value for the {@code font} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFont(org.pango.Font font) {
+        public Builder setFont(org.pango.Font font) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("font"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (font == null ? MemoryAddress.NULL : font.handle()));
@@ -319,7 +323,7 @@ public class Analysis extends Struct {
          * @param level The value for the {@code level} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLevel(byte level) {
+        public Builder setLevel(byte level) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("level"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), level);
@@ -331,7 +335,7 @@ public class Analysis extends Struct {
          * @param gravity The value for the {@code gravity} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGravity(byte gravity) {
+        public Builder setGravity(byte gravity) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("gravity"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), gravity);
@@ -343,7 +347,7 @@ public class Analysis extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(byte flags) {
+        public Builder setFlags(byte flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -355,7 +359,7 @@ public class Analysis extends Struct {
          * @param script The value for the {@code script} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScript(byte script) {
+        public Builder setScript(byte script) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("script"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), script);
@@ -367,7 +371,7 @@ public class Analysis extends Struct {
          * @param language The value for the {@code language} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLanguage(org.pango.Language language) {
+        public Builder setLanguage(org.pango.Language language) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("language"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (language == null ? MemoryAddress.NULL : language.handle()));
@@ -379,7 +383,7 @@ public class Analysis extends Struct {
          * @param extraAttrs The value for the {@code extraAttrs} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExtraAttrs(org.gtk.glib.SList extraAttrs) {
+        public Builder setExtraAttrs(org.gtk.glib.SList extraAttrs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("extra_attrs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (extraAttrs == null ? MemoryAddress.NULL : extraAttrs.handle()));

@@ -43,8 +43,10 @@ public class StreamConsistency extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StreamConsistency(Addressable address, Ownership ownership) {
+    protected StreamConsistency(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StreamConsistency> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StreamConsistency(input, ownership);
 }

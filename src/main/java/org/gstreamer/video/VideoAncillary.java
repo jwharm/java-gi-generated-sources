@@ -20,22 +20,20 @@ public class VideoAncillary extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoAncillary";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("DID"),
-        Interop.valueLayout.C_BYTE.withName("SDID_block_number"),
-        Interop.valueLayout.C_BYTE.withName("data_count"),
-        MemoryLayout.paddingLayout(40),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("DID"),
+            Interop.valueLayout.C_BYTE.withName("SDID_block_number"),
+            Interop.valueLayout.C_BYTE.withName("data_count"),
+            MemoryLayout.paddingLayout(40),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,7 +53,7 @@ public class VideoAncillary extends Struct {
      * Get the value of the field {@code DID}
      * @return The value of the field {@code DID}
      */
-    public byte DID$get() {
+    public byte getDID() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("DID"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -66,7 +64,7 @@ public class VideoAncillary extends Struct {
      * Change the value of the field {@code DID}
      * @param DID The new value of the field {@code DID}
      */
-    public void DID$set(byte DID) {
+    public void setDID(byte DID) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("DID"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), DID);
@@ -76,7 +74,7 @@ public class VideoAncillary extends Struct {
      * Get the value of the field {@code SDID_block_number}
      * @return The value of the field {@code SDID_block_number}
      */
-    public byte SDIDBlockNumber$get() {
+    public byte getSDIDBlockNumber() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("SDID_block_number"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -87,7 +85,7 @@ public class VideoAncillary extends Struct {
      * Change the value of the field {@code SDID_block_number}
      * @param SDIDBlockNumber The new value of the field {@code SDID_block_number}
      */
-    public void SDIDBlockNumber$set(byte SDIDBlockNumber) {
+    public void setSDIDBlockNumber(byte SDIDBlockNumber) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("SDID_block_number"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), SDIDBlockNumber);
@@ -97,7 +95,7 @@ public class VideoAncillary extends Struct {
      * Get the value of the field {@code data_count}
      * @return The value of the field {@code data_count}
      */
-    public byte dataCount$get() {
+    public byte getDataCount() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data_count"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -108,10 +106,31 @@ public class VideoAncillary extends Struct {
      * Change the value of the field {@code data_count}
      * @param dataCount The new value of the field {@code data_count}
      */
-    public void dataCount$set(byte dataCount) {
+    public void setDataCount(byte dataCount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data_count"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), dataCount);
+    }
+    
+    /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public PointerByte getData() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerByte(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void setData(byte[] data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
     }
     
     /**
@@ -119,35 +138,41 @@ public class VideoAncillary extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoAncillary(Addressable address, Ownership ownership) {
+    protected VideoAncillary(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoAncillary> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAncillary(input, ownership);
+    
+    /**
+     * A {@link VideoAncillary.Builder} object constructs a {@link VideoAncillary} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VideoAncillary.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VideoAncillary struct;
+        private final VideoAncillary struct;
         
-         /**
-         * A {@link VideoAncillary.Build} object constructs a {@link VideoAncillary} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VideoAncillary.allocate();
         }
         
          /**
          * Finish building the {@link VideoAncillary} struct.
          * @return A new instance of {@code VideoAncillary} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoAncillary construct() {
+        public VideoAncillary build() {
             return struct;
         }
         
@@ -156,7 +181,7 @@ public class VideoAncillary extends Struct {
          * @param DID The value for the {@code DID} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDID(byte DID) {
+        public Builder setDID(byte DID) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("DID"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), DID);
@@ -169,7 +194,7 @@ public class VideoAncillary extends Struct {
          * @param SDIDBlockNumber The value for the {@code SDIDBlockNumber} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSDIDBlockNumber(byte SDIDBlockNumber) {
+        public Builder setSDIDBlockNumber(byte SDIDBlockNumber) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("SDID_block_number"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), SDIDBlockNumber);
@@ -181,7 +206,7 @@ public class VideoAncillary extends Struct {
          * @param dataCount The value for the {@code dataCount} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDataCount(byte dataCount) {
+        public Builder setDataCount(byte dataCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), dataCount);
@@ -194,14 +219,14 @@ public class VideoAncillary extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(byte[] data) {
+        public Builder setData(byte[] data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

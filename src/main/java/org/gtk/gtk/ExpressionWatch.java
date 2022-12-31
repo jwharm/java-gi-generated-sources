@@ -46,10 +46,12 @@ public class ExpressionWatch extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ExpressionWatch(Addressable address, Ownership ownership) {
+    protected ExpressionWatch(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ExpressionWatch> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ExpressionWatch(input, ownership);
     
     /**
      * Evaluates the watched expression and on success stores the result
@@ -60,8 +62,7 @@ public class ExpressionWatch extends Struct {
      * @param value an empty {@code GValue} to be set
      * @return {@code TRUE} if the expression could be evaluated and {@code value} was set
      */
-    public boolean evaluate(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean evaluate(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_expression_watch_evaluate.invokeExact(
@@ -70,14 +71,14 @@ public class ExpressionWatch extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Acquires a reference on the given {@code GtkExpressionWatch}.
      * @return the {@code GtkExpressionWatch} with an additional reference
      */
-    public @NotNull org.gtk.gtk.ExpressionWatch ref() {
+    public org.gtk.gtk.ExpressionWatch ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_expression_watch_ref.invokeExact(
@@ -85,7 +86,7 @@ public class ExpressionWatch extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ExpressionWatch(RESULT, Ownership.FULL);
+        return org.gtk.gtk.ExpressionWatch.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

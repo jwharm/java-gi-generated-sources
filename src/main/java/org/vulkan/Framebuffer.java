@@ -40,8 +40,10 @@ public class Framebuffer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Framebuffer(Addressable address, Ownership ownership) {
+    protected Framebuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Framebuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Framebuffer(input, ownership);
 }

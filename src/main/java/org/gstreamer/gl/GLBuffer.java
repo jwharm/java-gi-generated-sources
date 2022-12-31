@@ -19,20 +19,18 @@ public class GLBuffer extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gl.GLBaseMemory.getMemoryLayout().withName("mem"),
-        Interop.valueLayout.C_INT.withName("id"),
-        Interop.valueLayout.C_INT.withName("target"),
-        Interop.valueLayout.C_INT.withName("usage_hints")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gl.GLBaseMemory.getMemoryLayout().withName("mem"),
+            Interop.valueLayout.C_INT.withName("id"),
+            Interop.valueLayout.C_INT.withName("target"),
+            Interop.valueLayout.C_INT.withName("usage_hints")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,16 +50,26 @@ public class GLBuffer extends Struct {
      * Get the value of the field {@code mem}
      * @return The value of the field {@code mem}
      */
-    public org.gstreamer.gl.GLBaseMemory mem$get() {
+    public org.gstreamer.gl.GLBaseMemory getMem() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mem"));
-        return new org.gstreamer.gl.GLBaseMemory(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLBaseMemory.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mem}
+     * @param mem The new value of the field {@code mem}
+     */
+    public void setMem(org.gstreamer.gl.GLBaseMemory mem) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mem"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
     }
     
     /**
      * Get the value of the field {@code id}
      * @return The value of the field {@code id}
      */
-    public int id$get() {
+    public int getId() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -72,7 +80,7 @@ public class GLBuffer extends Struct {
      * Change the value of the field {@code id}
      * @param id The new value of the field {@code id}
      */
-    public void id$set(int id) {
+    public void setId(int id) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), id);
@@ -82,7 +90,7 @@ public class GLBuffer extends Struct {
      * Get the value of the field {@code target}
      * @return The value of the field {@code target}
      */
-    public int target$get() {
+    public int getTarget() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("target"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -93,7 +101,7 @@ public class GLBuffer extends Struct {
      * Change the value of the field {@code target}
      * @param target The new value of the field {@code target}
      */
-    public void target$set(int target) {
+    public void setTarget(int target) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("target"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), target);
@@ -103,7 +111,7 @@ public class GLBuffer extends Struct {
      * Get the value of the field {@code usage_hints}
      * @return The value of the field {@code usage_hints}
      */
-    public int usageHints$get() {
+    public int getUsageHints() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("usage_hints"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -114,7 +122,7 @@ public class GLBuffer extends Struct {
      * Change the value of the field {@code usage_hints}
      * @param usageHints The new value of the field {@code usage_hints}
      */
-    public void usageHints$set(int usageHints) {
+    public void setUsageHints(int usageHints) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("usage_hints"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), usageHints);
@@ -125,10 +133,12 @@ public class GLBuffer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLBuffer(Addressable address, Ownership ownership) {
+    protected GLBuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLBuffer(input, ownership);
     
     /**
      * Initializes the GL Buffer allocator. It is safe to call this function
@@ -150,31 +160,35 @@ public class GLBuffer extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLBuffer.Builder} object constructs a {@link GLBuffer} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLBuffer struct;
+        private final GLBuffer struct;
         
-         /**
-         * A {@link GLBuffer.Build} object constructs a {@link GLBuffer} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLBuffer.allocate();
         }
         
          /**
          * Finish building the {@link GLBuffer} struct.
          * @return A new instance of {@code GLBuffer} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLBuffer construct() {
+        public GLBuffer build() {
             return struct;
         }
         
@@ -183,7 +197,7 @@ public class GLBuffer extends Struct {
          * @param mem The value for the {@code mem} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMem(org.gstreamer.gl.GLBaseMemory mem) {
+        public Builder setMem(org.gstreamer.gl.GLBaseMemory mem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mem"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
@@ -195,7 +209,7 @@ public class GLBuffer extends Struct {
          * @param id The value for the {@code id} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setId(int id) {
+        public Builder setId(int id) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), id);
@@ -207,7 +221,7 @@ public class GLBuffer extends Struct {
          * @param target The value for the {@code target} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTarget(int target) {
+        public Builder setTarget(int target) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("target"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), target);
@@ -219,7 +233,7 @@ public class GLBuffer extends Struct {
          * @param usageHints The value for the {@code usageHints} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUsageHints(int usageHints) {
+        public Builder setUsageHints(int usageHints) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("usage_hints"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), usageHints);

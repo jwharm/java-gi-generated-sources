@@ -20,5 +20,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface WeakNotify {
-        void onWeakNotify(@NotNull org.gtk.gobject.Object whereTheObjectWas);
+    void run(org.gtk.gobject.GObject whereTheObjectWas);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress data, MemoryAddress whereTheObjectWas) {
+        run((org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(whereTheObjectWas)), org.gtk.gobject.GObject.fromAddress).marshal(whereTheObjectWas, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(WeakNotify.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

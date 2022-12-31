@@ -28,18 +28,16 @@ public class MountOperation extends org.gtk.gio.MountOperation {
     
     private static final java.lang.String C_TYPE_NAME = "GtkMountOperation";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.MountOperation.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.MountOperation.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -47,33 +45,15 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MountOperation(Addressable address, Ownership ownership) {
+    protected MountOperation(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to MountOperation if its GType is a (or inherits from) "GtkMountOperation".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MountOperation} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkMountOperation", a ClassCastException will be thrown.
-     */
-    public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MountOperation.getType())) {
-            return new MountOperation(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMountOperation");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MountOperation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MountOperation(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.Window parent) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Window parent) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_new.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -96,7 +76,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * will be shown.
      * @return the display on which windows of {@code op} are shown
      */
-    public @NotNull org.gtk.gdk.Display getDisplay() {
+    public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_mount_operation_get_display.invokeExact(
@@ -104,7 +84,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -119,7 +99,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Window(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Window.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -135,15 +115,14 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Sets the display to show windows of the {@code GtkMountOperation} on.
      * @param display a {@code GdkDisplay}
      */
-    public void setDisplay(@NotNull org.gtk.gdk.Display display) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public void setDisplay(org.gtk.gdk.Display display) {
         try {
             DowncallHandles.gtk_mount_operation_set_display.invokeExact(
                     handle(),
@@ -172,7 +151,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_mount_operation_get_type.invokeExact();
@@ -181,38 +160,40 @@ public class MountOperation extends org.gtk.gio.MountOperation {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link MountOperation.Builder} object constructs a {@link MountOperation} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MountOperation.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.MountOperation.Build {
+    public static class Builder extends org.gtk.gio.MountOperation.Builder {
         
-         /**
-         * A {@link MountOperation.Build} object constructs a {@link MountOperation} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MountOperation} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MountOperation} using {@link MountOperation#castFrom}.
+         * {@link MountOperation}.
          * @return A new instance of {@code MountOperation} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MountOperation construct() {
-            return MountOperation.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MountOperation.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MountOperation build() {
+            return (MountOperation) org.gtk.gobject.GObject.newWithProperties(
+                MountOperation.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -221,7 +202,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
          * @param display The value for the {@code display} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDisplay(org.gtk.gdk.Display display) {
+        public Builder setDisplay(org.gtk.gdk.Display display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;
@@ -232,7 +213,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
          * @param isShowing The value for the {@code is-showing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsShowing(boolean isShowing) {
+        public Builder setIsShowing(boolean isShowing) {
             names.add("is-showing");
             values.add(org.gtk.gobject.Value.create(isShowing));
             return this;
@@ -243,7 +224,7 @@ public class MountOperation extends org.gtk.gio.MountOperation {
          * @param parent The value for the {@code parent} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gtk.gtk.Window parent) {
+        public Builder setParent(org.gtk.gtk.Window parent) {
             names.add("parent");
             values.add(org.gtk.gobject.Value.create(parent));
             return this;

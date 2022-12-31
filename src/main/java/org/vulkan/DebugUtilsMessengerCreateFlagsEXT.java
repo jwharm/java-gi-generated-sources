@@ -40,8 +40,10 @@ public class DebugUtilsMessengerCreateFlagsEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DebugUtilsMessengerCreateFlagsEXT(Addressable address, Ownership ownership) {
+    protected DebugUtilsMessengerCreateFlagsEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DebugUtilsMessengerCreateFlagsEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugUtilsMessengerCreateFlagsEXT(input, ownership);
 }

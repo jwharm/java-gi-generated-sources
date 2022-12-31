@@ -37,11 +37,15 @@ public class ConnectFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ConnectFlags or(ConnectFlags mask) {
-        return new ConnectFlags(this.getValue() | mask.getValue());
+    public ConnectFlags or(ConnectFlags... masks) {
+        int value = this.getValue();
+        for (ConnectFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ConnectFlags(value);
     }
     
     /**
@@ -51,7 +55,8 @@ public class ConnectFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ConnectFlags combined(ConnectFlags mask, ConnectFlags... masks) {
-        int value = mask.getValue();        for (ConnectFlags arg : masks) {
+        int value = mask.getValue();
+        for (ConnectFlags arg : masks) {
             value |= arg.getValue();
         }
         return new ConnectFlags(value);

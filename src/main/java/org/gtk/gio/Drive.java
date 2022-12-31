@@ -35,25 +35,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Drive extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Drive if its GType is a (or inherits from) "GDrive".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Drive} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDrive", a ClassCastException will be thrown.
-     */
-    public static Drive castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Drive.getType())) {
-            return new DriveImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDrive");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DriveImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DriveImpl(input, ownership);
     
     /**
      * Checks if a drive can be ejected.
@@ -67,7 +50,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -83,7 +66,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -98,7 +81,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -113,7 +96,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -128,7 +111,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -143,19 +126,14 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @deprecated Use g_drive_eject_with_operation() instead.
      */
     @Deprecated
-    default void eject(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void eject(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_drive_eject.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -170,8 +148,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @deprecated Use g_drive_eject_with_operation_finish() instead.
      */
     @Deprecated
-    default boolean ejectFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean ejectFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -185,7 +162,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -198,20 +175,15 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback a {@link AsyncReadyCallback}, or {@code null}.
      */
-    default void ejectWithOperation(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void ejectWithOperation(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_drive_eject_with_operation.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -224,8 +196,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the drive was successfully ejected. {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean ejectWithOperationFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean ejectWithOperationFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -239,7 +210,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -250,7 +221,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      *     array of strings containing kinds of identifiers. Use g_strfreev()
      *     to free.
      */
-    default @NotNull PointerString enumerateIdentifiers() {
+    default PointerString enumerateIdentifiers() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_drive_enumerate_identifiers.invokeExact(
@@ -266,7 +237,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @return {@link Icon} for the {@code drive}.
      *    Free the returned object with g_object_unref().
      */
-    default @NotNull org.gtk.gio.Icon getIcon() {
+    default org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_drive_get_icon.invokeExact(
@@ -274,7 +245,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -286,17 +257,16 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      *     requested identifier, or {@code null} if the {@link Drive}
      *     doesn't have this kind of identifier.
      */
-    default @Nullable java.lang.String getIdentifier(@NotNull java.lang.String kind) {
-        java.util.Objects.requireNonNull(kind, "Parameter 'kind' must not be null");
+    default @Nullable java.lang.String getIdentifier(java.lang.String kind) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_drive_get_identifier.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(kind));
+                    Marshal.stringToAddress.marshal(kind, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -304,7 +274,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @return a string containing {@code drive}'s name. The returned
      *     string should be freed when no longer needed.
      */
-    default @NotNull java.lang.String getName() {
+    default java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_drive_get_name.invokeExact(
@@ -312,7 +282,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -327,14 +297,14 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets a hint about how a drive can be started/stopped.
      * @return A value from the {@link DriveStartStopType} enumeration.
      */
-    default @NotNull org.gtk.gio.DriveStartStopType getStartStopType() {
+    default org.gtk.gio.DriveStartStopType getStartStopType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_drive_get_start_stop_type.invokeExact(
@@ -350,7 +320,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @return symbolic {@link Icon} for the {@code drive}.
      *    Free the returned object with g_object_unref().
      */
-    default @NotNull org.gtk.gio.Icon getSymbolicIcon() {
+    default org.gtk.gio.Icon getSymbolicIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_drive_get_symbolic_icon.invokeExact(
@@ -358,7 +328,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -368,7 +338,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * its elements have been unreffed with g_object_unref().
      * @return {@link org.gtk.glib.List} containing any {@link Volume} objects on the given {@code drive}.
      */
-    default @NotNull org.gtk.glib.List getVolumes() {
+    default org.gtk.glib.List getVolumes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_drive_get_volumes.invokeExact(
@@ -376,7 +346,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -393,7 +363,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -408,7 +378,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -424,7 +394,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -439,7 +409,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -455,7 +425,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -472,12 +442,8 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
             DowncallHandles.g_drive_poll_for_media.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -490,8 +456,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      *     {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean pollForMediaFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean pollForMediaFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -505,7 +470,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -520,20 +485,15 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback a {@link AsyncReadyCallback}, or {@code null}.
      */
-    default void start(@NotNull org.gtk.gio.DriveStartFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void start(org.gtk.gio.DriveStartFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_drive_start.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -546,8 +506,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      *     {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean startFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean startFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -561,7 +520,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -576,20 +535,15 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback a {@link AsyncReadyCallback}, or {@code null}.
      */
-    default void stop(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void stop(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_drive_stop.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -602,8 +556,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
      *     {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean stopFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean stopFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -617,14 +570,14 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_drive_get_type.invokeExact();
@@ -636,7 +589,18 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Drive sourceDrive);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDrive) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -647,16 +611,8 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     public default Signal<Drive.Changed> onChanged(Drive.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Drive.Changed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -664,7 +620,18 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Disconnected {
-        void signalReceived(Drive sourceDrive);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDrive) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Disconnected.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -678,16 +645,8 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     public default Signal<Drive.Disconnected> onDisconnected(Drive.Disconnected handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("disconnected"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveDisconnected",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Drive.Disconnected>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("disconnected"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -695,7 +654,18 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface EjectButton {
-        void signalReceived(Drive sourceDrive);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDrive) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EjectButton.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -707,16 +677,8 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     public default Signal<Drive.EjectButton> onEjectButton(Drive.EjectButton handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("eject-button"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveEjectButton",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Drive.EjectButton>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("eject-button"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -724,7 +686,18 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface StopButton {
-        void signalReceived(Drive sourceDrive);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDrive) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StopButton.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -736,16 +709,8 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
     public default Signal<Drive.StopButton> onStopButton(Drive.StopButton handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("stop-button"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Drive.Callbacks.class, "signalDriveStopButton",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Drive.StopButton>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("stop-button"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -958,35 +923,7 @@ public interface Drive extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalDriveChanged(MemoryAddress sourceDrive, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Drive.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drive.DriveImpl(sourceDrive, Ownership.NONE));
-        }
-        
-        public static void signalDriveDisconnected(MemoryAddress sourceDrive, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Drive.Disconnected) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drive.DriveImpl(sourceDrive, Ownership.NONE));
-        }
-        
-        public static void signalDriveEjectButton(MemoryAddress sourceDrive, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Drive.EjectButton) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drive.DriveImpl(sourceDrive, Ownership.NONE));
-        }
-        
-        public static void signalDriveStopButton(MemoryAddress sourceDrive, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Drive.StopButton) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Drive.DriveImpl(sourceDrive, Ownership.NONE));
-        }
-    }
-    
-    class DriveImpl extends org.gtk.gobject.Object implements Drive {
+    class DriveImpl extends org.gtk.gobject.GObject implements Drive {
         
         static {
             Gio.javagi$ensureInitialized();

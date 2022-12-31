@@ -40,10 +40,12 @@ public class VideoConverter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoConverter(Addressable address, Ownership ownership) {
+    protected VideoConverter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoConverter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoConverter(input, ownership);
     
     /**
      * Convert the pixels of {@code src} into {@code dest} using {@code convert}.
@@ -54,9 +56,7 @@ public class VideoConverter extends Struct {
      * @param src a {@link VideoFrame}
      * @param dest a {@link VideoFrame}
      */
-    public void frame(@NotNull org.gstreamer.video.VideoFrame src, @NotNull org.gstreamer.video.VideoFrame dest) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public void frame(org.gstreamer.video.VideoFrame src, org.gstreamer.video.VideoFrame dest) {
         try {
             DowncallHandles.gst_video_converter_frame.invokeExact(
                     handle(),
@@ -97,7 +97,7 @@ public class VideoConverter extends Struct {
      * @return a {@link org.gstreamer.gst.Structure} that remains valid for as long as {@code convert} is valid
      *   or until gst_video_converter_set_config() is called.
      */
-    public @NotNull org.gstreamer.gst.Structure getConfig() {
+    public org.gstreamer.gst.Structure getConfig() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_converter_get_config.invokeExact(
@@ -105,7 +105,7 @@ public class VideoConverter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -120,8 +120,7 @@ public class VideoConverter extends Struct {
      * @param config a {@link org.gstreamer.gst.Structure}
      * @return {@code true} when {@code config} could be set.
      */
-    public boolean setConfig(@NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public boolean setConfig(org.gstreamer.gst.Structure config) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_converter_set_config.invokeExact(
@@ -131,7 +130,7 @@ public class VideoConverter extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -142,10 +141,7 @@ public class VideoConverter extends Struct {
      * @param config a {@link org.gstreamer.gst.Structure} with configuration options
      * @return a {@link VideoConverter} or {@code null} if conversion is not possible.
      */
-    public static @NotNull org.gstreamer.video.VideoConverter new_(@NotNull org.gstreamer.video.VideoInfo inInfo, @NotNull org.gstreamer.video.VideoInfo outInfo, @NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(inInfo, "Parameter 'inInfo' must not be null");
-        java.util.Objects.requireNonNull(outInfo, "Parameter 'outInfo' must not be null");
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static org.gstreamer.video.VideoConverter new_(org.gstreamer.video.VideoInfo inInfo, org.gstreamer.video.VideoInfo outInfo, org.gstreamer.gst.Structure config) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_converter_new.invokeExact(
@@ -156,7 +152,7 @@ public class VideoConverter extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return new org.gstreamer.video.VideoConverter(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoConverter.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -171,10 +167,7 @@ public class VideoConverter extends Struct {
      * @param pool a {@link org.gstreamer.gst.TaskPool} to spawn threads from
      * @return a {@link VideoConverter} or {@code null} if conversion is not possible.
      */
-    public static @NotNull org.gstreamer.video.VideoConverter newWithPool(@NotNull org.gstreamer.video.VideoInfo inInfo, @NotNull org.gstreamer.video.VideoInfo outInfo, @NotNull org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.TaskPool pool) {
-        java.util.Objects.requireNonNull(inInfo, "Parameter 'inInfo' must not be null");
-        java.util.Objects.requireNonNull(outInfo, "Parameter 'outInfo' must not be null");
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static org.gstreamer.video.VideoConverter newWithPool(org.gstreamer.video.VideoInfo inInfo, org.gstreamer.video.VideoInfo outInfo, org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.TaskPool pool) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_converter_new_with_pool.invokeExact(
@@ -186,7 +179,7 @@ public class VideoConverter extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return new org.gstreamer.video.VideoConverter(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoConverter.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

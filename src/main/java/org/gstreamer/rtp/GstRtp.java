@@ -14,7 +14,15 @@ public final class GstRtp {
         System.loadLibrary("gstrtp-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * The maximum amount of SSRCs in a BYE packet.
@@ -161,8 +169,7 @@ public final class GstRtp {
      * @param csrcCount number of elements in {@code csrc}
      * @return the {@link RTPSourceMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.rtp.RTPSourceMeta bufferAddRtpSourceMeta(@NotNull org.gstreamer.gst.Buffer buffer, PointerInteger ssrc, PointerInteger csrc, int csrcCount) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.rtp.RTPSourceMeta bufferAddRtpSourceMeta(org.gstreamer.gst.Buffer buffer, PointerInteger ssrc, PointerInteger csrc, int csrcCount) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_rtp_source_meta.invokeExact(
@@ -173,7 +180,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.rtp.RTPSourceMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.rtp.RTPSourceMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -182,8 +189,7 @@ public final class GstRtp {
      * @return the {@link RTPSourceMeta} or {@code null} when there
      * is no such metadata on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.rtp.RTPSourceMeta bufferGetRtpSourceMeta(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.rtp.RTPSourceMeta bufferGetRtpSourceMeta(org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_rtp_source_meta.invokeExact(
@@ -191,7 +197,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.rtp.RTPSourceMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.rtp.RTPSourceMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -201,10 +207,7 @@ public final class GstRtp {
      * @param flags flags for the mapping
      * @param rtcp resulting {@link RTCPBuffer}
      */
-    public static boolean rtcpBufferMap(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.MapFlags flags, @NotNull org.gstreamer.rtp.RTCPBuffer rtcp) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(rtcp, "Parameter 'rtcp' must not be null");
+    public static boolean rtcpBufferMap(org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.MapFlags flags, org.gstreamer.rtp.RTCPBuffer rtcp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_map.invokeExact(
@@ -214,7 +217,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -223,7 +226,7 @@ public final class GstRtp {
      * @param mtu the maximum mtu size.
      * @return A newly allocated buffer.
      */
-    public static @NotNull org.gstreamer.gst.Buffer rtcpBufferNew(int mtu) {
+    public static org.gstreamer.gst.Buffer rtcpBufferNew(int mtu) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new.invokeExact(
@@ -231,7 +234,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -242,8 +245,7 @@ public final class GstRtp {
      * @param len the length of data
      * @return A newly allocated buffer with a copy of {@code data} and of size {@code len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer rtcpBufferNewCopyData(@NotNull byte[] data, int len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.gst.Buffer rtcpBufferNewCopyData(byte[] data, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new_copy_data.invokeExact(
@@ -252,7 +254,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -263,8 +265,7 @@ public final class GstRtp {
      * @param len the length of data
      * @return A newly allocated buffer with {@code data} and of size {@code len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer rtcpBufferNewTakeData(@NotNull byte[] data, int len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.gst.Buffer rtcpBufferNewTakeData(byte[] data, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_buffer_new_take_data.invokeExact(
@@ -273,7 +274,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -282,8 +283,7 @@ public final class GstRtp {
      * @param buffer the buffer to validate
      * @return TRUE if {@code buffer} is a valid RTCP packet.
      */
-    public static boolean rtcpBufferValidate(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static boolean rtcpBufferValidate(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate.invokeExact(
@@ -291,7 +291,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -303,8 +303,7 @@ public final class GstRtp {
      * @param len the length of {@code data} to validate
      * @return TRUE if the data points to a valid RTCP packet.
      */
-    public static boolean rtcpBufferValidateData(@NotNull byte[] data, int len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static boolean rtcpBufferValidateData(byte[] data, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_data.invokeExact(
@@ -313,7 +312,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -328,8 +327,7 @@ public final class GstRtp {
      * @param len the length of {@code data} to validate
      * @return TRUE if the data points to a valid RTCP packet.
      */
-    public static boolean rtcpBufferValidateDataReduced(@NotNull byte[] data, int len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static boolean rtcpBufferValidateDataReduced(byte[] data, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_data_reduced.invokeExact(
@@ -338,7 +336,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -347,8 +345,7 @@ public final class GstRtp {
      * @param buffer the buffer to validate
      * @return TRUE if {@code buffer} is a valid RTCP packet.
      */
-    public static boolean rtcpBufferValidateReduced(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static boolean rtcpBufferValidateReduced(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_buffer_validate_reduced.invokeExact(
@@ -356,7 +353,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -385,12 +382,11 @@ public final class GstRtp {
      * @return the {@link RTCPSDESType} for {@code name} or {@code GST_RTCP_SDES_PRIV} when {@code name}
      * is a private sdes item.
      */
-    public static @NotNull org.gstreamer.rtp.RTCPSDESType rtcpSdesNameToType(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gstreamer.rtp.RTCPSDESType rtcpSdesNameToType(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtcp_sdes_name_to_type.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -403,8 +399,7 @@ public final class GstRtp {
      * @param type a {@link RTCPSDESType}
      * @return the string equivalent of {@code type}
      */
-    public static @NotNull java.lang.String rtcpSdesTypeToName(@NotNull org.gstreamer.rtp.RTCPSDESType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String rtcpSdesTypeToName(org.gstreamer.rtp.RTCPSDESType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtcp_sdes_type_to_name.invokeExact(
@@ -412,7 +407,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -446,8 +441,7 @@ public final class GstRtp {
      * @param padLen the amount of padding
      * @param csrcCount the number of CSRC entries
      */
-    public static void rtpBufferAllocateData(@NotNull org.gstreamer.gst.Buffer buffer, int payloadLen, byte padLen, byte csrcCount) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void rtpBufferAllocateData(org.gstreamer.gst.Buffer buffer, int payloadLen, byte padLen, byte csrcCount) {
         try {
             DowncallHandles.gst_rtp_buffer_allocate_data.invokeExact(
                     buffer.handle(),
@@ -571,7 +565,6 @@ public final class GstRtp {
      * @return The extended timestamp of {@code timestamp} or 0 if the result can't go anywhere backwards.
      */
     public static long rtpBufferExtTimestamp(Out<Long> exttimestamp, int timestamp) {
-        java.util.Objects.requireNonNull(exttimestamp, "Parameter 'exttimestamp' must not be null");
         MemorySegment exttimestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
@@ -598,11 +591,8 @@ public final class GstRtp {
      * @param size the size of the data in bytes
      * @return TRUE if {@code bytes} had the requested header extension
      */
-    public static boolean rtpBufferGetExtensionOnebyteHeaderFromBytes(@NotNull org.gtk.glib.Bytes bytes, short bitPattern, byte id, int nth, @NotNull Out<byte[]> data, Out<Integer> size) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static boolean rtpBufferGetExtensionOnebyteHeaderFromBytes(org.gtk.glib.Bytes bytes, short bitPattern, byte id, int nth, Out<byte[]> data, Out<Integer> size) {
         MemorySegment dataPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -618,7 +608,7 @@ public final class GstRtp {
         }
         size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
         data.set(MemorySegment.ofAddress(dataPOINTER.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -628,10 +618,7 @@ public final class GstRtp {
      * @param rtp a {@link RTPBuffer}
      * @return {@code true} if {@code buffer} could be mapped.
      */
-    public static boolean rtpBufferMap(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.MapFlags flags, @NotNull org.gstreamer.rtp.RTPBuffer rtp) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(rtp, "Parameter 'rtp' must not be null");
+    public static boolean rtpBufferMap(org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.MapFlags flags, org.gstreamer.rtp.RTPBuffer rtp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_buffer_map.invokeExact(
@@ -641,7 +628,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -654,7 +641,7 @@ public final class GstRtp {
      * @return A newly allocated buffer that can hold an RTP packet with given
      * parameters.
      */
-    public static @NotNull org.gstreamer.gst.Buffer rtpBufferNewAllocate(int payloadLen, byte padLen, byte csrcCount) {
+    public static org.gstreamer.gst.Buffer rtpBufferNewAllocate(int payloadLen, byte padLen, byte csrcCount) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_allocate.invokeExact(
@@ -664,7 +651,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -677,7 +664,7 @@ public final class GstRtp {
      * @param csrcCount the number of CSRC entries
      * @return A newly allocated buffer that can hold an RTP packet of {@code packet_len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer rtpBufferNewAllocateLen(int packetLen, byte padLen, byte csrcCount) {
+    public static org.gstreamer.gst.Buffer rtpBufferNewAllocateLen(int packetLen, byte padLen, byte csrcCount) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_allocate_len.invokeExact(
@@ -687,7 +674,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -699,8 +686,7 @@ public final class GstRtp {
      * @param len the length of data
      * @return A newly allocated buffer with a copy of {@code data} and of size {@code len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer rtpBufferNewCopyData(@NotNull byte[] data, long len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.gst.Buffer rtpBufferNewCopyData(byte[] data, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_copy_data.invokeExact(
@@ -709,7 +695,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -720,8 +706,7 @@ public final class GstRtp {
      * @param len the length of data
      * @return A newly allocated buffer with {@code data} and of size {@code len}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer rtpBufferNewTakeData(@NotNull byte[] data, long len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.gst.Buffer rtpBufferNewTakeData(byte[] data, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_buffer_new_take_data.invokeExact(
@@ -730,7 +715,7 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -740,14 +725,14 @@ public final class GstRtp {
      * @return a {@link org.gtk.glib.List} of
      *     {@link org.gstreamer.gst.ElementFactory}'s. Use gst_plugin_feature_list_free() after use
      */
-    public static @NotNull org.gtk.glib.List rtpGetHeaderExtensionList() {
+    public static org.gtk.glib.List rtpGetHeaderExtensionList() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_get_header_extension_list.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -758,9 +743,7 @@ public final class GstRtp {
      * @param ntptime the result NTP time
      * @return {@code true} on success.
      */
-    public static boolean rtpHdrextGetNtp56(@NotNull byte[] data, int size, Out<Long> ntptime) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(ntptime, "Parameter 'ntptime' must not be null");
+    public static boolean rtpHdrextGetNtp56(byte[] data, int size, Out<Long> ntptime) {
         MemorySegment ntptimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -772,7 +755,7 @@ public final class GstRtp {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         ntptime.set(ntptimePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -783,9 +766,7 @@ public final class GstRtp {
      * @param ntptime the result NTP time
      * @return {@code true} on success.
      */
-    public static boolean rtpHdrextGetNtp64(@NotNull byte[] data, int size, Out<Long> ntptime) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(ntptime, "Parameter 'ntptime' must not be null");
+    public static boolean rtpHdrextGetNtp64(byte[] data, int size, Out<Long> ntptime) {
         MemorySegment ntptimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
@@ -797,49 +778,47 @@ public final class GstRtp {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         ntptime.set(ntptimePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Writes the NTP time in {@code ntptime} to the format required for the NTP-56 header
      * extension. {@code data} must hold at least {@code GST_RTP_HDREXT_NTP_56_SIZE} bytes.
-     * @param data the data to write to
      * @param size the size of {@code data}
      * @param ntptime the NTP time
      * @return {@code true} on success.
      */
-    public static boolean rtpHdrextSetNtp56(@Nullable java.lang.foreign.MemoryAddress data, int size, long ntptime) {
+    public static boolean rtpHdrextSetNtp56(int size, long ntptime) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_hdrext_set_ntp_56.invokeExact(
-                    (Addressable) data,
+                    (Addressable) MemoryAddress.NULL,
                     size,
                     ntptime);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Writes the NTP time in {@code ntptime} to the format required for the NTP-64 header
      * extension. {@code data} must hold at least {@code GST_RTP_HDREXT_NTP_64_SIZE} bytes.
-     * @param data the data to write to
      * @param size the size of {@code data}
      * @param ntptime the NTP time
      * @return {@code true} on success.
      */
-    public static boolean rtpHdrextSetNtp64(@Nullable java.lang.foreign.MemoryAddress data, int size, long ntptime) {
+    public static boolean rtpHdrextSetNtp64(int size, long ntptime) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtp_hdrext_set_ntp_64.invokeExact(
-                    (Addressable) data,
+                    (Addressable) MemoryAddress.NULL,
                     size,
                     ntptime);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -852,18 +831,16 @@ public final class GstRtp {
      * @param encodingName the encoding name to find
      * @return a {@link RTPPayloadInfo} or NULL when no info could be found.
      */
-    public static @NotNull org.gstreamer.rtp.RTPPayloadInfo rtpPayloadInfoForName(@NotNull java.lang.String media, @NotNull java.lang.String encodingName) {
-        java.util.Objects.requireNonNull(media, "Parameter 'media' must not be null");
-        java.util.Objects.requireNonNull(encodingName, "Parameter 'encodingName' must not be null");
+    public static org.gstreamer.rtp.RTPPayloadInfo rtpPayloadInfoForName(java.lang.String media, java.lang.String encodingName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_payload_info_for_name.invokeExact(
-                    Interop.allocateNativeString(media),
-                    Interop.allocateNativeString(encodingName));
+                    Marshal.stringToAddress.marshal(media, null),
+                    Marshal.stringToAddress.marshal(encodingName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.rtp.RTPPayloadInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.rtp.RTPPayloadInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -873,7 +850,7 @@ public final class GstRtp {
      * @param payloadType the payload_type to find
      * @return a {@link RTPPayloadInfo} or NULL when no info could be found.
      */
-    public static @NotNull org.gstreamer.rtp.RTPPayloadInfo rtpPayloadInfoForPt(byte payloadType) {
+    public static org.gstreamer.rtp.RTPPayloadInfo rtpPayloadInfoForPt(byte payloadType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_payload_info_for_pt.invokeExact(
@@ -881,10 +858,10 @@ public final class GstRtp {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.rtp.RTPPayloadInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.rtp.RTPPayloadInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.Type rtpSourceMetaApiGetType() {
+    public static org.gtk.glib.Type rtpSourceMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_rtp_source_meta_api_get_type.invokeExact();
@@ -894,14 +871,14 @@ public final class GstRtp {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo rtpSourceMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo rtpSourceMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_source_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {

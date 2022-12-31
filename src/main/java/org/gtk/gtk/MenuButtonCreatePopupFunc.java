@@ -15,5 +15,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface MenuButtonCreatePopupFunc {
-        void onMenuButtonCreatePopupFunc(@NotNull org.gtk.gtk.MenuButton menuButton);
+    void run(org.gtk.gtk.MenuButton menuButton);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress menuButton, MemoryAddress userData) {
+        run((org.gtk.gtk.MenuButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(menuButton)), org.gtk.gtk.MenuButton.fromAddress).marshal(menuButton, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MenuButtonCreatePopupFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

@@ -47,40 +47,26 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * <p>
      * Because CellView is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CellView(Addressable address, Ownership ownership) {
+    protected CellView(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to CellView if its GType is a (or inherits from) "GtkCellView".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CellView} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCellView", a ClassCastException will be thrown.
-     */
-    public static CellView castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellView.getType())) {
-            return new CellView(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellView");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellView> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellView(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_cell_view_new.invokeExact();
         } catch (Throwable ERR) {
@@ -96,10 +82,8 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithContext(@NotNull org.gtk.gtk.CellArea area, @NotNull org.gtk.gtk.CellAreaContext context) {
-        java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithContext(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_cell_view_new_with_context.invokeExact(
                     area.handle(),
@@ -122,16 +106,16 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param context the {@code GtkCellAreaContext} in which to calculate cell geometry
      * @return A newly created {@code GtkCellView} widget.
      */
-    public static CellView newWithContext(@NotNull org.gtk.gtk.CellArea area, @NotNull org.gtk.gtk.CellAreaContext context) {
-        return new CellView(constructNewWithContext(area, context), Ownership.NONE);
+    public static CellView newWithContext(org.gtk.gtk.CellArea area, org.gtk.gtk.CellAreaContext context) {
+        var RESULT = constructNewWithContext(area, context);
+        return (org.gtk.gtk.CellView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.CellView.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewWithMarkup(@NotNull java.lang.String markup) {
-        java.util.Objects.requireNonNull(markup, "Parameter 'markup' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithMarkup(java.lang.String markup) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_cell_view_new_with_markup.invokeExact(
-                    Interop.allocateNativeString(markup));
+                    Marshal.stringToAddress.marshal(markup, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -145,16 +129,16 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param markup the text to display in the cell view
      * @return A newly created {@code GtkCellView} widget.
      */
-    public static CellView newWithMarkup(@NotNull java.lang.String markup) {
-        return new CellView(constructNewWithMarkup(markup), Ownership.NONE);
+    public static CellView newWithMarkup(java.lang.String markup) {
+        var RESULT = constructNewWithMarkup(markup);
+        return (org.gtk.gtk.CellView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.CellView.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewWithText(@NotNull java.lang.String text) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithText(java.lang.String text) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_cell_view_new_with_text.invokeExact(
-                    Interop.allocateNativeString(text));
+                    Marshal.stringToAddress.marshal(text, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,13 +151,13 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param text the text to display in the cell view
      * @return A newly created {@code GtkCellView} widget.
      */
-    public static CellView newWithText(@NotNull java.lang.String text) {
-        return new CellView(constructNewWithText(text), Ownership.NONE);
+    public static CellView newWithText(java.lang.String text) {
+        var RESULT = constructNewWithText(text);
+        return (org.gtk.gtk.CellView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.CellView.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewWithTexture(@NotNull org.gtk.gdk.Texture texture) {
-        java.util.Objects.requireNonNull(texture, "Parameter 'texture' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithTexture(org.gtk.gdk.Texture texture) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_cell_view_new_with_texture.invokeExact(
                     texture.handle());
@@ -189,8 +173,9 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * @param texture the image to display in the cell view
      * @return A newly created {@code GtkCellView} widget.
      */
-    public static CellView newWithTexture(@NotNull org.gtk.gdk.Texture texture) {
-        return new CellView(constructNewWithTexture(texture), Ownership.NONE);
+    public static CellView newWithTexture(org.gtk.gdk.Texture texture) {
+        var RESULT = constructNewWithTexture(texture);
+        return (org.gtk.gtk.CellView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.CellView.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -207,7 +192,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -224,7 +209,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -241,7 +226,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -257,7 +242,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -290,7 +275,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_cell_view_set_draw_sensitive.invokeExact(
                     handle(),
-                    drawSensitive ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(drawSensitive, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,7 +293,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         try {
             DowncallHandles.gtk_cell_view_set_fit_model.invokeExact(
                     handle(),
-                    fitModel ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(fitModel, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -334,7 +319,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_cell_view_get_type.invokeExact();
@@ -343,38 +328,40 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link CellView.Builder} object constructs a {@link CellView} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CellView.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link CellView.Build} object constructs a {@link CellView} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CellView} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CellView} using {@link CellView#castFrom}.
+         * {@link CellView}.
          * @return A new instance of {@code CellView} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CellView construct() {
-            return CellView.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CellView.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CellView build() {
+            return (CellView) org.gtk.gobject.GObject.newWithProperties(
+                CellView.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -388,7 +375,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param cellArea The value for the {@code cell-area} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCellArea(org.gtk.gtk.CellArea cellArea) {
+        public Builder setCellArea(org.gtk.gtk.CellArea cellArea) {
             names.add("cell-area");
             values.add(org.gtk.gobject.Value.create(cellArea));
             return this;
@@ -410,7 +397,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param cellAreaContext The value for the {@code cell-area-context} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCellAreaContext(org.gtk.gtk.CellAreaContext cellAreaContext) {
+        public Builder setCellAreaContext(org.gtk.gtk.CellAreaContext cellAreaContext) {
             names.add("cell-area-context");
             values.add(org.gtk.gobject.Value.create(cellAreaContext));
             return this;
@@ -425,7 +412,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param drawSensitive The value for the {@code draw-sensitive} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDrawSensitive(boolean drawSensitive) {
+        public Builder setDrawSensitive(boolean drawSensitive) {
             names.add("draw-sensitive");
             values.add(org.gtk.gobject.Value.create(drawSensitive));
             return this;
@@ -441,7 +428,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param fitModel The value for the {@code fit-model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFitModel(boolean fitModel) {
+        public Builder setFitModel(boolean fitModel) {
             names.add("fit-model");
             values.add(org.gtk.gobject.Value.create(fitModel));
             return this;
@@ -454,7 +441,7 @@ public class CellView extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessib
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gtk.TreeModel model) {
+        public Builder setModel(org.gtk.gtk.TreeModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;

@@ -47,10 +47,12 @@ public class Language extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Language(Addressable address, Ownership ownership) {
+    protected Language(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Language> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Language(input, ownership);
     
     /**
      * Get a string that is representative of the characters needed to
@@ -73,7 +75,7 @@ public class Language extends Struct {
      * }</pre>
      * @return the sample string
      */
-    public @NotNull java.lang.String getSampleString() {
+    public java.lang.String getSampleString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_language_get_sample_string.invokeExact(
@@ -81,7 +83,7 @@ public class Language extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -115,17 +117,16 @@ public class Language extends Struct {
      *   if {@code language} is {@code null}).
      */
     public @Nullable org.pango.Script[] getScripts(Out<Integer> numScripts) {
-        java.util.Objects.requireNonNull(numScripts, "Parameter 'numScripts' must not be null");
         MemorySegment numScriptsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_language_get_scripts.invokeExact(
                     handle(),
-                    (Addressable) numScriptsPOINTER.address());
+                    (Addressable) (numScripts == null ? MemoryAddress.NULL : (Addressable) numScriptsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        numScripts.set(numScriptsPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (numScripts != null) numScripts.set(numScriptsPOINTER.get(Interop.valueLayout.C_INT, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
         org.pango.Script[] resultARRAY = new org.pango.Script[numScripts.get().intValue()];
         for (int I = 0; I < numScripts.get().intValue(); I++) {
@@ -154,8 +155,7 @@ public class Language extends Struct {
      *   to write {@code language} or if nothing is known about {@code language}
      *   (including the case that {@code language} is {@code null}), {@code false} otherwise.
      */
-    public boolean includesScript(@NotNull org.pango.Script script) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public boolean includesScript(org.pango.Script script) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_language_includes_script.invokeExact(
@@ -164,7 +164,7 @@ public class Language extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -180,17 +180,16 @@ public class Language extends Struct {
      *   canonicalized as by {@link Language#fromString}
      * @return {@code true} if a match was found
      */
-    public boolean matches(@NotNull java.lang.String rangeList) {
-        java.util.Objects.requireNonNull(rangeList, "Parameter 'rangeList' must not be null");
+    public boolean matches(java.lang.String rangeList) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_language_matches.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(rangeList));
+                    Marshal.stringToAddress.marshal(rangeList, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -198,7 +197,7 @@ public class Language extends Struct {
      * <p>
      * Returns (transfer none): a string representing the language tag
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_language_to_string.invokeExact(
@@ -206,7 +205,7 @@ public class Language extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -229,11 +228,11 @@ public class Language extends Struct {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_language_from_string.invokeExact(
-                    (Addressable) (language == null ? MemoryAddress.NULL : Interop.allocateNativeString(language)));
+                    (Addressable) (language == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(language, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(RESULT, Ownership.NONE);
+        return org.pango.Language.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -270,14 +269,14 @@ public class Language extends Struct {
      * just call pango_language_from_string() yourself.
      * @return the default language as a {@code PangoLanguage}
      */
-    public static @NotNull org.pango.Language getDefault() {
+    public static org.pango.Language getDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_language_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(RESULT, Ownership.NONE);
+        return org.pango.Language.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -302,7 +301,7 @@ public class Language extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new PointerProxy<org.pango.Language>(RESULT, org.pango.Language.class);
+        return new PointerProxy<org.pango.Language>(RESULT, org.pango.Language.fromAddress);
     }
     
     private static class DowncallHandles {

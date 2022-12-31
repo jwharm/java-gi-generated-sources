@@ -11,5 +11,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface HookCompareFunc {
-        int onHookCompareFunc(@NotNull org.gtk.glib.Hook newHook, @NotNull org.gtk.glib.Hook sibling);
+    int run(org.gtk.glib.Hook newHook, org.gtk.glib.Hook sibling);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress newHook, MemoryAddress sibling) {
+        var RESULT = run(org.gtk.glib.Hook.fromAddress.marshal(newHook, Ownership.NONE), org.gtk.glib.Hook.fromAddress.marshal(sibling, Ownership.NONE));
+        return RESULT;
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HookCompareFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

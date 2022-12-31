@@ -50,13 +50,15 @@ public class BufferList extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BufferList(Addressable address, Ownership ownership) {
+    protected BufferList(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BufferList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BufferList(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_list_new.invokeExact();
         } catch (Throwable ERR) {
@@ -72,8 +74,8 @@ public class BufferList extends Struct {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewSized(int size) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewSized(int size) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_list_new_sized.invokeExact(
                     size);
@@ -90,7 +92,8 @@ public class BufferList extends Struct {
      * @return the new {@link BufferList}.
      */
     public static BufferList newSized(int size) {
-        return new BufferList(constructNewSized(size), Ownership.FULL);
+        var RESULT = constructNewSized(size);
+        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -114,7 +117,7 @@ public class BufferList extends Struct {
      * copy of the buffers that the source buffer list contains.
      * @return a new copy of {@code list}.
      */
-    public @NotNull org.gstreamer.gst.BufferList copyDeep() {
+    public org.gstreamer.gst.BufferList copyDeep() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_list_copy_deep.invokeExact(
@@ -122,7 +125,7 @@ public class BufferList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.BufferList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.BufferList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -135,22 +138,17 @@ public class BufferList extends Struct {
      * @return {@code true} when {@code func} returned {@code true} for each buffer in {@code list} or when
      * {@code list} is empty.
      */
-    public boolean foreach(@NotNull org.gstreamer.gst.BufferListFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public boolean foreach(org.gstreamer.gst.BufferListFunc func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_list_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbBufferListFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,7 +170,7 @@ public class BufferList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -194,7 +192,7 @@ public class BufferList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -205,8 +203,7 @@ public class BufferList extends Struct {
      * @param idx the index
      * @param buffer a {@link Buffer}
      */
-    public void insert(int idx, @NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public void insert(int idx, org.gstreamer.gst.Buffer buffer) {
         try {
             DowncallHandles.gst_buffer_list_insert.invokeExact(
                     handle(),

@@ -128,40 +128,38 @@ public class BaseSink extends org.gstreamer.gst.Element {
     
     private static final java.lang.String C_TYPE_NAME = "GstBaseSink";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
-        Interop.valueLayout.ADDRESS.withName("sinkpad"),
-        Interop.valueLayout.C_INT.withName("pad_mode"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("offset"),
-        Interop.valueLayout.C_INT.withName("can_activate_pull"),
-        Interop.valueLayout.C_INT.withName("can_activate_push"),
-        org.gtk.glib.Mutex.getMemoryLayout().withName("preroll_lock"),
-        org.gtk.glib.Cond.getMemoryLayout().withName("preroll_cond"),
-        Interop.valueLayout.C_INT.withName("eos"),
-        Interop.valueLayout.C_INT.withName("need_preroll"),
-        Interop.valueLayout.C_INT.withName("have_preroll"),
-        Interop.valueLayout.C_INT.withName("playing_async"),
-        Interop.valueLayout.C_INT.withName("have_newsegment"),
-        MemoryLayout.paddingLayout(32),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
-        Interop.valueLayout.ADDRESS.withName("clock_id"),
-        Interop.valueLayout.C_INT.withName("sync"),
-        Interop.valueLayout.C_INT.withName("flushing"),
-        Interop.valueLayout.C_INT.withName("running"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("max_lateness"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Element.getMemoryLayout().withName("element"),
+            Interop.valueLayout.ADDRESS.withName("sinkpad"),
+            Interop.valueLayout.C_INT.withName("pad_mode"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("offset"),
+            Interop.valueLayout.C_INT.withName("can_activate_pull"),
+            Interop.valueLayout.C_INT.withName("can_activate_push"),
+            org.gtk.glib.Mutex.getMemoryLayout().withName("preroll_lock"),
+            org.gtk.glib.Cond.getMemoryLayout().withName("preroll_cond"),
+            Interop.valueLayout.C_INT.withName("eos"),
+            Interop.valueLayout.C_INT.withName("need_preroll"),
+            Interop.valueLayout.C_INT.withName("have_preroll"),
+            Interop.valueLayout.C_INT.withName("playing_async"),
+            Interop.valueLayout.C_INT.withName("have_newsegment"),
+            MemoryLayout.paddingLayout(32),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
+            Interop.valueLayout.ADDRESS.withName("clock_id"),
+            Interop.valueLayout.C_INT.withName("sync"),
+            Interop.valueLayout.C_INT.withName("flushing"),
+            Interop.valueLayout.C_INT.withName("running"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("max_lateness"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -169,37 +167,23 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * <p>
      * Because BaseSink is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BaseSink(Addressable address, Ownership ownership) {
+    protected BaseSink(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to BaseSink if its GType is a (or inherits from) "GstBaseSink".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BaseSink} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstBaseSink", a ClassCastException will be thrown.
-     */
-    public static BaseSink castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BaseSink.getType())) {
-            return new BaseSink(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstBaseSink");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BaseSink> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseSink(input, ownership);
     
     /**
      * If the {@code sink} spawns its own thread for pulling buffers from upstream it
@@ -212,8 +196,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * @return {@link org.gstreamer.gst.FlowReturn#OK} if the preroll completed and processing can
      * continue. Any other return value should be returned from the render vmethod.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn doPreroll(@NotNull org.gstreamer.gst.MiniObject obj) {
-        java.util.Objects.requireNonNull(obj, "Parameter 'obj' must not be null");
+    public org.gstreamer.gst.FlowReturn doPreroll(org.gstreamer.gst.MiniObject obj) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_sink_do_preroll.invokeExact(
@@ -255,7 +238,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -277,14 +260,14 @@ public class BaseSink extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Sample(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the currently configured latency.
      * @return The configured latency.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getLatency() {
+    public org.gstreamer.gst.ClockTime getLatency() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_base_sink_get_latency.invokeExact(
@@ -334,7 +317,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * the processing deadline.
      * @return the processing deadline
      */
-    public @NotNull org.gstreamer.gst.ClockTime getProcessingDeadline() {
+    public org.gstreamer.gst.ClockTime getProcessingDeadline() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_base_sink_get_processing_deadline.invokeExact(
@@ -350,7 +333,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * information about the render delay.
      * @return the render delay of {@code sink}.
      */
-    public @NotNull org.gstreamer.gst.ClockTime getRenderDelay() {
+    public org.gstreamer.gst.ClockTime getRenderDelay() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_base_sink_get_render_delay.invokeExact(
@@ -371,7 +354,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * </ul>
      * @return pointer to {@link org.gstreamer.gst.Structure}
      */
-    public @NotNull org.gstreamer.gst.Structure getStats() {
+    public org.gstreamer.gst.Structure getStats() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_base_sink_get_stats.invokeExact(
@@ -379,7 +362,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Structure(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Structure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -395,7 +378,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -418,7 +401,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * Get the synchronisation offset of {@code sink}.
      * @return The synchronisation offset.
      */
-    public @NotNull org.gstreamer.gst.ClockTimeDiff getTsOffset() {
+    public org.gstreamer.gst.ClockTimeDiff getTsOffset() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_base_sink_get_ts_offset.invokeExact(
@@ -443,7 +426,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -459,7 +442,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -475,7 +458,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -495,31 +478,27 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * @param maxLatency the max latency of the upstream elements
      * @return {@code true} if the query succeeded.
      */
-    public boolean queryLatency(Out<Boolean> live, Out<Boolean> upstreamLive, @NotNull Out<org.gstreamer.gst.ClockTime> minLatency, @NotNull Out<org.gstreamer.gst.ClockTime> maxLatency) {
-        java.util.Objects.requireNonNull(live, "Parameter 'live' must not be null");
+    public boolean queryLatency(Out<Boolean> live, Out<Boolean> upstreamLive, @Nullable org.gstreamer.gst.ClockTime minLatency, @Nullable org.gstreamer.gst.ClockTime maxLatency) {
         MemorySegment livePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(upstreamLive, "Parameter 'upstreamLive' must not be null");
         MemorySegment upstreamLivePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minLatency, "Parameter 'minLatency' must not be null");
         MemorySegment minLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(maxLatency, "Parameter 'maxLatency' must not be null");
         MemorySegment maxLatencyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_sink_query_latency.invokeExact(
                     handle(),
-                    (Addressable) livePOINTER.address(),
-                    (Addressable) upstreamLivePOINTER.address(),
-                    (Addressable) minLatencyPOINTER.address(),
-                    (Addressable) maxLatencyPOINTER.address());
+                    (Addressable) (live == null ? MemoryAddress.NULL : (Addressable) livePOINTER.address()),
+                    (Addressable) (upstreamLive == null ? MemoryAddress.NULL : (Addressable) upstreamLivePOINTER.address()),
+                    (Addressable) (minLatency == null ? MemoryAddress.NULL : (Addressable) minLatencyPOINTER.address()),
+                    (Addressable) (maxLatency == null ? MemoryAddress.NULL : (Addressable) maxLatencyPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        upstreamLive.set(upstreamLivePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        minLatency.set(new org.gstreamer.gst.ClockTime(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        maxLatency.set(new org.gstreamer.gst.ClockTime(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        return RESULT != 0;
+        if (live != null) live.set(livePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (upstreamLive != null) upstreamLive.set(upstreamLivePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        if (minLatency != null) minLatency.setValue(minLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (maxLatency != null) maxLatency.setValue(maxLatencyPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -533,7 +512,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_sink_set_async_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -562,7 +541,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_sink_set_drop_out_of_segment.invokeExact(
                     handle(),
-                    dropOutOfSegment ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(dropOutOfSegment, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -577,7 +556,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_sink_set_last_sample_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -622,8 +601,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * This function is usually called by subclasses.
      * @param processingDeadline the new processing deadline in nanoseconds.
      */
-    public void setProcessingDeadline(@NotNull org.gstreamer.gst.ClockTime processingDeadline) {
-        java.util.Objects.requireNonNull(processingDeadline, "Parameter 'processingDeadline' must not be null");
+    public void setProcessingDeadline(org.gstreamer.gst.ClockTime processingDeadline) {
         try {
             DowncallHandles.gst_base_sink_set_processing_deadline.invokeExact(
                     handle(),
@@ -641,7 +619,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_sink_set_qos_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -659,8 +637,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * This function is usually called by subclasses.
      * @param delay the new delay
      */
-    public void setRenderDelay(@NotNull org.gstreamer.gst.ClockTime delay) {
-        java.util.Objects.requireNonNull(delay, "Parameter 'delay' must not be null");
+    public void setRenderDelay(org.gstreamer.gst.ClockTime delay) {
         try {
             DowncallHandles.gst_base_sink_set_render_delay.invokeExact(
                     handle(),
@@ -682,7 +659,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
         try {
             DowncallHandles.gst_base_sink_set_sync.invokeExact(
                     handle(),
-                    sync ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(sync, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -711,8 +688,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * buffers.
      * @param offset the new offset
      */
-    public void setTsOffset(@NotNull org.gstreamer.gst.ClockTimeDiff offset) {
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
+    public void setTsOffset(org.gstreamer.gst.ClockTimeDiff offset) {
         try {
             DowncallHandles.gst_base_sink_set_ts_offset.invokeExact(
                     handle(),
@@ -738,20 +714,18 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * @param jitter the jitter to be filled with time diff, or {@code null}
      * @return {@link org.gstreamer.gst.FlowReturn}
      */
-    public @NotNull org.gstreamer.gst.FlowReturn wait_(@NotNull org.gstreamer.gst.ClockTime time, @NotNull Out<org.gstreamer.gst.ClockTimeDiff> jitter) {
-        java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
-        java.util.Objects.requireNonNull(jitter, "Parameter 'jitter' must not be null");
+    public org.gstreamer.gst.FlowReturn wait_(org.gstreamer.gst.ClockTime time, @Nullable org.gstreamer.gst.ClockTimeDiff jitter) {
         MemorySegment jitterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_sink_wait.invokeExact(
                     handle(),
                     time.getValue().longValue(),
-                    (Addressable) jitterPOINTER.address());
+                    (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        jitter.set(new org.gstreamer.gst.ClockTimeDiff(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (jitter != null) jitter.setValue(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return org.gstreamer.gst.FlowReturn.of(RESULT);
     }
     
@@ -775,20 +749,18 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * @param jitter the jitter to be filled with time diff, or {@code null}
      * @return {@link org.gstreamer.gst.ClockReturn}
      */
-    public @NotNull org.gstreamer.gst.ClockReturn waitClock(@NotNull org.gstreamer.gst.ClockTime time, @NotNull Out<org.gstreamer.gst.ClockTimeDiff> jitter) {
-        java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
-        java.util.Objects.requireNonNull(jitter, "Parameter 'jitter' must not be null");
+    public org.gstreamer.gst.ClockReturn waitClock(org.gstreamer.gst.ClockTime time, @Nullable org.gstreamer.gst.ClockTimeDiff jitter) {
         MemorySegment jitterPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_sink_wait_clock.invokeExact(
                     handle(),
                     time.getValue().longValue(),
-                    (Addressable) jitterPOINTER.address());
+                    (Addressable) (jitter == null ? MemoryAddress.NULL : (Addressable) jitterPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        jitter.set(new org.gstreamer.gst.ClockTimeDiff(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        if (jitter != null) jitter.setValue(jitterPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return org.gstreamer.gst.ClockReturn.of(RESULT);
     }
     
@@ -814,7 +786,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * @return {@link org.gstreamer.gst.FlowReturn#OK} if the preroll completed and processing can
      * continue. Any other return value should be returned from the render vmethod.
      */
-    public @NotNull org.gstreamer.gst.FlowReturn waitPreroll() {
+    public org.gstreamer.gst.FlowReturn waitPreroll() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_base_sink_wait_preroll.invokeExact(
@@ -829,7 +801,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_base_sink_get_type.invokeExact();
@@ -838,38 +810,40 @@ public class BaseSink extends org.gstreamer.gst.Element {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BaseSink.Builder} object constructs a {@link BaseSink} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BaseSink.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Element.Build {
+    public static class Builder extends org.gstreamer.gst.Element.Builder {
         
-         /**
-         * A {@link BaseSink.Build} object constructs a {@link BaseSink} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BaseSink} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BaseSink} using {@link BaseSink#castFrom}.
+         * {@link BaseSink}.
          * @return A new instance of {@code BaseSink} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BaseSink construct() {
-            return BaseSink.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BaseSink.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BaseSink build() {
+            return (BaseSink) org.gtk.gobject.GObject.newWithProperties(
+                BaseSink.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -881,7 +855,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param async The value for the {@code async} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAsync(boolean async) {
+        public Builder setAsync(boolean async) {
             names.add("async");
             values.add(org.gtk.gobject.Value.create(async));
             return this;
@@ -892,7 +866,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param blocksize The value for the {@code blocksize} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBlocksize(int blocksize) {
+        public Builder setBlocksize(int blocksize) {
             names.add("blocksize");
             values.add(org.gtk.gobject.Value.create(blocksize));
             return this;
@@ -906,7 +880,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param enableLastSample The value for the {@code enable-last-sample} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnableLastSample(boolean enableLastSample) {
+        public Builder setEnableLastSample(boolean enableLastSample) {
             names.add("enable-last-sample");
             values.add(org.gtk.gobject.Value.create(enableLastSample));
             return this;
@@ -919,7 +893,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param lastSample The value for the {@code last-sample} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLastSample(org.gstreamer.gst.Sample lastSample) {
+        public Builder setLastSample(org.gstreamer.gst.Sample lastSample) {
             names.add("last-sample");
             values.add(org.gtk.gobject.Value.create(lastSample));
             return this;
@@ -932,13 +906,13 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param maxBitrate The value for the {@code max-bitrate} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxBitrate(long maxBitrate) {
+        public Builder setMaxBitrate(long maxBitrate) {
             names.add("max-bitrate");
             values.add(org.gtk.gobject.Value.create(maxBitrate));
             return this;
         }
         
-        public Build setMaxLateness(long maxLateness) {
+        public Builder setMaxLateness(long maxLateness) {
             names.add("max-lateness");
             values.add(org.gtk.gobject.Value.create(maxLateness));
             return this;
@@ -951,13 +925,13 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param processingDeadline The value for the {@code processing-deadline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProcessingDeadline(long processingDeadline) {
+        public Builder setProcessingDeadline(long processingDeadline) {
             names.add("processing-deadline");
             values.add(org.gtk.gobject.Value.create(processingDeadline));
             return this;
         }
         
-        public Build setQos(boolean qos) {
+        public Builder setQos(boolean qos) {
             names.add("qos");
             values.add(org.gtk.gobject.Value.create(qos));
             return this;
@@ -970,7 +944,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param renderDelay The value for the {@code render-delay} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRenderDelay(long renderDelay) {
+        public Builder setRenderDelay(long renderDelay) {
             names.add("render-delay");
             values.add(org.gtk.gobject.Value.create(renderDelay));
             return this;
@@ -987,13 +961,13 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param stats The value for the {@code stats} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStats(org.gstreamer.gst.Structure stats) {
+        public Builder setStats(org.gstreamer.gst.Structure stats) {
             names.add("stats");
             values.add(org.gtk.gobject.Value.create(stats));
             return this;
         }
         
-        public Build setSync(boolean sync) {
+        public Builder setSync(boolean sync) {
             names.add("sync");
             values.add(org.gtk.gobject.Value.create(sync));
             return this;
@@ -1006,7 +980,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param throttleTime The value for the {@code throttle-time} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setThrottleTime(long throttleTime) {
+        public Builder setThrottleTime(long throttleTime) {
             names.add("throttle-time");
             values.add(org.gtk.gobject.Value.create(throttleTime));
             return this;
@@ -1019,7 +993,7 @@ public class BaseSink extends org.gstreamer.gst.Element {
          * @param tsOffset The value for the {@code ts-offset} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTsOffset(long tsOffset) {
+        public Builder setTsOffset(long tsOffset) {
             names.add("ts-offset");
             values.add(org.gtk.gobject.Value.create(tsOffset));
             return this;

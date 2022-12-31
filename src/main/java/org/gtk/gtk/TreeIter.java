@@ -20,21 +20,19 @@ public class TreeIter extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkTreeIter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("stamp"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.ADDRESS.withName("user_data2"),
-        Interop.valueLayout.ADDRESS.withName("user_data3")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("stamp"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.ADDRESS.withName("user_data2"),
+            Interop.valueLayout.ADDRESS.withName("user_data3")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -54,7 +52,7 @@ public class TreeIter extends Struct {
      * Get the value of the field {@code stamp}
      * @return The value of the field {@code stamp}
      */
-    public int stamp$get() {
+    public int getStamp() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,7 +63,7 @@ public class TreeIter extends Struct {
      * Change the value of the field {@code stamp}
      * @param stamp The new value of the field {@code stamp}
      */
-    public void stamp$set(int stamp) {
+    public void setStamp(int stamp) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), stamp);
@@ -75,7 +73,7 @@ public class TreeIter extends Struct {
      * Get the value of the field {@code user_data}
      * @return The value of the field {@code user_data}
      */
-    public java.lang.foreign.MemoryAddress userData$get() {
+    public java.lang.foreign.MemoryAddress getUserData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,17 +84,17 @@ public class TreeIter extends Struct {
      * Change the value of the field {@code user_data}
      * @param userData The new value of the field {@code user_data}
      */
-    public void userData$set(java.lang.foreign.MemoryAddress userData) {
+    public void setUserData(java.lang.foreign.MemoryAddress userData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) userData);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
     }
     
     /**
      * Get the value of the field {@code user_data2}
      * @return The value of the field {@code user_data2}
      */
-    public java.lang.foreign.MemoryAddress userData2$get() {
+    public java.lang.foreign.MemoryAddress getUserData2() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -107,17 +105,17 @@ public class TreeIter extends Struct {
      * Change the value of the field {@code user_data2}
      * @param userData2 The new value of the field {@code user_data2}
      */
-    public void userData2$set(java.lang.foreign.MemoryAddress userData2) {
+    public void setUserData2(java.lang.foreign.MemoryAddress userData2) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) userData2);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData2 == null ? MemoryAddress.NULL : (Addressable) userData2));
     }
     
     /**
      * Get the value of the field {@code user_data3}
      * @return The value of the field {@code user_data3}
      */
-    public java.lang.foreign.MemoryAddress userData3$get() {
+    public java.lang.foreign.MemoryAddress getUserData3() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -128,10 +126,10 @@ public class TreeIter extends Struct {
      * Change the value of the field {@code user_data3}
      * @param userData3 The new value of the field {@code user_data3}
      */
-    public void userData3$set(java.lang.foreign.MemoryAddress userData3) {
+    public void setUserData3(java.lang.foreign.MemoryAddress userData3) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) userData3);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData3 == null ? MemoryAddress.NULL : (Addressable) userData3));
     }
     
     /**
@@ -139,10 +137,12 @@ public class TreeIter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeIter(Addressable address, Ownership ownership) {
+    protected TreeIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeIter(input, ownership);
     
     /**
      * Creates a dynamically allocated tree iterator as a copy of {@code iter}.
@@ -153,7 +153,7 @@ public class TreeIter extends Struct {
      * You must free this iter with gtk_tree_iter_free().
      * @return a newly-allocated copy of {@code iter}
      */
-    public @NotNull org.gtk.gtk.TreeIter copy() {
+    public org.gtk.gtk.TreeIter copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_iter_copy.invokeExact(
@@ -161,7 +161,7 @@ public class TreeIter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeIter(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TreeIter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -192,31 +192,35 @@ public class TreeIter extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TreeIter.Builder} object constructs a {@link TreeIter} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TreeIter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TreeIter struct;
+        private final TreeIter struct;
         
-         /**
-         * A {@link TreeIter.Build} object constructs a {@link TreeIter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TreeIter.allocate();
         }
         
          /**
          * Finish building the {@link TreeIter} struct.
          * @return A new instance of {@code TreeIter} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TreeIter construct() {
+        public TreeIter build() {
             return struct;
         }
         
@@ -225,7 +229,7 @@ public class TreeIter extends Struct {
          * @param stamp The value for the {@code stamp} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStamp(int stamp) {
+        public Builder setStamp(int stamp) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("stamp"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), stamp);
@@ -237,7 +241,7 @@ public class TreeIter extends Struct {
          * @param userData The value for the {@code userData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
@@ -249,7 +253,7 @@ public class TreeIter extends Struct {
          * @param userData2 The value for the {@code userData2} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUserData2(java.lang.foreign.MemoryAddress userData2) {
+        public Builder setUserData2(java.lang.foreign.MemoryAddress userData2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data2"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData2 == null ? MemoryAddress.NULL : (Addressable) userData2));
@@ -261,7 +265,7 @@ public class TreeIter extends Struct {
          * @param userData3 The value for the {@code userData3} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUserData3(java.lang.foreign.MemoryAddress userData3) {
+        public Builder setUserData3(java.lang.foreign.MemoryAddress userData3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data3"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData3 == null ? MemoryAddress.NULL : (Addressable) userData3));

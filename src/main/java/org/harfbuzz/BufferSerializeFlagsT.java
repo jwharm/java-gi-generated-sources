@@ -60,11 +60,15 @@ public class BufferSerializeFlagsT extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BufferSerializeFlagsT or(BufferSerializeFlagsT mask) {
-        return new BufferSerializeFlagsT(this.getValue() | mask.getValue());
+    public BufferSerializeFlagsT or(BufferSerializeFlagsT... masks) {
+        int value = this.getValue();
+        for (BufferSerializeFlagsT arg : masks) {
+            value |= arg.getValue();
+        }
+        return new BufferSerializeFlagsT(value);
     }
     
     /**
@@ -74,7 +78,8 @@ public class BufferSerializeFlagsT extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BufferSerializeFlagsT combined(BufferSerializeFlagsT mask, BufferSerializeFlagsT... masks) {
-        int value = mask.getValue();        for (BufferSerializeFlagsT arg : masks) {
+        int value = mask.getValue();
+        for (BufferSerializeFlagsT arg : masks) {
             value |= arg.getValue();
         }
         return new BufferSerializeFlagsT(value);

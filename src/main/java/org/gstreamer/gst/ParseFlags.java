@@ -43,11 +43,15 @@ public class ParseFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public ParseFlags or(ParseFlags mask) {
-        return new ParseFlags(this.getValue() | mask.getValue());
+    public ParseFlags or(ParseFlags... masks) {
+        int value = this.getValue();
+        for (ParseFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new ParseFlags(value);
     }
     
     /**
@@ -57,7 +61,8 @@ public class ParseFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static ParseFlags combined(ParseFlags mask, ParseFlags... masks) {
-        int value = mask.getValue();        for (ParseFlags arg : masks) {
+        int value = mask.getValue();
+        for (ParseFlags arg : masks) {
             value |= arg.getValue();
         }
         return new ParseFlags(value);

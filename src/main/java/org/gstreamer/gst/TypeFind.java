@@ -17,21 +17,19 @@ public class TypeFind extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstTypeFind";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("peek"),
-        Interop.valueLayout.ADDRESS.withName("suggest"),
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.ADDRESS.withName("get_length"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("peek"),
+            Interop.valueLayout.ADDRESS.withName("suggest"),
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.ADDRESS.withName("get_length"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,11 +45,64 @@ public class TypeFind extends Struct {
         return newInstance;
     }
     
+    @FunctionalInterface
+    public interface PeekCallback {
+        PointerByte run(long offset, int size);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress data, long offset, int size) {
+            var RESULT = run(offset, size);
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PeekCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code peek}
+     * @param peek The new value of the field {@code peek}
+     */
+    public void setPeek(PeekCallback peek) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("peek"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (peek == null ? MemoryAddress.NULL : peek.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface SuggestCallback {
+        void run(int probability, org.gstreamer.gst.Caps caps);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress data, int probability, MemoryAddress caps) {
+            run(probability, org.gstreamer.gst.Caps.fromAddress.marshal(caps, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SuggestCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code suggest}
+     * @param suggest The new value of the field {@code suggest}
+     */
+    public void setSuggest(SuggestCallback suggest) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("suggest"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (suggest == null ? MemoryAddress.NULL : suggest.toCallback()));
+    }
+    
     /**
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public java.lang.foreign.MemoryAddress data$get() {
+    public java.lang.foreign.MemoryAddress getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,10 +113,37 @@ public class TypeFind extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(java.lang.foreign.MemoryAddress data) {
+    public void setData(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+    }
+    
+    @FunctionalInterface
+    public interface GetLengthCallback {
+        long run();
+
+        @ApiStatus.Internal default long upcall(MemoryAddress data) {
+            var RESULT = run();
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GetLengthCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code get_length}
+     * @param getLength The new value of the field {@code get_length}
+     */
+    public void setGetLength(GetLengthCallback getLength) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("get_length"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getLength == null ? MemoryAddress.NULL : getLength.toCallback()));
     }
     
     /**
@@ -73,10 +151,12 @@ public class TypeFind extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TypeFind(Addressable address, Ownership ownership) {
+    protected TypeFind(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TypeFind> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeFind(input, ownership);
     
     /**
      * Get the length of the data stream.
@@ -104,20 +184,18 @@ public class TypeFind extends Struct {
      * @return the
      *     requested data, or {@code null} if that data is not available.
      */
-    public @Nullable byte[] peek(long offset, Out<Integer> size) {
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+    public byte[] peek(long offset, int size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_type_find_peek.invokeExact(
                     handle(),
                     offset,
-                    (Addressable) sizePOINTER.address());
+                    size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_INT, 0));
         if (RESULT.equals(MemoryAddress.NULL)) return null;
-        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
+        return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), size * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
     /**
@@ -128,8 +206,7 @@ public class TypeFind extends Struct {
      * @param probability The probability in percent that the suggestion is right
      * @param caps The fixed {@link Caps} to suggest
      */
-    public void suggest(int probability, @NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void suggest(int probability, org.gstreamer.gst.Caps caps) {
         try {
             DowncallHandles.gst_type_find_suggest.invokeExact(
                     handle(),
@@ -149,13 +226,12 @@ public class TypeFind extends Struct {
      * @param probability The probability in percent that the suggestion is right
      * @param mediaType the media type of the suggested caps
      */
-    public void suggestEmptySimple(int probability, @NotNull java.lang.String mediaType) {
-        java.util.Objects.requireNonNull(mediaType, "Parameter 'mediaType' must not be null");
+    public void suggestEmptySimple(int probability, java.lang.String mediaType) {
         try {
             DowncallHandles.gst_type_find_suggest_empty_simple.invokeExact(
                     handle(),
                     probability,
-                    Interop.allocateNativeString(mediaType));
+                    Marshal.stringToAddress.marshal(mediaType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,14 +259,13 @@ public class TypeFind extends Struct {
      *     field GType and field value).  If {@code fieldname} is {@code null}, this list
      *     must be exactly one {@code null}.
      */
-    public void suggestSimple(int probability, @NotNull java.lang.String mediaType, @Nullable java.lang.String fieldname, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(mediaType, "Parameter 'mediaType' must not be null");
+    public void suggestSimple(int probability, java.lang.String mediaType, @Nullable java.lang.String fieldname, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_type_find_suggest_simple.invokeExact(
                     handle(),
                     probability,
-                    Interop.allocateNativeString(mediaType),
-                    (Addressable) (fieldname == null ? MemoryAddress.NULL : Interop.allocateNativeString(fieldname)),
+                    Marshal.stringToAddress.marshal(mediaType, null),
+                    (Addressable) (fieldname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fieldname, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -209,30 +284,26 @@ public class TypeFind extends Struct {
      *     that could belong to this type
      * @param possibleCaps Optionally the caps that could be returned when typefinding
      *                 succeeds
+     * @param dataNotify a {@link org.gtk.glib.DestroyNotify} that will be called on {@code data} when the plugin
+     *        is unloaded.
      * @return {@code true} on success, {@code false} otherwise
      */
-    public static boolean register(@Nullable org.gstreamer.gst.Plugin plugin, @NotNull java.lang.String name, int rank, @NotNull org.gstreamer.gst.TypeFindFunction func, @Nullable java.lang.String extensions, @Nullable org.gstreamer.gst.Caps possibleCaps) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static boolean register(@Nullable org.gstreamer.gst.Plugin plugin, java.lang.String name, int rank, org.gstreamer.gst.TypeFindFunction func, @Nullable java.lang.String extensions, @Nullable org.gstreamer.gst.Caps possibleCaps, org.gtk.glib.DestroyNotify dataNotify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_type_find_register.invokeExact(
                     (Addressable) (plugin == null ? MemoryAddress.NULL : plugin.handle()),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     rank,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbTypeFindFunction",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (extensions == null ? MemoryAddress.NULL : Interop.allocateNativeString(extensions)),
+                    (Addressable) func.toCallback(),
+                    (Addressable) (extensions == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(extensions, null)),
                     (Addressable) (possibleCaps == null ? MemoryAddress.NULL : possibleCaps.handle()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) dataNotify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -273,45 +344,49 @@ public class TypeFind extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TypeFind.Builder} object constructs a {@link TypeFind} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TypeFind.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TypeFind struct;
+        private final TypeFind struct;
         
-         /**
-         * A {@link TypeFind.Build} object constructs a {@link TypeFind} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TypeFind.allocate();
         }
         
          /**
          * Finish building the {@link TypeFind} struct.
          * @return A new instance of {@code TypeFind} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TypeFind construct() {
+        public TypeFind build() {
             return struct;
         }
         
-        public Build setPeek(java.lang.foreign.MemoryAddress peek) {
+        public Builder setPeek(PeekCallback peek) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("peek"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (peek == null ? MemoryAddress.NULL : peek));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (peek == null ? MemoryAddress.NULL : peek.toCallback()));
             return this;
         }
         
-        public Build setSuggest(java.lang.foreign.MemoryAddress suggest) {
+        public Builder setSuggest(SuggestCallback suggest) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("suggest"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (suggest == null ? MemoryAddress.NULL : suggest));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (suggest == null ? MemoryAddress.NULL : suggest.toCallback()));
             return this;
         }
         
@@ -320,21 +395,21 @@ public class TypeFind extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(java.lang.foreign.MemoryAddress data) {
+        public Builder setData(java.lang.foreign.MemoryAddress data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
             return this;
         }
         
-        public Build setGetLength(java.lang.foreign.MemoryAddress getLength) {
+        public Builder setGetLength(GetLengthCallback getLength) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("get_length"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getLength == null ? MemoryAddress.NULL : getLength));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (getLength == null ? MemoryAddress.NULL : getLength.toCallback()));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

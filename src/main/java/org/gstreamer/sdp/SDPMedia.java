@@ -16,26 +16,24 @@ public class SDPMedia extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstSDPMedia";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("media"),
-        Interop.valueLayout.C_INT.withName("port"),
-        Interop.valueLayout.C_INT.withName("num_ports"),
-        Interop.valueLayout.ADDRESS.withName("proto"),
-        Interop.valueLayout.ADDRESS.withName("fmts"),
-        Interop.valueLayout.ADDRESS.withName("information"),
-        Interop.valueLayout.ADDRESS.withName("connections"),
-        Interop.valueLayout.ADDRESS.withName("bandwidths"),
-        org.gstreamer.sdp.SDPKey.getMemoryLayout().withName("key"),
-        Interop.valueLayout.ADDRESS.withName("attributes")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("media"),
+            Interop.valueLayout.C_INT.withName("port"),
+            Interop.valueLayout.C_INT.withName("num_ports"),
+            Interop.valueLayout.ADDRESS.withName("proto"),
+            Interop.valueLayout.ADDRESS.withName("fmts"),
+            Interop.valueLayout.ADDRESS.withName("information"),
+            Interop.valueLayout.ADDRESS.withName("connections"),
+            Interop.valueLayout.ADDRESS.withName("bandwidths"),
+            org.gstreamer.sdp.SDPKey.getMemoryLayout().withName("key"),
+            Interop.valueLayout.ADDRESS.withName("attributes")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,28 +53,28 @@ public class SDPMedia extends Struct {
      * Get the value of the field {@code media}
      * @return The value of the field {@code media}
      */
-    public java.lang.String media$get() {
+    public java.lang.String getMedia_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("media"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code media}
      * @param media The new value of the field {@code media}
      */
-    public void media$set(java.lang.String media) {
+    public void setMedia_(java.lang.String media) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("media"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(media));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, null)));
     }
     
     /**
      * Get the value of the field {@code port}
      * @return The value of the field {@code port}
      */
-    public int port$get() {
+    public int getPort_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("port"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -87,7 +85,7 @@ public class SDPMedia extends Struct {
      * Change the value of the field {@code port}
      * @param port The new value of the field {@code port}
      */
-    public void port$set(int port) {
+    public void setPort(int port) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("port"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), port);
@@ -97,7 +95,7 @@ public class SDPMedia extends Struct {
      * Get the value of the field {@code num_ports}
      * @return The value of the field {@code num_ports}
      */
-    public int numPorts$get() {
+    public int getNumPorts_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_ports"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -108,7 +106,7 @@ public class SDPMedia extends Struct {
      * Change the value of the field {@code num_ports}
      * @param numPorts The new value of the field {@code num_ports}
      */
-    public void numPorts$set(int numPorts) {
+    public void setNumPorts(int numPorts) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("num_ports"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), numPorts);
@@ -118,51 +116,145 @@ public class SDPMedia extends Struct {
      * Get the value of the field {@code proto}
      * @return The value of the field {@code proto}
      */
-    public java.lang.String proto$get() {
+    public java.lang.String getProto_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("proto"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code proto}
      * @param proto The new value of the field {@code proto}
      */
-    public void proto$set(java.lang.String proto) {
+    public void setProto_(java.lang.String proto) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("proto"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(proto));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proto == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(proto, null)));
+    }
+    
+    /**
+     * Get the value of the field {@code fmts}
+     * @return The value of the field {@code fmts}
+     */
+    public PointerAddress getFmts() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("fmts"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code fmts}
+     * @param fmts The new value of the field {@code fmts}
+     */
+    public void setFmts(java.lang.foreign.MemoryAddress[] fmts) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("fmts"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fmts == null ? MemoryAddress.NULL : Interop.allocateNativeArray(fmts, false)));
     }
     
     /**
      * Get the value of the field {@code information}
      * @return The value of the field {@code information}
      */
-    public java.lang.String information$get() {
+    public java.lang.String getInformation_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("information"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code information}
      * @param information The new value of the field {@code information}
      */
-    public void information$set(java.lang.String information) {
+    public void setInformation_(java.lang.String information) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("information"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(information));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, null)));
+    }
+    
+    /**
+     * Get the value of the field {@code connections}
+     * @return The value of the field {@code connections}
+     */
+    public PointerAddress getConnections() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("connections"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code connections}
+     * @param connections The new value of the field {@code connections}
+     */
+    public void setConnections(java.lang.foreign.MemoryAddress[] connections) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("connections"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connections == null ? MemoryAddress.NULL : Interop.allocateNativeArray(connections, false)));
+    }
+    
+    /**
+     * Get the value of the field {@code bandwidths}
+     * @return The value of the field {@code bandwidths}
+     */
+    public PointerAddress getBandwidths() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code bandwidths}
+     * @param bandwidths The new value of the field {@code bandwidths}
+     */
+    public void setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false)));
     }
     
     /**
      * Get the value of the field {@code key}
      * @return The value of the field {@code key}
      */
-    public org.gstreamer.sdp.SDPKey key$get() {
+    public org.gstreamer.sdp.SDPKey getKey_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("key"));
-        return new org.gstreamer.sdp.SDPKey(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code key}
+     * @param key The new value of the field {@code key}
+     */
+    public void setKey_(org.gstreamer.sdp.SDPKey key) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("key"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
+    }
+    
+    /**
+     * Get the value of the field {@code attributes}
+     * @return The value of the field {@code attributes}
+     */
+    public PointerAddress getAttributes() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerAddress(RESULT);
+    }
+    
+    /**
+     * Change the value of the field {@code attributes}
+     * @param attributes The new value of the field {@code attributes}
+     */
+    public void setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false)));
     }
     
     /**
@@ -170,10 +262,12 @@ public class SDPMedia extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SDPMedia(Addressable address, Ownership ownership) {
+    protected SDPMedia(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SDPMedia> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPMedia(input, ownership);
     
     /**
      * Add the attribute with {@code key} and {@code value} to {@code media}.
@@ -181,14 +275,13 @@ public class SDPMedia extends Struct {
      * @param value a value
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addAttribute(@NotNull java.lang.String key, @Nullable java.lang.String value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public org.gstreamer.sdp.SDPResult addAttribute(java.lang.String key, @Nullable java.lang.String value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_add_attribute.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
-                    (Addressable) (value == null ? MemoryAddress.NULL : Interop.allocateNativeString(value)));
+                    Marshal.stringToAddress.marshal(key, null),
+                    (Addressable) (value == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(value, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,13 +294,12 @@ public class SDPMedia extends Struct {
      * @param bandwidth the bandwidth in kilobits per second
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addBandwidth(@NotNull java.lang.String bwtype, int bandwidth) {
-        java.util.Objects.requireNonNull(bwtype, "Parameter 'bwtype' must not be null");
+    public org.gstreamer.sdp.SDPResult addBandwidth(java.lang.String bwtype, int bandwidth) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_add_bandwidth.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(bwtype),
+                    Marshal.stringToAddress.marshal(bwtype, null),
                     bandwidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -225,17 +317,14 @@ public class SDPMedia extends Struct {
      * @param addrNumber the number of layers
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addConnection(@NotNull java.lang.String nettype, @NotNull java.lang.String addrtype, @NotNull java.lang.String address, int ttl, int addrNumber) {
-        java.util.Objects.requireNonNull(nettype, "Parameter 'nettype' must not be null");
-        java.util.Objects.requireNonNull(addrtype, "Parameter 'addrtype' must not be null");
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+    public org.gstreamer.sdp.SDPResult addConnection(java.lang.String nettype, java.lang.String addrtype, java.lang.String address, int ttl, int addrNumber) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_add_connection.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(nettype),
-                    Interop.allocateNativeString(addrtype),
-                    Interop.allocateNativeString(address),
+                    Marshal.stringToAddress.marshal(nettype, null),
+                    Marshal.stringToAddress.marshal(addrtype, null),
+                    Marshal.stringToAddress.marshal(address, null),
                     ttl,
                     addrNumber);
         } catch (Throwable ERR) {
@@ -249,13 +338,12 @@ public class SDPMedia extends Struct {
      * @param format the format
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult addFormat(@NotNull java.lang.String format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public org.gstreamer.sdp.SDPResult addFormat(java.lang.String format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_add_format.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format));
+                    Marshal.stringToAddress.marshal(format, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +354,7 @@ public class SDPMedia extends Struct {
      * Convert the contents of {@code media} to a text string.
      * @return A dynamically allocated string representing the media.
      */
-    public @NotNull java.lang.String asText() {
+    public java.lang.String asText() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_as_text.invokeExact(
@@ -274,7 +362,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -297,8 +385,7 @@ public class SDPMedia extends Struct {
      * @param caps a {@link org.gstreamer.gst.Caps}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult attributesToCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public org.gstreamer.sdp.SDPResult attributesToCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_attributes_to_caps.invokeExact(
@@ -346,8 +433,7 @@ public class SDPMedia extends Struct {
      * @param copy pointer to new {@link SDPMedia}
      * @return a {@link SDPResult}
      */
-    public @NotNull org.gstreamer.sdp.SDPResult copy(@NotNull Out<org.gstreamer.sdp.SDPMedia> copy) {
-        java.util.Objects.requireNonNull(copy, "Parameter 'copy' must not be null");
+    public org.gstreamer.sdp.SDPResult copy(Out<org.gstreamer.sdp.SDPMedia> copy) {
         MemorySegment copyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -357,7 +443,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        copy.set(new org.gstreamer.sdp.SDPMedia(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        copy.set(org.gstreamer.sdp.SDPMedia.fromAddress.marshal(copyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -382,7 +468,7 @@ public class SDPMedia extends Struct {
      * allocated with gst_sdp_media_new().
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult free() {
+    public org.gstreamer.sdp.SDPResult free() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_free.invokeExact(
@@ -398,7 +484,7 @@ public class SDPMedia extends Struct {
      * @param idx an index
      * @return the {@link SDPAttribute} at position {@code idx}.
      */
-    public @NotNull org.gstreamer.sdp.SDPAttribute getAttribute(int idx) {
+    public org.gstreamer.sdp.SDPAttribute getAttribute(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_attribute.invokeExact(
@@ -407,7 +493,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPAttribute(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPAttribute.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -415,17 +501,16 @@ public class SDPMedia extends Struct {
      * @param key a key
      * @return the first attribute value for {@code key}.
      */
-    public @NotNull java.lang.String getAttributeVal(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public java.lang.String getAttributeVal(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_attribute_val.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -434,18 +519,17 @@ public class SDPMedia extends Struct {
      * @param nth an index
      * @return the {@code nth} attribute value.
      */
-    public @NotNull java.lang.String getAttributeValN(@NotNull java.lang.String key, int nth) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public java.lang.String getAttributeValN(java.lang.String key, int nth) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_attribute_val_n.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key),
+                    Marshal.stringToAddress.marshal(key, null),
                     nth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -453,7 +537,7 @@ public class SDPMedia extends Struct {
      * @param idx an index
      * @return the {@link SDPBandwidth} at position {@code idx}.
      */
-    public @NotNull org.gstreamer.sdp.SDPBandwidth getBandwidth(int idx) {
+    public org.gstreamer.sdp.SDPBandwidth getBandwidth(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_bandwidth.invokeExact(
@@ -462,7 +546,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPBandwidth(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPBandwidth.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -478,7 +562,7 @@ public class SDPMedia extends Struct {
      * @param pt a payload type
      * @return a {@link org.gstreamer.gst.Caps}, or {@code null} if an error happened
      */
-    public @NotNull org.gstreamer.gst.Caps getCapsFromMedia(int pt) {
+    public org.gstreamer.gst.Caps getCapsFromMedia(int pt) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_caps_from_media.invokeExact(
@@ -487,7 +571,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -495,7 +579,7 @@ public class SDPMedia extends Struct {
      * @param idx an index
      * @return the {@link SDPConnection} at position {@code idx}.
      */
-    public @NotNull org.gstreamer.sdp.SDPConnection getConnection(int idx) {
+    public org.gstreamer.sdp.SDPConnection getConnection(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_connection.invokeExact(
@@ -504,7 +588,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPConnection(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPConnection.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -512,7 +596,7 @@ public class SDPMedia extends Struct {
      * @param idx an index
      * @return the format at position {@code idx}.
      */
-    public @NotNull java.lang.String getFormat(int idx) {
+    public java.lang.String getFormat(int idx) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_format.invokeExact(
@@ -521,14 +605,14 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the information of {@code media}
      * @return the information of {@code media}.
      */
-    public @NotNull java.lang.String getInformation() {
+    public java.lang.String getInformation() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_information.invokeExact(
@@ -536,14 +620,14 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the encryption information from {@code media}.
      * @return a {@link SDPKey}.
      */
-    public @NotNull org.gstreamer.sdp.SDPKey getKey() {
+    public org.gstreamer.sdp.SDPKey getKey() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_key.invokeExact(
@@ -551,14 +635,14 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.sdp.SDPKey(RESULT, Ownership.NONE);
+        return org.gstreamer.sdp.SDPKey.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the media description of {@code media}.
      * @return the media description.
      */
-    public @NotNull java.lang.String getMedia() {
+    public java.lang.String getMedia() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_media.invokeExact(
@@ -566,7 +650,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -603,7 +687,7 @@ public class SDPMedia extends Struct {
      * Get the transport protocol of {@code media}
      * @return the transport protocol of {@code media}.
      */
-    public @NotNull java.lang.String getProto() {
+    public java.lang.String getProto() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_sdp_media_get_proto.invokeExact(
@@ -611,7 +695,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -623,7 +707,7 @@ public class SDPMedia extends Struct {
      * stack), its contents should be set to 0 before calling this function.
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult init() {
+    public org.gstreamer.sdp.SDPResult init() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_init.invokeExact(
@@ -641,8 +725,7 @@ public class SDPMedia extends Struct {
      * @param attr a {@link SDPAttribute}
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertAttribute(int idx, @NotNull org.gstreamer.sdp.SDPAttribute attr) {
-        java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
+    public org.gstreamer.sdp.SDPResult insertAttribute(int idx, org.gstreamer.sdp.SDPAttribute attr) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_insert_attribute.invokeExact(
@@ -662,8 +745,7 @@ public class SDPMedia extends Struct {
      * @param bw a {@link SDPBandwidth}
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertBandwidth(int idx, @NotNull org.gstreamer.sdp.SDPBandwidth bw) {
-        java.util.Objects.requireNonNull(bw, "Parameter 'bw' must not be null");
+    public org.gstreamer.sdp.SDPResult insertBandwidth(int idx, org.gstreamer.sdp.SDPBandwidth bw) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_insert_bandwidth.invokeExact(
@@ -683,8 +765,7 @@ public class SDPMedia extends Struct {
      * @param conn a {@link SDPConnection}
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertConnection(int idx, @NotNull org.gstreamer.sdp.SDPConnection conn) {
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
+    public org.gstreamer.sdp.SDPResult insertConnection(int idx, org.gstreamer.sdp.SDPConnection conn) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_insert_connection.invokeExact(
@@ -704,14 +785,13 @@ public class SDPMedia extends Struct {
      * @param format the format
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult insertFormat(int idx, @NotNull java.lang.String format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public org.gstreamer.sdp.SDPResult insertFormat(int idx, java.lang.String format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_insert_format.invokeExact(
                     handle(),
                     idx,
-                    Interop.allocateNativeString(format));
+                    Marshal.stringToAddress.marshal(format, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -724,8 +804,7 @@ public class SDPMedia extends Struct {
      * @param mikey pointer to new {@link MIKEYMessage}
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult parseKeymgmt(@NotNull Out<org.gstreamer.sdp.MIKEYMessage> mikey) {
-        java.util.Objects.requireNonNull(mikey, "Parameter 'mikey' must not be null");
+    public org.gstreamer.sdp.SDPResult parseKeymgmt(Out<org.gstreamer.sdp.MIKEYMessage> mikey) {
         MemorySegment mikeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -735,7 +814,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        mikey.set(new org.gstreamer.sdp.MIKEYMessage(mikeyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        mikey.set(org.gstreamer.sdp.MIKEYMessage.fromAddress.marshal(mikeyPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -744,7 +823,7 @@ public class SDPMedia extends Struct {
      * @param idx an index
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removeAttribute(int idx) {
+    public org.gstreamer.sdp.SDPResult removeAttribute(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_remove_attribute.invokeExact(
@@ -761,7 +840,7 @@ public class SDPMedia extends Struct {
      * @param idx an index
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removeBandwidth(int idx) {
+    public org.gstreamer.sdp.SDPResult removeBandwidth(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_remove_bandwidth.invokeExact(
@@ -778,7 +857,7 @@ public class SDPMedia extends Struct {
      * @param idx an index
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removeConnection(int idx) {
+    public org.gstreamer.sdp.SDPResult removeConnection(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_remove_connection.invokeExact(
@@ -795,7 +874,7 @@ public class SDPMedia extends Struct {
      * @param idx an index
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult removeFormat(int idx) {
+    public org.gstreamer.sdp.SDPResult removeFormat(int idx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_remove_format.invokeExact(
@@ -813,8 +892,7 @@ public class SDPMedia extends Struct {
      * @param attr a {@link SDPAttribute}
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replaceAttribute(int idx, @NotNull org.gstreamer.sdp.SDPAttribute attr) {
-        java.util.Objects.requireNonNull(attr, "Parameter 'attr' must not be null");
+    public org.gstreamer.sdp.SDPResult replaceAttribute(int idx, org.gstreamer.sdp.SDPAttribute attr) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_replace_attribute.invokeExact(
@@ -833,8 +911,7 @@ public class SDPMedia extends Struct {
      * @param bw a {@link SDPBandwidth}
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replaceBandwidth(int idx, @NotNull org.gstreamer.sdp.SDPBandwidth bw) {
-        java.util.Objects.requireNonNull(bw, "Parameter 'bw' must not be null");
+    public org.gstreamer.sdp.SDPResult replaceBandwidth(int idx, org.gstreamer.sdp.SDPBandwidth bw) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_replace_bandwidth.invokeExact(
@@ -853,8 +930,7 @@ public class SDPMedia extends Struct {
      * @param conn a {@link SDPConnection}
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replaceConnection(int idx, @NotNull org.gstreamer.sdp.SDPConnection conn) {
-        java.util.Objects.requireNonNull(conn, "Parameter 'conn' must not be null");
+    public org.gstreamer.sdp.SDPResult replaceConnection(int idx, org.gstreamer.sdp.SDPConnection conn) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_replace_connection.invokeExact(
@@ -873,14 +949,13 @@ public class SDPMedia extends Struct {
      * @param format the format
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult replaceFormat(int idx, @NotNull java.lang.String format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public org.gstreamer.sdp.SDPResult replaceFormat(int idx, java.lang.String format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_replace_format.invokeExact(
                     handle(),
                     idx,
-                    Interop.allocateNativeString(format));
+                    Marshal.stringToAddress.marshal(format, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -892,13 +967,12 @@ public class SDPMedia extends Struct {
      * @param information the media information
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setInformation(@NotNull java.lang.String information) {
-        java.util.Objects.requireNonNull(information, "Parameter 'information' must not be null");
+    public org.gstreamer.sdp.SDPResult setInformation(java.lang.String information) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_set_information.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(information));
+                    Marshal.stringToAddress.marshal(information, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -911,15 +985,13 @@ public class SDPMedia extends Struct {
      * @param data the encryption data
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setKey(@NotNull java.lang.String type, @NotNull java.lang.String data) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public org.gstreamer.sdp.SDPResult setKey(java.lang.String type, java.lang.String data) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_set_key.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(type),
-                    Interop.allocateNativeString(data));
+                    Marshal.stringToAddress.marshal(type, null),
+                    Marshal.stringToAddress.marshal(data, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -931,13 +1003,12 @@ public class SDPMedia extends Struct {
      * @param med the media description
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setMedia(@NotNull java.lang.String med) {
-        java.util.Objects.requireNonNull(med, "Parameter 'med' must not be null");
+    public org.gstreamer.sdp.SDPResult setMedia(java.lang.String med) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_set_media.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(med));
+                    Marshal.stringToAddress.marshal(med, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -950,7 +1021,7 @@ public class SDPMedia extends Struct {
      * @param numPorts the number of ports
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setPortInfo(int port, int numPorts) {
+    public org.gstreamer.sdp.SDPResult setPortInfo(int port, int numPorts) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_set_port_info.invokeExact(
@@ -968,13 +1039,12 @@ public class SDPMedia extends Struct {
      * @param proto the media transport protocol
      * @return {@code GST_SDP_OK}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult setProto(@NotNull java.lang.String proto) {
-        java.util.Objects.requireNonNull(proto, "Parameter 'proto' must not be null");
+    public org.gstreamer.sdp.SDPResult setProto(java.lang.String proto) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_set_proto.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(proto));
+                    Marshal.stringToAddress.marshal(proto, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -987,7 +1057,7 @@ public class SDPMedia extends Struct {
      * stack and initialized with gst_sdp_media_init().
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult uninit() {
+    public org.gstreamer.sdp.SDPResult uninit() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_uninit.invokeExact(
@@ -1003,8 +1073,7 @@ public class SDPMedia extends Struct {
      * @param media pointer to new {@link SDPMedia}
      * @return a {@link SDPResult}.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult new_(@NotNull Out<org.gstreamer.sdp.SDPMedia> media) {
-        java.util.Objects.requireNonNull(media, "Parameter 'media' must not be null");
+    public static org.gstreamer.sdp.SDPResult new_(Out<org.gstreamer.sdp.SDPMedia> media) {
         MemorySegment mediaPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -1013,7 +1082,7 @@ public class SDPMedia extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        media.set(new org.gstreamer.sdp.SDPMedia(mediaPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        media.set(org.gstreamer.sdp.SDPMedia.fromAddress.marshal(mediaPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         return org.gstreamer.sdp.SDPResult.of(RESULT);
     }
     
@@ -1033,9 +1102,7 @@ public class SDPMedia extends Struct {
      * @param media a {@link SDPMedia}
      * @return a {@link SDPResult}.
      */
-    public static @NotNull org.gstreamer.sdp.SDPResult setMediaFromCaps(@NotNull org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.sdp.SDPMedia media) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(media, "Parameter 'media' must not be null");
+    public static org.gstreamer.sdp.SDPResult setMediaFromCaps(org.gstreamer.gst.Caps caps, org.gstreamer.sdp.SDPMedia media) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_media_set_media_from_caps.invokeExact(
@@ -1331,31 +1398,35 @@ public class SDPMedia extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link SDPMedia.Builder} object constructs a {@link SDPMedia} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SDPMedia.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SDPMedia struct;
+        private final SDPMedia struct;
         
-         /**
-         * A {@link SDPMedia.Build} object constructs a {@link SDPMedia} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SDPMedia.allocate();
         }
         
          /**
          * Finish building the {@link SDPMedia} struct.
          * @return A new instance of {@code SDPMedia} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SDPMedia construct() {
+        public SDPMedia build() {
             return struct;
         }
         
@@ -1364,10 +1435,10 @@ public class SDPMedia extends Struct {
          * @param media The value for the {@code media} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMedia(java.lang.String media) {
+        public Builder setMedia(java.lang.String media) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("media"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Interop.allocateNativeString(media)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, null)));
             return this;
         }
         
@@ -1376,7 +1447,7 @@ public class SDPMedia extends Struct {
          * @param port The value for the {@code port} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPort(int port) {
+        public Builder setPort(int port) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("port"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), port);
@@ -1388,7 +1459,7 @@ public class SDPMedia extends Struct {
          * @param numPorts The value for the {@code numPorts} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumPorts(int numPorts) {
+        public Builder setNumPorts(int numPorts) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("num_ports"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), numPorts);
@@ -1400,10 +1471,10 @@ public class SDPMedia extends Struct {
          * @param proto The value for the {@code proto} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProto(java.lang.String proto) {
+        public Builder setProto(java.lang.String proto) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("proto"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proto == null ? MemoryAddress.NULL : Interop.allocateNativeString(proto)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (proto == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(proto, null)));
             return this;
         }
         
@@ -1412,7 +1483,7 @@ public class SDPMedia extends Struct {
          * @param fmts The value for the {@code fmts} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFmts(java.lang.foreign.MemoryAddress[] fmts) {
+        public Builder setFmts(java.lang.foreign.MemoryAddress[] fmts) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("fmts"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (fmts == null ? MemoryAddress.NULL : Interop.allocateNativeArray(fmts, false)));
@@ -1424,10 +1495,10 @@ public class SDPMedia extends Struct {
          * @param information The value for the {@code information} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInformation(java.lang.String information) {
+        public Builder setInformation(java.lang.String information) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("information"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Interop.allocateNativeString(information)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (information == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(information, null)));
             return this;
         }
         
@@ -1436,7 +1507,7 @@ public class SDPMedia extends Struct {
          * @param connections The value for the {@code connections} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setConnections(java.lang.foreign.MemoryAddress[] connections) {
+        public Builder setConnections(java.lang.foreign.MemoryAddress[] connections) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("connections"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (connections == null ? MemoryAddress.NULL : Interop.allocateNativeArray(connections, false)));
@@ -1448,7 +1519,7 @@ public class SDPMedia extends Struct {
          * @param bandwidths The value for the {@code bandwidths} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
+        public Builder setBandwidths(java.lang.foreign.MemoryAddress[] bandwidths) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bandwidths"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bandwidths == null ? MemoryAddress.NULL : Interop.allocateNativeArray(bandwidths, false)));
@@ -1460,7 +1531,7 @@ public class SDPMedia extends Struct {
          * @param key The value for the {@code key} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKey(org.gstreamer.sdp.SDPKey key) {
+        public Builder setKey(org.gstreamer.sdp.SDPKey key) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("key"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (key == null ? MemoryAddress.NULL : key.handle()));
@@ -1472,7 +1543,7 @@ public class SDPMedia extends Struct {
          * @param attributes The value for the {@code attributes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
+        public Builder setAttributes(java.lang.foreign.MemoryAddress[] attributes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("attributes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeArray(attributes, false)));

@@ -18,18 +18,16 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
     
     private static final java.lang.String C_TYPE_NAME = "GTcpConnection";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.SocketConnection.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.SocketConnection.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,30 +35,12 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TcpConnection(Addressable address, Ownership ownership) {
+    protected TcpConnection(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TcpConnection if its GType is a (or inherits from) "GTcpConnection".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TcpConnection} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GTcpConnection", a ClassCastException will be thrown.
-     */
-    public static TcpConnection castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TcpConnection.getType())) {
-            return new TcpConnection(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTcpConnection");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TcpConnection> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TcpConnection(input, ownership);
     
     /**
      * Checks if graceful disconnects are used. See
@@ -75,7 +55,7 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -94,7 +74,7 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
         try {
             DowncallHandles.g_tcp_connection_set_graceful_disconnect.invokeExact(
                     handle(),
-                    gracefulDisconnect ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(gracefulDisconnect, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +84,7 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tcp_connection_get_type.invokeExact();
@@ -113,42 +93,44 @@ public class TcpConnection extends org.gtk.gio.SocketConnection {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TcpConnection.Builder} object constructs a {@link TcpConnection} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TcpConnection.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.SocketConnection.Build {
+    public static class Builder extends org.gtk.gio.SocketConnection.Builder {
         
-         /**
-         * A {@link TcpConnection.Build} object constructs a {@link TcpConnection} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TcpConnection} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TcpConnection} using {@link TcpConnection#castFrom}.
+         * {@link TcpConnection}.
          * @return A new instance of {@code TcpConnection} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TcpConnection construct() {
-            return TcpConnection.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TcpConnection.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TcpConnection build() {
+            return (TcpConnection) org.gtk.gobject.GObject.newWithProperties(
+                TcpConnection.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setGracefulDisconnect(boolean gracefulDisconnect) {
+        public Builder setGracefulDisconnect(boolean gracefulDisconnect) {
             names.add("graceful-disconnect");
             values.add(org.gtk.gobject.Value.create(gracefulDisconnect));
             return this;

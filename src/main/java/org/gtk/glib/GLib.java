@@ -14,7 +14,15 @@ public final class GLib {
         System.loadLibrary("glib-2.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     public static final int ANALYZER_ANALYZING = 1;
     
@@ -862,12 +870,11 @@ public final class GLib {
      *     object that has all the tested permissions, or -1 otherwise
      *     or on error.
      */
-    public static int access(@NotNull java.lang.String filename, int mode) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static int access(java.lang.String filename, int mode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_access.invokeExact(
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     mode);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -974,18 +981,17 @@ public final class GLib {
      * @param d The {@code gdouble} to convert
      * @return The pointer to the buffer with the converted string.
      */
-    public static @NotNull java.lang.String asciiDtostr(@NotNull java.lang.String buffer, int bufLen, double d) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static java.lang.String asciiDtostr(java.lang.String buffer, int bufLen, double d) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ascii_dtostr.invokeExact(
-                    Interop.allocateNativeString(buffer),
+                    Marshal.stringToAddress.marshal(buffer, null),
                     bufLen,
                     d);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1008,20 +1014,18 @@ public final class GLib {
      * @param d The {@code gdouble} to convert
      * @return The pointer to the buffer with the converted string.
      */
-    public static @NotNull java.lang.String asciiFormatd(@NotNull java.lang.String buffer, int bufLen, @NotNull java.lang.String format, double d) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static java.lang.String asciiFormatd(java.lang.String buffer, int bufLen, java.lang.String format, double d) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ascii_formatd.invokeExact(
-                    Interop.allocateNativeString(buffer),
+                    Marshal.stringToAddress.marshal(buffer, null),
                     bufLen,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     d);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1045,14 +1049,12 @@ public final class GLib {
      * @return 0 if the strings match, a negative value if {@code s1} &lt; {@code s2},
      *     or a positive value if {@code s1} &gt; {@code s2}.
      */
-    public static int asciiStrcasecmp(@NotNull java.lang.String s1, @NotNull java.lang.String s2) {
-        java.util.Objects.requireNonNull(s1, "Parameter 's1' must not be null");
-        java.util.Objects.requireNonNull(s2, "Parameter 's2' must not be null");
+    public static int asciiStrcasecmp(java.lang.String s1, java.lang.String s2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ascii_strcasecmp.invokeExact(
-                    Interop.allocateNativeString(s1),
-                    Interop.allocateNativeString(s2));
+                    Marshal.stringToAddress.marshal(s1, null),
+                    Marshal.stringToAddress.marshal(s2, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1068,17 +1070,16 @@ public final class GLib {
      *     exactly match g_ascii_tolower(). (Note that this is unlike the
      *     old g_strdown(), which modified the string in place.)
      */
-    public static @NotNull java.lang.String asciiStrdown(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String asciiStrdown(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ascii_strdown.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1111,19 +1112,17 @@ public final class GLib {
      * @return {@code true} if {@code str} was a number, otherwise {@code false}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean asciiStringToSigned(@NotNull java.lang.String str, int base, long min, long max, Out<Long> outNum) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(outNum, "Parameter 'outNum' must not be null");
+    public static boolean asciiStringToSigned(java.lang.String str, int base, long min, long max, Out<Long> outNum) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment outNumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ascii_string_to_signed.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     base,
                     min,
                     max,
-                    (Addressable) outNumPOINTER.address(),
+                    (Addressable) (outNum == null ? MemoryAddress.NULL : (Addressable) outNumPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1131,8 +1130,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outNum.set(outNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (outNum != null) outNum.set(outNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1166,19 +1165,17 @@ public final class GLib {
      * @return {@code true} if {@code str} was a number, otherwise {@code false}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean asciiStringToUnsigned(@NotNull java.lang.String str, int base, long min, long max, Out<Long> outNum) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(outNum, "Parameter 'outNum' must not be null");
+    public static boolean asciiStringToUnsigned(java.lang.String str, int base, long min, long max, Out<Long> outNum) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment outNumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ascii_string_to_unsigned.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     base,
                     min,
                     max,
-                    (Addressable) outNumPOINTER.address(),
+                    (Addressable) (outNum == null ? MemoryAddress.NULL : (Addressable) outNumPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1186,8 +1183,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        outNum.set(outNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (outNum != null) outNum.set(outNumPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1209,14 +1206,12 @@ public final class GLib {
      * @return 0 if the strings match, a negative value if {@code s1} &lt; {@code s2},
      *     or a positive value if {@code s1} &gt; {@code s2}.
      */
-    public static int asciiStrncasecmp(@NotNull java.lang.String s1, @NotNull java.lang.String s2, long n) {
-        java.util.Objects.requireNonNull(s1, "Parameter 's1' must not be null");
-        java.util.Objects.requireNonNull(s2, "Parameter 's2' must not be null");
+    public static int asciiStrncasecmp(java.lang.String s1, java.lang.String s2, long n) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ascii_strncasecmp.invokeExact(
-                    Interop.allocateNativeString(s1),
-                    Interop.allocateNativeString(s2),
+                    Marshal.stringToAddress.marshal(s1, null),
+                    Marshal.stringToAddress.marshal(s2, null),
                     n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1253,19 +1248,17 @@ public final class GLib {
      *           character after the last character used in the conversion.
      * @return the {@code gdouble} value.
      */
-    public static double asciiStrtod(@NotNull java.lang.String nptr, @NotNull Out<java.lang.String> endptr) {
-        java.util.Objects.requireNonNull(nptr, "Parameter 'nptr' must not be null");
-        java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
+    public static double asciiStrtod(java.lang.String nptr, @Nullable Out<java.lang.String> endptr) {
         MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.g_ascii_strtod.invokeExact(
-                    Interop.allocateNativeString(nptr),
-                    (Addressable) endptrPOINTER.address());
+                    Marshal.stringToAddress.marshal(nptr, null),
+                    (Addressable) (endptr == null ? MemoryAddress.NULL : (Addressable) endptrPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (endptr != null) endptr.set(Marshal.addressToString.marshal(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return RESULT;
     }
     
@@ -1293,20 +1286,18 @@ public final class GLib {
      * @param base to be used for the conversion, 2..36 or 0
      * @return the {@code gint64} value or zero on error.
      */
-    public static long asciiStrtoll(@NotNull java.lang.String nptr, @NotNull Out<java.lang.String> endptr, int base) {
-        java.util.Objects.requireNonNull(nptr, "Parameter 'nptr' must not be null");
-        java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
+    public static long asciiStrtoll(java.lang.String nptr, @Nullable Out<java.lang.String> endptr, int base) {
         MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_ascii_strtoll.invokeExact(
-                    Interop.allocateNativeString(nptr),
-                    (Addressable) endptrPOINTER.address(),
+                    Marshal.stringToAddress.marshal(nptr, null),
+                    (Addressable) (endptr == null ? MemoryAddress.NULL : (Addressable) endptrPOINTER.address()),
                     base);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (endptr != null) endptr.set(Marshal.addressToString.marshal(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return RESULT;
     }
     
@@ -1339,20 +1330,18 @@ public final class GLib {
      * @param base to be used for the conversion, 2..36 or 0
      * @return the {@code guint64} value or zero on error.
      */
-    public static long asciiStrtoull(@NotNull java.lang.String nptr, @NotNull Out<java.lang.String> endptr, int base) {
-        java.util.Objects.requireNonNull(nptr, "Parameter 'nptr' must not be null");
-        java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
+    public static long asciiStrtoull(java.lang.String nptr, @Nullable Out<java.lang.String> endptr, int base) {
         MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_ascii_strtoull.invokeExact(
-                    Interop.allocateNativeString(nptr),
-                    (Addressable) endptrPOINTER.address(),
+                    Marshal.stringToAddress.marshal(nptr, null),
+                    (Addressable) (endptr == null ? MemoryAddress.NULL : (Addressable) endptrPOINTER.address()),
                     base);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (endptr != null) endptr.set(Marshal.addressToString.marshal(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return RESULT;
     }
     
@@ -1365,17 +1354,16 @@ public final class GLib {
      *     exactly match g_ascii_toupper(). (Note that this is unlike the
      *     old g_strup(), which modified the string in place.)
      */
-    public static @NotNull java.lang.String asciiStrup(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String asciiStrup(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ascii_strup.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1448,99 +1436,72 @@ public final class GLib {
         return RESULT;
     }
     
-    public static void assertWarning(@NotNull java.lang.String logDomain, @NotNull java.lang.String file, int line, @NotNull java.lang.String prettyFunction, @NotNull java.lang.String expression) {
-        java.util.Objects.requireNonNull(logDomain, "Parameter 'logDomain' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(prettyFunction, "Parameter 'prettyFunction' must not be null");
-        java.util.Objects.requireNonNull(expression, "Parameter 'expression' must not be null");
+    public static void assertWarning(java.lang.String logDomain, java.lang.String file, int line, java.lang.String prettyFunction, java.lang.String expression) {
         try {
             DowncallHandles.g_assert_warning.invokeExact(
-                    Interop.allocateNativeString(logDomain),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(logDomain, null),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(prettyFunction),
-                    Interop.allocateNativeString(expression));
+                    Marshal.stringToAddress.marshal(prettyFunction, null),
+                    Marshal.stringToAddress.marshal(expression, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static void assertionMessage(@NotNull java.lang.String domain, @NotNull java.lang.String file, int line, @NotNull java.lang.String func, @NotNull java.lang.String message) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public static void assertionMessage(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String message) {
         try {
             DowncallHandles.g_assertion_message.invokeExact(
-                    Interop.allocateNativeString(domain),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(domain, null),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(func),
-                    Interop.allocateNativeString(message));
+                    Marshal.stringToAddress.marshal(func, null),
+                    Marshal.stringToAddress.marshal(message, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static void assertionMessageCmpstr(@NotNull java.lang.String domain, @NotNull java.lang.String file, int line, @NotNull java.lang.String func, @NotNull java.lang.String expr, @NotNull java.lang.String arg1, @NotNull java.lang.String cmp, @NotNull java.lang.String arg2) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        java.util.Objects.requireNonNull(expr, "Parameter 'expr' must not be null");
-        java.util.Objects.requireNonNull(arg1, "Parameter 'arg1' must not be null");
-        java.util.Objects.requireNonNull(cmp, "Parameter 'cmp' must not be null");
-        java.util.Objects.requireNonNull(arg2, "Parameter 'arg2' must not be null");
+    public static void assertionMessageCmpstr(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, java.lang.String arg1, java.lang.String cmp, java.lang.String arg2) {
         try {
             DowncallHandles.g_assertion_message_cmpstr.invokeExact(
-                    Interop.allocateNativeString(domain),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(domain, null),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(func),
-                    Interop.allocateNativeString(expr),
-                    Interop.allocateNativeString(arg1),
-                    Interop.allocateNativeString(cmp),
-                    Interop.allocateNativeString(arg2));
+                    Marshal.stringToAddress.marshal(func, null),
+                    Marshal.stringToAddress.marshal(expr, null),
+                    Marshal.stringToAddress.marshal(arg1, null),
+                    Marshal.stringToAddress.marshal(cmp, null),
+                    Marshal.stringToAddress.marshal(arg2, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static void assertionMessageCmpstrv(@NotNull java.lang.String domain, @NotNull java.lang.String file, int line, @NotNull java.lang.String func, @NotNull java.lang.String expr, @NotNull java.lang.String arg1, @NotNull java.lang.String arg2, long firstWrongIdx) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        java.util.Objects.requireNonNull(expr, "Parameter 'expr' must not be null");
-        java.util.Objects.requireNonNull(arg1, "Parameter 'arg1' must not be null");
-        java.util.Objects.requireNonNull(arg2, "Parameter 'arg2' must not be null");
+    public static void assertionMessageCmpstrv(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, java.lang.String arg1, java.lang.String arg2, long firstWrongIdx) {
         try {
             DowncallHandles.g_assertion_message_cmpstrv.invokeExact(
-                    Interop.allocateNativeString(domain),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(domain, null),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(func),
-                    Interop.allocateNativeString(expr),
-                    Interop.allocateNativeString(arg1),
-                    Interop.allocateNativeString(arg2),
+                    Marshal.stringToAddress.marshal(func, null),
+                    Marshal.stringToAddress.marshal(expr, null),
+                    Marshal.stringToAddress.marshal(arg1, null),
+                    Marshal.stringToAddress.marshal(arg2, null),
                     firstWrongIdx);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static void assertionMessageError(@NotNull java.lang.String domain, @NotNull java.lang.String file, int line, @NotNull java.lang.String func, @NotNull java.lang.String expr, @NotNull org.gtk.glib.Error error, @NotNull org.gtk.glib.Quark errorDomain, int errorCode) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        java.util.Objects.requireNonNull(expr, "Parameter 'expr' must not be null");
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(errorDomain, "Parameter 'errorDomain' must not be null");
+    public static void assertionMessageError(java.lang.String domain, java.lang.String file, int line, java.lang.String func, java.lang.String expr, org.gtk.glib.Error error, org.gtk.glib.Quark errorDomain, int errorCode) {
         try {
             DowncallHandles.g_assertion_message_error.invokeExact(
-                    Interop.allocateNativeString(domain),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(domain, null),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(func),
-                    Interop.allocateNativeString(expr),
+                    Marshal.stringToAddress.marshal(func, null),
+                    Marshal.stringToAddress.marshal(expr, null),
                     error.handle(),
                     errorDomain.getValue().intValue(),
                     errorCode);
@@ -1558,16 +1519,14 @@ public final class GLib {
      * @param func function containing the assertion
      * @param expr expression which failed
      */
-    public static void assertionMessageExpr(@Nullable java.lang.String domain, @NotNull java.lang.String file, int line, @NotNull java.lang.String func, @Nullable java.lang.String expr) {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void assertionMessageExpr(@Nullable java.lang.String domain, java.lang.String file, int line, java.lang.String func, @Nullable java.lang.String expr) {
         try {
             DowncallHandles.g_assertion_message_expr.invokeExact(
-                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)),
-                    Interop.allocateNativeString(file),
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(func),
-                    (Addressable) (expr == null ? MemoryAddress.NULL : Interop.allocateNativeString(expr)));
+                    Marshal.stringToAddress.marshal(func, null),
+                    (Addressable) (expr == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(expr, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1608,8 +1567,13 @@ public final class GLib {
      * @deprecated It is best to avoid g_atexit().
      */
     @Deprecated
-    public static void atexit(@NotNull org.gtk.glib.VoidFunc func) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void atexit(org.gtk.glib.VoidFunc func) {
+        try {
+            DowncallHandles.g_atexit.invokeExact(
+                    (Addressable) func.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -1630,7 +1594,6 @@ public final class GLib {
      * @return the value of {@code atomic} before the add, signed
      */
     public static int atomicIntAdd(PointerInteger atomic, int val) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_int_add.invokeExact(
@@ -1658,7 +1621,6 @@ public final class GLib {
      * @return the value of {@code atomic} before the operation, unsigned
      */
     public static int atomicIntAnd(PointerInteger atomic, int val) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_int_and.invokeExact(
@@ -1689,7 +1651,6 @@ public final class GLib {
      * @return {@code true} if the exchange took place
      */
     public static boolean atomicIntCompareAndExchange(PointerInteger atomic, int oldval, int newval) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_int_compare_and_exchange.invokeExact(
@@ -1699,7 +1660,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1722,8 +1683,6 @@ public final class GLib {
      * @return {@code true} if the exchange took place
      */
     public static boolean atomicIntCompareAndExchangeFull(PointerInteger atomic, int oldval, int newval, Out<Integer> preval) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
-        java.util.Objects.requireNonNull(preval, "Parameter 'preval' must not be null");
         MemorySegment prevalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1736,7 +1695,7 @@ public final class GLib {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         preval.set(prevalPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1753,7 +1712,6 @@ public final class GLib {
      * @return {@code true} if the resultant value is zero
      */
     public static boolean atomicIntDecAndTest(PointerInteger atomic) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_int_dec_and_test.invokeExact(
@@ -1761,7 +1719,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1778,7 +1736,6 @@ public final class GLib {
      * @return the value of {@code atomic} before the exchange, signed
      */
     public static int atomicIntExchange(PointerInteger atomic, int newval) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_int_exchange.invokeExact(
@@ -1801,7 +1758,6 @@ public final class GLib {
      */
     @Deprecated
     public static int atomicIntExchangeAndAdd(PointerInteger atomic, int val) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_int_exchange_and_add.invokeExact(
@@ -1825,7 +1781,6 @@ public final class GLib {
      * @return the value of the integer
      */
     public static int atomicIntGet(PointerInteger atomic) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_int_get.invokeExact(
@@ -1848,7 +1803,6 @@ public final class GLib {
      * @param atomic a pointer to a {@code gint} or {@code guint}
      */
     public static void atomicIntInc(PointerInteger atomic) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         try {
             DowncallHandles.g_atomic_int_inc.invokeExact(
                     atomic.handle());
@@ -1873,7 +1827,6 @@ public final class GLib {
      * @return the value of {@code atomic} before the operation, unsigned
      */
     public static int atomicIntOr(PointerInteger atomic, int val) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_int_or.invokeExact(
@@ -1897,7 +1850,6 @@ public final class GLib {
      * @param newval a new value to store
      */
     public static void atomicIntSet(PointerInteger atomic, int newval) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         try {
             DowncallHandles.g_atomic_int_set.invokeExact(
                     atomic.handle(),
@@ -1923,7 +1875,6 @@ public final class GLib {
      * @return the value of {@code atomic} before the operation, unsigned
      */
     public static int atomicIntXor(PointerInteger atomic, int val) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_int_xor.invokeExact(
@@ -1949,8 +1900,7 @@ public final class GLib {
      * @param val the value to add
      * @return the value of {@code atomic} before the add, signed
      */
-    public static long atomicPointerAdd(@NotNull java.lang.foreign.MemoryAddress atomic, long val) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+    public static long atomicPointerAdd(java.lang.foreign.MemoryAddress atomic, long val) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_pointer_add.invokeExact(
@@ -1977,8 +1927,7 @@ public final class GLib {
      * @param val the value to 'and'
      * @return the value of {@code atomic} before the operation, unsigned
      */
-    public static long atomicPointerAnd(@NotNull java.lang.foreign.MemoryAddress atomic, long val) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+    public static long atomicPointerAnd(java.lang.foreign.MemoryAddress atomic, long val) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_pointer_and.invokeExact(
@@ -2008,8 +1957,7 @@ public final class GLib {
      * @param newval the value to conditionally replace with
      * @return {@code true} if the exchange took place
      */
-    public static boolean atomicPointerCompareAndExchange(@NotNull java.lang.foreign.MemoryAddress atomic, @Nullable java.lang.foreign.MemoryAddress oldval, @Nullable java.lang.foreign.MemoryAddress newval) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+    public static boolean atomicPointerCompareAndExchange(java.lang.foreign.MemoryAddress atomic, @Nullable java.lang.foreign.MemoryAddress oldval, @Nullable java.lang.foreign.MemoryAddress newval) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_pointer_compare_and_exchange.invokeExact(
@@ -2019,7 +1967,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2041,9 +1989,7 @@ public final class GLib {
      * @param preval the contents of {@code atomic} before this operation
      * @return {@code true} if the exchange took place
      */
-    public static boolean atomicPointerCompareAndExchangeFull(@NotNull java.lang.foreign.MemoryAddress atomic, @Nullable java.lang.foreign.MemoryAddress oldval, @Nullable java.lang.foreign.MemoryAddress newval, @NotNull Out<java.lang.foreign.MemoryAddress> preval) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
-        java.util.Objects.requireNonNull(preval, "Parameter 'preval' must not be null");
+    public static boolean atomicPointerCompareAndExchangeFull(java.lang.foreign.MemoryAddress atomic, @Nullable java.lang.foreign.MemoryAddress oldval, @Nullable java.lang.foreign.MemoryAddress newval, Out<java.lang.foreign.MemoryAddress> preval) {
         MemorySegment prevalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -2056,7 +2002,7 @@ public final class GLib {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         preval.set(prevalPOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2095,8 +2041,7 @@ public final class GLib {
      * @param atomic a pointer to a {@code gpointer}-sized value
      * @return the value of the pointer
      */
-    public static @Nullable java.lang.foreign.MemoryAddress atomicPointerGet(@NotNull java.lang.foreign.MemoryAddress atomic) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress atomicPointerGet(java.lang.foreign.MemoryAddress atomic) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_atomic_pointer_get.invokeExact(
@@ -2122,8 +2067,7 @@ public final class GLib {
      * @param val the value to 'or'
      * @return the value of {@code atomic} before the operation, unsigned
      */
-    public static long atomicPointerOr(@NotNull java.lang.foreign.MemoryAddress atomic, long val) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+    public static long atomicPointerOr(java.lang.foreign.MemoryAddress atomic, long val) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_pointer_or.invokeExact(
@@ -2146,8 +2090,7 @@ public final class GLib {
      * @param atomic a pointer to a {@code gpointer}-sized value
      * @param newval a new value to store
      */
-    public static void atomicPointerSet(@NotNull java.lang.foreign.MemoryAddress atomic, @Nullable java.lang.foreign.MemoryAddress newval) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+    public static void atomicPointerSet(java.lang.foreign.MemoryAddress atomic, @Nullable java.lang.foreign.MemoryAddress newval) {
         try {
             DowncallHandles.g_atomic_pointer_set.invokeExact(
                     (Addressable) atomic,
@@ -2172,8 +2115,7 @@ public final class GLib {
      * @param val the value to 'xor'
      * @return the value of {@code atomic} before the operation, unsigned
      */
-    public static long atomicPointerXor(@NotNull java.lang.foreign.MemoryAddress atomic, long val) {
-        java.util.Objects.requireNonNull(atomic, "Parameter 'atomic' must not be null");
+    public static long atomicPointerXor(java.lang.foreign.MemoryAddress atomic, long val) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_pointer_xor.invokeExact(
@@ -2191,8 +2133,7 @@ public final class GLib {
      * @return a pointer to the data,
      *   with its reference count increased
      */
-    public static @NotNull java.lang.foreign.MemoryAddress atomicRcBoxAcquire(@NotNull java.lang.foreign.MemoryAddress memBlock) {
-        java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
+    public static java.lang.foreign.MemoryAddress atomicRcBoxAcquire(java.lang.foreign.MemoryAddress memBlock) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_atomic_rc_box_acquire.invokeExact(
@@ -2215,7 +2156,7 @@ public final class GLib {
      * @param blockSize the size of the allocation, must be greater than 0
      * @return a pointer to the allocated memory
      */
-    public static @NotNull java.lang.foreign.MemoryAddress atomicRcBoxAlloc(long blockSize) {
+    public static java.lang.foreign.MemoryAddress atomicRcBoxAlloc(long blockSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_atomic_rc_box_alloc.invokeExact(
@@ -2240,7 +2181,7 @@ public final class GLib {
      * @param blockSize the size of the allocation, must be greater than 0
      * @return a pointer to the allocated memory
      */
-    public static @NotNull java.lang.foreign.MemoryAddress atomicRcBoxAlloc0(long blockSize) {
+    public static java.lang.foreign.MemoryAddress atomicRcBoxAlloc0(long blockSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_atomic_rc_box_alloc0.invokeExact(
@@ -2260,8 +2201,7 @@ public final class GLib {
      * @return a pointer to the allocated
      *   memory
      */
-    public static @NotNull java.lang.foreign.MemoryAddress atomicRcBoxDup(long blockSize, @NotNull java.lang.foreign.MemoryAddress memBlock) {
-        java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
+    public static java.lang.foreign.MemoryAddress atomicRcBoxDup(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_atomic_rc_box_dup.invokeExact(
@@ -2278,8 +2218,7 @@ public final class GLib {
      * @param memBlock a pointer to reference counted data
      * @return the size of the data, in bytes
      */
-    public static long atomicRcBoxGetSize(@NotNull java.lang.foreign.MemoryAddress memBlock) {
-        java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
+    public static long atomicRcBoxGetSize(java.lang.foreign.MemoryAddress memBlock) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_atomic_rc_box_get_size.invokeExact(
@@ -2297,8 +2236,7 @@ public final class GLib {
      * resources allocated for {@code mem_block}.
      * @param memBlock a pointer to reference counted data
      */
-    public static void atomicRcBoxRelease(@NotNull java.lang.foreign.MemoryAddress memBlock) {
-        java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
+    public static void atomicRcBoxRelease(java.lang.foreign.MemoryAddress memBlock) {
         try {
             DowncallHandles.g_atomic_rc_box_release.invokeExact(
                     (Addressable) memBlock);
@@ -2316,8 +2254,14 @@ public final class GLib {
      * @param memBlock a pointer to reference counted data
      * @param clearFunc a function to call when clearing the data
      */
-    public static void atomicRcBoxReleaseFull(@NotNull java.lang.foreign.MemoryAddress memBlock, @NotNull org.gtk.glib.DestroyNotify clearFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void atomicRcBoxReleaseFull(java.lang.foreign.MemoryAddress memBlock, org.gtk.glib.DestroyNotify clearFunc) {
+        try {
+            DowncallHandles.g_atomic_rc_box_release_full.invokeExact(
+                    (Addressable) memBlock,
+                    (Addressable) clearFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -2328,7 +2272,6 @@ public final class GLib {
      *   as the given value
      */
     public static boolean atomicRefCountCompare(PointerInteger arc, int val) {
-        java.util.Objects.requireNonNull(arc, "Parameter 'arc' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_ref_count_compare.invokeExact(
@@ -2337,7 +2280,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2350,7 +2293,6 @@ public final class GLib {
      * @return {@code true} if the reference count reached 0, and {@code false} otherwise
      */
     public static boolean atomicRefCountDec(PointerInteger arc) {
-        java.util.Objects.requireNonNull(arc, "Parameter 'arc' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_atomic_ref_count_dec.invokeExact(
@@ -2358,7 +2300,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2366,7 +2308,6 @@ public final class GLib {
      * @param arc the address of an atomic reference count variable
      */
     public static void atomicRefCountInc(PointerInteger arc) {
-        java.util.Objects.requireNonNull(arc, "Parameter 'arc' must not be null");
         try {
             DowncallHandles.g_atomic_ref_count_inc.invokeExact(
                     arc.handle());
@@ -2380,7 +2321,6 @@ public final class GLib {
      * @param arc the address of an atomic reference count variable
      */
     public static void atomicRefCountInit(PointerInteger arc) {
-        java.util.Objects.requireNonNull(arc, "Parameter 'arc' must not be null");
         try {
             DowncallHandles.g_atomic_ref_count_init.invokeExact(
                     arc.handle());
@@ -2399,14 +2339,12 @@ public final class GLib {
      *               that {@code text} represents. The returned buffer must
      *               be freed with g_free().
      */
-    public static @NotNull byte[] base64Decode(@NotNull java.lang.String text, Out<Long> outLen) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(outLen, "Parameter 'outLen' must not be null");
+    public static byte[] base64Decode(java.lang.String text, Out<Long> outLen) {
         MemorySegment outLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_base64_decode.invokeExact(
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     (Addressable) outLenPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2424,10 +2362,8 @@ public final class GLib {
      * @return The binary data that {@code text} responds. This pointer
      *               is the same as the input {@code text}.
      */
-    public static PointerByte base64DecodeInplace(@NotNull Out<byte[]> text, Out<Long> outLen) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static PointerByte base64DecodeInplace(Out<byte[]> text, Out<Long> outLen) {
         MemorySegment textPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(outLen, "Parameter 'outLen' must not be null");
         MemorySegment outLenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
@@ -2458,8 +2394,23 @@ public final class GLib {
      * @param save Saved state between steps, initialize to 0
      * @return The number of bytes of output that was written
      */
-    public static long base64DecodeStep(@NotNull byte[] in, long len, @NotNull Out<byte[]> out, Out<Integer> state, Out<Integer> save) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static long base64DecodeStep(byte[] in, long len, byte[] out, Out<Integer> state, Out<Integer> save) {
+        MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment savePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_base64_decode_step.invokeExact(
+                    Interop.allocateNativeArray(in, false),
+                    len,
+                    Interop.allocateNativeArray(out, false),
+                    (Addressable) statePOINTER.address(),
+                    (Addressable) savePOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        state.set(statePOINTER.get(Interop.valueLayout.C_INT, 0));
+        save.set(savePOINTER.get(Interop.valueLayout.C_INT, 0));
+        return RESULT;
     }
     
     /**
@@ -2471,7 +2422,7 @@ public final class GLib {
      *               encoded string representing {@code data}. The returned string must
      *               be freed with g_free().
      */
-    public static @NotNull java.lang.String base64Encode(@Nullable byte[] data, long len) {
+    public static java.lang.String base64Encode(byte[] data, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_base64_encode.invokeExact(
@@ -2480,7 +2431,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2497,8 +2448,22 @@ public final class GLib {
      * @param save Saved state from g_base64_encode_step()
      * @return The number of bytes of output that was written
      */
-    public static long base64EncodeClose(boolean breakLines, @NotNull Out<byte[]> out, Out<Integer> state, Out<Integer> save) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static long base64EncodeClose(boolean breakLines, byte[] out, Out<Integer> state, Out<Integer> save) {
+        MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment savePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_base64_encode_close.invokeExact(
+                    Marshal.booleanToInteger.marshal(breakLines, null).intValue(),
+                    Interop.allocateNativeArray(out, false),
+                    (Addressable) statePOINTER.address(),
+                    (Addressable) savePOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        state.set(statePOINTER.get(Interop.valueLayout.C_INT, 0));
+        save.set(savePOINTER.get(Interop.valueLayout.C_INT, 0));
+        return RESULT;
     }
     
     /**
@@ -2529,8 +2494,24 @@ public final class GLib {
      * @param save Saved state between steps, initialize to 0
      * @return The number of bytes of output that was written
      */
-    public static long base64EncodeStep(@NotNull byte[] in, long len, boolean breakLines, @NotNull Out<byte[]> out, Out<Integer> state, Out<Integer> save) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static long base64EncodeStep(byte[] in, long len, boolean breakLines, byte[] out, Out<Integer> state, Out<Integer> save) {
+        MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment savePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        long RESULT;
+        try {
+            RESULT = (long) DowncallHandles.g_base64_encode_step.invokeExact(
+                    Interop.allocateNativeArray(in, false),
+                    len,
+                    Marshal.booleanToInteger.marshal(breakLines, null).intValue(),
+                    Interop.allocateNativeArray(out, false),
+                    (Addressable) statePOINTER.address(),
+                    (Addressable) savePOINTER.address());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        state.set(statePOINTER.get(Interop.valueLayout.C_INT, 0));
+        save.set(savePOINTER.get(Interop.valueLayout.C_INT, 0));
+        return RESULT;
     }
     
     /**
@@ -2546,16 +2527,15 @@ public final class GLib {
      *     into the argument.
      */
     @Deprecated
-    public static @NotNull java.lang.String basename(@NotNull java.lang.String fileName) {
-        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
+    public static java.lang.String basename(java.lang.String fileName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_basename.invokeExact(
-                    Interop.allocateNativeString(fileName));
+                    Marshal.stringToAddress.marshal(fileName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2577,7 +2557,6 @@ public final class GLib {
      * @param lockBit a bit value between 0 and 31
      */
     public static void bitLock(PointerInteger address, int lockBit) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         try {
             DowncallHandles.g_bit_lock.invokeExact(
                     address.handle(),
@@ -2668,7 +2647,6 @@ public final class GLib {
      * @return {@code true} if the lock was acquired
      */
     public static boolean bitTrylock(PointerInteger address, int lockBit) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bit_trylock.invokeExact(
@@ -2677,7 +2655,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2693,7 +2671,6 @@ public final class GLib {
      * @param lockBit a bit value between 0 and 31
      */
     public static void bitUnlock(PointerInteger address, int lockBit) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
         try {
             DowncallHandles.g_bit_unlock.invokeExact(
                     address.handle(),
@@ -2703,7 +2680,7 @@ public final class GLib {
         }
     }
     
-    public static @NotNull org.gtk.glib.Quark bookmarkFileErrorQuark() {
+    public static org.gtk.glib.Quark bookmarkFileErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_bookmark_file_error_quark.invokeExact();
@@ -2734,17 +2711,16 @@ public final class GLib {
      * @return a newly-allocated string that
      *     must be freed with g_free().
      */
-    public static @NotNull java.lang.String buildFilename(@NotNull java.lang.String firstElement, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstElement, "Parameter 'firstElement' must not be null");
+    public static java.lang.String buildFilename(java.lang.String firstElement, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_build_filename.invokeExact(
-                    Interop.allocateNativeString(firstElement),
+                    Marshal.stringToAddress.marshal(firstElement, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2755,18 +2731,16 @@ public final class GLib {
      * @return a newly-allocated string that
      *     must be freed with g_free().
      */
-    public static @NotNull java.lang.String buildFilenameValist(@NotNull java.lang.String firstElement, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(firstElement, "Parameter 'firstElement' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static java.lang.String buildFilenameValist(java.lang.String firstElement, VaList args) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_build_filename_valist.invokeExact(
-                    Interop.allocateNativeString(firstElement),
+                    Marshal.stringToAddress.marshal(firstElement, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2778,8 +2752,7 @@ public final class GLib {
      * @return a newly-allocated string that
      *     must be freed with g_free().
      */
-    public static @NotNull java.lang.String buildFilenamev(@NotNull java.lang.String[] args) {
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static java.lang.String buildFilenamev(java.lang.String[] args) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_build_filenamev.invokeExact(
@@ -2787,7 +2760,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2823,19 +2796,17 @@ public final class GLib {
      * @return a newly-allocated string that
      *     must be freed with g_free().
      */
-    public static @NotNull java.lang.String buildPath(@NotNull java.lang.String separator, @NotNull java.lang.String firstElement, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(separator, "Parameter 'separator' must not be null");
-        java.util.Objects.requireNonNull(firstElement, "Parameter 'firstElement' must not be null");
+    public static java.lang.String buildPath(java.lang.String separator, java.lang.String firstElement, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_build_path.invokeExact(
-                    Interop.allocateNativeString(separator),
-                    Interop.allocateNativeString(firstElement),
+                    Marshal.stringToAddress.marshal(separator, null),
+                    Marshal.stringToAddress.marshal(firstElement, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2848,18 +2819,16 @@ public final class GLib {
      * @return a newly-allocated string that
      *     must be freed with g_free().
      */
-    public static @NotNull java.lang.String buildPathv(@NotNull java.lang.String separator, @NotNull java.lang.String[] args) {
-        java.util.Objects.requireNonNull(separator, "Parameter 'separator' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static java.lang.String buildPathv(java.lang.String separator, java.lang.String[] args) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_build_pathv.invokeExact(
-                    Interop.allocateNativeString(separator),
+                    Marshal.stringToAddress.marshal(separator, null),
                     Interop.allocateNativeArray(args, false));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2872,13 +2841,12 @@ public final class GLib {
      * @return the element data if {@code free_segment} is {@code false}, otherwise
      *          {@code null}.  The element data should be freed using g_free().
      */
-    public static PointerByte byteArrayFree(@NotNull byte[] array, boolean freeSegment) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerByte byteArrayFree(byte[] array, boolean freeSegment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    freeSegment ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(freeSegment, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2898,8 +2866,7 @@ public final class GLib {
      * @return a new immutable {@link Bytes} representing same
      *     byte data that was in the array
      */
-    public static @NotNull org.gtk.glib.Bytes byteArrayFreeToBytes(@NotNull byte[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static org.gtk.glib.Bytes byteArrayFreeToBytes(byte[] array) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_free_to_bytes.invokeExact(
@@ -2907,14 +2874,14 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new {@link ByteArray} with a reference count of 1.
      * @return the new {@link ByteArray}
      */
-    public static @NotNull PointerByte byteArrayNew() {
+    public static PointerByte byteArrayNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new.invokeExact();
@@ -2935,8 +2902,7 @@ public final class GLib {
      * @param len length of {@code data}
      * @return a new {@link ByteArray}
      */
-    public static @NotNull PointerByte byteArrayNewTake(@NotNull byte[] data, long len) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static PointerByte byteArrayNewTake(byte[] data, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_new_take.invokeExact(
@@ -2958,19 +2924,17 @@ public final class GLib {
      * @return the element data, which should be
      *     freed using g_free().
      */
-    public static PointerByte byteArraySteal(@NotNull byte[] array, Out<Long> len) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
+    public static PointerByte byteArraySteal(byte[] array, Out<Long> len) {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_byte_array_steal.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) lenPOINTER.address());
+                    (Addressable) (len == null ? MemoryAddress.NULL : (Addressable) lenPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (len != null) len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerByte(RESULT);
     }
     
@@ -2981,8 +2945,7 @@ public final class GLib {
      * thread.
      * @param array A {@link ByteArray}
      */
-    public static void byteArrayUnref(@NotNull byte[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static void byteArrayUnref(byte[] array) {
         try {
             DowncallHandles.g_byte_array_unref.invokeExact(
                     Interop.allocateNativeArray(array, false));
@@ -3012,17 +2975,16 @@ public final class GLib {
      * @return a newly allocated string with the
      * canonical file path
      */
-    public static @NotNull java.lang.String canonicalizeFilename(@NotNull java.lang.String filename, @Nullable java.lang.String relativeTo) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static java.lang.String canonicalizeFilename(java.lang.String filename, @Nullable java.lang.String relativeTo) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_canonicalize_filename.invokeExact(
-                    Interop.allocateNativeString(filename),
-                    (Addressable) (relativeTo == null ? MemoryAddress.NULL : Interop.allocateNativeString(relativeTo)));
+                    Marshal.stringToAddress.marshal(filename, null),
+                    (Addressable) (relativeTo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(relativeTo, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3034,12 +2996,11 @@ public final class GLib {
      *     (UTF-8 on Windows)
      * @return 0 on success, -1 if an error occurred.
      */
-    public static int chdir(@NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static int chdir(java.lang.String path) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_chdir.invokeExact(
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3080,7 +3041,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3089,8 +3050,7 @@ public final class GLib {
      * @return the checksum length, or -1 if {@code checksum_type} is
      * not supported.
      */
-    public static long checksumTypeGetLength(@NotNull org.gtk.glib.ChecksumType checksumType) {
-        java.util.Objects.requireNonNull(checksumType, "Parameter 'checksumType' must not be null");
+    public static long checksumTypeGetLength(org.gtk.glib.ChecksumType checksumType) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_checksum_type_get_length.invokeExact(
@@ -3128,19 +3088,13 @@ public final class GLib {
      * @param function function to call
      * @return the ID (greater than 0) of the event source.
      */
-    public static int childWatchAdd(@NotNull org.gtk.glib.Pid pid, @NotNull org.gtk.glib.ChildWatchFunc function) {
-        java.util.Objects.requireNonNull(pid, "Parameter 'pid' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int childWatchAdd(org.gtk.glib.Pid pid, org.gtk.glib.ChildWatchFunc function) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_child_watch_add.invokeExact(
                     pid.getValue().intValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbChildWatchFunc",
-                            MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)));
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3177,23 +3131,18 @@ public final class GLib {
      * @param pid process to watch. On POSIX the positive pid of a child process. On
      * Windows a handle for a process (which doesn't have to be a child).
      * @param function function to call
+     * @param notify function to call when the idle is removed, or {@code null}
      * @return the ID (greater than 0) of the event source.
      */
-    public static int childWatchAddFull(int priority, @NotNull org.gtk.glib.Pid pid, @NotNull org.gtk.glib.ChildWatchFunc function) {
-        java.util.Objects.requireNonNull(pid, "Parameter 'pid' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int childWatchAddFull(int priority, org.gtk.glib.Pid pid, org.gtk.glib.ChildWatchFunc function, @Nullable org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_child_watch_add_full.invokeExact(
                     priority,
                     pid.getValue().intValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbChildWatchFunc",
-                            MethodType.methodType(void.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3237,8 +3186,7 @@ public final class GLib {
      * Windows a handle for a process (which doesn't have to be a child).
      * @return the newly-created child watch source
      */
-    public static @NotNull org.gtk.glib.Source childWatchSourceNew(@NotNull org.gtk.glib.Pid pid) {
-        java.util.Objects.requireNonNull(pid, "Parameter 'pid' must not be null");
+    public static org.gtk.glib.Source childWatchSourceNew(org.gtk.glib.Pid pid) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_child_watch_source_new.invokeExact(
@@ -3246,7 +3194,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3263,8 +3211,14 @@ public final class GLib {
      * @param tagPtr a pointer to the handler ID
      * @param clearFunc the function to call to clear the handler
      */
-    public static void clearHandleId(PointerInteger tagPtr, @NotNull org.gtk.glib.ClearHandleFunc clearFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void clearHandleId(PointerInteger tagPtr, org.gtk.glib.ClearHandleFunc clearFunc) {
+        try {
+            DowncallHandles.g_clear_handle_id.invokeExact(
+                    tagPtr.handle(),
+                    (Addressable) clearFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3274,8 +3228,14 @@ public final class GLib {
      * @param listPtr a {@link List} return location
      * @param destroy the function to pass to g_list_free_full() or {@code null} to not free elements
      */
-    public static void clearList(@NotNull PointerProxy<org.gtk.glib.List> listPtr, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void clearList(PointerProxy<org.gtk.glib.List> listPtr, @Nullable org.gtk.glib.DestroyNotify destroy) {
+        try {
+            DowncallHandles.g_clear_list.invokeExact(
+                    listPtr.handle(),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3297,8 +3257,14 @@ public final class GLib {
      *    pointer
      * @param destroy a function to which a gpointer can be passed, to destroy *{@code pp}
      */
-    public static void clearPointer(@NotNull java.lang.foreign.MemoryAddress pp, @NotNull org.gtk.glib.DestroyNotify destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void clearPointer(java.lang.foreign.MemoryAddress pp, org.gtk.glib.DestroyNotify destroy) {
+        try {
+            DowncallHandles.g_clear_pointer.invokeExact(
+                    (Addressable) pp,
+                    (Addressable) destroy.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3308,8 +3274,14 @@ public final class GLib {
      * @param slistPtr a {@link SList} return location
      * @param destroy the function to pass to g_slist_free_full() or {@code null} to not free elements
      */
-    public static void clearSlist(@NotNull PointerProxy<org.gtk.glib.SList> slistPtr, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void clearSlist(PointerProxy<org.gtk.glib.SList> slistPtr, @Nullable org.gtk.glib.DestroyNotify destroy) {
+        try {
+            DowncallHandles.g_clear_slist.invokeExact(
+                    slistPtr.handle(),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -3337,7 +3309,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3353,9 +3325,7 @@ public final class GLib {
      *   {@code checksum_type}. The returned string should be freed with g_free() when
      *   done using it.
      */
-    public static @Nullable java.lang.String computeChecksumForBytes(@NotNull org.gtk.glib.ChecksumType checksumType, @NotNull org.gtk.glib.Bytes data) {
-        java.util.Objects.requireNonNull(checksumType, "Parameter 'checksumType' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static @Nullable java.lang.String computeChecksumForBytes(org.gtk.glib.ChecksumType checksumType, org.gtk.glib.Bytes data) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_compute_checksum_for_bytes.invokeExact(
@@ -3364,7 +3334,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3381,9 +3351,7 @@ public final class GLib {
      *   {@code checksum_type}. The returned string should be freed with g_free() when
      *   done using it.
      */
-    public static @Nullable java.lang.String computeChecksumForData(@NotNull org.gtk.glib.ChecksumType checksumType, @NotNull byte[] data, long length) {
-        java.util.Objects.requireNonNull(checksumType, "Parameter 'checksumType' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static @Nullable java.lang.String computeChecksumForData(org.gtk.glib.ChecksumType checksumType, byte[] data, long length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_compute_checksum_for_data.invokeExact(
@@ -3393,7 +3361,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3407,19 +3375,17 @@ public final class GLib {
      *   or {@code null} if g_checksum_new() fails for {@code checksum_type}. The returned string
      *   should be freed with g_free() when done using it.
      */
-    public static @Nullable java.lang.String computeChecksumForString(@NotNull org.gtk.glib.ChecksumType checksumType, @NotNull java.lang.String str, long length) {
-        java.util.Objects.requireNonNull(checksumType, "Parameter 'checksumType' must not be null");
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static @Nullable java.lang.String computeChecksumForString(org.gtk.glib.ChecksumType checksumType, java.lang.String str, long length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_compute_checksum_for_string.invokeExact(
                     checksumType.getValue(),
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3434,10 +3400,7 @@ public final class GLib {
      * @return the HMAC of the binary data as a string in hexadecimal.
      *   The returned string should be freed with g_free() when done using it.
      */
-    public static @NotNull java.lang.String computeHmacForBytes(@NotNull org.gtk.glib.ChecksumType digestType, @NotNull org.gtk.glib.Bytes key, @NotNull org.gtk.glib.Bytes data) {
-        java.util.Objects.requireNonNull(digestType, "Parameter 'digestType' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static java.lang.String computeHmacForBytes(org.gtk.glib.ChecksumType digestType, org.gtk.glib.Bytes key, org.gtk.glib.Bytes data) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_compute_hmac_for_bytes.invokeExact(
@@ -3447,7 +3410,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3464,10 +3427,7 @@ public final class GLib {
      * @return the HMAC of the binary data as a string in hexadecimal.
      *   The returned string should be freed with g_free() when done using it.
      */
-    public static @NotNull java.lang.String computeHmacForData(@NotNull org.gtk.glib.ChecksumType digestType, @NotNull byte[] key, long keyLen, @NotNull byte[] data, long length) {
-        java.util.Objects.requireNonNull(digestType, "Parameter 'digestType' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static java.lang.String computeHmacForData(org.gtk.glib.ChecksumType digestType, byte[] key, long keyLen, byte[] data, long length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_compute_hmac_for_data.invokeExact(
@@ -3479,7 +3439,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3495,22 +3455,19 @@ public final class GLib {
      *     The returned string should be freed with g_free()
      *     when done using it.
      */
-    public static @NotNull java.lang.String computeHmacForString(@NotNull org.gtk.glib.ChecksumType digestType, @NotNull byte[] key, long keyLen, @NotNull java.lang.String str, long length) {
-        java.util.Objects.requireNonNull(digestType, "Parameter 'digestType' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String computeHmacForString(org.gtk.glib.ChecksumType digestType, byte[] key, long keyLen, java.lang.String str, long length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_compute_hmac_for_string.invokeExact(
                     digestType.getValue(),
                     Interop.allocateNativeArray(key, false),
                     keyLen,
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3550,13 +3507,8 @@ public final class GLib {
      *          Otherwise {@code null} and {@code error} will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull byte[] convert(@NotNull byte[] str, long len, @NotNull java.lang.String toCodeset, @NotNull java.lang.String fromCodeset, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(toCodeset, "Parameter 'toCodeset' must not be null");
-        java.util.Objects.requireNonNull(fromCodeset, "Parameter 'fromCodeset' must not be null");
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+    public static byte[] convert(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -3564,10 +3516,10 @@ public final class GLib {
             RESULT = (MemoryAddress) DowncallHandles.g_convert.invokeExact(
                     Interop.allocateNativeArray(str, false),
                     len,
-                    Interop.allocateNativeString(toCodeset),
-                    Interop.allocateNativeString(fromCodeset),
-                    (Addressable) bytesReadPOINTER.address(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    Marshal.stringToAddress.marshal(toCodeset, null),
+                    Marshal.stringToAddress.marshal(fromCodeset, null),
+                    (Addressable) (bytesRead == null ? MemoryAddress.NULL : (Addressable) bytesReadPOINTER.address()),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3575,12 +3527,12 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesRead != null) bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), bytesWritten.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
-    public static @NotNull org.gtk.glib.Quark convertErrorQuark() {
+    public static org.gtk.glib.Quark convertErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_convert_error_quark.invokeExact();
@@ -3632,14 +3584,8 @@ public final class GLib {
      *          Otherwise {@code null} and {@code error} will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull byte[] convertWithFallback(@NotNull byte[] str, long len, @NotNull java.lang.String toCodeset, @NotNull java.lang.String fromCodeset, @NotNull java.lang.String fallback, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(toCodeset, "Parameter 'toCodeset' must not be null");
-        java.util.Objects.requireNonNull(fromCodeset, "Parameter 'fromCodeset' must not be null");
-        java.util.Objects.requireNonNull(fallback, "Parameter 'fallback' must not be null");
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+    public static byte[] convertWithFallback(byte[] str, long len, java.lang.String toCodeset, java.lang.String fromCodeset, java.lang.String fallback, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -3647,11 +3593,11 @@ public final class GLib {
             RESULT = (MemoryAddress) DowncallHandles.g_convert_with_fallback.invokeExact(
                     Interop.allocateNativeArray(str, false),
                     len,
-                    Interop.allocateNativeString(toCodeset),
-                    Interop.allocateNativeString(fromCodeset),
-                    Interop.allocateNativeString(fallback),
-                    (Addressable) bytesReadPOINTER.address(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    Marshal.stringToAddress.marshal(toCodeset, null),
+                    Marshal.stringToAddress.marshal(fromCodeset, null),
+                    Marshal.stringToAddress.marshal(fallback, null),
+                    (Addressable) (bytesRead == null ? MemoryAddress.NULL : (Addressable) bytesReadPOINTER.address()),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3659,8 +3605,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesRead != null) bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), bytesWritten.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
@@ -3705,12 +3651,8 @@ public final class GLib {
      *               g_free(). Otherwise {@code null} and {@code error} will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull byte[] convertWithIconv(@NotNull byte[] str, long len, @NotNull org.gtk.glib.IConv converter, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(converter, "Parameter 'converter' must not be null");
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+    public static byte[] convertWithIconv(byte[] str, long len, org.gtk.glib.IConv converter, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -3719,8 +3661,8 @@ public final class GLib {
                     Interop.allocateNativeArray(str, false),
                     len,
                     converter.handle(),
-                    (Addressable) bytesReadPOINTER.address(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesRead == null ? MemoryAddress.NULL : (Addressable) bytesReadPOINTER.address()),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -3728,8 +3670,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesRead != null) bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), bytesWritten.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
@@ -3739,8 +3681,7 @@ public final class GLib {
      * if they have been set.
      * @param datalist a datalist.
      */
-    public static void datalistClear(@NotNull PointerProxy<org.gtk.glib.Data> datalist) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
+    public static void datalistClear(PointerProxy<org.gtk.glib.Data> datalist) {
         try {
             DowncallHandles.g_datalist_clear.invokeExact(
                     datalist.handle());
@@ -3763,18 +3704,12 @@ public final class GLib {
      * @param datalist a datalist.
      * @param func the function to call for each data element.
      */
-    public static void datalistForeach(@NotNull PointerProxy<org.gtk.glib.Data> datalist, @NotNull org.gtk.glib.DataForeachFunc func) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void datalistForeach(PointerProxy<org.gtk.glib.Data> datalist, org.gtk.glib.DataForeachFunc func) {
         try {
             DowncallHandles.g_datalist_foreach.invokeExact(
                     datalist.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbDataForeachFunc",
-                            MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3788,14 +3723,12 @@ public final class GLib {
      * @return the data element, or {@code null} if it
      *          is not found.
      */
-    public static @Nullable java.lang.foreign.MemoryAddress datalistGetData(@NotNull PointerProxy<org.gtk.glib.Data> datalist, @NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress datalistGetData(PointerProxy<org.gtk.glib.Data> datalist, java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_datalist_get_data.invokeExact(
                     datalist.handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3808,8 +3741,7 @@ public final class GLib {
      * @param datalist pointer to the location that holds a list
      * @return the flags of the datalist
      */
-    public static int datalistGetFlags(@NotNull PointerProxy<org.gtk.glib.Data> datalist) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
+    public static int datalistGetFlags(PointerProxy<org.gtk.glib.Data> datalist) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_datalist_get_flags.invokeExact(
@@ -3841,20 +3773,14 @@ public final class GLib {
      *     associated with {@code key_id} in {@code datalist}, or {@code null} if not set.
      *     If {@code dup_func} is {@code null}, the value is returned unmodified.
      */
-    public static @Nullable java.lang.foreign.MemoryAddress datalistIdDupData(@NotNull PointerProxy<org.gtk.glib.Data> datalist, @NotNull org.gtk.glib.Quark keyId, @Nullable org.gtk.glib.DuplicateFunc dupFunc) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
-        java.util.Objects.requireNonNull(keyId, "Parameter 'keyId' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress datalistIdDupData(PointerProxy<org.gtk.glib.Data> datalist, org.gtk.glib.Quark keyId, @Nullable org.gtk.glib.DuplicateFunc dupFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_datalist_id_dup_data.invokeExact(
                     datalist.handle(),
                     keyId.getValue().intValue(),
-                    (Addressable) (dupFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbDuplicateFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (dupFunc == null ? MemoryAddress.NULL : Interop.registerCallback(dupFunc)));
+                    (Addressable) (dupFunc == null ? MemoryAddress.NULL : (Addressable) dupFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3868,9 +3794,7 @@ public final class GLib {
      * @return the data element, or {@code null} if
      *          it is not found.
      */
-    public static @Nullable java.lang.foreign.MemoryAddress datalistIdGetData(@NotNull PointerProxy<org.gtk.glib.Data> datalist, @NotNull org.gtk.glib.Quark keyId) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
-        java.util.Objects.requireNonNull(keyId, "Parameter 'keyId' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress datalistIdGetData(PointerProxy<org.gtk.glib.Data> datalist, org.gtk.glib.Quark keyId) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_datalist_id_get_data.invokeExact(
@@ -3891,9 +3815,7 @@ public final class GLib {
      * @param keys keys to remove
      * @param nKeys length of {@code keys}, must be &lt;= 16
      */
-    public static void datalistIdRemoveMultiple(@NotNull PointerProxy<org.gtk.glib.Data> datalist, @NotNull org.gtk.glib.Quark[] keys, long nKeys) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
-        java.util.Objects.requireNonNull(keys, "Parameter 'keys' must not be null");
+    public static void datalistIdRemoveMultiple(PointerProxy<org.gtk.glib.Data> datalist, org.gtk.glib.Quark[] keys, long nKeys) {
         try {
             DowncallHandles.g_datalist_id_remove_multiple.invokeExact(
                     datalist.handle(),
@@ -3912,9 +3834,7 @@ public final class GLib {
      * @return the data previously stored at {@code key_id},
      *          or {@code null} if none.
      */
-    public static @Nullable java.lang.foreign.MemoryAddress datalistIdRemoveNoNotify(@NotNull PointerProxy<org.gtk.glib.Data> datalist, @NotNull org.gtk.glib.Quark keyId) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
-        java.util.Objects.requireNonNull(keyId, "Parameter 'keyId' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress datalistIdRemoveNoNotify(PointerProxy<org.gtk.glib.Data> datalist, org.gtk.glib.Quark keyId) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_datalist_id_remove_no_notify.invokeExact(
@@ -3949,8 +3869,22 @@ public final class GLib {
      * @return {@code true} if the existing value for {@code key_id} was replaced
      *  by {@code newval}, {@code false} otherwise.
      */
-    public static boolean datalistIdReplaceData(@NotNull PointerProxy<org.gtk.glib.Data> datalist, @NotNull org.gtk.glib.Quark keyId, @Nullable java.lang.foreign.MemoryAddress oldval, @Nullable java.lang.foreign.MemoryAddress newval, @Nullable org.gtk.glib.DestroyNotify destroy, @NotNull Out<org.gtk.glib.DestroyNotify> oldDestroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static boolean datalistIdReplaceData(PointerProxy<org.gtk.glib.Data> datalist, org.gtk.glib.Quark keyId, @Nullable java.lang.foreign.MemoryAddress oldval, @Nullable java.lang.foreign.MemoryAddress newval, @Nullable org.gtk.glib.DestroyNotify destroy, @Nullable Out<org.gtk.glib.DestroyNotify> oldDestroy) {
+        MemorySegment oldDestroyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_datalist_id_replace_data.invokeExact(
+                    datalist.handle(),
+                    keyId.getValue().intValue(),
+                    (Addressable) (oldval == null ? MemoryAddress.NULL : (Addressable) oldval),
+                    (Addressable) (newval == null ? MemoryAddress.NULL : (Addressable) newval),
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()),
+                    (Addressable) (oldDestroy == null ? MemoryAddress.NULL : (Addressable) oldDestroyPOINTER.address()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (oldDestroy != null) oldDestroy.set(null /* Unsupported parameter type */);
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3960,23 +3894,19 @@ public final class GLib {
      * function is called.
      * @param datalist a datalist.
      * @param keyId the {@link Quark} to identify the data element.
-     * @param data the data element or {@code null} to remove any previous element
-     *        corresponding to {@code key_id}.
      * @param destroyFunc the function to call when the data element is
      *                removed. This function will be called with the data
      *                element and can be used to free any memory allocated
      *                for it. If {@code data} is {@code null}, then {@code destroy_func} must
      *                also be {@code null}.
      */
-    public static void datalistIdSetDataFull(@NotNull PointerProxy<org.gtk.glib.Data> datalist, @NotNull org.gtk.glib.Quark keyId, @Nullable java.lang.foreign.MemoryAddress data, @Nullable org.gtk.glib.DestroyNotify destroyFunc) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
-        java.util.Objects.requireNonNull(keyId, "Parameter 'keyId' must not be null");
+    public static void datalistIdSetDataFull(PointerProxy<org.gtk.glib.Data> datalist, org.gtk.glib.Quark keyId, @Nullable org.gtk.glib.DestroyNotify destroyFunc) {
         try {
             DowncallHandles.g_datalist_id_set_data_full.invokeExact(
                     datalist.handle(),
                     keyId.getValue().intValue(),
-                    (Addressable) data,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (destroyFunc == null ? MemoryAddress.NULL : (Addressable) destroyFunc.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3987,8 +3917,7 @@ public final class GLib {
      * any destroy functions.
      * @param datalist a pointer to a pointer to a datalist.
      */
-    public static void datalistInit(@NotNull PointerProxy<org.gtk.glib.Data> datalist) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
+    public static void datalistInit(PointerProxy<org.gtk.glib.Data> datalist) {
         try {
             DowncallHandles.g_datalist_init.invokeExact(
                     datalist.handle());
@@ -4002,7 +3931,7 @@ public final class GLib {
      * to keep a small number of boolean flags in an object with
      * a data list without using any additional space. It is
      * not generally useful except in circumstances where space
-     * is very tight. (It is used in the base {@link org.gtk.gobject.Object} type, for
+     * is very tight. (It is used in the base {@link org.gtk.gobject.GObject} type, for
      * example.)
      * @param datalist pointer to the location that holds a list
      * @param flags the flags to turn on. The values of the flags are
@@ -4011,8 +3940,7 @@ public final class GLib {
      *   A value for {@code flags} that doesn't fit within the mask is
      *   an error.
      */
-    public static void datalistSetFlags(@NotNull PointerProxy<org.gtk.glib.Data> datalist, int flags) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
+    public static void datalistSetFlags(PointerProxy<org.gtk.glib.Data> datalist, int flags) {
         try {
             DowncallHandles.g_datalist_set_flags.invokeExact(
                     datalist.handle(),
@@ -4031,8 +3959,7 @@ public final class GLib {
      *   A value for {@code flags} that doesn't fit within the mask is
      *   an error.
      */
-    public static void datalistUnsetFlags(@NotNull PointerProxy<org.gtk.glib.Data> datalist, int flags) {
-        java.util.Objects.requireNonNull(datalist, "Parameter 'datalist' must not be null");
+    public static void datalistUnsetFlags(PointerProxy<org.gtk.glib.Data> datalist, int flags) {
         try {
             DowncallHandles.g_datalist_unset_flags.invokeExact(
                     datalist.handle(),
@@ -4047,8 +3974,7 @@ public final class GLib {
      * destroy functions set for data elements.
      * @param datasetLocation the location identifying the dataset.
      */
-    public static void datasetDestroy(@NotNull java.lang.foreign.MemoryAddress datasetLocation) {
-        java.util.Objects.requireNonNull(datasetLocation, "Parameter 'datasetLocation' must not be null");
+    public static void datasetDestroy(java.lang.foreign.MemoryAddress datasetLocation) {
         try {
             DowncallHandles.g_dataset_destroy.invokeExact(
                     (Addressable) datasetLocation);
@@ -4069,18 +3995,12 @@ public final class GLib {
      * @param datasetLocation the location identifying the dataset.
      * @param func the function to call for each data element.
      */
-    public static void datasetForeach(@NotNull java.lang.foreign.MemoryAddress datasetLocation, @NotNull org.gtk.glib.DataForeachFunc func) {
-        java.util.Objects.requireNonNull(datasetLocation, "Parameter 'datasetLocation' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void datasetForeach(java.lang.foreign.MemoryAddress datasetLocation, org.gtk.glib.DataForeachFunc func) {
         try {
             DowncallHandles.g_dataset_foreach.invokeExact(
                     (Addressable) datasetLocation,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbDataForeachFunc",
-                            MethodType.methodType(void.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4093,9 +4013,7 @@ public final class GLib {
      * @return the data element corresponding to
      *          the {@link Quark}, or {@code null} if it is not found.
      */
-    public static @Nullable java.lang.foreign.MemoryAddress datasetIdGetData(@NotNull java.lang.foreign.MemoryAddress datasetLocation, @NotNull org.gtk.glib.Quark keyId) {
-        java.util.Objects.requireNonNull(datasetLocation, "Parameter 'datasetLocation' must not be null");
-        java.util.Objects.requireNonNull(keyId, "Parameter 'keyId' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress datasetIdGetData(java.lang.foreign.MemoryAddress datasetLocation, org.gtk.glib.Quark keyId) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dataset_id_get_data.invokeExact(
@@ -4115,9 +4033,7 @@ public final class GLib {
      * @return the data previously stored at {@code key_id},
      *          or {@code null} if none.
      */
-    public static @Nullable java.lang.foreign.MemoryAddress datasetIdRemoveNoNotify(@NotNull java.lang.foreign.MemoryAddress datasetLocation, @NotNull org.gtk.glib.Quark keyId) {
-        java.util.Objects.requireNonNull(datasetLocation, "Parameter 'datasetLocation' must not be null");
-        java.util.Objects.requireNonNull(keyId, "Parameter 'keyId' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress datasetIdRemoveNoNotify(java.lang.foreign.MemoryAddress datasetLocation, org.gtk.glib.Quark keyId) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dataset_id_remove_no_notify.invokeExact(
@@ -4136,21 +4052,18 @@ public final class GLib {
      * is called.
      * @param datasetLocation the location identifying the dataset.
      * @param keyId the {@link Quark} id to identify the data element.
-     * @param data the data element.
      * @param destroyFunc the function to call when the data element is
      *                removed. This function will be called with the data
      *                element and can be used to free any memory allocated
      *                for it.
      */
-    public static void datasetIdSetDataFull(@NotNull java.lang.foreign.MemoryAddress datasetLocation, @NotNull org.gtk.glib.Quark keyId, @Nullable java.lang.foreign.MemoryAddress data, @NotNull org.gtk.glib.DestroyNotify destroyFunc) {
-        java.util.Objects.requireNonNull(datasetLocation, "Parameter 'datasetLocation' must not be null");
-        java.util.Objects.requireNonNull(keyId, "Parameter 'keyId' must not be null");
+    public static void datasetIdSetDataFull(java.lang.foreign.MemoryAddress datasetLocation, org.gtk.glib.Quark keyId, org.gtk.glib.DestroyNotify destroyFunc) {
         try {
             DowncallHandles.g_dataset_id_set_data_full.invokeExact(
                     (Addressable) datasetLocation,
                     keyId.getValue().intValue(),
-                    (Addressable) data,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4163,9 +4076,7 @@ public final class GLib {
      * @param year year
      * @return number of days in {@code month} during the {@code year}
      */
-    public static byte dateGetDaysInMonth(@NotNull org.gtk.glib.DateMonth month, @NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static byte dateGetDaysInMonth(org.gtk.glib.DateMonth month, org.gtk.glib.DateYear year) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.g_date_get_days_in_month.invokeExact(
@@ -4188,8 +4099,7 @@ public final class GLib {
      * @param year a year
      * @return number of Mondays in the year
      */
-    public static byte dateGetMondayWeeksInYear(@NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static byte dateGetMondayWeeksInYear(org.gtk.glib.DateYear year) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.g_date_get_monday_weeks_in_year.invokeExact(
@@ -4211,8 +4121,7 @@ public final class GLib {
      * @param year year to count weeks in
      * @return the number of weeks in {@code year}
      */
-    public static byte dateGetSundayWeeksInYear(@NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static byte dateGetSundayWeeksInYear(org.gtk.glib.DateYear year) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.g_date_get_sunday_weeks_in_year.invokeExact(
@@ -4233,8 +4142,7 @@ public final class GLib {
      * @param year year to check
      * @return {@code true} if the year is a leap year
      */
-    public static boolean dateIsLeapYear(@NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static boolean dateIsLeapYear(org.gtk.glib.DateYear year) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_is_leap_year.invokeExact(
@@ -4242,7 +4150,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4265,16 +4173,13 @@ public final class GLib {
      * @param date valid {@link Date}
      * @return number of characters written to the buffer, or 0 the buffer was too small
      */
-    public static long dateStrftime(@NotNull java.lang.String s, long slen, @NotNull java.lang.String format, @NotNull org.gtk.glib.Date date) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(date, "Parameter 'date' must not be null");
+    public static long dateStrftime(java.lang.String s, long slen, java.lang.String format, org.gtk.glib.Date date) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_date_strftime.invokeExact(
-                    Interop.allocateNativeString(s),
+                    Marshal.stringToAddress.marshal(s, null),
                     slen,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     date.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4288,8 +4193,7 @@ public final class GLib {
      * @param day day to check
      * @return {@code true} if the day is valid
      */
-    public static boolean dateValidDay(@NotNull org.gtk.glib.DateDay day) {
-        java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
+    public static boolean dateValidDay(org.gtk.glib.DateDay day) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_day.invokeExact(
@@ -4297,7 +4201,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4309,10 +4213,7 @@ public final class GLib {
      * @param year year
      * @return {@code true} if the date is a valid one
      */
-    public static boolean dateValidDmy(@NotNull org.gtk.glib.DateDay day, @NotNull org.gtk.glib.DateMonth month, @NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static boolean dateValidDmy(org.gtk.glib.DateDay day, org.gtk.glib.DateMonth month, org.gtk.glib.DateYear year) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_dmy.invokeExact(
@@ -4322,7 +4223,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4339,7 +4240,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4348,8 +4249,7 @@ public final class GLib {
      * @param month month
      * @return {@code true} if the month is valid
      */
-    public static boolean dateValidMonth(@NotNull org.gtk.glib.DateMonth month) {
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
+    public static boolean dateValidMonth(org.gtk.glib.DateMonth month) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_month.invokeExact(
@@ -4357,7 +4257,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4366,8 +4266,7 @@ public final class GLib {
      * @param weekday weekday
      * @return {@code true} if the weekday is valid
      */
-    public static boolean dateValidWeekday(@NotNull org.gtk.glib.DateWeekday weekday) {
-        java.util.Objects.requireNonNull(weekday, "Parameter 'weekday' must not be null");
+    public static boolean dateValidWeekday(org.gtk.glib.DateWeekday weekday) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_weekday.invokeExact(
@@ -4375,7 +4274,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4384,8 +4283,7 @@ public final class GLib {
      * @param year year
      * @return {@code true} if the year is valid
      */
-    public static boolean dateValidYear(@NotNull org.gtk.glib.DateYear year) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
+    public static boolean dateValidYear(org.gtk.glib.DateYear year) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_valid_year.invokeExact(
@@ -4393,7 +4291,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4407,18 +4305,17 @@ public final class GLib {
      * @param category a locale category
      * @return the translated string for the given locale category
      */
-    public static @NotNull java.lang.String dcgettext(@Nullable java.lang.String domain, @NotNull java.lang.String msgid, int category) {
-        java.util.Objects.requireNonNull(msgid, "Parameter 'msgid' must not be null");
+    public static java.lang.String dcgettext(@Nullable java.lang.String domain, java.lang.String msgid, int category) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dcgettext.invokeExact(
-                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)),
-                    Interop.allocateNativeString(msgid),
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)),
+                    Marshal.stringToAddress.marshal(msgid, null),
                     category);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4463,17 +4360,16 @@ public final class GLib {
      * @param msgid message to translate
      * @return The translated string
      */
-    public static @NotNull java.lang.String dgettext(@Nullable java.lang.String domain, @NotNull java.lang.String msgid) {
-        java.util.Objects.requireNonNull(msgid, "Parameter 'msgid' must not be null");
+    public static java.lang.String dgettext(@Nullable java.lang.String domain, java.lang.String msgid) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dgettext.invokeExact(
-                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)),
-                    Interop.allocateNativeString(msgid));
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)),
+                    Marshal.stringToAddress.marshal(msgid, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4496,12 +4392,12 @@ public final class GLib {
      *     returned and {@code error} will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String dirMakeTmp(@Nullable java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
+    public static java.lang.String dirMakeTmp(@Nullable java.lang.String tmpl) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dir_make_tmp.invokeExact(
-                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
+                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tmpl, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4509,7 +4405,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4533,7 +4429,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4572,20 +4468,18 @@ public final class GLib {
      * @param n the quantity for which translation is needed
      * @return The translated string
      */
-    public static @NotNull java.lang.String dngettext(@Nullable java.lang.String domain, @NotNull java.lang.String msgid, @NotNull java.lang.String msgidPlural, long n) {
-        java.util.Objects.requireNonNull(msgid, "Parameter 'msgid' must not be null");
-        java.util.Objects.requireNonNull(msgidPlural, "Parameter 'msgidPlural' must not be null");
+    public static java.lang.String dngettext(@Nullable java.lang.String domain, java.lang.String msgid, java.lang.String msgidPlural, long n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dngettext.invokeExact(
-                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)),
-                    Interop.allocateNativeString(msgid),
-                    Interop.allocateNativeString(msgidPlural),
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)),
+                    Marshal.stringToAddress.marshal(msgid, null),
+                    Marshal.stringToAddress.marshal(msgidPlural, null),
                     n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4598,9 +4492,7 @@ public final class GLib {
      * @param v2 a pointer to a {@code gdouble} key to compare with {@code v1}
      * @return {@code true} if the two keys match.
      */
-    public static boolean doubleEqual(@NotNull java.lang.foreign.MemoryAddress v1, @NotNull java.lang.foreign.MemoryAddress v2) {
-        java.util.Objects.requireNonNull(v1, "Parameter 'v1' must not be null");
-        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
+    public static boolean doubleEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_double_equal.invokeExact(
@@ -4609,7 +4501,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4620,8 +4512,7 @@ public final class GLib {
      * @param v a pointer to a {@code gdouble} key
      * @return a hash value corresponding to the key.
      */
-    public static int doubleHash(@NotNull java.lang.foreign.MemoryAddress v) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+    public static int doubleHash(java.lang.foreign.MemoryAddress v) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_double_hash.invokeExact(
@@ -4653,18 +4544,17 @@ public final class GLib {
      * @param msgidoffset the offset of the message id in {@code msgctxid}
      * @return The translated string
      */
-    public static @NotNull java.lang.String dpgettext(@Nullable java.lang.String domain, @NotNull java.lang.String msgctxtid, long msgidoffset) {
-        java.util.Objects.requireNonNull(msgctxtid, "Parameter 'msgctxtid' must not be null");
+    public static java.lang.String dpgettext(@Nullable java.lang.String domain, java.lang.String msgctxtid, long msgidoffset) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dpgettext.invokeExact(
-                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)),
-                    Interop.allocateNativeString(msgctxtid),
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)),
+                    Marshal.stringToAddress.marshal(msgctxtid, null),
                     msgidoffset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4684,19 +4574,17 @@ public final class GLib {
      * @param msgid the message
      * @return The translated string
      */
-    public static @NotNull java.lang.String dpgettext2(@Nullable java.lang.String domain, @NotNull java.lang.String context, @NotNull java.lang.String msgid) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(msgid, "Parameter 'msgid' must not be null");
+    public static java.lang.String dpgettext2(@Nullable java.lang.String domain, java.lang.String context, java.lang.String msgid) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dpgettext2.invokeExact(
-                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)),
-                    Interop.allocateNativeString(context),
-                    Interop.allocateNativeString(msgid));
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)),
+                    Marshal.stringToAddress.marshal(context, null),
+                    Marshal.stringToAddress.marshal(msgid, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4710,17 +4598,16 @@ public final class GLib {
      *     string is owned by {@code envp}, and will be freed if {@code variable} is
      *     set or unset again.
      */
-    public static @Nullable java.lang.String environGetenv(@Nullable java.lang.String[] envp, @NotNull java.lang.String variable) {
-        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
+    public static @Nullable java.lang.String environGetenv(@Nullable java.lang.String[] envp, java.lang.String variable) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_environ_getenv.invokeExact(
                     (Addressable) (envp == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envp, false)),
-                    Interop.allocateNativeString(variable));
+                    Marshal.stringToAddress.marshal(variable, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4735,16 +4622,14 @@ public final class GLib {
      * @param overwrite whether to change the variable if it already exists
      * @return the updated environment list. Free it using g_strfreev().
      */
-    public static @NotNull PointerString environSetenv(@Nullable java.lang.String[] envp, @NotNull java.lang.String variable, @NotNull java.lang.String value, boolean overwrite) {
-        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static PointerString environSetenv(@Nullable java.lang.String[] envp, java.lang.String variable, java.lang.String value, boolean overwrite) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_environ_setenv.invokeExact(
                     (Addressable) (envp == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envp, false)),
-                    Interop.allocateNativeString(variable),
-                    Interop.allocateNativeString(value),
-                    overwrite ? 1 : 0);
+                    Marshal.stringToAddress.marshal(variable, null),
+                    Marshal.stringToAddress.marshal(value, null),
+                    Marshal.booleanToInteger.marshal(overwrite, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4760,13 +4645,12 @@ public final class GLib {
      *     contain '='
      * @return the updated environment list. Free it using g_strfreev().
      */
-    public static @NotNull PointerString environUnsetenv(@Nullable java.lang.String[] envp, @NotNull java.lang.String variable) {
-        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
+    public static PointerString environUnsetenv(@Nullable java.lang.String[] envp, java.lang.String variable) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_environ_unsetenv.invokeExact(
                     (Addressable) (envp == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envp, false)),
-                    Interop.allocateNativeString(variable));
+                    Marshal.stringToAddress.marshal(variable, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4786,7 +4670,7 @@ public final class GLib {
      * @param errNo an "errno" value
      * @return {@link FileError} corresponding to the given {@code err_no}
      */
-    public static @NotNull org.gtk.glib.FileError fileErrorFromErrno(int errNo) {
+    public static org.gtk.glib.FileError fileErrorFromErrno(int errNo) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_error_from_errno.invokeExact(
@@ -4797,7 +4681,7 @@ public final class GLib {
         return org.gtk.glib.FileError.of(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Quark fileErrorQuark() {
+    public static org.gtk.glib.Quark fileErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_error_quark.invokeExact();
@@ -4825,16 +4709,14 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean fileGetContents(@NotNull java.lang.String filename, @NotNull Out<byte[]> contents, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
+    public static boolean fileGetContents(java.lang.String filename, Out<byte[]> contents, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment contentsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_get_contents.invokeExact(
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) contentsPOINTER.address(),
                     (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) GERROR);
@@ -4846,7 +4728,7 @@ public final class GLib {
         }
         if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
         contents.set(MemorySegment.ofAddress(contentsPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4876,14 +4758,13 @@ public final class GLib {
      *     close(). In case of errors, -1 is returned and {@code error} will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static int fileOpenTmp(@Nullable java.lang.String tmpl, @NotNull Out<java.lang.String> nameUsed) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(nameUsed, "Parameter 'nameUsed' must not be null");
+    public static int fileOpenTmp(@Nullable java.lang.String tmpl, Out<java.lang.String> nameUsed) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment nameUsedPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_open_tmp.invokeExact(
-                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
+                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tmpl, null)),
                     (Addressable) nameUsedPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -4892,7 +4773,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        nameUsed.set(Interop.getStringFrom(nameUsedPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        nameUsed.set(Marshal.addressToString.marshal(nameUsedPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return RESULT;
     }
     
@@ -4905,13 +4786,12 @@ public final class GLib {
      *     the contents of the symbolic link, or {@code null} if an error occurred.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String fileReadLink(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static java.lang.String fileReadLink(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_read_link.invokeExact(
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -4919,7 +4799,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -4934,14 +4814,12 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean fileSetContents(@NotNull java.lang.String filename, @NotNull byte[] contents, long length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
+    public static boolean fileSetContents(java.lang.String filename, byte[] contents, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_contents.invokeExact(
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     Interop.allocateNativeArray(contents, false),
                     length,
                     (Addressable) GERROR);
@@ -4951,7 +4829,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5023,15 +4901,12 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean fileSetContentsFull(@NotNull java.lang.String filename, @NotNull byte[] contents, long length, @NotNull org.gtk.glib.FileSetContentsFlags flags, int mode) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean fileSetContentsFull(java.lang.String filename, byte[] contents, long length, org.gtk.glib.FileSetContentsFlags flags, int mode) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_contents_full.invokeExact(
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     Interop.allocateNativeArray(contents, false),
                     length,
                     flags.getValue(),
@@ -5043,7 +4918,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5093,18 +4968,16 @@ public final class GLib {
      * @param test bitfield of {@link FileTest} flags
      * @return whether a test was {@code true}
      */
-    public static boolean fileTest(@NotNull java.lang.String filename, @NotNull org.gtk.glib.FileTest test) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        java.util.Objects.requireNonNull(test, "Parameter 'test' must not be null");
+    public static boolean fileTest(java.lang.String filename, org.gtk.glib.FileTest test) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_test.invokeExact(
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     test.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5129,16 +5002,15 @@ public final class GLib {
      * @return a newly allocated string containing
      *   a rendition of the basename of the filename in valid UTF-8
      */
-    public static @NotNull java.lang.String filenameDisplayBasename(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static java.lang.String filenameDisplayBasename(java.lang.String filename) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_display_basename.invokeExact(
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5162,16 +5034,15 @@ public final class GLib {
      * @return a newly allocated string containing
      *   a rendition of the filename in valid UTF-8
      */
-    public static @NotNull java.lang.String filenameDisplayName(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static java.lang.String filenameDisplayName(java.lang.String filename) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_display_name.invokeExact(
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5185,14 +5056,13 @@ public final class GLib {
      *               the resulting filename, or {@code null} on an error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String filenameFromUri(@NotNull java.lang.String uri, @Nullable Out<java.lang.String> hostname) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static java.lang.String filenameFromUri(java.lang.String uri, @Nullable Out<java.lang.String> hostname) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment hostnamePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_from_uri.invokeExact(
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     (Addressable) (hostname == null ? MemoryAddress.NULL : (Addressable) hostnamePOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -5201,8 +5071,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (hostname != null) hostname.set(Interop.getStringFrom(hostnamePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return Interop.getStringFrom(RESULT);
+        if (hostname != null) hostname.set(Marshal.addressToString.marshal(hostnamePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5232,20 +5102,17 @@ public final class GLib {
      * @return The converted string, or {@code null} on an error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String filenameFromUtf8(@NotNull java.lang.String utf8string, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(utf8string, "Parameter 'utf8string' must not be null");
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+    public static java.lang.String filenameFromUtf8(java.lang.String utf8string, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_from_utf8.invokeExact(
-                    Interop.allocateNativeString(utf8string),
+                    Marshal.stringToAddress.marshal(utf8string, null),
                     len,
-                    (Addressable) bytesReadPOINTER.address(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesRead == null ? MemoryAddress.NULL : (Addressable) bytesReadPOINTER.address()),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5253,9 +5120,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Interop.getStringFrom(RESULT);
+        if (bytesRead != null) bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5269,14 +5136,13 @@ public final class GLib {
      *               URI, or {@code null} on an error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String filenameToUri(@NotNull java.lang.String filename, @Nullable java.lang.String hostname) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static java.lang.String filenameToUri(java.lang.String filename, @Nullable java.lang.String hostname) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_to_uri.invokeExact(
-                    Interop.allocateNativeString(filename),
-                    (Addressable) (hostname == null ? MemoryAddress.NULL : Interop.allocateNativeString(hostname)),
+                    Marshal.stringToAddress.marshal(filename, null),
+                    (Addressable) (hostname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(hostname, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5284,7 +5150,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5318,20 +5184,17 @@ public final class GLib {
      * @return The converted string, or {@code null} on an error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String filenameToUtf8(@NotNull java.lang.String opsysstring, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(opsysstring, "Parameter 'opsysstring' must not be null");
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+    public static java.lang.String filenameToUtf8(java.lang.String opsysstring, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_filename_to_utf8.invokeExact(
-                    Interop.allocateNativeString(opsysstring),
+                    Marshal.stringToAddress.marshal(opsysstring, null),
                     len,
-                    (Addressable) bytesReadPOINTER.address(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesRead == null ? MemoryAddress.NULL : (Addressable) bytesReadPOINTER.address()),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5339,9 +5202,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Interop.getStringFrom(RESULT);
+        if (bytesRead != null) bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5366,16 +5229,15 @@ public final class GLib {
      * @return a newly-allocated
      *   string with the absolute path, or {@code null}
      */
-    public static @Nullable java.lang.String findProgramInPath(@NotNull java.lang.String program) {
-        java.util.Objects.requireNonNull(program, "Parameter 'program' must not be null");
+    public static @Nullable java.lang.String findProgramInPath(java.lang.String program) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_find_program_in_path.invokeExact(
-                    Interop.allocateNativeString(program));
+                    Marshal.stringToAddress.marshal(program, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5396,7 +5258,7 @@ public final class GLib {
      * @return a newly-allocated formatted string containing
      *   a human readable file size
      */
-    public static @NotNull java.lang.String formatSize(long size) {
+    public static java.lang.String formatSize(long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_format_size.invokeExact(
@@ -5404,7 +5266,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5424,7 +5286,7 @@ public final class GLib {
      *     suffixes to denote IEC units. Use g_format_size() instead.
      */
     @Deprecated
-    public static @NotNull java.lang.String formatSizeForDisplay(long size) {
+    public static java.lang.String formatSizeForDisplay(long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_format_size_for_display.invokeExact(
@@ -5432,7 +5294,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5445,8 +5307,7 @@ public final class GLib {
      * @return a newly-allocated formatted string
      *   containing a human readable file size
      */
-    public static @NotNull java.lang.String formatSizeFull(long size, @NotNull org.gtk.glib.FormatSizeFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static java.lang.String formatSizeFull(long size, org.gtk.glib.FormatSizeFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_format_size_full.invokeExact(
@@ -5455,7 +5316,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5469,14 +5330,12 @@ public final class GLib {
      * @param varargs the arguments to insert in the output.
      * @return the number of bytes printed.
      */
-    public static int fprintf(@NotNull java.lang.foreign.MemoryAddress file, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static int fprintf(java.lang.foreign.MemoryAddress file, java.lang.String format, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_fprintf.invokeExact(
                     (Addressable) file,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -5518,7 +5377,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5546,18 +5405,17 @@ public final class GLib {
      *   name, or {@code null}.
      * @return {@code true} if the returned charset is UTF-8
      */
-    public static boolean getCharset(@NotNull Out<java.lang.String> charset) {
-        java.util.Objects.requireNonNull(charset, "Parameter 'charset' must not be null");
+    public static boolean getCharset(@Nullable Out<java.lang.String> charset) {
         MemorySegment charsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_get_charset.invokeExact(
-                    (Addressable) charsetPOINTER.address());
+                    (Addressable) (charset == null ? MemoryAddress.NULL : (Addressable) charsetPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        charset.set(Interop.getStringFrom(charsetPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (charset != null) charset.set(Marshal.addressToString.marshal(charsetPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5565,14 +5423,14 @@ public final class GLib {
      * @return a newly allocated string containing the name
      *     of the character set. This string must be freed with g_free().
      */
-    public static @NotNull java.lang.String getCodeset() {
+    public static java.lang.String getCodeset() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_codeset.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5597,18 +5455,17 @@ public final class GLib {
      *   name, or {@code null}.
      * @return {@code true} if the returned charset is UTF-8
      */
-    public static boolean getConsoleCharset(@NotNull Out<java.lang.String> charset) {
-        java.util.Objects.requireNonNull(charset, "Parameter 'charset' must not be null");
+    public static boolean getConsoleCharset(@Nullable Out<java.lang.String> charset) {
         MemorySegment charsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_get_console_charset.invokeExact(
-                    (Addressable) charsetPOINTER.address());
+                    (Addressable) (charset == null ? MemoryAddress.NULL : (Addressable) charsetPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        charset.set(Interop.getStringFrom(charsetPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (charset != null) charset.set(Marshal.addressToString.marshal(charsetPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5624,14 +5481,14 @@ public final class GLib {
      * the current directory is the target of a symbolic link.
      * @return the current directory
      */
-    public static @NotNull java.lang.String getCurrentDir() {
+    public static java.lang.String getCurrentDir() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_current_dir.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5643,8 +5500,7 @@ public final class GLib {
      *    instead.
      */
     @Deprecated
-    public static void getCurrentTime(@NotNull org.gtk.glib.TimeVal result) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static void getCurrentTime(org.gtk.glib.TimeVal result) {
         try {
             DowncallHandles.g_get_current_time.invokeExact(
                     result.handle());
@@ -5666,7 +5522,7 @@ public final class GLib {
      * g_strfreev() when it is no longer needed.
      * @return the list of environment variables
      */
-    public static @NotNull PointerString getEnviron() {
+    public static PointerString getEnviron() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_environ.invokeExact();
@@ -5704,8 +5560,15 @@ public final class GLib {
      * @param filenameCharsets return location for the {@code null}-terminated list of encoding names
      * @return {@code true} if the filename encoding is UTF-8.
      */
-    public static boolean getFilenameCharsets(@NotNull Out<java.lang.String[]> filenameCharsets) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static boolean getFilenameCharsets(java.lang.String[] filenameCharsets) {
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_get_filename_charsets.invokeExact(
+                    Interop.allocateNativeArray(filenameCharsets, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5731,14 +5594,14 @@ public final class GLib {
      * or unset it before calling any functions in GLib.
      * @return the current user's home directory
      */
-    public static @NotNull java.lang.String getHomeDir() {
+    public static java.lang.String getHomeDir() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_home_dir.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5758,14 +5621,14 @@ public final class GLib {
      * The encoding of the returned string is UTF-8.
      * @return the host name of the machine.
      */
-    public static @NotNull java.lang.String getHostName() {
+    public static java.lang.String getHostName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_host_name.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5783,7 +5646,7 @@ public final class GLib {
      * @return a {@code null}-terminated array of strings owned by GLib
      *    that must not be modified or freed.
      */
-    public static @NotNull PointerString getLanguageNames() {
+    public static PointerString getLanguageNames() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_language_names.invokeExact();
@@ -5809,12 +5672,11 @@ public final class GLib {
      *    the thread g_get_language_names_with_category was called from.
      *    It must not be modified or freed. It must be copied if planned to be used in another thread.
      */
-    public static @NotNull PointerString getLanguageNamesWithCategory(@NotNull java.lang.String categoryName) {
-        java.util.Objects.requireNonNull(categoryName, "Parameter 'categoryName' must not be null");
+    public static PointerString getLanguageNamesWithCategory(java.lang.String categoryName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_language_names_with_category.invokeExact(
-                    Interop.allocateNativeString(categoryName));
+                    Marshal.stringToAddress.marshal(categoryName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5842,12 +5704,11 @@ public final class GLib {
      *   allocated array of newly allocated strings with the locale variants. Free with
      *   g_strfreev().
      */
-    public static @NotNull PointerString getLocaleVariants(@NotNull java.lang.String locale) {
-        java.util.Objects.requireNonNull(locale, "Parameter 'locale' must not be null");
+    public static PointerString getLocaleVariants(java.lang.String locale) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_locale_variants.invokeExact(
-                    Interop.allocateNativeString(locale));
+                    Marshal.stringToAddress.marshal(locale, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5907,16 +5768,15 @@ public final class GLib {
      * @return The associated value for the requested key or {@code null} if
      *   this information is not provided.
      */
-    public static @Nullable java.lang.String getOsInfo(@NotNull java.lang.String keyName) {
-        java.util.Objects.requireNonNull(keyName, "Parameter 'keyName' must not be null");
+    public static @Nullable java.lang.String getOsInfo(java.lang.String keyName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_os_info.invokeExact(
-                    Interop.allocateNativeString(keyName));
+                    Marshal.stringToAddress.marshal(keyName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5939,7 +5799,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5950,14 +5810,14 @@ public final class GLib {
      * returned.
      * @return the user's real name.
      */
-    public static @NotNull java.lang.String getRealName() {
+    public static java.lang.String getRealName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_real_name.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6006,7 +5866,7 @@ public final class GLib {
      * @return a {@code null}-terminated array of strings owned by GLib that must not be
      *     modified or freed.
      */
-    public static @NotNull PointerString getSystemConfigDirs() {
+    public static PointerString getSystemConfigDirs() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_system_config_dirs.invokeExact();
@@ -6054,7 +5914,7 @@ public final class GLib {
      * @return a {@code null}-terminated array of strings owned by GLib that must not be
      *     modified or freed.
      */
-    public static @NotNull PointerString getSystemDataDirs() {
+    public static PointerString getSystemDataDirs() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_system_data_dirs.invokeExact();
@@ -6081,14 +5941,14 @@ public final class GLib {
      * string.
      * @return the directory to use for temporary files.
      */
-    public static @NotNull java.lang.String getTmpDir() {
+    public static java.lang.String getTmpDir() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_tmp_dir.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6111,14 +5971,14 @@ public final class GLib {
      * @return a string owned by GLib that
      *   must not be modified or freed.
      */
-    public static @NotNull java.lang.String getUserCacheDir() {
+    public static java.lang.String getUserCacheDir() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_user_cache_dir.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6142,14 +6002,14 @@ public final class GLib {
      * @return a string owned by GLib that
      *   must not be modified or freed.
      */
-    public static @NotNull java.lang.String getUserConfigDir() {
+    public static java.lang.String getUserConfigDir() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_user_config_dir.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6173,14 +6033,14 @@ public final class GLib {
      * @return a string owned by GLib that must
      *   not be modified or freed.
      */
-    public static @NotNull java.lang.String getUserDataDir() {
+    public static java.lang.String getUserDataDir() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_user_data_dir.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6190,14 +6050,14 @@ public final class GLib {
      * consistent on a machine. On Windows, it is always UTF-8.
      * @return the user name of the current user.
      */
-    public static @NotNull java.lang.String getUserName() {
+    public static java.lang.String getUserName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_user_name.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6217,14 +6077,14 @@ public final class GLib {
      * @return a string owned by GLib that must not be
      *     modified or freed.
      */
-    public static @NotNull java.lang.String getUserRuntimeDir() {
+    public static java.lang.String getUserRuntimeDir() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_user_runtime_dir.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6243,8 +6103,7 @@ public final class GLib {
      *   directory, or {@code null} if the logical id was not found. The returned string is
      *   owned by GLib and should not be modified or freed.
      */
-    public static @Nullable java.lang.String getUserSpecialDir(@NotNull org.gtk.glib.UserDirectory directory) {
-        java.util.Objects.requireNonNull(directory, "Parameter 'directory' must not be null");
+    public static @Nullable java.lang.String getUserSpecialDir(org.gtk.glib.UserDirectory directory) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_user_special_dir.invokeExact(
@@ -6252,7 +6111,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6276,14 +6135,14 @@ public final class GLib {
      * @return a string owned by GLib that
      *   must not be modified or freed.
      */
-    public static @NotNull java.lang.String getUserStateDir() {
+    public static java.lang.String getUserStateDir() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_get_user_state_dir.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6300,16 +6159,15 @@ public final class GLib {
      *     may be overwritten by the next call to g_getenv(), g_setenv()
      *     or g_unsetenv().
      */
-    public static @Nullable java.lang.String getenv(@NotNull java.lang.String variable) {
-        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
+    public static @Nullable java.lang.String getenv(java.lang.String variable) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_getenv.invokeExact(
-                    Interop.allocateNativeString(variable));
+                    Marshal.stringToAddress.marshal(variable, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6332,8 +6190,7 @@ public final class GLib {
      * @param key a key to insert
      * @return {@code true} if the key did not exist yet
      */
-    public static boolean hashTableAdd(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static boolean hashTableAdd(org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_add.invokeExact(
@@ -6342,7 +6199,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6351,8 +6208,7 @@ public final class GLib {
      * @param key a key to check
      * @return {@code true} if {@code key} is in {@code hash_table}, {@code false} otherwise.
      */
-    public static boolean hashTableContains(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static boolean hashTableContains(org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_contains.invokeExact(
@@ -6361,7 +6217,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6373,8 +6229,7 @@ public final class GLib {
      * destruction phase.
      * @param hashTable a {@link HashTable}
      */
-    public static void hashTableDestroy(@NotNull org.gtk.glib.HashTable hashTable) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static void hashTableDestroy(org.gtk.glib.HashTable hashTable) {
         try {
             DowncallHandles.g_hash_table_destroy.invokeExact(
                     hashTable.handle());
@@ -6401,8 +6256,7 @@ public final class GLib {
      * @param value the value to associate with the key
      * @return {@code true} if the key did not exist yet
      */
-    public static boolean hashTableInsert(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static boolean hashTableInsert(org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_insert.invokeExact(
@@ -6412,7 +6266,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6424,8 +6278,7 @@ public final class GLib {
      * @param key the key to look up
      * @return the associated value, or {@code null} if the key is not found
      */
-    public static @Nullable java.lang.foreign.MemoryAddress hashTableLookup(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress hashTableLookup(org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hash_table_lookup.invokeExact(
@@ -6453,8 +6306,7 @@ public final class GLib {
      * with the key
      * @return {@code true} if the key was found in the {@link HashTable}
      */
-    public static boolean hashTableLookupExtended(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> origKey, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static boolean hashTableLookupExtended(org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> origKey, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
         MemorySegment origKeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -6469,7 +6321,7 @@ public final class GLib {
         }
         if (origKey != null) origKey.set(origKeyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
         if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6484,8 +6336,7 @@ public final class GLib {
      * @param otherHashTable Another {@link HashTable}
      * @return a new {@link HashTable}
      */
-    public static @NotNull org.gtk.glib.HashTable hashTableNewSimilar(@NotNull org.gtk.glib.HashTable otherHashTable) {
-        java.util.Objects.requireNonNull(otherHashTable, "Parameter 'otherHashTable' must not be null");
+    public static org.gtk.glib.HashTable hashTableNewSimilar(org.gtk.glib.HashTable otherHashTable) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hash_table_new_similar.invokeExact(
@@ -6493,7 +6344,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.HashTable(RESULT, Ownership.FULL);
+        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -6507,8 +6358,7 @@ public final class GLib {
      * @param key the key to remove
      * @return {@code true} if the key was found and removed from the {@link HashTable}
      */
-    public static boolean hashTableRemove(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static boolean hashTableRemove(org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_remove.invokeExact(
@@ -6517,7 +6367,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6529,8 +6379,7 @@ public final class GLib {
      * values are freed yourself.
      * @param hashTable a {@link HashTable}
      */
-    public static void hashTableRemoveAll(@NotNull org.gtk.glib.HashTable hashTable) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static void hashTableRemoveAll(org.gtk.glib.HashTable hashTable) {
         try {
             DowncallHandles.g_hash_table_remove_all.invokeExact(
                     hashTable.handle());
@@ -6556,8 +6405,7 @@ public final class GLib {
      * @param value the value to associate with the key
      * @return {@code true} if the key did not exist yet
      */
-    public static boolean hashTableReplace(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static boolean hashTableReplace(org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key, @Nullable java.lang.foreign.MemoryAddress value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_replace.invokeExact(
@@ -6567,7 +6415,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6575,8 +6423,7 @@ public final class GLib {
      * @param hashTable a {@link HashTable}
      * @return the number of key/value pairs in the {@link HashTable}.
      */
-    public static int hashTableSize(@NotNull org.gtk.glib.HashTable hashTable) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static int hashTableSize(org.gtk.glib.HashTable hashTable) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_size.invokeExact(
@@ -6594,8 +6441,7 @@ public final class GLib {
      * @param key the key to remove
      * @return {@code true} if the key was found and removed from the {@link HashTable}
      */
-    public static boolean hashTableSteal(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static boolean hashTableSteal(org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress key) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hash_table_steal.invokeExact(
@@ -6604,7 +6450,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6612,8 +6458,7 @@ public final class GLib {
      * without calling the key and value destroy functions.
      * @param hashTable a {@link HashTable}
      */
-    public static void hashTableStealAll(@NotNull org.gtk.glib.HashTable hashTable) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static void hashTableStealAll(org.gtk.glib.HashTable hashTable) {
         try {
             DowncallHandles.g_hash_table_steal_all.invokeExact(
                     hashTable.handle());
@@ -6641,8 +6486,7 @@ public final class GLib {
      *    for the value associated with the key
      * @return {@code true} if the key was found in the {@link HashTable}
      */
-    public static boolean hashTableStealExtended(@NotNull org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenValue) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static boolean hashTableStealExtended(org.gtk.glib.HashTable hashTable, @Nullable java.lang.foreign.MemoryAddress lookupKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenKey, @Nullable Out<java.lang.foreign.MemoryAddress> stolenValue) {
         MemorySegment stolenKeyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment stolenValuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -6657,7 +6501,7 @@ public final class GLib {
         }
         if (stolenKey != null) stolenKey.set(stolenKeyPOINTER.get(Interop.valueLayout.ADDRESS, 0));
         if (stolenValue != null) stolenValue.set(stolenValuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6667,8 +6511,7 @@ public final class GLib {
      * This function is MT-safe and may be called from any thread.
      * @param hashTable a valid {@link HashTable}
      */
-    public static void hashTableUnref(@NotNull org.gtk.glib.HashTable hashTable) {
-        java.util.Objects.requireNonNull(hashTable, "Parameter 'hashTable' must not be null");
+    public static void hashTableUnref(org.gtk.glib.HashTable hashTable) {
         try {
             DowncallHandles.g_hash_table_unref.invokeExact(
                     hashTable.handle());
@@ -6683,8 +6526,7 @@ public final class GLib {
      * @param hookId a hook ID
      * @return {@code true} if the {@link Hook} was found in the {@link HookList} and destroyed
      */
-    public static boolean hookDestroy(@NotNull org.gtk.glib.HookList hookList, long hookId) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
+    public static boolean hookDestroy(org.gtk.glib.HookList hookList, long hookId) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hook_destroy.invokeExact(
@@ -6693,7 +6535,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6702,9 +6544,7 @@ public final class GLib {
      * @param hookList a {@link HookList}
      * @param hook the {@link Hook} to remove
      */
-    public static void hookDestroyLink(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void hookDestroyLink(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_destroy_link.invokeExact(
                     hookList.handle(),
@@ -6720,9 +6560,7 @@ public final class GLib {
      * @param hookList a {@link HookList}
      * @param hook the {@link Hook} to free
      */
-    public static void hookFree(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void hookFree(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_free.invokeExact(
                     hookList.handle(),
@@ -6738,9 +6576,7 @@ public final class GLib {
      * @param sibling the {@link Hook} to insert the new {@link Hook} before
      * @param hook the {@link Hook} to insert
      */
-    public static void hookInsertBefore(@NotNull org.gtk.glib.HookList hookList, @Nullable org.gtk.glib.Hook sibling, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void hookInsertBefore(org.gtk.glib.HookList hookList, @Nullable org.gtk.glib.Hook sibling, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_insert_before.invokeExact(
                     hookList.handle(),
@@ -6756,9 +6592,7 @@ public final class GLib {
      * @param hookList a {@link HookList}
      * @param hook the {@link Hook} to add to the start of {@code hook_list}
      */
-    public static void hookPrepend(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void hookPrepend(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_prepend.invokeExact(
                     hookList.handle(),
@@ -6775,9 +6609,7 @@ public final class GLib {
      * @param hookList a {@link HookList}
      * @param hook the {@link Hook} to unref
      */
-    public static void hookUnref(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void hookUnref(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_unref.invokeExact(
                     hookList.handle(),
@@ -6800,16 +6632,15 @@ public final class GLib {
      * @return {@code true} if {@code hostname} contains any ASCII-encoded
      * segments.
      */
-    public static boolean hostnameIsAsciiEncoded(@NotNull java.lang.String hostname) {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
+    public static boolean hostnameIsAsciiEncoded(java.lang.String hostname) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hostname_is_ascii_encoded.invokeExact(
-                    Interop.allocateNativeString(hostname));
+                    Marshal.stringToAddress.marshal(hostname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6820,16 +6651,15 @@ public final class GLib {
      * @param hostname a hostname (or IP address in string form)
      * @return {@code true} if {@code hostname} is an IP address
      */
-    public static boolean hostnameIsIpAddress(@NotNull java.lang.String hostname) {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
+    public static boolean hostnameIsIpAddress(java.lang.String hostname) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hostname_is_ip_address.invokeExact(
-                    Interop.allocateNativeString(hostname));
+                    Marshal.stringToAddress.marshal(hostname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6843,16 +6673,15 @@ public final class GLib {
      * @param hostname a hostname
      * @return {@code true} if {@code hostname} contains any non-ASCII characters
      */
-    public static boolean hostnameIsNonAscii(@NotNull java.lang.String hostname) {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
+    public static boolean hostnameIsNonAscii(java.lang.String hostname) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hostname_is_non_ascii.invokeExact(
-                    Interop.allocateNativeString(hostname));
+                    Marshal.stringToAddress.marshal(hostname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -6863,16 +6692,15 @@ public final class GLib {
      * @return an ASCII hostname, which must be freed,
      *    or {@code null} if {@code hostname} is in some way invalid.
      */
-    public static @Nullable java.lang.String hostnameToAscii(@NotNull java.lang.String hostname) {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
+    public static @Nullable java.lang.String hostnameToAscii(java.lang.String hostname) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hostname_to_ascii.invokeExact(
-                    Interop.allocateNativeString(hostname));
+                    Marshal.stringToAddress.marshal(hostname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6887,16 +6715,15 @@ public final class GLib {
      * @return a UTF-8 hostname, which must be freed,
      *    or {@code null} if {@code hostname} is in some way invalid.
      */
-    public static @Nullable java.lang.String hostnameToUnicode(@NotNull java.lang.String hostname) {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
+    public static @Nullable java.lang.String hostnameToUnicode(java.lang.String hostname) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hostname_to_unicode.invokeExact(
-                    Interop.allocateNativeString(hostname));
+                    Marshal.stringToAddress.marshal(hostname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -6920,13 +6747,8 @@ public final class GLib {
      * @param outbytesLeft inout parameter, bytes available to fill in {@code outbuf}
      * @return count of non-reversible conversions, or -1 on error
      */
-    public static long iconv(@NotNull org.gtk.glib.IConv converter, @NotNull PointerString inbuf, Out<Long> inbytesLeft, @NotNull PointerString outbuf, Out<Long> outbytesLeft) {
-        java.util.Objects.requireNonNull(converter, "Parameter 'converter' must not be null");
-        java.util.Objects.requireNonNull(inbuf, "Parameter 'inbuf' must not be null");
-        java.util.Objects.requireNonNull(inbytesLeft, "Parameter 'inbytesLeft' must not be null");
+    public static long iconv(org.gtk.glib.IConv converter, PointerString inbuf, Out<Long> inbytesLeft, PointerString outbuf, Out<Long> outbytesLeft) {
         MemorySegment inbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
-        java.util.Objects.requireNonNull(outbytesLeft, "Parameter 'outbytesLeft' must not be null");
         MemorySegment outbytesLeftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         long RESULT;
         try {
@@ -6956,18 +6778,16 @@ public final class GLib {
      * @return a "conversion descriptor", or (GIConv)-1 if
      *  opening the converter failed.
      */
-    public static @NotNull org.gtk.glib.IConv iconvOpen(@NotNull java.lang.String toCodeset, @NotNull java.lang.String fromCodeset) {
-        java.util.Objects.requireNonNull(toCodeset, "Parameter 'toCodeset' must not be null");
-        java.util.Objects.requireNonNull(fromCodeset, "Parameter 'fromCodeset' must not be null");
+    public static org.gtk.glib.IConv iconvOpen(java.lang.String toCodeset, java.lang.String fromCodeset) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_iconv_open.invokeExact(
-                    Interop.allocateNativeString(toCodeset),
-                    Interop.allocateNativeString(fromCodeset));
+                    Marshal.stringToAddress.marshal(toCodeset, null),
+                    Marshal.stringToAddress.marshal(fromCodeset, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.IConv(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.IConv.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -6988,17 +6808,12 @@ public final class GLib {
      * @param function function to call
      * @return the ID (greater than 0) of the event source.
      */
-    public static int idleAdd(@NotNull org.gtk.glib.SourceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int idleAdd(org.gtk.glib.SourceFunc function) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_idle_add.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)));
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7023,21 +6838,17 @@ public final class GLib {
      * @param priority the priority of the idle source. Typically this will be in the
      *   range between {@code G_PRIORITY_DEFAULT_IDLE} and {@code G_PRIORITY_HIGH_IDLE}.
      * @param function function to call
+     * @param notify function to call when the idle is removed, or {@code null}
      * @return the ID (greater than 0) of the event source.
      */
-    public static int idleAddFull(int priority, @NotNull org.gtk.glib.SourceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int idleAddFull(int priority, org.gtk.glib.SourceFunc function, @Nullable org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_idle_add_full.invokeExact(
                     priority,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7056,17 +6867,12 @@ public final class GLib {
      * @param function function to call
      * @return the ID (greater than 0) of the event source
      */
-    public static int idleAddOnce(@NotNull org.gtk.glib.SourceOnceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int idleAddOnce(org.gtk.glib.SourceOnceFunc function) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_idle_add_once.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceOnceFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)));
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7075,18 +6881,17 @@ public final class GLib {
     
     /**
      * Removes the idle function with the given data.
-     * @param data the data for the idle source's callback.
      * @return {@code true} if an idle source was found and removed.
      */
-    public static boolean idleRemoveByData(@Nullable java.lang.foreign.MemoryAddress data) {
+    public static boolean idleRemoveByData() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_idle_remove_by_data.invokeExact(
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -7099,14 +6904,14 @@ public final class GLib {
      * have a default priority of {@code G_PRIORITY_DEFAULT}.
      * @return the newly-created idle source
      */
-    public static @NotNull org.gtk.glib.Source idleSourceNew() {
+    public static org.gtk.glib.Source idleSourceNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_idle_source_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -7119,9 +6924,7 @@ public final class GLib {
      * @param v2 a pointer to a {@code gint64} key to compare with {@code v1}
      * @return {@code true} if the two keys match.
      */
-    public static boolean int64Equal(@NotNull java.lang.foreign.MemoryAddress v1, @NotNull java.lang.foreign.MemoryAddress v2) {
-        java.util.Objects.requireNonNull(v1, "Parameter 'v1' must not be null");
-        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
+    public static boolean int64Equal(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_int64_equal.invokeExact(
@@ -7130,7 +6933,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -7142,8 +6945,7 @@ public final class GLib {
      * @param v a pointer to a {@code gint64} key
      * @return a hash value corresponding to the key.
      */
-    public static int int64Hash(@NotNull java.lang.foreign.MemoryAddress v) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+    public static int int64Hash(java.lang.foreign.MemoryAddress v) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_int64_hash.invokeExact(
@@ -7168,9 +6970,7 @@ public final class GLib {
      * @param v2 a pointer to a {@code gint} key to compare with {@code v1}
      * @return {@code true} if the two keys match.
      */
-    public static boolean intEqual(@NotNull java.lang.foreign.MemoryAddress v1, @NotNull java.lang.foreign.MemoryAddress v2) {
-        java.util.Objects.requireNonNull(v1, "Parameter 'v1' must not be null");
-        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
+    public static boolean intEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_int_equal.invokeExact(
@@ -7179,7 +6979,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -7193,8 +6993,7 @@ public final class GLib {
      * @param v a pointer to a {@code gint} key
      * @return a hash value corresponding to the key.
      */
-    public static int intHash(@NotNull java.lang.foreign.MemoryAddress v) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+    public static int intHash(java.lang.foreign.MemoryAddress v) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_int_hash.invokeExact(
@@ -7217,15 +7016,15 @@ public final class GLib {
      * @param string a static string
      * @return a canonical representation for the string
      */
-    public static @NotNull java.lang.String internStaticString(@Nullable java.lang.String string) {
+    public static java.lang.String internStaticString(@Nullable java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_intern_static_string.invokeExact(
-                    (Addressable) (string == null ? MemoryAddress.NULL : Interop.allocateNativeString(string)));
+                    (Addressable) (string == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(string, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -7239,15 +7038,15 @@ public final class GLib {
      * @param string a string
      * @return a canonical representation for the string
      */
-    public static @NotNull java.lang.String internString(@Nullable java.lang.String string) {
+    public static java.lang.String internString(@Nullable java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_intern_string.invokeExact(
-                    (Addressable) (string == null ? MemoryAddress.NULL : Interop.allocateNativeString(string)));
+                    (Addressable) (string == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(string, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -7258,21 +7057,14 @@ public final class GLib {
      * @param func the function to call when the condition is satisfied
      * @return the event source id
      */
-    public static int ioAddWatch(@NotNull org.gtk.glib.IOChannel channel, @NotNull org.gtk.glib.IOCondition condition, @NotNull org.gtk.glib.IOFunc func) {
-        java.util.Objects.requireNonNull(channel, "Parameter 'channel' must not be null");
-        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static int ioAddWatch(org.gtk.glib.IOChannel channel, org.gtk.glib.IOCondition condition, org.gtk.glib.IOFunc func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_add_watch.invokeExact(
                     channel.handle(),
                     condition.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbIOFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7290,25 +7082,19 @@ public final class GLib {
      * @param priority the priority of the {@link IOChannel} source
      * @param condition the condition to watch for
      * @param func the function to call when the condition is satisfied
+     * @param notify the function to call when the source is removed
      * @return the event source id
      */
-    public static int ioAddWatchFull(@NotNull org.gtk.glib.IOChannel channel, int priority, @NotNull org.gtk.glib.IOCondition condition, @NotNull org.gtk.glib.IOFunc func) {
-        java.util.Objects.requireNonNull(channel, "Parameter 'channel' must not be null");
-        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static int ioAddWatchFull(org.gtk.glib.IOChannel channel, int priority, org.gtk.glib.IOCondition condition, org.gtk.glib.IOFunc func, org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_add_watch_full.invokeExact(
                     channel.handle(),
                     priority,
                     condition.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbIOFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7321,7 +7107,7 @@ public final class GLib {
      * @return a {@link IOChannelError} error number, e.g.
      *      {@link IOChannelError#INVAL}.
      */
-    public static @NotNull org.gtk.glib.IOChannelError ioChannelErrorFromErrno(int en) {
+    public static org.gtk.glib.IOChannelError ioChannelErrorFromErrno(int en) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_error_from_errno.invokeExact(
@@ -7332,7 +7118,7 @@ public final class GLib {
         return org.gtk.glib.IOChannelError.of(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Quark ioChannelErrorQuark() {
+    public static org.gtk.glib.Quark ioChannelErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_error_quark.invokeExact();
@@ -7361,9 +7147,7 @@ public final class GLib {
      * @param condition conditions to watch for
      * @return a new {@link Source}
      */
-    public static @NotNull org.gtk.glib.Source ioCreateWatch(@NotNull org.gtk.glib.IOChannel channel, @NotNull org.gtk.glib.IOCondition condition) {
-        java.util.Objects.requireNonNull(channel, "Parameter 'channel' must not be null");
-        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+    public static org.gtk.glib.Source ioCreateWatch(org.gtk.glib.IOChannel channel, org.gtk.glib.IOCondition condition) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_create_watch.invokeExact(
@@ -7372,10 +7156,10 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gtk.glib.Quark keyFileErrorQuark() {
+    public static org.gtk.glib.Quark keyFileErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_key_file_error_quark.invokeExact();
@@ -7397,7 +7181,7 @@ public final class GLib {
      * @return a {@code null}-terminated list of strings which must be freed with
      *     g_strfreev().
      */
-    public static @NotNull PointerString listenv() {
+    public static PointerString listenv() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_listenv.invokeExact();
@@ -7434,20 +7218,17 @@ public final class GLib {
      *          or {@code null} on an error, and error will be set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull byte[] localeFromUtf8(@NotNull java.lang.String utf8string, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(utf8string, "Parameter 'utf8string' must not be null");
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+    public static byte[] localeFromUtf8(java.lang.String utf8string, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_locale_from_utf8.invokeExact(
-                    Interop.allocateNativeString(utf8string),
+                    Marshal.stringToAddress.marshal(utf8string, null),
                     len,
-                    (Addressable) bytesReadPOINTER.address(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesRead == null ? MemoryAddress.NULL : (Addressable) bytesReadPOINTER.address()),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -7455,8 +7236,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesRead != null) bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return MemorySegment.ofAddress(RESULT.get(Interop.valueLayout.ADDRESS, 0), bytesWritten.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE);
     }
     
@@ -7492,11 +7273,8 @@ public final class GLib {
      * @return The converted string, or {@code null} on an error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String localeToUtf8(@NotNull byte[] opsysstring, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(opsysstring, "Parameter 'opsysstring' must not be null");
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+    public static java.lang.String localeToUtf8(byte[] opsysstring, long len, Out<Long> bytesRead, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -7504,8 +7282,8 @@ public final class GLib {
             RESULT = (MemoryAddress) DowncallHandles.g_locale_to_utf8.invokeExact(
                     Interop.allocateNativeArray(opsysstring, false),
                     len,
-                    (Addressable) bytesReadPOINTER.address(),
-                    (Addressable) bytesWrittenPOINTER.address(),
+                    (Addressable) (bytesRead == null ? MemoryAddress.NULL : (Addressable) bytesReadPOINTER.address()),
+                    (Addressable) (bytesWritten == null ? MemoryAddress.NULL : (Addressable) bytesWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -7513,9 +7291,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Interop.getStringFrom(RESULT);
+        if (bytesRead != null) bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesWritten != null) bytesWritten.set(bytesWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -7538,14 +7316,12 @@ public final class GLib {
      * @param format the message format. See the {@code printf()} documentation
      * @param varargs the parameters to insert into the format string
      */
-    public static void log(@Nullable java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void log(@Nullable java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevel, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_log.invokeExact(
-                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)),
+                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(logDomain, null)),
                     logLevel.getValue(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -7585,16 +7361,14 @@ public final class GLib {
      * default "" application domain
      * @param logLevel the level of the message
      * @param message the message
-     * @param unusedData data passed from g_log() which is unused
      */
-    public static void logDefaultHandler(@Nullable java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevel, @Nullable java.lang.String message, @Nullable java.lang.foreign.MemoryAddress unusedData) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
+    public static void logDefaultHandler(@Nullable java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevel, @Nullable java.lang.String message) {
         try {
             DowncallHandles.g_log_default_handler.invokeExact(
-                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)),
+                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(logDomain, null)),
                     logLevel.getValue(),
-                    (Addressable) (message == null ? MemoryAddress.NULL : Interop.allocateNativeString(message)),
-                    (Addressable) unusedData);
+                    (Addressable) (message == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(message, null)),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7618,7 +7392,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -7630,11 +7404,10 @@ public final class GLib {
      * @param handlerId the id of the handler, which was returned
      *     in g_log_set_handler()
      */
-    public static void logRemoveHandler(@NotNull java.lang.String logDomain, int handlerId) {
-        java.util.Objects.requireNonNull(logDomain, "Parameter 'logDomain' must not be null");
+    public static void logRemoveHandler(java.lang.String logDomain, int handlerId) {
         try {
             DowncallHandles.g_log_remove_handler.invokeExact(
-                    Interop.allocateNativeString(logDomain),
+                    Marshal.stringToAddress.marshal(logDomain, null),
                     handlerId);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -7662,8 +7435,7 @@ public final class GLib {
      *     of error which is to be fatal
      * @return the old fatal mask
      */
-    public static @NotNull org.gtk.glib.LogLevelFlags logSetAlwaysFatal(@NotNull org.gtk.glib.LogLevelFlags fatalMask) {
-        java.util.Objects.requireNonNull(fatalMask, "Parameter 'fatalMask' must not be null");
+    public static org.gtk.glib.LogLevelFlags logSetAlwaysFatal(org.gtk.glib.LogLevelFlags fatalMask) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_log_set_always_fatal.invokeExact(
@@ -7686,7 +7458,7 @@ public final class GLib {
     public static void logSetDebugEnabled(boolean enabled) {
         try {
             DowncallHandles.g_log_set_debug_enabled.invokeExact(
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7703,8 +7475,16 @@ public final class GLib {
      * @param logFunc the log handler function
      * @return the previous default log handler
      */
-    public static @NotNull org.gtk.glib.LogFunc logSetDefaultHandler(@NotNull org.gtk.glib.LogFunc logFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gtk.glib.LogFunc logSetDefaultHandler(org.gtk.glib.LogFunc logFunc) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_log_set_default_handler.invokeExact(
+                    (Addressable) logFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return null /* Unsupported parameter type */;
     }
     
     /**
@@ -7725,13 +7505,11 @@ public final class GLib {
      * @param fatalMask the new fatal mask
      * @return the old fatal mask for the log domain
      */
-    public static @NotNull org.gtk.glib.LogLevelFlags logSetFatalMask(@NotNull java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags fatalMask) {
-        java.util.Objects.requireNonNull(logDomain, "Parameter 'logDomain' must not be null");
-        java.util.Objects.requireNonNull(fatalMask, "Parameter 'fatalMask' must not be null");
+    public static org.gtk.glib.LogLevelFlags logSetFatalMask(java.lang.String logDomain, org.gtk.glib.LogLevelFlags fatalMask) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_log_set_fatal_mask.invokeExact(
-                    Interop.allocateNativeString(logDomain),
+                    Marshal.stringToAddress.marshal(logDomain, null),
                     fatalMask.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -7780,20 +7558,14 @@ public final class GLib {
      * @param logFunc the log handler function
      * @return the id of the new handler
      */
-    public static int logSetHandler(@Nullable java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevels, @NotNull org.gtk.glib.LogFunc logFunc) {
-        java.util.Objects.requireNonNull(logLevels, "Parameter 'logLevels' must not be null");
-        java.util.Objects.requireNonNull(logFunc, "Parameter 'logFunc' must not be null");
+    public static int logSetHandler(@Nullable java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevels, org.gtk.glib.LogFunc logFunc) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_log_set_handler.invokeExact(
-                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)),
+                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(logDomain, null)),
                     logLevels.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbLogFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(logFunc)));
+                    (Addressable) logFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7812,23 +7584,18 @@ public final class GLib {
      *   the log levels with the {@link LogLevelFlags#FLAG_FATAL} and
      *   {@link LogLevelFlags#FLAG_RECURSION} bit flags.
      * @param logFunc the log handler function
+     * @param destroy destroy notify for {@code user_data}, or {@code null}
      * @return the id of the new handler
      */
-    public static int logSetHandlerFull(@Nullable java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevels, @NotNull org.gtk.glib.LogFunc logFunc) {
-        java.util.Objects.requireNonNull(logLevels, "Parameter 'logLevels' must not be null");
-        java.util.Objects.requireNonNull(logFunc, "Parameter 'logFunc' must not be null");
+    public static int logSetHandlerFull(@Nullable java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevels, org.gtk.glib.LogFunc logFunc, org.gtk.glib.DestroyNotify destroy) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_log_set_handler_full.invokeExact(
-                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)),
+                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(logDomain, null)),
                     logLevels.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbLogFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(logFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) logFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroy.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7846,17 +7613,15 @@ public final class GLib {
      * <p>
      * There can only be one writer function. It is an error to set more than one.
      * @param func log writer function, which must not be {@code null}
+     * @param userDataFree function to free {@code user_data} once it’s
+     *    finished with, if non-{@code null}
      */
-    public static void logSetWriterFunc(@Nullable org.gtk.glib.LogWriterFunc func) {
+    public static void logSetWriterFunc(@Nullable org.gtk.glib.LogWriterFunc func, org.gtk.glib.DestroyNotify userDataFree) {
         try {
             DowncallHandles.g_log_set_writer_func.invokeExact(
-                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbLogWriterFunc",
-                            MethodType.methodType(int.class, int.class, MemoryAddress.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) userDataFree.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -7950,12 +7715,10 @@ public final class GLib {
      *    by the key "MESSAGE", followed by a printf()-style message format,
      *    followed by parameters to insert in the format string
      */
-    public static void logStructured(@NotNull java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevel, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(logDomain, "Parameter 'logDomain' must not be null");
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
+    public static void logStructured(java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevel, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_log_structured.invokeExact(
-                    Interop.allocateNativeString(logDomain),
+                    Marshal.stringToAddress.marshal(logDomain, null),
                     logLevel.getValue(),
                     varargs);
         } catch (Throwable ERR) {
@@ -7979,9 +7742,7 @@ public final class GLib {
      *    to the log message
      * @param nFields number of elements in the {@code fields} array
      */
-    public static void logStructuredArray(@NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull org.gtk.glib.LogField[] fields, long nFields) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(fields, "Parameter 'fields' must not be null");
+    public static void logStructuredArray(org.gtk.glib.LogLevelFlags logLevel, org.gtk.glib.LogField[] fields, long nFields) {
         try {
             DowncallHandles.g_log_structured_array.invokeExact(
                     logLevel.getValue(),
@@ -7992,21 +7753,15 @@ public final class GLib {
         }
     }
     
-    public static void logStructuredStandard(@NotNull java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull java.lang.String file, @NotNull java.lang.String line, @NotNull java.lang.String func, @NotNull java.lang.String messageFormat, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(logDomain, "Parameter 'logDomain' must not be null");
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        java.util.Objects.requireNonNull(messageFormat, "Parameter 'messageFormat' must not be null");
+    public static void logStructuredStandard(java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevel, java.lang.String file, java.lang.String line, java.lang.String func, java.lang.String messageFormat, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_log_structured_standard.invokeExact(
-                    Interop.allocateNativeString(logDomain),
+                    Marshal.stringToAddress.marshal(logDomain, null),
                     logLevel.getValue(),
-                    Interop.allocateNativeString(file),
-                    Interop.allocateNativeString(line),
-                    Interop.allocateNativeString(func),
-                    Interop.allocateNativeString(messageFormat),
+                    Marshal.stringToAddress.marshal(file, null),
+                    Marshal.stringToAddress.marshal(line, null),
+                    Marshal.stringToAddress.marshal(func, null),
+                    Marshal.stringToAddress.marshal(messageFormat, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -8034,12 +7789,10 @@ public final class GLib {
      * @param fields a dictionary ({@link Variant} of the type {@code G_VARIANT_TYPE_VARDICT})
      * containing the key-value pairs of message data.
      */
-    public static void logVariant(@Nullable java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull org.gtk.glib.Variant fields) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(fields, "Parameter 'fields' must not be null");
+    public static void logVariant(@Nullable java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevel, org.gtk.glib.Variant fields) {
         try {
             DowncallHandles.g_log_variant.invokeExact(
-                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)),
+                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(logDomain, null)),
                     logLevel.getValue(),
                     fields.handle());
         } catch (Throwable ERR) {
@@ -8072,19 +7825,16 @@ public final class GLib {
      * @param fields key–value pairs of structured data forming
      *    the log message
      * @param nFields number of elements in the {@code fields} array
-     * @param userData user data passed to g_log_set_writer_func()
      * @return {@link LogWriterOutput#HANDLED} on success, {@link LogWriterOutput#UNHANDLED} otherwise
      */
-    public static @NotNull org.gtk.glib.LogWriterOutput logWriterDefault(@NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull org.gtk.glib.LogField[] fields, long nFields, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(fields, "Parameter 'fields' must not be null");
+    public static org.gtk.glib.LogWriterOutput logWriterDefault(org.gtk.glib.LogLevelFlags logLevel, org.gtk.glib.LogField[] fields, long nFields) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_log_writer_default.invokeExact(
                     logLevel.getValue(),
                     Interop.allocateNativeArray(fields, org.gtk.glib.LogField.getMemoryLayout(), false),
                     nFields,
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8111,7 +7861,7 @@ public final class GLib {
     public static void logWriterDefaultSetUseStderr(boolean useStderr) {
         try {
             DowncallHandles.g_log_writer_default_set_use_stderr.invokeExact(
-                    useStderr ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useStderr, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8149,17 +7899,16 @@ public final class GLib {
      * @return {@code true} if the log message would be dropped by GLib's
      *  default log handlers
      */
-    public static boolean logWriterDefaultWouldDrop(@NotNull org.gtk.glib.LogLevelFlags logLevel, @Nullable java.lang.String logDomain) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
+    public static boolean logWriterDefaultWouldDrop(org.gtk.glib.LogLevelFlags logLevel, @Nullable java.lang.String logDomain) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_log_writer_default_would_drop.invokeExact(
                     logLevel.getValue(),
-                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)));
+                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(logDomain, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -8182,20 +7931,18 @@ public final class GLib {
      * @return string containing the formatted log message, in
      *    the character set of the current locale
      */
-    public static @NotNull java.lang.String logWriterFormatFields(@NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull org.gtk.glib.LogField[] fields, long nFields, boolean useColor) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(fields, "Parameter 'fields' must not be null");
+    public static java.lang.String logWriterFormatFields(org.gtk.glib.LogLevelFlags logLevel, org.gtk.glib.LogField[] fields, long nFields, boolean useColor) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_log_writer_format_fields.invokeExact(
                     logLevel.getValue(),
                     Interop.allocateNativeArray(fields, org.gtk.glib.LogField.getMemoryLayout(), false),
                     nFields,
-                    useColor ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useColor, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -8219,7 +7966,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -8237,19 +7984,16 @@ public final class GLib {
      * @param fields key–value pairs of structured data forming
      *    the log message
      * @param nFields number of elements in the {@code fields} array
-     * @param userData user data passed to g_log_set_writer_func()
      * @return {@link LogWriterOutput#HANDLED} on success, {@link LogWriterOutput#UNHANDLED} otherwise
      */
-    public static @NotNull org.gtk.glib.LogWriterOutput logWriterJournald(@NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull org.gtk.glib.LogField[] fields, long nFields, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(fields, "Parameter 'fields' must not be null");
+    public static org.gtk.glib.LogWriterOutput logWriterJournald(org.gtk.glib.LogLevelFlags logLevel, org.gtk.glib.LogField[] fields, long nFields) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_log_writer_journald.invokeExact(
                     logLevel.getValue(),
                     Interop.allocateNativeArray(fields, org.gtk.glib.LogField.getMemoryLayout(), false),
                     nFields,
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8276,19 +8020,16 @@ public final class GLib {
      * @param fields key–value pairs of structured data forming
      *    the log message
      * @param nFields number of elements in the {@code fields} array
-     * @param userData user data passed to g_log_set_writer_func()
      * @return {@link LogWriterOutput#HANDLED} on success, {@link LogWriterOutput#UNHANDLED} otherwise
      */
-    public static @NotNull org.gtk.glib.LogWriterOutput logWriterStandardStreams(@NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull org.gtk.glib.LogField[] fields, long nFields, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(fields, "Parameter 'fields' must not be null");
+    public static org.gtk.glib.LogWriterOutput logWriterStandardStreams(org.gtk.glib.LogLevelFlags logLevel, org.gtk.glib.LogField[] fields, long nFields) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_log_writer_standard_streams.invokeExact(
                     logLevel.getValue(),
                     Interop.allocateNativeArray(fields, org.gtk.glib.LogField.getMemoryLayout(), false),
                     nFields,
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -8310,7 +8051,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -8332,15 +8073,12 @@ public final class GLib {
      * @param format the message format. See the printf() documentation
      * @param args the parameters to insert into the format string
      */
-    public static void logv(@Nullable java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static void logv(@Nullable java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevel, java.lang.String format, VaList args) {
         try {
             DowncallHandles.g_logv.invokeExact(
-                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)),
+                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(logDomain, null)),
                     logLevel.getValue(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -8354,14 +8092,14 @@ public final class GLib {
      * g_main_context_get_thread_default().
      * @return the global default main context.
      */
-    public static @NotNull org.gtk.glib.MainContext mainContextDefault() {
+    public static org.gtk.glib.MainContext mainContextDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -8386,7 +8124,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -8399,14 +8137,14 @@ public final class GLib {
      * @return the thread-default {@link MainContext}. Unref
      *     with g_main_context_unref() when you are done with it.
      */
-    public static @NotNull org.gtk.glib.MainContext mainContextRefThreadDefault() {
+    public static org.gtk.glib.MainContext mainContextRefThreadDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_main_context_ref_thread_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.FULL);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -8420,7 +8158,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.NONE);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -8663,29 +8401,24 @@ public final class GLib {
      *     with {@link MarkupCollectType#INVALID}
      * @return {@code true} if successful
      */
-    public static boolean markupCollectAttributes(@NotNull java.lang.String elementName, @NotNull PointerString attributeNames, @NotNull PointerString attributeValues, @NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull org.gtk.glib.MarkupCollectType firstType, @NotNull java.lang.String firstAttr, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
-        java.util.Objects.requireNonNull(attributeNames, "Parameter 'attributeNames' must not be null");
-        java.util.Objects.requireNonNull(attributeValues, "Parameter 'attributeValues' must not be null");
-        java.util.Objects.requireNonNull(firstType, "Parameter 'firstType' must not be null");
-        java.util.Objects.requireNonNull(firstAttr, "Parameter 'firstAttr' must not be null");
+    public static boolean markupCollectAttributes(java.lang.String elementName, PointerString attributeNames, PointerString attributeValues, PointerProxy<org.gtk.glib.Error> error, org.gtk.glib.MarkupCollectType firstType, java.lang.String firstAttr, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_markup_collect_attributes.invokeExact(
-                    Interop.allocateNativeString(elementName),
+                    Marshal.stringToAddress.marshal(elementName, null),
                     attributeNames.handle(),
                     attributeValues.handle(),
                     error.handle(),
                     firstType.getValue(),
-                    Interop.allocateNativeString(firstAttr),
+                    Marshal.stringToAddress.marshal(firstAttr, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark markupErrorQuark() {
+    public static org.gtk.glib.Quark markupErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_markup_error_quark.invokeExact();
@@ -8714,17 +8447,16 @@ public final class GLib {
      * @param length length of {@code text} in bytes, or -1 if the text is nul-terminated
      * @return a newly allocated string with the escaped text
      */
-    public static @NotNull java.lang.String markupEscapeText(@NotNull java.lang.String text, long length) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static java.lang.String markupEscapeText(java.lang.String text, long length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_markup_escape_text.invokeExact(
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -8750,17 +8482,16 @@ public final class GLib {
      * @return newly allocated result from formatting
      *    operation. Free with g_free().
      */
-    public static @NotNull java.lang.String markupPrintfEscaped(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static java.lang.String markupPrintfEscaped(java.lang.String format, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_markup_printf_escaped.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -8772,18 +8503,16 @@ public final class GLib {
      * @return newly allocated result from formatting
      *  operation. Free with g_free().
      */
-    public static @NotNull java.lang.String markupVprintfEscaped(@NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static java.lang.String markupVprintfEscaped(java.lang.String format, VaList args) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_markup_vprintf_escaped.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -8804,7 +8533,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -8832,8 +8561,7 @@ public final class GLib {
      * profiling tools instead
      */
     @Deprecated
-    public static void memSetVtable(@NotNull org.gtk.glib.MemVTable vtable) {
-        java.util.Objects.requireNonNull(vtable, "Parameter 'vtable' must not be null");
+    public static void memSetVtable(org.gtk.glib.MemVTable vtable) {
         try {
             DowncallHandles.g_mem_set_vtable.invokeExact(
                     vtable.handle());
@@ -8897,12 +8625,11 @@ public final class GLib {
      * @return 0 if the directory already exists, or was successfully
      * created. Returns -1 if an error occurred, with errno set.
      */
-    public static int mkdirWithParents(@NotNull java.lang.String pathname, int mode) {
-        java.util.Objects.requireNonNull(pathname, "Parameter 'pathname' must not be null");
+    public static int mkdirWithParents(java.lang.String pathname, int mode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_mkdir_with_parents.invokeExact(
-                    Interop.allocateNativeString(pathname),
+                    Marshal.stringToAddress.marshal(pathname, null),
                     mode);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -8931,16 +8658,15 @@ public final class GLib {
      *     modified to hold the directory name.  In case of errors, {@code null} is
      *     returned and {@code errno} will be set.
      */
-    public static @Nullable java.lang.String mkdtemp(@NotNull java.lang.String tmpl) {
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
+    public static @Nullable java.lang.String mkdtemp(java.lang.String tmpl) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mkdtemp.invokeExact(
-                    Interop.allocateNativeString(tmpl));
+                    Marshal.stringToAddress.marshal(tmpl, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -8965,17 +8691,16 @@ public final class GLib {
      *     modified to hold the directory name. In case of errors, {@code null} is
      *     returned, and {@code errno} will be set.
      */
-    public static @Nullable java.lang.String mkdtempFull(@NotNull java.lang.String tmpl, int mode) {
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
+    public static @Nullable java.lang.String mkdtempFull(java.lang.String tmpl, int mode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mkdtemp_full.invokeExact(
-                    Interop.allocateNativeString(tmpl),
+                    Marshal.stringToAddress.marshal(tmpl, null),
                     mode);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -8996,12 +8721,11 @@ public final class GLib {
      *     should be closed with close(). In case of errors, -1 is
      *     returned and {@code errno} will be set.
      */
-    public static int mkstemp(@NotNull java.lang.String tmpl) {
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
+    public static int mkstemp(java.lang.String tmpl) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_mkstemp.invokeExact(
-                    Interop.allocateNativeString(tmpl));
+                    Marshal.stringToAddress.marshal(tmpl, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9029,12 +8753,11 @@ public final class GLib {
      *     closed with close(). In case of errors, -1 is returned
      *     and {@code errno} will be set.
      */
-    public static int mkstempFull(@NotNull java.lang.String tmpl, int flags, int mode) {
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
+    public static int mkstempFull(java.lang.String tmpl, int flags, int mode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_mkstemp_full.invokeExact(
-                    Interop.allocateNativeString(tmpl),
+                    Marshal.stringToAddress.marshal(tmpl, null),
                     flags,
                     mode);
         } catch (Throwable ERR) {
@@ -9047,8 +8770,7 @@ public final class GLib {
      * Set the pointer at the specified location to {@code null}.
      * @param nullifyLocation the memory address of the pointer.
      */
-    public static void nullifyPointer(@NotNull java.lang.foreign.MemoryAddress nullifyLocation) {
-        java.util.Objects.requireNonNull(nullifyLocation, "Parameter 'nullifyLocation' must not be null");
+    public static void nullifyPointer(java.lang.foreign.MemoryAddress nullifyLocation) {
         try {
             DowncallHandles.g_nullify_pointer.invokeExact(
                     (Addressable) nullifyLocation);
@@ -9057,7 +8779,7 @@ public final class GLib {
         }
     }
     
-    public static @NotNull org.gtk.glib.Quark numberParserErrorQuark() {
+    public static org.gtk.glib.Quark numberParserErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_number_parser_error_quark.invokeExact();
@@ -9118,11 +8840,10 @@ public final class GLib {
      *     the program name (which will work correctly if gdk_init() or
      *     gtk_init() has been called)
      */
-    public static void onErrorQuery(@NotNull java.lang.String prgName) {
-        java.util.Objects.requireNonNull(prgName, "Parameter 'prgName' must not be null");
+    public static void onErrorQuery(java.lang.String prgName) {
         try {
             DowncallHandles.g_on_error_query.invokeExact(
-                    Interop.allocateNativeString(prgName));
+                    Marshal.stringToAddress.marshal(prgName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9145,11 +8866,10 @@ public final class GLib {
      * @param prgName the program name, needed by gdb for the "[S]tack trace"
      *     option
      */
-    public static void onErrorStackTrace(@NotNull java.lang.String prgName) {
-        java.util.Objects.requireNonNull(prgName, "Parameter 'prgName' must not be null");
+    public static void onErrorStackTrace(java.lang.String prgName) {
         try {
             DowncallHandles.g_on_error_stack_trace.invokeExact(
-                    Interop.allocateNativeString(prgName));
+                    Marshal.stringToAddress.marshal(prgName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9185,8 +8905,7 @@ public final class GLib {
      * @return {@code true} if the initialization section should be entered,
      *     {@code false} and blocks otherwise
      */
-    public static boolean onceInitEnter(@NotNull java.lang.foreign.MemoryAddress location) {
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
+    public static boolean onceInitEnter(java.lang.foreign.MemoryAddress location) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_once_init_enter.invokeExact(
@@ -9194,7 +8913,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -9210,8 +8929,7 @@ public final class GLib {
      *    containing 0
      * @param result new non-0 value for *{@code value_location}
      */
-    public static void onceInitLeave(@NotNull java.lang.foreign.MemoryAddress location, long result) {
-        java.util.Objects.requireNonNull(location, "Parameter 'location' must not be null");
+    public static void onceInitLeave(java.lang.foreign.MemoryAddress location, long result) {
         try {
             DowncallHandles.g_once_init_leave.invokeExact(
                     (Addressable) location,
@@ -9221,7 +8939,7 @@ public final class GLib {
         }
     }
     
-    public static @NotNull org.gtk.glib.Quark optionErrorQuark() {
+    public static org.gtk.glib.Quark optionErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_option_error_quark.invokeExact();
@@ -9251,12 +8969,11 @@ public final class GLib {
      * @param nkeys the number of {@code GDebugKeys} in the array.
      * @return the combined set of bit flags.
      */
-    public static int parseDebugString(@Nullable java.lang.String string, @NotNull org.gtk.glib.DebugKey[] keys, int nkeys) {
-        java.util.Objects.requireNonNull(keys, "Parameter 'keys' must not be null");
+    public static int parseDebugString(@Nullable java.lang.String string, org.gtk.glib.DebugKey[] keys, int nkeys) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_parse_debug_string.invokeExact(
-                    (Addressable) (string == null ? MemoryAddress.NULL : Interop.allocateNativeString(string)),
+                    (Addressable) (string == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(string, null)),
                     Interop.allocateNativeArray(keys, org.gtk.glib.DebugKey.getMemoryLayout(), false),
                     nkeys);
         } catch (Throwable ERR) {
@@ -9276,16 +8993,15 @@ public final class GLib {
      * @return a newly allocated string
      *    containing the last component of the filename
      */
-    public static @NotNull java.lang.String pathGetBasename(@NotNull java.lang.String fileName) {
-        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
+    public static java.lang.String pathGetBasename(java.lang.String fileName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_path_get_basename.invokeExact(
-                    Interop.allocateNativeString(fileName));
+                    Marshal.stringToAddress.marshal(fileName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -9298,16 +9014,15 @@ public final class GLib {
      * @param fileName the name of the file
      * @return the directory components of the file
      */
-    public static @NotNull java.lang.String pathGetDirname(@NotNull java.lang.String fileName) {
-        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
+    public static java.lang.String pathGetDirname(java.lang.String fileName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_path_get_dirname.invokeExact(
-                    Interop.allocateNativeString(fileName));
+                    Marshal.stringToAddress.marshal(fileName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -9338,16 +9053,15 @@ public final class GLib {
      * @param fileName a file name
      * @return {@code true} if {@code file_name} is absolute
      */
-    public static boolean pathIsAbsolute(@NotNull java.lang.String fileName) {
-        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
+    public static boolean pathIsAbsolute(java.lang.String fileName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_path_is_absolute.invokeExact(
-                    Interop.allocateNativeString(fileName));
+                    Marshal.stringToAddress.marshal(fileName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -9358,16 +9072,15 @@ public final class GLib {
      * @return a pointer into {@code file_name} after the
      *     root component
      */
-    public static @Nullable java.lang.String pathSkipRoot(@NotNull java.lang.String fileName) {
-        java.util.Objects.requireNonNull(fileName, "Parameter 'fileName' must not be null");
+    public static @Nullable java.lang.String pathSkipRoot(java.lang.String fileName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_path_skip_root.invokeExact(
-                    Interop.allocateNativeString(fileName));
+                    Marshal.stringToAddress.marshal(fileName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -9397,20 +9110,18 @@ public final class GLib {
      * @deprecated Use g_pattern_spec_match() instead
      */
     @Deprecated
-    public static boolean patternMatch(@NotNull org.gtk.glib.PatternSpec pspec, int stringLength, @NotNull java.lang.String string, @Nullable java.lang.String stringReversed) {
-        java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static boolean patternMatch(org.gtk.glib.PatternSpec pspec, int stringLength, java.lang.String string, @Nullable java.lang.String stringReversed) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_pattern_match.invokeExact(
                     pspec.handle(),
                     stringLength,
-                    Interop.allocateNativeString(string),
-                    (Addressable) (stringReversed == null ? MemoryAddress.NULL : Interop.allocateNativeString(stringReversed)));
+                    Marshal.stringToAddress.marshal(string, null),
+                    (Addressable) (stringReversed == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(stringReversed, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -9422,18 +9133,16 @@ public final class GLib {
      * @param string the UTF-8 encoded string to match
      * @return {@code true} if {@code string} matches {@code pspec}
      */
-    public static boolean patternMatchSimple(@NotNull java.lang.String pattern, @NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static boolean patternMatchSimple(java.lang.String pattern, java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_pattern_match_simple.invokeExact(
-                    Interop.allocateNativeString(pattern),
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(pattern, null),
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -9446,18 +9155,16 @@ public final class GLib {
      * @deprecated Use g_pattern_spec_match_string() instead
      */
     @Deprecated
-    public static boolean patternMatchString(@NotNull org.gtk.glib.PatternSpec pspec, @NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static boolean patternMatchString(org.gtk.glib.PatternSpec pspec, java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_pattern_match_string.invokeExact(
                     pspec.handle(),
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -9472,8 +9179,7 @@ public final class GLib {
      * @param address a pointer to a {@code gpointer}-sized value
      * @param lockBit a bit value between 0 and 31
      */
-    public static void pointerBitLock(@NotNull java.lang.foreign.MemoryAddress address, int lockBit) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+    public static void pointerBitLock(java.lang.foreign.MemoryAddress address, int lockBit) {
         try {
             DowncallHandles.g_pointer_bit_lock.invokeExact(
                     (Addressable) address,
@@ -9496,8 +9202,7 @@ public final class GLib {
      * @param lockBit a bit value between 0 and 31
      * @return {@code true} if the lock was acquired
      */
-    public static boolean pointerBitTrylock(@NotNull java.lang.foreign.MemoryAddress address, int lockBit) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+    public static boolean pointerBitTrylock(java.lang.foreign.MemoryAddress address, int lockBit) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_pointer_bit_trylock.invokeExact(
@@ -9506,7 +9211,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -9521,8 +9226,7 @@ public final class GLib {
      * @param address a pointer to a {@code gpointer}-sized value
      * @param lockBit a bit value between 0 and 31
      */
-    public static void pointerBitUnlock(@NotNull java.lang.foreign.MemoryAddress address, int lockBit) {
-        java.util.Objects.requireNonNull(address, "Parameter 'address' must not be null");
+    public static void pointerBitUnlock(java.lang.foreign.MemoryAddress address, int lockBit) {
         try {
             DowncallHandles.g_pointer_bit_unlock.invokeExact(
                     (Addressable) address,
@@ -9557,8 +9261,7 @@ public final class GLib {
      * were filled in, or 0 if the operation timed out, or -1 on error or
      * if the call was interrupted.
      */
-    public static int poll(@NotNull org.gtk.glib.PollFD fds, int nfds, int timeout) {
-        java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
+    public static int poll(org.gtk.glib.PollFD fds, int nfds, int timeout) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_poll.invokeExact(
@@ -9582,18 +9285,17 @@ public final class GLib {
      * @param format printf()-style format string
      * @param varargs arguments to {@code format}
      */
-    public static void prefixError(@Nullable Out<org.gtk.glib.Error> err, @NotNull java.lang.String format, java.lang.Object... varargs) {
+    public static void prefixError(@Nullable Out<org.gtk.glib.Error> err, java.lang.String format, java.lang.Object... varargs) {
         MemorySegment errPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         try {
             DowncallHandles.g_prefix_error.invokeExact(
                     (Addressable) errPOINTER.address(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        err.set(new org.gtk.glib.Error(errPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        err.set(org.gtk.glib.Error.fromAddress.marshal(errPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -9602,12 +9304,11 @@ public final class GLib {
      * @param err a return location for a {@link Error}, or {@code null}
      * @param prefix string to prefix {@code err} with
      */
-    public static void prefixErrorLiteral(@Nullable PointerProxy<org.gtk.glib.Error> err, @NotNull java.lang.String prefix) {
-        java.util.Objects.requireNonNull(prefix, "Parameter 'prefix' must not be null");
+    public static void prefixErrorLiteral(@Nullable PointerProxy<org.gtk.glib.Error> err, java.lang.String prefix) {
         try {
             DowncallHandles.g_prefix_error_literal.invokeExact(
                     err.handle(),
-                    Interop.allocateNativeString(prefix));
+                    Marshal.stringToAddress.marshal(prefix, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9627,11 +9328,10 @@ public final class GLib {
      * @param format the message format. See the printf() documentation
      * @param varargs the parameters to insert into the format string
      */
-    public static void print(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void print(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_print.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9650,11 +9350,10 @@ public final class GLib {
      * @param format the message format. See the printf() documentation
      * @param varargs the parameters to insert into the format string
      */
-    public static void printerr(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void printerr(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_printerr.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9675,12 +9374,11 @@ public final class GLib {
      * @param varargs the arguments to insert in the output.
      * @return the number of bytes printed.
      */
-    public static int printf(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static int printf(java.lang.String format, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_printf.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9695,13 +9393,11 @@ public final class GLib {
      * @param args the parameters to be inserted into the format string
      * @return the maximum space needed to store the formatted string
      */
-    public static long printfStringUpperBound(@NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static long printfStringUpperBound(java.lang.String format, VaList args) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_printf_string_upper_bound.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9721,9 +9417,8 @@ public final class GLib {
      * @param dest error return location
      * @param src error to move into the return location
      */
-    public static void propagateError(@Nullable Out<org.gtk.glib.Error> dest, @NotNull org.gtk.glib.Error src) {
+    public static void propagateError(@Nullable Out<org.gtk.glib.Error> dest, org.gtk.glib.Error src) {
         MemorySegment destPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
         try {
             DowncallHandles.g_propagate_error.invokeExact(
                     (Addressable) destPOINTER.address(),
@@ -9731,7 +9426,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        dest.set(new org.gtk.glib.Error(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        dest.set(org.gtk.glib.Error.fromAddress.marshal(destPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
         src.yieldOwnership();
     }
     
@@ -9744,14 +9439,12 @@ public final class GLib {
      * @param format printf()-style format string
      * @param varargs arguments to {@code format}
      */
-    public static void propagatePrefixedError(@NotNull PointerProxy<org.gtk.glib.Error> dest, @NotNull org.gtk.glib.Error src, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void propagatePrefixedError(PointerProxy<org.gtk.glib.Error> dest, org.gtk.glib.Error src, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_propagate_prefixed_error.invokeExact(
                     dest.handle(),
                     src.handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -9772,21 +9465,19 @@ public final class GLib {
      *    the element, if found
      * @return {@code true} if {@code needle} is one of the elements of {@code haystack}
      */
-    public static boolean ptrArrayFind(@NotNull java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, Out<Integer> index) {
-        java.util.Objects.requireNonNull(haystack, "Parameter 'haystack' must not be null");
-        java.util.Objects.requireNonNull(index, "Parameter 'index' must not be null");
+    public static boolean ptrArrayFind(java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, Out<Integer> index) {
         MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ptr_array_find.invokeExact(
                     Interop.allocateNativeArray(haystack, false),
                     (Addressable) (needle == null ? MemoryAddress.NULL : (Addressable) needle),
-                    (Addressable) indexPOINTER.address());
+                    (Addressable) (index == null ? MemoryAddress.NULL : (Addressable) indexPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (index != null) index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -9808,8 +9499,20 @@ public final class GLib {
      *    the element, if found
      * @return {@code true} if {@code needle} is one of the elements of {@code haystack}
      */
-    public static boolean ptrArrayFindWithEqualFunc(@NotNull java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, @Nullable org.gtk.glib.EqualFunc equalFunc, Out<Integer> index) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static boolean ptrArrayFindWithEqualFunc(java.lang.foreign.MemoryAddress[] haystack, @Nullable java.lang.foreign.MemoryAddress needle, @Nullable org.gtk.glib.EqualFunc equalFunc, Out<Integer> index) {
+        MemorySegment indexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_ptr_array_find_with_equal_func.invokeExact(
+                    Interop.allocateNativeArray(haystack, false),
+                    (Addressable) (needle == null ? MemoryAddress.NULL : (Addressable) needle),
+                    (Addressable) (equalFunc == null ? MemoryAddress.NULL : (Addressable) equalFunc.toCallback()),
+                    (Addressable) (index == null ? MemoryAddress.NULL : (Addressable) indexPOINTER.address()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (index != null) index.set(indexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -9822,20 +9525,14 @@ public final class GLib {
      * @param size size of each element
      * @param compareFunc function to compare elements
      */
-    public static void qsortWithData(@NotNull java.lang.foreign.MemoryAddress pbase, int totalElems, long size, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
-        java.util.Objects.requireNonNull(pbase, "Parameter 'pbase' must not be null");
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public static void qsortWithData(java.lang.foreign.MemoryAddress pbase, int totalElems, long size, org.gtk.glib.CompareDataFunc compareFunc) {
         try {
             DowncallHandles.g_qsort_with_data.invokeExact(
                     (Addressable) pbase,
                     totalElems,
                     size,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(compareFunc)));
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9861,11 +9558,11 @@ public final class GLib {
      * @param string a string
      * @return the {@link Quark} identifying the string, or 0 if {@code string} is {@code null}
      */
-    public static @NotNull org.gtk.glib.Quark quarkFromStaticString(@Nullable java.lang.String string) {
+    public static org.gtk.glib.Quark quarkFromStaticString(@Nullable java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_quark_from_static_string.invokeExact(
-                    (Addressable) (string == null ? MemoryAddress.NULL : Interop.allocateNativeString(string)));
+                    (Addressable) (string == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(string, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9883,11 +9580,11 @@ public final class GLib {
      * @param string a string
      * @return the {@link Quark} identifying the string, or 0 if {@code string} is {@code null}
      */
-    public static @NotNull org.gtk.glib.Quark quarkFromString(@Nullable java.lang.String string) {
+    public static org.gtk.glib.Quark quarkFromString(@Nullable java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_quark_from_string.invokeExact(
-                    (Addressable) (string == null ? MemoryAddress.NULL : Interop.allocateNativeString(string)));
+                    (Addressable) (string == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(string, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -9899,8 +9596,7 @@ public final class GLib {
      * @param quark a {@link Quark}.
      * @return the string associated with the {@link Quark}
      */
-    public static @NotNull java.lang.String quarkToString(@NotNull org.gtk.glib.Quark quark) {
-        java.util.Objects.requireNonNull(quark, "Parameter 'quark' must not be null");
+    public static java.lang.String quarkToString(org.gtk.glib.Quark quark) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_quark_to_string.invokeExact(
@@ -9908,7 +9604,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -9924,11 +9620,11 @@ public final class GLib {
      * @return the {@link Quark} associated with the string, or 0 if {@code string} is
      *     {@code null} or there is no {@link Quark} associated with it
      */
-    public static @NotNull org.gtk.glib.Quark quarkTryString(@Nullable java.lang.String string) {
+    public static org.gtk.glib.Quark quarkTryString(@Nullable java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_quark_try_string.invokeExact(
-                    (Addressable) (string == null ? MemoryAddress.NULL : Interop.allocateNativeString(string)));
+                    (Addressable) (string == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(string, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10022,8 +9718,7 @@ public final class GLib {
      * @return a pointer to the data,
      *   with its reference count increased
      */
-    public static @NotNull java.lang.foreign.MemoryAddress rcBoxAcquire(@NotNull java.lang.foreign.MemoryAddress memBlock) {
-        java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
+    public static java.lang.foreign.MemoryAddress rcBoxAcquire(java.lang.foreign.MemoryAddress memBlock) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rc_box_acquire.invokeExact(
@@ -10046,7 +9741,7 @@ public final class GLib {
      * @param blockSize the size of the allocation, must be greater than 0
      * @return a pointer to the allocated memory
      */
-    public static @NotNull java.lang.foreign.MemoryAddress rcBoxAlloc(long blockSize) {
+    public static java.lang.foreign.MemoryAddress rcBoxAlloc(long blockSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rc_box_alloc.invokeExact(
@@ -10071,7 +9766,7 @@ public final class GLib {
      * @param blockSize the size of the allocation, must be greater than 0
      * @return a pointer to the allocated memory
      */
-    public static @NotNull java.lang.foreign.MemoryAddress rcBoxAlloc0(long blockSize) {
+    public static java.lang.foreign.MemoryAddress rcBoxAlloc0(long blockSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rc_box_alloc0.invokeExact(
@@ -10091,8 +9786,7 @@ public final class GLib {
      * @return a pointer to the allocated
      *   memory
      */
-    public static @NotNull java.lang.foreign.MemoryAddress rcBoxDup(long blockSize, @NotNull java.lang.foreign.MemoryAddress memBlock) {
-        java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
+    public static java.lang.foreign.MemoryAddress rcBoxDup(long blockSize, java.lang.foreign.MemoryAddress memBlock) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rc_box_dup.invokeExact(
@@ -10109,8 +9803,7 @@ public final class GLib {
      * @param memBlock a pointer to reference counted data
      * @return the size of the data, in bytes
      */
-    public static long rcBoxGetSize(@NotNull java.lang.foreign.MemoryAddress memBlock) {
-        java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
+    public static long rcBoxGetSize(java.lang.foreign.MemoryAddress memBlock) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_rc_box_get_size.invokeExact(
@@ -10128,8 +9821,7 @@ public final class GLib {
      * resources allocated for {@code mem_block}.
      * @param memBlock a pointer to reference counted data
      */
-    public static void rcBoxRelease(@NotNull java.lang.foreign.MemoryAddress memBlock) {
-        java.util.Objects.requireNonNull(memBlock, "Parameter 'memBlock' must not be null");
+    public static void rcBoxRelease(java.lang.foreign.MemoryAddress memBlock) {
         try {
             DowncallHandles.g_rc_box_release.invokeExact(
                     (Addressable) memBlock);
@@ -10147,8 +9839,14 @@ public final class GLib {
      * @param memBlock a pointer to reference counted data
      * @param clearFunc a function to call when clearing the data
      */
-    public static void rcBoxReleaseFull(@NotNull java.lang.foreign.MemoryAddress memBlock, @NotNull org.gtk.glib.DestroyNotify clearFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void rcBoxReleaseFull(java.lang.foreign.MemoryAddress memBlock, org.gtk.glib.DestroyNotify clearFunc) {
+        try {
+            DowncallHandles.g_rc_box_release_full.invokeExact(
+                    (Addressable) memBlock,
+                    (Addressable) clearFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -10208,7 +9906,6 @@ public final class GLib {
      *   as the given value
      */
     public static boolean refCountCompare(PointerInteger rc, int val) {
-        java.util.Objects.requireNonNull(rc, "Parameter 'rc' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ref_count_compare.invokeExact(
@@ -10217,7 +9914,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -10230,7 +9927,6 @@ public final class GLib {
      * @return {@code true} if the reference count reached 0, and {@code false} otherwise
      */
     public static boolean refCountDec(PointerInteger rc) {
-        java.util.Objects.requireNonNull(rc, "Parameter 'rc' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_ref_count_dec.invokeExact(
@@ -10238,7 +9934,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -10246,7 +9942,6 @@ public final class GLib {
      * @param rc the address of a reference count variable
      */
     public static void refCountInc(PointerInteger rc) {
-        java.util.Objects.requireNonNull(rc, "Parameter 'rc' must not be null");
         try {
             DowncallHandles.g_ref_count_inc.invokeExact(
                     rc.handle());
@@ -10260,7 +9955,6 @@ public final class GLib {
      * @param rc the address of a reference count variable
      */
     public static void refCountInit(PointerInteger rc) {
-        java.util.Objects.requireNonNull(rc, "Parameter 'rc' must not be null");
         try {
             DowncallHandles.g_ref_count_init.invokeExact(
                     rc.handle());
@@ -10274,16 +9968,15 @@ public final class GLib {
      * @param str a reference counted string
      * @return the given string, with its reference count increased
      */
-    public static @NotNull java.lang.String refStringAcquire(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String refStringAcquire(java.lang.String str) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ref_string_acquire.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -10291,12 +9984,11 @@ public final class GLib {
      * @param str a reference counted string
      * @return the length of the given string, in bytes
      */
-    public static long refStringLength(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static long refStringLength(java.lang.String str) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_ref_string_length.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10309,16 +10001,15 @@ public final class GLib {
      * @param str a NUL-terminated string
      * @return the newly created reference counted string
      */
-    public static @NotNull java.lang.String refStringNew(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String refStringNew(java.lang.String str) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ref_string_new.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -10332,16 +10023,15 @@ public final class GLib {
      * @return the newly created reference
      *   counted string, or a new reference to an existing string
      */
-    public static @NotNull java.lang.String refStringNewIntern(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String refStringNewIntern(java.lang.String str) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ref_string_new_intern.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -10354,17 +10044,16 @@ public final class GLib {
      * @param len length of {@code str} to use, or -1 if {@code str} is nul-terminated
      * @return the newly created reference counted string
      */
-    public static @NotNull java.lang.String refStringNewLen(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String refStringNewLen(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_ref_string_new_len.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -10372,11 +10061,10 @@ public final class GLib {
      * resources allocated by the string are freed as well.
      * @param str a reference counted string
      */
-    public static void refStringRelease(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static void refStringRelease(java.lang.String str) {
         try {
             DowncallHandles.g_ref_string_release.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10398,16 +10086,14 @@ public final class GLib {
      * @return whether {@code replacement} is a valid replacement string
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean regexCheckReplacement(@NotNull java.lang.String replacement, Out<Boolean> hasReferences) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(replacement, "Parameter 'replacement' must not be null");
-        java.util.Objects.requireNonNull(hasReferences, "Parameter 'hasReferences' must not be null");
+    public static boolean regexCheckReplacement(java.lang.String replacement, Out<Boolean> hasReferences) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment hasReferencesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_check_replacement.invokeExact(
-                    Interop.allocateNativeString(replacement),
-                    (Addressable) hasReferencesPOINTER.address(),
+                    Marshal.stringToAddress.marshal(replacement, null),
+                    (Addressable) (hasReferences == null ? MemoryAddress.NULL : (Addressable) hasReferencesPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -10415,11 +10101,11 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        hasReferences.set(hasReferencesPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        if (hasReferences != null) hasReferences.set(hasReferencesPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark regexErrorQuark() {
+    public static org.gtk.glib.Quark regexErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_error_quark.invokeExact();
@@ -10439,17 +10125,16 @@ public final class GLib {
      * @param length the length of {@code string}
      * @return a newly-allocated escaped string
      */
-    public static @NotNull java.lang.String regexEscapeNul(@NotNull java.lang.String string, int length) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String regexEscapeNul(java.lang.String string, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_nul.invokeExact(
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -10464,8 +10149,7 @@ public final class GLib {
      * @param length the length of {@code string}, in bytes, or -1 if {@code string} is nul-terminated
      * @return a newly-allocated escaped string
      */
-    public static @NotNull java.lang.String regexEscapeString(@NotNull java.lang.String[] string, int length) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String regexEscapeString(java.lang.String[] string, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_escape_string.invokeExact(
@@ -10474,7 +10158,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -10494,22 +10178,18 @@ public final class GLib {
      * @param matchOptions match options, or 0
      * @return {@code true} if the string matched, {@code false} otherwise
      */
-    public static boolean regexMatchSimple(@NotNull java.lang.String pattern, @NotNull java.lang.String string, @NotNull org.gtk.glib.RegexCompileFlags compileOptions, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) {
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(compileOptions, "Parameter 'compileOptions' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
+    public static boolean regexMatchSimple(java.lang.String pattern, java.lang.String string, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_regex_match_simple.invokeExact(
-                    Interop.allocateNativeString(pattern),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(pattern, null),
+                    Marshal.stringToAddress.marshal(string, null),
                     compileOptions.getValue(),
                     matchOptions.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -10547,16 +10227,12 @@ public final class GLib {
      * @return a {@code null}-terminated array of strings. Free
      * it using g_strfreev()
      */
-    public static @NotNull PointerString regexSplitSimple(@NotNull java.lang.String pattern, @NotNull java.lang.String string, @NotNull org.gtk.glib.RegexCompileFlags compileOptions, @NotNull org.gtk.glib.RegexMatchFlags matchOptions) {
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(compileOptions, "Parameter 'compileOptions' must not be null");
-        java.util.Objects.requireNonNull(matchOptions, "Parameter 'matchOptions' must not be null");
+    public static PointerString regexSplitSimple(java.lang.String pattern, java.lang.String string, org.gtk.glib.RegexCompileFlags compileOptions, org.gtk.glib.RegexMatchFlags matchOptions) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_regex_split_simple.invokeExact(
-                    Interop.allocateNativeString(pattern),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(pattern, null),
+                    Marshal.stringToAddress.marshal(string, null),
                     compileOptions.getValue(),
                     matchOptions.getValue());
         } catch (Throwable ERR) {
@@ -10590,13 +10266,12 @@ public final class GLib {
      * @param prettyFunction function containing the assertion
      * @param expression expression which failed
      */
-    public static void returnIfFailWarning(@Nullable java.lang.String logDomain, @NotNull java.lang.String prettyFunction, @Nullable java.lang.String expression) {
-        java.util.Objects.requireNonNull(prettyFunction, "Parameter 'prettyFunction' must not be null");
+    public static void returnIfFailWarning(@Nullable java.lang.String logDomain, java.lang.String prettyFunction, @Nullable java.lang.String expression) {
         try {
             DowncallHandles.g_return_if_fail_warning.invokeExact(
-                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)),
-                    Interop.allocateNativeString(prettyFunction),
-                    (Addressable) (expression == null ? MemoryAddress.NULL : Interop.allocateNativeString(expression)));
+                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(logDomain, null)),
+                    Marshal.stringToAddress.marshal(prettyFunction, null),
+                    (Addressable) (expression == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(expression, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10613,12 +10288,11 @@ public final class GLib {
      * @return 0 if the directory was successfully removed, -1 if an error
      *    occurred
      */
-    public static int rmdir(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static int rmdir(java.lang.String filename) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_rmdir.invokeExact(
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10630,8 +10304,7 @@ public final class GLib {
      * @param iter a {@link SequenceIter}
      * @return the data that {@code iter} points to
      */
-    public static @Nullable java.lang.foreign.MemoryAddress sequenceGet(@NotNull org.gtk.glib.SequenceIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress sequenceGet(org.gtk.glib.SequenceIter iter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_get.invokeExact(
@@ -10645,20 +10318,18 @@ public final class GLib {
     /**
      * Inserts a new item just before the item pointed to by {@code iter}.
      * @param iter a {@link SequenceIter}
-     * @param data the data for the new item
      * @return an iterator pointing to the new item
      */
-    public static @NotNull org.gtk.glib.SequenceIter sequenceInsertBefore(@NotNull org.gtk.glib.SequenceIter iter, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public static org.gtk.glib.SequenceIter sequenceInsertBefore(org.gtk.glib.SequenceIter iter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_insert_before.invokeExact(
                     iter.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -10670,9 +10341,7 @@ public final class GLib {
      * @param dest a {@link SequenceIter} pointing to the position to which
      *     the item is moved
      */
-    public static void sequenceMove(@NotNull org.gtk.glib.SequenceIter src, @NotNull org.gtk.glib.SequenceIter dest) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public static void sequenceMove(org.gtk.glib.SequenceIter src, org.gtk.glib.SequenceIter dest) {
         try {
             DowncallHandles.g_sequence_move.invokeExact(
                     src.handle(),
@@ -10695,10 +10364,7 @@ public final class GLib {
      * @param begin a {@link SequenceIter}
      * @param end a {@link SequenceIter}
      */
-    public static void sequenceMoveRange(@NotNull org.gtk.glib.SequenceIter dest, @NotNull org.gtk.glib.SequenceIter begin, @NotNull org.gtk.glib.SequenceIter end) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public static void sequenceMoveRange(org.gtk.glib.SequenceIter dest, org.gtk.glib.SequenceIter begin, org.gtk.glib.SequenceIter end) {
         try {
             DowncallHandles.g_sequence_move_range.invokeExact(
                     dest.handle(),
@@ -10721,9 +10387,7 @@ public final class GLib {
      * @return a {@link SequenceIter} pointing somewhere in the
      *    ({@code begin}, {@code end}) range
      */
-    public static @NotNull org.gtk.glib.SequenceIter sequenceRangeGetMidpoint(@NotNull org.gtk.glib.SequenceIter begin, @NotNull org.gtk.glib.SequenceIter end) {
-        java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public static org.gtk.glib.SequenceIter sequenceRangeGetMidpoint(org.gtk.glib.SequenceIter begin, org.gtk.glib.SequenceIter end) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_sequence_range_get_midpoint.invokeExact(
@@ -10732,7 +10396,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SequenceIter(RESULT, Ownership.NONE);
+        return org.gtk.glib.SequenceIter.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -10743,8 +10407,7 @@ public final class GLib {
      * function is called on the data for the removed item.
      * @param iter a {@link SequenceIter}
      */
-    public static void sequenceRemove(@NotNull org.gtk.glib.SequenceIter iter) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public static void sequenceRemove(org.gtk.glib.SequenceIter iter) {
         try {
             DowncallHandles.g_sequence_remove.invokeExact(
                     iter.handle());
@@ -10761,9 +10424,7 @@ public final class GLib {
      * @param begin a {@link SequenceIter}
      * @param end a {@link SequenceIter}
      */
-    public static void sequenceRemoveRange(@NotNull org.gtk.glib.SequenceIter begin, @NotNull org.gtk.glib.SequenceIter end) {
-        java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public static void sequenceRemoveRange(org.gtk.glib.SequenceIter begin, org.gtk.glib.SequenceIter end) {
         try {
             DowncallHandles.g_sequence_remove_range.invokeExact(
                     begin.handle(),
@@ -10778,14 +10439,12 @@ public final class GLib {
      * the sequence has a data destroy function associated with it, that
      * function is called on the existing data that {@code iter} pointed to.
      * @param iter a {@link SequenceIter}
-     * @param data new data for the item
      */
-    public static void sequenceSet(@NotNull org.gtk.glib.SequenceIter iter, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(iter, "Parameter 'iter' must not be null");
+    public static void sequenceSet(org.gtk.glib.SequenceIter iter) {
         try {
             DowncallHandles.g_sequence_set.invokeExact(
                     iter.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10797,9 +10456,7 @@ public final class GLib {
      * @param a a {@link SequenceIter}
      * @param b a {@link SequenceIter}
      */
-    public static void sequenceSwap(@NotNull org.gtk.glib.SequenceIter a, @NotNull org.gtk.glib.SequenceIter b) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public static void sequenceSwap(org.gtk.glib.SequenceIter a, org.gtk.glib.SequenceIter b) {
         try {
             DowncallHandles.g_sequence_swap.invokeExact(
                     a.handle(),
@@ -10823,11 +10480,10 @@ public final class GLib {
      * or when displaying an application's name in the task list.
      * @param applicationName localized name of the application
      */
-    public static void setApplicationName(@NotNull java.lang.String applicationName) {
-        java.util.Objects.requireNonNull(applicationName, "Parameter 'applicationName' must not be null");
+    public static void setApplicationName(java.lang.String applicationName) {
         try {
             DowncallHandles.g_set_application_name.invokeExact(
-                    Interop.allocateNativeString(applicationName));
+                    Marshal.stringToAddress.marshal(applicationName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10842,21 +10498,19 @@ public final class GLib {
      * @param format printf()-style format
      * @param varargs args for {@code format}
      */
-    public static void setError(@NotNull Out<org.gtk.glib.Error> err, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
+    public static void setError(@Nullable Out<org.gtk.glib.Error> err, org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
         MemorySegment errPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
         try {
             DowncallHandles.g_set_error.invokeExact(
                     (Addressable) errPOINTER.address(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        err.set(new org.gtk.glib.Error(errPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        err.set(org.gtk.glib.Error.fromAddress.marshal(errPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -10870,20 +10524,18 @@ public final class GLib {
      * @param code error code
      * @param message error message
      */
-    public static void setErrorLiteral(@NotNull Out<org.gtk.glib.Error> err, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String message) {
+    public static void setErrorLiteral(@Nullable Out<org.gtk.glib.Error> err, org.gtk.glib.Quark domain, int code, java.lang.String message) {
         MemorySegment errPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
         try {
             DowncallHandles.g_set_error_literal.invokeExact(
                     (Addressable) errPOINTER.address(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(message));
+                    Marshal.stringToAddress.marshal(message, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        err.set(new org.gtk.glib.Error(errPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        err.set(org.gtk.glib.Error.fromAddress.marshal(errPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -10901,11 +10553,10 @@ public final class GLib {
      * could only be called once per process.
      * @param prgname the name of the program.
      */
-    public static void setPrgname(@NotNull java.lang.String prgname) {
-        java.util.Objects.requireNonNull(prgname, "Parameter 'prgname' must not be null");
+    public static void setPrgname(java.lang.String prgname) {
         try {
             DowncallHandles.g_set_prgname.invokeExact(
-                    Interop.allocateNativeString(prgname));
+                    Marshal.stringToAddress.marshal(prgname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -10922,8 +10573,15 @@ public final class GLib {
      * @param func the new print handler
      * @return the old print handler
      */
-    public static @NotNull org.gtk.glib.PrintFunc setPrintHandler(@NotNull org.gtk.glib.PrintFunc func) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gtk.glib.PrintFunc setPrintHandler(org.gtk.glib.PrintFunc func) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_set_print_handler.invokeExact(
+                    (Addressable) func.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return null /* Unsupported parameter type */;
     }
     
     /**
@@ -10937,8 +10595,15 @@ public final class GLib {
      * @param func the new error message handler
      * @return the old error message handler
      */
-    public static @NotNull org.gtk.glib.PrintFunc setPrinterrHandler(@NotNull org.gtk.glib.PrintFunc func) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static org.gtk.glib.PrintFunc setPrinterrHandler(org.gtk.glib.PrintFunc func) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_set_printerr_handler.invokeExact(
+                    (Addressable) func.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return null /* Unsupported parameter type */;
     }
     
     /**
@@ -10967,22 +10632,20 @@ public final class GLib {
      * @param overwrite whether to change the variable if it already exists.
      * @return {@code false} if the environment variable couldn't be set.
      */
-    public static boolean setenv(@NotNull java.lang.String variable, @NotNull java.lang.String value, boolean overwrite) {
-        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static boolean setenv(java.lang.String variable, java.lang.String value, boolean overwrite) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_setenv.invokeExact(
-                    Interop.allocateNativeString(variable),
-                    Interop.allocateNativeString(value),
-                    overwrite ? 1 : 0);
+                    Marshal.stringToAddress.marshal(variable, null),
+                    Marshal.stringToAddress.marshal(value, null),
+                    Marshal.booleanToInteger.marshal(overwrite, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark shellErrorQuark() {
+    public static org.gtk.glib.Quark shellErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_shell_error_quark.invokeExact();
@@ -11017,19 +10680,16 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if error set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean shellParseArgv(@NotNull java.lang.String commandLine, Out<Integer> argcp, @NotNull Out<java.lang.String[]> argvp) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(commandLine, "Parameter 'commandLine' must not be null");
-        java.util.Objects.requireNonNull(argcp, "Parameter 'argcp' must not be null");
+    public static boolean shellParseArgv(java.lang.String commandLine, Out<Integer> argcp, @Nullable Out<java.lang.String[]> argvp) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment argcpPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(argvp, "Parameter 'argvp' must not be null");
         MemorySegment argvpPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_shell_parse_argv.invokeExact(
-                    Interop.allocateNativeString(commandLine),
-                    (Addressable) argcpPOINTER.address(),
-                    (Addressable) argvpPOINTER.address(),
+                    Marshal.stringToAddress.marshal(commandLine, null),
+                    (Addressable) (argcp == null ? MemoryAddress.NULL : (Addressable) argcpPOINTER.address()),
+                    (Addressable) (argvp == null ? MemoryAddress.NULL : (Addressable) argvpPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -11037,14 +10697,14 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        argcp.set(argcpPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (argcp != null) argcp.set(argcpPOINTER.get(Interop.valueLayout.C_INT, 0));
         java.lang.String[] argvpARRAY = new java.lang.String[argcp.get().intValue()];
         for (int I = 0; I < argcp.get().intValue(); I++) {
             var OBJ = argvpPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            argvpARRAY[I] = Interop.getStringFrom(OBJ);
+            argvpARRAY[I] = Marshal.addressToString.marshal(OBJ, null);
         }
         argvp.set(argvpARRAY);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -11061,16 +10721,15 @@ public final class GLib {
      * @param unquotedString a literal string
      * @return quoted string
      */
-    public static @NotNull java.lang.String shellQuote(@NotNull java.lang.String unquotedString) {
-        java.util.Objects.requireNonNull(unquotedString, "Parameter 'unquotedString' must not be null");
+    public static java.lang.String shellQuote(java.lang.String unquotedString) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_shell_quote.invokeExact(
-                    Interop.allocateNativeString(unquotedString));
+                    Marshal.stringToAddress.marshal(unquotedString, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -11105,13 +10764,12 @@ public final class GLib {
      * @return an unquoted string
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String shellUnquote(@NotNull java.lang.String quotedString) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(quotedString, "Parameter 'quotedString' must not be null");
+    public static java.lang.String shellUnquote(java.lang.String quotedString) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_shell_unquote.invokeExact(
-                    Interop.allocateNativeString(quotedString),
+                    Marshal.stringToAddress.marshal(quotedString, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -11119,7 +10777,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -11241,8 +10899,7 @@ public final class GLib {
         }
     }
     
-    public static long sliceGetConfig(@NotNull org.gtk.glib.SliceConfig ckey) {
-        java.util.Objects.requireNonNull(ckey, "Parameter 'ckey' must not be null");
+    public static long sliceGetConfig(org.gtk.glib.SliceConfig ckey) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_slice_get_config.invokeExact(
@@ -11253,9 +10910,7 @@ public final class GLib {
         return RESULT;
     }
     
-    public static PointerLong sliceGetConfigState(@NotNull org.gtk.glib.SliceConfig ckey, long address, PointerInteger nValues) {
-        java.util.Objects.requireNonNull(ckey, "Parameter 'ckey' must not be null");
-        java.util.Objects.requireNonNull(nValues, "Parameter 'nValues' must not be null");
+    public static PointerLong sliceGetConfigState(org.gtk.glib.SliceConfig ckey, long address, PointerInteger nValues) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_slice_get_config_state.invokeExact(
@@ -11268,8 +10923,7 @@ public final class GLib {
         return new PointerLong(RESULT);
     }
     
-    public static void sliceSetConfig(@NotNull org.gtk.glib.SliceConfig ckey, long value) {
-        java.util.Objects.requireNonNull(ckey, "Parameter 'ckey' must not be null");
+    public static void sliceSetConfig(org.gtk.glib.SliceConfig ckey, long value) {
         try {
             DowncallHandles.g_slice_set_config.invokeExact(
                     ckey.getValue(),
@@ -11306,15 +10960,13 @@ public final class GLib {
      * @return the number of bytes which would be produced if the buffer
      *     was large enough.
      */
-    public static int snprintf(@NotNull java.lang.String string, long n, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static int snprintf(java.lang.String string, long n, java.lang.String format, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_snprintf.invokeExact(
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     n,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -11353,7 +11005,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -11361,38 +11013,35 @@ public final class GLib {
      * source functions and user data. If multiple sources exist with the
      * same source functions and user data, only one will be destroyed.
      * @param funcs The {@code source_funcs} passed to g_source_new()
-     * @param userData the user data for the callback
      * @return {@code true} if a source was found and removed.
      */
-    public static boolean sourceRemoveByFuncsUserData(@NotNull org.gtk.glib.SourceFuncs funcs, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(funcs, "Parameter 'funcs' must not be null");
+    public static boolean sourceRemoveByFuncsUserData(org.gtk.glib.SourceFuncs funcs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_source_remove_by_funcs_user_data.invokeExact(
                     funcs.handle(),
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Removes a source from the default main loop context given the user
      * data for the callback. If multiple sources exist with the same user
      * data, only one will be destroyed.
-     * @param userData the user_data for the callback.
      * @return {@code true} if a source was found and removed.
      */
-    public static boolean sourceRemoveByUserData(@Nullable java.lang.foreign.MemoryAddress userData) {
+    public static boolean sourceRemoveByUserData() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_source_remove_by_user_data.invokeExact(
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -11415,12 +11064,11 @@ public final class GLib {
      * @param tag a {@link Source} ID
      * @param name debug name for the source
      */
-    public static void sourceSetNameById(int tag, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static void sourceSetNameById(int tag, java.lang.String name) {
         try {
             DowncallHandles.g_source_set_name_by_id.invokeExact(
                     tag,
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -11475,26 +11123,19 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if error is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean spawnAsync(@Nullable java.lang.String workingDirectory, @NotNull java.lang.String[] argv, @Nullable java.lang.String[] envp, @NotNull org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, @NotNull Out<org.gtk.glib.Pid> childPid) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(childPid, "Parameter 'childPid' must not be null");
+    public static boolean spawnAsync(@Nullable java.lang.String workingDirectory, java.lang.String[] argv, @Nullable java.lang.String[] envp, org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, @Nullable org.gtk.glib.Pid childPid) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment childPidPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_async.invokeExact(
-                    (Addressable) (workingDirectory == null ? MemoryAddress.NULL : Interop.allocateNativeString(workingDirectory)),
+                    (Addressable) (workingDirectory == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(workingDirectory, null)),
                     Interop.allocateNativeArray(argv, false),
                     (Addressable) (envp == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envp, false)),
                     flags.getValue(),
-                    (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSpawnChildSetupFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (childSetup == null ? MemoryAddress.NULL : Interop.registerCallback(childSetup)),
-                    (Addressable) childPidPOINTER.address(),
+                    (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) childSetup.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (childPid == null ? MemoryAddress.NULL : (Addressable) childPidPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -11502,8 +11143,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        childPid.set(new org.gtk.glib.Pid(childPidPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        if (childPid != null) childPid.setValue(childPidPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -11524,26 +11165,19 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if an error was set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean spawnAsyncWithFds(@Nullable java.lang.String workingDirectory, @NotNull java.lang.String[] argv, @Nullable java.lang.String[] envp, @NotNull org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, @NotNull Out<org.gtk.glib.Pid> childPid, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(childPid, "Parameter 'childPid' must not be null");
+    public static boolean spawnAsyncWithFds(@Nullable java.lang.String workingDirectory, java.lang.String[] argv, @Nullable java.lang.String[] envp, org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, @Nullable org.gtk.glib.Pid childPid, int stdinFd, int stdoutFd, int stderrFd) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment childPidPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_async_with_fds.invokeExact(
-                    (Addressable) (workingDirectory == null ? MemoryAddress.NULL : Interop.allocateNativeString(workingDirectory)),
+                    (Addressable) (workingDirectory == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(workingDirectory, null)),
                     Interop.allocateNativeArray(argv, false),
                     (Addressable) (envp == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envp, false)),
                     flags.getValue(),
-                    (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSpawnChildSetupFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (childSetup == null ? MemoryAddress.NULL : Interop.registerCallback(childSetup)),
-                    (Addressable) childPidPOINTER.address(),
+                    (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) childSetup.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (childPid == null ? MemoryAddress.NULL : (Addressable) childPidPOINTER.address()),
                     stdinFd,
                     stdoutFd,
                     stderrFd,
@@ -11554,8 +11188,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        childPid.set(new org.gtk.glib.Pid(childPidPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        if (childPid != null) childPid.setValue(childPidPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -11576,35 +11210,25 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if an error was set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean spawnAsyncWithPipes(@Nullable java.lang.String workingDirectory, @NotNull java.lang.String[] argv, @Nullable java.lang.String[] envp, @NotNull org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, @NotNull Out<org.gtk.glib.Pid> childPid, Out<Integer> standardInput, Out<Integer> standardOutput, Out<Integer> standardError) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(childPid, "Parameter 'childPid' must not be null");
+    public static boolean spawnAsyncWithPipes(@Nullable java.lang.String workingDirectory, java.lang.String[] argv, @Nullable java.lang.String[] envp, org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, @Nullable org.gtk.glib.Pid childPid, Out<Integer> standardInput, Out<Integer> standardOutput, Out<Integer> standardError) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment childPidPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(standardInput, "Parameter 'standardInput' must not be null");
         MemorySegment standardInputPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(standardOutput, "Parameter 'standardOutput' must not be null");
         MemorySegment standardOutputPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(standardError, "Parameter 'standardError' must not be null");
         MemorySegment standardErrorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_async_with_pipes.invokeExact(
-                    (Addressable) (workingDirectory == null ? MemoryAddress.NULL : Interop.allocateNativeString(workingDirectory)),
+                    (Addressable) (workingDirectory == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(workingDirectory, null)),
                     Interop.allocateNativeArray(argv, false),
                     (Addressable) (envp == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envp, false)),
                     flags.getValue(),
-                    (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSpawnChildSetupFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (childSetup == null ? MemoryAddress.NULL : Interop.registerCallback(childSetup)),
-                    (Addressable) childPidPOINTER.address(),
-                    (Addressable) standardInputPOINTER.address(),
-                    (Addressable) standardOutputPOINTER.address(),
-                    (Addressable) standardErrorPOINTER.address(),
+                    (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) childSetup.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (childPid == null ? MemoryAddress.NULL : (Addressable) childPidPOINTER.address()),
+                    (Addressable) (standardInput == null ? MemoryAddress.NULL : (Addressable) standardInputPOINTER.address()),
+                    (Addressable) (standardOutput == null ? MemoryAddress.NULL : (Addressable) standardOutputPOINTER.address()),
+                    (Addressable) (standardError == null ? MemoryAddress.NULL : (Addressable) standardErrorPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -11612,11 +11236,11 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        childPid.set(new org.gtk.glib.Pid(childPidPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        standardInput.set(standardInputPOINTER.get(Interop.valueLayout.C_INT, 0));
-        standardOutput.set(standardOutputPOINTER.get(Interop.valueLayout.C_INT, 0));
-        standardError.set(standardErrorPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (childPid != null) childPid.setValue(childPidPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (standardInput != null) standardInput.set(standardInputPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (standardOutput != null) standardOutput.set(standardOutputPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (standardError != null) standardError.set(standardErrorPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -11837,41 +11461,31 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if an error was set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean spawnAsyncWithPipesAndFds(@Nullable java.lang.String workingDirectory, @NotNull java.lang.String[] argv, @Nullable java.lang.String[] envp, @NotNull org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, int stdinFd, int stdoutFd, int stderrFd, @Nullable int[] sourceFds, @Nullable int[] targetFds, long nFds, @NotNull Out<org.gtk.glib.Pid> childPidOut, Out<Integer> stdinPipeOut, Out<Integer> stdoutPipeOut, Out<Integer> stderrPipeOut) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(childPidOut, "Parameter 'childPidOut' must not be null");
+    public static boolean spawnAsyncWithPipesAndFds(@Nullable java.lang.String workingDirectory, java.lang.String[] argv, @Nullable java.lang.String[] envp, org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, int stdinFd, int stdoutFd, int stderrFd, int[] sourceFds, int[] targetFds, long nFds, @Nullable org.gtk.glib.Pid childPidOut, Out<Integer> stdinPipeOut, Out<Integer> stdoutPipeOut, Out<Integer> stderrPipeOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment childPidOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(stdinPipeOut, "Parameter 'stdinPipeOut' must not be null");
         MemorySegment stdinPipeOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(stdoutPipeOut, "Parameter 'stdoutPipeOut' must not be null");
         MemorySegment stdoutPipeOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(stderrPipeOut, "Parameter 'stderrPipeOut' must not be null");
         MemorySegment stderrPipeOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_async_with_pipes_and_fds.invokeExact(
-                    (Addressable) (workingDirectory == null ? MemoryAddress.NULL : Interop.allocateNativeString(workingDirectory)),
+                    (Addressable) (workingDirectory == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(workingDirectory, null)),
                     Interop.allocateNativeArray(argv, false),
                     (Addressable) (envp == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envp, false)),
                     flags.getValue(),
-                    (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSpawnChildSetupFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (childSetup == null ? MemoryAddress.NULL : Interop.registerCallback(childSetup)),
+                    (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) childSetup.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     stdinFd,
                     stdoutFd,
                     stderrFd,
                     (Addressable) (sourceFds == null ? MemoryAddress.NULL : Interop.allocateNativeArray(sourceFds, false)),
                     (Addressable) (targetFds == null ? MemoryAddress.NULL : Interop.allocateNativeArray(targetFds, false)),
                     nFds,
-                    (Addressable) childPidOutPOINTER.address(),
-                    (Addressable) stdinPipeOutPOINTER.address(),
-                    (Addressable) stdoutPipeOutPOINTER.address(),
-                    (Addressable) stderrPipeOutPOINTER.address(),
+                    (Addressable) (childPidOut == null ? MemoryAddress.NULL : (Addressable) childPidOutPOINTER.address()),
+                    (Addressable) (stdinPipeOut == null ? MemoryAddress.NULL : (Addressable) stdinPipeOutPOINTER.address()),
+                    (Addressable) (stdoutPipeOut == null ? MemoryAddress.NULL : (Addressable) stdoutPipeOutPOINTER.address()),
+                    (Addressable) (stderrPipeOut == null ? MemoryAddress.NULL : (Addressable) stderrPipeOutPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -11879,11 +11493,11 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        childPidOut.set(new org.gtk.glib.Pid(childPidOutPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        stdinPipeOut.set(stdinPipeOutPOINTER.get(Interop.valueLayout.C_INT, 0));
-        stdoutPipeOut.set(stdoutPipeOutPOINTER.get(Interop.valueLayout.C_INT, 0));
-        stderrPipeOut.set(stderrPipeOutPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (childPidOut != null) childPidOut.setValue(childPidOutPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (stdinPipeOut != null) stdinPipeOut.set(stdinPipeOutPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (stdoutPipeOut != null) stdoutPipeOut.set(stdoutPipeOutPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (stderrPipeOut != null) stderrPipeOut.set(stderrPipeOutPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -11915,7 +11529,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -11976,7 +11590,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -11986,8 +11600,7 @@ public final class GLib {
      * though it doesn't do anything under UNIX.
      * @param pid The process reference to close
      */
-    public static void spawnClosePid(@NotNull org.gtk.glib.Pid pid) {
-        java.util.Objects.requireNonNull(pid, "Parameter 'pid' must not be null");
+    public static void spawnClosePid(org.gtk.glib.Pid pid) {
         try {
             DowncallHandles.g_spawn_close_pid.invokeExact(
                     pid.getValue().intValue());
@@ -12011,13 +11624,12 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if error is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean spawnCommandLineAsync(@NotNull java.lang.String commandLine) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(commandLine, "Parameter 'commandLine' must not be null");
+    public static boolean spawnCommandLineAsync(java.lang.String commandLine) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_command_line_async.invokeExact(
-                    Interop.allocateNativeString(commandLine),
+                    Marshal.stringToAddress.marshal(commandLine, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -12025,7 +11637,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -12065,11 +11677,28 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if an error was set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean spawnCommandLineSync(@NotNull java.lang.String commandLine, @NotNull Out<byte[]> standardOutput, @NotNull Out<byte[]> standardError, Out<Integer> waitStatus) throws io.github.jwharm.javagi.GErrorException {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static boolean spawnCommandLineSync(java.lang.String commandLine, byte[] standardOutput, byte[] standardError, Out<Integer> waitStatus) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment waitStatusPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_spawn_command_line_sync.invokeExact(
+                    Marshal.stringToAddress.marshal(commandLine, null),
+                    (Addressable) (standardOutput == null ? MemoryAddress.NULL : Interop.allocateNativeArray(standardOutput, false)),
+                    (Addressable) (standardError == null ? MemoryAddress.NULL : Interop.allocateNativeArray(standardError, false)),
+                    (Addressable) (waitStatus == null ? MemoryAddress.NULL : (Addressable) waitStatusPOINTER.address()),
+                    (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        if (waitStatus != null) waitStatus.set(waitStatusPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark spawnErrorQuark() {
+    public static org.gtk.glib.Quark spawnErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_error_quark.invokeExact();
@@ -12079,7 +11708,7 @@ public final class GLib {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Quark spawnExitErrorQuark() {
+    public static org.gtk.glib.Quark spawnExitErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_spawn_exit_error_quark.invokeExact();
@@ -12125,8 +11754,30 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if an error was set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean spawnSync(@Nullable java.lang.String workingDirectory, @NotNull java.lang.String[] argv, @Nullable java.lang.String[] envp, @NotNull org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, @NotNull Out<byte[]> standardOutput, @NotNull Out<byte[]> standardError, Out<Integer> waitStatus) throws io.github.jwharm.javagi.GErrorException {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static boolean spawnSync(@Nullable java.lang.String workingDirectory, java.lang.String[] argv, @Nullable java.lang.String[] envp, org.gtk.glib.SpawnFlags flags, @Nullable org.gtk.glib.SpawnChildSetupFunc childSetup, byte[] standardOutput, byte[] standardError, Out<Integer> waitStatus) throws io.github.jwharm.javagi.GErrorException {
+        MemorySegment waitStatusPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_spawn_sync.invokeExact(
+                    (Addressable) (workingDirectory == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(workingDirectory, null)),
+                    Interop.allocateNativeArray(argv, false),
+                    (Addressable) (envp == null ? MemoryAddress.NULL : Interop.allocateNativeArray(envp, false)),
+                    flags.getValue(),
+                    (Addressable) (childSetup == null ? MemoryAddress.NULL : (Addressable) childSetup.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (standardOutput == null ? MemoryAddress.NULL : Interop.allocateNativeArray(standardOutput, false)),
+                    (Addressable) (standardError == null ? MemoryAddress.NULL : Interop.allocateNativeArray(standardError, false)),
+                    (Addressable) (waitStatus == null ? MemoryAddress.NULL : (Addressable) waitStatusPOINTER.address()),
+                    (Addressable) GERROR);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (GErrorException.isErrorSet(GERROR)) {
+            throw new GErrorException(GERROR);
+        }
+        if (waitStatus != null) waitStatus.set(waitStatusPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -12147,14 +11798,12 @@ public final class GLib {
      * @param varargs the arguments to insert in the output.
      * @return the number of bytes printed.
      */
-    public static int sprintf(@NotNull java.lang.String string, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static int sprintf(java.lang.String string, java.lang.String format, java.lang.Object... varargs) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_sprintf.invokeExact(
-                    Interop.allocateNativeString(string),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(string, null),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -12171,18 +11820,16 @@ public final class GLib {
      * @param src source string.
      * @return a pointer to trailing nul byte.
      */
-    public static @NotNull java.lang.String stpcpy(@NotNull java.lang.String dest, @NotNull java.lang.String src) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static java.lang.String stpcpy(java.lang.String dest, java.lang.String src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_stpcpy.invokeExact(
-                    Interop.allocateNativeString(dest),
-                    Interop.allocateNativeString(src));
+                    Marshal.stringToAddress.marshal(dest, null),
+                    Marshal.stringToAddress.marshal(src, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12198,9 +11845,7 @@ public final class GLib {
      * @param v2 a key to compare with {@code v1}
      * @return {@code true} if the two keys match
      */
-    public static boolean strEqual(@NotNull java.lang.foreign.MemoryAddress v1, @NotNull java.lang.foreign.MemoryAddress v2) {
-        java.util.Objects.requireNonNull(v1, "Parameter 'v1' must not be null");
-        java.util.Objects.requireNonNull(v2, "Parameter 'v2' must not be null");
+    public static boolean strEqual(java.lang.foreign.MemoryAddress v1, java.lang.foreign.MemoryAddress v2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_str_equal.invokeExact(
@@ -12209,7 +11854,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -12218,18 +11863,16 @@ public final class GLib {
      * @param prefix the nul-terminated prefix to look for
      * @return {@code true} if {@code str} begins with {@code prefix}, {@code false} otherwise.
      */
-    public static boolean strHasPrefix(@NotNull java.lang.String str, @NotNull java.lang.String prefix) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(prefix, "Parameter 'prefix' must not be null");
+    public static boolean strHasPrefix(java.lang.String str, java.lang.String prefix) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_str_has_prefix.invokeExact(
-                    Interop.allocateNativeString(str),
-                    Interop.allocateNativeString(prefix));
+                    Marshal.stringToAddress.marshal(str, null),
+                    Marshal.stringToAddress.marshal(prefix, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -12238,18 +11881,16 @@ public final class GLib {
      * @param suffix the nul-terminated suffix to look for
      * @return {@code true} if {@code str} end with {@code suffix}, {@code false} otherwise.
      */
-    public static boolean strHasSuffix(@NotNull java.lang.String str, @NotNull java.lang.String suffix) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(suffix, "Parameter 'suffix' must not be null");
+    public static boolean strHasSuffix(java.lang.String str, java.lang.String suffix) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_str_has_suffix.invokeExact(
-                    Interop.allocateNativeString(str),
-                    Interop.allocateNativeString(suffix));
+                    Marshal.stringToAddress.marshal(str, null),
+                    Marshal.stringToAddress.marshal(suffix, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -12270,8 +11911,7 @@ public final class GLib {
      * @param v a string key
      * @return a hash value corresponding to the key
      */
-    public static int strHash(@NotNull java.lang.foreign.MemoryAddress v) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+    public static int strHash(java.lang.foreign.MemoryAddress v) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_str_hash.invokeExact(
@@ -12288,16 +11928,15 @@ public final class GLib {
      * @param str a string
      * @return {@code true} if {@code str} is ASCII
      */
-    public static boolean strIsAscii(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static boolean strIsAscii(java.lang.String str) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_str_is_ascii.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -12328,19 +11967,17 @@ public final class GLib {
      * @param acceptAlternates {@code true} to accept ASCII alternates
      * @return {@code true} if {@code potential_hit} is a hit
      */
-    public static boolean strMatchString(@NotNull java.lang.String searchTerm, @NotNull java.lang.String potentialHit, boolean acceptAlternates) {
-        java.util.Objects.requireNonNull(searchTerm, "Parameter 'searchTerm' must not be null");
-        java.util.Objects.requireNonNull(potentialHit, "Parameter 'potentialHit' must not be null");
+    public static boolean strMatchString(java.lang.String searchTerm, java.lang.String potentialHit, boolean acceptAlternates) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_str_match_string.invokeExact(
-                    Interop.allocateNativeString(searchTerm),
-                    Interop.allocateNativeString(potentialHit),
-                    acceptAlternates ? 1 : 0);
+                    Marshal.stringToAddress.marshal(searchTerm, null),
+                    Marshal.stringToAddress.marshal(potentialHit, null),
+                    Marshal.booleanToInteger.marshal(acceptAlternates, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -12366,17 +12003,16 @@ public final class GLib {
      * @param fromLocale the source locale, if known
      * @return a string in plain ASCII
      */
-    public static @NotNull java.lang.String strToAscii(@NotNull java.lang.String str, @Nullable java.lang.String fromLocale) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String strToAscii(java.lang.String str, @Nullable java.lang.String fromLocale) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_str_to_ascii.invokeExact(
-                    Interop.allocateNativeString(str),
-                    (Addressable) (fromLocale == null ? MemoryAddress.NULL : Interop.allocateNativeString(fromLocale)));
+                    Marshal.stringToAddress.marshal(str, null),
+                    (Addressable) (fromLocale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fromLocale, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12402,8 +12038,17 @@ public final class GLib {
      *   return location for ASCII alternates
      * @return the folded tokens
      */
-    public static @NotNull PointerString strTokenizeAndFold(@NotNull java.lang.String string, @Nullable java.lang.String translitLocale, @NotNull Out<java.lang.String[]> asciiAlternates) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static PointerString strTokenizeAndFold(java.lang.String string, @Nullable java.lang.String translitLocale, java.lang.String[] asciiAlternates) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.g_str_tokenize_and_fold.invokeExact(
+                    Marshal.stringToAddress.marshal(string, null),
+                    (Addressable) (translitLocale == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(translitLocale, null)),
+                    Interop.allocateNativeArray(asciiAlternates, false));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return new PointerString(RESULT);
     }
     
     /**
@@ -12427,19 +12072,17 @@ public final class GLib {
      * @param substitutor replacement character for disallowed bytes
      * @return the modified {@code string}
      */
-    public static @NotNull java.lang.String strcanon(@NotNull java.lang.String string, @NotNull java.lang.String validChars, byte substitutor) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(validChars, "Parameter 'validChars' must not be null");
+    public static java.lang.String strcanon(java.lang.String string, java.lang.String validChars, byte substitutor) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strcanon.invokeExact(
-                    Interop.allocateNativeString(string),
-                    Interop.allocateNativeString(validChars),
+                    Marshal.stringToAddress.marshal(string, null),
+                    Marshal.stringToAddress.marshal(validChars, null),
                     substitutor);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12453,14 +12096,12 @@ public final class GLib {
      *     function is deprecated and how to replace it.
      */
     @Deprecated
-    public static int strcasecmp(@NotNull java.lang.String s1, @NotNull java.lang.String s2) {
-        java.util.Objects.requireNonNull(s1, "Parameter 's1' must not be null");
-        java.util.Objects.requireNonNull(s2, "Parameter 's2' must not be null");
+    public static int strcasecmp(java.lang.String s1, java.lang.String s2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_strcasecmp.invokeExact(
-                    Interop.allocateNativeString(s1),
-                    Interop.allocateNativeString(s2));
+                    Marshal.stringToAddress.marshal(s1, null),
+                    Marshal.stringToAddress.marshal(s2, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -12480,16 +12121,15 @@ public final class GLib {
      * @param string a string to remove the trailing whitespace from
      * @return {@code string}
      */
-    public static @NotNull java.lang.String strchomp(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String strchomp(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strchomp.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12506,16 +12146,15 @@ public final class GLib {
      * @param string a string to remove the leading whitespace from
      * @return {@code string}
      */
-    public static @NotNull java.lang.String strchug(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String strchug(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strchug.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12530,8 +12169,8 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_strcmp0.invokeExact(
-                    (Addressable) (str1 == null ? MemoryAddress.NULL : Interop.allocateNativeString(str1)),
-                    (Addressable) (str2 == null ? MemoryAddress.NULL : Interop.allocateNativeString(str2)));
+                    (Addressable) (str1 == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str1, null)),
+                    (Addressable) (str2 == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str2, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -12546,16 +12185,15 @@ public final class GLib {
      * @return a newly-allocated copy of {@code source} with all escaped
      *     character compressed
      */
-    public static @NotNull java.lang.String strcompress(@NotNull java.lang.String source) {
-        java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
+    public static java.lang.String strcompress(java.lang.String source) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strcompress.invokeExact(
-                    Interop.allocateNativeString(source));
+                    Marshal.stringToAddress.marshal(source, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12572,17 +12210,16 @@ public final class GLib {
      * @param varargs a {@code null}-terminated list of strings to append to the string
      * @return a newly-allocated string containing all the string arguments
      */
-    public static @NotNull java.lang.String strconcat(@NotNull java.lang.String string1, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(string1, "Parameter 'string1' must not be null");
+    public static java.lang.String strconcat(java.lang.String string1, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strconcat.invokeExact(
-                    Interop.allocateNativeString(string1),
+                    Marshal.stringToAddress.marshal(string1, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12609,18 +12246,17 @@ public final class GLib {
      * @param newDelimiter the new delimiter character
      * @return the modified {@code string}
      */
-    public static @NotNull java.lang.String strdelimit(@NotNull java.lang.String string, @Nullable java.lang.String delimiters, byte newDelimiter) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String strdelimit(java.lang.String string, @Nullable java.lang.String delimiters, byte newDelimiter) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strdelimit.invokeExact(
-                    Interop.allocateNativeString(string),
-                    (Addressable) (delimiters == null ? MemoryAddress.NULL : Interop.allocateNativeString(delimiters)),
+                    Marshal.stringToAddress.marshal(string, null),
+                    (Addressable) (delimiters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(delimiters, null)),
                     newDelimiter);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12632,16 +12268,15 @@ public final class GLib {
      * instead.
      */
     @Deprecated
-    public static @NotNull java.lang.String strdown(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String strdown(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strdown.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12651,15 +12286,15 @@ public final class GLib {
      * @param str the string to duplicate
      * @return a newly-allocated copy of {@code str}
      */
-    public static @NotNull java.lang.String strdup(@Nullable java.lang.String str) {
+    public static java.lang.String strdup(@Nullable java.lang.String str) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strdup.invokeExact(
-                    (Addressable) (str == null ? MemoryAddress.NULL : Interop.allocateNativeString(str)));
+                    (Addressable) (str == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(str, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12676,17 +12311,16 @@ public final class GLib {
      * @param varargs the parameters to insert into the format string
      * @return a newly-allocated string holding the result
      */
-    public static @NotNull java.lang.String strdupPrintf(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static java.lang.String strdupPrintf(java.lang.String format, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strdup_printf.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12706,18 +12340,16 @@ public final class GLib {
      * @param args the list of parameters to insert into the format string
      * @return a newly-allocated string holding the result
      */
-    public static @NotNull java.lang.String strdupVprintf(@NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static java.lang.String strdupVprintf(java.lang.String format, VaList args) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strdup_vprintf.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12763,7 +12395,7 @@ public final class GLib {
      * @return a UTF-8 string describing the error code. If the error code
      *     is unknown, it returns a string like "Unknown error: &lt;code&gt;".
      */
-    public static @NotNull java.lang.String strerror(int errnum) {
+    public static java.lang.String strerror(int errnum) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strerror.invokeExact(
@@ -12771,7 +12403,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12788,17 +12420,16 @@ public final class GLib {
      * @return a newly-allocated copy of {@code source} with certain
      *     characters escaped. See above.
      */
-    public static @NotNull java.lang.String strescape(@NotNull java.lang.String source, @Nullable java.lang.String exceptions) {
-        java.util.Objects.requireNonNull(source, "Parameter 'source' must not be null");
+    public static java.lang.String strescape(java.lang.String source, @Nullable java.lang.String exceptions) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strescape.invokeExact(
-                    Interop.allocateNativeString(source),
-                    (Addressable) (exceptions == null ? MemoryAddress.NULL : Interop.allocateNativeString(exceptions)));
+                    Marshal.stringToAddress.marshal(source, null),
+                    (Addressable) (exceptions == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(exceptions, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12825,18 +12456,16 @@ public final class GLib {
      *     and contains a '|' character, in which case a pointer to
      *     the substring of msgid after the first '|' character is returned.
      */
-    public static @NotNull java.lang.String stripContext(@NotNull java.lang.String msgid, @NotNull java.lang.String msgval) {
-        java.util.Objects.requireNonNull(msgid, "Parameter 'msgid' must not be null");
-        java.util.Objects.requireNonNull(msgval, "Parameter 'msgval' must not be null");
+    public static java.lang.String stripContext(java.lang.String msgid, java.lang.String msgval) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strip_context.invokeExact(
-                    Interop.allocateNativeString(msgid),
-                    Interop.allocateNativeString(msgval));
+                    Marshal.stringToAddress.marshal(msgid, null),
+                    Marshal.stringToAddress.marshal(msgval, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12849,16 +12478,16 @@ public final class GLib {
      * @return a newly-allocated string containing all of the strings joined
      *     together, with {@code separator} between them
      */
-    public static @NotNull java.lang.String strjoin(@Nullable java.lang.String separator, java.lang.Object... varargs) {
+    public static java.lang.String strjoin(@Nullable java.lang.String separator, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strjoin.invokeExact(
-                    (Addressable) (separator == null ? MemoryAddress.NULL : Interop.allocateNativeString(separator)),
+                    (Addressable) (separator == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(separator, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12875,17 +12504,16 @@ public final class GLib {
      * @return a newly-allocated string containing all of the strings joined
      *     together, with {@code separator} between them
      */
-    public static @NotNull java.lang.String strjoinv(@Nullable java.lang.String separator, @NotNull PointerString strArray) {
-        java.util.Objects.requireNonNull(strArray, "Parameter 'strArray' must not be null");
+    public static java.lang.String strjoinv(@Nullable java.lang.String separator, PointerString strArray) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strjoinv.invokeExact(
-                    (Addressable) (separator == null ? MemoryAddress.NULL : Interop.allocateNativeString(separator)),
+                    (Addressable) (separator == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(separator, null)),
                     strArray.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -12910,14 +12538,12 @@ public final class GLib {
      *     (original dest)) + strlen (src), so if retval &gt;= dest_size,
      *     truncation occurred.
      */
-    public static long strlcat(@NotNull java.lang.String dest, @NotNull java.lang.String src, long destSize) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static long strlcat(java.lang.String dest, java.lang.String src, long destSize) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_strlcat.invokeExact(
-                    Interop.allocateNativeString(dest),
-                    Interop.allocateNativeString(src),
+                    Marshal.stringToAddress.marshal(dest, null),
+                    Marshal.stringToAddress.marshal(src, null),
                     destSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -12945,14 +12571,12 @@ public final class GLib {
      * @param destSize length of {@code dest} in bytes
      * @return length of {@code src}
      */
-    public static long strlcpy(@NotNull java.lang.String dest, @NotNull java.lang.String src, long destSize) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static long strlcpy(java.lang.String dest, java.lang.String src, long destSize) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_strlcpy.invokeExact(
-                    Interop.allocateNativeString(dest),
-                    Interop.allocateNativeString(src),
+                    Marshal.stringToAddress.marshal(dest, null),
+                    Marshal.stringToAddress.marshal(src, null),
                     destSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -12986,14 +12610,12 @@ public final class GLib {
      *     which is good for case-insensitive sorting of UTF-8.
      */
     @Deprecated
-    public static int strncasecmp(@NotNull java.lang.String s1, @NotNull java.lang.String s2, int n) {
-        java.util.Objects.requireNonNull(s1, "Parameter 's1' must not be null");
-        java.util.Objects.requireNonNull(s2, "Parameter 's2' must not be null");
+    public static int strncasecmp(java.lang.String s1, java.lang.String s2, int n) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_strncasecmp.invokeExact(
-                    Interop.allocateNativeString(s1),
-                    Interop.allocateNativeString(s2),
+                    Marshal.stringToAddress.marshal(s1, null),
+                    Marshal.stringToAddress.marshal(s2, null),
                     n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -13015,17 +12637,16 @@ public final class GLib {
      * @return a newly-allocated buffer containing the first {@code n} bytes
      *     of {@code str}, nul-terminated
      */
-    public static @NotNull java.lang.String strndup(@NotNull java.lang.String str, long n) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String strndup(java.lang.String str, long n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strndup.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13035,7 +12656,7 @@ public final class GLib {
      * @param fillChar the byte to fill the string with
      * @return a newly-allocated string filled the {@code fill_char}
      */
-    public static @NotNull java.lang.String strnfill(long length, byte fillChar) {
+    public static java.lang.String strnfill(long length, byte fillChar) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strnfill.invokeExact(
@@ -13044,7 +12665,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13057,16 +12678,15 @@ public final class GLib {
      * @param string the string to reverse
      * @return the same pointer passed in as {@code string}
      */
-    public static @NotNull java.lang.String strreverse(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String strreverse(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strreverse.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13077,18 +12697,16 @@ public final class GLib {
      * @return a pointer to the found occurrence, or
      *    {@code null} if not found.
      */
-    public static @NotNull java.lang.String strrstr(@NotNull java.lang.String haystack, @NotNull java.lang.String needle) {
-        java.util.Objects.requireNonNull(haystack, "Parameter 'haystack' must not be null");
-        java.util.Objects.requireNonNull(needle, "Parameter 'needle' must not be null");
+    public static java.lang.String strrstr(java.lang.String haystack, java.lang.String needle) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strrstr.invokeExact(
-                    Interop.allocateNativeString(haystack),
-                    Interop.allocateNativeString(needle));
+                    Marshal.stringToAddress.marshal(haystack, null),
+                    Marshal.stringToAddress.marshal(needle, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13102,19 +12720,17 @@ public final class GLib {
      * @return a pointer to the found occurrence, or
      *    {@code null} if not found.
      */
-    public static @NotNull java.lang.String strrstrLen(@NotNull java.lang.String haystack, long haystackLen, @NotNull java.lang.String needle) {
-        java.util.Objects.requireNonNull(haystack, "Parameter 'haystack' must not be null");
-        java.util.Objects.requireNonNull(needle, "Parameter 'needle' must not be null");
+    public static java.lang.String strrstrLen(java.lang.String haystack, long haystackLen, java.lang.String needle) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strrstr_len.invokeExact(
-                    Interop.allocateNativeString(haystack),
+                    Marshal.stringToAddress.marshal(haystack, null),
                     haystackLen,
-                    Interop.allocateNativeString(needle));
+                    Marshal.stringToAddress.marshal(needle, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13126,7 +12742,7 @@ public final class GLib {
      * @return a UTF-8 string describing the signal. If the signal is unknown,
      *     it returns "unknown signal (&lt;signum&gt;)".
      */
-    public static @NotNull java.lang.String strsignal(int signum) {
+    public static java.lang.String strsignal(int signum) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strsignal.invokeExact(
@@ -13134,7 +12750,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13161,14 +12777,12 @@ public final class GLib {
      * @return a newly-allocated {@code null}-terminated array of strings. Use
      *    g_strfreev() to free it.
      */
-    public static @NotNull PointerString strsplit(@NotNull java.lang.String string, @NotNull java.lang.String delimiter, int maxTokens) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(delimiter, "Parameter 'delimiter' must not be null");
+    public static PointerString strsplit(java.lang.String string, java.lang.String delimiter, int maxTokens) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strsplit.invokeExact(
-                    Interop.allocateNativeString(string),
-                    Interop.allocateNativeString(delimiter),
+                    Marshal.stringToAddress.marshal(string, null),
+                    Marshal.stringToAddress.marshal(delimiter, null),
                     maxTokens);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -13207,14 +12821,12 @@ public final class GLib {
      * @return a newly-allocated {@code null}-terminated array of strings. Use
      *    g_strfreev() to free it.
      */
-    public static @NotNull PointerString strsplitSet(@NotNull java.lang.String string, @NotNull java.lang.String delimiters, int maxTokens) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(delimiters, "Parameter 'delimiters' must not be null");
+    public static PointerString strsplitSet(java.lang.String string, java.lang.String delimiters, int maxTokens) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strsplit_set.invokeExact(
-                    Interop.allocateNativeString(string),
-                    Interop.allocateNativeString(delimiters),
+                    Marshal.stringToAddress.marshal(string, null),
+                    Marshal.stringToAddress.marshal(delimiters, null),
                     maxTokens);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -13233,19 +12845,17 @@ public final class GLib {
      * @return a pointer to the found occurrence, or
      *    {@code null} if not found.
      */
-    public static @NotNull java.lang.String strstrLen(@NotNull java.lang.String haystack, long haystackLen, @NotNull java.lang.String needle) {
-        java.util.Objects.requireNonNull(haystack, "Parameter 'haystack' must not be null");
-        java.util.Objects.requireNonNull(needle, "Parameter 'needle' must not be null");
+    public static java.lang.String strstrLen(java.lang.String haystack, long haystackLen, java.lang.String needle) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strstr_len.invokeExact(
-                    Interop.allocateNativeString(haystack),
+                    Marshal.stringToAddress.marshal(haystack, null),
                     haystackLen,
-                    Interop.allocateNativeString(needle));
+                    Marshal.stringToAddress.marshal(needle, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13265,19 +12875,17 @@ public final class GLib {
      *           character after the last character used in the conversion.
      * @return the {@code gdouble} value.
      */
-    public static double strtod(@NotNull java.lang.String nptr, @NotNull Out<java.lang.String> endptr) {
-        java.util.Objects.requireNonNull(nptr, "Parameter 'nptr' must not be null");
-        java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
+    public static double strtod(java.lang.String nptr, @Nullable Out<java.lang.String> endptr) {
         MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.g_strtod.invokeExact(
-                    Interop.allocateNativeString(nptr),
-                    (Addressable) endptrPOINTER.address());
+                    Marshal.stringToAddress.marshal(nptr, null),
+                    (Addressable) (endptr == null ? MemoryAddress.NULL : (Addressable) endptrPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (endptr != null) endptr.set(Marshal.addressToString.marshal(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return RESULT;
     }
     
@@ -13290,16 +12898,15 @@ public final class GLib {
      *     or g_utf8_strup() instead.
      */
     @Deprecated
-    public static @NotNull java.lang.String strup(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static java.lang.String strup(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strup.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13308,18 +12915,16 @@ public final class GLib {
      * @param str a string
      * @return {@code true} if {@code str} is an element of {@code strv}, according to g_str_equal().
      */
-    public static boolean strvContains(@NotNull java.lang.String strv, @NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(strv, "Parameter 'strv' must not be null");
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static boolean strvContains(java.lang.String strv, java.lang.String str) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_strv_contains.invokeExact(
-                    Interop.allocateNativeString(strv),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(strv, null),
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -13333,21 +12938,19 @@ public final class GLib {
      * @param strv2 another {@code null}-terminated array of strings
      * @return {@code true} if {@code strv1} and {@code strv2} are equal
      */
-    public static boolean strvEqual(@NotNull java.lang.String strv1, @NotNull java.lang.String strv2) {
-        java.util.Objects.requireNonNull(strv1, "Parameter 'strv1' must not be null");
-        java.util.Objects.requireNonNull(strv2, "Parameter 'strv2' must not be null");
+    public static boolean strvEqual(java.lang.String strv1, java.lang.String strv2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_strv_equal.invokeExact(
-                    Interop.allocateNativeString(strv1),
-                    Interop.allocateNativeString(strv2));
+                    Marshal.stringToAddress.marshal(strv1, null),
+                    Marshal.stringToAddress.marshal(strv2, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Type strvGetType() {
+    public static org.gtk.glib.Type strvGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_strv_get_type.invokeExact();
@@ -13363,8 +12966,7 @@ public final class GLib {
      * @param strArray a {@code null}-terminated array of strings
      * @return length of {@code str_array}.
      */
-    public static int strvLength(@NotNull PointerString strArray) {
-        java.util.Objects.requireNonNull(strArray, "Parameter 'strArray' must not be null");
+    public static int strvLength(PointerString strArray) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_strv_length.invokeExact(
@@ -13392,18 +12994,12 @@ public final class GLib {
      * @param testpath /-separated test case path name for the test.
      * @param testFunc The test function to invoke for this test.
      */
-    public static void testAddDataFunc(@NotNull java.lang.String testpath, @NotNull org.gtk.glib.TestDataFunc testFunc) {
-        java.util.Objects.requireNonNull(testpath, "Parameter 'testpath' must not be null");
-        java.util.Objects.requireNonNull(testFunc, "Parameter 'testFunc' must not be null");
+    public static void testAddDataFunc(java.lang.String testpath, org.gtk.glib.TestDataFunc testFunc) {
         try {
             DowncallHandles.g_test_add_data_func.invokeExact(
-                    Interop.allocateNativeString(testpath),
-                    (Addressable) (Interop.registerCallback(testFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestDataFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    Marshal.stringToAddress.marshal(testpath, null),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) testFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -13414,20 +13010,15 @@ public final class GLib {
      * {@code test_data} after the test run is complete.
      * @param testpath /-separated test case path name for the test.
      * @param testFunc The test function to invoke for this test.
+     * @param dataFreeFunc {@link DestroyNotify} for {@code test_data}.
      */
-    public static void testAddDataFuncFull(@NotNull java.lang.String testpath, @NotNull org.gtk.glib.TestDataFunc testFunc) {
-        java.util.Objects.requireNonNull(testpath, "Parameter 'testpath' must not be null");
-        java.util.Objects.requireNonNull(testFunc, "Parameter 'testFunc' must not be null");
+    public static void testAddDataFuncFull(java.lang.String testpath, org.gtk.glib.TestDataFunc testFunc, org.gtk.glib.DestroyNotify dataFreeFunc) {
         try {
             DowncallHandles.g_test_add_data_func_full.invokeExact(
-                    Interop.allocateNativeString(testpath),
-                    (Addressable) (Interop.registerCallback(testFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestDataFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    Interop.cbDestroyNotifySymbol());
+                    Marshal.stringToAddress.marshal(testpath, null),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) testFunc.toCallback(),
+                    (Addressable) dataFreeFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -13449,50 +13040,37 @@ public final class GLib {
      * @param testpath /-separated test case path name for the test.
      * @param testFunc The test function to invoke for this test.
      */
-    public static void testAddFunc(@NotNull java.lang.String testpath, @NotNull org.gtk.glib.TestFunc testFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
-    }
-    
-    public static void testAddVtable(@NotNull java.lang.String testpath, long dataSize, @NotNull org.gtk.glib.TestFixtureFunc dataSetup, @NotNull org.gtk.glib.TestFixtureFunc dataTest, @NotNull org.gtk.glib.TestFixtureFunc dataTeardown) {
-        java.util.Objects.requireNonNull(testpath, "Parameter 'testpath' must not be null");
-        java.util.Objects.requireNonNull(dataSetup, "Parameter 'dataSetup' must not be null");
-        java.util.Objects.requireNonNull(dataTest, "Parameter 'dataTest' must not be null");
-        java.util.Objects.requireNonNull(dataTeardown, "Parameter 'dataTeardown' must not be null");
+    public static void testAddFunc(java.lang.String testpath, org.gtk.glib.TestFunc testFunc) {
         try {
-            DowncallHandles.g_test_add_vtable.invokeExact(
-                    Interop.allocateNativeString(testpath),
-                    dataSize,
-                    (Addressable) (Interop.registerCallback(dataSetup)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+            DowncallHandles.g_test_add_func.invokeExact(
+                    Marshal.stringToAddress.marshal(testpath, null),
+                    (Addressable) testFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static void testAssertExpectedMessagesInternal(@NotNull java.lang.String domain, @NotNull java.lang.String file, int line, @NotNull java.lang.String func) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void testAddVtable(java.lang.String testpath, long dataSize, org.gtk.glib.TestFixtureFunc dataSetup, org.gtk.glib.TestFixtureFunc dataTest, org.gtk.glib.TestFixtureFunc dataTeardown) {
+        try {
+            DowncallHandles.g_test_add_vtable.invokeExact(
+                    Marshal.stringToAddress.marshal(testpath, null),
+                    dataSize,
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) dataSetup.toCallback(),
+                    (Addressable) dataTest.toCallback(),
+                    (Addressable) dataTeardown.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+    }
+    
+    public static void testAssertExpectedMessagesInternal(java.lang.String domain, java.lang.String file, int line, java.lang.String func) {
         try {
             DowncallHandles.g_test_assert_expected_messages_internal.invokeExact(
-                    Interop.allocateNativeString(domain),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(domain, null),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(func));
+                    Marshal.stringToAddress.marshal(func, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -13511,11 +13089,10 @@ public final class GLib {
      * is already a valid URI.
      * @param bugUriSnippet Bug specific bug tracker URI or URI portion.
      */
-    public static void testBug(@NotNull java.lang.String bugUriSnippet) {
-        java.util.Objects.requireNonNull(bugUriSnippet, "Parameter 'bugUriSnippet' must not be null");
+    public static void testBug(java.lang.String bugUriSnippet) {
         try {
             DowncallHandles.g_test_bug.invokeExact(
-                    Interop.allocateNativeString(bugUriSnippet));
+                    Marshal.stringToAddress.marshal(bugUriSnippet, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -13538,11 +13115,10 @@ public final class GLib {
      * from the value provided by g_test_bug().
      * @param uriPattern the base pattern for bug URIs
      */
-    public static void testBugBase(@NotNull java.lang.String uriPattern) {
-        java.util.Objects.requireNonNull(uriPattern, "Parameter 'uriPattern' must not be null");
+    public static void testBugBase(java.lang.String uriPattern) {
         try {
             DowncallHandles.g_test_bug_base.invokeExact(
-                    Interop.allocateNativeString(uriPattern));
+                    Marshal.stringToAddress.marshal(uriPattern, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -13576,19 +13152,17 @@ public final class GLib {
      * @param varargs {@code null}-terminated additional path segments
      * @return the path of the file, to be freed using g_free()
      */
-    public static @NotNull java.lang.String testBuildFilename(@NotNull org.gtk.glib.TestFileType fileType, @NotNull java.lang.String firstPath, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(fileType, "Parameter 'fileType' must not be null");
-        java.util.Objects.requireNonNull(firstPath, "Parameter 'firstPath' must not be null");
+    public static java.lang.String testBuildFilename(org.gtk.glib.TestFileType fileType, java.lang.String firstPath, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_build_filename.invokeExact(
                     fileType.getValue(),
-                    Interop.allocateNativeString(firstPath),
+                    Marshal.stringToAddress.marshal(firstPath, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13616,36 +13190,20 @@ public final class GLib {
      * @param dataTeardown the function to teardown the fixture data
      * @return a newly allocated {@link TestCase}.
      */
-    public static @NotNull org.gtk.glib.TestCase testCreateCase(@NotNull java.lang.String testName, long dataSize, @NotNull org.gtk.glib.TestFixtureFunc dataSetup, @NotNull org.gtk.glib.TestFixtureFunc dataTest, @NotNull org.gtk.glib.TestFixtureFunc dataTeardown) {
-        java.util.Objects.requireNonNull(testName, "Parameter 'testName' must not be null");
-        java.util.Objects.requireNonNull(dataSetup, "Parameter 'dataSetup' must not be null");
-        java.util.Objects.requireNonNull(dataTest, "Parameter 'dataTest' must not be null");
-        java.util.Objects.requireNonNull(dataTeardown, "Parameter 'dataTeardown' must not be null");
+    public static org.gtk.glib.TestCase testCreateCase(java.lang.String testName, long dataSize, org.gtk.glib.TestFixtureFunc dataSetup, org.gtk.glib.TestFixtureFunc dataTest, org.gtk.glib.TestFixtureFunc dataTeardown) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_create_case.invokeExact(
-                    Interop.allocateNativeString(testName),
+                    Marshal.stringToAddress.marshal(testName, null),
                     dataSize,
-                    (Addressable) (Interop.registerCallback(dataSetup)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestFixtureFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) dataSetup.toCallback(),
+                    (Addressable) dataTest.toCallback(),
+                    (Addressable) dataTeardown.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TestCase(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TestCase.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -13653,16 +13211,15 @@ public final class GLib {
      * @param suiteName a name for the suite
      * @return A newly allocated {@link TestSuite} instance.
      */
-    public static @NotNull org.gtk.glib.TestSuite testCreateSuite(@NotNull java.lang.String suiteName) {
-        java.util.Objects.requireNonNull(suiteName, "Parameter 'suiteName' must not be null");
+    public static org.gtk.glib.TestSuite testCreateSuite(java.lang.String suiteName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_create_suite.invokeExact(
-                    Interop.allocateNativeString(suiteName));
+                    Marshal.stringToAddress.marshal(suiteName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TestSuite(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TestSuite.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -13703,14 +13260,12 @@ public final class GLib {
      * @param logLevel the log level of the message
      * @param pattern a glob-style [pattern][glib-Glob-style-pattern-matching]
      */
-    public static void testExpectMessage(@Nullable java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull java.lang.String pattern) {
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
+    public static void testExpectMessage(@Nullable java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevel, java.lang.String pattern) {
         try {
             DowncallHandles.g_test_expect_message.invokeExact(
-                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Interop.allocateNativeString(logDomain)),
+                    (Addressable) (logDomain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(logDomain, null)),
                     logLevel.getValue(),
-                    Interop.allocateNativeString(pattern));
+                    Marshal.stringToAddress.marshal(pattern, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -13751,11 +13306,10 @@ public final class GLib {
      * @param format the format string
      * @param varargs printf-like arguments to {@code format}
      */
-    public static void testFailPrintf(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void testFailPrintf(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_test_fail_printf.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -13782,7 +13336,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -13794,8 +13348,7 @@ public final class GLib {
      * @param fileType the type of file (built vs. distributed)
      * @return the path of the directory, owned by GLib
      */
-    public static @NotNull java.lang.String testGetDir(@NotNull org.gtk.glib.TestFileType fileType) {
-        java.util.Objects.requireNonNull(fileType, "Parameter 'fileType' must not be null");
+    public static java.lang.String testGetDir(org.gtk.glib.TestFileType fileType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_get_dir.invokeExact(
@@ -13803,7 +13356,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13824,19 +13377,17 @@ public final class GLib {
      * @param varargs {@code null}-terminated additional path segments
      * @return the path, automatically freed at the end of the testcase
      */
-    public static @NotNull java.lang.String testGetFilename(@NotNull org.gtk.glib.TestFileType fileType, @NotNull java.lang.String firstPath, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(fileType, "Parameter 'fileType' must not be null");
-        java.util.Objects.requireNonNull(firstPath, "Parameter 'firstPath' must not be null");
+    public static java.lang.String testGetFilename(org.gtk.glib.TestFileType fileType, java.lang.String firstPath, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_get_filename.invokeExact(
                     fileType.getValue(),
-                    Interop.allocateNativeString(firstPath),
+                    Marshal.stringToAddress.marshal(firstPath, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -13848,28 +13399,28 @@ public final class GLib {
      * This function returns a valid string only within a test function.
      * @return the test path for the test currently being run
      */
-    public static @NotNull java.lang.String testGetPath() {
+    public static java.lang.String testGetPath() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_get_path.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the toplevel test suite for the test path API.
      * @return the toplevel {@link TestSuite}
      */
-    public static @NotNull org.gtk.glib.TestSuite testGetRoot() {
+    public static org.gtk.glib.TestSuite testGetRoot() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_get_root.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TestSuite(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TestSuite.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -13888,7 +13439,7 @@ public final class GLib {
     public static void testIncomplete(@Nullable java.lang.String msg) {
         try {
             DowncallHandles.g_test_incomplete.invokeExact(
-                    (Addressable) (msg == null ? MemoryAddress.NULL : Interop.allocateNativeString(msg)));
+                    (Addressable) (msg == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(msg, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -13900,11 +13451,10 @@ public final class GLib {
      * @param format the format string
      * @param varargs printf-like arguments to {@code format}
      */
-    public static void testIncompletePrintf(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void testIncompletePrintf(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_test_incomplete_printf.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -13966,9 +13516,7 @@ public final class GLib {
      *        Any parameters understood by g_test_init() stripped before return.
      * @param varargs {@code null}-terminated list of special options, documented below.
      */
-    public static void testInit(PointerInteger argc, @NotNull PointerString argv, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(argc, "Parameter 'argc' must not be null");
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
+    public static void testInit(PointerInteger argc, PointerString argv, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_test_init.invokeExact(
                     argc.handle(),
@@ -14003,23 +13551,17 @@ public final class GLib {
      * [Using Structured Logging][using-structured-logging].
      * @param logFunc the log handler function.
      */
-    public static void testLogSetFatalHandler(@NotNull org.gtk.glib.TestLogFatalFunc logFunc) {
-        java.util.Objects.requireNonNull(logFunc, "Parameter 'logFunc' must not be null");
+    public static void testLogSetFatalHandler(org.gtk.glib.TestLogFatalFunc logFunc) {
         try {
             DowncallHandles.g_test_log_set_fatal_handler.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTestLogFatalFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(logFunc)));
+                    (Addressable) logFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static @NotNull java.lang.String testLogTypeName(@NotNull org.gtk.glib.TestLogType logType) {
-        java.util.Objects.requireNonNull(logType, "Parameter 'logType' must not be null");
+    public static java.lang.String testLogTypeName(org.gtk.glib.TestLogType logType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_test_log_type_name.invokeExact(
@@ -14027,7 +13569,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -14040,12 +13582,11 @@ public final class GLib {
      * @param format the format string of the report message
      * @param varargs arguments to pass to the printf() function
      */
-    public static void testMaximizedResult(double maximizedQuantity, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void testMaximizedResult(double maximizedQuantity, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_test_maximized_result.invokeExact(
                     maximizedQuantity,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -14057,11 +13598,10 @@ public final class GLib {
      * @param format the format string
      * @param varargs printf-like arguments to {@code format}
      */
-    public static void testMessage(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void testMessage(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_test_message.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -14078,12 +13618,11 @@ public final class GLib {
      * @param format the format string of the report message
      * @param varargs arguments to pass to the printf() function
      */
-    public static void testMinimizedResult(double minimizedQuantity, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void testMinimizedResult(double minimizedQuantity, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_test_minimized_result.invokeExact(
                     minimizedQuantity,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -14098,13 +13637,12 @@ public final class GLib {
      * callback A before callback B will cause B() to be called before
      * A() during teardown.
      * @param destroyFunc Destroy callback for teardown phase.
-     * @param destroyData Destroy callback data.
      */
-    public static void testQueueDestroy(@NotNull org.gtk.glib.DestroyNotify destroyFunc, @Nullable java.lang.foreign.MemoryAddress destroyData) {
+    public static void testQueueDestroy(org.gtk.glib.DestroyNotify destroyFunc) {
         try {
             DowncallHandles.g_test_queue_destroy.invokeExact(
-                    Interop.cbDestroyNotifySymbol(),
-                    (Addressable) destroyData);
+                    (Addressable) destroyFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14259,8 +13797,7 @@ public final class GLib {
      * @param suite a {@link TestSuite}
      * @return 0 on success
      */
-    public static int testRunSuite(@NotNull org.gtk.glib.TestSuite suite) {
-        java.util.Objects.requireNonNull(suite, "Parameter 'suite' must not be null");
+    public static int testRunSuite(org.gtk.glib.TestSuite suite) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_test_run_suite.invokeExact(
@@ -14306,7 +13843,7 @@ public final class GLib {
     public static void testSkip(@Nullable java.lang.String msg) {
         try {
             DowncallHandles.g_test_skip.invokeExact(
-                    (Addressable) (msg == null ? MemoryAddress.NULL : Interop.allocateNativeString(msg)));
+                    (Addressable) (msg == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(msg, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14318,11 +13855,10 @@ public final class GLib {
      * @param format the format string
      * @param varargs printf-like arguments to {@code format}
      */
-    public static void testSkipPrintf(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void testSkipPrintf(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_test_skip_printf.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -14342,7 +13878,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -14367,11 +13903,10 @@ public final class GLib {
      * @param summary One or two sentences summarising what the test checks, and how it
      *    checks it.
      */
-    public static void testSummary(@NotNull java.lang.String summary) {
-        java.util.Objects.requireNonNull(summary, "Parameter 'summary' must not be null");
+    public static void testSummary(java.lang.String summary) {
         try {
             DowncallHandles.g_test_summary.invokeExact(
-                    Interop.allocateNativeString(summary));
+                    Marshal.stringToAddress.marshal(summary, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14418,19 +13953,15 @@ public final class GLib {
         }
     }
     
-    public static void testTrapAssertions(@NotNull java.lang.String domain, @NotNull java.lang.String file, int line, @NotNull java.lang.String func, long assertionFlags, @NotNull java.lang.String pattern) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
+    public static void testTrapAssertions(java.lang.String domain, java.lang.String file, int line, java.lang.String func, long assertionFlags, java.lang.String pattern) {
         try {
             DowncallHandles.g_test_trap_assertions.invokeExact(
-                    Interop.allocateNativeString(domain),
-                    Interop.allocateNativeString(file),
+                    Marshal.stringToAddress.marshal(domain, null),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(func),
+                    Marshal.stringToAddress.marshal(func, null),
                     assertionFlags,
-                    Interop.allocateNativeString(pattern));
+                    Marshal.stringToAddress.marshal(pattern, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14472,8 +14003,7 @@ public final class GLib {
      * fork-without-exec. Use g_test_trap_subprocess() instead.
      */
     @Deprecated
-    public static boolean testTrapFork(long usecTimeout, @NotNull org.gtk.glib.TestTrapFlags testTrapFlags) {
-        java.util.Objects.requireNonNull(testTrapFlags, "Parameter 'testTrapFlags' must not be null");
+    public static boolean testTrapFork(long usecTimeout, org.gtk.glib.TestTrapFlags testTrapFlags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_test_trap_fork.invokeExact(
@@ -14482,7 +14012,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -14496,7 +14026,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -14510,7 +14040,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -14578,11 +14108,10 @@ public final class GLib {
      * @param usecTimeout Timeout for the subprocess test in micro seconds.
      * @param testFlags Flags to modify subprocess behaviour.
      */
-    public static void testTrapSubprocess(@Nullable java.lang.String testPath, long usecTimeout, @NotNull org.gtk.glib.TestSubprocessFlags testFlags) {
-        java.util.Objects.requireNonNull(testFlags, "Parameter 'testFlags' must not be null");
+    public static void testTrapSubprocess(@Nullable java.lang.String testPath, long usecTimeout, org.gtk.glib.TestSubprocessFlags testFlags) {
         try {
             DowncallHandles.g_test_trap_subprocess.invokeExact(
-                    (Addressable) (testPath == null ? MemoryAddress.NULL : Interop.allocateNativeString(testPath)),
+                    (Addressable) (testPath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(testPath, null)),
                     usecTimeout,
                     testFlags.getValue());
         } catch (Throwable ERR) {
@@ -14590,7 +14119,7 @@ public final class GLib {
         }
     }
     
-    public static @NotNull org.gtk.glib.Quark threadErrorQuark() {
+    public static org.gtk.glib.Quark threadErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_thread_error_quark.invokeExact();
@@ -14738,14 +14267,14 @@ public final class GLib {
      * as g_thread_join()) on these threads.
      * @return the {@link Thread} representing the current thread
      */
-    public static @NotNull org.gtk.glib.Thread threadSelf() {
+    public static org.gtk.glib.Thread threadSelf() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_thread_self.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Thread(RESULT, Ownership.NONE);
+        return org.gtk.glib.Thread.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -14787,18 +14316,16 @@ public final class GLib {
      *    g_date_time_new_from_iso8601() instead.
      */
     @Deprecated
-    public static boolean timeValFromIso8601(@NotNull java.lang.String isoDate, @NotNull org.gtk.glib.TimeVal time) {
-        java.util.Objects.requireNonNull(isoDate, "Parameter 'isoDate' must not be null");
-        java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
+    public static boolean timeValFromIso8601(java.lang.String isoDate, org.gtk.glib.TimeVal time) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_time_val_from_iso8601.invokeExact(
-                    Interop.allocateNativeString(isoDate),
+                    Marshal.stringToAddress.marshal(isoDate, null),
                     time.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -14839,18 +14366,13 @@ public final class GLib {
      * @param function function to call
      * @return the ID (greater than 0) of the event source.
      */
-    public static int timeoutAdd(int interval, @NotNull org.gtk.glib.SourceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int timeoutAdd(int interval, org.gtk.glib.SourceFunc function) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_timeout_add.invokeExact(
                     interval,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)));
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14887,22 +14409,18 @@ public final class GLib {
      * @param interval the time between calls to the function, in milliseconds
      *   (1/1000ths of a second)
      * @param function function to call
+     * @param notify function to call when the timeout is removed, or {@code null}
      * @return the ID (greater than 0) of the event source.
      */
-    public static int timeoutAddFull(int priority, int interval, @NotNull org.gtk.glib.SourceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int timeoutAddFull(int priority, int interval, org.gtk.glib.SourceFunc function, @Nullable org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_timeout_add_full.invokeExact(
                     priority,
                     interval,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14922,18 +14440,13 @@ public final class GLib {
      * @param function function to call
      * @return the ID (greater than 0) of the event source
      */
-    public static int timeoutAddOnce(int interval, @NotNull org.gtk.glib.SourceOnceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int timeoutAddOnce(int interval, org.gtk.glib.SourceOnceFunc function) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_timeout_add_once.invokeExact(
                     interval,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceOnceFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)));
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -14968,18 +14481,13 @@ public final class GLib {
      * @param function function to call
      * @return the ID (greater than 0) of the event source.
      */
-    public static int timeoutAddSeconds(int interval, @NotNull org.gtk.glib.SourceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int timeoutAddSeconds(int interval, org.gtk.glib.SourceFunc function) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_timeout_add_seconds.invokeExact(
                     interval,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)));
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -15030,22 +14538,18 @@ public final class GLib {
      *   the range between {@code G_PRIORITY_DEFAULT} and {@code G_PRIORITY_HIGH}.
      * @param interval the time between calls to the function, in seconds
      * @param function function to call
+     * @param notify function to call when the timeout is removed, or {@code null}
      * @return the ID (greater than 0) of the event source.
      */
-    public static int timeoutAddSecondsFull(int priority, int interval, @NotNull org.gtk.glib.SourceFunc function) {
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int timeoutAddSecondsFull(int priority, int interval, org.gtk.glib.SourceFunc function, @Nullable org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_timeout_add_seconds_full.invokeExact(
                     priority,
                     interval,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -15064,7 +14568,7 @@ public final class GLib {
      * @param interval the timeout interval in milliseconds.
      * @return the newly-created timeout source
      */
-    public static @NotNull org.gtk.glib.Source timeoutSourceNew(int interval) {
+    public static org.gtk.glib.Source timeoutSourceNew(int interval) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_timeout_source_new.invokeExact(
@@ -15072,7 +14576,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -15090,7 +14594,7 @@ public final class GLib {
      * @param interval the timeout interval in seconds
      * @return the newly-created timeout source
      */
-    public static @NotNull org.gtk.glib.Source timeoutSourceNewSeconds(int interval) {
+    public static org.gtk.glib.Source timeoutSourceNewSeconds(int interval) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_timeout_source_new_seconds.invokeExact(
@@ -15098,7 +14602,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -15111,8 +14615,7 @@ public final class GLib {
      * @deprecated {@link TrashStack} is deprecated without replacement
      */
     @Deprecated
-    public static int trashStackHeight(@NotNull PointerProxy<org.gtk.glib.TrashStack> stackP) {
-        java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
+    public static int trashStackHeight(PointerProxy<org.gtk.glib.TrashStack> stackP) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_trash_stack_height.invokeExact(
@@ -15131,8 +14634,7 @@ public final class GLib {
      * @deprecated {@link TrashStack} is deprecated without replacement
      */
     @Deprecated
-    public static @Nullable java.lang.foreign.MemoryAddress trashStackPeek(@NotNull PointerProxy<org.gtk.glib.TrashStack> stackP) {
-        java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress trashStackPeek(PointerProxy<org.gtk.glib.TrashStack> stackP) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_trash_stack_peek.invokeExact(
@@ -15150,8 +14652,7 @@ public final class GLib {
      * @deprecated {@link TrashStack} is deprecated without replacement
      */
     @Deprecated
-    public static @Nullable java.lang.foreign.MemoryAddress trashStackPop(@NotNull PointerProxy<org.gtk.glib.TrashStack> stackP) {
-        java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress trashStackPop(PointerProxy<org.gtk.glib.TrashStack> stackP) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_trash_stack_pop.invokeExact(
@@ -15169,9 +14670,7 @@ public final class GLib {
      * @deprecated {@link TrashStack} is deprecated without replacement
      */
     @Deprecated
-    public static void trashStackPush(@NotNull PointerProxy<org.gtk.glib.TrashStack> stackP, @NotNull java.lang.foreign.MemoryAddress dataP) {
-        java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
-        java.util.Objects.requireNonNull(dataP, "Parameter 'dataP' must not be null");
+    public static void trashStackPush(PointerProxy<org.gtk.glib.TrashStack> stackP, java.lang.foreign.MemoryAddress dataP) {
         try {
             DowncallHandles.g_trash_stack_push.invokeExact(
                     stackP.handle(),
@@ -15314,10 +14813,7 @@ public final class GLib {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static PointerShort ucs4ToUtf16(PointerInteger str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
         MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
         MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -15325,8 +14821,8 @@ public final class GLib {
             RESULT = (MemoryAddress) DowncallHandles.g_ucs4_to_utf16.invokeExact(
                     str.handle(),
                     len,
-                    (Addressable) itemsReadPOINTER.address(),
-                    (Addressable) itemsWrittenPOINTER.address(),
+                    (Addressable) (itemsRead == null ? MemoryAddress.NULL : (Addressable) itemsReadPOINTER.address()),
+                    (Addressable) (itemsWritten == null ? MemoryAddress.NULL : (Addressable) itemsWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -15334,8 +14830,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsRead != null) itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsWritten != null) itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerShort(RESULT);
     }
     
@@ -15356,11 +14852,8 @@ public final class GLib {
      *     will be set to the position of the first invalid input character.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String ucs4ToUtf8(PointerInteger str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+    public static java.lang.String ucs4ToUtf8(PointerInteger str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
         MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -15368,8 +14861,8 @@ public final class GLib {
             RESULT = (MemoryAddress) DowncallHandles.g_ucs4_to_utf8.invokeExact(
                     str.handle(),
                     len,
-                    (Addressable) itemsReadPOINTER.address(),
-                    (Addressable) itemsWrittenPOINTER.address(),
+                    (Addressable) (itemsRead == null ? MemoryAddress.NULL : (Addressable) itemsReadPOINTER.address()),
+                    (Addressable) (itemsWritten == null ? MemoryAddress.NULL : (Addressable) itemsWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -15377,9 +14870,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Interop.getStringFrom(RESULT);
+        if (itemsRead != null) itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsWritten != null) itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -15392,7 +14885,7 @@ public final class GLib {
      * @param c a Unicode character
      * @return the break type of {@code c}
      */
-    public static @NotNull org.gtk.glib.UnicodeBreakType unicharBreakType(int c) {
+    public static org.gtk.glib.UnicodeBreakType unicharBreakType(int c) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unichar_break_type.invokeExact(
@@ -15442,7 +14935,6 @@ public final class GLib {
      * @return {@code true} if the characters could be composed
      */
     public static boolean unicharCompose(int a, int b, Out<Integer> ch) {
-        java.util.Objects.requireNonNull(ch, "Parameter 'ch' must not be null");
         MemorySegment chPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -15454,7 +14946,7 @@ public final class GLib {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         ch.set(chPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15487,9 +14979,7 @@ public final class GLib {
      * @return {@code true} if the character could be decomposed
      */
     public static boolean unicharDecompose(int ch, Out<Integer> a, Out<Integer> b) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
         MemorySegment aPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
         MemorySegment bPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -15502,7 +14992,7 @@ public final class GLib {
         }
         a.set(aPOINTER.get(Interop.valueLayout.C_INT, 0));
         b.set(bPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15550,19 +15040,18 @@ public final class GLib {
      * @return the length of the full decomposition.
      */
     public static long unicharFullyDecompose(int ch, boolean compat, Out<Integer> result, long resultLen) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
         MemorySegment resultPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_unichar_fully_decompose.invokeExact(
                     ch,
-                    compat ? 1 : 0,
-                    (Addressable) resultPOINTER.address(),
+                    Marshal.booleanToInteger.marshal(compat, null).intValue(),
+                    (Addressable) (result == null ? MemoryAddress.NULL : (Addressable) resultPOINTER.address()),
                     resultLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        result.set(resultPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (result != null) result.set(resultPOINTER.get(Interop.valueLayout.C_INT, 0));
         return RESULT;
     }
     
@@ -15581,7 +15070,6 @@ public final class GLib {
      * @return {@code true} if {@code ch} has a mirrored character, {@code false} otherwise
      */
     public static boolean unicharGetMirrorChar(int ch, PointerInteger mirroredCh) {
-        java.util.Objects.requireNonNull(mirroredCh, "Parameter 'mirroredCh' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unichar_get_mirror_char.invokeExact(
@@ -15590,7 +15078,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15604,7 +15092,7 @@ public final class GLib {
      * @param ch a Unicode character
      * @return the {@link UnicodeScript} for the character.
      */
-    public static @NotNull org.gtk.glib.UnicodeScript unicharGetScript(int ch) {
+    public static org.gtk.glib.UnicodeScript unicharGetScript(int ch) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unichar_get_script.invokeExact(
@@ -15630,7 +15118,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15648,7 +15136,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15666,7 +15154,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15683,7 +15171,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15701,7 +15189,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15721,7 +15209,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15739,7 +15227,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15763,7 +15251,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15782,7 +15270,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15800,7 +15288,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15822,7 +15310,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15843,7 +15331,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15859,7 +15347,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15876,7 +15364,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15901,7 +15389,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15917,7 +15405,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15941,7 +15429,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -15952,18 +15440,17 @@ public final class GLib {
      *       returned and nothing will be written to {@code outbuf}.
      * @return number of bytes written
      */
-    public static int unicharToUtf8(int c, @NotNull Out<java.lang.String> outbuf) {
-        java.util.Objects.requireNonNull(outbuf, "Parameter 'outbuf' must not be null");
+    public static int unicharToUtf8(int c, @Nullable Out<java.lang.String> outbuf) {
         MemorySegment outbufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unichar_to_utf8.invokeExact(
                     c,
-                    (Addressable) outbufPOINTER.address());
+                    (Addressable) (outbuf == null ? MemoryAddress.NULL : (Addressable) outbufPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outbuf.set(Interop.getStringFrom(outbufPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (outbuf != null) outbuf.set(Marshal.addressToString.marshal(outbufPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return RESULT;
     }
     
@@ -16026,7 +15513,7 @@ public final class GLib {
      * @param c a Unicode character
      * @return the type of the character.
      */
-    public static @NotNull org.gtk.glib.UnicodeType unicharType(int c) {
+    public static org.gtk.glib.UnicodeType unicharType(int c) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unichar_type.invokeExact(
@@ -16052,7 +15539,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -16084,7 +15571,6 @@ public final class GLib {
      */
     @Deprecated
     public static PointerInteger unicodeCanonicalDecomposition(int ch, PointerLong resultLen) {
-        java.util.Objects.requireNonNull(resultLen, "Parameter 'resultLen' must not be null");
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unicode_canonical_decomposition.invokeExact(
@@ -16105,7 +15591,6 @@ public final class GLib {
      * @param len the maximum length of {@code string} to use.
      */
     public static void unicodeCanonicalOrdering(PointerInteger string, long len) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
         try {
             DowncallHandles.g_unicode_canonical_ordering.invokeExact(
                     string.handle(),
@@ -16130,7 +15615,7 @@ public final class GLib {
      *   of {@link UnicodeScript#INVALID_CODE} if {@code iso15924} is zero and
      *   {@link UnicodeScript#UNKNOWN} if {@code iso15924} is unknown.
      */
-    public static @NotNull org.gtk.glib.UnicodeScript unicodeScriptFromIso15924(int iso15924) {
+    public static org.gtk.glib.UnicodeScript unicodeScriptFromIso15924(int iso15924) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unicode_script_from_iso15924.invokeExact(
@@ -16156,8 +15641,7 @@ public final class GLib {
      *   of zero if {@code script} is {@link UnicodeScript#INVALID_CODE} or
      *   ISO 15924 code 'Zzzz' (script code for UNKNOWN) if {@code script} is not understood.
      */
-    public static int unicodeScriptToIso15924(@NotNull org.gtk.glib.UnicodeScript script) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public static int unicodeScriptToIso15924(org.gtk.glib.UnicodeScript script) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unicode_script_to_iso15924.invokeExact(
@@ -16168,7 +15652,7 @@ public final class GLib {
         return RESULT;
     }
     
-    public static @NotNull org.gtk.glib.Quark unixErrorQuark() {
+    public static org.gtk.glib.Quark unixErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_error_quark.invokeExact();
@@ -16197,20 +15681,14 @@ public final class GLib {
      * @param function a {@link UnixFDSourceFunc}
      * @return the ID (greater than 0) of the event source
      */
-    public static int unixFdAdd(int fd, @NotNull org.gtk.glib.IOCondition condition, @NotNull org.gtk.glib.UnixFDSourceFunc function) {
-        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int unixFdAdd(int fd, org.gtk.glib.IOCondition condition, org.gtk.glib.UnixFDSourceFunc function) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_fd_add.invokeExact(
                     fd,
                     condition.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbUnixFDSourceFunc",
-                            MethodType.methodType(int.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)));
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -16228,24 +15706,19 @@ public final class GLib {
      * @param fd a file descriptor
      * @param condition IO conditions to watch for on {@code fd}
      * @param function a {@link UnixFDSourceFunc}
+     * @param notify function to call when the idle is removed, or {@code null}
      * @return the ID (greater than 0) of the event source
      */
-    public static int unixFdAddFull(int priority, int fd, @NotNull org.gtk.glib.IOCondition condition, @NotNull org.gtk.glib.UnixFDSourceFunc function) {
-        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
-        java.util.Objects.requireNonNull(function, "Parameter 'function' must not be null");
+    public static int unixFdAddFull(int priority, int fd, org.gtk.glib.IOCondition condition, org.gtk.glib.UnixFDSourceFunc function, org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_fd_add_full.invokeExact(
                     priority,
                     fd,
                     condition.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbUnixFDSourceFunc",
-                            MethodType.methodType(int.class, int.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(function)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) function.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -16261,8 +15734,7 @@ public final class GLib {
      * @param condition IO conditions to watch for on {@code fd}
      * @return the newly created {@link Source}
      */
-    public static @NotNull org.gtk.glib.Source unixFdSourceNew(int fd, @NotNull org.gtk.glib.IOCondition condition) {
-        java.util.Objects.requireNonNull(condition, "Parameter 'condition' must not be null");
+    public static org.gtk.glib.Source unixFdSourceNew(int fd, org.gtk.glib.IOCondition condition) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_fd_source_new.invokeExact(
@@ -16271,7 +15743,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -16291,13 +15763,12 @@ public final class GLib {
      *    value with g_free()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @Nullable java.lang.foreign.MemoryAddress unixGetPasswdEntry(@NotNull java.lang.String userName) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(userName, "Parameter 'userName' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress unixGetPasswdEntry(java.lang.String userName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_get_passwd_entry.invokeExact(
-                    Interop.allocateNativeString(userName),
+                    Marshal.stringToAddress.marshal(userName, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -16322,8 +15793,7 @@ public final class GLib {
      * @return {@code true} on success, {@code false} if not (and errno will be set).
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean unixOpenPipe(@NotNull int[] fds, int flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(fds, "Parameter 'fds' must not be null");
+    public static boolean unixOpenPipe(int[] fds, int flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -16337,7 +15807,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -16355,7 +15825,7 @@ public final class GLib {
         try {
             RESULT = (int) DowncallHandles.g_unix_set_fd_nonblocking.invokeExact(
                     fd,
-                    nonblock ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(nonblock, null).intValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -16363,7 +15833,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -16374,18 +15844,13 @@ public final class GLib {
      * @param handler Callback
      * @return An ID (greater than 0) for the event source
      */
-    public static int unixSignalAdd(int signum, @NotNull org.gtk.glib.SourceFunc handler) {
-        java.util.Objects.requireNonNull(handler, "Parameter 'handler' must not be null");
+    public static int unixSignalAdd(int signum, org.gtk.glib.SourceFunc handler) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_signal_add.invokeExact(
                     signum,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(handler)));
+                    (Addressable) handler.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -16400,22 +15865,18 @@ public final class GLib {
      *            the range between {@code G_PRIORITY_DEFAULT} and {@code G_PRIORITY_HIGH}.
      * @param signum Signal number
      * @param handler Callback
+     * @param notify {@link DestroyNotify} for {@code handler}
      * @return An ID (greater than 0) for the event source
      */
-    public static int unixSignalAddFull(int priority, int signum, @NotNull org.gtk.glib.SourceFunc handler) {
-        java.util.Objects.requireNonNull(handler, "Parameter 'handler' must not be null");
+    public static int unixSignalAddFull(int priority, int signum, org.gtk.glib.SourceFunc handler, org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_signal_add_full.invokeExact(
                     priority,
                     signum,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbSourceFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(handler)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) handler.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -16449,7 +15910,7 @@ public final class GLib {
      * @param signum A signal number
      * @return A newly created {@link Source}
      */
-    public static @NotNull org.gtk.glib.Source unixSignalSourceNew(int signum) {
+    public static org.gtk.glib.Source unixSignalSourceNew(int signum) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_signal_source_new.invokeExact(
@@ -16457,7 +15918,7 @@ public final class GLib {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Source(RESULT, Ownership.FULL);
+        return org.gtk.glib.Source.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -16474,12 +15935,11 @@ public final class GLib {
      * @return 0 if the name was successfully deleted, -1 if an error
      *    occurred
      */
-    public static int unlink(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public static int unlink(java.lang.String filename) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unlink.invokeExact(
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -16507,11 +15967,10 @@ public final class GLib {
      * @param variable the environment variable to remove, must
      *     not contain '='
      */
-    public static void unsetenv(@NotNull java.lang.String variable) {
-        java.util.Objects.requireNonNull(variable, "Parameter 'variable' must not be null");
+    public static void unsetenv(java.lang.String variable) {
         try {
             DowncallHandles.g_unsetenv.invokeExact(
-                    Interop.allocateNativeString(variable));
+                    Marshal.stringToAddress.marshal(variable, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -16532,25 +15991,22 @@ public final class GLib {
      * @param fragment the fragment, or {@code null}
      * @return a new {@link Uri}
      */
-    public static @NotNull org.gtk.glib.Uri uriBuild(@NotNull org.gtk.glib.UriFlags flags, @NotNull java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static org.gtk.glib.Uri uriBuild(org.gtk.glib.UriFlags flags, java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_build.invokeExact(
                     flags.getValue(),
-                    Interop.allocateNativeString(scheme),
-                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Interop.allocateNativeString(userinfo)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    Marshal.stringToAddress.marshal(scheme, null),
+                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    Interop.allocateNativeString(path),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    Marshal.stringToAddress.marshal(path, null),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
+        return org.gtk.glib.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -16574,30 +16030,27 @@ public final class GLib {
      * @param fragment the fragment, or {@code null}
      * @return a new {@link Uri}
      */
-    public static @NotNull org.gtk.glib.Uri uriBuildWithUser(@NotNull org.gtk.glib.UriFlags flags, @NotNull java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(scheme, "Parameter 'scheme' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static org.gtk.glib.Uri uriBuildWithUser(org.gtk.glib.UriFlags flags, java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_build_with_user.invokeExact(
                     flags.getValue(),
-                    Interop.allocateNativeString(scheme),
-                    (Addressable) (user == null ? MemoryAddress.NULL : Interop.allocateNativeString(user)),
-                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password)),
-                    (Addressable) (authParams == null ? MemoryAddress.NULL : Interop.allocateNativeString(authParams)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    Marshal.stringToAddress.marshal(scheme, null),
+                    (Addressable) (user == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(user, null)),
+                    (Addressable) (password == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(password, null)),
+                    (Addressable) (authParams == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(authParams, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    Interop.allocateNativeString(path),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    Marshal.stringToAddress.marshal(path, null),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
+        return org.gtk.glib.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gtk.glib.Quark uriErrorQuark() {
+    public static org.gtk.glib.Quark uriErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_error_quark.invokeExact();
@@ -16626,18 +16079,17 @@ public final class GLib {
      * @return an escaped version of {@code unescaped}.
      *     The returned string should be freed when no longer needed.
      */
-    public static @NotNull java.lang.String uriEscapeBytes(@NotNull byte[] unescaped, long length, @Nullable java.lang.String reservedCharsAllowed) {
-        java.util.Objects.requireNonNull(unescaped, "Parameter 'unescaped' must not be null");
+    public static java.lang.String uriEscapeBytes(byte[] unescaped, long length, @Nullable java.lang.String reservedCharsAllowed) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_escape_bytes.invokeExact(
                     Interop.allocateNativeArray(unescaped, false),
                     length,
-                    (Addressable) (reservedCharsAllowed == null ? MemoryAddress.NULL : Interop.allocateNativeString(reservedCharsAllowed)));
+                    (Addressable) (reservedCharsAllowed == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(reservedCharsAllowed, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -16656,18 +16108,17 @@ public final class GLib {
      * @return an escaped version of {@code unescaped}. The
      * returned string should be freed when no longer needed.
      */
-    public static @NotNull java.lang.String uriEscapeString(@NotNull java.lang.String unescaped, @Nullable java.lang.String reservedCharsAllowed, boolean allowUtf8) {
-        java.util.Objects.requireNonNull(unescaped, "Parameter 'unescaped' must not be null");
+    public static java.lang.String uriEscapeString(java.lang.String unescaped, @Nullable java.lang.String reservedCharsAllowed, boolean allowUtf8) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_escape_string.invokeExact(
-                    Interop.allocateNativeString(unescaped),
-                    (Addressable) (reservedCharsAllowed == null ? MemoryAddress.NULL : Interop.allocateNativeString(reservedCharsAllowed)),
-                    allowUtf8 ? 1 : 0);
+                    Marshal.stringToAddress.marshal(unescaped, null),
+                    (Addressable) (reservedCharsAllowed == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(reservedCharsAllowed, null)),
+                    Marshal.booleanToInteger.marshal(allowUtf8, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -16684,14 +16135,12 @@ public final class GLib {
      * @return {@code true} if {@code uri_string} is a valid absolute URI, {@code false} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean uriIsValid(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean uriIsValid(java.lang.String uriString, org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_is_valid.invokeExact(
-                    Interop.allocateNativeString(uriString),
+                    Marshal.stringToAddress.marshal(uriString, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -16700,7 +16149,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -16728,24 +16177,22 @@ public final class GLib {
      * @param fragment the fragment, or {@code null}
      * @return an absolute URI string
      */
-    public static @NotNull java.lang.String uriJoin(@NotNull org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static java.lang.String uriJoin(org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String userinfo, @Nullable java.lang.String host, int port, java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_join.invokeExact(
                     flags.getValue(),
-                    (Addressable) (scheme == null ? MemoryAddress.NULL : Interop.allocateNativeString(scheme)),
-                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Interop.allocateNativeString(userinfo)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, null)),
+                    (Addressable) (userinfo == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(userinfo, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    Interop.allocateNativeString(path),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    Marshal.stringToAddress.marshal(path, null),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -16772,26 +16219,24 @@ public final class GLib {
      * @param fragment the fragment, or {@code null}
      * @return an absolute URI string
      */
-    public static @NotNull java.lang.String uriJoinWithUser(@NotNull org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, @NotNull java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static java.lang.String uriJoinWithUser(org.gtk.glib.UriFlags flags, @Nullable java.lang.String scheme, @Nullable java.lang.String user, @Nullable java.lang.String password, @Nullable java.lang.String authParams, @Nullable java.lang.String host, int port, java.lang.String path, @Nullable java.lang.String query, @Nullable java.lang.String fragment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_join_with_user.invokeExact(
                     flags.getValue(),
-                    (Addressable) (scheme == null ? MemoryAddress.NULL : Interop.allocateNativeString(scheme)),
-                    (Addressable) (user == null ? MemoryAddress.NULL : Interop.allocateNativeString(user)),
-                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password)),
-                    (Addressable) (authParams == null ? MemoryAddress.NULL : Interop.allocateNativeString(authParams)),
-                    (Addressable) (host == null ? MemoryAddress.NULL : Interop.allocateNativeString(host)),
+                    (Addressable) (scheme == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(scheme, null)),
+                    (Addressable) (user == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(user, null)),
+                    (Addressable) (password == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(password, null)),
+                    (Addressable) (authParams == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(authParams, null)),
+                    (Addressable) (host == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(host, null)),
                     port,
-                    Interop.allocateNativeString(path),
-                    (Addressable) (query == null ? MemoryAddress.NULL : Interop.allocateNativeString(query)),
-                    (Addressable) (fragment == null ? MemoryAddress.NULL : Interop.allocateNativeString(fragment)));
+                    Marshal.stringToAddress.marshal(path, null),
+                    (Addressable) (query == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(query, null)),
+                    (Addressable) (fragment == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(fragment, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -16803,12 +16248,11 @@ public final class GLib {
      *   of strings holding the individual URIs. The array should be freed
      *   with g_strfreev().
      */
-    public static @NotNull PointerString uriListExtractUris(@NotNull java.lang.String uriList) {
-        java.util.Objects.requireNonNull(uriList, "Parameter 'uriList' must not be null");
+    public static PointerString uriListExtractUris(java.lang.String uriList) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_list_extract_uris.invokeExact(
-                    Interop.allocateNativeString(uriList));
+                    Marshal.stringToAddress.marshal(uriList, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -16824,14 +16268,12 @@ public final class GLib {
      * @return a new {@link Uri}, or NULL on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.Uri uriParse(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.glib.Uri uriParse(java.lang.String uriString, org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse.invokeExact(
-                    Interop.allocateNativeString(uriString),
+                    Marshal.stringToAddress.marshal(uriString, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -16840,7 +16282,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Uri(RESULT, Ownership.FULL);
+        return org.gtk.glib.Uri.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -16881,17 +16323,14 @@ public final class GLib {
      *     fully-decoded; or {@code null} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.HashTable uriParseParams(@NotNull java.lang.String params, long length, @NotNull java.lang.String separators, @NotNull org.gtk.glib.UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
-        java.util.Objects.requireNonNull(separators, "Parameter 'separators' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gtk.glib.HashTable uriParseParams(java.lang.String params, long length, java.lang.String separators, org.gtk.glib.UriParamsFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_params.invokeExact(
-                    Interop.allocateNativeString(params),
+                    Marshal.stringToAddress.marshal(params, null),
                     length,
-                    Interop.allocateNativeString(separators),
+                    Marshal.stringToAddress.marshal(separators, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -16900,7 +16339,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.HashTable(RESULT, Ownership.FULL);
+        return org.gtk.glib.HashTable.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -16915,16 +16354,15 @@ public final class GLib {
      * @return The ‘scheme’ component of the URI, or
      *     {@code null} on error. The returned string should be freed when no longer needed.
      */
-    public static @Nullable java.lang.String uriParseScheme(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable java.lang.String uriParseScheme(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_parse_scheme.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -16943,16 +16381,15 @@ public final class GLib {
      *     {@code null} on error. The returned string is normalized to all-lowercase, and
      *     interned via g_intern_string(), so it does not need to be freed.
      */
-    public static @Nullable java.lang.String uriPeekScheme(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static @Nullable java.lang.String uriPeekScheme(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_peek_scheme.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -16970,15 +16407,13 @@ public final class GLib {
      * or NULL on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String uriResolveRelative(@Nullable java.lang.String baseUriString, @NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static java.lang.String uriResolveRelative(@Nullable java.lang.String baseUriString, java.lang.String uriRef, org.gtk.glib.UriFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_resolve_relative.invokeExact(
-                    (Addressable) (baseUriString == null ? MemoryAddress.NULL : Interop.allocateNativeString(baseUriString)),
-                    Interop.allocateNativeString(uriRef),
+                    (Addressable) (baseUriString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(baseUriString, null)),
+                    Marshal.stringToAddress.marshal(uriRef, null),
                     flags.getValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -16987,7 +16422,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17027,15 +16462,11 @@ public final class GLib {
      *   on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean uriSplit(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> userinfo, @Nullable Out<java.lang.String> host, Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean uriSplit(java.lang.String uriRef, org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> userinfo, @Nullable Out<java.lang.String> host, Out<Integer> port, @Nullable Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment schemePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment userinfoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment hostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
         MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment queryPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -17043,13 +16474,13 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_split.invokeExact(
-                    Interop.allocateNativeString(uriRef),
+                    Marshal.stringToAddress.marshal(uriRef, null),
                     flags.getValue(),
                     (Addressable) (scheme == null ? MemoryAddress.NULL : (Addressable) schemePOINTER.address()),
                     (Addressable) (userinfo == null ? MemoryAddress.NULL : (Addressable) userinfoPOINTER.address()),
                     (Addressable) (host == null ? MemoryAddress.NULL : (Addressable) hostPOINTER.address()),
-                    (Addressable) portPOINTER.address(),
-                    (Addressable) pathPOINTER.address(),
+                    (Addressable) (port == null ? MemoryAddress.NULL : (Addressable) portPOINTER.address()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
                     (Addressable) (query == null ? MemoryAddress.NULL : (Addressable) queryPOINTER.address()),
                     (Addressable) (fragment == null ? MemoryAddress.NULL : (Addressable) fragmentPOINTER.address()),
                     (Addressable) GERROR);
@@ -17059,14 +16490,14 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (userinfo != null) userinfo.set(Interop.getStringFrom(userinfoPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
-        path.set(Interop.getStringFrom(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (query != null) query.set(Interop.getStringFrom(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (fragment != null) fragment.set(Interop.getStringFrom(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (scheme != null) scheme.set(Marshal.addressToString.marshal(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (userinfo != null) userinfo.set(Marshal.addressToString.marshal(userinfoPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (host != null) host.set(Marshal.addressToString.marshal(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (port != null) port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (path != null) path.set(Marshal.addressToString.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (query != null) query.set(Marshal.addressToString.marshal(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (fragment != null) fragment.set(Marshal.addressToString.marshal(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -17088,22 +16519,19 @@ public final class GLib {
      *   {@code false} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean uriSplitNetwork(@NotNull java.lang.String uriString, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> host, Out<Integer> port) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriString, "Parameter 'uriString' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean uriSplitNetwork(java.lang.String uriString, org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> host, Out<Integer> port) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment schemePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment hostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
         MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_split_network.invokeExact(
-                    Interop.allocateNativeString(uriString),
+                    Marshal.stringToAddress.marshal(uriString, null),
                     flags.getValue(),
                     (Addressable) (scheme == null ? MemoryAddress.NULL : (Addressable) schemePOINTER.address()),
                     (Addressable) (host == null ? MemoryAddress.NULL : (Addressable) hostPOINTER.address()),
-                    (Addressable) portPOINTER.address(),
+                    (Addressable) (port == null ? MemoryAddress.NULL : (Addressable) portPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -17111,10 +16539,10 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (scheme != null) scheme.set(Marshal.addressToString.marshal(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (host != null) host.set(Marshal.addressToString.marshal(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (port != null) port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -17153,17 +16581,13 @@ public final class GLib {
      *   on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean uriSplitWithUser(@NotNull java.lang.String uriRef, @NotNull org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> user, @Nullable Out<java.lang.String> password, @Nullable Out<java.lang.String> authParams, @Nullable Out<java.lang.String> host, Out<Integer> port, @NotNull Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uriRef, "Parameter 'uriRef' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean uriSplitWithUser(java.lang.String uriRef, org.gtk.glib.UriFlags flags, @Nullable Out<java.lang.String> scheme, @Nullable Out<java.lang.String> user, @Nullable Out<java.lang.String> password, @Nullable Out<java.lang.String> authParams, @Nullable Out<java.lang.String> host, Out<Integer> port, @Nullable Out<java.lang.String> path, @Nullable Out<java.lang.String> query, @Nullable Out<java.lang.String> fragment) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment schemePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment userPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment passwordPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment authParamsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment hostPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(port, "Parameter 'port' must not be null");
         MemorySegment portPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
         MemorySegment pathPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment queryPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment fragmentPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -17171,15 +16595,15 @@ public final class GLib {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uri_split_with_user.invokeExact(
-                    Interop.allocateNativeString(uriRef),
+                    Marshal.stringToAddress.marshal(uriRef, null),
                     flags.getValue(),
                     (Addressable) (scheme == null ? MemoryAddress.NULL : (Addressable) schemePOINTER.address()),
                     (Addressable) (user == null ? MemoryAddress.NULL : (Addressable) userPOINTER.address()),
                     (Addressable) (password == null ? MemoryAddress.NULL : (Addressable) passwordPOINTER.address()),
                     (Addressable) (authParams == null ? MemoryAddress.NULL : (Addressable) authParamsPOINTER.address()),
                     (Addressable) (host == null ? MemoryAddress.NULL : (Addressable) hostPOINTER.address()),
-                    (Addressable) portPOINTER.address(),
-                    (Addressable) pathPOINTER.address(),
+                    (Addressable) (port == null ? MemoryAddress.NULL : (Addressable) portPOINTER.address()),
+                    (Addressable) (path == null ? MemoryAddress.NULL : (Addressable) pathPOINTER.address()),
                     (Addressable) (query == null ? MemoryAddress.NULL : (Addressable) queryPOINTER.address()),
                     (Addressable) (fragment == null ? MemoryAddress.NULL : (Addressable) fragmentPOINTER.address()),
                     (Addressable) GERROR);
@@ -17189,16 +16613,16 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (scheme != null) scheme.set(Interop.getStringFrom(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (user != null) user.set(Interop.getStringFrom(userPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (password != null) password.set(Interop.getStringFrom(passwordPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (authParams != null) authParams.set(Interop.getStringFrom(authParamsPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (host != null) host.set(Interop.getStringFrom(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
-        path.set(Interop.getStringFrom(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (query != null) query.set(Interop.getStringFrom(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        if (fragment != null) fragment.set(Interop.getStringFrom(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (scheme != null) scheme.set(Marshal.addressToString.marshal(schemePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (user != null) user.set(Marshal.addressToString.marshal(userPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (password != null) password.set(Marshal.addressToString.marshal(passwordPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (authParams != null) authParams.set(Marshal.addressToString.marshal(authParamsPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (host != null) host.set(Marshal.addressToString.marshal(hostPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (port != null) port.set(portPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (path != null) path.set(Marshal.addressToString.marshal(pathPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (query != null) query.set(Marshal.addressToString.marshal(queryPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (fragment != null) fragment.set(Marshal.addressToString.marshal(fragmentPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -17222,15 +16646,14 @@ public final class GLib {
      *     code). The returned {@link Bytes} should be unreffed when no longer needed.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.Bytes uriUnescapeBytes(@NotNull java.lang.String escapedString, long length, @Nullable java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(escapedString, "Parameter 'escapedString' must not be null");
+    public static org.gtk.glib.Bytes uriUnescapeBytes(java.lang.String escapedString, long length, @Nullable java.lang.String illegalCharacters) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_bytes.invokeExact(
-                    Interop.allocateNativeString(escapedString),
+                    Marshal.stringToAddress.marshal(escapedString, null),
                     length,
-                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Interop.allocateNativeString(illegalCharacters)),
+                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(illegalCharacters, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -17238,7 +16661,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -17266,13 +16689,13 @@ public final class GLib {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_segment.invokeExact(
-                    (Addressable) (escapedString == null ? MemoryAddress.NULL : Interop.allocateNativeString(escapedString)),
-                    (Addressable) (escapedStringEnd == null ? MemoryAddress.NULL : Interop.allocateNativeString(escapedStringEnd)),
-                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Interop.allocateNativeString(illegalCharacters)));
+                    (Addressable) (escapedString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(escapedString, null)),
+                    (Addressable) (escapedStringEnd == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(escapedStringEnd, null)),
+                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(illegalCharacters, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17289,17 +16712,16 @@ public final class GLib {
      * @return an unescaped version of {@code escaped_string}.
      * The returned string should be freed when no longer needed.
      */
-    public static @Nullable java.lang.String uriUnescapeString(@NotNull java.lang.String escapedString, @Nullable java.lang.String illegalCharacters) {
-        java.util.Objects.requireNonNull(escapedString, "Parameter 'escapedString' must not be null");
+    public static @Nullable java.lang.String uriUnescapeString(java.lang.String escapedString, @Nullable java.lang.String illegalCharacters) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uri_unescape_string.invokeExact(
-                    Interop.allocateNativeString(escapedString),
-                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Interop.allocateNativeString(illegalCharacters)));
+                    Marshal.stringToAddress.marshal(escapedString, null),
+                    (Addressable) (illegalCharacters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(illegalCharacters, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17339,10 +16761,7 @@ public final class GLib {
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
     public static PointerInteger utf16ToUcs4(PointerShort str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
         MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
         MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -17350,8 +16769,8 @@ public final class GLib {
             RESULT = (MemoryAddress) DowncallHandles.g_utf16_to_ucs4.invokeExact(
                     str.handle(),
                     len,
-                    (Addressable) itemsReadPOINTER.address(),
-                    (Addressable) itemsWrittenPOINTER.address(),
+                    (Addressable) (itemsRead == null ? MemoryAddress.NULL : (Addressable) itemsReadPOINTER.address()),
+                    (Addressable) (itemsWritten == null ? MemoryAddress.NULL : (Addressable) itemsWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -17359,8 +16778,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsRead != null) itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsWritten != null) itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerInteger(RESULT);
     }
     
@@ -17394,11 +16813,8 @@ public final class GLib {
      *     {@code null} will be returned and {@code error} set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull java.lang.String utf16ToUtf8(PointerShort str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+    public static java.lang.String utf16ToUtf8(PointerShort str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
         MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -17406,8 +16822,8 @@ public final class GLib {
             RESULT = (MemoryAddress) DowncallHandles.g_utf16_to_utf8.invokeExact(
                     str.handle(),
                     len,
-                    (Addressable) itemsReadPOINTER.address(),
-                    (Addressable) itemsWrittenPOINTER.address(),
+                    (Addressable) (itemsRead == null ? MemoryAddress.NULL : (Addressable) itemsReadPOINTER.address()),
+                    (Addressable) (itemsWritten == null ? MemoryAddress.NULL : (Addressable) itemsWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -17415,9 +16831,9 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return Interop.getStringFrom(RESULT);
+        if (itemsRead != null) itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsWritten != null) itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17437,17 +16853,16 @@ public final class GLib {
      * @return a newly allocated string, that is a
      *   case independent form of {@code str}.
      */
-    public static @NotNull java.lang.String utf8Casefold(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String utf8Casefold(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_casefold.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17466,14 +16881,12 @@ public final class GLib {
      * @return &lt; 0 if {@code str1} compares before {@code str2},
      *   0 if they compare equal, &gt; 0 if {@code str1} compares after {@code str2}.
      */
-    public static int utf8Collate(@NotNull java.lang.String str1, @NotNull java.lang.String str2) {
-        java.util.Objects.requireNonNull(str1, "Parameter 'str1' must not be null");
-        java.util.Objects.requireNonNull(str2, "Parameter 'str2' must not be null");
+    public static int utf8Collate(java.lang.String str1, java.lang.String str2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_utf8_collate.invokeExact(
-                    Interop.allocateNativeString(str1),
-                    Interop.allocateNativeString(str2));
+                    Marshal.stringToAddress.marshal(str1, null),
+                    Marshal.stringToAddress.marshal(str2, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -17495,17 +16908,16 @@ public final class GLib {
      * @return a newly allocated string. This string should
      *   be freed with g_free() when you are done with it.
      */
-    public static @NotNull java.lang.String utf8CollateKey(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String utf8CollateKey(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_collate_key.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17525,17 +16937,16 @@ public final class GLib {
      * @return a newly allocated string. This string should
      *   be freed with g_free() when you are done with it.
      */
-    public static @NotNull java.lang.String utf8CollateKeyForFilename(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String utf8CollateKeyForFilename(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_collate_key_for_filename.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17555,17 +16966,16 @@ public final class GLib {
      * @return a pointer to the found character or {@code null} if {@code end} is
      *    set and is reached
      */
-    public static @Nullable java.lang.String utf8FindNextChar(@NotNull java.lang.String p, @Nullable java.lang.String end) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public static @Nullable java.lang.String utf8FindNextChar(java.lang.String p, @Nullable java.lang.String end) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_find_next_char.invokeExact(
-                    Interop.allocateNativeString(p),
-                    (Addressable) (end == null ? MemoryAddress.NULL : Interop.allocateNativeString(end)));
+                    Marshal.stringToAddress.marshal(p, null),
+                    (Addressable) (end == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(end, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17580,18 +16990,16 @@ public final class GLib {
      * @param p pointer to some position within {@code str}
      * @return a pointer to the found character or {@code null}.
      */
-    public static @Nullable java.lang.String utf8FindPrevChar(@NotNull java.lang.String str, @NotNull java.lang.String p) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public static @Nullable java.lang.String utf8FindPrevChar(java.lang.String str, java.lang.String p) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_find_prev_char.invokeExact(
-                    Interop.allocateNativeString(str),
-                    Interop.allocateNativeString(p));
+                    Marshal.stringToAddress.marshal(str, null),
+                    Marshal.stringToAddress.marshal(p, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17604,12 +17012,11 @@ public final class GLib {
      * @param p a pointer to Unicode character encoded as UTF-8
      * @return the resulting character
      */
-    public static int utf8GetChar(@NotNull java.lang.String p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public static int utf8GetChar(java.lang.String p) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_utf8_get_char.invokeExact(
-                    Interop.allocateNativeString(p));
+                    Marshal.stringToAddress.marshal(p, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -17633,12 +17040,11 @@ public final class GLib {
      *     otherwise, if {@code p} does not point to a valid UTF-8 encoded
      *     Unicode character, returns (gunichar)-1.
      */
-    public static int utf8GetCharValidated(@NotNull java.lang.String p, long maxLen) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public static int utf8GetCharValidated(java.lang.String p, long maxLen) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_utf8_get_char_validated.invokeExact(
-                    Interop.allocateNativeString(p),
+                    Marshal.stringToAddress.marshal(p, null),
                     maxLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -17661,17 +17067,16 @@ public final class GLib {
      *     then the string is nul-terminated.
      * @return a valid UTF-8 string whose content resembles {@code str}
      */
-    public static @NotNull java.lang.String utf8MakeValid(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String utf8MakeValid(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_make_valid.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17707,19 +17112,17 @@ public final class GLib {
      *   is the normalized form of {@code str}, or {@code null} if {@code str}
      *   is not valid UTF-8.
      */
-    public static @Nullable java.lang.String utf8Normalize(@NotNull java.lang.String str, long len, @NotNull org.gtk.glib.NormalizeMode mode) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static @Nullable java.lang.String utf8Normalize(java.lang.String str, long len, org.gtk.glib.NormalizeMode mode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_normalize.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len,
                     mode.getValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17740,17 +17143,16 @@ public final class GLib {
      * @param offset a character offset within {@code str}
      * @return the resulting pointer
      */
-    public static @NotNull java.lang.String utf8OffsetToPointer(@NotNull java.lang.String str, long offset) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String utf8OffsetToPointer(java.lang.String str, long offset) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_offset_to_pointer.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     offset);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17763,14 +17165,12 @@ public final class GLib {
      * @param pos a pointer to a position within {@code str}
      * @return the resulting character offset
      */
-    public static long utf8PointerToOffset(@NotNull java.lang.String str, @NotNull java.lang.String pos) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+    public static long utf8PointerToOffset(java.lang.String str, java.lang.String pos) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_utf8_pointer_to_offset.invokeExact(
-                    Interop.allocateNativeString(str),
-                    Interop.allocateNativeString(pos));
+                    Marshal.stringToAddress.marshal(str, null),
+                    Marshal.stringToAddress.marshal(pos, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -17787,16 +17187,15 @@ public final class GLib {
      * @param p a pointer to a position within a UTF-8 encoded string
      * @return a pointer to the found character
      */
-    public static @NotNull java.lang.String utf8PrevChar(@NotNull java.lang.String p) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public static java.lang.String utf8PrevChar(java.lang.String p) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_prev_char.invokeExact(
-                    Interop.allocateNativeString(p));
+                    Marshal.stringToAddress.marshal(p, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17810,18 +17209,17 @@ public final class GLib {
      *     otherwise, a pointer to the start of the leftmost occurrence
      *     of the character in the string.
      */
-    public static @Nullable java.lang.String utf8Strchr(@NotNull java.lang.String p, long len, int c) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public static @Nullable java.lang.String utf8Strchr(java.lang.String p, long len, int c) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_strchr.invokeExact(
-                    Interop.allocateNativeString(p),
+                    Marshal.stringToAddress.marshal(p, null),
                     len,
                     c);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17834,17 +17232,16 @@ public final class GLib {
      * @return a newly allocated string, with all characters
      *    converted to lowercase.
      */
-    public static @NotNull java.lang.String utf8Strdown(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String utf8Strdown(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_strdown.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17859,12 +17256,11 @@ public final class GLib {
      *       bytes are examined
      * @return the length of the string in characters
      */
-    public static long utf8Strlen(@NotNull java.lang.String p, long max) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public static long utf8Strlen(java.lang.String p, long max) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_utf8_strlen.invokeExact(
-                    Interop.allocateNativeString(p),
+                    Marshal.stringToAddress.marshal(p, null),
                     max);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -17885,19 +17281,17 @@ public final class GLib {
      * @param n character count
      * @return {@code dest}
      */
-    public static @NotNull java.lang.String utf8Strncpy(@NotNull java.lang.String dest, @NotNull java.lang.String src, long n) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static java.lang.String utf8Strncpy(java.lang.String dest, java.lang.String src, long n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_strncpy.invokeExact(
-                    Interop.allocateNativeString(dest),
-                    Interop.allocateNativeString(src),
+                    Marshal.stringToAddress.marshal(dest, null),
+                    Marshal.stringToAddress.marshal(src, null),
                     n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17911,18 +17305,17 @@ public final class GLib {
      *     otherwise, a pointer to the start of the rightmost occurrence
      *     of the character in the string.
      */
-    public static @Nullable java.lang.String utf8Strrchr(@NotNull java.lang.String p, long len, int c) {
-        java.util.Objects.requireNonNull(p, "Parameter 'p' must not be null");
+    public static @Nullable java.lang.String utf8Strrchr(java.lang.String p, long len, int c) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_strrchr.invokeExact(
-                    Interop.allocateNativeString(p),
+                    Marshal.stringToAddress.marshal(p, null),
                     len,
                     c);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17944,17 +17337,16 @@ public final class GLib {
      *     then the string is nul-terminated.
      * @return a newly-allocated string which is the reverse of {@code str}
      */
-    public static @NotNull java.lang.String utf8Strreverse(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String utf8Strreverse(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_strreverse.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17968,17 +17360,16 @@ public final class GLib {
      * @return a newly allocated string, with all characters
      *    converted to uppercase.
      */
-    public static @NotNull java.lang.String utf8Strup(@NotNull java.lang.String str, long len) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String utf8Strup(java.lang.String str, long len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_strup.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -17994,18 +17385,17 @@ public final class GLib {
      * @return a newly allocated copy of the requested
      *     substring. Free with g_free() when no longer needed.
      */
-    public static @NotNull java.lang.String utf8Substring(@NotNull java.lang.String str, long startPos, long endPos) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static java.lang.String utf8Substring(java.lang.String str, long startPos, long endPos) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_substring.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     startPos,
                     endPos);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -18029,20 +17419,17 @@ public final class GLib {
      *     {@code null} will be returned and {@code error} set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static PointerInteger utf8ToUcs4(@NotNull java.lang.String str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+    public static PointerInteger utf8ToUcs4(java.lang.String str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
         MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_to_ucs4.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len,
-                    (Addressable) itemsReadPOINTER.address(),
-                    (Addressable) itemsWrittenPOINTER.address(),
+                    (Addressable) (itemsRead == null ? MemoryAddress.NULL : (Addressable) itemsReadPOINTER.address()),
+                    (Addressable) (itemsWritten == null ? MemoryAddress.NULL : (Addressable) itemsWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -18050,8 +17437,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsRead != null) itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsWritten != null) itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerInteger(RESULT);
     }
     
@@ -18069,20 +17456,18 @@ public final class GLib {
      * @return a pointer to a newly allocated UCS-4 string.
      *     This value must be freed with g_free().
      */
-    public static PointerInteger utf8ToUcs4Fast(@NotNull java.lang.String str, long len, Out<Long> itemsWritten) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
+    public static PointerInteger utf8ToUcs4Fast(java.lang.String str, long len, Out<Long> itemsWritten) {
         MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_to_ucs4_fast.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len,
-                    (Addressable) itemsWrittenPOINTER.address());
+                    (Addressable) (itemsWritten == null ? MemoryAddress.NULL : (Addressable) itemsWrittenPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsWritten != null) itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerInteger(RESULT);
     }
     
@@ -18104,20 +17489,17 @@ public final class GLib {
      *     {@code null} will be returned and {@code error} set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static PointerShort utf8ToUtf16(@NotNull java.lang.String str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(itemsRead, "Parameter 'itemsRead' must not be null");
+    public static PointerShort utf8ToUtf16(java.lang.String str, long len, Out<Long> itemsRead, Out<Long> itemsWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment itemsReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(itemsWritten, "Parameter 'itemsWritten' must not be null");
         MemorySegment itemsWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_utf8_to_utf16.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     len,
-                    (Addressable) itemsReadPOINTER.address(),
-                    (Addressable) itemsWrittenPOINTER.address(),
+                    (Addressable) (itemsRead == null ? MemoryAddress.NULL : (Addressable) itemsReadPOINTER.address()),
+                    (Addressable) (itemsWritten == null ? MemoryAddress.NULL : (Addressable) itemsWrittenPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -18125,8 +17507,8 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsRead != null) itemsRead.set(itemsReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (itemsWritten != null) itemsWritten.set(itemsWrittenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return new PointerShort(RESULT);
     }
     
@@ -18151,21 +17533,19 @@ public final class GLib {
      * @param end return location for end of valid data
      * @return {@code true} if the text was valid UTF-8
      */
-    public static boolean utf8Validate(@NotNull byte[] str, long maxLen, @NotNull Out<java.lang.String> end) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public static boolean utf8Validate(byte[] str, long maxLen, @Nullable Out<java.lang.String> end) {
         MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_utf8_validate.invokeExact(
                     Interop.allocateNativeArray(str, false),
                     maxLen,
-                    (Addressable) endPOINTER.address());
+                    (Addressable) (end == null ? MemoryAddress.NULL : (Addressable) endPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        end.set(Interop.getStringFrom(endPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (end != null) end.set(Marshal.addressToString.marshal(endPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -18178,21 +17558,19 @@ public final class GLib {
      * @param end return location for end of valid data
      * @return {@code true} if the text was valid UTF-8
      */
-    public static boolean utf8ValidateLen(@NotNull byte[] str, long maxLen, @NotNull Out<java.lang.String> end) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(end, "Parameter 'end' must not be null");
+    public static boolean utf8ValidateLen(byte[] str, long maxLen, @Nullable Out<java.lang.String> end) {
         MemorySegment endPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_utf8_validate_len.invokeExact(
                     Interop.allocateNativeArray(str, false),
                     maxLen,
-                    (Addressable) endPOINTER.address());
+                    (Addressable) (end == null ? MemoryAddress.NULL : (Addressable) endPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        end.set(Interop.getStringFrom(endPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (end != null) end.set(Marshal.addressToString.marshal(endPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -18208,16 +17586,15 @@ public final class GLib {
      * @param str a string representing a UUID
      * @return {@code true} if {@code str} is a valid UUID, {@code false} otherwise.
      */
-    public static boolean uuidStringIsValid(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static boolean uuidStringIsValid(java.lang.String str) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_uuid_string_is_valid.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -18226,17 +17603,17 @@ public final class GLib {
      * purposes such as key generation, nonces, salts or one-time pads.
      * @return A string that should be freed with g_free().
      */
-    public static @NotNull java.lang.String uuidStringRandom() {
+    public static java.lang.String uuidStringRandom() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_uuid_string_random.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Type variantGetGtype() {
+    public static org.gtk.glib.Type variantGetGtype() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_variant_get_gtype.invokeExact();
@@ -18258,16 +17635,15 @@ public final class GLib {
      * @param string a normal C nul-terminated string
      * @return {@code true} if {@code string} is a D-Bus object path
      */
-    public static boolean variantIsObjectPath(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static boolean variantIsObjectPath(java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_is_object_path.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -18280,16 +17656,15 @@ public final class GLib {
      * @param string a normal C nul-terminated string
      * @return {@code true} if {@code string} is a D-Bus type signature
      */
-    public static boolean variantIsSignature(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static boolean variantIsSignature(java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_is_signature.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -18335,15 +17710,14 @@ public final class GLib {
      * @return a non-floating reference to a {@link Variant}, or {@code null}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.glib.Variant variantParse(@Nullable org.gtk.glib.VariantType type, @NotNull java.lang.String text, @Nullable java.lang.String limit, @Nullable PointerString endptr) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public static org.gtk.glib.Variant variantParse(@Nullable org.gtk.glib.VariantType type, java.lang.String text, @Nullable java.lang.String limit, @Nullable PointerString endptr) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_parse.invokeExact(
                     (Addressable) (type == null ? MemoryAddress.NULL : type.handle()),
-                    Interop.allocateNativeString(text),
-                    (Addressable) (limit == null ? MemoryAddress.NULL : Interop.allocateNativeString(limit)),
+                    Marshal.stringToAddress.marshal(text, null),
+                    (Addressable) (limit == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(limit, null)),
                     (Addressable) (endptr == null ? MemoryAddress.NULL : endptr.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -18352,7 +17726,7 @@ public final class GLib {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -18387,21 +17761,19 @@ public final class GLib {
      * @param sourceStr the string that was given to the parser
      * @return the printed message
      */
-    public static @NotNull java.lang.String variantParseErrorPrintContext(@NotNull org.gtk.glib.Error error, @NotNull java.lang.String sourceStr) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(sourceStr, "Parameter 'sourceStr' must not be null");
+    public static java.lang.String variantParseErrorPrintContext(org.gtk.glib.Error error, java.lang.String sourceStr) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_parse_error_print_context.invokeExact(
                     error.handle(),
-                    Interop.allocateNativeString(sourceStr));
+                    Marshal.stringToAddress.marshal(sourceStr, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark variantParseErrorQuark() {
+    public static org.gtk.glib.Quark variantParseErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_parse_error_quark.invokeExact();
@@ -18416,7 +17788,7 @@ public final class GLib {
      * @deprecated Use g_variant_parse_error_quark() instead.
      */
     @Deprecated
-    public static @NotNull org.gtk.glib.Quark variantParserGetErrorQuark() {
+    public static org.gtk.glib.Quark variantParserGetErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_parser_get_error_quark.invokeExact();
@@ -18426,24 +17798,22 @@ public final class GLib {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.VariantType variantTypeChecked(@NotNull java.lang.String arg0) {
-        java.util.Objects.requireNonNull(arg0, "Parameter 'arg0' must not be null");
+    public static org.gtk.glib.VariantType variantTypeChecked(java.lang.String arg0) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_checked_.invokeExact(
-                    Interop.allocateNativeString(arg0));
+                    Marshal.stringToAddress.marshal(arg0, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static long variantTypeStringGetDepth(@NotNull java.lang.String typeString) {
-        java.util.Objects.requireNonNull(typeString, "Parameter 'typeString' must not be null");
+    public static long variantTypeStringGetDepth(java.lang.String typeString) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_variant_type_string_get_depth_.invokeExact(
-                    Interop.allocateNativeString(typeString));
+                    Marshal.stringToAddress.marshal(typeString, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -18459,16 +17829,15 @@ public final class GLib {
      * <p>
      * Since 2.24
      */
-    public static boolean variantTypeStringIsValid(@NotNull java.lang.String typeString) {
-        java.util.Objects.requireNonNull(typeString, "Parameter 'typeString' must not be null");
+    public static boolean variantTypeStringIsValid(java.lang.String typeString) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_type_string_is_valid.invokeExact(
-                    Interop.allocateNativeString(typeString));
+                    Marshal.stringToAddress.marshal(typeString, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -18490,21 +17859,19 @@ public final class GLib {
      * @param endptr location to store the end pointer, or {@code null}
      * @return {@code true} if a valid type string was found
      */
-    public static boolean variantTypeStringScan(@NotNull java.lang.String string, @Nullable java.lang.String limit, @NotNull Out<java.lang.String> endptr) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
+    public static boolean variantTypeStringScan(java.lang.String string, @Nullable java.lang.String limit, @Nullable Out<java.lang.String> endptr) {
         MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_type_string_scan.invokeExact(
-                    Interop.allocateNativeString(string),
-                    (Addressable) (limit == null ? MemoryAddress.NULL : Interop.allocateNativeString(limit)),
-                    (Addressable) endptrPOINTER.address());
+                    Marshal.stringToAddress.marshal(string, null),
+                    (Addressable) (limit == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(limit, null)),
+                    (Addressable) (endptr == null ? MemoryAddress.NULL : (Addressable) endptrPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (endptr != null) endptr.set(Marshal.addressToString.marshal(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -18526,15 +17893,12 @@ public final class GLib {
      * @param args the list of arguments to insert in the output.
      * @return the number of bytes printed, or {@code -1} on failure
      */
-    public static int vasprintf(@NotNull PointerString string, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static int vasprintf(PointerString string, java.lang.String format, VaList args) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_vasprintf.invokeExact(
                     string.handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -18553,15 +17917,12 @@ public final class GLib {
      * @param args the list of arguments to insert in the output.
      * @return the number of bytes printed.
      */
-    public static int vfprintf(@NotNull java.lang.foreign.MemoryAddress file, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static int vfprintf(java.lang.foreign.MemoryAddress file, java.lang.String format, VaList args) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_vfprintf.invokeExact(
                     (Addressable) file,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -18579,13 +17940,11 @@ public final class GLib {
      * @param args the list of arguments to insert in the output.
      * @return the number of bytes printed.
      */
-    public static int vprintf(@NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static int vprintf(java.lang.String format, VaList args) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_vprintf.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -18620,16 +17979,13 @@ public final class GLib {
      * @return the number of bytes which would be produced if the buffer
      *  was large enough.
      */
-    public static int vsnprintf(@NotNull java.lang.String string, long n, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static int vsnprintf(java.lang.String string, long n, java.lang.String format, VaList args) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_vsnprintf.invokeExact(
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     n,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -18648,15 +18004,12 @@ public final class GLib {
      * @param args the list of arguments to insert in the output.
      * @return the number of bytes printed.
      */
-    public static int vsprintf(@NotNull java.lang.String string, @NotNull java.lang.String format, @NotNull VaList args) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(args, "Parameter 'args' must not be null");
+    public static int vsprintf(java.lang.String string, java.lang.String format, VaList args) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_vsprintf.invokeExact(
-                    Interop.allocateNativeString(string),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(string, null),
+                    Marshal.stringToAddress.marshal(format, null),
                     args);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -18673,16 +18026,14 @@ public final class GLib {
      * @param func function containing the warning
      * @param warnexpr expression which failed
      */
-    public static void warnMessage(@Nullable java.lang.String domain, @NotNull java.lang.String file, int line, @NotNull java.lang.String func, @Nullable java.lang.String warnexpr) {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static void warnMessage(@Nullable java.lang.String domain, java.lang.String file, int line, java.lang.String func, @Nullable java.lang.String warnexpr) {
         try {
             DowncallHandles.g_warn_message.invokeExact(
-                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)),
-                    Interop.allocateNativeString(file),
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)),
+                    Marshal.stringToAddress.marshal(file, null),
                     line,
-                    Interop.allocateNativeString(func),
-                    (Addressable) (warnexpr == null ? MemoryAddress.NULL : Interop.allocateNativeString(warnexpr)));
+                    Marshal.stringToAddress.marshal(func, null),
+                    (Addressable) (warnexpr == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(warnexpr, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -22569,249 +21920,5 @@ public final class GLib {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static int cbHookCheckFunc(MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (HookCheckFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onHookCheckFunc();
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbIOFunc(MemoryAddress source, int condition, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (IOFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onIOFunc(new org.gtk.glib.IOChannel(source, Ownership.NONE), new org.gtk.glib.IOCondition(condition));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static Addressable cbThreadFunc(MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ThreadFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onThreadFunc();
-            return (Addressable) RESULT;
-        }
-        
-        public static int cbHookCheckMarshaller(MemoryAddress hook, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (HookCheckMarshaller) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onHookCheckMarshaller(new org.gtk.glib.Hook(hook, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbNodeTraverseFunc(MemoryAddress node, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (NodeTraverseFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onNodeTraverseFunc(new org.gtk.glib.Node(node, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbHookFunc(MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (HookFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onHookFunc();
-        }
-        
-        public static void cbTestFixtureFunc(MemoryAddress fixture, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TestFixtureFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTestFixtureFunc(fixture);
-        }
-        
-        public static Addressable cbCopyFunc(MemoryAddress src, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CopyFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCopyFunc(src);
-            return (Addressable) RESULT;
-        }
-        
-        public static int cbHookFindFunc(MemoryAddress hook, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (HookFindFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onHookFindFunc(new org.gtk.glib.Hook(hook, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbRegexEvalCallback(MemoryAddress matchInfo, MemoryAddress result, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (RegexEvalCallback) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onRegexEvalCallback(new org.gtk.glib.MatchInfo(matchInfo, Ownership.NONE), new org.gtk.glib.String(result, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbUnixFDSourceFunc(int fd, int condition, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (UnixFDSourceFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onUnixFDSourceFunc(fd, new org.gtk.glib.IOCondition(condition));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbSpawnChildSetupFunc(MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SpawnChildSetupFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onSpawnChildSetupFunc();
-        }
-        
-        public static void cbDestroyNotify(MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DestroyNotify) Interop.signalRegistry.get(HASH);
-            HANDLER.onDestroyNotify();
-        }
-        
-        public static void cbChildWatchFunc(int pid, int waitStatus, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ChildWatchFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onChildWatchFunc(new org.gtk.glib.Pid(pid), waitStatus);
-        }
-        
-        public static void cbTestDataFunc(MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TestDataFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onTestDataFunc();
-        }
-        
-        public static int cbCompareDataFunc(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CompareDataFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCompareDataFunc(a, b);
-            return RESULT;
-        }
-        
-        public static int cbEqualFuncFull(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EqualFuncFull) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onEqualFuncFull(a, b);
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbTraverseFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TraverseFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTraverseFunc(key, value);
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbFunc(MemoryAddress data, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Func) Interop.signalRegistry.get(HASH);
-            HANDLER.onFunc();
-        }
-        
-        public static int cbLogWriterFunc(int logLevel, MemoryAddress fields, long nFields, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (LogWriterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onLogWriterFunc(new org.gtk.glib.LogLevelFlags(logLevel), new PointerProxy<org.gtk.glib.LogField>(fields, org.gtk.glib.LogField.class), nFields);
-            return RESULT.getValue();
-        }
-        
-        public static int cbSequenceIterCompareFunc(MemoryAddress a, MemoryAddress b, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SequenceIterCompareFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onSequenceIterCompareFunc(new org.gtk.glib.SequenceIter(a, Ownership.NONE), new org.gtk.glib.SequenceIter(b, Ownership.NONE));
-            return RESULT;
-        }
-        
-        public static void cbHookMarshaller(MemoryAddress hook, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (HookMarshaller) Interop.signalRegistry.get(HASH);
-            HANDLER.onHookMarshaller(new org.gtk.glib.Hook(hook, Ownership.NONE));
-        }
-        
-        public static int cbOptionParseFunc(MemoryAddress context, MemoryAddress group, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (OptionParseFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onOptionParseFunc(new org.gtk.glib.OptionContext(context, Ownership.NONE), new org.gtk.glib.OptionGroup(group, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbOptionArgFunc(MemoryAddress optionName, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (OptionArgFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onOptionArgFunc(Interop.getStringFrom(optionName), Interop.getStringFrom(value));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbTestLogFatalFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TestLogFatalFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTestLogFatalFunc(Interop.getStringFrom(logDomain), new org.gtk.glib.LogLevelFlags(logLevel), Interop.getStringFrom(message));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbSourceFunc(MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SourceFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onSourceFunc();
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbOptionErrorFunc(MemoryAddress context, MemoryAddress group, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (OptionErrorFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onOptionErrorFunc(new org.gtk.glib.OptionContext(context, Ownership.NONE), new org.gtk.glib.OptionGroup(group, Ownership.NONE));
-        }
-        
-        public static int cbTraverseNodeFunc(MemoryAddress node, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TraverseNodeFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTraverseNodeFunc(new org.gtk.glib.TreeNode(node, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbHFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (HFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onHFunc(key, value);
-        }
-        
-        public static Addressable cbDuplicateFunc(MemoryAddress data, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DuplicateFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onDuplicateFunc();
-            return (Addressable) RESULT;
-        }
-        
-        public static void cbFreeFunc(MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (FreeFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onFreeFunc();
-        }
-        
-        public static int cbHRFunc(MemoryAddress key, MemoryAddress value, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (HRFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onHRFunc(key, value);
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbSourceOnceFunc(MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SourceOnceFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onSourceOnceFunc();
-        }
-        
-        public static void cbLogFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (LogFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onLogFunc(Interop.getStringFrom(logDomain), new org.gtk.glib.LogLevelFlags(logLevel), Interop.getStringFrom(message));
-        }
-        
-        public static void cbNodeForeachFunc(MemoryAddress node, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (NodeForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onNodeForeachFunc(new org.gtk.glib.Node(node, Ownership.NONE));
-        }
-        
-        public static void cbDataForeachFunc(int keyId, MemoryAddress data, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DataForeachFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onDataForeachFunc(new org.gtk.glib.Quark(keyId));
-        }
-        
-        public static Addressable cbTranslateFunc(MemoryAddress str, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TranslateFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onTranslateFunc(Interop.getStringFrom(str));
-            return Interop.allocateNativeString(RESULT);
-        }
     }
 }

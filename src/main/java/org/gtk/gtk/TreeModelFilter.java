@@ -77,7 +77,7 @@ import org.jetbrains.annotations.*;
  * do implement reference counting, obtain references on these child levels
  * yourself.
  */
-public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel {
+public class TreeModelFilter extends org.gtk.gobject.GObject implements org.gtk.gtk.TreeDragSource, org.gtk.gtk.TreeModel {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -85,18 +85,16 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
     
     private static final java.lang.String C_TYPE_NAME = "GtkTreeModelFilter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -104,30 +102,12 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TreeModelFilter(Addressable address, Ownership ownership) {
+    protected TreeModelFilter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to TreeModelFilter if its GType is a (or inherits from) "GtkTreeModelFilter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TreeModelFilter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkTreeModelFilter", a ClassCastException will be thrown.
-     */
-    public static TreeModelFilter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TreeModelFilter.getType())) {
-            return new TreeModelFilter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkTreeModelFilter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TreeModelFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TreeModelFilter(input, ownership);
     
     /**
      * This function should almost never be called. It clears the {@code filter}
@@ -155,9 +135,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * @return {@code true}, if {@code filter_iter} was set, i.e. if {@code child_iter} is a
      * valid iterator pointing to a visible row in child model.
      */
-    public boolean convertChildIterToIter(@NotNull org.gtk.gtk.TreeIter filterIter, @NotNull org.gtk.gtk.TreeIter childIter) {
-        java.util.Objects.requireNonNull(filterIter, "Parameter 'filterIter' must not be null");
-        java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
+    public boolean convertChildIterToIter(org.gtk.gtk.TreeIter filterIter, org.gtk.gtk.TreeIter childIter) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_tree_model_filter_convert_child_iter_to_iter.invokeExact(
@@ -167,7 +145,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -179,8 +157,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * @param childPath A {@code GtkTreePath} to convert.
      * @return A newly allocated {@code GtkTreePath}
      */
-    public @Nullable org.gtk.gtk.TreePath convertChildPathToPath(@NotNull org.gtk.gtk.TreePath childPath) {
-        java.util.Objects.requireNonNull(childPath, "Parameter 'childPath' must not be null");
+    public @Nullable org.gtk.gtk.TreePath convertChildPathToPath(org.gtk.gtk.TreePath childPath) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_convert_child_path_to_path.invokeExact(
@@ -189,7 +166,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -197,9 +174,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * @param childIter An uninitialized {@code GtkTreeIter}
      * @param filterIter A valid {@code GtkTreeIter} pointing to a row on {@code filter}.
      */
-    public void convertIterToChildIter(@NotNull org.gtk.gtk.TreeIter childIter, @NotNull org.gtk.gtk.TreeIter filterIter) {
-        java.util.Objects.requireNonNull(childIter, "Parameter 'childIter' must not be null");
-        java.util.Objects.requireNonNull(filterIter, "Parameter 'filterIter' must not be null");
+    public void convertIterToChildIter(org.gtk.gtk.TreeIter childIter, org.gtk.gtk.TreeIter filterIter) {
         try {
             DowncallHandles.gtk_tree_model_filter_convert_iter_to_child_iter.invokeExact(
                     handle(),
@@ -218,8 +193,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * @param filterPath A {@code GtkTreePath} to convert.
      * @return A newly allocated {@code GtkTreePath}
      */
-    public @Nullable org.gtk.gtk.TreePath convertPathToChildPath(@NotNull org.gtk.gtk.TreePath filterPath) {
-        java.util.Objects.requireNonNull(filterPath, "Parameter 'filterPath' must not be null");
+    public @Nullable org.gtk.gtk.TreePath convertPathToChildPath(org.gtk.gtk.TreePath filterPath) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_convert_path_to_child_path.invokeExact(
@@ -228,14 +202,14 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreePath(RESULT, Ownership.FULL);
+        return org.gtk.gtk.TreePath.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Returns a pointer to the child model of {@code filter}.
      * @return A pointer to a {@code GtkTreeModel}
      */
-    public @NotNull org.gtk.gtk.TreeModel getModel() {
+    public org.gtk.gtk.TreeModel getModel() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_tree_model_filter_get_model.invokeExact(
@@ -243,7 +217,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -273,22 +247,17 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * @param nColumns The number of columns in the filter model.
      * @param types The {@code GType}s of the columns.
      * @param func A {@code GtkTreeModelFilterModifyFunc}
+     * @param destroy Destroy notifier of {@code data}
      */
-    public void setModifyFunc(int nColumns, @NotNull org.gtk.glib.Type[] types, @NotNull org.gtk.gtk.TreeModelFilterModifyFunc func) {
-        java.util.Objects.requireNonNull(types, "Parameter 'types' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setModifyFunc(int nColumns, org.gtk.glib.Type[] types, org.gtk.gtk.TreeModelFilterModifyFunc func, @Nullable org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.gtk_tree_model_filter_set_modify_func.invokeExact(
                     handle(),
                     nColumns,
                     Interop.allocateNativeArray(org.gtk.glib.Type.getLongValues(types), false),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeModelFilterModifyFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -351,19 +320,15 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * gtk_tree_model_filter_set_visible_column() can only be called
      * once for a given filter model.
      * @param func A {@code GtkTreeModelFilterVisibleFunc}, the visible function
+     * @param destroy Destroy notifier of {@code data}
      */
-    public void setVisibleFunc(@NotNull org.gtk.gtk.TreeModelFilterVisibleFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setVisibleFunc(org.gtk.gtk.TreeModelFilterVisibleFunc func, @Nullable org.gtk.glib.DestroyNotify destroy) {
         try {
             DowncallHandles.gtk_tree_model_filter_set_visible_func.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTreeModelFilterVisibleFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -373,7 +338,7 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_tree_model_filter_get_type.invokeExact();
@@ -382,48 +347,50 @@ public class TreeModelFilter extends org.gtk.gobject.Object implements org.gtk.g
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link TreeModelFilter.Builder} object constructs a {@link TreeModelFilter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TreeModelFilter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link TreeModelFilter.Build} object constructs a {@link TreeModelFilter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TreeModelFilter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TreeModelFilter} using {@link TreeModelFilter#castFrom}.
+         * {@link TreeModelFilter}.
          * @return A new instance of {@code TreeModelFilter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TreeModelFilter construct() {
-            return TreeModelFilter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TreeModelFilter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TreeModelFilter build() {
+            return (TreeModelFilter) org.gtk.gobject.GObject.newWithProperties(
+                TreeModelFilter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setChildModel(org.gtk.gtk.TreeModel childModel) {
+        public Builder setChildModel(org.gtk.gtk.TreeModel childModel) {
             names.add("child-model");
             values.add(org.gtk.gobject.Value.create(childModel));
             return this;
         }
         
-        public Build setVirtualRoot(org.gtk.gtk.TreePath virtualRoot) {
+        public Builder setVirtualRoot(org.gtk.gtk.TreePath virtualRoot) {
             names.add("virtual-root");
             values.add(org.gtk.gobject.Value.create(virtualRoot));
             return this;

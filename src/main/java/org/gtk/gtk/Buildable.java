@@ -14,7 +14,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * The {@code GtkBuildable} interface is implemented by all widgets and
  * many of the non-widget objects that are provided by GTK. The
- * main user of this interface is {@link Builder}. There should be
+ * main user of this interface is {@link GtkBuilder}. There should be
  * very little need for applications to call any of these functions directly.
  * <p>
  * An object only needs to implement this interface if it needs to extend the
@@ -22,25 +22,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Buildable extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Buildable if its GType is a (or inherits from) "GtkBuildable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Buildable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkBuildable", a ClassCastException will be thrown.
-     */
-    public static Buildable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Buildable.getType())) {
-            return new BuildableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBuildable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BuildableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BuildableImpl(input, ownership);
     
     /**
      * Gets the ID of the {@code buildable} object.
@@ -57,14 +40,14 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_buildable_get_type.invokeExact();
@@ -92,7 +75,7 @@ public interface Buildable extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class BuildableImpl extends org.gtk.gobject.Object implements Buildable {
+    class BuildableImpl extends org.gtk.gobject.GObject implements Buildable {
         
         static {
             Gtk.javagi$ensureInitialized();

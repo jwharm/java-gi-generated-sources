@@ -16,19 +16,17 @@ public class RTSPTime extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTSPTime";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("type"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_DOUBLE.withName("seconds")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("type"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_DOUBLE.withName("seconds")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class RTSPTime extends Struct {
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.rtsp.RTSPTimeType type$get() {
+    public org.gstreamer.rtsp.RTSPTimeType getType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,17 +57,17 @@ public class RTSPTime extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.rtsp.RTSPTimeType type) {
+    public void setType(org.gstreamer.rtsp.RTSPTimeType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
      * Get the value of the field {@code seconds}
      * @return The value of the field {@code seconds}
      */
-    public double seconds$get() {
+    public double getSeconds() {
         var RESULT = (double) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class RTSPTime extends Struct {
      * Change the value of the field {@code seconds}
      * @param seconds The new value of the field {@code seconds}
      */
-    public void seconds$set(double seconds) {
+    public void setSeconds(double seconds) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);
@@ -91,35 +89,41 @@ public class RTSPTime extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTSPTime(Addressable address, Ownership ownership) {
+    protected RTSPTime(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTSPTime> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPTime(input, ownership);
+    
+    /**
+     * A {@link RTSPTime.Builder} object constructs a {@link RTSPTime} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RTSPTime.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RTSPTime struct;
+        private final RTSPTime struct;
         
-         /**
-         * A {@link RTSPTime.Build} object constructs a {@link RTSPTime} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RTSPTime.allocate();
         }
         
          /**
          * Finish building the {@link RTSPTime} struct.
          * @return A new instance of {@code RTSPTime} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTSPTime construct() {
+        public RTSPTime build() {
             return struct;
         }
         
@@ -128,7 +132,7 @@ public class RTSPTime extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.rtsp.RTSPTimeType type) {
+        public Builder setType(org.gstreamer.rtsp.RTSPTimeType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
@@ -141,7 +145,7 @@ public class RTSPTime extends Struct {
          * @param seconds The value for the {@code seconds} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSeconds(double seconds) {
+        public Builder setSeconds(double seconds) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("seconds"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), seconds);

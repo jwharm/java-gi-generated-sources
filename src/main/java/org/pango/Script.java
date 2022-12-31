@@ -646,7 +646,7 @@ public enum Script implements io.github.jwharm.javagi.Enumeration {
      * @deprecated Use g_unichar_get_script()
      */
     @Deprecated
-    public static @NotNull org.pango.Script forUnichar(int ch) {
+    public static org.pango.Script forUnichar(int ch) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_script_for_unichar.invokeExact(
@@ -691,8 +691,7 @@ public enum Script implements io.github.jwharm.javagi.Enumeration {
      * @return a {@code PangoLanguage} that is representative
      *   of the script
      */
-    public static @Nullable org.pango.Language getSampleLanguage(@NotNull org.pango.Script script) {
-        java.util.Objects.requireNonNull(script, "Parameter 'script' must not be null");
+    public static @Nullable org.pango.Language getSampleLanguage(org.pango.Script script) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_script_get_sample_language.invokeExact(
@@ -700,7 +699,7 @@ public enum Script implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Language(RESULT, Ownership.FULL);
+        return org.pango.Language.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

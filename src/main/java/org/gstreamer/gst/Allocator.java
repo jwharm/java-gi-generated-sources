@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * New memory can be created with gst_memory_new_wrapped() that wraps the memory
  * allocated elsewhere.
  */
-public class Allocator extends org.gstreamer.gst.Object {
+public class Allocator extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -26,27 +26,25 @@ public class Allocator extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstAllocator";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.ADDRESS.withName("mem_type"),
-        Interop.valueLayout.ADDRESS.withName("mem_map"),
-        Interop.valueLayout.ADDRESS.withName("mem_unmap"),
-        Interop.valueLayout.ADDRESS.withName("mem_copy"),
-        Interop.valueLayout.ADDRESS.withName("mem_share"),
-        Interop.valueLayout.ADDRESS.withName("mem_is_span"),
-        Interop.valueLayout.ADDRESS.withName("mem_map_full"),
-        Interop.valueLayout.ADDRESS.withName("mem_unmap_full"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("_gst_reserved"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.ADDRESS.withName("mem_type"),
+            Interop.valueLayout.ADDRESS.withName("mem_map"),
+            Interop.valueLayout.ADDRESS.withName("mem_unmap"),
+            Interop.valueLayout.ADDRESS.withName("mem_copy"),
+            Interop.valueLayout.ADDRESS.withName("mem_share"),
+            Interop.valueLayout.ADDRESS.withName("mem_is_span"),
+            Interop.valueLayout.ADDRESS.withName("mem_map_full"),
+            Interop.valueLayout.ADDRESS.withName("mem_unmap_full"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("_gst_reserved"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -54,37 +52,23 @@ public class Allocator extends org.gstreamer.gst.Object {
      * <p>
      * Because Allocator is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Allocator(Addressable address, Ownership ownership) {
+    protected Allocator(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Allocator if its GType is a (or inherits from) "GstAllocator".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Allocator} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstAllocator", a ClassCastException will be thrown.
-     */
-    public static Allocator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Allocator.getType())) {
-            return new Allocator(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstAllocator");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Allocator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Allocator(input, ownership);
     
     /**
      * Use {@code allocator} to allocate a new memory block with memory that is at least
@@ -116,15 +100,14 @@ public class Allocator extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Free {@code memory} that was previously allocated with gst_allocator_alloc().
      * @param memory the memory to free
      */
-    public void free(@NotNull org.gstreamer.gst.Memory memory) {
-        java.util.Objects.requireNonNull(memory, "Parameter 'memory' must not be null");
+    public void free(org.gstreamer.gst.Memory memory) {
         try {
             DowncallHandles.gst_allocator_free.invokeExact(
                     handle(),
@@ -152,7 +135,7 @@ public class Allocator extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_allocator_get_type.invokeExact();
@@ -173,11 +156,11 @@ public class Allocator extends org.gstreamer.gst.Object {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_allocator_find.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Allocator(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Allocator.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -185,50 +168,50 @@ public class Allocator extends org.gstreamer.gst.Object {
      * @param name the name of the allocator
      * @param allocator {@link Allocator}
      */
-    public static void register(@NotNull java.lang.String name, @NotNull org.gstreamer.gst.Allocator allocator) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
+    public static void register(java.lang.String name, org.gstreamer.gst.Allocator allocator) {
         try {
             DowncallHandles.gst_allocator_register.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     allocator.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         allocator.yieldOwnership();
     }
-
+    
+    /**
+     * A {@link Allocator.Builder} object constructs a {@link Allocator} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Allocator.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link Allocator.Build} object constructs a {@link Allocator} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Allocator} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Allocator} using {@link Allocator#castFrom}.
+         * {@link Allocator}.
          * @return A new instance of {@code Allocator} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Allocator construct() {
-            return Allocator.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Allocator.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Allocator build() {
+            return (Allocator) org.gtk.gobject.GObject.newWithProperties(
+                Allocator.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

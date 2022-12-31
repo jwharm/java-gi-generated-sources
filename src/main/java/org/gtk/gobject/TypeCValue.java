@@ -5,10 +5,10 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class TypeCValue extends io.github.jwharm.javagi.ObjectBase {
+public class TypeCValue extends ObjectBase {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GTypeCValue";
@@ -27,9 +27,11 @@ public class TypeCValue extends io.github.jwharm.javagi.ObjectBase {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TypeCValue(Addressable address, Ownership ownership) {
+    protected TypeCValue(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TypeCValue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeCValue(input, ownership);
 }
 

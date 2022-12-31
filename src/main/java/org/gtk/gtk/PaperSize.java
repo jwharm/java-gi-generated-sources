@@ -53,16 +53,18 @@ public class PaperSize extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PaperSize(Addressable address, Ownership ownership) {
+    protected PaperSize(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@Nullable java.lang.String name) {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PaperSize> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PaperSize(input, ownership);
+    
+    private static MemoryAddress constructNew(@Nullable java.lang.String name) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,15 +84,12 @@ public class PaperSize extends Struct {
         super(constructNew(name), Ownership.FULL);
     }
     
-    private static Addressable constructNewCustom(@NotNull java.lang.String name, @NotNull java.lang.String displayName, double width, double height, @NotNull org.gtk.gtk.Unit unit) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(displayName, "Parameter 'displayName' must not be null");
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewCustom(java.lang.String name, java.lang.String displayName, double width, double height, org.gtk.gtk.Unit unit) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_custom.invokeExact(
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(displayName),
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(displayName, null),
                     width,
                     height,
                     unit.getValue());
@@ -111,13 +110,13 @@ public class PaperSize extends Struct {
      * @return a new {@code GtkPaperSize} object, use {@link PaperSize#free}
      * to free it
      */
-    public static PaperSize newCustom(@NotNull java.lang.String name, @NotNull java.lang.String displayName, double width, double height, @NotNull org.gtk.gtk.Unit unit) {
-        return new PaperSize(constructNewCustom(name, displayName, width, height, unit), Ownership.FULL);
+    public static PaperSize newCustom(java.lang.String name, java.lang.String displayName, double width, double height, org.gtk.gtk.Unit unit) {
+        var RESULT = constructNewCustom(name, displayName, width, height, unit);
+        return org.gtk.gtk.PaperSize.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromGvariant(@NotNull org.gtk.glib.Variant variant) {
-        java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromGvariant(org.gtk.glib.Variant variant) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_from_gvariant.invokeExact(
                     variant.handle());
@@ -135,16 +134,16 @@ public class PaperSize extends Struct {
      * @param variant an a{sv} {@code GVariant}
      * @return a new {@code GtkPaperSize} object
      */
-    public static PaperSize newFromGvariant(@NotNull org.gtk.glib.Variant variant) {
-        return new PaperSize(constructNewFromGvariant(variant), Ownership.FULL);
+    public static PaperSize newFromGvariant(org.gtk.glib.Variant variant) {
+        var RESULT = constructNewFromGvariant(variant);
+        return org.gtk.gtk.PaperSize.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromIpp(@NotNull java.lang.String ippName, double width, double height) {
-        java.util.Objects.requireNonNull(ippName, "Parameter 'ippName' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromIpp(java.lang.String ippName, double width, double height) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ipp.invokeExact(
-                    Interop.allocateNativeString(ippName),
+                    Marshal.stringToAddress.marshal(ippName, null),
                     width,
                     height);
         } catch (Throwable ERR) {
@@ -166,18 +165,18 @@ public class PaperSize extends Struct {
      * @return a new {@code GtkPaperSize}, use {@link PaperSize#free}
      * to free it
      */
-    public static PaperSize newFromIpp(@NotNull java.lang.String ippName, double width, double height) {
-        return new PaperSize(constructNewFromIpp(ippName, width, height), Ownership.FULL);
+    public static PaperSize newFromIpp(java.lang.String ippName, double width, double height) {
+        var RESULT = constructNewFromIpp(ippName, width, height);
+        return org.gtk.gtk.PaperSize.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
-        java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
+    private static MemoryAddress constructNewFromKeyFile(org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_from_key_file.invokeExact(
                     keyFile.handle(),
-                    (Addressable) (groupName == null ? MemoryAddress.NULL : Interop.allocateNativeString(groupName)),
+                    (Addressable) (groupName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(groupName, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -197,18 +196,17 @@ public class PaperSize extends Struct {
      * @return a new {@code GtkPaperSize} object with the restored paper size
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static PaperSize newFromKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
-        return new PaperSize(constructNewFromKeyFile(keyFile, groupName), Ownership.FULL);
+    public static PaperSize newFromKeyFile(org.gtk.glib.KeyFile keyFile, @Nullable java.lang.String groupName) throws GErrorException {
+        var RESULT = constructNewFromKeyFile(keyFile, groupName);
+        return org.gtk.gtk.PaperSize.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromPpd(@NotNull java.lang.String ppdName, @NotNull java.lang.String ppdDisplayName, double width, double height) {
-        java.util.Objects.requireNonNull(ppdName, "Parameter 'ppdName' must not be null");
-        java.util.Objects.requireNonNull(ppdDisplayName, "Parameter 'ppdDisplayName' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromPpd(java.lang.String ppdName, java.lang.String ppdDisplayName, double width, double height) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_new_from_ppd.invokeExact(
-                    Interop.allocateNativeString(ppdName),
-                    Interop.allocateNativeString(ppdDisplayName),
+                    Marshal.stringToAddress.marshal(ppdName, null),
+                    Marshal.stringToAddress.marshal(ppdDisplayName, null),
                     width,
                     height);
         } catch (Throwable ERR) {
@@ -231,15 +229,16 @@ public class PaperSize extends Struct {
      * @return a new {@code GtkPaperSize}, use {@link PaperSize#free}
      * to free it
      */
-    public static PaperSize newFromPpd(@NotNull java.lang.String ppdName, @NotNull java.lang.String ppdDisplayName, double width, double height) {
-        return new PaperSize(constructNewFromPpd(ppdName, ppdDisplayName, width, height), Ownership.FULL);
+    public static PaperSize newFromPpd(java.lang.String ppdName, java.lang.String ppdDisplayName, double width, double height) {
+        var RESULT = constructNewFromPpd(ppdName, ppdDisplayName, width, height);
+        return org.gtk.gtk.PaperSize.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Copies an existing {@code GtkPaperSize}.
      * @return a copy of {@code other}
      */
-    public @NotNull org.gtk.gtk.PaperSize copy() {
+    public org.gtk.gtk.PaperSize copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_copy.invokeExact(
@@ -247,7 +246,7 @@ public class PaperSize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PaperSize(RESULT, Ownership.FULL);
+        return org.gtk.gtk.PaperSize.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -267,8 +266,7 @@ public class PaperSize extends Struct {
      * @param unit the unit for the return value, not {@link Unit#NONE}
      * @return the default bottom margin
      */
-    public double getDefaultBottomMargin(@NotNull org.gtk.gtk.Unit unit) {
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
+    public double getDefaultBottomMargin(org.gtk.gtk.Unit unit) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gtk_paper_size_get_default_bottom_margin.invokeExact(
@@ -285,8 +283,7 @@ public class PaperSize extends Struct {
      * @param unit the unit for the return value, not {@link Unit#NONE}
      * @return the default left margin
      */
-    public double getDefaultLeftMargin(@NotNull org.gtk.gtk.Unit unit) {
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
+    public double getDefaultLeftMargin(org.gtk.gtk.Unit unit) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gtk_paper_size_get_default_left_margin.invokeExact(
@@ -303,8 +300,7 @@ public class PaperSize extends Struct {
      * @param unit the unit for the return value, not {@link Unit#NONE}
      * @return the default right margin
      */
-    public double getDefaultRightMargin(@NotNull org.gtk.gtk.Unit unit) {
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
+    public double getDefaultRightMargin(org.gtk.gtk.Unit unit) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gtk_paper_size_get_default_right_margin.invokeExact(
@@ -321,8 +317,7 @@ public class PaperSize extends Struct {
      * @param unit the unit for the return value, not {@link Unit#NONE}
      * @return the default top margin
      */
-    public double getDefaultTopMargin(@NotNull org.gtk.gtk.Unit unit) {
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
+    public double getDefaultTopMargin(org.gtk.gtk.Unit unit) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gtk_paper_size_get_default_top_margin.invokeExact(
@@ -338,7 +333,7 @@ public class PaperSize extends Struct {
      * Gets the human-readable name of the {@code GtkPaperSize}.
      * @return the human-readable name of {@code size}
      */
-    public @NotNull java.lang.String getDisplayName() {
+    public java.lang.String getDisplayName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_display_name.invokeExact(
@@ -346,7 +341,7 @@ public class PaperSize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -355,8 +350,7 @@ public class PaperSize extends Struct {
      * @param unit the unit for the return value, not {@link Unit#NONE}
      * @return the paper height
      */
-    public double getHeight(@NotNull org.gtk.gtk.Unit unit) {
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
+    public double getHeight(org.gtk.gtk.Unit unit) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gtk_paper_size_get_height.invokeExact(
@@ -372,7 +366,7 @@ public class PaperSize extends Struct {
      * Gets the name of the {@code GtkPaperSize}.
      * @return the name of {@code size}
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_name.invokeExact(
@@ -380,7 +374,7 @@ public class PaperSize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -388,7 +382,7 @@ public class PaperSize extends Struct {
      * may be {@code null}.
      * @return the PPD name of {@code size}
      */
-    public @NotNull java.lang.String getPpdName() {
+    public java.lang.String getPpdName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_ppd_name.invokeExact(
@@ -396,7 +390,7 @@ public class PaperSize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -405,8 +399,7 @@ public class PaperSize extends Struct {
      * @param unit the unit for the return value, not {@link Unit#NONE}
      * @return the paper width
      */
-    public double getWidth(@NotNull org.gtk.gtk.Unit unit) {
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
+    public double getWidth(org.gtk.gtk.Unit unit) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gtk_paper_size_get_width.invokeExact(
@@ -430,7 +423,7 @@ public class PaperSize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -439,8 +432,7 @@ public class PaperSize extends Struct {
      * @return {@code true}, if {@code size1} and {@code size2}
      * represent the same paper size
      */
-    public boolean isEqual(@NotNull org.gtk.gtk.PaperSize size2) {
-        java.util.Objects.requireNonNull(size2, "Parameter 'size2' must not be null");
+    public boolean isEqual(org.gtk.gtk.PaperSize size2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_paper_size_is_equal.invokeExact(
@@ -449,7 +441,7 @@ public class PaperSize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -464,7 +456,7 @@ public class PaperSize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -473,8 +465,7 @@ public class PaperSize extends Struct {
      * @param height the new height in units of {@code unit}
      * @param unit the unit for {@code width} and {@code height}
      */
-    public void setSize(double width, double height, @NotNull org.gtk.gtk.Unit unit) {
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
+    public void setSize(double width, double height, org.gtk.gtk.Unit unit) {
         try {
             DowncallHandles.gtk_paper_size_set_size.invokeExact(
                     handle(),
@@ -490,7 +481,7 @@ public class PaperSize extends Struct {
      * Serialize a paper size to an {@code a{sv}} variant.
      * @return a new, floating, {@code GVariant}
      */
-    public @NotNull org.gtk.glib.Variant toGvariant() {
+    public org.gtk.glib.Variant toGvariant() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_to_gvariant.invokeExact(
@@ -498,7 +489,7 @@ public class PaperSize extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -506,14 +497,12 @@ public class PaperSize extends Struct {
      * @param keyFile the {@code GKeyFile} to save the paper size to
      * @param groupName the group to add the settings to in {@code key_file}
      */
-    public void toKeyFile(@NotNull org.gtk.glib.KeyFile keyFile, @NotNull java.lang.String groupName) {
-        java.util.Objects.requireNonNull(keyFile, "Parameter 'keyFile' must not be null");
-        java.util.Objects.requireNonNull(groupName, "Parameter 'groupName' must not be null");
+    public void toKeyFile(org.gtk.glib.KeyFile keyFile, java.lang.String groupName) {
         try {
             DowncallHandles.gtk_paper_size_to_key_file.invokeExact(
                     handle(),
                     keyFile.handle(),
-                    Interop.allocateNativeString(groupName));
+                    Marshal.stringToAddress.marshal(groupName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -525,14 +514,14 @@ public class PaperSize extends Struct {
      * @return the name of the default paper size. The string
      * is owned by GTK and should not be modified.
      */
-    public static @NotNull java.lang.String getDefault() {
+    public static java.lang.String getDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -542,15 +531,15 @@ public class PaperSize extends Struct {
      * @return a newly allocated list of newly
      *    allocated {@code GtkPaperSize} objects
      */
-    public static @NotNull org.gtk.glib.List getPaperSizes(boolean includeCustom) {
+    public static org.gtk.glib.List getPaperSizes(boolean includeCustom) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paper_size_get_paper_sizes.invokeExact(
-                    includeCustom ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(includeCustom, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

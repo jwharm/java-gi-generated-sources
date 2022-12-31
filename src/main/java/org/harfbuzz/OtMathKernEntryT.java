@@ -17,18 +17,16 @@ public class OtMathKernEntryT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "hb_ot_math_kern_entry_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("max_correction_height"),
-        Interop.valueLayout.C_INT.withName("kern_value")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("max_correction_height"),
+            Interop.valueLayout.C_INT.withName("kern_value")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class OtMathKernEntryT extends Struct {
      * Get the value of the field {@code max_correction_height}
      * @return The value of the field {@code max_correction_height}
      */
-    public org.harfbuzz.PositionT maxCorrectionHeight$get() {
+    public org.harfbuzz.PositionT getMaxCorrectionHeight() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,17 +57,17 @@ public class OtMathKernEntryT extends Struct {
      * Change the value of the field {@code max_correction_height}
      * @param maxCorrectionHeight The new value of the field {@code max_correction_height}
      */
-    public void maxCorrectionHeight$set(org.harfbuzz.PositionT maxCorrectionHeight) {
+    public void setMaxCorrectionHeight(org.harfbuzz.PositionT maxCorrectionHeight) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxCorrectionHeight.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (maxCorrectionHeight == null ? MemoryAddress.NULL : maxCorrectionHeight.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code kern_value}
      * @return The value of the field {@code kern_value}
      */
-    public org.harfbuzz.PositionT kernValue$get() {
+    public org.harfbuzz.PositionT getKernValue() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,10 +78,10 @@ public class OtMathKernEntryT extends Struct {
      * Change the value of the field {@code kern_value}
      * @param kernValue The new value of the field {@code kern_value}
      */
-    public void kernValue$set(org.harfbuzz.PositionT kernValue) {
+    public void setKernValue(org.harfbuzz.PositionT kernValue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), kernValue.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (kernValue == null ? MemoryAddress.NULL : kernValue.getValue().intValue()));
     }
     
     /**
@@ -91,35 +89,41 @@ public class OtMathKernEntryT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public OtMathKernEntryT(Addressable address, Ownership ownership) {
+    protected OtMathKernEntryT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, OtMathKernEntryT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OtMathKernEntryT(input, ownership);
+    
+    /**
+     * A {@link OtMathKernEntryT.Builder} object constructs a {@link OtMathKernEntryT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link OtMathKernEntryT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private OtMathKernEntryT struct;
+        private final OtMathKernEntryT struct;
         
-         /**
-         * A {@link OtMathKernEntryT.Build} object constructs a {@link OtMathKernEntryT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = OtMathKernEntryT.allocate();
         }
         
          /**
          * Finish building the {@link OtMathKernEntryT} struct.
          * @return A new instance of {@code OtMathKernEntryT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public OtMathKernEntryT construct() {
+        public OtMathKernEntryT build() {
             return struct;
         }
         
@@ -128,7 +132,7 @@ public class OtMathKernEntryT extends Struct {
          * @param maxCorrectionHeight The value for the {@code maxCorrectionHeight} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxCorrectionHeight(org.harfbuzz.PositionT maxCorrectionHeight) {
+        public Builder setMaxCorrectionHeight(org.harfbuzz.PositionT maxCorrectionHeight) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max_correction_height"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (maxCorrectionHeight == null ? MemoryAddress.NULL : maxCorrectionHeight.getValue().intValue()));
@@ -140,7 +144,7 @@ public class OtMathKernEntryT extends Struct {
          * @param kernValue The value for the {@code kernValue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKernValue(org.harfbuzz.PositionT kernValue) {
+        public Builder setKernValue(org.harfbuzz.PositionT kernValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("kern_value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (kernValue == null ? MemoryAddress.NULL : kernValue.getValue().intValue()));

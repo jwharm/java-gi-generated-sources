@@ -210,8 +210,7 @@ public enum Easing implements io.github.jwharm.javagi.Enumeration {
      * @param value a value to ease
      * @return the easing for {@code value}
      */
-    public static double ease(@NotNull org.gnome.adw.Easing self, double value) {
-        java.util.Objects.requireNonNull(self, "Parameter 'self' must not be null");
+    public static double ease(org.gnome.adw.Easing self, double value) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.adw_easing_ease.invokeExact(

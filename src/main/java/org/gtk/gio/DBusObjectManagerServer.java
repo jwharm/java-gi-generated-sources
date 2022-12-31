@@ -30,7 +30,7 @@ import org.jetbrains.annotations.*;
  * interface.
  * @version 2.30
  */
-public class DBusObjectManagerServer extends org.gtk.gobject.Object implements org.gtk.gio.DBusObjectManager {
+public class DBusObjectManagerServer extends org.gtk.gobject.GObject implements org.gtk.gio.DBusObjectManager {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -38,18 +38,16 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
     
     private static final java.lang.String C_TYPE_NAME = "GDBusObjectManagerServer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -57,37 +55,18 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusObjectManagerServer(Addressable address, Ownership ownership) {
+    protected DBusObjectManagerServer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DBusObjectManagerServer if its GType is a (or inherits from) "GDBusObjectManagerServer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DBusObjectManagerServer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDBusObjectManagerServer", a ClassCastException will be thrown.
-     */
-    public static DBusObjectManagerServer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusObjectManagerServer.getType())) {
-            return new DBusObjectManagerServer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusObjectManagerServer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusObjectManagerServer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusObjectManagerServer(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String objectPath) {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String objectPath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_manager_server_new.invokeExact(
-                    Interop.allocateNativeString(objectPath));
+                    Marshal.stringToAddress.marshal(objectPath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -104,7 +83,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * signals being emitted.
      * @param objectPath The object path to export the manager object at.
      */
-    public DBusObjectManagerServer(@NotNull java.lang.String objectPath) {
+    public DBusObjectManagerServer(java.lang.String objectPath) {
         super(constructNew(objectPath), Ownership.FULL);
     }
     
@@ -121,8 +100,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * it is exported.
      * @param object A {@link DBusObjectSkeleton}.
      */
-    public void export(@NotNull org.gtk.gio.DBusObjectSkeleton object) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
+    public void export(org.gtk.gio.DBusObjectSkeleton object) {
         try {
             DowncallHandles.g_dbus_object_manager_server_export.invokeExact(
                     handle(),
@@ -139,8 +117,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * {@link DBusObjectProxy}:g-object-path property of {@code object} may be modified.
      * @param object An object.
      */
-    public void exportUniquely(@NotNull org.gtk.gio.DBusObjectSkeleton object) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
+    public void exportUniquely(org.gtk.gio.DBusObjectSkeleton object) {
         try {
             DowncallHandles.g_dbus_object_manager_server_export_uniquely.invokeExact(
                     handle(),
@@ -164,7 +141,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusConnection(RESULT, Ownership.FULL);
+        return (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -172,8 +149,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * @param object An object.
      * @return {@code true} if {@code object} is exported
      */
-    public boolean isExported(@NotNull org.gtk.gio.DBusObjectSkeleton object) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
+    public boolean isExported(org.gtk.gio.DBusObjectSkeleton object) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_object_manager_server_is_exported.invokeExact(
@@ -182,7 +158,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -209,24 +185,23 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
      * @param objectPath An object path.
      * @return {@code true} if object at {@code object_path} was removed, {@code false} otherwise.
      */
-    public boolean unexport(@NotNull java.lang.String objectPath) {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
+    public boolean unexport(java.lang.String objectPath) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_object_manager_server_unexport.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(objectPath));
+                    Marshal.stringToAddress.marshal(objectPath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dbus_object_manager_server_get_type.invokeExact();
@@ -235,38 +210,40 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link DBusObjectManagerServer.Builder} object constructs a {@link DBusObjectManagerServer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DBusObjectManagerServer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DBusObjectManagerServer.Build} object constructs a {@link DBusObjectManagerServer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DBusObjectManagerServer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DBusObjectManagerServer} using {@link DBusObjectManagerServer#castFrom}.
+         * {@link DBusObjectManagerServer}.
          * @return A new instance of {@code DBusObjectManagerServer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusObjectManagerServer construct() {
-            return DBusObjectManagerServer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DBusObjectManagerServer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DBusObjectManagerServer build() {
+            return (DBusObjectManagerServer) org.gtk.gobject.GObject.newWithProperties(
+                DBusObjectManagerServer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -275,7 +252,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
          * @param connection The value for the {@code connection} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setConnection(org.gtk.gio.DBusConnection connection) {
+        public Builder setConnection(org.gtk.gio.DBusConnection connection) {
             names.add("connection");
             values.add(org.gtk.gobject.Value.create(connection));
             return this;
@@ -286,7 +263,7 @@ public class DBusObjectManagerServer extends org.gtk.gobject.Object implements o
          * @param objectPath The value for the {@code object-path} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setObjectPath(java.lang.String objectPath) {
+        public Builder setObjectPath(java.lang.String objectPath) {
             names.add("object-path");
             values.add(org.gtk.gobject.Value.create(objectPath));
             return this;

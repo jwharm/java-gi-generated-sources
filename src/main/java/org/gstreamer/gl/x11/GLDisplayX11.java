@@ -17,23 +17,21 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLDisplayX11";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gl.GLDisplay.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("name"),
-        Interop.valueLayout.ADDRESS.withName("display"),
-        Interop.valueLayout.ADDRESS.withName("xcb_connection"),
-        Interop.valueLayout.C_INT.withName("foreign_display"),
-        MemoryLayout.paddingLayout(224),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gl.GLDisplay.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("name"),
+            Interop.valueLayout.ADDRESS.withName("display"),
+            Interop.valueLayout.ADDRESS.withName("xcb_connection"),
+            Interop.valueLayout.C_INT.withName("foreign_display"),
+            MemoryLayout.paddingLayout(224),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -41,43 +39,29 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
      * <p>
      * Because GLDisplayX11 is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLDisplayX11(Addressable address, Ownership ownership) {
+    protected GLDisplayX11(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLDisplayX11 if its GType is a (or inherits from) "GstGLDisplayX11".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLDisplayX11} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLDisplayX11", a ClassCastException will be thrown.
-     */
-    public static GLDisplayX11 castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLDisplayX11.getType())) {
-            return new GLDisplayX11(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLDisplayX11");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLDisplayX11> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLDisplayX11(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String name) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String name) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_x11_new.invokeExact(
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,9 +77,8 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
         super(constructNew(name), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithDisplay(@NotNull java.lang.foreign.MemoryAddress display) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithDisplay(java.lang.foreign.MemoryAddress display) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_display_x11_new_with_display.invokeExact(
                     (Addressable) display);
@@ -110,15 +93,16 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
      * @param display an existing, x11 display
      * @return a new {@link GLDisplayX11}
      */
-    public static GLDisplayX11 newWithDisplay(@NotNull java.lang.foreign.MemoryAddress display) {
-        return new GLDisplayX11(constructNewWithDisplay(display), Ownership.FULL);
+    public static GLDisplayX11 newWithDisplay(java.lang.foreign.MemoryAddress display) {
+        var RESULT = constructNewWithDisplay(display);
+        return (org.gstreamer.gl.x11.GLDisplayX11) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.x11.GLDisplayX11.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_display_x11_get_type.invokeExact();
@@ -127,38 +111,40 @@ public class GLDisplayX11 extends org.gstreamer.gl.GLDisplay {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GLDisplayX11.Builder} object constructs a {@link GLDisplayX11} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLDisplayX11.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gl.GLDisplay.Build {
+    public static class Builder extends org.gstreamer.gl.GLDisplay.Builder {
         
-         /**
-         * A {@link GLDisplayX11.Build} object constructs a {@link GLDisplayX11} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLDisplayX11} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLDisplayX11} using {@link GLDisplayX11#castFrom}.
+         * {@link GLDisplayX11}.
          * @return A new instance of {@code GLDisplayX11} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLDisplayX11 construct() {
-            return GLDisplayX11.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLDisplayX11.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLDisplayX11 build() {
+            return (GLDisplayX11) org.gtk.gobject.GObject.newWithProperties(
+                GLDisplayX11.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

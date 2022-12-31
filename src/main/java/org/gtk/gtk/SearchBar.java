@@ -70,40 +70,26 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * <p>
      * Because SearchBar is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SearchBar(Addressable address, Ownership ownership) {
+    protected SearchBar(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to SearchBar if its GType is a (or inherits from) "GtkSearchBar".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SearchBar} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSearchBar", a ClassCastException will be thrown.
-     */
-    public static SearchBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SearchBar.getType())) {
-            return new SearchBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSearchBar");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SearchBar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SearchBar(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_search_bar_new.invokeExact();
         } catch (Throwable ERR) {
@@ -131,8 +117,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * child of the search bar (as in our main example).
      * @param entry a {@code GtkEditable}
      */
-    public void connectEntry(@NotNull org.gtk.gtk.Editable entry) {
-        java.util.Objects.requireNonNull(entry, "Parameter 'entry' must not be null");
+    public void connectEntry(org.gtk.gtk.Editable entry) {
         try {
             DowncallHandles.gtk_search_bar_connect_entry.invokeExact(
                     handle(),
@@ -154,7 +139,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -169,7 +154,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -184,7 +169,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -199,7 +184,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -249,7 +234,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         try {
             DowncallHandles.gtk_search_bar_set_search_mode.invokeExact(
                     handle(),
-                    searchMode ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(searchMode, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -267,7 +252,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         try {
             DowncallHandles.gtk_search_bar_set_show_close_button.invokeExact(
                     handle(),
-                    visible ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(visible, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -277,7 +262,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_search_bar_get_type.invokeExact();
@@ -286,38 +271,40 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SearchBar.Builder} object constructs a {@link SearchBar} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SearchBar.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link SearchBar.Build} object constructs a {@link SearchBar} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SearchBar} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SearchBar} using {@link SearchBar#castFrom}.
+         * {@link SearchBar}.
          * @return A new instance of {@code SearchBar} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SearchBar construct() {
-            return SearchBar.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SearchBar.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SearchBar build() {
+            return (SearchBar) org.gtk.gobject.GObject.newWithProperties(
+                SearchBar.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -326,7 +313,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -337,7 +324,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param keyCaptureWidget The value for the {@code key-capture-widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKeyCaptureWidget(org.gtk.gtk.Widget keyCaptureWidget) {
+        public Builder setKeyCaptureWidget(org.gtk.gtk.Widget keyCaptureWidget) {
             names.add("key-capture-widget");
             values.add(org.gtk.gobject.Value.create(keyCaptureWidget));
             return this;
@@ -348,7 +335,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param searchModeEnabled The value for the {@code search-mode-enabled} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSearchModeEnabled(boolean searchModeEnabled) {
+        public Builder setSearchModeEnabled(boolean searchModeEnabled) {
             names.add("search-mode-enabled");
             values.add(org.gtk.gobject.Value.create(searchModeEnabled));
             return this;
@@ -359,7 +346,7 @@ public class SearchBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param showCloseButton The value for the {@code show-close-button} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowCloseButton(boolean showCloseButton) {
+        public Builder setShowCloseButton(boolean showCloseButton) {
             names.add("show-close-button");
             values.add(org.gtk.gobject.Value.create(showCloseButton));
             return this;

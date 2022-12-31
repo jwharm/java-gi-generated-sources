@@ -21,24 +21,22 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
     
     private static final java.lang.String C_TYPE_NAME = "GstDirectControlBinding";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.ControlBinding.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("cs"),
-        org.gtk.gobject.Value.getMemoryLayout().withName("cur_value"),
-        Interop.valueLayout.C_DOUBLE.withName("last_value"),
-        Interop.valueLayout.C_INT.withName("byte_size"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("convert_value"),
-        Interop.valueLayout.ADDRESS.withName("convert_g_value")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.ControlBinding.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("cs"),
+            org.gtk.gobject.Value.getMemoryLayout().withName("cur_value"),
+            Interop.valueLayout.C_DOUBLE.withName("last_value"),
+            Interop.valueLayout.C_INT.withName("byte_size"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("convert_value"),
+            Interop.valueLayout.ADDRESS.withName("convert_g_value")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -46,47 +44,30 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
      * <p>
      * Because DirectControlBinding is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DirectControlBinding(Addressable address, Ownership ownership) {
+    protected DirectControlBinding(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to DirectControlBinding if its GType is a (or inherits from) "GstDirectControlBinding".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DirectControlBinding} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstDirectControlBinding", a ClassCastException will be thrown.
-     */
-    public static DirectControlBinding castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DirectControlBinding.getType())) {
-            return new DirectControlBinding(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstDirectControlBinding");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DirectControlBinding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DirectControlBinding(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gst.Object object, @NotNull java.lang.String propertyName, @NotNull org.gstreamer.gst.ControlSource cs) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
-        java.util.Objects.requireNonNull(cs, "Parameter 'cs' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource cs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_direct_control_binding_new.invokeExact(
                     object.handle(),
-                    Interop.allocateNativeString(propertyName),
+                    Marshal.stringToAddress.marshal(propertyName, null),
                     cs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -96,25 +77,22 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
     
     /**
      * Create a new control-binding that attaches the {@link org.gstreamer.gst.ControlSource} to the
-     * {@link org.gtk.gobject.Object} property. It will map the control source range [0.0 ... 1.0] to
+     * {@link org.gtk.gobject.GObject} property. It will map the control source range [0.0 ... 1.0] to
      * the full target property range, and clip all values outside this range.
      * @param object the object of the property
      * @param propertyName the property-name to attach the control source
      * @param cs the control source
      */
-    public DirectControlBinding(@NotNull org.gstreamer.gst.Object object, @NotNull java.lang.String propertyName, @NotNull org.gstreamer.gst.ControlSource cs) {
+    public DirectControlBinding(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource cs) {
         super(constructNew(object, propertyName, cs), Ownership.NONE);
     }
     
-    private static Addressable constructNewAbsolute(@NotNull org.gstreamer.gst.Object object, @NotNull java.lang.String propertyName, @NotNull org.gstreamer.gst.ControlSource cs) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(propertyName, "Parameter 'propertyName' must not be null");
-        java.util.Objects.requireNonNull(cs, "Parameter 'cs' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewAbsolute(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource cs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_direct_control_binding_new_absolute.invokeExact(
                     object.handle(),
-                    Interop.allocateNativeString(propertyName),
+                    Marshal.stringToAddress.marshal(propertyName, null),
                     cs.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -124,22 +102,23 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
     
     /**
      * Create a new control-binding that attaches the {@link org.gstreamer.gst.ControlSource} to the
-     * {@link org.gtk.gobject.Object} property. It will directly map the control source values to the
+     * {@link org.gtk.gobject.GObject} property. It will directly map the control source values to the
      * target property range without any transformations.
      * @param object the object of the property
      * @param propertyName the property-name to attach the control source
      * @param cs the control source
      * @return the new {@link DirectControlBinding}
      */
-    public static DirectControlBinding newAbsolute(@NotNull org.gstreamer.gst.Object object, @NotNull java.lang.String propertyName, @NotNull org.gstreamer.gst.ControlSource cs) {
-        return new DirectControlBinding(constructNewAbsolute(object, propertyName, cs), Ownership.NONE);
+    public static DirectControlBinding newAbsolute(org.gstreamer.gst.GstObject object, java.lang.String propertyName, org.gstreamer.gst.ControlSource cs) {
+        var RESULT = constructNewAbsolute(object, propertyName, cs);
+        return (org.gstreamer.controller.DirectControlBinding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.controller.DirectControlBinding.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_direct_control_binding_get_type.invokeExact();
@@ -148,48 +127,50 @@ public class DirectControlBinding extends org.gstreamer.gst.ControlBinding {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link DirectControlBinding.Builder} object constructs a {@link DirectControlBinding} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DirectControlBinding.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.ControlBinding.Build {
+    public static class Builder extends org.gstreamer.gst.ControlBinding.Builder {
         
-         /**
-         * A {@link DirectControlBinding.Build} object constructs a {@link DirectControlBinding} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DirectControlBinding} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DirectControlBinding} using {@link DirectControlBinding#castFrom}.
+         * {@link DirectControlBinding}.
          * @return A new instance of {@code DirectControlBinding} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DirectControlBinding construct() {
-            return DirectControlBinding.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DirectControlBinding.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DirectControlBinding build() {
+            return (DirectControlBinding) org.gtk.gobject.GObject.newWithProperties(
+                DirectControlBinding.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setAbsolute(boolean absolute) {
+        public Builder setAbsolute(boolean absolute) {
             names.add("absolute");
             values.add(org.gtk.gobject.Value.create(absolute));
             return this;
         }
         
-        public Build setControlSource(org.gstreamer.gst.ControlSource controlSource) {
+        public Builder setControlSource(org.gstreamer.gst.ControlSource controlSource) {
             names.add("control-source");
             values.add(org.gtk.gobject.Value.create(controlSource));
             return this;

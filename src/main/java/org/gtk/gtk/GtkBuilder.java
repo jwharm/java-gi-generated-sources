@@ -16,9 +16,9 @@ import org.jetbrains.annotations.*;
  * In the (unusual) case that you want to add user interface
  * descriptions from multiple sources to the same {@code GtkBuilder} you can
  * call {@link Builder#Builder} to get an empty builder and populate it by
- * (multiple) calls to {@link Builder#addFromFile},
- * {@link Builder#addFromResource} or
- * {@link Builder#addFromString}.
+ * (multiple) calls to {@link GtkBuilder#addFromFile},
+ * {@link GtkBuilder#addFromResource} or
+ * {@link GtkBuilder#addFromString}.
  * <p>
  * A {@code GtkBuilder} holds a reference to all objects that it has constructed
  * and drops these references when it is finalized. This finalization can
@@ -28,8 +28,8 @@ import org.jetbrains.annotations.*;
  * {@link Window#destroy} to get rid of them and all the widgets
  * they contain.
  * <p>
- * The functions {@link Builder#getObject} and
- * {@link Builder#getObjects} can be used to access the widgets in
+ * The functions {@link GtkBuilder#getObject} and
+ * {@link GtkBuilder#getObjects} can be used to access the widgets in
  * the interface by the names assigned to them inside the UI description.
  * Toplevel windows returned by these functions will stay around until the
  * user explicitly destroys them with {@link Window#destroy}. Other
@@ -47,7 +47,7 @@ import org.jetbrains.annotations.*;
  * The toplevel element is {@code <interface>}. It optionally takes a “domain”
  * attribute, which will make the builder look for translated strings
  * using {@code dgettext()} in the domain specified. This can also be done by
- * calling {@link Builder#setTranslationDomain} on the builder.
+ * calling {@link GtkBuilder#setTranslationDomain} on the builder.
  * <p>
  * Objects are described by {@code <object>} elements, which can contain
  * {@code <property>} elements to set properties, {@code <signal>} elements which
@@ -71,7 +71,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * Objects may be given a name with the “id” attribute, which allows the
  * application to retrieve them from the builder with
- * {@link Builder#getObject}. An id is also necessary to use the
+ * {@link GtkBuilder#getObject}. An id is also necessary to use the
  * object as property value in other parts of the UI definition. GTK
  * reserves ids starting and ending with {@code ___} (three consecutive
  * underscores) for its own purposes.
@@ -103,7 +103,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * Objects can be referred to by their name and by default refer to
  * objects declared in the local XML fragment and objects exposed via
- * {@link Builder#exposeObject}. In general, {@code GtkBuilder} allows
+ * {@link GtkBuilder#exposeObject}. In general, {@code GtkBuilder} allows
  * forward references to objects — declared in the local XML; an object
  * doesn’t have to be constructed before it can be referred to. The
  * exception to this rule is that an object has to be constructed before
@@ -184,7 +184,7 @@ import org.jetbrains.annotations.*;
  * A {@code <template>} tag can be used to define a widget class’s components.
  * See the <a href="class.Widget.html#building-composite-widgets-from-template-xml">GtkWidget documentation</a> for details.
  */
-public class Builder extends org.gtk.gobject.Object {
+public class GtkBuilder extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -202,37 +202,19 @@ public class Builder extends org.gtk.gobject.Object {
     }
     
     /**
-     * Create a Builder proxy instance for the provided memory address.
+     * Create a GtkBuilder proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Builder(Addressable address, Ownership ownership) {
+    protected GtkBuilder(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Builder if its GType is a (or inherits from) "GtkBuilder".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Builder} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkBuilder", a ClassCastException will be thrown.
-     */
-    public static Builder castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Builder.getType())) {
-            return new Builder(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBuilder");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GtkBuilder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GtkBuilder(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_new.invokeExact();
         } catch (Throwable ERR) {
@@ -245,20 +227,19 @@ public class Builder extends org.gtk.gobject.Object {
      * Creates a new empty builder object.
      * <p>
      * This function is only useful if you intend to make multiple calls
-     * to {@link Builder#addFromFile}, {@link Builder#addFromResource}
-     * or {@link Builder#addFromString} in order to merge multiple UI
+     * to {@link GtkBuilder#addFromFile}, {@link GtkBuilder#addFromResource}
+     * or {@link GtkBuilder#addFromString} in order to merge multiple UI
      * descriptions into a single builder.
      */
-    public Builder() {
+    public GtkBuilder() {
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromFile(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromFile(java.lang.String filename) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_new_from_file.invokeExact(
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -274,16 +255,16 @@ public class Builder extends org.gtk.gobject.Object {
      * @param filename filename of user interface description file
      * @return a {@code GtkBuilder} containing the described interface
      */
-    public static Builder newFromFile(@NotNull java.lang.String filename) {
-        return new Builder(constructNewFromFile(filename), Ownership.FULL);
+    public static GtkBuilder newFromFile(java.lang.String filename) {
+        var RESULT = constructNewFromFile(filename);
+        return (org.gtk.gtk.GtkBuilder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.GtkBuilder.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromResource(@NotNull java.lang.String resourcePath) {
-        java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromResource(java.lang.String resourcePath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_new_from_resource.invokeExact(
-                    Interop.allocateNativeString(resourcePath));
+                    Marshal.stringToAddress.marshal(resourcePath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -298,16 +279,16 @@ public class Builder extends org.gtk.gobject.Object {
      * @param resourcePath a {@code GResource} resource path
      * @return a {@code GtkBuilder} containing the described interface
      */
-    public static Builder newFromResource(@NotNull java.lang.String resourcePath) {
-        return new Builder(constructNewFromResource(resourcePath), Ownership.FULL);
+    public static GtkBuilder newFromResource(java.lang.String resourcePath) {
+        var RESULT = constructNewFromResource(resourcePath);
+        return (org.gtk.gtk.GtkBuilder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.GtkBuilder.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromString(@NotNull java.lang.String string, long length) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromString(java.lang.String string, long length) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_new_from_string.invokeExact(
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -328,8 +309,9 @@ public class Builder extends org.gtk.gobject.Object {
      * @param length the length of {@code string}, or -1
      * @return a {@code GtkBuilder} containing the interface described by {@code string}
      */
-    public static Builder newFromString(@NotNull java.lang.String string, long length) {
-        return new Builder(constructNewFromString(string, length), Ownership.FULL);
+    public static GtkBuilder newFromString(java.lang.String string, long length) {
+        var RESULT = constructNewFromString(string, length);
+        return (org.gtk.gtk.GtkBuilder) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.GtkBuilder.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -337,7 +319,7 @@ public class Builder extends org.gtk.gobject.Object {
      * the current contents of {@code builder}.
      * <p>
      * This function is useful if you need to call
-     * {@link Builder#setCurrentObject}) to add user data to
+     * {@link GtkBuilder#setCurrentObject}) to add user data to
      * callbacks before loading GtkBuilder UI. Otherwise, you probably
      * want {@link Builder#newFromFile} instead.
      * <p>
@@ -355,14 +337,13 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean addFromFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public boolean addFromFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_from_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -370,7 +351,7 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -378,7 +359,7 @@ public class Builder extends org.gtk.gobject.Object {
      * and merges it with the current contents of {@code builder}.
      * <p>
      * This function is useful if you need to call
-     * {@link Builder#setCurrentObject} to add user data to
+     * {@link GtkBuilder#setCurrentObject} to add user data to
      * callbacks before loading GtkBuilder UI. Otherwise, you probably
      * want {@link Builder#newFromResource} instead.
      * <p>
@@ -393,14 +374,13 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean addFromResource(@NotNull java.lang.String resourcePath) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
+    public boolean addFromResource(java.lang.String resourcePath) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_from_resource.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(resourcePath),
+                    Marshal.stringToAddress.marshal(resourcePath, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -408,7 +388,7 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -416,7 +396,7 @@ public class Builder extends org.gtk.gobject.Object {
      * with the current contents of {@code builder}.
      * <p>
      * This function is useful if you need to call
-     * {@link Builder#setCurrentObject} to add user data to
+     * {@link GtkBuilder#setCurrentObject} to add user data to
      * callbacks before loading {@code GtkBuilder} UI. Otherwise, you probably
      * want {@link Builder#newFromString} instead.
      * <p>
@@ -432,14 +412,13 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean addFromString(@NotNull java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public boolean addFromString(java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_from_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(buffer),
+                    Marshal.stringToAddress.marshal(buffer, null),
                     length,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -448,7 +427,7 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -468,15 +447,13 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean addObjectsFromFile(@NotNull java.lang.String filename, @NotNull java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        java.util.Objects.requireNonNull(objectIds, "Parameter 'objectIds' must not be null");
+    public boolean addObjectsFromFile(java.lang.String filename, java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     Interop.allocateNativeArray(objectIds, false),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -485,7 +462,7 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -505,15 +482,13 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean addObjectsFromResource(@NotNull java.lang.String resourcePath, @NotNull java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        java.util.Objects.requireNonNull(objectIds, "Parameter 'objectIds' must not be null");
+    public boolean addObjectsFromResource(java.lang.String resourcePath, java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_resource.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(resourcePath),
+                    Marshal.stringToAddress.marshal(resourcePath, null),
                     Interop.allocateNativeArray(objectIds, false),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -522,7 +497,7 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -542,15 +517,13 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success, {@code false} if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean addObjectsFromString(@NotNull java.lang.String buffer, long length, @NotNull java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(objectIds, "Parameter 'objectIds' must not be null");
+    public boolean addObjectsFromString(java.lang.String buffer, long length, java.lang.String[] objectIds) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_add_objects_from_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(buffer),
+                    Marshal.stringToAddress.marshal(buffer, null),
                     length,
                     Interop.allocateNativeArray(objectIds, false),
                     (Addressable) GERROR);
@@ -560,7 +533,7 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -577,15 +550,13 @@ public class Builder extends org.gtk.gobject.Object {
      * @return A new closure for invoking {@code function_name}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @Nullable org.gtk.gobject.Closure createClosure(@NotNull java.lang.String functionName, @NotNull org.gtk.gtk.BuilderClosureFlags flags, @Nullable org.gtk.gobject.Object object) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(functionName, "Parameter 'functionName' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public @Nullable org.gtk.gobject.Closure createClosure(java.lang.String functionName, org.gtk.gtk.BuilderClosureFlags flags, @Nullable org.gtk.gobject.GObject object) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_create_closure.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(functionName),
+                    Marshal.stringToAddress.marshal(functionName, null),
                     flags.getValue(),
                     (Addressable) (object == null ? MemoryAddress.NULL : object.handle()),
                     (Addressable) GERROR);
@@ -595,7 +566,7 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gobject.Closure(RESULT, Ownership.FULL);
+        return org.gtk.gobject.Closure.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -609,13 +580,11 @@ public class Builder extends org.gtk.gobject.Object {
      * @param name the name of the object exposed to the builder
      * @param object the object to expose
      */
-    public void exposeObject(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Object object) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
+    public void exposeObject(java.lang.String name, org.gtk.gobject.GObject object) {
         try {
             DowncallHandles.gtk_builder_expose_object.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     object.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -635,10 +604,7 @@ public class Builder extends org.gtk.gobject.Object {
      * @return A positive value on success, 0 if an error occurred
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean extendWithTemplate(@NotNull org.gtk.gobject.Object object, @NotNull org.gtk.glib.Type templateType, @NotNull java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(templateType, "Parameter 'templateType' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public boolean extendWithTemplate(org.gtk.gobject.GObject object, org.gtk.glib.Type templateType, java.lang.String buffer, long length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -646,7 +612,7 @@ public class Builder extends org.gtk.gobject.Object {
                     handle(),
                     object.handle(),
                     templateType.getValue().longValue(),
-                    Interop.allocateNativeString(buffer),
+                    Marshal.stringToAddress.marshal(buffer, null),
                     length,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -655,14 +621,14 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the current object set via gtk_builder_set_current_object().
      * @return the current object
      */
-    public @Nullable org.gtk.gobject.Object getCurrentObject() {
+    public @Nullable org.gtk.gobject.GObject getCurrentObject() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_current_object.invokeExact(
@@ -670,7 +636,7 @@ public class Builder extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -681,17 +647,16 @@ public class Builder extends org.gtk.gobject.Object {
      * @param name name of object to get
      * @return the object named {@code name}
      */
-    public @Nullable org.gtk.gobject.Object getObject(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public @Nullable org.gtk.gobject.GObject getObject(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_object.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -704,7 +669,7 @@ public class Builder extends org.gtk.gobject.Object {
      *   constructed by the {@code GtkBuilder instance}. It should be
      *   freed by g_slist_free()
      */
-    public @NotNull org.gtk.glib.SList getObjects() {
+    public org.gtk.glib.SList getObjects() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_objects.invokeExact(
@@ -712,14 +677,14 @@ public class Builder extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.SList(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.SList.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
      * Gets the scope in use that was set via gtk_builder_set_scope().
      * @return the current scope
      */
-    public @NotNull org.gtk.gtk.BuilderScope getScope() {
+    public org.gtk.gtk.BuilderScope getScope() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_builder_get_scope.invokeExact(
@@ -727,7 +692,7 @@ public class Builder extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.BuilderScope.BuilderScopeImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.BuilderScope) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.BuilderScope.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -742,7 +707,7 @@ public class Builder extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -755,13 +720,12 @@ public class Builder extends org.gtk.gobject.Object {
      * @return the {@code GType} found for {@code type_name} or {@code G_TYPE_INVALID}
      *   if no type was found
      */
-    public @NotNull org.gtk.glib.Type getTypeFromName(@NotNull java.lang.String typeName) {
-        java.util.Objects.requireNonNull(typeName, "Parameter 'typeName' must not be null");
+    public org.gtk.glib.Type getTypeFromName(java.lang.String typeName) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_builder_get_type_from_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(typeName));
+                    Marshal.stringToAddress.marshal(typeName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -780,7 +744,7 @@ public class Builder extends org.gtk.gobject.Object {
      * {@link Builder#newFromResource}, the current object will be {@code null}.
      * @param currentObject the new current object
      */
-    public void setCurrentObject(@Nullable org.gtk.gobject.Object currentObject) {
+    public void setCurrentObject(@Nullable org.gtk.gobject.GObject currentObject) {
         try {
             DowncallHandles.gtk_builder_set_current_object.invokeExact(
                     handle(),
@@ -814,7 +778,7 @@ public class Builder extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_builder_set_translation_domain.invokeExact(
                     handle(),
-                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)));
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -838,17 +802,14 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean valueFromString(@NotNull org.gtk.gobject.ParamSpec pspec, @NotNull java.lang.String string, @NotNull org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(pspec, "Parameter 'pspec' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean valueFromString(org.gtk.gobject.ParamSpec pspec, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_value_from_string.invokeExact(
                     handle(),
                     pspec.handle(),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     value.handle(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -857,13 +818,13 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Demarshals a value from a string.
      * <p>
-     * Unlike {@link Builder#valueFromString}, this function
+     * Unlike {@link GtkBuilder#valueFromString}, this function
      * takes a {@code GType} instead of {@code GParamSpec}.
      * <p>
      * Calls g_value_init() on the {@code value} argument, so it
@@ -877,17 +838,14 @@ public class Builder extends org.gtk.gobject.Object {
      * @return {@code true} on success
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean valueFromStringType(@NotNull org.gtk.glib.Type type, @NotNull java.lang.String string, @NotNull org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean valueFromStringType(org.gtk.glib.Type type, java.lang.String string, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_builder_value_from_string_type.invokeExact(
                     handle(),
                     type.getValue().longValue(),
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     value.handle(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -896,14 +854,14 @@ public class Builder extends org.gtk.gobject.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_builder_get_type.invokeExact();
@@ -912,38 +870,40 @@ public class Builder extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GtkBuilder.Builder} object constructs a {@link GtkBuilder} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GtkBuilder.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Builder.Build} object constructs a {@link Builder} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
-         * Finish building the {@link Builder} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+        /**
+         * Finish building the {@link GtkBuilder} object.
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Builder} using {@link Builder#castFrom}.
-         * @return A new instance of {@code Builder} with the properties 
-         *         that were set in the Build object.
+         * {@link GtkBuilder}.
+         * @return A new instance of {@code GtkBuilder} with the properties 
+         *         that were set in the Builder object.
          */
-        public Builder construct() {
-            return Builder.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Builder.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GtkBuilder build() {
+            return (GtkBuilder) org.gtk.gobject.GObject.newWithProperties(
+                GtkBuilder.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -952,7 +912,7 @@ public class Builder extends org.gtk.gobject.Object {
          * @param currentObject The value for the {@code current-object} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentObject(org.gtk.gobject.Object currentObject) {
+        public Builder setCurrentObject(org.gtk.gobject.GObject currentObject) {
             names.add("current-object");
             values.add(org.gtk.gobject.Value.create(currentObject));
             return this;
@@ -963,7 +923,7 @@ public class Builder extends org.gtk.gobject.Object {
          * @param scope The value for the {@code scope} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScope(org.gtk.gtk.BuilderScope scope) {
+        public Builder setScope(org.gtk.gtk.BuilderScope scope) {
             names.add("scope");
             values.add(org.gtk.gobject.Value.create(scope));
             return this;
@@ -978,7 +938,7 @@ public class Builder extends org.gtk.gobject.Object {
          * @param translationDomain The value for the {@code translation-domain} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTranslationDomain(java.lang.String translationDomain) {
+        public Builder setTranslationDomain(java.lang.String translationDomain) {
             names.add("translation-domain");
             values.add(org.gtk.gobject.Value.create(translationDomain));
             return this;

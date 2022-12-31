@@ -23,11 +23,15 @@ public class PadTemplateFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public PadTemplateFlags or(PadTemplateFlags mask) {
-        return new PadTemplateFlags(this.getValue() | mask.getValue());
+    public PadTemplateFlags or(PadTemplateFlags... masks) {
+        int value = this.getValue();
+        for (PadTemplateFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new PadTemplateFlags(value);
     }
     
     /**
@@ -37,7 +41,8 @@ public class PadTemplateFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static PadTemplateFlags combined(PadTemplateFlags mask, PadTemplateFlags... masks) {
-        int value = mask.getValue();        for (PadTemplateFlags arg : masks) {
+        int value = mask.getValue();
+        for (PadTemplateFlags arg : masks) {
             value |= arg.getValue();
         }
         return new PadTemplateFlags(value);

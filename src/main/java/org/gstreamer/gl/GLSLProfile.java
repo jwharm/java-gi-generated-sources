@@ -42,20 +42,18 @@ public class GLSLProfile extends io.github.jwharm.javagi.Bitfield {
         super(value);
     }
     
-    public static @NotNull org.gstreamer.gl.GLSLProfile fromString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static org.gstreamer.gl.GLSLProfile fromString(java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_glsl_profile_from_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gstreamer.gl.GLSLProfile(RESULT);
     }
     
-    public static @Nullable java.lang.String toString(@NotNull org.gstreamer.gl.GLSLProfile profile) {
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public static @Nullable java.lang.String toString(org.gstreamer.gl.GLSLProfile profile) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_glsl_profile_to_string.invokeExact(
@@ -63,16 +61,20 @@ public class GLSLProfile extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public GLSLProfile or(GLSLProfile mask) {
-        return new GLSLProfile(this.getValue() | mask.getValue());
+    public GLSLProfile or(GLSLProfile... masks) {
+        int value = this.getValue();
+        for (GLSLProfile arg : masks) {
+            value |= arg.getValue();
+        }
+        return new GLSLProfile(value);
     }
     
     /**
@@ -82,7 +84,8 @@ public class GLSLProfile extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static GLSLProfile combined(GLSLProfile mask, GLSLProfile... masks) {
-        int value = mask.getValue();        for (GLSLProfile arg : masks) {
+        int value = mask.getValue();
+        for (GLSLProfile arg : masks) {
             value |= arg.getValue();
         }
         return new GLSLProfile(value);

@@ -40,8 +40,10 @@ public class PhysicalDeviceTransformFeedbackPropertiesEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceTransformFeedbackPropertiesEXT(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceTransformFeedbackPropertiesEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceTransformFeedbackPropertiesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceTransformFeedbackPropertiesEXT(input, ownership);
 }

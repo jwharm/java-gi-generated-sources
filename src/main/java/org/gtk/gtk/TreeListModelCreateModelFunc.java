@@ -16,5 +16,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TreeListModelCreateModelFunc {
-        org.gtk.gio.ListModel onTreeListModelCreateModelFunc(@NotNull org.gtk.gobject.Object item);
+    @Nullable org.gtk.gio.ListModel run(org.gtk.gobject.GObject item);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress item, MemoryAddress userData) {
+        var RESULT = run((org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(item)), org.gtk.gobject.GObject.fromAddress).marshal(item, Ownership.NONE));
+        return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TreeListModelCreateModelFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

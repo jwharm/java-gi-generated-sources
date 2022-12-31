@@ -7,31 +7,14 @@ import org.jetbrains.annotations.*;
 
 public interface PlayVideoRenderer extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to PlayVideoRenderer if its GType is a (or inherits from) "GstPlayVideoRenderer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PlayVideoRenderer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPlayVideoRenderer", a ClassCastException will be thrown.
-     */
-    public static PlayVideoRenderer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PlayVideoRenderer.getType())) {
-            return new PlayVideoRendererImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPlayVideoRenderer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PlayVideoRendererImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayVideoRendererImpl(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_play_video_renderer_get_type.invokeExact();
@@ -52,7 +35,7 @@ public interface PlayVideoRenderer extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class PlayVideoRendererImpl extends org.gtk.gobject.Object implements PlayVideoRenderer {
+    class PlayVideoRendererImpl extends org.gtk.gobject.GObject implements PlayVideoRenderer {
         
         static {
             GstPlay.javagi$ensureInitialized();

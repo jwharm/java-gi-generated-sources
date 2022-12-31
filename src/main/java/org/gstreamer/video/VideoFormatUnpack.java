@@ -22,5 +22,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface VideoFormatUnpack {
-        void onVideoFormatUnpack(@NotNull org.gstreamer.video.VideoFormatInfo info, @NotNull org.gstreamer.video.VideoPackFlags flags, @Nullable java.lang.foreign.MemoryAddress dest, @Nullable java.lang.foreign.MemoryAddress data, PointerInteger stride, int x, int y, int width);
+    void run(org.gstreamer.video.VideoFormatInfo info, org.gstreamer.video.VideoPackFlags flags, @Nullable java.lang.foreign.MemoryAddress dest, @Nullable java.lang.foreign.MemoryAddress data, PointerInteger stride, int x, int y, int width);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress info, int flags, MemoryAddress dest, MemoryAddress data, MemoryAddress stride, int x, int y, int width) {
+        run(org.gstreamer.video.VideoFormatInfo.fromAddress.marshal(info, Ownership.NONE), new org.gstreamer.video.VideoPackFlags(flags), dest, data, new PointerInteger(stride), x, y, width);
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VideoFormatUnpack.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

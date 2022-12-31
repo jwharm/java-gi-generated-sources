@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class VulkanDescriptorPool extends org.gstreamer.gst.Object {
+public class VulkanDescriptorPool extends org.gstreamer.gst.GstObject {
     
     static {
         GstVulkan.javagi$ensureInitialized();
@@ -13,20 +13,18 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanDescriptorPool";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("device"),
-        org.vulkan.DescriptorPool.getMemoryLayout().withName("pool"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("device"),
+            org.vulkan.DescriptorPool.getMemoryLayout().withName("pool"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -34,42 +32,26 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.Object {
      * <p>
      * Because VulkanDescriptorPool is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanDescriptorPool(Addressable address, Ownership ownership) {
+    protected VulkanDescriptorPool(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VulkanDescriptorPool if its GType is a (or inherits from) "GstVulkanDescriptorPool".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VulkanDescriptorPool} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVulkanDescriptorPool", a ClassCastException will be thrown.
-     */
-    public static VulkanDescriptorPool castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VulkanDescriptorPool.getType())) {
-            return new VulkanDescriptorPool(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVulkanDescriptorPool");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanDescriptorPool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDescriptorPool(input, ownership);
     
-    private static Addressable constructNewWrapped(@NotNull org.gstreamer.vulkan.VulkanDevice device, @NotNull org.vulkan.DescriptorPool pool, long maxSets) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(pool, "Parameter 'pool' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWrapped(org.gstreamer.vulkan.VulkanDevice device, org.vulkan.DescriptorPool pool, long maxSets) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_descriptor_pool_new_wrapped.invokeExact(
                     device.handle(),
@@ -82,12 +64,12 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public static VulkanDescriptorPool newWrapped(@NotNull org.gstreamer.vulkan.VulkanDevice device, @NotNull org.vulkan.DescriptorPool pool, long maxSets) {
-        return new VulkanDescriptorPool(constructNewWrapped(device, pool, maxSets), Ownership.FULL);
+    public static VulkanDescriptorPool newWrapped(org.gstreamer.vulkan.VulkanDevice device, org.vulkan.DescriptorPool pool, long maxSets) {
+        var RESULT = constructNewWrapped(device, pool, maxSets);
+        return (org.gstreamer.vulkan.VulkanDescriptorPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDescriptorPool.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.vulkan.VulkanDescriptorSet create(int nLayouts, @NotNull PointerProxy<org.gstreamer.vulkan.VulkanHandle> layouts) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(layouts, "Parameter 'layouts' must not be null");
+    public org.gstreamer.vulkan.VulkanDescriptorSet create(int nLayouts, PointerProxy<org.gstreamer.vulkan.VulkanHandle> layouts) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -102,10 +84,10 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.vulkan.VulkanDescriptorSet(RESULT, Ownership.FULL);
+        return org.gstreamer.vulkan.VulkanDescriptorSet.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.vulkan.VulkanDevice getDevice() {
+    public org.gstreamer.vulkan.VulkanDevice getDevice() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_descriptor_pool_get_device.invokeExact(
@@ -113,7 +95,7 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanDevice(RESULT, Ownership.FULL);
+        return (org.gstreamer.vulkan.VulkanDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     public long getMaxSets() {
@@ -131,7 +113,7 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_vulkan_descriptor_pool_get_type.invokeExact();
@@ -140,38 +122,40 @@ public class VulkanDescriptorPool extends org.gstreamer.gst.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link VulkanDescriptorPool.Builder} object constructs a {@link VulkanDescriptorPool} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VulkanDescriptorPool.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link VulkanDescriptorPool.Build} object constructs a {@link VulkanDescriptorPool} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanDescriptorPool} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VulkanDescriptorPool} using {@link VulkanDescriptorPool#castFrom}.
+         * {@link VulkanDescriptorPool}.
          * @return A new instance of {@code VulkanDescriptorPool} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanDescriptorPool construct() {
-            return VulkanDescriptorPool.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VulkanDescriptorPool.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VulkanDescriptorPool build() {
+            return (VulkanDescriptorPool) org.gtk.gobject.GObject.newWithProperties(
+                VulkanDescriptorPool.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

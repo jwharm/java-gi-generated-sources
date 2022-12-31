@@ -19,17 +19,15 @@ public class TagList extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstTagList";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("mini_object")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,9 +47,19 @@ public class TagList extends Struct {
      * Get the value of the field {@code mini_object}
      * @return The value of the field {@code mini_object}
      */
-    public org.gstreamer.gst.MiniObject miniObject$get() {
+    public org.gstreamer.gst.MiniObject getMiniObject() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mini_object"));
-        return new org.gstreamer.gst.MiniObject(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mini_object}
+     * @param miniObject The new value of the field {@code mini_object}
+     */
+    public void setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));
     }
     
     /**
@@ -59,17 +67,18 @@ public class TagList extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TagList(Addressable address, Ownership ownership) {
+    protected TagList(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String tag, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TagList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagList(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String tag, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new.invokeExact(
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -94,12 +103,12 @@ public class TagList extends Struct {
      * @param tag tag
      * @param varargs {@code null}-terminated list of values to set
      */
-    public TagList(@NotNull java.lang.String tag, java.lang.Object... varargs) {
+    public TagList(java.lang.String tag, java.lang.Object... varargs) {
         super(constructNew(tag, varargs), Ownership.FULL);
     }
     
-    private static Addressable constructNewEmpty() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewEmpty() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new_empty.invokeExact();
         } catch (Throwable ERR) {
@@ -115,15 +124,15 @@ public class TagList extends Struct {
      * @return An empty tag list
      */
     public static TagList newEmpty() {
-        return new TagList(constructNewEmpty(), Ownership.FULL);
+        var RESULT = constructNewEmpty();
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromString(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromString(java.lang.String str) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new_from_string.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -136,13 +145,13 @@ public class TagList extends Struct {
      * @return a new {@link TagList}, or {@code null} in case of an
      * error.
      */
-    public static TagList newFromString(@NotNull java.lang.String str) {
-        return new TagList(constructNewFromString(str), Ownership.FULL);
+    public static TagList newFromString(java.lang.String str) {
+        var RESULT = constructNewFromString(str);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewValist(@NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewValist(VaList varArgs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_new_valist.invokeExact(
                     varArgs);
@@ -161,8 +170,9 @@ public class TagList extends Struct {
      * @return a new {@link TagList}. Free with gst_tag_list_unref()
      *     when no longer needed.
      */
-    public static TagList newValist(@NotNull VaList varArgs) {
-        return new TagList(constructNewValist(varArgs), Ownership.FULL);
+    public static TagList newValist(VaList varArgs) {
+        var RESULT = constructNewValist(varArgs);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -171,14 +181,12 @@ public class TagList extends Struct {
      * @param tag tag
      * @param varargs {@code null}-terminated list of values to set
      */
-    public void add(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public void add(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_tag_list_add.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -191,15 +199,12 @@ public class TagList extends Struct {
      * @param tag tag
      * @param varArgs tag / value pairs to set
      */
-    public void addValist(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, @NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+    public void addValist(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, VaList varArgs) {
         try {
             DowncallHandles.gst_tag_list_add_valist.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -212,15 +217,12 @@ public class TagList extends Struct {
      * @param tag tag
      * @param varArgs tag / GValue pairs to set
      */
-    public void addValistValues(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, @NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+    public void addValistValues(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, VaList varArgs) {
         try {
             DowncallHandles.gst_tag_list_add_valist_values.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -233,15 +235,12 @@ public class TagList extends Struct {
      * @param tag tag
      * @param value GValue for this tag
      */
-    public void addValue(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void addValue(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gst_tag_list_add_value.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -254,14 +253,12 @@ public class TagList extends Struct {
      * @param tag tag
      * @param varargs GValues to set
      */
-    public void addValues(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public void addValues(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_tag_list_add_values.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -280,7 +277,7 @@ public class TagList extends Struct {
      * When you are finished with the taglist, call gst_tag_list_unref() on it.
      * @return the new {@link TagList}
      */
-    public @NotNull org.gstreamer.gst.TagList copy() {
+    public org.gstreamer.gst.TagList copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_copy.invokeExact(
@@ -288,7 +285,7 @@ public class TagList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -296,17 +293,12 @@ public class TagList extends Struct {
      * is no tag, the function won't be called at all.
      * @param func function to be called for each tag
      */
-    public void foreach(@NotNull org.gstreamer.gst.TagForeachFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void foreach(org.gstreamer.gst.TagForeachFunc func) {
         try {
             DowncallHandles.gst_tag_list_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbTagForeachFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,21 +312,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getBoolean(@NotNull java.lang.String tag, Out<Boolean> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getBoolean(java.lang.String tag, Out<Boolean> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_boolean.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -346,22 +336,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getBooleanIndex(@NotNull java.lang.String tag, int index, Out<Boolean> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getBooleanIndex(java.lang.String tag, int index, Out<Boolean> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_boolean_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -376,21 +364,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a date was copied, {@code false} if the tag didn't exist in the
      *              given list or if it was {@code null}.
      */
-    public boolean getDate(@NotNull java.lang.String tag, @NotNull Out<org.gtk.glib.Date> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getDate(java.lang.String tag, Out<org.gtk.glib.Date> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_date.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(new org.gtk.glib.Date(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        value.set(org.gtk.glib.Date.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -405,22 +391,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list or if it was {@code null}.
      */
-    public boolean getDateIndex(@NotNull java.lang.String tag, int index, @NotNull Out<org.gtk.glib.Date> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getDateIndex(java.lang.String tag, int index, Out<org.gtk.glib.Date> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_date_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(new org.gtk.glib.Date(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        value.set(org.gtk.glib.Date.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -435,21 +419,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a datetime was copied, {@code false} if the tag didn't exist in
      *              the given list or if it was {@code null}.
      */
-    public boolean getDateTime(@NotNull java.lang.String tag, @NotNull Out<org.gstreamer.gst.DateTime> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getDateTime(java.lang.String tag, Out<org.gstreamer.gst.DateTime> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_date_time.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(new org.gstreamer.gst.DateTime(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        value.set(org.gstreamer.gst.DateTime.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -464,22 +446,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list or if it was {@code null}.
      */
-    public boolean getDateTimeIndex(@NotNull java.lang.String tag, int index, @NotNull Out<org.gstreamer.gst.DateTime> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getDateTimeIndex(java.lang.String tag, int index, Out<org.gstreamer.gst.DateTime> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_date_time_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(new org.gstreamer.gst.DateTime(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        value.set(org.gstreamer.gst.DateTime.fromAddress.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -490,21 +470,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getDouble(@NotNull java.lang.String tag, Out<Double> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getDouble(java.lang.String tag, Out<Double> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_double.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -516,22 +494,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getDoubleIndex(@NotNull java.lang.String tag, int index, Out<Double> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getDoubleIndex(java.lang.String tag, int index, Out<Double> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_double_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -542,21 +518,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getFloat(@NotNull java.lang.String tag, Out<Float> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getFloat(java.lang.String tag, Out<Float> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_float.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -568,22 +542,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getFloatIndex(@NotNull java.lang.String tag, int index, Out<Float> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getFloatIndex(java.lang.String tag, int index, Out<Float> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_FLOAT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_float_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_FLOAT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -594,21 +566,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getInt(@NotNull java.lang.String tag, Out<Integer> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getInt(java.lang.String tag, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_int.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -619,21 +589,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getInt64(@NotNull java.lang.String tag, Out<Long> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getInt64(java.lang.String tag, Out<Long> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_int64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -645,22 +613,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getInt64Index(@NotNull java.lang.String tag, int index, Out<Long> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getInt64Index(java.lang.String tag, int index, Out<Long> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_int64_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -672,22 +638,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getIntIndex(@NotNull java.lang.String tag, int index, Out<Integer> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getIntIndex(java.lang.String tag, int index, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_int_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -698,20 +662,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getPointer(@NotNull java.lang.String tag, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public boolean getPointer(java.lang.String tag, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_pointer.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -723,21 +686,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getPointerIndex(@NotNull java.lang.String tag, int index, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public boolean getPointerIndex(java.lang.String tag, int index, @Nullable Out<java.lang.foreign.MemoryAddress> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_pointer_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) valuePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         if (value != null) value.set(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -754,21 +716,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a sample was returned, {@code false} if the tag didn't exist in
      *              the given list or if it was {@code null}.
      */
-    public boolean getSample(@NotNull java.lang.String tag, @NotNull Out<org.gstreamer.gst.Sample> sample) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(sample, "Parameter 'sample' must not be null");
+    public boolean getSample(java.lang.String tag, Out<org.gstreamer.gst.Sample> sample) {
         MemorySegment samplePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_sample.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) samplePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        sample.set(new org.gstreamer.gst.Sample(samplePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        sample.set(org.gstreamer.gst.Sample.fromAddress.marshal(samplePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -786,29 +746,27 @@ public class TagList extends Struct {
      * @return {@code true}, if a sample was copied, {@code false} if the tag didn't exist in the
      *              given list or if it was {@code null}.
      */
-    public boolean getSampleIndex(@NotNull java.lang.String tag, int index, @NotNull Out<org.gstreamer.gst.Sample> sample) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(sample, "Parameter 'sample' must not be null");
+    public boolean getSampleIndex(java.lang.String tag, int index, Out<org.gstreamer.gst.Sample> sample) {
         MemorySegment samplePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_sample_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) samplePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        sample.set(new org.gstreamer.gst.Sample(samplePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        sample.set(org.gstreamer.gst.Sample.fromAddress.marshal(samplePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the scope of {@code list}.
      * @return The scope of {@code list}
      */
-    public @NotNull org.gstreamer.gst.TagScope getScope() {
+    public org.gstreamer.gst.TagScope getScope() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_scope.invokeExact(
@@ -836,21 +794,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getString(@NotNull java.lang.String tag, @NotNull Out<java.lang.String> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getString(java.lang.String tag, Out<java.lang.String> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(Interop.getStringFrom(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -868,22 +824,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getStringIndex(@NotNull java.lang.String tag, int index, @NotNull Out<java.lang.String> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getStringIndex(java.lang.String tag, int index, Out<java.lang.String> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_string_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(Interop.getStringFrom(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -891,13 +845,12 @@ public class TagList extends Struct {
      * @param tag the tag to query
      * @return The number of tags stored
      */
-    public int getTagSize(@NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public int getTagSize(java.lang.String tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_tag_size.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -912,21 +865,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getUint(@NotNull java.lang.String tag, Out<Integer> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getUint(java.lang.String tag, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_uint.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -937,21 +888,19 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getUint64(@NotNull java.lang.String tag, Out<Long> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getUint64(java.lang.String tag, Out<Long> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_uint64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -963,22 +912,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getUint64Index(@NotNull java.lang.String tag, int index, Out<Long> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getUint64Index(java.lang.String tag, int index, Out<Long> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_uint64_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -990,22 +937,20 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean getUintIndex(@NotNull java.lang.String tag, int index, Out<Integer> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean getUintIndex(java.lang.String tag, int index, Out<Integer> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_get_uint_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         value.set(valuePOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1017,18 +962,17 @@ public class TagList extends Struct {
      *          entry or {@code null} if the tag wasn't available or the tag
      *          doesn't have as many entries
      */
-    public @Nullable org.gtk.gobject.Value getValueIndex(@NotNull java.lang.String tag, int index) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public @Nullable org.gtk.gobject.Value getValueIndex(java.lang.String tag, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_get_value_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1036,9 +980,7 @@ public class TagList extends Struct {
      * @param from list to merge from
      * @param mode the mode to use
      */
-    public void insert(@NotNull org.gstreamer.gst.TagList from, @NotNull org.gstreamer.gst.TagMergeMode mode) {
-        java.util.Objects.requireNonNull(from, "Parameter 'from' must not be null");
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void insert(org.gstreamer.gst.TagList from, org.gstreamer.gst.TagMergeMode mode) {
         try {
             DowncallHandles.gst_tag_list_insert.invokeExact(
                     handle(),
@@ -1061,7 +1003,7 @@ public class TagList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1069,8 +1011,7 @@ public class TagList extends Struct {
      * @param list2 a {@link TagList}.
      * @return {@code true} if the taglists are equal, otherwise {@code false}
      */
-    public boolean isEqual(@NotNull org.gstreamer.gst.TagList list2) {
-        java.util.Objects.requireNonNull(list2, "Parameter 'list2' must not be null");
+    public boolean isEqual(org.gstreamer.gst.TagList list2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_is_equal.invokeExact(
@@ -1079,7 +1020,7 @@ public class TagList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1091,8 +1032,7 @@ public class TagList extends Struct {
      * @param mode the mode to use
      * @return the new list
      */
-    public @Nullable org.gstreamer.gst.TagList merge(@Nullable org.gstreamer.gst.TagList list2, @NotNull org.gstreamer.gst.TagMergeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public @Nullable org.gstreamer.gst.TagList merge(@Nullable org.gstreamer.gst.TagList list2, org.gstreamer.gst.TagMergeMode mode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_merge.invokeExact(
@@ -1102,7 +1042,7 @@ public class TagList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1125,7 +1065,7 @@ public class TagList extends Struct {
      * @param index the index
      * @return The name of the tag at {@code index}.
      */
-    public @NotNull java.lang.String nthTagName(int index) {
+    public java.lang.String nthTagName(int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_tag_list_nth_tag_name.invokeExact(
@@ -1134,7 +1074,7 @@ public class TagList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1150,34 +1090,31 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was set, {@code false} if the tag didn't exist in the
      *              given list.
      */
-    public boolean peekStringIndex(@NotNull java.lang.String tag, int index, @NotNull Out<java.lang.String> value) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean peekStringIndex(java.lang.String tag, int index, Out<java.lang.String> value) {
         MemorySegment valuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_peek_string_index.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     index,
                     (Addressable) valuePOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        value.set(Interop.getStringFrom(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        value.set(Marshal.addressToString.marshal(valuePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Removes the given tag from the taglist.
      * @param tag tag to remove
      */
-    public void removeTag(@NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public void removeTag(java.lang.String tag) {
         try {
             DowncallHandles.gst_tag_list_remove_tag.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1188,8 +1125,7 @@ public class TagList extends Struct {
      * of a taglist is stream scope.
      * @param scope new scope for {@code list}
      */
-    public void setScope(@NotNull org.gstreamer.gst.TagScope scope) {
-        java.util.Objects.requireNonNull(scope, "Parameter 'scope' must not be null");
+    public void setScope(org.gstreamer.gst.TagScope scope) {
         try {
             DowncallHandles.gst_tag_list_set_scope.invokeExact(
                     handle(),
@@ -1213,7 +1149,7 @@ public class TagList extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1227,20 +1163,17 @@ public class TagList extends Struct {
      * @return {@code true}, if a value was copied, {@code false} if the tag didn't exist in the
      *          given list.
      */
-    public static boolean copyValue(@NotNull org.gtk.gobject.Value dest, @NotNull org.gstreamer.gst.TagList list, @NotNull java.lang.String tag) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    public static boolean copyValue(org.gtk.gobject.Value dest, org.gstreamer.gst.TagList list, java.lang.String tag) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_list_copy_value.invokeExact(
                     dest.handle(),
                     list.handle(),
-                    Interop.allocateNativeString(tag));
+                    Marshal.stringToAddress.marshal(tag, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -1539,31 +1472,35 @@ public class TagList extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TagList.Builder} object constructs a {@link TagList} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TagList.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TagList struct;
+        private final TagList struct;
         
-         /**
-         * A {@link TagList.Build} object constructs a {@link TagList} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TagList.allocate();
         }
         
          /**
          * Finish building the {@link TagList} struct.
          * @return A new instance of {@code TagList} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TagList construct() {
+        public TagList build() {
             return struct;
         }
         
@@ -1572,7 +1509,7 @@ public class TagList extends Struct {
          * @param miniObject The value for the {@code miniObject} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
+        public Builder setMiniObject(org.gstreamer.gst.MiniObject miniObject) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mini_object"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (miniObject == null ? MemoryAddress.NULL : miniObject.handle()));

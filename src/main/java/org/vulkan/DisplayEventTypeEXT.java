@@ -40,8 +40,10 @@ public class DisplayEventTypeEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DisplayEventTypeEXT(Addressable address, Ownership ownership) {
+    protected DisplayEventTypeEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DisplayEventTypeEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayEventTypeEXT(input, ownership);
 }

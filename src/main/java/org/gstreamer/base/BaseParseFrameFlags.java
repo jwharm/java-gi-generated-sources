@@ -58,11 +58,15 @@ public class BaseParseFrameFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BaseParseFrameFlags or(BaseParseFrameFlags mask) {
-        return new BaseParseFrameFlags(this.getValue() | mask.getValue());
+    public BaseParseFrameFlags or(BaseParseFrameFlags... masks) {
+        int value = this.getValue();
+        for (BaseParseFrameFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new BaseParseFrameFlags(value);
     }
     
     /**
@@ -72,7 +76,8 @@ public class BaseParseFrameFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BaseParseFrameFlags combined(BaseParseFrameFlags mask, BaseParseFrameFlags... masks) {
-        int value = mask.getValue();        for (BaseParseFrameFlags arg : masks) {
+        int value = mask.getValue();
+        for (BaseParseFrameFlags arg : masks) {
             value |= arg.getValue();
         }
         return new BaseParseFrameFlags(value);

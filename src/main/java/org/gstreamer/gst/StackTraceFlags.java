@@ -29,11 +29,15 @@ public class StackTraceFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public StackTraceFlags or(StackTraceFlags mask) {
-        return new StackTraceFlags(this.getValue() | mask.getValue());
+    public StackTraceFlags or(StackTraceFlags... masks) {
+        int value = this.getValue();
+        for (StackTraceFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new StackTraceFlags(value);
     }
     
     /**
@@ -43,7 +47,8 @@ public class StackTraceFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static StackTraceFlags combined(StackTraceFlags mask, StackTraceFlags... masks) {
-        int value = mask.getValue();        for (StackTraceFlags arg : masks) {
+        int value = mask.getValue();
+        for (StackTraceFlags arg : masks) {
             value |= arg.getValue();
         }
         return new StackTraceFlags(value);

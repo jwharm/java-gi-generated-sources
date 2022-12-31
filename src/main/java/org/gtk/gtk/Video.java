@@ -43,40 +43,26 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * Because Video is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Video(Addressable address, Ownership ownership) {
+    protected Video(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Video if its GType is a (or inherits from) "GtkVideo".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Video} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkVideo", a ClassCastException will be thrown.
-     */
-    public static Video castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Video.getType())) {
-            return new Video(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkVideo");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Video> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Video(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_video_new.invokeExact();
         } catch (Throwable ERR) {
@@ -92,8 +78,8 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewForFile(@Nullable org.gtk.gio.File file) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForFile(@Nullable org.gtk.gio.File file) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_video_new_for_file.invokeExact(
                     (Addressable) (file == null ? MemoryAddress.NULL : file.handle()));
@@ -109,14 +95,15 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkVideo}
      */
     public static Video newForFile(@Nullable org.gtk.gio.File file) {
-        return new Video(constructNewForFile(file), Ownership.NONE);
+        var RESULT = constructNewForFile(file);
+        return (org.gtk.gtk.Video) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Video.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewForFilename(@Nullable java.lang.String filename) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForFilename(@Nullable java.lang.String filename) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_video_new_for_filename.invokeExact(
-                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)));
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(filename, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -132,11 +119,12 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkVideo}
      */
     public static Video newForFilename(@Nullable java.lang.String filename) {
-        return new Video(constructNewForFilename(filename), Ownership.NONE);
+        var RESULT = constructNewForFilename(filename);
+        return (org.gtk.gtk.Video) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Video.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewForMediaStream(@Nullable org.gtk.gtk.MediaStream stream) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForMediaStream(@Nullable org.gtk.gtk.MediaStream stream) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_video_new_for_media_stream.invokeExact(
                     (Addressable) (stream == null ? MemoryAddress.NULL : stream.handle()));
@@ -152,14 +140,15 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkVideo}
      */
     public static Video newForMediaStream(@Nullable org.gtk.gtk.MediaStream stream) {
-        return new Video(constructNewForMediaStream(stream), Ownership.NONE);
+        var RESULT = constructNewForMediaStream(stream);
+        return (org.gtk.gtk.Video) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Video.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewForResource(@Nullable java.lang.String resourcePath) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForResource(@Nullable java.lang.String resourcePath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_video_new_for_resource.invokeExact(
-                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(resourcePath, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -175,7 +164,8 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @return a new {@code GtkVideo}
      */
     public static Video newForResource(@Nullable java.lang.String resourcePath) {
-        return new Video(constructNewForResource(resourcePath), Ownership.NONE);
+        var RESULT = constructNewForResource(resourcePath);
+        return (org.gtk.gtk.Video) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Video.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -190,7 +180,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -206,7 +196,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -221,7 +211,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -236,7 +226,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.MediaStream(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.MediaStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.MediaStream.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -248,7 +238,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_video_set_autoplay.invokeExact(
                     handle(),
-                    autoplay ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(autoplay, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -278,7 +268,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_video_set_filename.invokeExact(
                     handle(),
-                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)));
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(filename, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -292,7 +282,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_video_set_loop.invokeExact(
                     handle(),
-                    loop ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(loop, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,7 +319,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_video_set_resource.invokeExact(
                     handle(),
-                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(resourcePath, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -339,7 +329,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_video_get_type.invokeExact();
@@ -348,38 +338,40 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Video.Builder} object constructs a {@link Video} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Video.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Video.Build} object constructs a {@link Video} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Video} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Video} using {@link Video#castFrom}.
+         * {@link Video}.
          * @return A new instance of {@code Video} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Video construct() {
-            return Video.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Video.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Video build() {
+            return (Video) org.gtk.gobject.GObject.newWithProperties(
+                Video.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -388,7 +380,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param autoplay The value for the {@code autoplay} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAutoplay(boolean autoplay) {
+        public Builder setAutoplay(boolean autoplay) {
             names.add("autoplay");
             values.add(org.gtk.gobject.Value.create(autoplay));
             return this;
@@ -399,7 +391,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param file The value for the {@code file} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFile(org.gtk.gio.File file) {
+        public Builder setFile(org.gtk.gio.File file) {
             names.add("file");
             values.add(org.gtk.gobject.Value.create(file));
             return this;
@@ -410,7 +402,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param loop The value for the {@code loop} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoop(boolean loop) {
+        public Builder setLoop(boolean loop) {
             names.add("loop");
             values.add(org.gtk.gobject.Value.create(loop));
             return this;
@@ -421,7 +413,7 @@ public class Video extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param mediaStream The value for the {@code media-stream} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMediaStream(org.gtk.gtk.MediaStream mediaStream) {
+        public Builder setMediaStream(org.gtk.gtk.MediaStream mediaStream) {
             names.add("media-stream");
             values.add(org.gtk.gobject.Value.create(mediaStream));
             return this;

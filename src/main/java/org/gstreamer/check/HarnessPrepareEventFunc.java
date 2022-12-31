@@ -7,5 +7,17 @@ import org.jetbrains.annotations.*;
 
 @FunctionalInterface
 public interface HarnessPrepareEventFunc {
-        org.gstreamer.gst.Event onHarnessPrepareEventFunc(@NotNull org.gstreamer.check.Harness h);
+    org.gstreamer.gst.Event run(org.gstreamer.check.Harness h);
+
+    @ApiStatus.Internal default Addressable upcall(MemoryAddress h, MemoryAddress data) {
+        var RESULT = run(org.gstreamer.check.Harness.fromAddress.marshal(h, Ownership.NONE));
+        return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HarnessPrepareEventFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

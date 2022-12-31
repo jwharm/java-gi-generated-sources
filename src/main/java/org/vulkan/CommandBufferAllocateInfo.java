@@ -40,8 +40,10 @@ public class CommandBufferAllocateInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CommandBufferAllocateInfo(Addressable address, Ownership ownership) {
+    protected CommandBufferAllocateInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CommandBufferAllocateInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CommandBufferAllocateInfo(input, ownership);
 }

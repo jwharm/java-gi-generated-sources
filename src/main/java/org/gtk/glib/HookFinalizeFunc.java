@@ -11,5 +11,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface HookFinalizeFunc {
-        void onHookFinalizeFunc(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook);
+    void run(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress hookList, MemoryAddress hook) {
+        run(org.gtk.glib.HookList.fromAddress.marshal(hookList, Ownership.NONE), org.gtk.glib.Hook.fromAddress.marshal(hook, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HookFinalizeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

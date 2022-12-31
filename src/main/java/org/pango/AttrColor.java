@@ -17,18 +17,16 @@ public class AttrColor extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "PangoAttrColor";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.pango.Attribute.getMemoryLayout().withName("attr"),
-        org.pango.Color.getMemoryLayout().withName("color")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.pango.Attribute.getMemoryLayout().withName("attr"),
+            org.pango.Color.getMemoryLayout().withName("color")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,18 +46,38 @@ public class AttrColor extends Struct {
      * Get the value of the field {@code attr}
      * @return The value of the field {@code attr}
      */
-    public org.pango.Attribute attr$get() {
+    public org.pango.Attribute getAttr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("attr"));
-        return new org.pango.Attribute(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Attribute.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code attr}
+     * @param attr The new value of the field {@code attr}
+     */
+    public void setAttr(org.pango.Attribute attr) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("attr"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
     }
     
     /**
      * Get the value of the field {@code color}
      * @return The value of the field {@code color}
      */
-    public org.pango.Color color$get() {
+    public org.pango.Color getColor() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("color"));
-        return new org.pango.Color(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.pango.Color.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code color}
+     * @param color The new value of the field {@code color}
+     */
+    public void setColor(org.pango.Color color) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("color"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));
     }
     
     /**
@@ -67,35 +85,41 @@ public class AttrColor extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AttrColor(Addressable address, Ownership ownership) {
+    protected AttrColor(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AttrColor> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AttrColor(input, ownership);
+    
+    /**
+     * A {@link AttrColor.Builder} object constructs a {@link AttrColor} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AttrColor.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AttrColor struct;
+        private final AttrColor struct;
         
-         /**
-         * A {@link AttrColor.Build} object constructs a {@link AttrColor} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AttrColor.allocate();
         }
         
          /**
          * Finish building the {@link AttrColor} struct.
          * @return A new instance of {@code AttrColor} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AttrColor construct() {
+        public AttrColor build() {
             return struct;
         }
         
@@ -104,7 +128,7 @@ public class AttrColor extends Struct {
          * @param attr The value for the {@code attr} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttr(org.pango.Attribute attr) {
+        public Builder setAttr(org.pango.Attribute attr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("attr"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (attr == null ? MemoryAddress.NULL : attr.handle()));
@@ -116,7 +140,7 @@ public class AttrColor extends Struct {
          * @param color The value for the {@code color} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColor(org.pango.Color color) {
+        public Builder setColor(org.pango.Color color) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("color"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (color == null ? MemoryAddress.NULL : color.handle()));

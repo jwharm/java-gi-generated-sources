@@ -68,7 +68,7 @@ import org.jetbrains.annotations.*;
  * {@link PrintOperationPreview#isSelected}
  * are useful when implementing a print preview.
  */
-public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gtk.PrintOperationPreview {
+public class PrintOperation extends org.gtk.gobject.GObject implements org.gtk.gtk.PrintOperationPreview {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -76,18 +76,16 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     private static final java.lang.String C_TYPE_NAME = "GtkPrintOperation";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -95,33 +93,15 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PrintOperation(Addressable address, Ownership ownership) {
+    protected PrintOperation(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PrintOperation if its GType is a (or inherits from) "GtkPrintOperation".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PrintOperation} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPrintOperation", a ClassCastException will be thrown.
-     */
-    public static PrintOperation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PrintOperation.getType())) {
-            return new PrintOperation(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPrintOperation");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PrintOperation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintOperation(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_operation_new.invokeExact();
         } catch (Throwable ERR) {
@@ -174,7 +154,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * Returns the default page setup.
      * @return the default page setup
      */
-    public @NotNull org.gtk.gtk.PageSetup getDefaultPageSetup() {
+    public org.gtk.gtk.PageSetup getDefaultPageSetup() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_operation_get_default_page_setup.invokeExact(
@@ -182,7 +162,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageSetup(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -197,7 +177,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -237,7 +217,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -280,7 +260,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintSettings(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PrintSettings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PrintSettings.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -289,7 +269,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * Also see {@link PrintOperation#getStatusString}.
      * @return the status of the print operation
      */
-    public @NotNull org.gtk.gtk.PrintStatus getStatus() {
+    public org.gtk.gtk.PrintStatus getStatus() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_operation_get_status.invokeExact(
@@ -312,7 +292,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * @return a string representation of the status
      *    of the print operation
      */
-    public @NotNull java.lang.String getStatusString() {
+    public java.lang.String getStatusString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_operation_get_status_string.invokeExact(
@@ -320,7 +300,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -335,7 +315,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -358,7 +338,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -429,8 +409,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      *   signal when done.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.gtk.PrintOperationResult run(@NotNull org.gtk.gtk.PrintOperationAction action, @Nullable org.gtk.gtk.Window parent) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+    public org.gtk.gtk.PrintOperationResult run(org.gtk.gtk.PrintOperationAction action, @Nullable org.gtk.gtk.Window parent) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -460,7 +439,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         try {
             DowncallHandles.gtk_print_operation_set_allow_async.invokeExact(
                     handle(),
-                    allowAsync ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(allowAsync, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -493,7 +472,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         try {
             DowncallHandles.gtk_print_operation_set_custom_tab_label.invokeExact(
                     handle(),
-                    (Addressable) (label == null ? MemoryAddress.NULL : Interop.allocateNativeString(label)));
+                    (Addressable) (label == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(label, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -545,7 +524,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         try {
             DowncallHandles.gtk_print_operation_set_embed_page_setup.invokeExact(
                     handle(),
-                    embed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(embed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -564,12 +543,11 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * of printers in the print dialog.
      * @param filename the filename for the exported file
      */
-    public void setExportFilename(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public void setExportFilename(java.lang.String filename) {
         try {
             DowncallHandles.gtk_print_operation_set_export_filename.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -587,7 +565,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         try {
             DowncallHandles.gtk_print_operation_set_has_selection.invokeExact(
                     handle(),
-                    hasSelection ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hasSelection, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -603,12 +581,11 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * numbering successive print jobs.
      * @param jobName a string that identifies the print job
      */
-    public void setJobName(@NotNull java.lang.String jobName) {
-        java.util.Objects.requireNonNull(jobName, "Parameter 'jobName' must not be null");
+    public void setJobName(java.lang.String jobName) {
         try {
             DowncallHandles.gtk_print_operation_set_job_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(jobName));
+                    Marshal.stringToAddress.marshal(jobName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -664,7 +641,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         try {
             DowncallHandles.gtk_print_operation_set_show_progress.invokeExact(
                     handle(),
-                    showProgress ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showProgress, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -678,7 +655,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         try {
             DowncallHandles.gtk_print_operation_set_support_selection.invokeExact(
                     handle(),
-                    supportSelection ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(supportSelection, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -699,7 +676,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         try {
             DowncallHandles.gtk_print_operation_set_track_print_status.invokeExact(
                     handle(),
-                    trackStatus ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(trackStatus, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -711,8 +688,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * units of {@code unit}.
      * @param unit the unit to use
      */
-    public void setUnit(@NotNull org.gtk.gtk.Unit unit) {
-        java.util.Objects.requireNonNull(unit, "Parameter 'unit' must not be null");
+    public void setUnit(org.gtk.gtk.Unit unit) {
         try {
             DowncallHandles.gtk_print_operation_set_unit.invokeExact(
                     handle(),
@@ -736,7 +712,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
         try {
             DowncallHandles.gtk_print_operation_set_use_full_page.invokeExact(
                     handle(),
-                    fullPage ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(fullPage, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -746,7 +722,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_print_operation_get_type.invokeExact();
@@ -758,7 +734,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface BeginPrint {
-        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context);
+        void run(org.gtk.gtk.PrintContext context);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperation, MemoryAddress context) {
+            run((org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BeginPrint.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -775,16 +762,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.BeginPrint> onBeginPrint(PrintOperation.BeginPrint handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("begin-print"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationBeginPrint",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.BeginPrint>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("begin-print"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -792,7 +771,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface CreateCustomWidget {
-        void signalReceived(PrintOperation sourcePrintOperation);
+        @Nullable org.gtk.gobject.GObject run();
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress sourcePrintOperation) {
+            var RESULT = run();
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CreateCustomWidget.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -813,16 +804,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.CreateCustomWidget> onCreateCustomWidget(PrintOperation.CreateCustomWidget handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("create-custom-widget"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationCreateCustomWidget",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.CreateCustomWidget>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("create-custom-widget"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -830,7 +813,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface CustomWidgetApply {
-        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.Widget widget);
+        void run(org.gtk.gtk.Widget widget);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperation, MemoryAddress widget) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CustomWidgetApply.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -846,16 +840,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.CustomWidgetApply> onCustomWidgetApply(PrintOperation.CustomWidgetApply handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("custom-widget-apply"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationCustomWidgetApply",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.CustomWidgetApply>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("custom-widget-apply"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -863,7 +849,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface Done {
-        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintOperationResult result);
+        void run(org.gtk.gtk.PrintOperationResult result);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperation, int result) {
+            run(org.gtk.gtk.PrintOperationResult.of(result));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Done.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -883,16 +880,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.Done> onDone(PrintOperation.Done handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("done"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationDone",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.Done>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("done"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -900,7 +889,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface DrawPage {
-        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context, int pageNr);
+        void run(org.gtk.gtk.PrintContext context, int pageNr);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperation, MemoryAddress context, int pageNr) {
+            run((org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE), pageNr);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DrawPage.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -960,16 +960,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.DrawPage> onDrawPage(PrintOperation.DrawPage handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("draw-page"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationDrawPage",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.DrawPage>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("draw-page"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -977,7 +969,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface EndPrint {
-        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context);
+        void run(org.gtk.gtk.PrintContext context);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperation, MemoryAddress context) {
+            run((org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndPrint.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -991,16 +994,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.EndPrint> onEndPrint(PrintOperation.EndPrint handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("end-print"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationEndPrint",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.EndPrint>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("end-print"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1008,7 +1003,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface Paginate {
-        boolean signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context);
+        boolean run(org.gtk.gtk.PrintContext context);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourcePrintOperation, MemoryAddress context) {
+            var RESULT = run((org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Paginate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1032,16 +1039,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.Paginate> onPaginate(PrintOperation.Paginate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("paginate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationPaginate",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.Paginate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("paginate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1049,7 +1048,19 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface Preview {
-        boolean signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintOperationPreview preview, @NotNull org.gtk.gtk.PrintContext context, @Nullable org.gtk.gtk.Window parent);
+        boolean run(org.gtk.gtk.PrintOperationPreview preview, org.gtk.gtk.PrintContext context, @Nullable org.gtk.gtk.Window parent);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourcePrintOperation, MemoryAddress preview, MemoryAddress context, MemoryAddress parent) {
+            var RESULT = run((org.gtk.gtk.PrintOperationPreview) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preview)), org.gtk.gtk.PrintOperationPreview.fromAddress).marshal(preview, Ownership.NONE), (org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.Window) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(parent)), org.gtk.gtk.Window.fromAddress).marshal(parent, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Preview.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1076,16 +1087,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.Preview> onPreview(PrintOperation.Preview handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("preview"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationPreview",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.Preview>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("preview"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1093,7 +1096,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface RequestPageSetup {
-        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.PrintContext context, int pageNr, @NotNull org.gtk.gtk.PageSetup setup);
+        void run(org.gtk.gtk.PrintContext context, int pageNr, org.gtk.gtk.PageSetup setup);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperation, MemoryAddress context, int pageNr, MemoryAddress setup) {
+            run((org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE), pageNr, (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(setup)), org.gtk.gtk.PageSetup.fromAddress).marshal(setup, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RequestPageSetup.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1108,16 +1122,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.RequestPageSetup> onRequestPageSetup(PrintOperation.RequestPageSetup handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("request-page-setup"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationRequestPageSetup",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.RequestPageSetup>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("request-page-setup"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1125,7 +1131,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface StatusChanged {
-        void signalReceived(PrintOperation sourcePrintOperation);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperation) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StatusChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1140,16 +1157,8 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.StatusChanged> onStatusChanged(PrintOperation.StatusChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("status-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationStatusChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.StatusChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("status-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1157,7 +1166,18 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     
     @FunctionalInterface
     public interface UpdateCustomWidget {
-        void signalReceived(PrintOperation sourcePrintOperation, @NotNull org.gtk.gtk.Widget widget, @NotNull org.gtk.gtk.PageSetup setup, @NotNull org.gtk.gtk.PrintSettings settings);
+        void run(org.gtk.gtk.Widget widget, org.gtk.gtk.PageSetup setup, org.gtk.gtk.PrintSettings settings);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrintOperation, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings) {
+            run((org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(widget)), org.gtk.gtk.Widget.fromAddress).marshal(widget, Ownership.NONE), (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(setup)), org.gtk.gtk.PageSetup.fromAddress).marshal(setup, Ownership.NONE), (org.gtk.gtk.PrintSettings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(settings)), org.gtk.gtk.PrintSettings.fromAddress).marshal(settings, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UpdateCustomWidget.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1171,52 +1191,46 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
     public Signal<PrintOperation.UpdateCustomWidget> onUpdateCustomWidget(PrintOperation.UpdateCustomWidget handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("update-custom-widget"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PrintOperation.Callbacks.class, "signalPrintOperationUpdateCustomWidget",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PrintOperation.UpdateCustomWidget>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("update-custom-widget"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link PrintOperation.Builder} object constructs a {@link PrintOperation} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PrintOperation.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PrintOperation.Build} object constructs a {@link PrintOperation} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PrintOperation} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PrintOperation} using {@link PrintOperation#castFrom}.
+         * {@link PrintOperation}.
          * @return A new instance of {@code PrintOperation} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PrintOperation construct() {
-            return PrintOperation.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PrintOperation.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PrintOperation build() {
+            return (PrintOperation) org.gtk.gobject.GObject.newWithProperties(
+                PrintOperation.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1234,7 +1248,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param allowAsync The value for the {@code allow-async} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllowAsync(boolean allowAsync) {
+        public Builder setAllowAsync(boolean allowAsync) {
             names.add("allow-async");
             values.add(org.gtk.gobject.Value.create(allowAsync));
             return this;
@@ -1250,7 +1264,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param currentPage The value for the {@code current-page} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentPage(int currentPage) {
+        public Builder setCurrentPage(int currentPage) {
             names.add("current-page");
             values.add(org.gtk.gobject.Value.create(currentPage));
             return this;
@@ -1265,7 +1279,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param customTabLabel The value for the {@code custom-tab-label} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCustomTabLabel(java.lang.String customTabLabel) {
+        public Builder setCustomTabLabel(java.lang.String customTabLabel) {
             names.add("custom-tab-label");
             values.add(org.gtk.gobject.Value.create(customTabLabel));
             return this;
@@ -1280,7 +1294,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param defaultPageSetup The value for the {@code default-page-setup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDefaultPageSetup(org.gtk.gtk.PageSetup defaultPageSetup) {
+        public Builder setDefaultPageSetup(org.gtk.gtk.PageSetup defaultPageSetup) {
             names.add("default-page-setup");
             values.add(org.gtk.gobject.Value.create(defaultPageSetup));
             return this;
@@ -1292,7 +1306,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param embedPageSetup The value for the {@code embed-page-setup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEmbedPageSetup(boolean embedPageSetup) {
+        public Builder setEmbedPageSetup(boolean embedPageSetup) {
             names.add("embed-page-setup");
             values.add(org.gtk.gobject.Value.create(embedPageSetup));
             return this;
@@ -1312,7 +1326,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param exportFilename The value for the {@code export-filename} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExportFilename(java.lang.String exportFilename) {
+        public Builder setExportFilename(java.lang.String exportFilename) {
             names.add("export-filename");
             values.add(org.gtk.gobject.Value.create(exportFilename));
             return this;
@@ -1326,7 +1340,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param hasSelection The value for the {@code has-selection} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasSelection(boolean hasSelection) {
+        public Builder setHasSelection(boolean hasSelection) {
             names.add("has-selection");
             values.add(org.gtk.gobject.Value.create(hasSelection));
             return this;
@@ -1341,7 +1355,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param jobName The value for the {@code job-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setJobName(java.lang.String jobName) {
+        public Builder setJobName(java.lang.String jobName) {
             names.add("job-name");
             values.add(org.gtk.gobject.Value.create(jobName));
             return this;
@@ -1362,7 +1376,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param nPages The value for the {@code n-pages} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPages(int nPages) {
+        public Builder setNPages(int nPages) {
             names.add("n-pages");
             values.add(org.gtk.gobject.Value.create(nPages));
             return this;
@@ -1382,7 +1396,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param nPagesToPrint The value for the {@code n-pages-to-print} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPagesToPrint(int nPagesToPrint) {
+        public Builder setNPagesToPrint(int nPagesToPrint) {
             names.add("n-pages-to-print");
             values.add(org.gtk.gobject.Value.create(nPagesToPrint));
             return this;
@@ -1397,7 +1411,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param printSettings The value for the {@code print-settings} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrintSettings(org.gtk.gtk.PrintSettings printSettings) {
+        public Builder setPrintSettings(org.gtk.gtk.PrintSettings printSettings) {
             names.add("print-settings");
             values.add(org.gtk.gobject.Value.create(printSettings));
             return this;
@@ -1409,7 +1423,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param showProgress The value for the {@code show-progress} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowProgress(boolean showProgress) {
+        public Builder setShowProgress(boolean showProgress) {
             names.add("show-progress");
             values.add(org.gtk.gobject.Value.create(showProgress));
             return this;
@@ -1420,7 +1434,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param status The value for the {@code status} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStatus(org.gtk.gtk.PrintStatus status) {
+        public Builder setStatus(org.gtk.gtk.PrintStatus status) {
             names.add("status");
             values.add(org.gtk.gobject.Value.create(status));
             return this;
@@ -1437,7 +1451,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param statusString The value for the {@code status-string} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStatusString(java.lang.String statusString) {
+        public Builder setStatusString(java.lang.String statusString) {
             names.add("status-string");
             values.add(org.gtk.gobject.Value.create(statusString));
             return this;
@@ -1450,7 +1464,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param supportSelection The value for the {@code support-selection} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSupportSelection(boolean supportSelection) {
+        public Builder setSupportSelection(boolean supportSelection) {
             names.add("support-selection");
             values.add(org.gtk.gobject.Value.create(supportSelection));
             return this;
@@ -1467,7 +1481,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param trackPrintStatus The value for the {@code track-print-status} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTrackPrintStatus(boolean trackPrintStatus) {
+        public Builder setTrackPrintStatus(boolean trackPrintStatus) {
             names.add("track-print-status");
             values.add(org.gtk.gobject.Value.create(trackPrintStatus));
             return this;
@@ -1480,7 +1494,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param unit The value for the {@code unit} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUnit(org.gtk.gtk.Unit unit) {
+        public Builder setUnit(org.gtk.gtk.Unit unit) {
             names.add("unit");
             values.add(org.gtk.gobject.Value.create(unit));
             return this;
@@ -1498,7 +1512,7 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
          * @param useFullPage The value for the {@code use-full-page} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseFullPage(boolean useFullPage) {
+        public Builder setUseFullPage(boolean useFullPage) {
             names.add("use-full-page");
             values.add(org.gtk.gobject.Value.create(useFullPage));
             return this;
@@ -1692,74 +1706,5 @@ public class PrintOperation extends org.gtk.gobject.Object implements org.gtk.gt
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalPrintOperationBeginPrint(MemoryAddress sourcePrintOperation, MemoryAddress context, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.BeginPrint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
-        }
-        
-        public static void signalPrintOperationCreateCustomWidget(MemoryAddress sourcePrintOperation, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.CreateCustomWidget) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE));
-        }
-        
-        public static void signalPrintOperationCustomWidgetApply(MemoryAddress sourcePrintOperation, MemoryAddress widget, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.CustomWidgetApply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE));
-        }
-        
-        public static void signalPrintOperationDone(MemoryAddress sourcePrintOperation, int result, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.Done) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), org.gtk.gtk.PrintOperationResult.of(result));
-        }
-        
-        public static void signalPrintOperationDrawPage(MemoryAddress sourcePrintOperation, MemoryAddress context, int pageNr, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.DrawPage) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr);
-        }
-        
-        public static void signalPrintOperationEndPrint(MemoryAddress sourcePrintOperation, MemoryAddress context, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.EndPrint) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
-        }
-        
-        public static boolean signalPrintOperationPaginate(MemoryAddress sourcePrintOperation, MemoryAddress context, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.Paginate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE));
-        }
-        
-        public static boolean signalPrintOperationPreview(MemoryAddress sourcePrintOperation, MemoryAddress preview, MemoryAddress context, MemoryAddress parent, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.Preview) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintOperationPreview.PrintOperationPreviewImpl(preview, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), new org.gtk.gtk.Window(parent, Ownership.NONE));
-        }
-        
-        public static void signalPrintOperationRequestPageSetup(MemoryAddress sourcePrintOperation, MemoryAddress context, int pageNr, MemoryAddress setup, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.RequestPageSetup) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.PrintContext(context, Ownership.NONE), pageNr, new org.gtk.gtk.PageSetup(setup, Ownership.NONE));
-        }
-        
-        public static void signalPrintOperationStatusChanged(MemoryAddress sourcePrintOperation, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.StatusChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE));
-        }
-        
-        public static void signalPrintOperationUpdateCustomWidget(MemoryAddress sourcePrintOperation, MemoryAddress widget, MemoryAddress setup, MemoryAddress settings, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PrintOperation.UpdateCustomWidget) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PrintOperation(sourcePrintOperation, Ownership.NONE), new org.gtk.gtk.Widget(widget, Ownership.NONE), new org.gtk.gtk.PageSetup(setup, Ownership.NONE), new org.gtk.gtk.PrintSettings(settings, Ownership.NONE));
-        }
     }
 }

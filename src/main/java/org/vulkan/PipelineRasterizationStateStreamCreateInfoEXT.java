@@ -40,8 +40,10 @@ public class PipelineRasterizationStateStreamCreateInfoEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PipelineRasterizationStateStreamCreateInfoEXT(Addressable address, Ownership ownership) {
+    protected PipelineRasterizationStateStreamCreateInfoEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PipelineRasterizationStateStreamCreateInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineRasterizationStateStreamCreateInfoEXT(input, ownership);
 }

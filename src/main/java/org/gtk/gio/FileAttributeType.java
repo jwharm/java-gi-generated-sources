@@ -42,7 +42,7 @@ public enum FileAttributeType implements io.github.jwharm.javagi.Enumeration {
      */
     INT64(7),
     /**
-     * a {@link org.gtk.gobject.Object}.
+     * a {@link org.gtk.gobject.GObject}.
      */
     OBJECT(8),
     /**

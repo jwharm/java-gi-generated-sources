@@ -17,5 +17,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface BindingTransformFunc {
-        boolean onBindingTransformFunc(@NotNull org.gtk.gobject.Binding binding, @NotNull org.gtk.gobject.Value fromValue, @NotNull org.gtk.gobject.Value toValue);
+    boolean run(org.gtk.gobject.Binding binding, org.gtk.gobject.Value fromValue, org.gtk.gobject.Value toValue);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress binding, MemoryAddress fromValue, MemoryAddress toValue, MemoryAddress userData) {
+        var RESULT = run((org.gtk.gobject.Binding) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(binding)), org.gtk.gobject.Binding.fromAddress).marshal(binding, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(fromValue, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(toValue, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BindingTransformFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

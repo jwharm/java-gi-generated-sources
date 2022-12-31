@@ -45,10 +45,12 @@ public class AudioResampler extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioResampler(Addressable address, Ownership ownership) {
+    protected AudioResampler(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioResampler> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioResampler(input, ownership);
     
     /**
      * Free a previously allocated {@link AudioResampler} {@code resampler}.
@@ -176,8 +178,7 @@ public class AudioResampler extends Struct {
      * @param options new options or {@code null}
      * @return {@code true} if the new parameters could be set
      */
-    public boolean update(int inRate, int outRate, @NotNull org.gstreamer.gst.Structure options) {
-        java.util.Objects.requireNonNull(options, "Parameter 'options' must not be null");
+    public boolean update(int inRate, int outRate, org.gstreamer.gst.Structure options) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_resampler_update.invokeExact(
@@ -188,7 +189,7 @@ public class AudioResampler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -203,11 +204,7 @@ public class AudioResampler extends Struct {
      * @return The new {@link AudioResampler}, or
      * {@code null} on failure.
      */
-    public static @NotNull org.gstreamer.audio.AudioResampler new_(@NotNull org.gstreamer.audio.AudioResamplerMethod method, @NotNull org.gstreamer.audio.AudioResamplerFlags flags, @NotNull org.gstreamer.audio.AudioFormat format, int channels, int inRate, int outRate, @NotNull org.gstreamer.gst.Structure options) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(options, "Parameter 'options' must not be null");
+    public static org.gstreamer.audio.AudioResampler new_(org.gstreamer.audio.AudioResamplerMethod method, org.gstreamer.audio.AudioResamplerFlags flags, org.gstreamer.audio.AudioFormat format, int channels, int inRate, int outRate, org.gstreamer.gst.Structure options) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_resampler_new.invokeExact(
@@ -221,7 +218,7 @@ public class AudioResampler extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioResampler(RESULT, Ownership.FULL);
+        return org.gstreamer.audio.AudioResampler.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -233,9 +230,7 @@ public class AudioResampler extends Struct {
      * @param outRate the output rate
      * @param options a {@link org.gstreamer.gst.Structure}
      */
-    public static void optionsSetQuality(@NotNull org.gstreamer.audio.AudioResamplerMethod method, int quality, int inRate, int outRate, @NotNull org.gstreamer.gst.Structure options) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(options, "Parameter 'options' must not be null");
+    public static void optionsSetQuality(org.gstreamer.audio.AudioResamplerMethod method, int quality, int inRate, int outRate, org.gstreamer.gst.Structure options) {
         try {
             DowncallHandles.gst_audio_resampler_options_set_quality.invokeExact(
                     method.getValue(),

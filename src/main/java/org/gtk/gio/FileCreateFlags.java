@@ -43,11 +43,15 @@ public class FileCreateFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FileCreateFlags or(FileCreateFlags mask) {
-        return new FileCreateFlags(this.getValue() | mask.getValue());
+    public FileCreateFlags or(FileCreateFlags... masks) {
+        int value = this.getValue();
+        for (FileCreateFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FileCreateFlags(value);
     }
     
     /**
@@ -57,7 +61,8 @@ public class FileCreateFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FileCreateFlags combined(FileCreateFlags mask, FileCreateFlags... masks) {
-        int value = mask.getValue();        for (FileCreateFlags arg : masks) {
+        int value = mask.getValue();
+        for (FileCreateFlags arg : masks) {
             value |= arg.getValue();
         }
         return new FileCreateFlags(value);

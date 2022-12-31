@@ -28,18 +28,16 @@ public class RoundedRect extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GskRoundedRect";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.graphene.Rect.getMemoryLayout().withName("bounds"),
-        MemoryLayout.sequenceLayout(4, org.gtk.graphene.Size.getMemoryLayout()).withName("corner")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.graphene.Rect.getMemoryLayout().withName("bounds"),
+            MemoryLayout.sequenceLayout(4, org.gtk.graphene.Size.getMemoryLayout()).withName("corner")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -59,9 +57,40 @@ public class RoundedRect extends Struct {
      * Get the value of the field {@code bounds}
      * @return The value of the field {@code bounds}
      */
-    public org.gtk.graphene.Rect bounds$get() {
+    public org.gtk.graphene.Rect getBounds() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("bounds"));
-        return new org.gtk.graphene.Rect(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.graphene.Rect.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code bounds}
+     * @param bounds The new value of the field {@code bounds}
+     */
+    public void setBounds(org.gtk.graphene.Rect bounds) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("bounds"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bounds == null ? MemoryAddress.NULL : bounds.handle()));
+    }
+    
+    /**
+     * Get the value of the field {@code corner}
+     * @return The value of the field {@code corner}
+     */
+    public org.gtk.graphene.Size[] getCorner() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("corner"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gtk.graphene.Size>(RESULT, org.gtk.graphene.Size.fromAddress).toArray((int) 4, org.gtk.graphene.Size.class);
+    }
+    
+    /**
+     * Change the value of the field {@code corner}
+     * @param corner The new value of the field {@code corner}
+     */
+    public void setCorner(org.gtk.graphene.Size[] corner) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("corner"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (corner == null ? MemoryAddress.NULL : Interop.allocateNativeArray(corner, org.gtk.graphene.Size.getMemoryLayout(), false)));
     }
     
     /**
@@ -69,18 +98,19 @@ public class RoundedRect extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RoundedRect(Addressable address, Ownership ownership) {
+    protected RoundedRect(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RoundedRect> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RoundedRect(input, ownership);
     
     /**
      * Checks if the given {@code point} is inside the rounded rectangle.
      * @param point the point to check
      * @return {@code true} if the {@code point} is inside the rounded rectangle
      */
-    public boolean containsPoint(@NotNull org.gtk.graphene.Point point) {
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
+    public boolean containsPoint(org.gtk.graphene.Point point) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_rounded_rect_contains_point.invokeExact(
@@ -89,7 +119,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -97,8 +127,7 @@ public class RoundedRect extends Struct {
      * @param rect the rectangle to check
      * @return {@code true} if the {@code rect} is fully contained inside the rounded rectangle
      */
-    public boolean containsRect(@NotNull org.gtk.graphene.Rect rect) {
-        java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
+    public boolean containsRect(org.gtk.graphene.Rect rect) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_rounded_rect_contains_rect.invokeExact(
@@ -107,7 +136,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -122,12 +151,7 @@ public class RoundedRect extends Struct {
      * @param bottomLeft the rounding radius of the bottom left corner
      * @return the initialized rectangle
      */
-    public @NotNull org.gtk.gsk.RoundedRect init(@NotNull org.gtk.graphene.Rect bounds, @NotNull org.gtk.graphene.Size topLeft, @NotNull org.gtk.graphene.Size topRight, @NotNull org.gtk.graphene.Size bottomRight, @NotNull org.gtk.graphene.Size bottomLeft) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
-        java.util.Objects.requireNonNull(topLeft, "Parameter 'topLeft' must not be null");
-        java.util.Objects.requireNonNull(topRight, "Parameter 'topRight' must not be null");
-        java.util.Objects.requireNonNull(bottomRight, "Parameter 'bottomRight' must not be null");
-        java.util.Objects.requireNonNull(bottomLeft, "Parameter 'bottomLeft' must not be null");
+    public org.gtk.gsk.RoundedRect init(org.gtk.graphene.Rect bounds, org.gtk.graphene.Size topLeft, org.gtk.graphene.Size topRight, org.gtk.graphene.Size bottomRight, org.gtk.graphene.Size bottomLeft) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_init.invokeExact(
@@ -140,7 +164,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -151,8 +175,7 @@ public class RoundedRect extends Struct {
      * @param src a {@code GskRoundedRect}
      * @return the initialized rectangle
      */
-    public @NotNull org.gtk.gsk.RoundedRect initCopy(@NotNull org.gtk.gsk.RoundedRect src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.gsk.RoundedRect initCopy(org.gtk.gsk.RoundedRect src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_init_copy.invokeExact(
@@ -161,7 +184,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -171,8 +194,7 @@ public class RoundedRect extends Struct {
      * @param radius the border radius
      * @return the initialized rectangle
      */
-    public @NotNull org.gtk.gsk.RoundedRect initFromRect(@NotNull org.gtk.graphene.Rect bounds, float radius) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+    public org.gtk.gsk.RoundedRect initFromRect(org.gtk.graphene.Rect bounds, float radius) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_init_from_rect.invokeExact(
@@ -182,7 +204,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -190,8 +212,7 @@ public class RoundedRect extends Struct {
      * @param rect the rectangle to check
      * @return {@code true} if the {@code rect} intersects with the rounded rectangle
      */
-    public boolean intersectsRect(@NotNull org.gtk.graphene.Rect rect) {
-        java.util.Objects.requireNonNull(rect, "Parameter 'rect' must not be null");
+    public boolean intersectsRect(org.gtk.graphene.Rect rect) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_rounded_rect_intersects_rect.invokeExact(
@@ -200,7 +221,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -219,7 +240,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -230,7 +251,7 @@ public class RoundedRect extends Struct {
      * and the corners do not overlap.
      * @return the normalized rectangle
      */
-    public @NotNull org.gtk.gsk.RoundedRect normalize() {
+    public org.gtk.gsk.RoundedRect normalize() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_normalize.invokeExact(
@@ -238,7 +259,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -249,7 +270,7 @@ public class RoundedRect extends Struct {
      * @param dy the vertical offset
      * @return the offset rectangle
      */
-    public @NotNull org.gtk.gsk.RoundedRect offset(float dx, float dy) {
+    public org.gtk.gsk.RoundedRect offset(float dx, float dy) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_offset.invokeExact(
@@ -259,7 +280,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -277,7 +298,7 @@ public class RoundedRect extends Struct {
      * @param left How far to move the left side to the right
      * @return the resized {@code GskRoundedRect}
      */
-    public @NotNull org.gtk.gsk.RoundedRect shrink(float top, float right, float bottom, float left) {
+    public org.gtk.gsk.RoundedRect shrink(float top, float right, float bottom, float left) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_rounded_rect_shrink.invokeExact(
@@ -289,7 +310,7 @@ public class RoundedRect extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RoundedRect(RESULT, Ownership.NONE);
+        return org.gtk.gsk.RoundedRect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -354,31 +375,35 @@ public class RoundedRect extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RoundedRect.Builder} object constructs a {@link RoundedRect} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RoundedRect.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RoundedRect struct;
+        private final RoundedRect struct;
         
-         /**
-         * A {@link RoundedRect.Build} object constructs a {@link RoundedRect} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RoundedRect.allocate();
         }
         
          /**
          * Finish building the {@link RoundedRect} struct.
          * @return A new instance of {@code RoundedRect} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RoundedRect construct() {
+        public RoundedRect build() {
             return struct;
         }
         
@@ -387,7 +412,7 @@ public class RoundedRect extends Struct {
          * @param bounds The value for the {@code bounds} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBounds(org.gtk.graphene.Rect bounds) {
+        public Builder setBounds(org.gtk.graphene.Rect bounds) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bounds"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bounds == null ? MemoryAddress.NULL : bounds.handle()));
@@ -399,7 +424,7 @@ public class RoundedRect extends Struct {
          * @param corner The value for the {@code corner} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCorner(org.gtk.graphene.Size[] corner) {
+        public Builder setCorner(org.gtk.graphene.Size[] corner) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("corner"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (corner == null ? MemoryAddress.NULL : Interop.allocateNativeArray(corner, org.gtk.graphene.Size.getMemoryLayout(), false)));

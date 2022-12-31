@@ -111,8 +111,7 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
      * @param level the level to get the name for
      * @return the name
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.gst.DebugLevel level) {
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
+    public static java.lang.String getName(org.gstreamer.gst.DebugLevel level) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_debug_level_get_name.invokeExact(
@@ -120,7 +119,7 @@ public enum DebugLevel implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

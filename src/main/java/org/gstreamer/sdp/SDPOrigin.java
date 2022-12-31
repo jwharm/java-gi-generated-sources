@@ -18,22 +18,20 @@ public class SDPOrigin extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstSDPOrigin";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("username"),
-        Interop.valueLayout.ADDRESS.withName("sess_id"),
-        Interop.valueLayout.ADDRESS.withName("sess_version"),
-        Interop.valueLayout.ADDRESS.withName("nettype"),
-        Interop.valueLayout.ADDRESS.withName("addrtype"),
-        Interop.valueLayout.ADDRESS.withName("addr")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("username"),
+            Interop.valueLayout.ADDRESS.withName("sess_id"),
+            Interop.valueLayout.ADDRESS.withName("sess_version"),
+            Interop.valueLayout.ADDRESS.withName("nettype"),
+            Interop.valueLayout.ADDRESS.withName("addrtype"),
+            Interop.valueLayout.ADDRESS.withName("addr")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,126 +51,126 @@ public class SDPOrigin extends Struct {
      * Get the value of the field {@code username}
      * @return The value of the field {@code username}
      */
-    public java.lang.String username$get() {
+    public java.lang.String getUsername() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("username"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code username}
      * @param username The new value of the field {@code username}
      */
-    public void username$set(java.lang.String username) {
+    public void setUsername(java.lang.String username) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("username"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(username));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (username == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(username, null)));
     }
     
     /**
      * Get the value of the field {@code sess_id}
      * @return The value of the field {@code sess_id}
      */
-    public java.lang.String sessId$get() {
+    public java.lang.String getSessId() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sess_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code sess_id}
      * @param sessId The new value of the field {@code sess_id}
      */
-    public void sessId$set(java.lang.String sessId) {
+    public void setSessId(java.lang.String sessId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sess_id"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(sessId));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessId, null)));
     }
     
     /**
      * Get the value of the field {@code sess_version}
      * @return The value of the field {@code sess_version}
      */
-    public java.lang.String sessVersion$get() {
+    public java.lang.String getSessVersion() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sess_version"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code sess_version}
      * @param sessVersion The new value of the field {@code sess_version}
      */
-    public void sessVersion$set(java.lang.String sessVersion) {
+    public void setSessVersion(java.lang.String sessVersion) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sess_version"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(sessVersion));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessVersion == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessVersion, null)));
     }
     
     /**
      * Get the value of the field {@code nettype}
      * @return The value of the field {@code nettype}
      */
-    public java.lang.String nettype$get() {
+    public java.lang.String getNettype() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("nettype"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code nettype}
      * @param nettype The new value of the field {@code nettype}
      */
-    public void nettype$set(java.lang.String nettype) {
+    public void setNettype(java.lang.String nettype) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("nettype"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(nettype));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nettype == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nettype, null)));
     }
     
     /**
      * Get the value of the field {@code addrtype}
      * @return The value of the field {@code addrtype}
      */
-    public java.lang.String addrtype$get() {
+    public java.lang.String getAddrtype() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("addrtype"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code addrtype}
      * @param addrtype The new value of the field {@code addrtype}
      */
-    public void addrtype$set(java.lang.String addrtype) {
+    public void setAddrtype(java.lang.String addrtype) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("addrtype"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(addrtype));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addrtype == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(addrtype, null)));
     }
     
     /**
      * Get the value of the field {@code addr}
      * @return The value of the field {@code addr}
      */
-    public java.lang.String addr$get() {
+    public java.lang.String getAddr() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("addr"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code addr}
      * @param addr The new value of the field {@code addr}
      */
-    public void addr$set(java.lang.String addr) {
+    public void setAddr(java.lang.String addr) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("addr"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(addr));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addr == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(addr, null)));
     }
     
     /**
@@ -180,35 +178,41 @@ public class SDPOrigin extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SDPOrigin(Addressable address, Ownership ownership) {
+    protected SDPOrigin(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SDPOrigin> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPOrigin(input, ownership);
+    
+    /**
+     * A {@link SDPOrigin.Builder} object constructs a {@link SDPOrigin} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SDPOrigin.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SDPOrigin struct;
+        private final SDPOrigin struct;
         
-         /**
-         * A {@link SDPOrigin.Build} object constructs a {@link SDPOrigin} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SDPOrigin.allocate();
         }
         
          /**
          * Finish building the {@link SDPOrigin} struct.
          * @return A new instance of {@code SDPOrigin} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SDPOrigin construct() {
+        public SDPOrigin build() {
             return struct;
         }
         
@@ -218,10 +222,10 @@ public class SDPOrigin extends Struct {
          * @param username The value for the {@code username} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUsername(java.lang.String username) {
+        public Builder setUsername(java.lang.String username) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("username"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (username == null ? MemoryAddress.NULL : Interop.allocateNativeString(username)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (username == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(username, null)));
             return this;
         }
         
@@ -232,10 +236,10 @@ public class SDPOrigin extends Struct {
          * @param sessId The value for the {@code sessId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSessId(java.lang.String sessId) {
+        public Builder setSessId(java.lang.String sessId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("sess_id"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessId == null ? MemoryAddress.NULL : Interop.allocateNativeString(sessId)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessId == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessId, null)));
             return this;
         }
         
@@ -244,10 +248,10 @@ public class SDPOrigin extends Struct {
          * @param sessVersion The value for the {@code sessVersion} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSessVersion(java.lang.String sessVersion) {
+        public Builder setSessVersion(java.lang.String sessVersion) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("sess_version"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessVersion == null ? MemoryAddress.NULL : Interop.allocateNativeString(sessVersion)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sessVersion == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(sessVersion, null)));
             return this;
         }
         
@@ -257,10 +261,10 @@ public class SDPOrigin extends Struct {
          * @param nettype The value for the {@code nettype} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNettype(java.lang.String nettype) {
+        public Builder setNettype(java.lang.String nettype) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("nettype"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nettype == null ? MemoryAddress.NULL : Interop.allocateNativeString(nettype)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nettype == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(nettype, null)));
             return this;
         }
         
@@ -269,10 +273,10 @@ public class SDPOrigin extends Struct {
          * @param addrtype The value for the {@code addrtype} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAddrtype(java.lang.String addrtype) {
+        public Builder setAddrtype(java.lang.String addrtype) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("addrtype"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addrtype == null ? MemoryAddress.NULL : Interop.allocateNativeString(addrtype)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addrtype == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(addrtype, null)));
             return this;
         }
         
@@ -282,10 +286,10 @@ public class SDPOrigin extends Struct {
          * @param addr The value for the {@code addr} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAddr(java.lang.String addr) {
+        public Builder setAddr(java.lang.String addr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("addr"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addr == null ? MemoryAddress.NULL : Interop.allocateNativeString(addr)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (addr == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(addr, null)));
             return this;
         }
     }

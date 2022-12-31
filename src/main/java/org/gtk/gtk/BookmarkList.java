@@ -15,7 +15,7 @@ import org.jetbrains.annotations.*;
  * namespace added: {@code recent::private} (boolean) and {@code recent:applications}
  * (stringv).
  */
-public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class BookmarkList extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -37,37 +37,19 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BookmarkList(Addressable address, Ownership ownership) {
+    protected BookmarkList(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to BookmarkList if its GType is a (or inherits from) "GtkBookmarkList".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BookmarkList} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkBookmarkList", a ClassCastException will be thrown.
-     */
-    public static BookmarkList castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BookmarkList.getType())) {
-            return new BookmarkList(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkBookmarkList");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BookmarkList> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BookmarkList(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String filename, @Nullable java.lang.String attributes) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_bookmark_list_new.invokeExact(
-                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)),
-                    (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeString(attributes)));
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(filename, null)),
+                    (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -95,7 +77,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -103,7 +85,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * this list is loading.
      * @return the filename of the .xbel file
      */
-    public @NotNull java.lang.String getFilename() {
+    public java.lang.String getFilename() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_bookmark_list_get_filename.invokeExact(
@@ -111,7 +93,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -145,7 +127,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -159,7 +141,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
         try {
             DowncallHandles.gtk_bookmark_list_set_attributes.invokeExact(
                     handle(),
-                    (Addressable) (attributes == null ? MemoryAddress.NULL : Interop.allocateNativeString(attributes)));
+                    (Addressable) (attributes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(attributes, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +167,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_bookmark_list_get_type.invokeExact();
@@ -194,38 +176,40 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BookmarkList.Builder} object constructs a {@link BookmarkList} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BookmarkList.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link BookmarkList.Build} object constructs a {@link BookmarkList} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BookmarkList} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BookmarkList} using {@link BookmarkList#castFrom}.
+         * {@link BookmarkList}.
          * @return A new instance of {@code BookmarkList} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BookmarkList construct() {
-            return BookmarkList.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BookmarkList.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BookmarkList build() {
+            return (BookmarkList) org.gtk.gobject.GObject.newWithProperties(
+                BookmarkList.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -234,7 +218,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param attributes The value for the {@code attributes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttributes(java.lang.String attributes) {
+        public Builder setAttributes(java.lang.String attributes) {
             names.add("attributes");
             values.add(org.gtk.gobject.Value.create(attributes));
             return this;
@@ -245,7 +229,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param filename The value for the {@code filename} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFilename(java.lang.String filename) {
+        public Builder setFilename(java.lang.String filename) {
             names.add("filename");
             values.add(org.gtk.gobject.Value.create(filename));
             return this;
@@ -256,7 +240,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param ioPriority The value for the {@code io-priority} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIoPriority(int ioPriority) {
+        public Builder setIoPriority(int ioPriority) {
             names.add("io-priority");
             values.add(org.gtk.gobject.Value.create(ioPriority));
             return this;
@@ -267,7 +251,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -278,7 +262,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param loading The value for the {@code loading} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoading(boolean loading) {
+        public Builder setLoading(boolean loading) {
             names.add("loading");
             values.add(org.gtk.gobject.Value.create(loading));
             return this;
@@ -289,7 +273,7 @@ public class BookmarkList extends org.gtk.gobject.Object implements org.gtk.gio.
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;

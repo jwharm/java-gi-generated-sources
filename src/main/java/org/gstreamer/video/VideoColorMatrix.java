@@ -75,7 +75,7 @@ public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
      * @param value a ITU-T H.273 matrix coefficients value
      * @return the matched {@link VideoColorMatrix}
      */
-    public static @NotNull org.gstreamer.video.VideoColorMatrix fromIso(int value) {
+    public static org.gstreamer.video.VideoColorMatrix fromIso(int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_color_matrix_from_iso.invokeExact(
@@ -114,11 +114,8 @@ public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
      * @return TRUE if {@code matrix} was a YUV color format and {@code Kr} and {@code Kb} contain valid
      *    values.
      */
-    public static boolean getKrKb(@NotNull org.gstreamer.video.VideoColorMatrix matrix, Out<Double> Kr, Out<Double> Kb) {
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
-        java.util.Objects.requireNonNull(Kr, "Parameter 'Kr' must not be null");
+    public static boolean getKrKb(org.gstreamer.video.VideoColorMatrix matrix, Out<Double> Kr, Out<Double> Kb) {
         MemorySegment KrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(Kb, "Parameter 'Kb' must not be null");
         MemorySegment KbPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -131,7 +128,7 @@ public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
         }
         Kr.set(KrPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         Kb.set(KbPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -142,8 +139,7 @@ public enum VideoColorMatrix implements io.github.jwharm.javagi.Enumeration {
      * @param matrix a {@link VideoColorMatrix}
      * @return The value of ISO/IEC 23001-8 matrix coefficients.
      */
-    public static int toIso(@NotNull org.gstreamer.video.VideoColorMatrix matrix) {
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
+    public static int toIso(org.gstreamer.video.VideoColorMatrix matrix) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_color_matrix_to_iso.invokeExact(

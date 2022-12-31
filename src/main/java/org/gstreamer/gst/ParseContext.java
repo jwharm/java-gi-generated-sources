@@ -43,13 +43,15 @@ public class ParseContext extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ParseContext(Addressable address, Ownership ownership) {
+    protected ParseContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ParseContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ParseContext(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_parse_context_new.invokeExact();
         } catch (Throwable ERR) {
@@ -80,7 +82,7 @@ public class ParseContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.ParseContext(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.ParseContext.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

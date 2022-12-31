@@ -93,17 +93,15 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     private static final java.lang.String C_TYPE_NAME = "GtkGrid";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -111,40 +109,26 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * <p>
      * Because Grid is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Grid(Addressable address, Ownership ownership) {
+    protected Grid(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Grid if its GType is a (or inherits from) "GtkGrid".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Grid} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkGrid", a ClassCastException will be thrown.
-     */
-    public static Grid castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Grid.getType())) {
-            return new Grid(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkGrid");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Grid> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Grid(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_grid_new.invokeExact();
         } catch (Throwable ERR) {
@@ -172,8 +156,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * @param width the number of columns that {@code child} will span
      * @param height the number of rows that {@code child} will span
      */
-    public void attach(@NotNull org.gtk.gtk.Widget child, int column, int row, int width, int height) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void attach(org.gtk.gtk.Widget child, int column, int row, int width, int height) {
         try {
             DowncallHandles.gtk_grid_attach.invokeExact(
                     handle(),
@@ -204,9 +187,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * @param width the number of columns that {@code child} will span
      * @param height the number of rows that {@code child} will span
      */
-    public void attachNextTo(@NotNull org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling, @NotNull org.gtk.gtk.PositionType side, int width, int height) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
+    public void attachNextTo(org.gtk.gtk.Widget child, @Nullable org.gtk.gtk.Widget sibling, org.gtk.gtk.PositionType side, int width, int height) {
         try {
             DowncallHandles.gtk_grid_attach_next_to.invokeExact(
                     handle(),
@@ -252,7 +233,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -267,7 +248,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -292,7 +273,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * @param row a row index
      * @return the baseline position of {@code row}
      */
-    public @NotNull org.gtk.gtk.BaselinePosition getRowBaselinePosition(int row) {
+    public org.gtk.gtk.BaselinePosition getRowBaselinePosition(int row) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_grid_get_row_baseline_position.invokeExact(
@@ -316,7 +297,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -363,9 +344,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      *   placed next to
      * @param side the side of {@code sibling} that {@code child} is positioned next to
      */
-    public void insertNextTo(@NotNull org.gtk.gtk.Widget sibling, @NotNull org.gtk.gtk.PositionType side) {
-        java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
-        java.util.Objects.requireNonNull(side, "Parameter 'side' must not be null");
+    public void insertNextTo(org.gtk.gtk.Widget sibling, org.gtk.gtk.PositionType side) {
         try {
             DowncallHandles.gtk_grid_insert_next_to.invokeExact(
                     handle(),
@@ -402,31 +381,26 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * @param width the number of columns {@code child} spans
      * @param height the number of rows {@code child} spans
      */
-    public void queryChild(@NotNull org.gtk.gtk.Widget child, Out<Integer> column, Out<Integer> row, Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(column, "Parameter 'column' must not be null");
+    public void queryChild(org.gtk.gtk.Widget child, Out<Integer> column, Out<Integer> row, Out<Integer> width, Out<Integer> height) {
         MemorySegment columnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(row, "Parameter 'row' must not be null");
         MemorySegment rowPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_grid_query_child.invokeExact(
                     handle(),
                     child.handle(),
-                    (Addressable) columnPOINTER.address(),
-                    (Addressable) rowPOINTER.address(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (column == null ? MemoryAddress.NULL : (Addressable) columnPOINTER.address()),
+                    (Addressable) (row == null ? MemoryAddress.NULL : (Addressable) rowPOINTER.address()),
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        column.set(columnPOINTER.get(Interop.valueLayout.C_INT, 0));
-        row.set(rowPOINTER.get(Interop.valueLayout.C_INT, 0));
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (column != null) column.set(columnPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (row != null) row.set(rowPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -436,8 +410,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * {@link Grid#attach} or {@link Grid#attachNextTo}.
      * @param child the child widget to remove
      */
-    public void remove(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void remove(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.gtk_grid_remove.invokeExact(
                     handle(),
@@ -511,7 +484,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         try {
             DowncallHandles.gtk_grid_set_column_homogeneous.invokeExact(
                     handle(),
-                    homogeneous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(homogeneous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -539,8 +512,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * @param row a row index
      * @param pos a {@code GtkBaselinePosition}
      */
-    public void setRowBaselinePosition(int row, @NotNull org.gtk.gtk.BaselinePosition pos) {
-        java.util.Objects.requireNonNull(pos, "Parameter 'pos' must not be null");
+    public void setRowBaselinePosition(int row, org.gtk.gtk.BaselinePosition pos) {
         try {
             DowncallHandles.gtk_grid_set_row_baseline_position.invokeExact(
                     handle(),
@@ -559,7 +531,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         try {
             DowncallHandles.gtk_grid_set_row_homogeneous.invokeExact(
                     handle(),
-                    homogeneous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(homogeneous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -583,7 +555,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_grid_get_type.invokeExact();
@@ -592,38 +564,40 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Grid.Builder} object constructs a {@link Grid} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Grid.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Grid.Build} object constructs a {@link Grid} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Grid} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Grid} using {@link Grid#castFrom}.
+         * {@link Grid}.
          * @return A new instance of {@code Grid} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Grid construct() {
-            return Grid.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Grid.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Grid build() {
+            return (Grid) org.gtk.gobject.GObject.newWithProperties(
+                Grid.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -632,7 +606,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param baselineRow The value for the {@code baseline-row} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBaselineRow(int baselineRow) {
+        public Builder setBaselineRow(int baselineRow) {
             names.add("baseline-row");
             values.add(org.gtk.gobject.Value.create(baselineRow));
             return this;
@@ -643,7 +617,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param columnHomogeneous The value for the {@code column-homogeneous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColumnHomogeneous(boolean columnHomogeneous) {
+        public Builder setColumnHomogeneous(boolean columnHomogeneous) {
             names.add("column-homogeneous");
             values.add(org.gtk.gobject.Value.create(columnHomogeneous));
             return this;
@@ -654,7 +628,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param columnSpacing The value for the {@code column-spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColumnSpacing(int columnSpacing) {
+        public Builder setColumnSpacing(int columnSpacing) {
             names.add("column-spacing");
             values.add(org.gtk.gobject.Value.create(columnSpacing));
             return this;
@@ -665,7 +639,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param rowHomogeneous The value for the {@code row-homogeneous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRowHomogeneous(boolean rowHomogeneous) {
+        public Builder setRowHomogeneous(boolean rowHomogeneous) {
             names.add("row-homogeneous");
             values.add(org.gtk.gobject.Value.create(rowHomogeneous));
             return this;
@@ -676,7 +650,7 @@ public class Grid extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param rowSpacing The value for the {@code row-spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRowSpacing(int rowSpacing) {
+        public Builder setRowSpacing(int rowSpacing) {
             names.add("row-spacing");
             values.add(org.gtk.gobject.Value.create(rowSpacing));
             return this;

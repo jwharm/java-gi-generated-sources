@@ -13,18 +13,16 @@ public class GLOverlayCompositorClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLOverlayCompositorClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.ObjectClass.getMemoryLayout().withName("object_class"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.ObjectClass.getMemoryLayout().withName("object_class"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,9 +42,19 @@ public class GLOverlayCompositorClass extends Struct {
      * Get the value of the field {@code object_class}
      * @return The value of the field {@code object_class}
      */
-    public org.gstreamer.gst.ObjectClass objectClass$get() {
+    public org.gstreamer.gst.ObjectClass getObjectClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("object_class"));
-        return new org.gstreamer.gst.ObjectClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.ObjectClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code object_class}
+     * @param objectClass The new value of the field {@code object_class}
+     */
+    public void setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
     }
     
     /**
@@ -54,46 +62,52 @@ public class GLOverlayCompositorClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLOverlayCompositorClass(Addressable address, Ownership ownership) {
+    protected GLOverlayCompositorClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLOverlayCompositorClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLOverlayCompositorClass(input, ownership);
+    
+    /**
+     * A {@link GLOverlayCompositorClass.Builder} object constructs a {@link GLOverlayCompositorClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLOverlayCompositorClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLOverlayCompositorClass struct;
+        private final GLOverlayCompositorClass struct;
         
-         /**
-         * A {@link GLOverlayCompositorClass.Build} object constructs a {@link GLOverlayCompositorClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLOverlayCompositorClass.allocate();
         }
         
          /**
          * Finish building the {@link GLOverlayCompositorClass} struct.
          * @return A new instance of {@code GLOverlayCompositorClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLOverlayCompositorClass construct() {
+        public GLOverlayCompositorClass build() {
             return struct;
         }
         
-        public Build setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
+        public Builder setObjectClass(org.gstreamer.gst.ObjectClass objectClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("object_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (objectClass == null ? MemoryAddress.NULL : objectClass.handle()));
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

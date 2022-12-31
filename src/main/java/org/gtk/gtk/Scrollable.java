@@ -40,25 +40,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Scrollable extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Scrollable if its GType is a (or inherits from) "GtkScrollable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Scrollable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkScrollable", a ClassCastException will be thrown.
-     */
-    public static Scrollable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Scrollable.getType())) {
-            return new ScrollableImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkScrollable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ScrollableImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ScrollableImpl(input, ownership);
     
     /**
      * Returns the size of a non-scrolling border around the
@@ -70,8 +53,7 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
      * @param border return location for the results
      * @return {@code true} if {@code border} has been set
      */
-    default boolean getBorder(@NotNull org.gtk.gtk.Border border) {
-        java.util.Objects.requireNonNull(border, "Parameter 'border' must not be null");
+    default boolean getBorder(org.gtk.gtk.Border border) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_scrollable_get_border.invokeExact(
@@ -80,7 +62,7 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -95,14 +77,14 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Adjustment) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the horizontal {@code GtkScrollablePolicy}.
      * @return The horizontal {@code GtkScrollablePolicy}.
      */
-    default @NotNull org.gtk.gtk.ScrollablePolicy getHscrollPolicy() {
+    default org.gtk.gtk.ScrollablePolicy getHscrollPolicy() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_scrollable_get_hscroll_policy.invokeExact(
@@ -125,14 +107,14 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Adjustment) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the vertical {@code GtkScrollablePolicy}.
      * @return The vertical {@code GtkScrollablePolicy}.
      */
-    default @NotNull org.gtk.gtk.ScrollablePolicy getVscrollPolicy() {
+    default org.gtk.gtk.ScrollablePolicy getVscrollPolicy() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_scrollable_get_vscroll_policy.invokeExact(
@@ -164,8 +146,7 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
      * below the minimum width or below the natural width.
      * @param policy the horizontal {@code GtkScrollablePolicy}
      */
-    default void setHscrollPolicy(@NotNull org.gtk.gtk.ScrollablePolicy policy) {
-        java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
+    default void setHscrollPolicy(org.gtk.gtk.ScrollablePolicy policy) {
         try {
             DowncallHandles.gtk_scrollable_set_hscroll_policy.invokeExact(
                     handle(),
@@ -196,8 +177,7 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
      * below the minimum height or below the natural height.
      * @param policy the vertical {@code GtkScrollablePolicy}
      */
-    default void setVscrollPolicy(@NotNull org.gtk.gtk.ScrollablePolicy policy) {
-        java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
+    default void setVscrollPolicy(org.gtk.gtk.ScrollablePolicy policy) {
         try {
             DowncallHandles.gtk_scrollable_set_vscroll_policy.invokeExact(
                     handle(),
@@ -211,7 +191,7 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_scrollable_get_type.invokeExact();
@@ -295,7 +275,7 @@ public interface Scrollable extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class ScrollableImpl extends org.gtk.gobject.Object implements Scrollable {
+    class ScrollableImpl extends org.gtk.gobject.GObject implements Scrollable {
         
         static {
             Gtk.javagi$ensureInitialized();

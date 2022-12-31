@@ -42,11 +42,15 @@ public class TypeFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public TypeFlags or(TypeFlags mask) {
-        return new TypeFlags(this.getValue() | mask.getValue());
+    public TypeFlags or(TypeFlags... masks) {
+        int value = this.getValue();
+        for (TypeFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new TypeFlags(value);
     }
     
     /**
@@ -56,7 +60,8 @@ public class TypeFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static TypeFlags combined(TypeFlags mask, TypeFlags... masks) {
-        int value = mask.getValue();        for (TypeFlags arg : masks) {
+        int value = mask.getValue();
+        for (TypeFlags arg : masks) {
             value |= arg.getValue();
         }
         return new TypeFlags(value);

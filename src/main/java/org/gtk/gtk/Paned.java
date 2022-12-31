@@ -94,41 +94,26 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * Because Paned is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Paned(Addressable address, Ownership ownership) {
+    protected Paned(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Paned if its GType is a (or inherits from) "GtkPaned".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Paned} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPaned", a ClassCastException will be thrown.
-     */
-    public static Paned castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Paned.getType())) {
-            return new Paned(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPaned");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Paned> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Paned(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gtk.Orientation orientation) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_paned_new.invokeExact(
                     orientation.getValue());
@@ -142,7 +127,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Creates a new {@code GtkPaned} widget.
      * @param orientation the paned’s orientation.
      */
-    public Paned(@NotNull org.gtk.gtk.Orientation orientation) {
+    public Paned(org.gtk.gtk.Orientation orientation) {
         super(constructNew(orientation), Ownership.NONE);
     }
     
@@ -158,7 +143,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -188,7 +173,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -203,7 +188,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -218,7 +203,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -233,7 +218,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -248,7 +233,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -263,7 +248,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -305,7 +290,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_paned_set_resize_end_child.invokeExact(
                     handle(),
-                    resize ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(resize, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -319,7 +304,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_paned_set_resize_start_child.invokeExact(
                     handle(),
-                    resize ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(resize, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,7 +318,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_paned_set_shrink_end_child.invokeExact(
                     handle(),
-                    resize ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(resize, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -347,7 +332,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_paned_set_shrink_start_child.invokeExact(
                     handle(),
-                    resize ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(resize, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,7 +362,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_paned_set_wide_handle.invokeExact(
                     handle(),
-                    wide ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(wide, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -387,7 +372,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_paned_get_type.invokeExact();
@@ -399,7 +384,19 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface AcceptPosition {
-        boolean signalReceived(Paned sourcePaned);
+        boolean run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourcePaned) {
+            var RESULT = run();
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AcceptPosition.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -416,16 +413,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Paned.AcceptPosition> onAcceptPosition(Paned.AcceptPosition handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("accept-position"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedAcceptPosition",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Paned.AcceptPosition>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("accept-position"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -433,7 +422,19 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface CancelPosition {
-        boolean signalReceived(Paned sourcePaned);
+        boolean run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourcePaned) {
+            var RESULT = run();
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CancelPosition.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -452,16 +453,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Paned.CancelPosition> onCancelPosition(Paned.CancelPosition handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("cancel-position"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedCancelPosition",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Paned.CancelPosition>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("cancel-position"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -469,7 +462,19 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface CycleChildFocus {
-        boolean signalReceived(Paned sourcePaned, boolean reversed);
+        boolean run(boolean reversed);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourcePaned, int reversed) {
+            var RESULT = run(Marshal.integerToBoolean.marshal(reversed, null).booleanValue());
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CycleChildFocus.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -484,16 +489,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Paned.CycleChildFocus> onCycleChildFocus(Paned.CycleChildFocus handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("cycle-child-focus"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedCycleChildFocus",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Paned.CycleChildFocus>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("cycle-child-focus"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -501,7 +498,19 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface CycleHandleFocus {
-        boolean signalReceived(Paned sourcePaned, boolean reversed);
+        boolean run(boolean reversed);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourcePaned, int reversed) {
+            var RESULT = run(Marshal.integerToBoolean.marshal(reversed, null).booleanValue());
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CycleHandleFocus.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -517,16 +526,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Paned.CycleHandleFocus> onCycleHandleFocus(Paned.CycleHandleFocus handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("cycle-handle-focus"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedCycleHandleFocus",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Paned.CycleHandleFocus>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("cycle-handle-focus"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -534,7 +535,19 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface MoveHandle {
-        boolean signalReceived(Paned sourcePaned, @NotNull org.gtk.gtk.ScrollType scrollType);
+        boolean run(org.gtk.gtk.ScrollType scrollType);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourcePaned, int scrollType) {
+            var RESULT = run(org.gtk.gtk.ScrollType.of(scrollType));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveHandle.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -547,16 +560,8 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Paned.MoveHandle> onMoveHandle(Paned.MoveHandle handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-handle"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedMoveHandle",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Paned.MoveHandle>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-handle"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -564,7 +569,19 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ToggleHandleFocus {
-        boolean signalReceived(Paned sourcePaned);
+        boolean run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourcePaned) {
+            var RESULT = run();
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleHandleFocus.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -580,52 +597,46 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Paned.ToggleHandleFocus> onToggleHandleFocus(Paned.ToggleHandleFocus handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("toggle-handle-focus"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Paned.Callbacks.class, "signalPanedToggleHandleFocus",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Paned.ToggleHandleFocus>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("toggle-handle-focus"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Paned.Builder} object constructs a {@link Paned} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Paned.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Paned.Build} object constructs a {@link Paned} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Paned} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Paned} using {@link Paned#castFrom}.
+         * {@link Paned}.
          * @return A new instance of {@code Paned} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Paned construct() {
-            return Paned.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Paned.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Paned build() {
+            return (Paned) org.gtk.gobject.GObject.newWithProperties(
+                Paned.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -634,7 +645,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param endChild The value for the {@code end-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEndChild(org.gtk.gtk.Widget endChild) {
+        public Builder setEndChild(org.gtk.gtk.Widget endChild) {
             names.add("end-child");
             values.add(org.gtk.gobject.Value.create(endChild));
             return this;
@@ -649,7 +660,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param maxPosition The value for the {@code max-position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxPosition(int maxPosition) {
+        public Builder setMaxPosition(int maxPosition) {
             names.add("max-position");
             values.add(org.gtk.gobject.Value.create(maxPosition));
             return this;
@@ -664,7 +675,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param minPosition The value for the {@code min-position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMinPosition(int minPosition) {
+        public Builder setMinPosition(int minPosition) {
             names.add("min-position");
             values.add(org.gtk.gobject.Value.create(minPosition));
             return this;
@@ -675,7 +686,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param position The value for the {@code position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPosition(int position) {
+        public Builder setPosition(int position) {
             names.add("position");
             values.add(org.gtk.gobject.Value.create(position));
             return this;
@@ -686,7 +697,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param positionSet The value for the {@code position-set} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPositionSet(boolean positionSet) {
+        public Builder setPositionSet(boolean positionSet) {
             names.add("position-set");
             values.add(org.gtk.gobject.Value.create(positionSet));
             return this;
@@ -698,7 +709,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param resizeEndChild The value for the {@code resize-end-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setResizeEndChild(boolean resizeEndChild) {
+        public Builder setResizeEndChild(boolean resizeEndChild) {
             names.add("resize-end-child");
             values.add(org.gtk.gobject.Value.create(resizeEndChild));
             return this;
@@ -710,7 +721,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param resizeStartChild The value for the {@code resize-start-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setResizeStartChild(boolean resizeStartChild) {
+        public Builder setResizeStartChild(boolean resizeStartChild) {
             names.add("resize-start-child");
             values.add(org.gtk.gobject.Value.create(resizeStartChild));
             return this;
@@ -722,7 +733,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param shrinkEndChild The value for the {@code shrink-end-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShrinkEndChild(boolean shrinkEndChild) {
+        public Builder setShrinkEndChild(boolean shrinkEndChild) {
             names.add("shrink-end-child");
             values.add(org.gtk.gobject.Value.create(shrinkEndChild));
             return this;
@@ -734,7 +745,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param shrinkStartChild The value for the {@code shrink-start-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShrinkStartChild(boolean shrinkStartChild) {
+        public Builder setShrinkStartChild(boolean shrinkStartChild) {
             names.add("shrink-start-child");
             values.add(org.gtk.gobject.Value.create(shrinkStartChild));
             return this;
@@ -745,7 +756,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param startChild The value for the {@code start-child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStartChild(org.gtk.gtk.Widget startChild) {
+        public Builder setStartChild(org.gtk.gtk.Widget startChild) {
             names.add("start-child");
             values.add(org.gtk.gobject.Value.create(startChild));
             return this;
@@ -759,7 +770,7 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param wideHandle The value for the {@code wide-handle} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWideHandle(boolean wideHandle) {
+        public Builder setWideHandle(boolean wideHandle) {
             names.add("wide-handle");
             values.add(org.gtk.gobject.Value.create(wideHandle));
             return this;
@@ -875,44 +886,5 @@ public class Paned extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalPanedAcceptPosition(MemoryAddress sourcePaned, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Paned.AcceptPosition) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE));
-        }
-        
-        public static boolean signalPanedCancelPosition(MemoryAddress sourcePaned, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Paned.CancelPosition) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE));
-        }
-        
-        public static boolean signalPanedCycleChildFocus(MemoryAddress sourcePaned, int reversed, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Paned.CycleChildFocus) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE), reversed != 0);
-        }
-        
-        public static boolean signalPanedCycleHandleFocus(MemoryAddress sourcePaned, int reversed, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Paned.CycleHandleFocus) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE), reversed != 0);
-        }
-        
-        public static boolean signalPanedMoveHandle(MemoryAddress sourcePaned, int scrollType, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Paned.MoveHandle) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE), org.gtk.gtk.ScrollType.of(scrollType));
-        }
-        
-        public static boolean signalPanedToggleHandleFocus(MemoryAddress sourcePaned, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Paned.ToggleHandleFocus) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Paned(sourcePaned, Ownership.NONE));
-        }
     }
 }

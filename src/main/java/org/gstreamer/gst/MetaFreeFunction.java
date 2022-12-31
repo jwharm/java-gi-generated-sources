@@ -10,5 +10,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface MetaFreeFunction {
-        void onMetaFreeFunction(@NotNull org.gstreamer.gst.Meta meta, @NotNull org.gstreamer.gst.Buffer buffer);
+    void run(org.gstreamer.gst.Meta meta, org.gstreamer.gst.Buffer buffer);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress meta, MemoryAddress buffer) {
+        run(org.gstreamer.gst.Meta.fromAddress.marshal(meta, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MetaFreeFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

@@ -40,8 +40,10 @@ public class ImageUsageFlags extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ImageUsageFlags(Addressable address, Ownership ownership) {
+    protected ImageUsageFlags(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ImageUsageFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ImageUsageFlags(input, ownership);
 }

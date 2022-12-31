@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * interface that can be used as a proxy for an action group
  * that is exported over D-Bus with g_dbus_connection_export_action_group().
  */
-public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.gio.ActionGroup, org.gtk.gio.RemoteActionGroup {
+public class DBusActionGroup extends org.gtk.gobject.GObject implements org.gtk.gio.ActionGroup, org.gtk.gio.RemoteActionGroup {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -32,36 +32,18 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusActionGroup(Addressable address, Ownership ownership) {
+    protected DBusActionGroup(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DBusActionGroup if its GType is a (or inherits from) "GDBusActionGroup".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DBusActionGroup} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDBusActionGroup", a ClassCastException will be thrown.
-     */
-    public static DBusActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusActionGroup.getType())) {
-            return new DBusActionGroup(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusActionGroup");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusActionGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusActionGroup(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dbus_action_group_get_type.invokeExact();
@@ -91,52 +73,52 @@ public class DBusActionGroup extends org.gtk.gobject.Object implements org.gtk.g
      * @param objectPath the object path at which the action group is exported
      * @return a {@link DBusActionGroup}
      */
-    public static @NotNull org.gtk.gio.DBusActionGroup get(@NotNull org.gtk.gio.DBusConnection connection, @Nullable java.lang.String busName, @NotNull java.lang.String objectPath) {
-        java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
+    public static org.gtk.gio.DBusActionGroup get(org.gtk.gio.DBusConnection connection, @Nullable java.lang.String busName, java.lang.String objectPath) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_action_group_get.invokeExact(
                     connection.handle(),
-                    (Addressable) (busName == null ? MemoryAddress.NULL : Interop.allocateNativeString(busName)),
-                    Interop.allocateNativeString(objectPath));
+                    (Addressable) (busName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(busName, null)),
+                    Marshal.stringToAddress.marshal(objectPath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusActionGroup(RESULT, Ownership.FULL);
+        return (org.gtk.gio.DBusActionGroup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusActionGroup.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link DBusActionGroup.Builder} object constructs a {@link DBusActionGroup} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DBusActionGroup.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DBusActionGroup.Build} object constructs a {@link DBusActionGroup} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DBusActionGroup} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DBusActionGroup} using {@link DBusActionGroup#castFrom}.
+         * {@link DBusActionGroup}.
          * @return A new instance of {@code DBusActionGroup} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusActionGroup construct() {
-            return DBusActionGroup.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DBusActionGroup.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DBusActionGroup build() {
+            return (DBusActionGroup) org.gtk.gobject.GObject.newWithProperties(
+                DBusActionGroup.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

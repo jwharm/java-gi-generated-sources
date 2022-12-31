@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * An opaque object representing an iterator which points to a
  * certain position in an animation.
  */
-public class PixbufAnimationIter extends org.gtk.gobject.Object {
+public class PixbufAnimationIter extends org.gtk.gobject.GObject {
     
     static {
         GdkPixbuf.javagi$ensureInitialized();
@@ -17,17 +17,15 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GdkPixbufAnimationIter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -35,30 +33,12 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PixbufAnimationIter(Addressable address, Ownership ownership) {
+    protected PixbufAnimationIter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PixbufAnimationIter if its GType is a (or inherits from) "GdkPixbufAnimationIter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PixbufAnimationIter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkPixbufAnimationIter", a ClassCastException will be thrown.
-     */
-    public static PixbufAnimationIter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PixbufAnimationIter.getType())) {
-            return new PixbufAnimationIter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkPixbufAnimationIter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PixbufAnimationIter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufAnimationIter(input, ownership);
     
     /**
      * Possibly advances an animation to a new frame.
@@ -94,7 +74,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -138,7 +118,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
      * recycled as you advance the iterator.
      * @return the pixbuf to be displayed
      */
-    public @NotNull org.gtk.gdkpixbuf.Pixbuf getPixbuf() {
+    public org.gtk.gdkpixbuf.Pixbuf getPixbuf() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_animation_iter_get_pixbuf.invokeExact(
@@ -146,7 +126,7 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdkpixbuf.Pixbuf(RESULT, Ownership.NONE);
+        return (org.gtk.gdkpixbuf.Pixbuf) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdkpixbuf.Pixbuf.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -166,14 +146,14 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_pixbuf_animation_iter_get_type.invokeExact();
@@ -182,38 +162,40 @@ public class PixbufAnimationIter extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PixbufAnimationIter.Builder} object constructs a {@link PixbufAnimationIter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PixbufAnimationIter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PixbufAnimationIter.Build} object constructs a {@link PixbufAnimationIter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PixbufAnimationIter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PixbufAnimationIter} using {@link PixbufAnimationIter#castFrom}.
+         * {@link PixbufAnimationIter}.
          * @return A new instance of {@code PixbufAnimationIter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PixbufAnimationIter construct() {
-            return PixbufAnimationIter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PixbufAnimationIter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PixbufAnimationIter build() {
+            return (PixbufAnimationIter) org.gtk.gobject.GObject.newWithProperties(
+                PixbufAnimationIter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

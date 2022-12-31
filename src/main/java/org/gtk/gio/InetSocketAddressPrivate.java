@@ -40,8 +40,10 @@ public class InetSocketAddressPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InetSocketAddressPrivate(Addressable address, Ownership ownership) {
+    protected InetSocketAddressPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InetSocketAddressPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InetSocketAddressPrivate(input, ownership);
 }

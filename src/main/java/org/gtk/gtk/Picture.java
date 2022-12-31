@@ -71,40 +71,26 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * <p>
      * Because Picture is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Picture(Addressable address, Ownership ownership) {
+    protected Picture(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Picture if its GType is a (or inherits from) "GtkPicture".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Picture} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPicture", a ClassCastException will be thrown.
-     */
-    public static Picture castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Picture.getType())) {
-            return new Picture(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPicture");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Picture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Picture(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_picture_new.invokeExact();
         } catch (Throwable ERR) {
@@ -120,8 +106,8 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewForFile(@Nullable org.gtk.gio.File file) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForFile(@Nullable org.gtk.gio.File file) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_picture_new_for_file.invokeExact(
                     (Addressable) (file == null ? MemoryAddress.NULL : file.handle()));
@@ -144,14 +130,15 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return a new {@code GtkPicture}
      */
     public static Picture newForFile(@Nullable org.gtk.gio.File file) {
-        return new Picture(constructNewForFile(file), Ownership.NONE);
+        var RESULT = constructNewForFile(file);
+        return (org.gtk.gtk.Picture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Picture.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewForFilename(@Nullable java.lang.String filename) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForFilename(@Nullable java.lang.String filename) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_picture_new_for_filename.invokeExact(
-                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)));
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(filename, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -167,11 +154,12 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return a new {@code GtkPicture}
      */
     public static Picture newForFilename(@Nullable java.lang.String filename) {
-        return new Picture(constructNewForFilename(filename), Ownership.NONE);
+        var RESULT = constructNewForFilename(filename);
+        return (org.gtk.gtk.Picture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Picture.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewForPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_picture_new_for_paintable.invokeExact(
                     (Addressable) (paintable == null ? MemoryAddress.NULL : paintable.handle()));
@@ -190,11 +178,12 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return a new {@code GtkPicture}
      */
     public static Picture newForPaintable(@Nullable org.gtk.gdk.Paintable paintable) {
-        return new Picture(constructNewForPaintable(paintable), Ownership.NONE);
+        var RESULT = constructNewForPaintable(paintable);
+        return (org.gtk.gtk.Picture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Picture.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewForPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_picture_new_for_pixbuf.invokeExact(
                     (Addressable) (pixbuf == null ? MemoryAddress.NULL : pixbuf.handle()));
@@ -215,14 +204,15 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return a new {@code GtkPicture}
      */
     public static Picture newForPixbuf(@Nullable org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        return new Picture(constructNewForPixbuf(pixbuf), Ownership.NONE);
+        var RESULT = constructNewForPixbuf(pixbuf);
+        return (org.gtk.gtk.Picture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Picture.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewForResource(@Nullable java.lang.String resourcePath) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewForResource(@Nullable java.lang.String resourcePath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_picture_new_for_resource.invokeExact(
-                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(resourcePath, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +228,8 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * @return a new {@code GtkPicture}
      */
     public static Picture newForResource(@Nullable java.lang.String resourcePath) {
-        return new Picture(constructNewForResource(resourcePath), Ownership.NONE);
+        var RESULT = constructNewForResource(resourcePath);
+        return (org.gtk.gtk.Picture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Picture.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -255,7 +246,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -270,7 +261,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -279,7 +270,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * See {@code Gtk.ContentFit} for details.
      * @return the content fit mode
      */
-    public @NotNull org.gtk.gtk.ContentFit getContentFit() {
+    public org.gtk.gtk.ContentFit getContentFit() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_picture_get_content_fit.invokeExact(
@@ -305,7 +296,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -324,7 +315,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -339,7 +330,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -356,7 +347,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_picture_set_alternative_text.invokeExact(
                     handle(),
-                    (Addressable) (alternativeText == null ? MemoryAddress.NULL : Interop.allocateNativeString(alternativeText)));
+                    (Addressable) (alternativeText == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(alternativeText, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -379,7 +370,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_picture_set_can_shrink.invokeExact(
                     handle(),
-                    canShrink ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(canShrink, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -391,8 +382,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * See {@code Gtk.ContentFit} for details.
      * @param contentFit the content fit mode
      */
-    public void setContentFit(@NotNull org.gtk.gtk.ContentFit contentFit) {
-        java.util.Objects.requireNonNull(contentFit, "Parameter 'contentFit' must not be null");
+    public void setContentFit(org.gtk.gtk.ContentFit contentFit) {
         try {
             DowncallHandles.gtk_picture_set_content_fit.invokeExact(
                     handle(),
@@ -428,7 +418,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_picture_set_filename.invokeExact(
                     handle(),
-                    (Addressable) (filename == null ? MemoryAddress.NULL : Interop.allocateNativeString(filename)));
+                    (Addressable) (filename == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(filename, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -454,7 +444,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_picture_set_keep_aspect_ratio.invokeExact(
                     handle(),
-                    keepAspectRatio ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(keepAspectRatio, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -507,7 +497,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         try {
             DowncallHandles.gtk_picture_set_resource.invokeExact(
                     handle(),
-                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Interop.allocateNativeString(resourcePath)));
+                    (Addressable) (resourcePath == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(resourcePath, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -517,7 +507,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_picture_get_type.invokeExact();
@@ -526,38 +516,40 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Picture.Builder} object constructs a {@link Picture} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Picture.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Picture.Build} object constructs a {@link Picture} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Picture} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Picture} using {@link Picture#castFrom}.
+         * {@link Picture}.
          * @return A new instance of {@code Picture} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Picture construct() {
-            return Picture.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Picture.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Picture build() {
+            return (Picture) org.gtk.gobject.GObject.newWithProperties(
+                Picture.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -566,7 +558,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param alternativeText The value for the {@code alternative-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAlternativeText(java.lang.String alternativeText) {
+        public Builder setAlternativeText(java.lang.String alternativeText) {
             names.add("alternative-text");
             values.add(org.gtk.gobject.Value.create(alternativeText));
             return this;
@@ -577,7 +569,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param canShrink The value for the {@code can-shrink} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanShrink(boolean canShrink) {
+        public Builder setCanShrink(boolean canShrink) {
             names.add("can-shrink");
             values.add(org.gtk.gobject.Value.create(canShrink));
             return this;
@@ -588,7 +580,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param contentFit The value for the {@code content-fit} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContentFit(org.gtk.gtk.ContentFit contentFit) {
+        public Builder setContentFit(org.gtk.gtk.ContentFit contentFit) {
             names.add("content-fit");
             values.add(org.gtk.gobject.Value.create(contentFit));
             return this;
@@ -599,7 +591,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param file The value for the {@code file} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFile(org.gtk.gio.File file) {
+        public Builder setFile(org.gtk.gio.File file) {
             names.add("file");
             values.add(org.gtk.gobject.Value.create(file));
             return this;
@@ -611,7 +603,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param keepAspectRatio The value for the {@code keep-aspect-ratio} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKeepAspectRatio(boolean keepAspectRatio) {
+        public Builder setKeepAspectRatio(boolean keepAspectRatio) {
             names.add("keep-aspect-ratio");
             values.add(org.gtk.gobject.Value.create(keepAspectRatio));
             return this;
@@ -622,7 +614,7 @@ public class Picture extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessibl
          * @param paintable The value for the {@code paintable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPaintable(org.gtk.gdk.Paintable paintable) {
+        public Builder setPaintable(org.gtk.gdk.Paintable paintable) {
             names.add("paintable");
             values.add(org.gtk.gobject.Value.create(paintable));
             return this;

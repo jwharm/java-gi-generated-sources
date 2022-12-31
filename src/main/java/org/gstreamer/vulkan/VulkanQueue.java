@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class VulkanQueue extends org.gstreamer.gst.Object {
+public class VulkanQueue extends org.gstreamer.gst.GstObject {
     
     static {
         GstVulkan.javagi$ensureInitialized();
@@ -13,22 +13,20 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanQueue";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("device"),
-        org.vulkan.Queue.getMemoryLayout().withName("queue"),
-        Interop.valueLayout.C_INT.withName("family"),
-        Interop.valueLayout.C_INT.withName("index"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("device"),
+            org.vulkan.Queue.getMemoryLayout().withName("queue"),
+            Interop.valueLayout.C_INT.withName("family"),
+            Interop.valueLayout.C_INT.withName("index"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -36,39 +34,25 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
      * <p>
      * Because VulkanQueue is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanQueue(Addressable address, Ownership ownership) {
+    protected VulkanQueue(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VulkanQueue if its GType is a (or inherits from) "GstVulkanQueue".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VulkanQueue} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVulkanQueue", a ClassCastException will be thrown.
-     */
-    public static VulkanQueue castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VulkanQueue.getType())) {
-            return new VulkanQueue(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVulkanQueue");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanQueue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanQueue(input, ownership);
     
-    public @NotNull org.gstreamer.vulkan.VulkanCommandPool createCommandPool() throws io.github.jwharm.javagi.GErrorException {
+    public org.gstreamer.vulkan.VulkanCommandPool createCommandPool() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -81,10 +65,10 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.vulkan.VulkanCommandPool(RESULT, Ownership.FULL);
+        return (org.gstreamer.vulkan.VulkanCommandPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanCommandPool.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.vulkan.VulkanDevice getDevice() {
+    public org.gstreamer.vulkan.VulkanDevice getDevice() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_queue_get_device.invokeExact(
@@ -92,7 +76,7 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanDevice(RESULT, Ownership.FULL);
+        return (org.gstreamer.vulkan.VulkanDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -126,7 +110,7 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_vulkan_queue_get_type.invokeExact();
@@ -136,8 +120,7 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull java.lang.String flagsToString(@NotNull org.vulkan.QueueFlags queueBits) {
-        java.util.Objects.requireNonNull(queueBits, "Parameter 'queueBits' must not be null");
+    public static java.lang.String flagsToString(org.vulkan.QueueFlags queueBits) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_queue_flags_to_string.invokeExact(
@@ -145,7 +128,7 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -158,9 +141,7 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
      * @param queue the {@link VulkanQueue}
      * @return whether {@code query} was responded to with {@code queue}
      */
-    public static boolean handleContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Query query, @Nullable org.gstreamer.vulkan.VulkanQueue queue) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public static boolean handleContextQuery(org.gstreamer.gst.Element element, org.gstreamer.gst.Query query, @Nullable org.gstreamer.vulkan.VulkanQueue queue) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_queue_handle_context_query.invokeExact(
@@ -170,7 +151,7 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -180,9 +161,7 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
      * @param queue a {@link VulkanQueue}
      * @return whether {@code queue} contains a valid {@link VulkanQueue}
      */
-    public static boolean runContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull Out<org.gstreamer.vulkan.VulkanQueue> queue) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(queue, "Parameter 'queue' must not be null");
+    public static boolean runContextQuery(org.gstreamer.gst.Element element, Out<org.gstreamer.vulkan.VulkanQueue> queue) {
         MemorySegment queuePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -192,41 +171,43 @@ public class VulkanQueue extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        queue.set(new org.gstreamer.vulkan.VulkanQueue(queuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        queue.set((org.gstreamer.vulkan.VulkanQueue) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(queuePOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.vulkan.VulkanQueue.fromAddress).marshal(queuePOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link VulkanQueue.Builder} object constructs a {@link VulkanQueue} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VulkanQueue.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link VulkanQueue.Build} object constructs a {@link VulkanQueue} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanQueue} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VulkanQueue} using {@link VulkanQueue#castFrom}.
+         * {@link VulkanQueue}.
          * @return A new instance of {@code VulkanQueue} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanQueue construct() {
-            return VulkanQueue.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VulkanQueue.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VulkanQueue build() {
+            return (VulkanQueue) org.gtk.gobject.GObject.newWithProperties(
+                VulkanQueue.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

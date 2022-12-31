@@ -17,19 +17,17 @@ public class Point3D extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "graphene_point3d_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_FLOAT.withName("x"),
-        Interop.valueLayout.C_FLOAT.withName("y"),
-        Interop.valueLayout.C_FLOAT.withName("z")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_FLOAT.withName("x"),
+            Interop.valueLayout.C_FLOAT.withName("y"),
+            Interop.valueLayout.C_FLOAT.withName("z")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class Point3D extends Struct {
      * Get the value of the field {@code x}
      * @return The value of the field {@code x}
      */
-    public float x$get() {
+    public float getX() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,7 +58,7 @@ public class Point3D extends Struct {
      * Change the value of the field {@code x}
      * @param x The new value of the field {@code x}
      */
-    public void x$set(float x) {
+    public void setX(float x) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("x"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -70,7 +68,7 @@ public class Point3D extends Struct {
      * Get the value of the field {@code y}
      * @return The value of the field {@code y}
      */
-    public float y$get() {
+    public float getY() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,7 +79,7 @@ public class Point3D extends Struct {
      * Change the value of the field {@code y}
      * @param y The new value of the field {@code y}
      */
-    public void y$set(float y) {
+    public void setY(float y) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("y"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -91,7 +89,7 @@ public class Point3D extends Struct {
      * Get the value of the field {@code z}
      * @return The value of the field {@code z}
      */
-    public float z$get() {
+    public float getZ() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("z"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -102,7 +100,7 @@ public class Point3D extends Struct {
      * Change the value of the field {@code z}
      * @param z The new value of the field {@code z}
      */
-    public void z$set(float z) {
+    public void setZ(float z) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("z"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), z);
@@ -113,13 +111,15 @@ public class Point3D extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Point3D(Addressable address, Ownership ownership) {
+    protected Point3D(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructAlloc() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Point3D> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Point3D(input, ownership);
+    
+    private static MemoryAddress constructAlloc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_alloc.invokeExact();
         } catch (Throwable ERR) {
@@ -135,7 +135,8 @@ public class Point3D extends Struct {
      *   allocated by this function.
      */
     public static Point3D alloc() {
-        return new Point3D(constructAlloc(), Ownership.FULL);
+        var RESULT = constructAlloc();
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -144,9 +145,7 @@ public class Point3D extends Struct {
      * @param res return location for the cross
      *   product
      */
-    public void cross(@NotNull org.gtk.graphene.Point3D b, @NotNull org.gtk.graphene.Point3D res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void cross(org.gtk.graphene.Point3D b, org.gtk.graphene.Point3D res) {
         try {
             DowncallHandles.graphene_point3d_cross.invokeExact(
                     handle(),
@@ -164,15 +163,13 @@ public class Point3D extends Struct {
      *   components on the X, Y, and Z axis
      * @return the distance between two points
      */
-    public float distance(@NotNull org.gtk.graphene.Point3D b, @NotNull org.gtk.graphene.Vec3 delta) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(delta, "Parameter 'delta' must not be null");
+    public float distance(org.gtk.graphene.Point3D b, @Nullable org.gtk.graphene.Vec3 delta) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_point3d_distance.invokeExact(
                     handle(),
                     b.handle(),
-                    delta.handle());
+                    (Addressable) (delta == null ? MemoryAddress.NULL : delta.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -184,8 +181,7 @@ public class Point3D extends Struct {
      * @param b a {@link Point3D}
      * @return the value of the dot product
      */
-    public float dot(@NotNull org.gtk.graphene.Point3D b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public float dot(org.gtk.graphene.Point3D b) {
         float RESULT;
         try {
             RESULT = (float) DowncallHandles.graphene_point3d_dot.invokeExact(
@@ -202,8 +198,7 @@ public class Point3D extends Struct {
      * @param b a {@link Point3D}
      * @return {@code true} if the points are equal
      */
-    public boolean equal(@NotNull org.gtk.graphene.Point3D b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean equal(org.gtk.graphene.Point3D b) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_point3d_equal.invokeExact(
@@ -234,7 +229,7 @@ public class Point3D extends Struct {
      * @param z the Z coordinate of the point
      * @return the initialized {@link Point3D}
      */
-    public @NotNull org.gtk.graphene.Point3D init(float x, float y, float z) {
+    public org.gtk.graphene.Point3D init(float x, float y, float z) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_init.invokeExact(
@@ -245,7 +240,7 @@ public class Point3D extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point3D(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -254,8 +249,7 @@ public class Point3D extends Struct {
      * @param src a {@link Point3D}
      * @return the initialized point
      */
-    public @NotNull org.gtk.graphene.Point3D initFromPoint(@NotNull org.gtk.graphene.Point3D src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public org.gtk.graphene.Point3D initFromPoint(org.gtk.graphene.Point3D src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_init_from_point.invokeExact(
@@ -264,7 +258,7 @@ public class Point3D extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point3D(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -273,8 +267,7 @@ public class Point3D extends Struct {
      * @param v a {@link Vec3}
      * @return the initialized {@link Point3D}
      */
-    public @NotNull org.gtk.graphene.Point3D initFromVec3(@NotNull org.gtk.graphene.Vec3 v) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+    public org.gtk.graphene.Point3D initFromVec3(org.gtk.graphene.Vec3 v) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_init_from_vec3.invokeExact(
@@ -283,7 +276,7 @@ public class Point3D extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point3D(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -294,9 +287,7 @@ public class Point3D extends Struct {
      * @param res the return location for the
      *   interpolated {@link Point3D}
      */
-    public void interpolate(@NotNull org.gtk.graphene.Point3D b, double factor, @NotNull org.gtk.graphene.Point3D res) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void interpolate(org.gtk.graphene.Point3D b, double factor, org.gtk.graphene.Point3D res) {
         try {
             DowncallHandles.graphene_point3d_interpolate.invokeExact(
                     handle(),
@@ -331,8 +322,7 @@ public class Point3D extends Struct {
      * @param epsilon fuzzyness factor
      * @return {@code true} if the points are near each other
      */
-    public boolean near(@NotNull org.gtk.graphene.Point3D b, float epsilon) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public boolean near(org.gtk.graphene.Point3D b, float epsilon) {
         boolean RESULT;
         try {
             RESULT = (boolean) DowncallHandles.graphene_point3d_near.invokeExact(
@@ -351,8 +341,7 @@ public class Point3D extends Struct {
      * @param res return location for the normalized
      *   {@link Point3D}
      */
-    public void normalize(@NotNull org.gtk.graphene.Point3D res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void normalize(org.gtk.graphene.Point3D res) {
         try {
             DowncallHandles.graphene_point3d_normalize.invokeExact(
                     handle(),
@@ -376,9 +365,7 @@ public class Point3D extends Struct {
      * @param res the return location for the
      *   normalized {@link Point3D}
      */
-    public void normalizeViewport(@NotNull org.gtk.graphene.Rect viewport, float zNear, float zFar, @NotNull org.gtk.graphene.Point3D res) {
-        java.util.Objects.requireNonNull(viewport, "Parameter 'viewport' must not be null");
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void normalizeViewport(org.gtk.graphene.Rect viewport, float zNear, float zFar, org.gtk.graphene.Point3D res) {
         try {
             DowncallHandles.graphene_point3d_normalize_viewport.invokeExact(
                     handle(),
@@ -397,8 +384,7 @@ public class Point3D extends Struct {
      * @param factor the scaling factor
      * @param res return location for the scaled point
      */
-    public void scale(float factor, @NotNull org.gtk.graphene.Point3D res) {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    public void scale(float factor, org.gtk.graphene.Point3D res) {
         try {
             DowncallHandles.graphene_point3d_scale.invokeExact(
                     handle(),
@@ -414,8 +400,7 @@ public class Point3D extends Struct {
      * {@link Vec3}.
      * @param v return location for a {@link Vec3}
      */
-    public void toVec3(@NotNull org.gtk.graphene.Vec3 v) {
-        java.util.Objects.requireNonNull(v, "Parameter 'v' must not be null");
+    public void toVec3(org.gtk.graphene.Vec3 v) {
         try {
             DowncallHandles.graphene_point3d_to_vec3.invokeExact(
                     handle(),
@@ -429,14 +414,14 @@ public class Point3D extends Struct {
      * Retrieves a constant point with all three coordinates set to 0.
      * @return a zero point
      */
-    public static @NotNull org.gtk.graphene.Point3D zero() {
+    public static org.gtk.graphene.Point3D zero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point3D(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -543,31 +528,35 @@ public class Point3D extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Point3D.Builder} object constructs a {@link Point3D} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Point3D.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Point3D struct;
+        private final Point3D struct;
         
-         /**
-         * A {@link Point3D.Build} object constructs a {@link Point3D} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Point3D.allocate();
         }
         
          /**
          * Finish building the {@link Point3D} struct.
          * @return A new instance of {@code Point3D} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Point3D construct() {
+        public Point3D build() {
             return struct;
         }
         
@@ -576,7 +565,7 @@ public class Point3D extends Struct {
          * @param x The value for the {@code x} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setX(float x) {
+        public Builder setX(float x) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("x"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), x);
@@ -588,7 +577,7 @@ public class Point3D extends Struct {
          * @param y The value for the {@code y} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setY(float y) {
+        public Builder setY(float y) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("y"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), y);
@@ -600,7 +589,7 @@ public class Point3D extends Struct {
          * @param z The value for the {@code z} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setZ(float z) {
+        public Builder setZ(float z) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("z"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), z);

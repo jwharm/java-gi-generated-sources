@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * is used to obtain it.
  * @version 2.30
  */
-public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.gio.DBusObject {
+public class DBusObjectProxy extends org.gtk.gobject.GObject implements org.gtk.gio.DBusObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -20,18 +20,16 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
     
     private static final java.lang.String C_TYPE_NAME = "GDBusObjectProxy";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -39,39 +37,19 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusObjectProxy(Addressable address, Ownership ownership) {
+    protected DBusObjectProxy(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DBusObjectProxy if its GType is a (or inherits from) "GDBusObjectProxy".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DBusObjectProxy} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDBusObjectProxy", a ClassCastException will be thrown.
-     */
-    public static DBusObjectProxy castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusObjectProxy.getType())) {
-            return new DBusObjectProxy(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusObjectProxy");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusObjectProxy> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusObjectProxy(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String objectPath) {
-        java.util.Objects.requireNonNull(connection, "Parameter 'connection' must not be null");
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gio.DBusConnection connection, java.lang.String objectPath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_new.invokeExact(
                     connection.handle(),
-                    Interop.allocateNativeString(objectPath));
+                    Marshal.stringToAddress.marshal(objectPath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +62,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
      * @param connection a {@link DBusConnection}
      * @param objectPath the object path
      */
-    public DBusObjectProxy(@NotNull org.gtk.gio.DBusConnection connection, @NotNull java.lang.String objectPath) {
+    public DBusObjectProxy(org.gtk.gio.DBusConnection connection, java.lang.String objectPath) {
         super(constructNew(connection, objectPath), Ownership.FULL);
     }
     
@@ -93,7 +71,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
      * @return A {@link DBusConnection}. Do not free, the
      *   object is owned by {@code proxy}.
      */
-    public @NotNull org.gtk.gio.DBusConnection getConnection() {
+    public org.gtk.gio.DBusConnection getConnection() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_proxy_get_connection.invokeExact(
@@ -101,14 +79,14 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.DBusConnection(RESULT, Ownership.NONE);
+        return (org.gtk.gio.DBusConnection) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.DBusConnection.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dbus_object_proxy_get_type.invokeExact();
@@ -117,38 +95,40 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link DBusObjectProxy.Builder} object constructs a {@link DBusObjectProxy} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DBusObjectProxy.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DBusObjectProxy.Build} object constructs a {@link DBusObjectProxy} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DBusObjectProxy} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DBusObjectProxy} using {@link DBusObjectProxy#castFrom}.
+         * {@link DBusObjectProxy}.
          * @return A new instance of {@code DBusObjectProxy} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusObjectProxy construct() {
-            return DBusObjectProxy.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DBusObjectProxy.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DBusObjectProxy build() {
+            return (DBusObjectProxy) org.gtk.gobject.GObject.newWithProperties(
+                DBusObjectProxy.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -157,7 +137,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
          * @param gConnection The value for the {@code g-connection} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGConnection(org.gtk.gio.DBusConnection gConnection) {
+        public Builder setGConnection(org.gtk.gio.DBusConnection gConnection) {
             names.add("g-connection");
             values.add(org.gtk.gobject.Value.create(gConnection));
             return this;
@@ -168,7 +148,7 @@ public class DBusObjectProxy extends org.gtk.gobject.Object implements org.gtk.g
          * @param gObjectPath The value for the {@code g-object-path} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGObjectPath(java.lang.String gObjectPath) {
+        public Builder setGObjectPath(java.lang.String gObjectPath) {
             names.add("g-object-path");
             values.add(org.gtk.gobject.Value.create(gObjectPath));
             return this;

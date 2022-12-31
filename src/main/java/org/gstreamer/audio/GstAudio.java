@@ -14,7 +14,15 @@ public final class GstAudio {
         System.loadLibrary("gstaudio-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Maximum range of allowed channels, for use in template caps strings.
@@ -252,9 +260,7 @@ public final class GstAudio {
      * If the buffer has no timestamp, it is assumed to be inside the segment and
      * is not clipped
      */
-    public static @NotNull org.gstreamer.gst.Buffer audioBufferClip(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.Segment segment, int rate, int bpf) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(segment, "Parameter 'segment' must not be null");
+    public static org.gstreamer.gst.Buffer audioBufferClip(org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.Segment segment, int rate, int bpf) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_buffer_clip.invokeExact(
@@ -266,7 +272,7 @@ public final class GstAudio {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -300,11 +306,7 @@ public final class GstAudio {
      * @param flags the access mode for the memory
      * @return {@code true} if the map operation succeeded or {@code false} on failure
      */
-    public static boolean audioBufferMap(@NotNull org.gstreamer.audio.AudioBuffer buffer, @NotNull org.gstreamer.audio.AudioInfo info, @NotNull org.gstreamer.gst.Buffer gstbuffer, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(gstbuffer, "Parameter 'gstbuffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean audioBufferMap(org.gstreamer.audio.AudioBuffer buffer, org.gstreamer.audio.AudioInfo info, org.gstreamer.gst.Buffer gstbuffer, org.gstreamer.gst.MapFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_buffer_map.invokeExact(
@@ -315,7 +317,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -330,11 +332,7 @@ public final class GstAudio {
      * @param to The channel positions to convert to.
      * @return {@code true} if the reordering was possible.
      */
-    public static boolean audioBufferReorderChannels(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.audio.AudioFormat format, int channels, @NotNull org.gstreamer.audio.AudioChannelPosition[] from, @NotNull org.gstreamer.audio.AudioChannelPosition[] to) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(from, "Parameter 'from' must not be null");
-        java.util.Objects.requireNonNull(to, "Parameter 'to' must not be null");
+    public static boolean audioBufferReorderChannels(org.gstreamer.gst.Buffer buffer, org.gstreamer.audio.AudioFormat format, int channels, org.gstreamer.audio.AudioChannelPosition[] from, org.gstreamer.audio.AudioChannelPosition[] to) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_buffer_reorder_channels.invokeExact(
@@ -346,7 +344,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -372,8 +370,7 @@ public final class GstAudio {
      * @return the truncated buffer or {@code null} if the arguments
      *   were invalid
      */
-    public static @NotNull org.gstreamer.gst.Buffer audioBufferTruncate(@NotNull org.gstreamer.gst.Buffer buffer, int bpf, long trim, long samples) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gst.Buffer audioBufferTruncate(org.gstreamer.gst.Buffer buffer, int bpf, long trim, long samples) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_buffer_truncate.invokeExact(
@@ -385,7 +382,7 @@ public final class GstAudio {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -418,24 +415,20 @@ public final class GstAudio {
      * @return a new {@link AudioChannelMixer} object, or {@code null} if {@code format} isn't supported.
      *   Free with gst_audio_channel_mixer_free() after usage.
      */
-    public static @NotNull org.gstreamer.audio.AudioChannelMixer audioChannelMixerNew(@NotNull org.gstreamer.audio.AudioChannelMixerFlags flags, @NotNull org.gstreamer.audio.AudioFormat format, int inChannels, @NotNull org.gstreamer.audio.AudioChannelPosition inPosition, int outChannels, @NotNull org.gstreamer.audio.AudioChannelPosition outPosition) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(inPosition, "Parameter 'inPosition' must not be null");
-        java.util.Objects.requireNonNull(outPosition, "Parameter 'outPosition' must not be null");
+    public static org.gstreamer.audio.AudioChannelMixer audioChannelMixerNew(org.gstreamer.audio.AudioChannelMixerFlags flags, org.gstreamer.audio.AudioFormat format, int inChannels, PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> inPosition, int outChannels, PointerEnumeration<org.gstreamer.audio.AudioChannelPosition> outPosition) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_channel_mixer_new.invokeExact(
                     flags.getValue(),
                     format.getValue(),
                     inChannels,
-                    new PointerInteger(inPosition.getValue()).handle(),
+                    inPosition.handle(),
                     outChannels,
-                    new PointerInteger(outPosition.getValue()).handle());
+                    outPosition.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioChannelMixer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioChannelMixer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -450,9 +443,7 @@ public final class GstAudio {
      *   {@code matrix} is invalid, or {@code matrix} is {@code null} and {@code in_channels} != {@code out_channels}.
      *   Free with gst_audio_channel_mixer_free() after usage.
      */
-    public static @NotNull org.gstreamer.audio.AudioChannelMixer audioChannelMixerNewWithMatrix(@NotNull org.gstreamer.audio.AudioChannelMixerFlags flags, @NotNull org.gstreamer.audio.AudioFormat format, int inChannels, int outChannels, PointerFloat matrix) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.audio.AudioChannelMixer audioChannelMixerNewWithMatrix(org.gstreamer.audio.AudioChannelMixerFlags flags, org.gstreamer.audio.AudioFormat format, int inChannels, int outChannels, PointerFloat matrix) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_channel_mixer_new_with_matrix.invokeExact(
@@ -464,7 +455,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioChannelMixer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioChannelMixer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -480,8 +471,7 @@ public final class GstAudio {
      *   {@code GstAudioChannelPosition}&lt;!-- --&gt;s
      * @return {@code true} if channel and channel mask are valid and could be converted
      */
-    public static boolean audioChannelPositionsFromMask(int channels, long channelMask, @NotNull org.gstreamer.audio.AudioChannelPosition[] position) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public static boolean audioChannelPositionsFromMask(int channels, long channelMask, org.gstreamer.audio.AudioChannelPosition[] position) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_channel_positions_from_mask.invokeExact(
@@ -491,7 +481,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -505,22 +495,20 @@ public final class GstAudio {
      * @param channelMask the output channel mask
      * @return {@code true} if the channel positions are valid and could be converted.
      */
-    public static boolean audioChannelPositionsToMask(@NotNull org.gstreamer.audio.AudioChannelPosition[] position, int channels, boolean forceOrder, Out<Long> channelMask) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
-        java.util.Objects.requireNonNull(channelMask, "Parameter 'channelMask' must not be null");
+    public static boolean audioChannelPositionsToMask(org.gstreamer.audio.AudioChannelPosition[] position, int channels, boolean forceOrder, Out<Long> channelMask) {
         MemorySegment channelMaskPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_channel_positions_to_mask.invokeExact(
                     Interop.allocateNativeArray(Enumeration.getValues(position), false),
                     channels,
-                    forceOrder ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(forceOrder, null).intValue(),
                     (Addressable) channelMaskPOINTER.address());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         channelMask.set(channelMaskPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -532,8 +520,7 @@ public final class GstAudio {
      * @return a newly allocated string representing
      * {@code position}
      */
-    public static @NotNull java.lang.String audioChannelPositionsToString(@NotNull org.gstreamer.audio.AudioChannelPosition[] position, int channels) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public static java.lang.String audioChannelPositionsToString(org.gstreamer.audio.AudioChannelPosition[] position, int channels) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_channel_positions_to_string.invokeExact(
@@ -542,7 +529,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -554,8 +541,7 @@ public final class GstAudio {
      * @return {@code true} if the channel positions are valid and reordering
      * was successful.
      */
-    public static boolean audioChannelPositionsToValidOrder(@NotNull org.gstreamer.audio.AudioChannelPosition[] position, int channels) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public static boolean audioChannelPositionsToValidOrder(org.gstreamer.audio.AudioChannelPosition[] position, int channels) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_channel_positions_to_valid_order.invokeExact(
@@ -564,7 +550,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -577,21 +563,20 @@ public final class GstAudio {
      * @param forceOrder Only consider the GStreamer channel order.
      * @return {@code true} if the channel positions are valid.
      */
-    public static boolean audioCheckValidChannelPositions(@NotNull org.gstreamer.audio.AudioChannelPosition[] position, int channels, boolean forceOrder) {
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public static boolean audioCheckValidChannelPositions(org.gstreamer.audio.AudioChannelPosition[] position, int channels, boolean forceOrder) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_check_valid_channel_positions.invokeExact(
                     Interop.allocateNativeArray(Enumeration.getValues(position), false),
                     channels,
-                    forceOrder ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(forceOrder, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Type audioClippingMetaApiGetType() {
+    public static org.gtk.glib.Type audioClippingMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_clipping_meta_api_get_type.invokeExact();
@@ -601,17 +586,17 @@ public final class GstAudio {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo audioClippingMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo audioClippingMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_clipping_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.Type audioDownmixMetaApiGetType() {
+    public static org.gtk.glib.Type audioDownmixMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_downmix_meta_api_get_type.invokeExact();
@@ -621,14 +606,14 @@ public final class GstAudio {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo audioDownmixMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo audioDownmixMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_downmix_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -640,11 +625,11 @@ public final class GstAudio {
      * @return a {@link AudioFormat} or GST_AUDIO_FORMAT_UNKNOWN when no audio format
      * exists with the given parameters.
      */
-    public static @NotNull org.gstreamer.audio.AudioFormat audioFormatBuildInteger(boolean sign, int endianness, int width, int depth) {
+    public static org.gstreamer.audio.AudioFormat audioFormatBuildInteger(boolean sign, int endianness, int width, int depth) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_format_build_integer.invokeExact(
-                    sign ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(sign, null).intValue(),
                     endianness,
                     width,
                     depth);
@@ -663,9 +648,7 @@ public final class GstAudio {
      * @deprecated Use gst_audio_format_info_fill_silence() instead.
      */
     @Deprecated
-    public static void audioFormatFillSilence(@NotNull org.gstreamer.audio.AudioFormatInfo info, @NotNull byte[] dest, long length) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public static void audioFormatFillSilence(org.gstreamer.audio.AudioFormatInfo info, byte[] dest, long length) {
         try {
             DowncallHandles.gst_audio_format_fill_silence.invokeExact(
                     info.handle(),
@@ -682,12 +665,11 @@ public final class GstAudio {
      * @return the {@link AudioFormat} for {@code format} or GST_AUDIO_FORMAT_UNKNOWN when the
      * string is not a known format.
      */
-    public static @NotNull org.gstreamer.audio.AudioFormat audioFormatFromString(@NotNull java.lang.String format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.audio.AudioFormat audioFormatFromString(java.lang.String format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_format_from_string.invokeExact(
-                    Interop.allocateNativeString(format));
+                    Marshal.stringToAddress.marshal(format, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -699,8 +681,7 @@ public final class GstAudio {
      * @param format a {@link AudioFormat}
      * @return The {@link AudioFormatInfo} for {@code format}.
      */
-    public static @NotNull org.gstreamer.audio.AudioFormatInfo audioFormatGetInfo(@NotNull org.gstreamer.audio.AudioFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.audio.AudioFormatInfo audioFormatGetInfo(org.gstreamer.audio.AudioFormat format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_format_get_info.invokeExact(
@@ -708,10 +689,10 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioFormatInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioFormatInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.Type audioFormatInfoGetType() {
+    public static org.gtk.glib.Type audioFormatInfoGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_format_info_get_type.invokeExact();
@@ -721,8 +702,7 @@ public final class GstAudio {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull java.lang.String audioFormatToString(@NotNull org.gstreamer.audio.AudioFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static java.lang.String audioFormatToString(org.gstreamer.audio.AudioFormat format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_format_to_string.invokeExact(
@@ -730,7 +710,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -738,8 +718,7 @@ public final class GstAudio {
      * @param len the number of elements in the returned array
      * @return an array of {@link AudioFormat}
      */
-    public static @NotNull org.gstreamer.audio.AudioFormat[] audioFormatsRaw(Out<Integer> len) {
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
+    public static org.gstreamer.audio.AudioFormat[] audioFormatsRaw(Out<Integer> len) {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -773,10 +752,7 @@ public final class GstAudio {
      * @return {@code true} if the channel positions are valid and reordering
      * is possible.
      */
-    public static boolean audioGetChannelReorderMap(int channels, @NotNull org.gstreamer.audio.AudioChannelPosition[] from, @NotNull org.gstreamer.audio.AudioChannelPosition[] to, @NotNull int[] reorderMap) {
-        java.util.Objects.requireNonNull(from, "Parameter 'from' must not be null");
-        java.util.Objects.requireNonNull(to, "Parameter 'to' must not be null");
-        java.util.Objects.requireNonNull(reorderMap, "Parameter 'reorderMap' must not be null");
+    public static boolean audioGetChannelReorderMap(int channels, org.gstreamer.audio.AudioChannelPosition[] from, org.gstreamer.audio.AudioChannelPosition[] to, int[] reorderMap) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_get_channel_reorder_map.invokeExact(
@@ -787,7 +763,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -797,8 +773,7 @@ public final class GstAudio {
      * @return the size or 0 if the given {@code type} is not supported or cannot be
      * payloaded.
      */
-    public static int audioIec61937FrameSize(@NotNull org.gstreamer.audio.AudioRingBufferSpec spec) {
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
+    public static int audioIec61937FrameSize(org.gstreamer.audio.AudioRingBufferSpec spec) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_iec61937_frame_size.invokeExact(
@@ -823,10 +798,7 @@ public final class GstAudio {
      * @return transfer-full: {@code true} if the payloading was successful, {@code false}
      * otherwise.
      */
-    public static boolean audioIec61937Payload(@NotNull byte[] src, int srcN, @NotNull byte[] dst, int dstN, @NotNull org.gstreamer.audio.AudioRingBufferSpec spec, int endianness) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(dst, "Parameter 'dst' must not be null");
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
+    public static boolean audioIec61937Payload(byte[] src, int srcN, byte[] dst, int dstN, org.gstreamer.audio.AudioRingBufferSpec spec, int endianness) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_iec61937_payload.invokeExact(
@@ -839,7 +811,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -848,9 +820,7 @@ public final class GstAudio {
      * @param caps a {@link org.gstreamer.gst.Caps}
      * @return TRUE if {@code caps} could be parsed
      */
-    public static boolean audioInfoFromCaps(@NotNull org.gstreamer.audio.AudioInfo info, @NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static boolean audioInfoFromCaps(org.gstreamer.audio.AudioInfo info, org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_info_from_caps.invokeExact(
@@ -859,15 +829,14 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Initialize {@code info} with default values.
      * @param info a {@link AudioInfo}
      */
-    public static void audioInfoInit(@NotNull org.gstreamer.audio.AudioInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public static void audioInfoInit(org.gstreamer.audio.AudioInfo info) {
         try {
             DowncallHandles.gst_audio_info_init.invokeExact(
                     info.handle());
@@ -877,10 +846,10 @@ public final class GstAudio {
     }
     
     /**
-     * Return the {@link org.gtk.gobject.Type} associated with {@link AudioLevelMeta}.
-     * @return a {@link org.gtk.gobject.Type}
+     * Return the {@link org.gtk.glib.Type} associated with {@link AudioLevelMeta}.
+     * @return a {@link org.gtk.glib.Type}
      */
-    public static @NotNull org.gtk.glib.Type audioLevelMetaApiGetType() {
+    public static org.gtk.glib.Type audioLevelMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_level_meta_api_get_type.invokeExact();
@@ -894,14 +863,14 @@ public final class GstAudio {
      * Return the {@link org.gstreamer.gst.MetaInfo} associated with {@link AudioLevelMeta}.
      * @return a {@link org.gstreamer.gst.MetaInfo}
      */
-    public static @NotNull org.gstreamer.gst.MetaInfo audioLevelMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo audioLevelMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_level_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -913,8 +882,7 @@ public final class GstAudio {
      * @param layout the layout of audio samples
      * @return an audio {@code GstCaps}
      */
-    public static @NotNull org.gstreamer.gst.Caps audioMakeRawCaps(@Nullable org.gstreamer.audio.AudioFormat[] formats, int len, @NotNull org.gstreamer.audio.AudioLayout layout) {
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    public static org.gstreamer.gst.Caps audioMakeRawCaps(@Nullable org.gstreamer.audio.AudioFormat[] formats, int len, org.gstreamer.audio.AudioLayout layout) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_make_raw_caps.invokeExact(
@@ -924,10 +892,10 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gtk.glib.Type audioMetaApiGetType() {
+    public static org.gtk.glib.Type audioMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_meta_api_get_type.invokeExact();
@@ -937,14 +905,14 @@ public final class GstAudio {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo audioMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo audioMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -963,11 +931,7 @@ public final class GstAudio {
      * @param quantizer the quantizer to use
      * @return a new {@link AudioQuantize}. Free with gst_audio_quantize_free().
      */
-    public static @NotNull org.gstreamer.audio.AudioQuantize audioQuantizeNew(@NotNull org.gstreamer.audio.AudioDitherMethod dither, @NotNull org.gstreamer.audio.AudioNoiseShapingMethod ns, @NotNull org.gstreamer.audio.AudioQuantizeFlags flags, @NotNull org.gstreamer.audio.AudioFormat format, int channels, int quantizer) {
-        java.util.Objects.requireNonNull(dither, "Parameter 'dither' must not be null");
-        java.util.Objects.requireNonNull(ns, "Parameter 'ns' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.audio.AudioQuantize audioQuantizeNew(org.gstreamer.audio.AudioDitherMethod dither, org.gstreamer.audio.AudioNoiseShapingMethod ns, org.gstreamer.audio.AudioQuantizeFlags flags, org.gstreamer.audio.AudioFormat format, int channels, int quantizer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_quantize_new.invokeExact(
@@ -980,7 +944,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioQuantize(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioQuantize.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -998,11 +962,7 @@ public final class GstAudio {
      * @param to The channel positions to convert to.
      * @return {@code true} if the reordering was possible.
      */
-    public static boolean audioReorderChannels(@NotNull byte[] data, long size, @NotNull org.gstreamer.audio.AudioFormat format, int channels, @NotNull org.gstreamer.audio.AudioChannelPosition[] from, @NotNull org.gstreamer.audio.AudioChannelPosition[] to) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(from, "Parameter 'from' must not be null");
-        java.util.Objects.requireNonNull(to, "Parameter 'to' must not be null");
+    public static boolean audioReorderChannels(byte[] data, long size, org.gstreamer.audio.AudioFormat format, int channels, org.gstreamer.audio.AudioChannelPosition[] from, org.gstreamer.audio.AudioChannelPosition[] to) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_reorder_channels.invokeExact(
@@ -1015,7 +975,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1030,11 +990,7 @@ public final class GstAudio {
      * @return The new {@link AudioResampler}, or
      * {@code null} on failure.
      */
-    public static @NotNull org.gstreamer.audio.AudioResampler audioResamplerNew(@NotNull org.gstreamer.audio.AudioResamplerMethod method, @NotNull org.gstreamer.audio.AudioResamplerFlags flags, @NotNull org.gstreamer.audio.AudioFormat format, int channels, int inRate, int outRate, @NotNull org.gstreamer.gst.Structure options) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(options, "Parameter 'options' must not be null");
+    public static org.gstreamer.audio.AudioResampler audioResamplerNew(org.gstreamer.audio.AudioResamplerMethod method, org.gstreamer.audio.AudioResamplerFlags flags, org.gstreamer.audio.AudioFormat format, int channels, int inRate, int outRate, org.gstreamer.gst.Structure options) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_resampler_new.invokeExact(
@@ -1048,7 +1004,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioResampler(RESULT, Ownership.FULL);
+        return org.gstreamer.audio.AudioResampler.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1060,9 +1016,7 @@ public final class GstAudio {
      * @param outRate the output rate
      * @param options a {@link org.gstreamer.gst.Structure}
      */
-    public static void audioResamplerOptionsSetQuality(@NotNull org.gstreamer.audio.AudioResamplerMethod method, int quality, int inRate, int outRate, @NotNull org.gstreamer.gst.Structure options) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(options, "Parameter 'options' must not be null");
+    public static void audioResamplerOptionsSetQuality(org.gstreamer.audio.AudioResamplerMethod method, int quality, int inRate, int outRate, org.gstreamer.gst.Structure options) {
         try {
             DowncallHandles.gst_audio_resampler_options_set_quality.invokeExact(
                     method.getValue(),
@@ -1083,9 +1037,7 @@ public final class GstAudio {
      * @param end Amount of  to clip from end of buffer
      * @return the {@link AudioClippingMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.audio.AudioClippingMeta bufferAddAudioClippingMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.Format format, long start, long end) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.audio.AudioClippingMeta bufferAddAudioClippingMeta(org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.Format format, long start, long end) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_audio_clipping_meta.invokeExact(
@@ -1096,7 +1048,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioClippingMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioClippingMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1116,11 +1068,7 @@ public final class GstAudio {
      * @param matrix The matrix coefficients.
      * @return the {@link AudioDownmixMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.audio.AudioDownmixMeta bufferAddAudioDownmixMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.audio.AudioChannelPosition[] fromPosition, int fromChannels, @NotNull org.gstreamer.audio.AudioChannelPosition[] toPosition, int toChannels, PointerFloat matrix) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(fromPosition, "Parameter 'fromPosition' must not be null");
-        java.util.Objects.requireNonNull(toPosition, "Parameter 'toPosition' must not be null");
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
+    public static org.gstreamer.audio.AudioDownmixMeta bufferAddAudioDownmixMeta(org.gstreamer.gst.Buffer buffer, org.gstreamer.audio.AudioChannelPosition[] fromPosition, int fromChannels, org.gstreamer.audio.AudioChannelPosition[] toPosition, int toChannels, PointerFloat matrix) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_audio_downmix_meta.invokeExact(
@@ -1133,7 +1081,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioDownmixMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioDownmixMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1143,18 +1091,17 @@ public final class GstAudio {
      * @param voiceActivity whether the buffer contains voice activity.
      * @return the {@link AudioLevelMeta} on {@code buffer}.
      */
-    public static @Nullable org.gstreamer.audio.AudioLevelMeta bufferAddAudioLevelMeta(@NotNull org.gstreamer.gst.Buffer buffer, byte level, boolean voiceActivity) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static @Nullable org.gstreamer.audio.AudioLevelMeta bufferAddAudioLevelMeta(org.gstreamer.gst.Buffer buffer, byte level, boolean voiceActivity) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_audio_level_meta.invokeExact(
                     buffer.handle(),
                     level,
-                    voiceActivity ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(voiceActivity, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioLevelMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioLevelMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1184,9 +1131,7 @@ public final class GstAudio {
      *   when {@code info}-&gt;layout is {@link AudioLayout#INTERLEAVED}
      * @return the {@link AudioMeta} that was attached on the {@code buffer}
      */
-    public static @NotNull org.gstreamer.audio.AudioMeta bufferAddAudioMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.audio.AudioInfo info, long samples, PointerLong offsets) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public static org.gstreamer.audio.AudioMeta bufferAddAudioMeta(org.gstreamer.gst.Buffer buffer, org.gstreamer.audio.AudioInfo info, long samples, PointerLong offsets) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_audio_meta.invokeExact(
@@ -1197,7 +1142,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1209,9 +1154,7 @@ public final class GstAudio {
      * @param toChannels The number of channels of the destination
      * @return the {@link AudioDownmixMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.audio.AudioDownmixMeta bufferGetAudioDownmixMetaForChannels(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.audio.AudioChannelPosition[] toPosition, int toChannels) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(toPosition, "Parameter 'toPosition' must not be null");
+    public static org.gstreamer.audio.AudioDownmixMeta bufferGetAudioDownmixMetaForChannels(org.gstreamer.gst.Buffer buffer, org.gstreamer.audio.AudioChannelPosition[] toPosition, int toChannels) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_audio_downmix_meta_for_channels.invokeExact(
@@ -1221,7 +1164,7 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioDownmixMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioDownmixMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1230,8 +1173,7 @@ public final class GstAudio {
      * @return the {@link AudioLevelMeta} or {@code null} when
      * there is no such metadata on {@code buffer}.
      */
-    public static @Nullable org.gstreamer.audio.AudioLevelMeta bufferGetAudioLevelMeta(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static @Nullable org.gstreamer.audio.AudioLevelMeta bufferGetAudioLevelMeta(org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_audio_level_meta.invokeExact(
@@ -1239,12 +1181,10 @@ public final class GstAudio {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioLevelMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioLevelMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static double streamVolumeConvertVolume(@NotNull org.gstreamer.audio.StreamVolumeFormat from, @NotNull org.gstreamer.audio.StreamVolumeFormat to, double val) {
-        java.util.Objects.requireNonNull(from, "Parameter 'from' must not be null");
-        java.util.Objects.requireNonNull(to, "Parameter 'to' must not be null");
+    public static double streamVolumeConvertVolume(org.gstreamer.audio.StreamVolumeFormat from, org.gstreamer.audio.StreamVolumeFormat to, double val) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_stream_volume_convert_volume.invokeExact(
@@ -1526,24 +1466,5 @@ public final class GstAudio {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static long cbAudioClockGetTimeFunc(MemoryAddress clock, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AudioClockGetTimeFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onAudioClockGetTimeFunc(new org.gstreamer.gst.Clock(clock, Ownership.NONE));
-            return RESULT.getValue().longValue();
-        }
-        
-        public static void cbAudioBaseSinkCustomSlavingCallback(MemoryAddress sink, long etime, long itime, MemoryAddress requestedSkew, int discontReason, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AudioBaseSinkCustomSlavingCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onAudioBaseSinkCustomSlavingCallback(new org.gstreamer.audio.AudioBaseSink(sink, Ownership.NONE), new org.gstreamer.gst.ClockTime(etime), new org.gstreamer.gst.ClockTime(itime), new org.gstreamer.gst.ClockTimeDiff(requestedSkew.get(Interop.valueLayout.C_LONG, 0)), org.gstreamer.audio.AudioBaseSinkDiscontReason.of(discontReason));
-        }
-        
-        public static void cbAudioRingBufferCallback(MemoryAddress rbuf, MemoryAddress data, int len, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (AudioRingBufferCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onAudioRingBufferCallback(new org.gstreamer.audio.AudioRingBuffer(rbuf, Ownership.NONE), new PointerByte(data), len);
-        }
     }
 }

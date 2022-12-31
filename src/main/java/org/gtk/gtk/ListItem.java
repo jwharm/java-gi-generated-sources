@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  * 2. The bound stage where the listitem references an item from the list.
  *    The {@code Gtk.ListItem:item} property is not {@code null}.
  */
-public class ListItem extends org.gtk.gobject.Object {
+public class ListItem extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -43,30 +43,12 @@ public class ListItem extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ListItem(Addressable address, Ownership ownership) {
+    protected ListItem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to ListItem if its GType is a (or inherits from) "GtkListItem".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ListItem} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkListItem", a ClassCastException will be thrown.
-     */
-    public static ListItem castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ListItem.getType())) {
-            return new ListItem(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkListItem");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ListItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ListItem(input, ownership);
     
     /**
      * Checks if a list item has been set to be activatable via
@@ -81,7 +63,7 @@ public class ListItem extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -97,7 +79,7 @@ public class ListItem extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -106,7 +88,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * If {@code self} is unbound, this function returns {@code null}.
      * @return The item displayed
      */
-    public @Nullable org.gtk.gobject.Object getItem() {
+    public @Nullable org.gtk.gobject.GObject getItem() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_list_item_get_item.invokeExact(
@@ -114,7 +96,7 @@ public class ListItem extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -149,7 +131,7 @@ public class ListItem extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -167,7 +149,7 @@ public class ListItem extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -186,7 +168,7 @@ public class ListItem extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_list_item_set_activatable.invokeExact(
                     handle(),
-                    activatable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(activatable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +211,7 @@ public class ListItem extends org.gtk.gobject.Object {
         try {
             DowncallHandles.gtk_list_item_set_selectable.invokeExact(
                     handle(),
-                    selectable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(selectable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,7 +221,7 @@ public class ListItem extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_list_item_get_type.invokeExact();
@@ -248,38 +230,40 @@ public class ListItem extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ListItem.Builder} object constructs a {@link ListItem} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ListItem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link ListItem.Build} object constructs a {@link ListItem} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ListItem} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ListItem} using {@link ListItem#castFrom}.
+         * {@link ListItem}.
          * @return A new instance of {@code ListItem} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ListItem construct() {
-            return ListItem.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ListItem.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ListItem build() {
+            return (ListItem) org.gtk.gobject.GObject.newWithProperties(
+                ListItem.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -288,7 +272,7 @@ public class ListItem extends org.gtk.gobject.Object {
          * @param activatable The value for the {@code activatable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActivatable(boolean activatable) {
+        public Builder setActivatable(boolean activatable) {
             names.add("activatable");
             values.add(org.gtk.gobject.Value.create(activatable));
             return this;
@@ -299,7 +283,7 @@ public class ListItem extends org.gtk.gobject.Object {
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -310,7 +294,7 @@ public class ListItem extends org.gtk.gobject.Object {
          * @param item The value for the {@code item} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItem(org.gtk.gobject.Object item) {
+        public Builder setItem(org.gtk.gobject.GObject item) {
             names.add("item");
             values.add(org.gtk.gobject.Value.create(item));
             return this;
@@ -321,7 +305,7 @@ public class ListItem extends org.gtk.gobject.Object {
          * @param position The value for the {@code position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPosition(int position) {
+        public Builder setPosition(int position) {
             names.add("position");
             values.add(org.gtk.gobject.Value.create(position));
             return this;
@@ -332,7 +316,7 @@ public class ListItem extends org.gtk.gobject.Object {
          * @param selectable The value for the {@code selectable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelectable(boolean selectable) {
+        public Builder setSelectable(boolean selectable) {
             names.add("selectable");
             values.add(org.gtk.gobject.Value.create(selectable));
             return this;
@@ -343,7 +327,7 @@ public class ListItem extends org.gtk.gobject.Object {
          * @param selected The value for the {@code selected} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelected(boolean selected) {
+        public Builder setSelected(boolean selected) {
             names.add("selected");
             values.add(org.gtk.gobject.Value.create(selected));
             return this;

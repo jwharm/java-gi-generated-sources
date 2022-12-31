@@ -39,11 +39,15 @@ public class KeyFileFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public KeyFileFlags or(KeyFileFlags mask) {
-        return new KeyFileFlags(this.getValue() | mask.getValue());
+    public KeyFileFlags or(KeyFileFlags... masks) {
+        int value = this.getValue();
+        for (KeyFileFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new KeyFileFlags(value);
     }
     
     /**
@@ -53,7 +57,8 @@ public class KeyFileFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static KeyFileFlags combined(KeyFileFlags mask, KeyFileFlags... masks) {
-        int value = mask.getValue();        for (KeyFileFlags arg : masks) {
+        int value = mask.getValue();
+        for (KeyFileFlags arg : masks) {
             value |= arg.getValue();
         }
         return new KeyFileFlags(value);

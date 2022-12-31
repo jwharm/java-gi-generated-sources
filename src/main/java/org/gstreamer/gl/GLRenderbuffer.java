@@ -21,24 +21,22 @@ public class GLRenderbuffer extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLRenderbuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gl.GLBaseMemory.getMemoryLayout().withName("mem"),
-        Interop.valueLayout.C_INT.withName("renderbuffer_id"),
-        Interop.valueLayout.C_INT.withName("renderbuffer_format"),
-        Interop.valueLayout.C_INT.withName("width"),
-        Interop.valueLayout.C_INT.withName("height"),
-        Interop.valueLayout.C_INT.withName("renderbuffer_wrapped"),
-        MemoryLayout.paddingLayout(32),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gl.GLBaseMemory.getMemoryLayout().withName("mem"),
+            Interop.valueLayout.C_INT.withName("renderbuffer_id"),
+            Interop.valueLayout.C_INT.withName("renderbuffer_format"),
+            Interop.valueLayout.C_INT.withName("width"),
+            Interop.valueLayout.C_INT.withName("height"),
+            Interop.valueLayout.C_INT.withName("renderbuffer_wrapped"),
+            MemoryLayout.paddingLayout(32),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -58,7 +56,7 @@ public class GLRenderbuffer extends Struct {
      * Get the value of the field {@code renderbuffer_id}
      * @return The value of the field {@code renderbuffer_id}
      */
-    public int renderbufferId$get() {
+    public int getRenderbufferId() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -69,7 +67,7 @@ public class GLRenderbuffer extends Struct {
      * Change the value of the field {@code renderbuffer_id}
      * @param renderbufferId The new value of the field {@code renderbuffer_id}
      */
-    public void renderbufferId$set(int renderbufferId) {
+    public void setRenderbufferId(int renderbufferId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderbufferId);
@@ -79,7 +77,7 @@ public class GLRenderbuffer extends Struct {
      * Get the value of the field {@code renderbuffer_format}
      * @return The value of the field {@code renderbuffer_format}
      */
-    public org.gstreamer.gl.GLFormat renderbufferFormat$get() {
+    public org.gstreamer.gl.GLFormat getRenderbufferFormat() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -90,17 +88,17 @@ public class GLRenderbuffer extends Struct {
      * Change the value of the field {@code renderbuffer_format}
      * @param renderbufferFormat The new value of the field {@code renderbuffer_format}
      */
-    public void renderbufferFormat$set(org.gstreamer.gl.GLFormat renderbufferFormat) {
+    public void setRenderbufferFormat(org.gstreamer.gl.GLFormat renderbufferFormat) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderbufferFormat.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderbufferFormat == null ? MemoryAddress.NULL : renderbufferFormat.getValue()));
     }
     
     /**
      * Get the value of the field {@code width}
      * @return The value of the field {@code width}
      */
-    public int width$get() {
+    public int getWidth_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -111,7 +109,7 @@ public class GLRenderbuffer extends Struct {
      * Change the value of the field {@code width}
      * @param width The new value of the field {@code width}
      */
-    public void width$set(int width) {
+    public void setWidth(int width) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("width"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -121,7 +119,7 @@ public class GLRenderbuffer extends Struct {
      * Get the value of the field {@code height}
      * @return The value of the field {@code height}
      */
-    public int height$get() {
+    public int getHeight_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -132,7 +130,7 @@ public class GLRenderbuffer extends Struct {
      * Change the value of the field {@code height}
      * @param height The new value of the field {@code height}
      */
-    public void height$set(int height) {
+    public void setHeight(int height) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("height"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
@@ -142,21 +140,21 @@ public class GLRenderbuffer extends Struct {
      * Get the value of the field {@code renderbuffer_wrapped}
      * @return The value of the field {@code renderbuffer_wrapped}
      */
-    public boolean renderbufferWrapped$get() {
+    public boolean getRenderbufferWrapped() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_wrapped"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code renderbuffer_wrapped}
      * @param renderbufferWrapped The new value of the field {@code renderbuffer_wrapped}
      */
-    public void renderbufferWrapped$set(boolean renderbufferWrapped) {
+    public void setRenderbufferWrapped(boolean renderbufferWrapped) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_wrapped"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderbufferWrapped ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(renderbufferWrapped, null).intValue());
     }
     
     /**
@@ -164,12 +162,14 @@ public class GLRenderbuffer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLRenderbuffer(Addressable address, Ownership ownership) {
+    protected GLRenderbuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    public @NotNull org.gstreamer.gl.GLFormat getFormat() {
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLRenderbuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLRenderbuffer(input, ownership);
+    
+    public org.gstreamer.gl.GLFormat getFormat() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_renderbuffer_get_format.invokeExact(
@@ -257,35 +257,39 @@ public class GLRenderbuffer extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link GLRenderbuffer.Builder} object constructs a {@link GLRenderbuffer} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link GLRenderbuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private GLRenderbuffer struct;
+        private final GLRenderbuffer struct;
         
-         /**
-         * A {@link GLRenderbuffer.Build} object constructs a {@link GLRenderbuffer} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = GLRenderbuffer.allocate();
         }
         
          /**
          * Finish building the {@link GLRenderbuffer} struct.
          * @return A new instance of {@code GLRenderbuffer} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLRenderbuffer construct() {
+        public GLRenderbuffer build() {
             return struct;
         }
         
-        public Build setMem(org.gstreamer.gl.GLBaseMemory mem) {
+        public Builder setMem(org.gstreamer.gl.GLBaseMemory mem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mem"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
@@ -297,7 +301,7 @@ public class GLRenderbuffer extends Struct {
          * @param renderbufferId The value for the {@code renderbufferId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRenderbufferId(int renderbufferId) {
+        public Builder setRenderbufferId(int renderbufferId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderbufferId);
@@ -309,7 +313,7 @@ public class GLRenderbuffer extends Struct {
          * @param renderbufferFormat The value for the {@code renderbufferFormat} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRenderbufferFormat(org.gstreamer.gl.GLFormat renderbufferFormat) {
+        public Builder setRenderbufferFormat(org.gstreamer.gl.GLFormat renderbufferFormat) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_format"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderbufferFormat == null ? MemoryAddress.NULL : renderbufferFormat.getValue()));
@@ -321,7 +325,7 @@ public class GLRenderbuffer extends Struct {
          * @param width The value for the {@code width} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidth(int width) {
+        public Builder setWidth(int width) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("width"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), width);
@@ -333,21 +337,21 @@ public class GLRenderbuffer extends Struct {
          * @param height The value for the {@code height} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeight(int height) {
+        public Builder setHeight(int height) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("height"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), height);
             return this;
         }
         
-        public Build setRenderbufferWrapped(boolean renderbufferWrapped) {
+        public Builder setRenderbufferWrapped(boolean renderbufferWrapped) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("renderbuffer_wrapped"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), renderbufferWrapped ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(renderbufferWrapped, null).intValue());
             return this;
         }
         
-        public Build setPadding(java.lang.foreign.MemoryAddress[] Padding) {
+        public Builder setPadding(java.lang.foreign.MemoryAddress[] Padding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_padding"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Padding == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Padding, false)));

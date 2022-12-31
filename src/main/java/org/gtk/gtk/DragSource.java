@@ -102,33 +102,15 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DragSource(Addressable address, Ownership ownership) {
+    protected DragSource(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DragSource if its GType is a (or inherits from) "GtkDragSource".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DragSource} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkDragSource", a ClassCastException will be thrown.
-     */
-    public static DragSource castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DragSource.getType())) {
-            return new DragSource(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkDragSource");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DragSource> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DragSource(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_drag_source_new.invokeExact();
         } catch (Throwable ERR) {
@@ -160,7 +142,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
      * Gets the actions that are currently set on the {@code GtkDragSource}.
      * @return the actions set on {@code source}
      */
-    public @NotNull org.gtk.gdk.DragAction getActions() {
+    public org.gtk.gdk.DragAction getActions() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_drag_source_get_actions.invokeExact(
@@ -183,7 +165,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentProvider(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.ContentProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.ContentProvider.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -199,7 +181,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Drag(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Drag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Drag.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -214,8 +196,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
      * or in a handler for the {@code Gtk.DragSource::prepare} signal.
      * @param actions the actions to offer
      */
-    public void setActions(@NotNull org.gtk.gdk.DragAction actions) {
-        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
+    public void setActions(org.gtk.gdk.DragAction actions) {
         try {
             DowncallHandles.gtk_drag_source_set_actions.invokeExact(
                     handle(),
@@ -279,7 +260,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_drag_source_get_type.invokeExact();
@@ -291,7 +272,18 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface DragBegin {
-        void signalReceived(DragSource sourceDragSource, @NotNull org.gtk.gdk.Drag drag);
+        void run(org.gtk.gdk.Drag drag);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDragSource, MemoryAddress drag) {
+            run((org.gtk.gdk.Drag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drag)), org.gtk.gdk.Drag.fromAddress).marshal(drag, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DragBegin.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -305,16 +297,8 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     public Signal<DragSource.DragBegin> onDragBegin(DragSource.DragBegin handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("drag-begin"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourceDragBegin",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DragSource.DragBegin>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("drag-begin"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -322,7 +306,19 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface DragCancel {
-        boolean signalReceived(DragSource sourceDragSource, @NotNull org.gtk.gdk.Drag drag, @NotNull org.gtk.gdk.DragCancelReason reason);
+        boolean run(org.gtk.gdk.Drag drag, org.gtk.gdk.DragCancelReason reason);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceDragSource, MemoryAddress drag, int reason) {
+            var RESULT = run((org.gtk.gdk.Drag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drag)), org.gtk.gdk.Drag.fromAddress).marshal(drag, Ownership.NONE), org.gtk.gdk.DragCancelReason.of(reason));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DragCancel.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -337,16 +333,8 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     public Signal<DragSource.DragCancel> onDragCancel(DragSource.DragCancel handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("drag-cancel"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourceDragCancel",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DragSource.DragCancel>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("drag-cancel"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -354,7 +342,18 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface DragEnd {
-        void signalReceived(DragSource sourceDragSource, @NotNull org.gtk.gdk.Drag drag, boolean deleteData);
+        void run(org.gtk.gdk.Drag drag, boolean deleteData);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceDragSource, MemoryAddress drag, int deleteData) {
+            run((org.gtk.gdk.Drag) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(drag)), org.gtk.gdk.Drag.fromAddress).marshal(drag, Ownership.NONE), Marshal.integerToBoolean.marshal(deleteData, null).booleanValue());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DragEnd.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -369,16 +368,8 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     public Signal<DragSource.DragEnd> onDragEnd(DragSource.DragEnd handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("drag-end"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourceDragEnd",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DragSource.DragEnd>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("drag-end"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -386,7 +377,19 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     
     @FunctionalInterface
     public interface Prepare {
-        void signalReceived(DragSource sourceDragSource, double x, double y);
+        @Nullable org.gtk.gdk.ContentProvider run(double x, double y);
+
+        @ApiStatus.Internal default Addressable upcall(MemoryAddress sourceDragSource, double x, double y) {
+            var RESULT = run(x, y);
+            return RESULT == null ? MemoryAddress.NULL.address() : (RESULT.handle()).address();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Prepare.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -402,52 +405,46 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
     public Signal<DragSource.Prepare> onPrepare(DragSource.Prepare handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("prepare"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DragSource.Callbacks.class, "signalDragSourcePrepare",
-                        MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DragSource.Prepare>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("prepare"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DragSource.Builder} object constructs a {@link DragSource} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DragSource.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.GestureSingle.Build {
+    public static class Builder extends org.gtk.gtk.GestureSingle.Builder {
         
-         /**
-         * A {@link DragSource.Build} object constructs a {@link DragSource} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DragSource} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DragSource} using {@link DragSource#castFrom}.
+         * {@link DragSource}.
          * @return A new instance of {@code DragSource} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DragSource construct() {
-            return DragSource.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DragSource.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DragSource build() {
+            return (DragSource) org.gtk.gobject.GObject.newWithProperties(
+                DragSource.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -459,7 +456,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
          * @param actions The value for the {@code actions} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActions(org.gtk.gdk.DragAction actions) {
+        public Builder setActions(org.gtk.gdk.DragAction actions) {
             names.add("actions");
             values.add(org.gtk.gobject.Value.create(actions));
             return this;
@@ -470,7 +467,7 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
          * @param content The value for the {@code content} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContent(org.gtk.gdk.ContentProvider content) {
+        public Builder setContent(org.gtk.gdk.ContentProvider content) {
             names.add("content");
             values.add(org.gtk.gobject.Value.create(content));
             return this;
@@ -532,32 +529,5 @@ public class DragSource extends org.gtk.gtk.GestureSingle {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalDragSourceDragBegin(MemoryAddress sourceDragSource, MemoryAddress drag, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DragSource.DragBegin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DragSource(sourceDragSource, Ownership.NONE), new org.gtk.gdk.Drag(drag, Ownership.NONE));
-        }
-        
-        public static boolean signalDragSourceDragCancel(MemoryAddress sourceDragSource, MemoryAddress drag, int reason, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DragSource.DragCancel) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DragSource(sourceDragSource, Ownership.NONE), new org.gtk.gdk.Drag(drag, Ownership.NONE), org.gtk.gdk.DragCancelReason.of(reason));
-        }
-        
-        public static void signalDragSourceDragEnd(MemoryAddress sourceDragSource, MemoryAddress drag, int deleteData, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DragSource.DragEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DragSource(sourceDragSource, Ownership.NONE), new org.gtk.gdk.Drag(drag, Ownership.NONE), deleteData != 0);
-        }
-        
-        public static void signalDragSourcePrepare(MemoryAddress sourceDragSource, double x, double y, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DragSource.Prepare) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new DragSource(sourceDragSource, Ownership.NONE), x, y);
-        }
     }
 }

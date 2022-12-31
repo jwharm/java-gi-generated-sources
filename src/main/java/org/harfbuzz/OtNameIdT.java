@@ -18,4 +18,14 @@ public class OtNameIdT extends io.github.jwharm.javagi.Alias<Integer> {
     public OtNameIdT(int value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static OtNameIdT[] fromNativeArray(MemoryAddress address, long length) {
+        OtNameIdT[] array = new OtNameIdT[(int) length];
+        long bytesSize = Interop.valueLayout.C_INT.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new OtNameIdT(address.get(Interop.valueLayout.C_INT, i * bytesSize));
+        }
+        return array;
+    }
 }

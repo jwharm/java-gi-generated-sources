@@ -17,5 +17,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface CustomMetaTransformFunction {
-        boolean onCustomMetaTransformFunction(@NotNull org.gstreamer.gst.Buffer transbuf, @NotNull org.gstreamer.gst.CustomMeta meta, @NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gtk.glib.Quark type);
+    boolean run(org.gstreamer.gst.Buffer transbuf, org.gstreamer.gst.CustomMeta meta, org.gstreamer.gst.Buffer buffer, org.gtk.glib.Quark type);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress transbuf, MemoryAddress meta, MemoryAddress buffer, int type, MemoryAddress data, MemoryAddress userData) {
+        var RESULT = run(org.gstreamer.gst.Buffer.fromAddress.marshal(transbuf, Ownership.NONE), org.gstreamer.gst.CustomMeta.fromAddress.marshal(meta, Ownership.NONE), org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.NONE), new org.gtk.glib.Quark(type));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CustomMetaTransformFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

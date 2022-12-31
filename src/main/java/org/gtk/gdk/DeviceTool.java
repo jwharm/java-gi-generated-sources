@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * A physical tool associated to a {@code GdkDevice}.
  */
-public class DeviceTool extends org.gtk.gobject.Object {
+public class DeviceTool extends org.gtk.gobject.GObject {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -30,36 +30,18 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DeviceTool(Addressable address, Ownership ownership) {
+    protected DeviceTool(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DeviceTool if its GType is a (or inherits from) "GdkDeviceTool".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DeviceTool} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkDeviceTool", a ClassCastException will be thrown.
-     */
-    public static DeviceTool castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DeviceTool.getType())) {
-            return new DeviceTool(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkDeviceTool");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DeviceTool> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceTool(input, ownership);
     
     /**
      * Gets the axes of the tool.
      * @return the axes of {@code tool}
      */
-    public @NotNull org.gtk.gdk.AxisFlags getAxes() {
+    public org.gtk.gdk.AxisFlags getAxes() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_device_tool_get_axes.invokeExact(
@@ -119,7 +101,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      *   figure out what sort of pen is being used, such as an airbrush
      *   or a pencil.
      */
-    public @NotNull org.gtk.gdk.DeviceToolType getToolType() {
+    public org.gtk.gdk.DeviceToolType getToolType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_device_tool_get_tool_type.invokeExact(
@@ -134,7 +116,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_device_tool_get_type.invokeExact();
@@ -143,38 +125,40 @@ public class DeviceTool extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link DeviceTool.Builder} object constructs a {@link DeviceTool} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DeviceTool.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DeviceTool.Build} object constructs a {@link DeviceTool} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DeviceTool} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DeviceTool} using {@link DeviceTool#castFrom}.
+         * {@link DeviceTool}.
          * @return A new instance of {@code DeviceTool} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DeviceTool construct() {
-            return DeviceTool.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DeviceTool.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DeviceTool build() {
+            return (DeviceTool) org.gtk.gobject.GObject.newWithProperties(
+                DeviceTool.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -183,7 +167,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
          * @param axes The value for the {@code axes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAxes(org.gtk.gdk.AxisFlags axes) {
+        public Builder setAxes(org.gtk.gdk.AxisFlags axes) {
             names.add("axes");
             values.add(org.gtk.gobject.Value.create(axes));
             return this;
@@ -194,7 +178,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
          * @param hardwareId The value for the {@code hardware-id} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHardwareId(long hardwareId) {
+        public Builder setHardwareId(long hardwareId) {
             names.add("hardware-id");
             values.add(org.gtk.gobject.Value.create(hardwareId));
             return this;
@@ -205,7 +189,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
          * @param serial The value for the {@code serial} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSerial(long serial) {
+        public Builder setSerial(long serial) {
             names.add("serial");
             values.add(org.gtk.gobject.Value.create(serial));
             return this;
@@ -216,7 +200,7 @@ public class DeviceTool extends org.gtk.gobject.Object {
          * @param toolType The value for the {@code tool-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setToolType(org.gtk.gdk.DeviceToolType toolType) {
+        public Builder setToolType(org.gtk.gdk.DeviceToolType toolType) {
             names.add("tool-type");
             values.add(org.gtk.gobject.Value.create(toolType));
             return this;

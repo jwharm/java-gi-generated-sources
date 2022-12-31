@@ -53,10 +53,12 @@ public class StrvBuilder extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StrvBuilder(Addressable address, Ownership ownership) {
+    protected StrvBuilder(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StrvBuilder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StrvBuilder(input, ownership);
     
     /**
      * Add a string to the end of the array.
@@ -64,12 +66,11 @@ public class StrvBuilder extends Struct {
      * Since 2.68
      * @param value a string.
      */
-    public void add(@NotNull java.lang.String value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void add(java.lang.String value) {
         try {
             DowncallHandles.g_strv_builder_add.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(value));
+                    Marshal.stringToAddress.marshal(value, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -97,8 +98,7 @@ public class StrvBuilder extends Struct {
      * Since 2.70
      * @param value the vector of strings to add
      */
-    public void addv(@NotNull java.lang.String[] value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void addv(java.lang.String[] value) {
         try {
             DowncallHandles.g_strv_builder_addv.invokeExact(
                     handle(),
@@ -116,7 +116,7 @@ public class StrvBuilder extends Struct {
      * <p>
      * Since 2.68
      */
-    public @NotNull PointerString end() {
+    public PointerString end() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_end.invokeExact(
@@ -132,7 +132,7 @@ public class StrvBuilder extends Struct {
      * This function is thread-safe and may be called from any thread.
      * @return The passed in {@link StrvBuilder}
      */
-    public @NotNull org.gtk.glib.StrvBuilder ref() {
+    public org.gtk.glib.StrvBuilder ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_ref.invokeExact(
@@ -140,7 +140,7 @@ public class StrvBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.StrvBuilder(RESULT, Ownership.FULL);
+        return org.gtk.glib.StrvBuilder.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -164,14 +164,14 @@ public class StrvBuilder extends Struct {
      * Use g_strv_builder_unref() on the returned value when no longer needed.
      * @return the new {@link StrvBuilder}
      */
-    public static @NotNull org.gtk.glib.StrvBuilder new_() {
+    public static org.gtk.glib.StrvBuilder new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_strv_builder_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.StrvBuilder(RESULT, Ownership.FULL);
+        return org.gtk.glib.StrvBuilder.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

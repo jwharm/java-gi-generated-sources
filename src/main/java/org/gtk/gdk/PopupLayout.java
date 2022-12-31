@@ -75,16 +75,15 @@ public class PopupLayout extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PopupLayout(Addressable address, Ownership ownership) {
+    protected PopupLayout(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gtk.gdk.Rectangle anchorRect, @NotNull org.gtk.gdk.Gravity rectAnchor, @NotNull org.gtk.gdk.Gravity surfaceAnchor) {
-        java.util.Objects.requireNonNull(anchorRect, "Parameter 'anchorRect' must not be null");
-        java.util.Objects.requireNonNull(rectAnchor, "Parameter 'rectAnchor' must not be null");
-        java.util.Objects.requireNonNull(surfaceAnchor, "Parameter 'surfaceAnchor' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PopupLayout> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PopupLayout(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gtk.gdk.Rectangle anchorRect, org.gtk.gdk.Gravity rectAnchor, org.gtk.gdk.Gravity surfaceAnchor) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_new.invokeExact(
                     anchorRect.handle(),
@@ -113,7 +112,7 @@ public class PopupLayout extends Struct {
      * @param rectAnchor the point on {@code anchor_rect} to align with {@code surface}'s anchor point
      * @param surfaceAnchor the point on {@code surface} to align with {@code rect}'s anchor point
      */
-    public PopupLayout(@NotNull org.gtk.gdk.Rectangle anchorRect, @NotNull org.gtk.gdk.Gravity rectAnchor, @NotNull org.gtk.gdk.Gravity surfaceAnchor) {
+    public PopupLayout(org.gtk.gdk.Rectangle anchorRect, org.gtk.gdk.Gravity rectAnchor, org.gtk.gdk.Gravity surfaceAnchor) {
         super(constructNew(anchorRect, rectAnchor, surfaceAnchor), Ownership.FULL);
     }
     
@@ -121,7 +120,7 @@ public class PopupLayout extends Struct {
      * Makes a copy of {@code layout}.
      * @return a copy of {@code layout}.
      */
-    public @NotNull org.gtk.gdk.PopupLayout copy() {
+    public org.gtk.gdk.PopupLayout copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_copy.invokeExact(
@@ -129,7 +128,7 @@ public class PopupLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.PopupLayout(RESULT, Ownership.FULL);
+        return org.gtk.gdk.PopupLayout.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -138,8 +137,7 @@ public class PopupLayout extends Struct {
      * @return {@code true} if {@code layout} and {@code other} have identical layout properties,
      *   otherwise {@code false}.
      */
-    public boolean equal(@NotNull org.gtk.gdk.PopupLayout other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public boolean equal(org.gtk.gdk.PopupLayout other) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_popup_layout_equal.invokeExact(
@@ -148,14 +146,14 @@ public class PopupLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the {@code GdkAnchorHints}.
      * @return the {@code GdkAnchorHints}
      */
-    public @NotNull org.gtk.gdk.AnchorHints getAnchorHints() {
+    public org.gtk.gdk.AnchorHints getAnchorHints() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_popup_layout_get_anchor_hints.invokeExact(
@@ -170,7 +168,7 @@ public class PopupLayout extends Struct {
      * Get the anchor rectangle.
      * @return The anchor rectangle
      */
-    public @NotNull org.gtk.gdk.Rectangle getAnchorRect() {
+    public org.gtk.gdk.Rectangle getAnchorRect() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_get_anchor_rect.invokeExact(
@@ -178,7 +176,7 @@ public class PopupLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Rectangle(RESULT, Ownership.NONE);
+        return org.gtk.gdk.Rectangle.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -187,9 +185,7 @@ public class PopupLayout extends Struct {
      * @param dy return location for the delta Y coordinate
      */
     public void getOffset(Out<Integer> dx, Out<Integer> dy) {
-        java.util.Objects.requireNonNull(dx, "Parameter 'dx' must not be null");
         MemorySegment dxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(dy, "Parameter 'dy' must not be null");
         MemorySegment dyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_popup_layout_get_offset.invokeExact(
@@ -207,7 +203,7 @@ public class PopupLayout extends Struct {
      * Returns the anchor position on the anchor rectangle.
      * @return the anchor on the anchor rectangle.
      */
-    public @NotNull org.gtk.gdk.Gravity getRectAnchor() {
+    public org.gtk.gdk.Gravity getRectAnchor() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_popup_layout_get_rect_anchor.invokeExact(
@@ -226,13 +222,9 @@ public class PopupLayout extends Struct {
      * @param bottom return location for the bottom shadow width
      */
     public void getShadowWidth(Out<Integer> left, Out<Integer> right, Out<Integer> top, Out<Integer> bottom) {
-        java.util.Objects.requireNonNull(left, "Parameter 'left' must not be null");
         MemorySegment leftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(right, "Parameter 'right' must not be null");
         MemorySegment rightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(top, "Parameter 'top' must not be null");
         MemorySegment topPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(bottom, "Parameter 'bottom' must not be null");
         MemorySegment bottomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_popup_layout_get_shadow_width.invokeExact(
@@ -254,7 +246,7 @@ public class PopupLayout extends Struct {
      * Returns the anchor position on the popup surface.
      * @return the anchor on the popup surface.
      */
-    public @NotNull org.gtk.gdk.Gravity getSurfaceAnchor() {
+    public org.gtk.gdk.Gravity getSurfaceAnchor() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_popup_layout_get_surface_anchor.invokeExact(
@@ -269,7 +261,7 @@ public class PopupLayout extends Struct {
      * Increases the reference count of {@code value}.
      * @return the same {@code layout}
      */
-    public @NotNull org.gtk.gdk.PopupLayout ref() {
+    public org.gtk.gdk.PopupLayout ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_popup_layout_ref.invokeExact(
@@ -277,7 +269,7 @@ public class PopupLayout extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.PopupLayout(RESULT, Ownership.FULL);
+        return org.gtk.gdk.PopupLayout.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -290,8 +282,7 @@ public class PopupLayout extends Struct {
      * beyond the left or right edges of the monitor.
      * @param anchorHints the new {@code GdkAnchorHints}
      */
-    public void setAnchorHints(@NotNull org.gtk.gdk.AnchorHints anchorHints) {
-        java.util.Objects.requireNonNull(anchorHints, "Parameter 'anchorHints' must not be null");
+    public void setAnchorHints(org.gtk.gdk.AnchorHints anchorHints) {
         try {
             DowncallHandles.gdk_popup_layout_set_anchor_hints.invokeExact(
                     handle(),
@@ -305,8 +296,7 @@ public class PopupLayout extends Struct {
      * Set the anchor rectangle.
      * @param anchorRect the new anchor rectangle
      */
-    public void setAnchorRect(@NotNull org.gtk.gdk.Rectangle anchorRect) {
-        java.util.Objects.requireNonNull(anchorRect, "Parameter 'anchorRect' must not be null");
+    public void setAnchorRect(org.gtk.gdk.Rectangle anchorRect) {
         try {
             DowncallHandles.gdk_popup_layout_set_anchor_rect.invokeExact(
                     handle(),
@@ -336,8 +326,7 @@ public class PopupLayout extends Struct {
      * Set the anchor on the anchor rectangle.
      * @param anchor the new rect anchor
      */
-    public void setRectAnchor(@NotNull org.gtk.gdk.Gravity anchor) {
-        java.util.Objects.requireNonNull(anchor, "Parameter 'anchor' must not be null");
+    public void setRectAnchor(org.gtk.gdk.Gravity anchor) {
         try {
             DowncallHandles.gdk_popup_layout_set_rect_anchor.invokeExact(
                     handle(),
@@ -375,8 +364,7 @@ public class PopupLayout extends Struct {
      * Set the anchor on the popup surface.
      * @param anchor the new popup surface anchor
      */
-    public void setSurfaceAnchor(@NotNull org.gtk.gdk.Gravity anchor) {
-        java.util.Objects.requireNonNull(anchor, "Parameter 'anchor' must not be null");
+    public void setSurfaceAnchor(org.gtk.gdk.Gravity anchor) {
         try {
             DowncallHandles.gdk_popup_layout_set_surface_anchor.invokeExact(
                     handle(),

@@ -40,19 +40,19 @@ public class TocEntry extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TocEntry(Addressable address, Ownership ownership) {
+    protected TocEntry(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gst.TocEntryType type, @NotNull java.lang.String uid) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(uid, "Parameter 'uid' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TocEntry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TocEntry(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.gst.TocEntryType type, java.lang.String uid) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_entry_new.invokeExact(
                     type.getValue(),
-                    Interop.allocateNativeString(uid));
+                    Marshal.stringToAddress.marshal(uid, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -64,7 +64,7 @@ public class TocEntry extends Struct {
      * @param type entry type.
      * @param uid unique ID (UID) in the whole TOC.
      */
-    public TocEntry(@NotNull org.gstreamer.gst.TocEntryType type, @NotNull java.lang.String uid) {
+    public TocEntry(org.gstreamer.gst.TocEntryType type, java.lang.String uid) {
         super(constructNew(type, uid), Ownership.FULL);
     }
     
@@ -72,8 +72,7 @@ public class TocEntry extends Struct {
      * Appends the {@link TocEntry} {@code subentry} to {@code entry}.
      * @param subentry A {@link TocEntry}
      */
-    public void appendSubEntry(@NotNull org.gstreamer.gst.TocEntry subentry) {
-        java.util.Objects.requireNonNull(subentry, "Parameter 'subentry' must not be null");
+    public void appendSubEntry(org.gstreamer.gst.TocEntry subentry) {
         try {
             DowncallHandles.gst_toc_entry_append_sub_entry.invokeExact(
                     handle(),
@@ -84,7 +83,7 @@ public class TocEntry extends Struct {
         subentry.yieldOwnership();
     }
     
-    public @NotNull org.gstreamer.gst.TocEntryType getEntryType() {
+    public org.gstreamer.gst.TocEntryType getEntryType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_toc_entry_get_entry_type.invokeExact(
@@ -107,23 +106,21 @@ public class TocEntry extends Struct {
      * @return {@code true} if all non-{@code null} storage pointers were filled with appropriate
      * values, {@code false} otherwise.
      */
-    public boolean getLoop(@NotNull Out<org.gstreamer.gst.TocLoopType> loopType, Out<Integer> repeatCount) {
-        java.util.Objects.requireNonNull(loopType, "Parameter 'loopType' must not be null");
+    public boolean getLoop(@Nullable Out<org.gstreamer.gst.TocLoopType> loopType, Out<Integer> repeatCount) {
         MemorySegment loopTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(repeatCount, "Parameter 'repeatCount' must not be null");
         MemorySegment repeatCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_toc_entry_get_loop.invokeExact(
                     handle(),
-                    (Addressable) loopTypePOINTER.address(),
-                    (Addressable) repeatCountPOINTER.address());
+                    (Addressable) (loopType == null ? MemoryAddress.NULL : (Addressable) loopTypePOINTER.address()),
+                    (Addressable) (repeatCount == null ? MemoryAddress.NULL : (Addressable) repeatCountPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        loopType.set(org.gstreamer.gst.TocLoopType.of(loopTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        repeatCount.set(repeatCountPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (loopType != null) loopType.set(org.gstreamer.gst.TocLoopType.of(loopTypePOINTER.get(Interop.valueLayout.C_INT, 0)));
+        if (repeatCount != null) repeatCount.set(repeatCountPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -138,7 +135,7 @@ public class TocEntry extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TocEntry(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TocEntry.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -152,29 +149,27 @@ public class TocEntry extends Struct {
      * values, {@code false} otherwise.
      */
     public boolean getStartStopTimes(Out<Long> start, Out<Long> stop) {
-        java.util.Objects.requireNonNull(start, "Parameter 'start' must not be null");
         MemorySegment startPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(stop, "Parameter 'stop' must not be null");
         MemorySegment stopPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_toc_entry_get_start_stop_times.invokeExact(
                     handle(),
-                    (Addressable) startPOINTER.address(),
-                    (Addressable) stopPOINTER.address());
+                    (Addressable) (start == null ? MemoryAddress.NULL : (Addressable) startPOINTER.address()),
+                    (Addressable) (stop == null ? MemoryAddress.NULL : (Addressable) stopPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (start != null) start.set(startPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (stop != null) stop.set(stopPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the sub-entries of {@code entry}.
      * @return A {@link org.gtk.glib.List} of {@link TocEntry} of {@code entry}
      */
-    public @NotNull org.gtk.glib.List getSubEntries() {
+    public org.gtk.glib.List getSubEntries() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_entry_get_sub_entries.invokeExact(
@@ -182,14 +177,14 @@ public class TocEntry extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.NONE);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the tags for {@code entry}.
      * @return A {@link TagList} for {@code entry}
      */
-    public @NotNull org.gstreamer.gst.TagList getTags() {
+    public org.gstreamer.gst.TagList getTags() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_entry_get_tags.invokeExact(
@@ -197,14 +192,14 @@ public class TocEntry extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the parent {@link Toc} of {@code entry}.
      * @return The parent {@link Toc} of {@code entry}
      */
-    public @NotNull org.gstreamer.gst.Toc getToc() {
+    public org.gstreamer.gst.Toc getToc() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_entry_get_toc.invokeExact(
@@ -212,14 +207,14 @@ public class TocEntry extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Toc(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Toc.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the UID of {@code entry}.
      * @return The UID of {@code entry}
      */
-    public @NotNull java.lang.String getUid() {
+    public java.lang.String getUid() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_toc_entry_get_uid.invokeExact(
@@ -227,7 +222,7 @@ public class TocEntry extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     public boolean isAlternative() {
@@ -238,7 +233,7 @@ public class TocEntry extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     public boolean isSequence() {
@@ -249,7 +244,7 @@ public class TocEntry extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -257,8 +252,7 @@ public class TocEntry extends Struct {
      * @param tags A {@link TagList} or {@code null}
      * @param mode A {@link TagMergeMode}
      */
-    public void mergeTags(@Nullable org.gstreamer.gst.TagList tags, @NotNull org.gstreamer.gst.TagMergeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void mergeTags(@Nullable org.gstreamer.gst.TagList tags, org.gstreamer.gst.TagMergeMode mode) {
         try {
             DowncallHandles.gst_toc_entry_merge_tags.invokeExact(
                     handle(),
@@ -274,8 +268,7 @@ public class TocEntry extends Struct {
      * @param loopType loop_type value to set.
      * @param repeatCount repeat_count value to set.
      */
-    public void setLoop(@NotNull org.gstreamer.gst.TocLoopType loopType, int repeatCount) {
-        java.util.Objects.requireNonNull(loopType, "Parameter 'loopType' must not be null");
+    public void setLoop(org.gstreamer.gst.TocLoopType loopType, int repeatCount) {
         try {
             DowncallHandles.gst_toc_entry_set_loop.invokeExact(
                     handle(),

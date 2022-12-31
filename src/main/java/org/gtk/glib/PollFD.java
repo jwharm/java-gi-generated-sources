@@ -17,19 +17,17 @@ public class PollFD extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GPollFD";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("fd"),
-        Interop.valueLayout.C_SHORT.withName("events"),
-        Interop.valueLayout.C_SHORT.withName("revents")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("fd"),
+            Interop.valueLayout.C_SHORT.withName("events"),
+            Interop.valueLayout.C_SHORT.withName("revents")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class PollFD extends Struct {
      * Get the value of the field {@code fd}
      * @return The value of the field {@code fd}
      */
-    public int fd$get() {
+    public int getFd() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("fd"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -60,7 +58,7 @@ public class PollFD extends Struct {
      * Change the value of the field {@code fd}
      * @param fd The new value of the field {@code fd}
      */
-    public void fd$set(int fd) {
+    public void setFd(int fd) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("fd"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), fd);
@@ -70,7 +68,7 @@ public class PollFD extends Struct {
      * Get the value of the field {@code events}
      * @return The value of the field {@code events}
      */
-    public short events$get() {
+    public short getEvents() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("events"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -81,7 +79,7 @@ public class PollFD extends Struct {
      * Change the value of the field {@code events}
      * @param events The new value of the field {@code events}
      */
-    public void events$set(short events) {
+    public void setEvents(short events) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("events"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), events);
@@ -91,7 +89,7 @@ public class PollFD extends Struct {
      * Get the value of the field {@code revents}
      * @return The value of the field {@code revents}
      */
-    public short revents$get() {
+    public short getRevents() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("revents"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -102,7 +100,7 @@ public class PollFD extends Struct {
      * Change the value of the field {@code revents}
      * @param revents The new value of the field {@code revents}
      */
-    public void revents$set(short revents) {
+    public void setRevents(short revents) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("revents"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), revents);
@@ -113,35 +111,41 @@ public class PollFD extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PollFD(Addressable address, Ownership ownership) {
+    protected PollFD(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PollFD> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PollFD(input, ownership);
+    
+    /**
+     * A {@link PollFD.Builder} object constructs a {@link PollFD} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link PollFD.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private PollFD struct;
+        private final PollFD struct;
         
-         /**
-         * A {@link PollFD.Build} object constructs a {@link PollFD} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = PollFD.allocate();
         }
         
          /**
          * Finish building the {@link PollFD} struct.
          * @return A new instance of {@code PollFD} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PollFD construct() {
+        public PollFD build() {
             return struct;
         }
         
@@ -150,7 +154,7 @@ public class PollFD extends Struct {
          * @param fd The value for the {@code fd} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFd(int fd) {
+        public Builder setFd(int fd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("fd"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), fd);
@@ -165,7 +169,7 @@ public class PollFD extends Struct {
          * @param events The value for the {@code events} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEvents(short events) {
+        public Builder setEvents(short events) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("events"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), events);
@@ -178,7 +182,7 @@ public class PollFD extends Struct {
          * @param revents The value for the {@code revents} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRevents(short revents) {
+        public Builder setRevents(short revents) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("revents"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), revents);

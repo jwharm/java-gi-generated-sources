@@ -35,8 +35,7 @@ public enum TranscoderError implements io.github.jwharm.javagi.Enumeration {
      * @param error a {@link TranscoderError}
      * @return a string with the given error.
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.transcoder.TranscoderError error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public static java.lang.String getName(org.gstreamer.transcoder.TranscoderError error) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_error_get_name.invokeExact(
@@ -44,10 +43,10 @@ public enum TranscoderError implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_transcoder_error_quark.invokeExact();

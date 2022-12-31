@@ -42,7 +42,7 @@ import org.jetbrains.annotations.*;
  * still take precedence over your changes, as it uses the
  * {@code GTK_STYLE_PROVIDER_PRIORITY_USER} priority.
  */
-public class StyleContext extends org.gtk.gobject.Object {
+public class StyleContext extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -50,17 +50,15 @@ public class StyleContext extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GtkStyleContext";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_object")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_object")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -68,30 +66,12 @@ public class StyleContext extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StyleContext(Addressable address, Ownership ownership) {
+    protected StyleContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to StyleContext if its GType is a (or inherits from) "GtkStyleContext".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code StyleContext} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkStyleContext", a ClassCastException will be thrown.
-     */
-    public static StyleContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StyleContext.getType())) {
-            return new StyleContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStyleContext");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StyleContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StyleContext(input, ownership);
     
     /**
      * Adds a style class to {@code context}, so later uses of the
@@ -110,12 +90,11 @@ public class StyleContext extends org.gtk.gobject.Object {
      * }</pre>
      * @param className class name to use in styling
      */
-    public void addClass(@NotNull java.lang.String className) {
-        java.util.Objects.requireNonNull(className, "Parameter 'className' must not be null");
+    public void addClass(java.lang.String className) {
         try {
             DowncallHandles.gtk_style_context_add_class.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(className));
+                    Marshal.stringToAddress.marshal(className, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,8 +118,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      *   {@code GTK_STYLE_PROVIDER_PRIORITY_FALLBACK} and
      *   {@code GTK_STYLE_PROVIDER_PRIORITY_USER}
      */
-    public void addProvider(@NotNull org.gtk.gtk.StyleProvider provider, int priority) {
-        java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
+    public void addProvider(org.gtk.gtk.StyleProvider provider, int priority) {
         try {
             DowncallHandles.gtk_style_context_add_provider.invokeExact(
                     handle(),
@@ -155,8 +133,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Gets the border for a given state as a {@code GtkBorder}.
      * @param border return value for the border settings
      */
-    public void getBorder(@NotNull org.gtk.gtk.Border border) {
-        java.util.Objects.requireNonNull(border, "Parameter 'border' must not be null");
+    public void getBorder(org.gtk.gtk.Border border) {
         try {
             DowncallHandles.gtk_style_context_get_border.invokeExact(
                     handle(),
@@ -170,8 +147,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Gets the foreground color for a given state.
      * @param color return value for the foreground color
      */
-    public void getColor(@NotNull org.gtk.gdk.RGBA color) {
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    public void getColor(org.gtk.gdk.RGBA color) {
         try {
             DowncallHandles.gtk_style_context_get_color.invokeExact(
                     handle(),
@@ -185,7 +161,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Returns the {@code GdkDisplay} to which {@code context} is attached.
      * @return a {@code GdkDisplay}.
      */
-    public @NotNull org.gtk.gdk.Display getDisplay() {
+    public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_style_context_get_display.invokeExact(
@@ -193,15 +169,14 @@ public class StyleContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the margin for a given state as a {@code GtkBorder}.
      * @param margin return value for the margin settings
      */
-    public void getMargin(@NotNull org.gtk.gtk.Border margin) {
-        java.util.Objects.requireNonNull(margin, "Parameter 'margin' must not be null");
+    public void getMargin(org.gtk.gtk.Border margin) {
         try {
             DowncallHandles.gtk_style_context_get_margin.invokeExact(
                     handle(),
@@ -215,8 +190,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Gets the padding for a given state as a {@code GtkBorder}.
      * @param padding return value for the padding settings
      */
-    public void getPadding(@NotNull org.gtk.gtk.Border padding) {
-        java.util.Objects.requireNonNull(padding, "Parameter 'padding' must not be null");
+    public void getPadding(org.gtk.gtk.Border padding) {
         try {
             DowncallHandles.gtk_style_context_get_padding.invokeExact(
                     handle(),
@@ -251,7 +225,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * {@link Widget#getStateFlags}.
      * @return the state flags
      */
-    public @NotNull org.gtk.gtk.StateFlags getState() {
+    public org.gtk.gtk.StateFlags getState() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_style_context_get_state.invokeExact(
@@ -268,17 +242,16 @@ public class StyleContext extends org.gtk.gobject.Object {
      * @param className a class name
      * @return {@code true} if {@code context} has {@code class_name} defined
      */
-    public boolean hasClass(@NotNull java.lang.String className) {
-        java.util.Objects.requireNonNull(className, "Parameter 'className' must not be null");
+    public boolean hasClass(java.lang.String className) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_style_context_has_class.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(className));
+                    Marshal.stringToAddress.marshal(className, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -287,31 +260,28 @@ public class StyleContext extends org.gtk.gobject.Object {
      * @param color Return location for the looked up color
      * @return {@code true} if {@code color_name} was found and resolved, {@code false} otherwise
      */
-    public boolean lookupColor(@NotNull java.lang.String colorName, @NotNull org.gtk.gdk.RGBA color) {
-        java.util.Objects.requireNonNull(colorName, "Parameter 'colorName' must not be null");
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    public boolean lookupColor(java.lang.String colorName, org.gtk.gdk.RGBA color) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_style_context_lookup_color.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(colorName),
+                    Marshal.stringToAddress.marshal(colorName, null),
                     color.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Removes {@code class_name} from {@code context}.
      * @param className class name to remove
      */
-    public void removeClass(@NotNull java.lang.String className) {
-        java.util.Objects.requireNonNull(className, "Parameter 'className' must not be null");
+    public void removeClass(java.lang.String className) {
         try {
             DowncallHandles.gtk_style_context_remove_class.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(className));
+                    Marshal.stringToAddress.marshal(className, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -321,8 +291,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Removes {@code provider} from the style providers list in {@code context}.
      * @param provider a {@code GtkStyleProvider}
      */
-    public void removeProvider(@NotNull org.gtk.gtk.StyleProvider provider) {
-        java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
+    public void removeProvider(org.gtk.gtk.StyleProvider provider) {
         try {
             DowncallHandles.gtk_style_context_remove_provider.invokeExact(
                     handle(),
@@ -378,8 +347,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * call this yourself.
      * @param display a {@code GdkDisplay}
      */
-    public void setDisplay(@NotNull org.gtk.gdk.Display display) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public void setDisplay(org.gtk.gdk.Display display) {
         try {
             DowncallHandles.gtk_style_context_set_display.invokeExact(
                     handle(),
@@ -407,8 +375,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * Sets the state to be used for style matching.
      * @param flags state to represent
      */
-    public void setState(@NotNull org.gtk.gtk.StateFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void setState(org.gtk.gtk.StateFlags flags) {
         try {
             DowncallHandles.gtk_style_context_set_state.invokeExact(
                     handle(),
@@ -432,8 +399,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * @param flags Flags that determine what to print
      * @return a newly allocated string representing {@code context}
      */
-    public @NotNull java.lang.String toString(@NotNull org.gtk.gtk.StyleContextPrintFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public java.lang.String toString(org.gtk.gtk.StyleContextPrintFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_style_context_to_string.invokeExact(
@@ -442,14 +408,14 @@ public class StyleContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_style_context_get_type.invokeExact();
@@ -477,9 +443,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      *   {@code GTK_STYLE_PROVIDER_PRIORITY_FALLBACK} and
      *   {@code GTK_STYLE_PROVIDER_PRIORITY_USER}
      */
-    public static void addProviderForDisplay(@NotNull org.gtk.gdk.Display display, @NotNull org.gtk.gtk.StyleProvider provider, int priority) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
-        java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
+    public static void addProviderForDisplay(org.gtk.gdk.Display display, org.gtk.gtk.StyleProvider provider, int priority) {
         try {
             DowncallHandles.gtk_style_context_add_provider_for_display.invokeExact(
                     display.handle(),
@@ -495,9 +459,7 @@ public class StyleContext extends org.gtk.gobject.Object {
      * @param display a {@code GdkDisplay}
      * @param provider a {@code GtkStyleProvider}
      */
-    public static void removeProviderForDisplay(@NotNull org.gtk.gdk.Display display, @NotNull org.gtk.gtk.StyleProvider provider) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
-        java.util.Objects.requireNonNull(provider, "Parameter 'provider' must not be null");
+    public static void removeProviderForDisplay(org.gtk.gdk.Display display, org.gtk.gtk.StyleProvider provider) {
         try {
             DowncallHandles.gtk_style_context_remove_provider_for_display.invokeExact(
                     display.handle(),
@@ -506,42 +468,44 @@ public class StyleContext extends org.gtk.gobject.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link StyleContext.Builder} object constructs a {@link StyleContext} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link StyleContext.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link StyleContext.Build} object constructs a {@link StyleContext} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link StyleContext} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link StyleContext} using {@link StyleContext#castFrom}.
+         * {@link StyleContext}.
          * @return A new instance of {@code StyleContext} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public StyleContext construct() {
-            return StyleContext.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    StyleContext.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public StyleContext build() {
+            return (StyleContext) org.gtk.gobject.GObject.newWithProperties(
+                StyleContext.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setDisplay(org.gtk.gdk.Display display) {
+        public Builder setDisplay(org.gtk.gdk.Display display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;

@@ -16,17 +16,15 @@ public class InsertBinClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstInsertBinClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.BinClass.getMemoryLayout().withName("parent_class")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.BinClass.getMemoryLayout().withName("parent_class")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -46,9 +44,19 @@ public class InsertBinClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gstreamer.gst.BinClass parentClass$get() {
+    public org.gstreamer.gst.BinClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gstreamer.gst.BinClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.BinClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gstreamer.gst.BinClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
     }
     
     /**
@@ -56,39 +64,45 @@ public class InsertBinClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InsertBinClass(Addressable address, Ownership ownership) {
+    protected InsertBinClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InsertBinClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InsertBinClass(input, ownership);
+    
+    /**
+     * A {@link InsertBinClass.Builder} object constructs a {@link InsertBinClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link InsertBinClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private InsertBinClass struct;
+        private final InsertBinClass struct;
         
-         /**
-         * A {@link InsertBinClass.Build} object constructs a {@link InsertBinClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = InsertBinClass.allocate();
         }
         
          /**
          * Finish building the {@link InsertBinClass} struct.
          * @return A new instance of {@code InsertBinClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public InsertBinClass construct() {
+        public InsertBinClass build() {
             return struct;
         }
         
-        public Build setParentClass(org.gstreamer.gst.BinClass parentClass) {
+        public Builder setParentClass(org.gstreamer.gst.BinClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));

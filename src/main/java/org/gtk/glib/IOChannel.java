@@ -18,39 +18,37 @@ public class IOChannel extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GIOChannel";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("ref_count"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("funcs"),
-        Interop.valueLayout.ADDRESS.withName("encoding"),
-        org.gtk.glib.IConv.getMemoryLayout().withName("read_cd"),
-        org.gtk.glib.IConv.getMemoryLayout().withName("write_cd"),
-        Interop.valueLayout.ADDRESS.withName("line_term"),
-        Interop.valueLayout.C_INT.withName("line_term_len"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("buf_size"),
-        Interop.valueLayout.ADDRESS.withName("read_buf"),
-        Interop.valueLayout.ADDRESS.withName("encoded_read_buf"),
-        Interop.valueLayout.ADDRESS.withName("write_buf"),
-        MemoryLayout.paddingLayout(16),
-        MemoryLayout.sequenceLayout(6, Interop.valueLayout.C_BYTE).withName("partial_write_buf"),
-        Interop.valueLayout.C_INT.withName("use_buffer"),
-        Interop.valueLayout.C_INT.withName("do_encode"),
-        Interop.valueLayout.C_INT.withName("close_on_unref"),
-        Interop.valueLayout.C_INT.withName("is_readable"),
-        Interop.valueLayout.C_INT.withName("is_writeable"),
-        Interop.valueLayout.C_INT.withName("is_seekable"),
-        Interop.valueLayout.ADDRESS.withName("reserved1"),
-        Interop.valueLayout.ADDRESS.withName("reserved2")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("ref_count"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("funcs"),
+            Interop.valueLayout.ADDRESS.withName("encoding"),
+            org.gtk.glib.IConv.getMemoryLayout().withName("read_cd"),
+            org.gtk.glib.IConv.getMemoryLayout().withName("write_cd"),
+            Interop.valueLayout.ADDRESS.withName("line_term"),
+            Interop.valueLayout.C_INT.withName("line_term_len"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("buf_size"),
+            Interop.valueLayout.ADDRESS.withName("read_buf"),
+            Interop.valueLayout.ADDRESS.withName("encoded_read_buf"),
+            Interop.valueLayout.ADDRESS.withName("write_buf"),
+            MemoryLayout.paddingLayout(16),
+            MemoryLayout.sequenceLayout(6, Interop.valueLayout.C_BYTE).withName("partial_write_buf"),
+            Interop.valueLayout.C_INT.withName("use_buffer"),
+            Interop.valueLayout.C_INT.withName("do_encode"),
+            Interop.valueLayout.C_INT.withName("close_on_unref"),
+            Interop.valueLayout.C_INT.withName("is_readable"),
+            Interop.valueLayout.C_INT.withName("is_writeable"),
+            Interop.valueLayout.C_INT.withName("is_seekable"),
+            Interop.valueLayout.ADDRESS.withName("reserved1"),
+            Interop.valueLayout.ADDRESS.withName("reserved2")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -71,20 +69,20 @@ public class IOChannel extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IOChannel(Addressable address, Ownership ownership) {
+    protected IOChannel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewFile(@NotNull java.lang.String filename, @NotNull java.lang.String mode) throws GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IOChannel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IOChannel(input, ownership);
+    
+    private static MemoryAddress constructNewFile(java.lang.String filename, java.lang.String mode) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_channel_new_file.invokeExact(
-                    Interop.allocateNativeString(filename),
-                    Interop.allocateNativeString(mode),
+                    Marshal.stringToAddress.marshal(filename, null),
+                    Marshal.stringToAddress.marshal(mode, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -107,12 +105,13 @@ public class IOChannel extends Struct {
      * @return A {@link IOChannel} on success, {@code null} on failure.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static IOChannel newFile(@NotNull java.lang.String filename, @NotNull java.lang.String mode) throws GErrorException {
-        return new IOChannel(constructNewFile(filename, mode), Ownership.FULL);
+    public static IOChannel newFile(java.lang.String filename, java.lang.String mode) throws GErrorException {
+        var RESULT = constructNewFile(filename, mode);
+        return org.gtk.glib.IOChannel.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructUnixNew(int fd) {
-        Addressable RESULT;
+    private static MemoryAddress constructUnixNew(int fd) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_channel_unix_new.invokeExact(
                     fd);
@@ -149,7 +148,8 @@ public class IOChannel extends Struct {
      * @return a new {@link IOChannel}.
      */
     public static IOChannel unixNew(int fd) {
-        return new IOChannel(constructUnixNew(fd), Ownership.FULL);
+        var RESULT = constructUnixNew(fd);
+        return org.gtk.glib.IOChannel.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -175,7 +175,7 @@ public class IOChannel extends Struct {
      *   {@link IOStatus#ERROR}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus flush() throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.IOStatus flush() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -197,7 +197,7 @@ public class IOChannel extends Struct {
      * the {@link IOChannel}. Only the flags {@link IOCondition#IN} and {@link IOCondition#OUT} may be set.
      * @return A {@link IOCondition}
      */
-    public @NotNull org.gtk.glib.IOCondition getBufferCondition() {
+    public org.gtk.glib.IOCondition getBufferCondition() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_get_buffer_condition.invokeExact(
@@ -235,7 +235,7 @@ public class IOChannel extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -253,7 +253,7 @@ public class IOChannel extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -263,7 +263,7 @@ public class IOChannel extends Struct {
      * @return A string containing the encoding, this string is
      *   owned by GLib and must not be freed.
      */
-    public @NotNull java.lang.String getEncoding() {
+    public java.lang.String getEncoding() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_channel_get_encoding.invokeExact(
@@ -271,7 +271,7 @@ public class IOChannel extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -286,7 +286,7 @@ public class IOChannel extends Struct {
      * the internal values of these flags.
      * @return the flags which are set on the channel
      */
-    public @NotNull org.gtk.glib.IOFlags getFlags() {
+    public org.gtk.glib.IOFlags getFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_get_flags.invokeExact(
@@ -305,8 +305,7 @@ public class IOChannel extends Struct {
      * @return The line termination string. This value
      *   is owned by GLib and must not be freed.
      */
-    public @NotNull java.lang.String getLineTerm(PointerInteger length) {
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
+    public java.lang.String getLineTerm(PointerInteger length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_channel_get_line_term.invokeExact(
@@ -315,7 +314,7 @@ public class IOChannel extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -344,14 +343,12 @@ public class IOChannel extends Struct {
      * @deprecated Use g_io_channel_read_chars() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.glib.IOError read(@NotNull java.lang.String buf, long count, PointerLong bytesRead) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
+    public org.gtk.glib.IOError read(java.lang.String buf, long count, PointerLong bytesRead) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_read.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(buf),
+                    Marshal.stringToAddress.marshal(buf, null),
                     count,
                     bytesRead.handle());
         } catch (Throwable ERR) {
@@ -373,10 +370,8 @@ public class IOChannel extends Struct {
      * @return the status of the operation.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus readChars(@NotNull Out<byte[]> buf, long count, Out<Long> bytesRead) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public org.gtk.glib.IOStatus readChars(Out<byte[]> buf, long count, Out<Long> bytesRead) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(bytesRead, "Parameter 'bytesRead' must not be null");
         MemorySegment bytesReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -385,7 +380,7 @@ public class IOChannel extends Struct {
                     handle(),
                     (Addressable) bufPOINTER.address(),
                     count,
-                    (Addressable) bytesReadPOINTER.address(),
+                    (Addressable) (bytesRead == null ? MemoryAddress.NULL : (Addressable) bytesReadPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -393,7 +388,7 @@ public class IOChannel extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (bytesRead != null) bytesRead.set(bytesReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
         buf.set(MemorySegment.ofAddress(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), count * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
         return org.gtk.glib.IOStatus.of(RESULT);
     }
@@ -412,12 +407,9 @@ public class IOChannel extends Struct {
      * @return the status of the operation.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus readLine(@NotNull Out<java.lang.String> strReturn, Out<Long> length, Out<Long> terminatorPos) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(strReturn, "Parameter 'strReturn' must not be null");
+    public org.gtk.glib.IOStatus readLine(Out<java.lang.String> strReturn, Out<Long> length, Out<Long> terminatorPos) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment strReturnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(terminatorPos, "Parameter 'terminatorPos' must not be null");
         MemorySegment terminatorPosPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -425,8 +417,8 @@ public class IOChannel extends Struct {
             RESULT = (int) DowncallHandles.g_io_channel_read_line.invokeExact(
                     handle(),
                     (Addressable) strReturnPOINTER.address(),
-                    (Addressable) lengthPOINTER.address(),
-                    (Addressable) terminatorPosPOINTER.address(),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
+                    (Addressable) (terminatorPos == null ? MemoryAddress.NULL : (Addressable) terminatorPosPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -434,23 +426,22 @@ public class IOChannel extends Struct {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        strReturn.set(Interop.getStringFrom(strReturnPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        terminatorPos.set(terminatorPosPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        strReturn.set(Marshal.addressToString.marshal(strReturnPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (terminatorPos != null) terminatorPos.set(terminatorPosPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return org.gtk.glib.IOStatus.of(RESULT);
     }
     
     /**
-     * Reads a line from a {@link IOChannel}, using a {@link String} as a buffer.
-     * @param buffer a {@link String} into which the line will be written.
+     * Reads a line from a {@link IOChannel}, using a {@link GString} as a buffer.
+     * @param buffer a {@link GString} into which the line will be written.
      *          If {@code buffer} already contains data, the old data will
      *          be overwritten.
      * @param terminatorPos location to store position of line terminator, or {@code null}
      * @return the status of the operation.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus readLineString(@NotNull org.gtk.glib.String buffer, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gtk.glib.IOStatus readLineString(org.gtk.glib.GString buffer, PointerLong terminatorPos) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -480,10 +471,8 @@ public class IOChannel extends Struct {
      *     This function never returns {@link IOStatus#EOF}.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus readToEnd(@NotNull Out<byte[]> strReturn, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(strReturn, "Parameter 'strReturn' must not be null");
+    public org.gtk.glib.IOStatus readToEnd(Out<byte[]> strReturn, Out<Long> length) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment strReturnPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -511,8 +500,7 @@ public class IOChannel extends Struct {
      * @return a {@link IOStatus}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus readUnichar(Out<Integer> thechar) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(thechar, "Parameter 'thechar' must not be null");
+    public org.gtk.glib.IOStatus readUnichar(Out<Integer> thechar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment thecharPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -535,7 +523,7 @@ public class IOChannel extends Struct {
      * Increments the reference count of a {@link IOChannel}.
      * @return the {@code channel} that was passed in (since 2.6)
      */
-    public @NotNull org.gtk.glib.IOChannel ref() {
+    public org.gtk.glib.IOChannel ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_io_channel_ref.invokeExact(
@@ -543,7 +531,7 @@ public class IOChannel extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.IOChannel(RESULT, Ownership.FULL);
+        return org.gtk.glib.IOChannel.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -558,8 +546,7 @@ public class IOChannel extends Struct {
      * @deprecated Use g_io_channel_seek_position() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.glib.IOError seek(long offset, @NotNull org.gtk.glib.SeekType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public org.gtk.glib.IOError seek(long offset, org.gtk.glib.SeekType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_seek.invokeExact(
@@ -582,8 +569,7 @@ public class IOChannel extends Struct {
      * @return the status of the operation.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus seekPosition(long offset, @NotNull org.gtk.glib.SeekType type) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public org.gtk.glib.IOStatus seekPosition(long offset, org.gtk.glib.SeekType type) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -641,7 +627,7 @@ public class IOChannel extends Struct {
         try {
             DowncallHandles.g_io_channel_set_buffered.invokeExact(
                     handle(),
-                    buffered ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(buffered, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -661,7 +647,7 @@ public class IOChannel extends Struct {
         try {
             DowncallHandles.g_io_channel_set_close_on_unref.invokeExact(
                     handle(),
-                    doClose ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(doClose, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -712,13 +698,13 @@ public class IOChannel extends Struct {
      * @return {@link IOStatus#NORMAL} if the encoding was successfully set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus setEncoding(@Nullable java.lang.String encoding) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.IOStatus setEncoding(@Nullable java.lang.String encoding) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_set_encoding.invokeExact(
                     handle(),
-                    (Addressable) (encoding == null ? MemoryAddress.NULL : Interop.allocateNativeString(encoding)),
+                    (Addressable) (encoding == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encoding, null)),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -735,8 +721,7 @@ public class IOChannel extends Struct {
      * @return the status of the operation.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus setFlags(@NotNull org.gtk.glib.IOFlags flags) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public org.gtk.glib.IOStatus setFlags(org.gtk.glib.IOFlags flags) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -768,7 +753,7 @@ public class IOChannel extends Struct {
         try {
             DowncallHandles.g_io_channel_set_line_term.invokeExact(
                     handle(),
-                    (Addressable) (lineTerm == null ? MemoryAddress.NULL : Interop.allocateNativeString(lineTerm)),
+                    (Addressable) (lineTerm == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(lineTerm, null)),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -783,13 +768,13 @@ public class IOChannel extends Struct {
      * @return the status of the operation.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.IOStatus shutdown(boolean flush) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_shutdown.invokeExact(
                     handle(),
-                    flush ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(flush, null).intValue(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -839,14 +824,12 @@ public class IOChannel extends Struct {
      * @deprecated Use g_io_channel_write_chars() instead.
      */
     @Deprecated
-    public @NotNull org.gtk.glib.IOError write(@NotNull java.lang.String buf, long count, PointerLong bytesWritten) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public org.gtk.glib.IOError write(java.lang.String buf, long count, PointerLong bytesWritten) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_write.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(buf),
+                    Marshal.stringToAddress.marshal(buf, null),
                     count,
                     bytesWritten.handle());
         } catch (Throwable ERR) {
@@ -873,9 +856,7 @@ public class IOChannel extends Struct {
      * @return the status of the operation.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus writeChars(@NotNull byte[] buf, long count, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
-        java.util.Objects.requireNonNull(bytesWritten, "Parameter 'bytesWritten' must not be null");
+    public org.gtk.glib.IOStatus writeChars(byte[] buf, long count, Out<Long> bytesWritten) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment bytesWrittenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -903,7 +884,7 @@ public class IOChannel extends Struct {
      * @return a {@link IOStatus}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public @NotNull org.gtk.glib.IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.GErrorException {
+    public org.gtk.glib.IOStatus writeUnichar(int thechar) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -926,7 +907,7 @@ public class IOChannel extends Struct {
      * @return a {@link IOChannelError} error number, e.g.
      *      {@link IOChannelError#INVAL}.
      */
-    public static @NotNull org.gtk.glib.IOChannelError errorFromErrno(int en) {
+    public static org.gtk.glib.IOChannelError errorFromErrno(int en) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_error_from_errno.invokeExact(
@@ -937,7 +918,7 @@ public class IOChannel extends Struct {
         return org.gtk.glib.IOChannelError.of(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Quark errorQuark() {
+    public static org.gtk.glib.Quark errorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_io_channel_error_quark.invokeExact();
@@ -1159,168 +1140,172 @@ public class IOChannel extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link IOChannel.Builder} object constructs a {@link IOChannel} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link IOChannel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private IOChannel struct;
+        private final IOChannel struct;
         
-         /**
-         * A {@link IOChannel.Build} object constructs a {@link IOChannel} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = IOChannel.allocate();
         }
         
          /**
          * Finish building the {@link IOChannel} struct.
          * @return A new instance of {@code IOChannel} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public IOChannel construct() {
+        public IOChannel build() {
             return struct;
         }
         
-        public Build setRefCount(int refCount) {
+        public Builder setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
             return this;
         }
         
-        public Build setFuncs(org.gtk.glib.IOFuncs funcs) {
+        public Builder setFuncs(org.gtk.glib.IOFuncs funcs) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("funcs"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (funcs == null ? MemoryAddress.NULL : funcs.handle()));
             return this;
         }
         
-        public Build setEncoding(java.lang.String encoding) {
+        public Builder setEncoding(java.lang.String encoding) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("encoding"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encoding == null ? MemoryAddress.NULL : Interop.allocateNativeString(encoding)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encoding == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encoding, null)));
             return this;
         }
         
-        public Build setReadCd(org.gtk.glib.IConv readCd) {
+        public Builder setReadCd(org.gtk.glib.IConv readCd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("read_cd"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readCd == null ? MemoryAddress.NULL : readCd.handle()));
             return this;
         }
         
-        public Build setWriteCd(org.gtk.glib.IConv writeCd) {
+        public Builder setWriteCd(org.gtk.glib.IConv writeCd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("write_cd"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeCd == null ? MemoryAddress.NULL : writeCd.handle()));
             return this;
         }
         
-        public Build setLineTerm(java.lang.String lineTerm) {
+        public Builder setLineTerm(java.lang.String lineTerm) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line_term"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lineTerm == null ? MemoryAddress.NULL : Interop.allocateNativeString(lineTerm)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lineTerm == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(lineTerm, null)));
             return this;
         }
         
-        public Build setLineTermLen(int lineTermLen) {
+        public Builder setLineTermLen(int lineTermLen) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line_term_len"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), lineTermLen);
             return this;
         }
         
-        public Build setBufSize(long bufSize) {
+        public Builder setBufSize(long bufSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buf_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bufSize);
             return this;
         }
         
-        public Build setReadBuf(org.gtk.glib.String readBuf) {
+        public Builder setReadBuf(org.gtk.glib.GString readBuf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("read_buf"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (readBuf == null ? MemoryAddress.NULL : readBuf.handle()));
             return this;
         }
         
-        public Build setEncodedReadBuf(org.gtk.glib.String encodedReadBuf) {
+        public Builder setEncodedReadBuf(org.gtk.glib.GString encodedReadBuf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("encoded_read_buf"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodedReadBuf == null ? MemoryAddress.NULL : encodedReadBuf.handle()));
             return this;
         }
         
-        public Build setWriteBuf(org.gtk.glib.String writeBuf) {
+        public Builder setWriteBuf(org.gtk.glib.GString writeBuf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("write_buf"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (writeBuf == null ? MemoryAddress.NULL : writeBuf.handle()));
             return this;
         }
         
-        public Build setPartialWriteBuf(byte[] partialWriteBuf) {
+        public Builder setPartialWriteBuf(byte[] partialWriteBuf) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("partial_write_buf"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (partialWriteBuf == null ? MemoryAddress.NULL : Interop.allocateNativeArray(partialWriteBuf, false)));
             return this;
         }
         
-        public Build setUseBuffer(int useBuffer) {
+        public Builder setUseBuffer(int useBuffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("use_buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), useBuffer);
             return this;
         }
         
-        public Build setDoEncode(int doEncode) {
+        public Builder setDoEncode(int doEncode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("do_encode"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), doEncode);
             return this;
         }
         
-        public Build setCloseOnUnref(int closeOnUnref) {
+        public Builder setCloseOnUnref(int closeOnUnref) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("close_on_unref"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), closeOnUnref);
             return this;
         }
         
-        public Build setIsReadable(int isReadable) {
+        public Builder setIsReadable(int isReadable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_readable"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isReadable);
             return this;
         }
         
-        public Build setIsWriteable(int isWriteable) {
+        public Builder setIsWriteable(int isWriteable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_writeable"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isWriteable);
             return this;
         }
         
-        public Build setIsSeekable(int isSeekable) {
+        public Builder setIsSeekable(int isSeekable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_seekable"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), isSeekable);
             return this;
         }
         
-        public Build setReserved1(java.lang.foreign.MemoryAddress reserved1) {
+        public Builder setReserved1(java.lang.foreign.MemoryAddress reserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("reserved1"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved1 == null ? MemoryAddress.NULL : (Addressable) reserved1));
             return this;
         }
         
-        public Build setReserved2(java.lang.foreign.MemoryAddress reserved2) {
+        public Builder setReserved2(java.lang.foreign.MemoryAddress reserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("reserved2"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (reserved2 == null ? MemoryAddress.NULL : (Addressable) reserved2));

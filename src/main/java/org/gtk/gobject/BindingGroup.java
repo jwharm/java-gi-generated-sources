@@ -15,10 +15,10 @@ import org.jetbrains.annotations.*;
  * with g_binding_group_set_source().
  * @version 2.72
  */
-public class BindingGroup extends org.gtk.gobject.Object {
+public class BindingGroup extends org.gtk.gobject.GObject {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GBindingGroup";
@@ -37,33 +37,15 @@ public class BindingGroup extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BindingGroup(Addressable address, Ownership ownership) {
+    protected BindingGroup(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to BindingGroup if its GType is a (or inherits from) "GBindingGroup".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code BindingGroup} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GBindingGroup", a ClassCastException will be thrown.
-     */
-    public static BindingGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), BindingGroup.getType())) {
-            return new BindingGroup(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GBindingGroup");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BindingGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BindingGroup(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_binding_group_new.invokeExact();
         } catch (Throwable ERR) {
@@ -87,67 +69,18 @@ public class BindingGroup extends org.gtk.gobject.Object {
      * <p>
      * See g_object_bind_property() for more information.
      * @param sourceProperty the property on the source to bind
-     * @param target the target {@link Object}
+     * @param target the target {@link GObject}
      * @param targetProperty the property on {@code target} to bind
      * @param flags the flags used to create the {@link Binding}
      */
-    public void bind(@NotNull java.lang.String sourceProperty, @NotNull org.gtk.gobject.Object target, @NotNull java.lang.String targetProperty, @NotNull org.gtk.gobject.BindingFlags flags) {
-        java.util.Objects.requireNonNull(sourceProperty, "Parameter 'sourceProperty' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void bind(java.lang.String sourceProperty, org.gtk.gobject.GObject target, java.lang.String targetProperty, org.gtk.gobject.BindingFlags flags) {
         try {
             DowncallHandles.g_binding_group_bind.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(sourceProperty),
+                    Marshal.stringToAddress.marshal(sourceProperty, null),
                     target.handle(),
-                    Interop.allocateNativeString(targetProperty),
+                    Marshal.stringToAddress.marshal(targetProperty, null),
                     flags.getValue());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-    }
-    
-    /**
-     * Creates a binding between {@code source_property} on the source object and
-     * {@code target_property} on {@code target}, allowing you to set the transformation
-     * functions to be used by the binding. The binding flag
-     * {@link BindingFlags#SYNC_CREATE} is automatically specified.
-     * <p>
-     * See g_object_bind_property_full() for more information.
-     * @param sourceProperty the property on the source to bind
-     * @param target the target {@link Object}
-     * @param targetProperty the property on {@code target} to bind
-     * @param flags the flags used to create the {@link Binding}
-     * @param transformTo the transformation function
-     *     from the source object to the {@code target}, or {@code null} to use the default
-     * @param transformFrom the transformation function
-     *     from the {@code target} to the source object, or {@code null} to use the default
-     */
-    public void bindFull(@NotNull java.lang.String sourceProperty, @NotNull org.gtk.gobject.Object target, @NotNull java.lang.String targetProperty, @NotNull org.gtk.gobject.BindingFlags flags, @Nullable org.gtk.gobject.BindingTransformFunc transformTo, @Nullable org.gtk.gobject.BindingTransformFunc transformFrom) {
-        java.util.Objects.requireNonNull(sourceProperty, "Parameter 'sourceProperty' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        try {
-            DowncallHandles.g_binding_group_bind_full.invokeExact(
-                    handle(),
-                    Interop.allocateNativeString(sourceProperty),
-                    target.handle(),
-                    Interop.allocateNativeString(targetProperty),
-                    flags.getValue(),
-                    (Addressable) (transformTo == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (transformFrom == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GObject.Callbacks.class, "cbBindingTransformFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (transformTo == null ? MemoryAddress.NULL : Interop.registerCallback(transformTo)),
-                    Interop.cbDestroyNotifySymbol());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -165,7 +98,7 @@ public class BindingGroup extends org.gtk.gobject.Object {
      * <p>
      * See g_object_bind_property_with_closures() for more information.
      * @param sourceProperty the property on the source to bind
-     * @param target the target {@link Object}
+     * @param target the target {@link GObject}
      * @param targetProperty the property on {@code target} to bind
      * @param flags the flags used to create the {@link Binding}
      * @param transformTo a {@link Closure} wrapping the
@@ -175,17 +108,13 @@ public class BindingGroup extends org.gtk.gobject.Object {
      *     transformation function from the {@code target} to the source object,
      *     or {@code null} to use the default
      */
-    public void bindWithClosures(@NotNull java.lang.String sourceProperty, @NotNull org.gtk.gobject.Object target, @NotNull java.lang.String targetProperty, @NotNull org.gtk.gobject.BindingFlags flags, @Nullable org.gtk.gobject.Closure transformTo, @Nullable org.gtk.gobject.Closure transformFrom) {
-        java.util.Objects.requireNonNull(sourceProperty, "Parameter 'sourceProperty' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(targetProperty, "Parameter 'targetProperty' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void bindFull(java.lang.String sourceProperty, org.gtk.gobject.GObject target, java.lang.String targetProperty, org.gtk.gobject.BindingFlags flags, @Nullable org.gtk.gobject.Closure transformTo, @Nullable org.gtk.gobject.Closure transformFrom) {
         try {
             DowncallHandles.g_binding_group_bind_with_closures.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(sourceProperty),
+                    Marshal.stringToAddress.marshal(sourceProperty, null),
                     target.handle(),
-                    Interop.allocateNativeString(targetProperty),
+                    Marshal.stringToAddress.marshal(targetProperty, null),
                     flags.getValue(),
                     (Addressable) (transformTo == null ? MemoryAddress.NULL : transformTo.handle()),
                     (Addressable) (transformFrom == null ? MemoryAddress.NULL : transformFrom.handle()));
@@ -196,9 +125,9 @@ public class BindingGroup extends org.gtk.gobject.Object {
     
     /**
      * Gets the source object used for binding properties.
-     * @return a {@link Object} or {@code null}.
+     * @return a {@link GObject} or {@code null}.
      */
-    public @Nullable org.gtk.gobject.Object dupSource() {
+    public @Nullable org.gtk.gobject.GObject dupSource() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_binding_group_dup_source.invokeExact(
@@ -206,7 +135,7 @@ public class BindingGroup extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -215,10 +144,10 @@ public class BindingGroup extends org.gtk.gobject.Object {
      * will be removed.
      * <p>
      * Note that all properties that have been bound must exist on {@code source}.
-     * @param source the source {@link Object},
+     * @param source the source {@link GObject},
      *   or {@code null} to clear it
      */
-    public void setSource(@Nullable org.gtk.gobject.Object source) {
+    public void setSource(@Nullable org.gtk.gobject.GObject source) {
         try {
             DowncallHandles.g_binding_group_set_source.invokeExact(
                     handle(),
@@ -232,7 +161,7 @@ public class BindingGroup extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_binding_group_get_type.invokeExact();
@@ -241,38 +170,40 @@ public class BindingGroup extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link BindingGroup.Builder} object constructs a {@link BindingGroup} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link BindingGroup.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link BindingGroup.Build} object constructs a {@link BindingGroup} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link BindingGroup} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link BindingGroup} using {@link BindingGroup#castFrom}.
+         * {@link BindingGroup}.
          * @return A new instance of {@code BindingGroup} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BindingGroup construct() {
-            return BindingGroup.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    BindingGroup.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public BindingGroup build() {
+            return (BindingGroup) org.gtk.gobject.GObject.newWithProperties(
+                BindingGroup.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -281,7 +212,7 @@ public class BindingGroup extends org.gtk.gobject.Object {
          * @param source The value for the {@code source} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSource(org.gtk.gobject.Object source) {
+        public Builder setSource(org.gtk.gobject.GObject source) {
             names.add("source");
             values.add(org.gtk.gobject.Value.create(source));
             return this;
@@ -299,12 +230,6 @@ public class BindingGroup extends org.gtk.gobject.Object {
         private static final MethodHandle g_binding_group_bind = Interop.downcallHandle(
             "g_binding_group_bind",
             FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT),
-            false
-        );
-        
-        private static final MethodHandle g_binding_group_bind_full = Interop.downcallHandle(
-            "g_binding_group_bind_full",
-            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         

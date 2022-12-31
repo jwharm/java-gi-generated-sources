@@ -11,5 +11,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface EGLImageDestroyNotify {
-        void onEGLImageDestroyNotify(@NotNull org.gstreamer.gl.egl.EGLImage image);
+    void run(org.gstreamer.gl.egl.EGLImage image);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress image, MemoryAddress data) {
+        run(org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(image, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EGLImageDestroyNotify.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

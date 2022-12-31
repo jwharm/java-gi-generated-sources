@@ -280,8 +280,7 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @return A D-Bus error name (never {@code null}).
      *     Free with g_free().
      */
-    public static @NotNull java.lang.String encodeGerror(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public static java.lang.String encodeGerror(org.gtk.glib.Error error) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_encode_gerror.invokeExact(
@@ -289,7 +288,7 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -303,8 +302,7 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @return an allocated string or {@code null} if the
      *     D-Bus error name could not be found. Free with g_free().
      */
-    public static @Nullable java.lang.String getRemoteError(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public static @Nullable java.lang.String getRemoteError(org.gtk.glib.Error error) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_get_remote_error.invokeExact(
@@ -312,7 +310,7 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -322,8 +320,7 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @return {@code true} if {@code error} represents an error from a remote peer,
      * {@code false} otherwise.
      */
-    public static boolean isRemoteError(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public static boolean isRemoteError(org.gtk.glib.Error error) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_error_is_remote_error.invokeExact(
@@ -331,7 +328,7 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -365,21 +362,19 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @param dbusErrorMessage D-Bus error message.
      * @return An allocated {@link org.gtk.glib.Error}. Free with g_error_free().
      */
-    public static @NotNull org.gtk.glib.Error newForDbusError(@NotNull java.lang.String dbusErrorName, @NotNull java.lang.String dbusErrorMessage) {
-        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
-        java.util.Objects.requireNonNull(dbusErrorMessage, "Parameter 'dbusErrorMessage' must not be null");
+    public static org.gtk.glib.Error newForDbusError(java.lang.String dbusErrorName, java.lang.String dbusErrorMessage) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_error_new_for_dbus_error.invokeExact(
-                    Interop.allocateNativeString(dbusErrorName),
-                    Interop.allocateNativeString(dbusErrorMessage));
+                    Marshal.stringToAddress.marshal(dbusErrorName, null),
+                    Marshal.stringToAddress.marshal(dbusErrorMessage, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Error(RESULT, Ownership.FULL);
+        return org.gtk.glib.Error.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_error_quark.invokeExact();
@@ -401,19 +396,17 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @return {@code true} if the association was created, {@code false} if it already
      * exists.
      */
-    public static boolean registerError(@NotNull org.gtk.glib.Quark errorDomain, int errorCode, @NotNull java.lang.String dbusErrorName) {
-        java.util.Objects.requireNonNull(errorDomain, "Parameter 'errorDomain' must not be null");
-        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
+    public static boolean registerError(org.gtk.glib.Quark errorDomain, int errorCode, java.lang.String dbusErrorName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_error_register_error.invokeExact(
                     errorDomain.getValue().intValue(),
                     errorCode,
-                    Interop.allocateNativeString(dbusErrorName));
+                    Marshal.stringToAddress.marshal(dbusErrorName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -426,13 +419,10 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @param entries A pointer to {@code num_entries} {@link DBusErrorEntry} struct items.
      * @param numEntries Number of items to register.
      */
-    public static void registerErrorDomain(@NotNull java.lang.String errorDomainQuarkName, PointerLong quarkVolatile, @NotNull org.gtk.gio.DBusErrorEntry[] entries, int numEntries) {
-        java.util.Objects.requireNonNull(errorDomainQuarkName, "Parameter 'errorDomainQuarkName' must not be null");
-        java.util.Objects.requireNonNull(quarkVolatile, "Parameter 'quarkVolatile' must not be null");
-        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
+    public static void registerErrorDomain(java.lang.String errorDomainQuarkName, PointerLong quarkVolatile, org.gtk.gio.DBusErrorEntry[] entries, int numEntries) {
         try {
             DowncallHandles.g_dbus_error_register_error_domain.invokeExact(
-                    Interop.allocateNativeString(errorDomainQuarkName),
+                    Marshal.stringToAddress.marshal(errorDomainQuarkName, null),
                     quarkVolatile.handle(),
                     Interop.allocateNativeArray(entries, org.gtk.gio.DBusErrorEntry.getMemoryLayout(), false),
                     numEntries);
@@ -451,15 +441,13 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @param format printf()-style format to prepend to {@code dbus_error_message} or {@code null}.
      * @param varargs Arguments for {@code format}.
      */
-    public static void setDbusError(@NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String dbusErrorName, @NotNull java.lang.String dbusErrorMessage, @Nullable java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
-        java.util.Objects.requireNonNull(dbusErrorMessage, "Parameter 'dbusErrorMessage' must not be null");
+    public static void setDbusError(PointerProxy<org.gtk.glib.Error> error, java.lang.String dbusErrorName, java.lang.String dbusErrorMessage, @Nullable java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_dbus_error_set_dbus_error.invokeExact(
                     error.handle(),
-                    Interop.allocateNativeString(dbusErrorName),
-                    Interop.allocateNativeString(dbusErrorMessage),
-                    (Addressable) (format == null ? MemoryAddress.NULL : Interop.allocateNativeString(format)),
+                    Marshal.stringToAddress.marshal(dbusErrorName, null),
+                    Marshal.stringToAddress.marshal(dbusErrorMessage, null),
+                    (Addressable) (format == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(format, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -474,16 +462,13 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @param format printf()-style format to prepend to {@code dbus_error_message} or {@code null}.
      * @param varArgs Arguments for {@code format}.
      */
-    public static void setDbusErrorValist(@NotNull PointerProxy<org.gtk.glib.Error> error, @NotNull java.lang.String dbusErrorName, @NotNull java.lang.String dbusErrorMessage, @Nullable java.lang.String format, @NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
-        java.util.Objects.requireNonNull(dbusErrorMessage, "Parameter 'dbusErrorMessage' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+    public static void setDbusErrorValist(PointerProxy<org.gtk.glib.Error> error, java.lang.String dbusErrorName, java.lang.String dbusErrorMessage, @Nullable java.lang.String format, VaList varArgs) {
         try {
             DowncallHandles.g_dbus_error_set_dbus_error_valist.invokeExact(
                     error.handle(),
-                    Interop.allocateNativeString(dbusErrorName),
-                    Interop.allocateNativeString(dbusErrorMessage),
-                    (Addressable) (format == null ? MemoryAddress.NULL : Interop.allocateNativeString(format)),
+                    Marshal.stringToAddress.marshal(dbusErrorName, null),
+                    Marshal.stringToAddress.marshal(dbusErrorMessage, null),
+                    (Addressable) (format == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(format, null)),
                     varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -500,8 +485,7 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @param error A {@link org.gtk.glib.Error}.
      * @return {@code true} if information was stripped, {@code false} otherwise.
      */
-    public static boolean stripRemoteError(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public static boolean stripRemoteError(org.gtk.glib.Error error) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_error_strip_remote_error.invokeExact(
@@ -509,7 +493,7 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -519,19 +503,17 @@ public enum DBusError implements io.github.jwharm.javagi.Enumeration {
      * @param dbusErrorName A D-Bus error name.
      * @return {@code true} if the association was destroyed, {@code false} if it wasn't found.
      */
-    public static boolean unregisterError(@NotNull org.gtk.glib.Quark errorDomain, int errorCode, @NotNull java.lang.String dbusErrorName) {
-        java.util.Objects.requireNonNull(errorDomain, "Parameter 'errorDomain' must not be null");
-        java.util.Objects.requireNonNull(dbusErrorName, "Parameter 'dbusErrorName' must not be null");
+    public static boolean unregisterError(org.gtk.glib.Quark errorDomain, int errorCode, java.lang.String dbusErrorName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_dbus_error_unregister_error.invokeExact(
                     errorDomain.getValue().intValue(),
                     errorCode,
-                    Interop.allocateNativeString(dbusErrorName));
+                    Marshal.stringToAddress.marshal(dbusErrorName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

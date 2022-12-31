@@ -45,7 +45,7 @@ import org.jetbrains.annotations.*;
  * {@link TreeModelFilter#convertIterToChildIter} to obtain a
  * matching iter.
  */
-public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.gtk.Buildable, org.gtk.gtk.CellLayout {
+public class EntryCompletion extends org.gtk.gobject.GObject implements org.gtk.gtk.Buildable, org.gtk.gtk.CellLayout {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -67,33 +67,15 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EntryCompletion(Addressable address, Ownership ownership) {
+    protected EntryCompletion(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EntryCompletion if its GType is a (or inherits from) "GtkEntryCompletion".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EntryCompletion} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkEntryCompletion", a ClassCastException will be thrown.
-     */
-    public static EntryCompletion castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EntryCompletion.getType())) {
-            return new EntryCompletion(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEntryCompletion");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EntryCompletion> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EntryCompletion(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_new.invokeExact();
         } catch (Throwable ERR) {
@@ -109,9 +91,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithArea(@NotNull org.gtk.gtk.CellArea area) {
-        java.util.Objects.requireNonNull(area, "Parameter 'area' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithArea(org.gtk.gtk.CellArea area) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_new_with_area.invokeExact(
                     area.handle());
@@ -130,8 +111,9 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * @param area the {@code GtkCellArea} used to layout cells
      * @return A newly created {@code GtkEntryCompletion} object
      */
-    public static EntryCompletion newWithArea(@NotNull org.gtk.gtk.CellArea area) {
-        return new EntryCompletion(constructNewWithArea(area), Ownership.FULL);
+    public static EntryCompletion newWithArea(org.gtk.gtk.CellArea area) {
+        var RESULT = constructNewWithArea(area);
+        return (org.gtk.gtk.EntryCompletion) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.EntryCompletion.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -160,17 +142,16 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * @return The common prefix all rows
      *   starting with {@code key}
      */
-    public @Nullable java.lang.String computePrefix(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable java.lang.String computePrefix(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_compute_prefix.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -186,14 +167,14 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the entry {@code completion} has been attached to.
      * @return The entry {@code completion} has been attached to
      */
-    public @NotNull org.gtk.gtk.Widget getEntry() {
+    public org.gtk.gtk.Widget getEntry() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_entry_completion_get_entry.invokeExact(
@@ -201,7 +182,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -217,7 +198,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -232,7 +213,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -264,7 +245,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.TreeModel.TreeModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.TreeModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -279,7 +260,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -296,7 +277,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -313,7 +294,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -352,7 +333,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         try {
             DowncallHandles.gtk_entry_completion_set_inline_completion.invokeExact(
                     handle(),
-                    inlineCompletion ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(inlineCompletion, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -367,7 +348,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         try {
             DowncallHandles.gtk_entry_completion_set_inline_selection.invokeExact(
                     handle(),
-                    inlineSelection ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(inlineSelection, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -379,19 +360,15 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * The match function is used to determine if a row should or
      * should not be in the completion list.
      * @param func the {@code GtkEntryCompletion}MatchFunc to use
+     * @param funcNotify destroy notify for {@code func_data}.
      */
-    public void setMatchFunc(@NotNull org.gtk.gtk.EntryCompletionMatchFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void setMatchFunc(org.gtk.gtk.EntryCompletionMatchFunc func, org.gtk.glib.DestroyNotify funcNotify) {
         try {
             DowncallHandles.gtk_entry_completion_set_match_func.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbEntryCompletionMatchFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) funcNotify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -442,7 +419,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         try {
             DowncallHandles.gtk_entry_completion_set_popup_completion.invokeExact(
                     handle(),
-                    popupCompletion ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(popupCompletion, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -457,7 +434,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         try {
             DowncallHandles.gtk_entry_completion_set_popup_set_width.invokeExact(
                     handle(),
-                    popupSetWidth ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(popupSetWidth, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -475,7 +452,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
         try {
             DowncallHandles.gtk_entry_completion_set_popup_single_match.invokeExact(
                     handle(),
-                    popupSingleMatch ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(popupSingleMatch, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -509,7 +486,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_entry_completion_get_type.invokeExact();
@@ -521,7 +498,19 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     
     @FunctionalInterface
     public interface CursorOnMatch {
-        boolean signalReceived(EntryCompletion sourceEntryCompletion, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter);
+        boolean run(org.gtk.gtk.TreeModel model, org.gtk.gtk.TreeIter iter);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceEntryCompletion, MemoryAddress model, MemoryAddress iter) {
+            var RESULT = run((org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.TreeModel.fromAddress).marshal(model, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CursorOnMatch.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -539,16 +528,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public Signal<EntryCompletion.CursorOnMatch> onCursorOnMatch(EntryCompletion.CursorOnMatch handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("cursor-on-match"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryCompletion.Callbacks.class, "signalEntryCompletionCursorOnMatch",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EntryCompletion.CursorOnMatch>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("cursor-on-match"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -556,7 +537,19 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     
     @FunctionalInterface
     public interface InsertPrefix {
-        boolean signalReceived(EntryCompletion sourceEntryCompletion, @NotNull java.lang.String prefix);
+        boolean run(java.lang.String prefix);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceEntryCompletion, MemoryAddress prefix) {
+            var RESULT = run(Marshal.addressToString.marshal(prefix, null));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertPrefix.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -575,16 +568,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public Signal<EntryCompletion.InsertPrefix> onInsertPrefix(EntryCompletion.InsertPrefix handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-prefix"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryCompletion.Callbacks.class, "signalEntryCompletionInsertPrefix",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EntryCompletion.InsertPrefix>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-prefix"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -592,7 +577,19 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     
     @FunctionalInterface
     public interface MatchSelected {
-        boolean signalReceived(EntryCompletion sourceEntryCompletion, @NotNull org.gtk.gtk.TreeModel model, @NotNull org.gtk.gtk.TreeIter iter);
+        boolean run(org.gtk.gtk.TreeModel model, org.gtk.gtk.TreeIter iter);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceEntryCompletion, MemoryAddress model, MemoryAddress iter) {
+            var RESULT = run((org.gtk.gtk.TreeModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(model)), org.gtk.gtk.TreeModel.fromAddress).marshal(model, Ownership.NONE), org.gtk.gtk.TreeIter.fromAddress.marshal(iter, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MatchSelected.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -610,16 +607,8 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public Signal<EntryCompletion.MatchSelected> onMatchSelected(EntryCompletion.MatchSelected handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("match-selected"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryCompletion.Callbacks.class, "signalEntryCompletionMatchSelected",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EntryCompletion.MatchSelected>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("match-selected"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -627,7 +616,18 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     
     @FunctionalInterface
     public interface NoMatches {
-        void signalReceived(EntryCompletion sourceEntryCompletion);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEntryCompletion) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(NoMatches.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -641,52 +641,46 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
     public Signal<EntryCompletion.NoMatches> onNoMatches(EntryCompletion.NoMatches handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("no-matches"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EntryCompletion.Callbacks.class, "signalEntryCompletionNoMatches",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EntryCompletion.NoMatches>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("no-matches"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link EntryCompletion.Builder} object constructs a {@link EntryCompletion} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EntryCompletion.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link EntryCompletion.Build} object constructs a {@link EntryCompletion} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EntryCompletion} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EntryCompletion} using {@link EntryCompletion#castFrom}.
+         * {@link EntryCompletion}.
          * @return A new instance of {@code EntryCompletion} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EntryCompletion construct() {
-            return EntryCompletion.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EntryCompletion.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EntryCompletion build() {
+            return (EntryCompletion) org.gtk.gobject.GObject.newWithProperties(
+                EntryCompletion.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -699,7 +693,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
          * @param cellArea The value for the {@code cell-area} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCellArea(org.gtk.gtk.CellArea cellArea) {
+        public Builder setCellArea(org.gtk.gtk.CellArea cellArea) {
             names.add("cell-area");
             values.add(org.gtk.gobject.Value.create(cellArea));
             return this;
@@ -714,7 +708,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
          * @param inlineCompletion The value for the {@code inline-completion} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInlineCompletion(boolean inlineCompletion) {
+        public Builder setInlineCompletion(boolean inlineCompletion) {
             names.add("inline-completion");
             values.add(org.gtk.gobject.Value.create(inlineCompletion));
             return this;
@@ -726,19 +720,19 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
          * @param inlineSelection The value for the {@code inline-selection} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInlineSelection(boolean inlineSelection) {
+        public Builder setInlineSelection(boolean inlineSelection) {
             names.add("inline-selection");
             values.add(org.gtk.gobject.Value.create(inlineSelection));
             return this;
         }
         
-        public Build setMinimumKeyLength(int minimumKeyLength) {
+        public Builder setMinimumKeyLength(int minimumKeyLength) {
             names.add("minimum-key-length");
             values.add(org.gtk.gobject.Value.create(minimumKeyLength));
             return this;
         }
         
-        public Build setModel(org.gtk.gtk.TreeModel model) {
+        public Builder setModel(org.gtk.gtk.TreeModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -750,7 +744,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
          * @param popupCompletion The value for the {@code popup-completion} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPopupCompletion(boolean popupCompletion) {
+        public Builder setPopupCompletion(boolean popupCompletion) {
             names.add("popup-completion");
             values.add(org.gtk.gobject.Value.create(popupCompletion));
             return this;
@@ -762,7 +756,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
          * @param popupSetWidth The value for the {@code popup-set-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPopupSetWidth(boolean popupSetWidth) {
+        public Builder setPopupSetWidth(boolean popupSetWidth) {
             names.add("popup-set-width");
             values.add(org.gtk.gobject.Value.create(popupSetWidth));
             return this;
@@ -777,7 +771,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
          * @param popupSingleMatch The value for the {@code popup-single-match} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPopupSingleMatch(boolean popupSingleMatch) {
+        public Builder setPopupSingleMatch(boolean popupSingleMatch) {
             names.add("popup-single-match");
             values.add(org.gtk.gobject.Value.create(popupSingleMatch));
             return this;
@@ -790,7 +784,7 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
          * @param textColumn The value for the {@code text-column} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTextColumn(int textColumn) {
+        public Builder setTextColumn(int textColumn) {
             names.add("text-column");
             values.add(org.gtk.gobject.Value.create(textColumn));
             return this;
@@ -948,32 +942,5 @@ public class EntryCompletion extends org.gtk.gobject.Object implements org.gtk.g
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalEntryCompletionCursorOnMatch(MemoryAddress sourceEntryCompletion, MemoryAddress model, MemoryAddress iter, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EntryCompletion.CursorOnMatch) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(sourceEntryCompletion, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-        }
-        
-        public static boolean signalEntryCompletionInsertPrefix(MemoryAddress sourceEntryCompletion, MemoryAddress prefix, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EntryCompletion.InsertPrefix) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(sourceEntryCompletion, Ownership.NONE), Interop.getStringFrom(prefix));
-        }
-        
-        public static boolean signalEntryCompletionMatchSelected(MemoryAddress sourceEntryCompletion, MemoryAddress model, MemoryAddress iter, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EntryCompletion.MatchSelected) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EntryCompletion(sourceEntryCompletion, Ownership.NONE), new org.gtk.gtk.TreeModel.TreeModelImpl(model, Ownership.NONE), new org.gtk.gtk.TreeIter(iter, Ownership.NONE));
-        }
-        
-        public static void signalEntryCompletionNoMatches(MemoryAddress sourceEntryCompletion, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EntryCompletion.NoMatches) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EntryCompletion(sourceEntryCompletion, Ownership.NONE));
-        }
     }
 }

@@ -30,33 +30,15 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PixbufSimpleAnim(Addressable address, Ownership ownership) {
+    protected PixbufSimpleAnim(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PixbufSimpleAnim if its GType is a (or inherits from) "GdkPixbufSimpleAnim".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PixbufSimpleAnim} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkPixbufSimpleAnim", a ClassCastException will be thrown.
-     */
-    public static PixbufSimpleAnim castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PixbufSimpleAnim.getType())) {
-            return new PixbufSimpleAnim(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkPixbufSimpleAnim");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PixbufSimpleAnim> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufSimpleAnim(input, ownership);
     
-    private static Addressable constructNew(int width, int height, float rate) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(int width, int height, float rate) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_simple_anim_new.invokeExact(
                     width,
@@ -84,8 +66,7 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      * was constructed.
      * @param pixbuf the pixbuf to add
      */
-    public void addFrame(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        java.util.Objects.requireNonNull(pixbuf, "Parameter 'pixbuf' must not be null");
+    public void addFrame(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
         try {
             DowncallHandles.gdk_pixbuf_simple_anim_add_frame.invokeExact(
                     handle(),
@@ -107,7 +88,7 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -118,7 +99,7 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
         try {
             DowncallHandles.gdk_pixbuf_simple_anim_set_loop.invokeExact(
                     handle(),
-                    loop ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(loop, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -128,7 +109,7 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_pixbuf_simple_anim_get_type.invokeExact();
@@ -137,38 +118,40 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PixbufSimpleAnim.Builder} object constructs a {@link PixbufSimpleAnim} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PixbufSimpleAnim.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gdkpixbuf.PixbufAnimation.Build {
+    public static class Builder extends org.gtk.gdkpixbuf.PixbufAnimation.Builder {
         
-         /**
-         * A {@link PixbufSimpleAnim.Build} object constructs a {@link PixbufSimpleAnim} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PixbufSimpleAnim} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PixbufSimpleAnim} using {@link PixbufSimpleAnim#castFrom}.
+         * {@link PixbufSimpleAnim}.
          * @return A new instance of {@code PixbufSimpleAnim} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PixbufSimpleAnim construct() {
-            return PixbufSimpleAnim.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PixbufSimpleAnim.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PixbufSimpleAnim build() {
+            return (PixbufSimpleAnim) org.gtk.gobject.GObject.newWithProperties(
+                PixbufSimpleAnim.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -177,7 +160,7 @@ public class PixbufSimpleAnim extends org.gtk.gdkpixbuf.PixbufAnimation {
          * @param loop The value for the {@code loop} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLoop(boolean loop) {
+        public Builder setLoop(boolean loop) {
             names.add("loop");
             values.add(org.gtk.gobject.Value.create(loop));
             return this;

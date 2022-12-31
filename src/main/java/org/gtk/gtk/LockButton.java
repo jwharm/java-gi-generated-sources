@@ -66,40 +66,26 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * <p>
      * Because LockButton is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public LockButton(Addressable address, Ownership ownership) {
+    protected LockButton(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to LockButton if its GType is a (or inherits from) "GtkLockButton".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code LockButton} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkLockButton", a ClassCastException will be thrown.
-     */
-    public static LockButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), LockButton.getType())) {
-            return new LockButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkLockButton");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, LockButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new LockButton(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gio.Permission permission) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gio.Permission permission) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_lock_button_new.invokeExact(
                     (Addressable) (permission == null ? MemoryAddress.NULL : permission.handle()));
@@ -129,7 +115,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Permission(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Permission) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Permission.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -150,7 +136,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_lock_button_get_type.invokeExact();
@@ -159,38 +145,40 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link LockButton.Builder} object constructs a {@link LockButton} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link LockButton.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Button.Build {
+    public static class Builder extends org.gtk.gtk.Button.Builder {
         
-         /**
-         * A {@link LockButton.Build} object constructs a {@link LockButton} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link LockButton} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link LockButton} using {@link LockButton#castFrom}.
+         * {@link LockButton}.
          * @return A new instance of {@code LockButton} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public LockButton construct() {
-            return LockButton.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    LockButton.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public LockButton build() {
+            return (LockButton) org.gtk.gobject.GObject.newWithProperties(
+                LockButton.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -199,7 +187,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
          * @param permission The value for the {@code permission} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPermission(org.gtk.gio.Permission permission) {
+        public Builder setPermission(org.gtk.gio.Permission permission) {
             names.add("permission");
             values.add(org.gtk.gobject.Value.create(permission));
             return this;
@@ -210,7 +198,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
          * @param textLock The value for the {@code text-lock} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTextLock(java.lang.String textLock) {
+        public Builder setTextLock(java.lang.String textLock) {
             names.add("text-lock");
             values.add(org.gtk.gobject.Value.create(textLock));
             return this;
@@ -221,7 +209,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
          * @param textUnlock The value for the {@code text-unlock} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTextUnlock(java.lang.String textUnlock) {
+        public Builder setTextUnlock(java.lang.String textUnlock) {
             names.add("text-unlock");
             values.add(org.gtk.gobject.Value.create(textUnlock));
             return this;
@@ -232,7 +220,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
          * @param tooltipLock The value for the {@code tooltip-lock} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTooltipLock(java.lang.String tooltipLock) {
+        public Builder setTooltipLock(java.lang.String tooltipLock) {
             names.add("tooltip-lock");
             values.add(org.gtk.gobject.Value.create(tooltipLock));
             return this;
@@ -243,7 +231,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
          * @param tooltipNotAuthorized The value for the {@code tooltip-not-authorized} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTooltipNotAuthorized(java.lang.String tooltipNotAuthorized) {
+        public Builder setTooltipNotAuthorized(java.lang.String tooltipNotAuthorized) {
             names.add("tooltip-not-authorized");
             values.add(org.gtk.gobject.Value.create(tooltipNotAuthorized));
             return this;
@@ -254,7 +242,7 @@ public class LockButton extends org.gtk.gtk.Button implements org.gtk.gtk.Access
          * @param tooltipUnlock The value for the {@code tooltip-unlock} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTooltipUnlock(java.lang.String tooltipUnlock) {
+        public Builder setTooltipUnlock(java.lang.String tooltipUnlock) {
             names.add("tooltip-unlock");
             values.add(org.gtk.gobject.Value.create(tooltipUnlock));
             return this;

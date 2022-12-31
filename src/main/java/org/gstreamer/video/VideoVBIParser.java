@@ -45,14 +45,15 @@ public class VideoVBIParser extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoVBIParser(Addressable address, Ownership ownership) {
+    protected VideoVBIParser(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.video.VideoFormat format, int pixelWidth) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoVBIParser> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoVBIParser(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.video.VideoFormat format, int pixelWidth) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_vbi_parser_new.invokeExact(
                     format.getValue(),
@@ -68,7 +69,7 @@ public class VideoVBIParser extends Struct {
      * @param format a {@link VideoFormat}
      * @param pixelWidth The width in pixel to use
      */
-    public VideoVBIParser(@NotNull org.gstreamer.video.VideoFormat format, int pixelWidth) {
+    public VideoVBIParser(org.gstreamer.video.VideoFormat format, int pixelWidth) {
         super(constructNew(format, pixelWidth), Ownership.FULL);
     }
     
@@ -77,8 +78,7 @@ public class VideoVBIParser extends Struct {
      * to get the Ancillary data that might be present on that line.
      * @param data The line of data to parse
      */
-    public void addLine(@NotNull byte[] data) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void addLine(byte[] data) {
         try {
             DowncallHandles.gst_video_vbi_parser_add_line.invokeExact(
                     handle(),
@@ -88,7 +88,7 @@ public class VideoVBIParser extends Struct {
         }
     }
     
-    public @NotNull org.gstreamer.video.VideoVBIParser copy() {
+    public org.gstreamer.video.VideoVBIParser copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_vbi_parser_copy.invokeExact(
@@ -96,7 +96,7 @@ public class VideoVBIParser extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoVBIParser(RESULT, Ownership.FULL);
+        return org.gstreamer.video.VideoVBIParser.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -118,8 +118,7 @@ public class VideoVBIParser extends Struct {
      * {@code anc} was filled. {@link VideoVBIParserResult#DONE} if there wasn't any
      * data.
      */
-    public @NotNull org.gstreamer.video.VideoVBIParserResult getAncillary(@NotNull org.gstreamer.video.VideoAncillary anc) {
-        java.util.Objects.requireNonNull(anc, "Parameter 'anc' must not be null");
+    public org.gstreamer.video.VideoVBIParserResult getAncillary(org.gstreamer.video.VideoAncillary anc) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_vbi_parser_get_ancillary.invokeExact(

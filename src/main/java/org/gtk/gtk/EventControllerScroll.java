@@ -63,34 +63,15 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EventControllerScroll(Addressable address, Ownership ownership) {
+    protected EventControllerScroll(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EventControllerScroll if its GType is a (or inherits from) "GtkEventControllerScroll".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EventControllerScroll} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkEventControllerScroll", a ClassCastException will be thrown.
-     */
-    public static EventControllerScroll castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EventControllerScroll.getType())) {
-            return new EventControllerScroll(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEventControllerScroll");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EventControllerScroll> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerScroll(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.EventControllerScrollFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gtk.EventControllerScrollFlags flags) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_scroll_new.invokeExact(
                     flags.getValue());
@@ -104,7 +85,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * Creates a new event controller that will handle scroll events.
      * @param flags flags affecting the controller behavior
      */
-    public EventControllerScroll(@NotNull org.gtk.gtk.EventControllerScrollFlags flags) {
+    public EventControllerScroll(org.gtk.gtk.EventControllerScrollFlags flags) {
         super(constructNew(flags), Ownership.FULL);
     }
     
@@ -112,7 +93,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * Gets the flags conditioning the scroll controller behavior.
      * @return the controller flags.
      */
-    public @NotNull org.gtk.gtk.EventControllerScrollFlags getFlags() {
+    public org.gtk.gtk.EventControllerScrollFlags getFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_event_controller_scroll_get_flags.invokeExact(
@@ -131,7 +112,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * {@link EventControllerScrollFlags#DISCRETE} flag is set.
      * @return the scroll unit.
      */
-    public @NotNull org.gtk.gdk.ScrollUnit getUnit() {
+    public org.gtk.gdk.ScrollUnit getUnit() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_event_controller_scroll_get_unit.invokeExact(
@@ -146,8 +127,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * Sets the flags conditioning scroll controller behavior.
      * @param flags flags affecting the controller behavior
      */
-    public void setFlags(@NotNull org.gtk.gtk.EventControllerScrollFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void setFlags(org.gtk.gtk.EventControllerScrollFlags flags) {
         try {
             DowncallHandles.gtk_event_controller_scroll_set_flags.invokeExact(
                     handle(),
@@ -161,7 +141,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_event_controller_scroll_get_type.invokeExact();
@@ -173,7 +153,18 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Decelerate {
-        void signalReceived(EventControllerScroll sourceEventControllerScroll, double velX, double velY);
+        void run(double velX, double velY);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEventControllerScroll, double velX, double velY) {
+            run(velX, velY);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Decelerate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -189,16 +180,8 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     public Signal<EventControllerScroll.Decelerate> onDecelerate(EventControllerScroll.Decelerate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("decelerate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollDecelerate",
-                        MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerScroll.Decelerate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("decelerate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -206,7 +189,19 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Scroll {
-        boolean signalReceived(EventControllerScroll sourceEventControllerScroll, double dx, double dy);
+        boolean run(double dx, double dy);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceEventControllerScroll, double dx, double dy) {
+            var RESULT = run(dx, dy);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Scroll.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -221,16 +216,8 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     public Signal<EventControllerScroll.Scroll> onScroll(EventControllerScroll.Scroll handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("scroll"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScroll",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerScroll.Scroll>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("scroll"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -238,7 +225,18 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface ScrollBegin {
-        void signalReceived(EventControllerScroll sourceEventControllerScroll);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEventControllerScroll) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ScrollBegin.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -251,16 +249,8 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     public Signal<EventControllerScroll.ScrollBegin> onScrollBegin(EventControllerScroll.ScrollBegin handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("scroll-begin"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScrollBegin",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerScroll.ScrollBegin>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("scroll-begin"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,7 +258,18 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface ScrollEnd {
-        void signalReceived(EventControllerScroll sourceEventControllerScroll);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEventControllerScroll) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ScrollEnd.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -281,52 +282,46 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
     public Signal<EventControllerScroll.ScrollEnd> onScrollEnd(EventControllerScroll.ScrollEnd handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("scroll-end"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerScroll.Callbacks.class, "signalEventControllerScrollScrollEnd",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerScroll.ScrollEnd>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("scroll-end"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link EventControllerScroll.Builder} object constructs a {@link EventControllerScroll} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EventControllerScroll.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.EventController.Build {
+    public static class Builder extends org.gtk.gtk.EventController.Builder {
         
-         /**
-         * A {@link EventControllerScroll.Build} object constructs a {@link EventControllerScroll} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EventControllerScroll} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EventControllerScroll} using {@link EventControllerScroll#castFrom}.
+         * {@link EventControllerScroll}.
          * @return A new instance of {@code EventControllerScroll} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EventControllerScroll construct() {
-            return EventControllerScroll.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EventControllerScroll.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EventControllerScroll build() {
+            return (EventControllerScroll) org.gtk.gobject.GObject.newWithProperties(
+                EventControllerScroll.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -335,7 +330,7 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
          * @param flags The value for the {@code flags} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gtk.gtk.EventControllerScrollFlags flags) {
+        public Builder setFlags(org.gtk.gtk.EventControllerScrollFlags flags) {
             names.add("flags");
             values.add(org.gtk.gobject.Value.create(flags));
             return this;
@@ -373,32 +368,5 @@ public class EventControllerScroll extends org.gtk.gtk.EventController {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalEventControllerScrollDecelerate(MemoryAddress sourceEventControllerScroll, double velX, double velY, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerScroll.Decelerate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(sourceEventControllerScroll, Ownership.NONE), velX, velY);
-        }
-        
-        public static boolean signalEventControllerScrollScroll(MemoryAddress sourceEventControllerScroll, double dx, double dy, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerScroll.Scroll) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new EventControllerScroll(sourceEventControllerScroll, Ownership.NONE), dx, dy);
-        }
-        
-        public static void signalEventControllerScrollScrollBegin(MemoryAddress sourceEventControllerScroll, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerScroll.ScrollBegin) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(sourceEventControllerScroll, Ownership.NONE));
-        }
-        
-        public static void signalEventControllerScrollScrollEnd(MemoryAddress sourceEventControllerScroll, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerScroll.ScrollEnd) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerScroll(sourceEventControllerScroll, Ownership.NONE));
-        }
     }
 }

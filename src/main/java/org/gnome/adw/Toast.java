@@ -121,7 +121,7 @@ import org.jetbrains.annotations.*;
  * &lt;/picture&gt;
  * @version 1.0
  */
-public class Toast extends org.gtk.gobject.Object {
+public class Toast extends org.gtk.gobject.GObject {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -143,37 +143,18 @@ public class Toast extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Toast(Addressable address, Ownership ownership) {
+    protected Toast(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Toast if its GType is a (or inherits from) "AdwToast".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Toast} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwToast", a ClassCastException will be thrown.
-     */
-    public static Toast castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Toast.getType())) {
-            return new Toast(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwToast");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Toast> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Toast(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String title) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_toast_new.invokeExact(
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -188,16 +169,15 @@ public class Toast extends org.gtk.gobject.Object {
      * {@code title} can be marked up with the Pango text markup language.
      * @param title the title to be displayed
      */
-    public Toast(@NotNull java.lang.String title) {
+    public Toast(java.lang.String title) {
         super(constructNew(title), Ownership.FULL);
     }
     
-    private static Addressable constructNewFormat(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFormat(java.lang.String format, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_toast_new_format.invokeExact(
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -215,8 +195,9 @@ public class Toast extends org.gtk.gobject.Object {
      * @param varargs the parameters to insert into the format string
      * @return the newly created toast object
      */
-    public static Toast newFormat(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        return new Toast(constructNewFormat(format, varargs), Ownership.FULL);
+    public static Toast newFormat(java.lang.String format, java.lang.Object... varargs) {
+        var RESULT = constructNewFormat(format, varargs);
+        return (org.gnome.adw.Toast) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.Toast.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -246,7 +227,7 @@ public class Toast extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -261,7 +242,7 @@ public class Toast extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -276,7 +257,7 @@ public class Toast extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -291,14 +272,14 @@ public class Toast extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets priority for {@code self}.
      * @return the priority
      */
-    public @NotNull org.gnome.adw.ToastPriority getPriority() {
+    public org.gnome.adw.ToastPriority getPriority() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_toast_get_priority.invokeExact(
@@ -339,7 +320,7 @@ public class Toast extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -354,7 +335,7 @@ public class Toast extends org.gtk.gobject.Object {
         try {
             DowncallHandles.adw_toast_set_action_name.invokeExact(
                     handle(),
-                    (Addressable) (actionName == null ? MemoryAddress.NULL : Interop.allocateNativeString(actionName)));
+                    (Addressable) (actionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(actionName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -377,7 +358,7 @@ public class Toast extends org.gtk.gobject.Object {
         try {
             DowncallHandles.adw_toast_set_action_target.invokeExact(
                     handle(),
-                    (Addressable) (formatString == null ? MemoryAddress.NULL : Interop.allocateNativeString(formatString)),
+                    (Addressable) (formatString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(formatString, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -415,7 +396,7 @@ public class Toast extends org.gtk.gobject.Object {
         try {
             DowncallHandles.adw_toast_set_button_label.invokeExact(
                     handle(),
-                    (Addressable) (buttonLabel == null ? MemoryAddress.NULL : Interop.allocateNativeString(buttonLabel)));
+                    (Addressable) (buttonLabel == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(buttonLabel, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -451,7 +432,7 @@ public class Toast extends org.gtk.gobject.Object {
         try {
             DowncallHandles.adw_toast_set_detailed_action_name.invokeExact(
                     handle(),
-                    (Addressable) (detailedActionName == null ? MemoryAddress.NULL : Interop.allocateNativeString(detailedActionName)));
+                    (Addressable) (detailedActionName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(detailedActionName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -469,8 +450,7 @@ public class Toast extends org.gtk.gobject.Object {
      * immediately, pushing the previous toast into the queue instead.
      * @param priority the priority
      */
-    public void setPriority(@NotNull org.gnome.adw.ToastPriority priority) {
-        java.util.Objects.requireNonNull(priority, "Parameter 'priority' must not be null");
+    public void setPriority(org.gnome.adw.ToastPriority priority) {
         try {
             DowncallHandles.adw_toast_set_priority.invokeExact(
                     handle(),
@@ -510,12 +490,11 @@ public class Toast extends org.gtk.gobject.Object {
      * If {@code Toast:custom-title} is set, it will be used instead.
      * @param title a title
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.adw_toast_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -525,7 +504,7 @@ public class Toast extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_toast_get_type.invokeExact();
@@ -537,7 +516,18 @@ public class Toast extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ButtonClicked {
-        void signalReceived(Toast sourceToast);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceToast) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ButtonClicked.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -550,16 +540,8 @@ public class Toast extends org.gtk.gobject.Object {
     public Signal<Toast.ButtonClicked> onButtonClicked(Toast.ButtonClicked handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("button-clicked"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Toast.Callbacks.class, "signalToastButtonClicked",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Toast.ButtonClicked>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("button-clicked"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -567,7 +549,18 @@ public class Toast extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Dismissed {
-        void signalReceived(Toast sourceToast);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceToast) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Dismissed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -578,52 +571,46 @@ public class Toast extends org.gtk.gobject.Object {
     public Signal<Toast.Dismissed> onDismissed(Toast.Dismissed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("dismissed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Toast.Callbacks.class, "signalToastDismissed",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Toast.Dismissed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("dismissed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Toast.Builder} object constructs a {@link Toast} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Toast.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Toast.Build} object constructs a {@link Toast} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Toast} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Toast} using {@link Toast#castFrom}.
+         * {@link Toast}.
          * @return A new instance of {@code Toast} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Toast construct() {
-            return Toast.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Toast.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Toast build() {
+            return (Toast) org.gtk.gobject.GObject.newWithProperties(
+                Toast.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -636,7 +623,7 @@ public class Toast extends org.gtk.gobject.Object {
          * @param actionName The value for the {@code action-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActionName(java.lang.String actionName) {
+        public Builder setActionName(java.lang.String actionName) {
             names.add("action-name");
             values.add(org.gtk.gobject.Value.create(actionName));
             return this;
@@ -647,7 +634,7 @@ public class Toast extends org.gtk.gobject.Object {
          * @param actionTarget The value for the {@code action-target} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActionTarget(org.gtk.glib.Variant actionTarget) {
+        public Builder setActionTarget(org.gtk.glib.Variant actionTarget) {
             names.add("action-target");
             values.add(org.gtk.gobject.Value.create(actionTarget));
             return this;
@@ -664,7 +651,7 @@ public class Toast extends org.gtk.gobject.Object {
          * @param buttonLabel The value for the {@code button-label} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setButtonLabel(java.lang.String buttonLabel) {
+        public Builder setButtonLabel(java.lang.String buttonLabel) {
             names.add("button-label");
             values.add(org.gtk.gobject.Value.create(buttonLabel));
             return this;
@@ -680,7 +667,7 @@ public class Toast extends org.gtk.gobject.Object {
          * @param customTitle The value for the {@code custom-title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCustomTitle(org.gtk.gtk.Widget customTitle) {
+        public Builder setCustomTitle(org.gtk.gtk.Widget customTitle) {
             names.add("custom-title");
             values.add(org.gtk.gobject.Value.create(customTitle));
             return this;
@@ -699,7 +686,7 @@ public class Toast extends org.gtk.gobject.Object {
          * @param priority The value for the {@code priority} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPriority(org.gnome.adw.ToastPriority priority) {
+        public Builder setPriority(org.gnome.adw.ToastPriority priority) {
             names.add("priority");
             values.add(org.gtk.gobject.Value.create(priority));
             return this;
@@ -716,7 +703,7 @@ public class Toast extends org.gtk.gobject.Object {
          * @param timeout The value for the {@code timeout} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTimeout(int timeout) {
+        public Builder setTimeout(int timeout) {
             names.add("timeout");
             values.add(org.gtk.gobject.Value.create(timeout));
             return this;
@@ -733,7 +720,7 @@ public class Toast extends org.gtk.gobject.Object {
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -861,20 +848,5 @@ public class Toast extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalToastButtonClicked(MemoryAddress sourceToast, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Toast.ButtonClicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Toast(sourceToast, Ownership.NONE));
-        }
-        
-        public static void signalToastDismissed(MemoryAddress sourceToast, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Toast.Dismissed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Toast(sourceToast, Ownership.NONE));
-        }
     }
 }

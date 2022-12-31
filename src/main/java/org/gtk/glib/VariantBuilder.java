@@ -49,14 +49,15 @@ public class VariantBuilder extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VariantBuilder(Addressable address, Ownership ownership) {
+    protected VariantBuilder(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gtk.glib.VariantType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VariantBuilder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VariantBuilder(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gtk.glib.VariantType type) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_new.invokeExact(
                     type.handle());
@@ -78,7 +79,7 @@ public class VariantBuilder extends Struct {
      * g_variant_builder_init().
      * @param type a container type
      */
-    public VariantBuilder(@NotNull org.gtk.glib.VariantType type) {
+    public VariantBuilder(org.gtk.glib.VariantType type) {
         super(constructNew(type), Ownership.FULL);
     }
     
@@ -115,12 +116,11 @@ public class VariantBuilder extends Struct {
      * @param formatString a {@link Variant} varargs format string
      * @param varargs arguments, as per {@code format_string}
      */
-    public void add(@NotNull java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
+    public void add(java.lang.String formatString, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_variant_builder_add.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(formatString),
+                    Marshal.stringToAddress.marshal(formatString, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -156,12 +156,11 @@ public class VariantBuilder extends Struct {
      * @param format a text format {@link Variant}
      * @param varargs arguments as per {@code format}
      */
-    public void addParsed(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void addParsed(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_variant_builder_add_parsed.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -181,8 +180,7 @@ public class VariantBuilder extends Struct {
      * the {@code builder} instance takes ownership of {@code value}.
      * @param value a {@link Variant}
      */
-    public void addValue(@NotNull org.gtk.glib.Variant value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void addValue(org.gtk.glib.Variant value) {
         try {
             DowncallHandles.g_variant_builder_add_value.invokeExact(
                     handle(),
@@ -254,7 +252,7 @@ public class VariantBuilder extends Struct {
      * the empty array.
      * @return a new, floating, {@link Variant}
      */
-    public @NotNull org.gtk.glib.Variant end() {
+    public org.gtk.glib.Variant end() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_end.invokeExact(
@@ -262,7 +260,7 @@ public class VariantBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -297,8 +295,7 @@ public class VariantBuilder extends Struct {
      * this function.
      * @param type a container type
      */
-    public void init(@NotNull org.gtk.glib.VariantType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void init(org.gtk.glib.VariantType type) {
         try {
             DowncallHandles.g_variant_builder_init.invokeExact(
                     handle(),
@@ -347,8 +344,7 @@ public class VariantBuilder extends Struct {
      * }</pre>
      * @param type the {@link VariantType} of the container
      */
-    public void open(@NotNull org.gtk.glib.VariantType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public void open(org.gtk.glib.VariantType type) {
         try {
             DowncallHandles.g_variant_builder_open.invokeExact(
                     handle(),
@@ -365,7 +361,7 @@ public class VariantBuilder extends Struct {
      * things will happen.
      * @return a new reference to {@code builder}
      */
-    public @NotNull org.gtk.glib.VariantBuilder ref() {
+    public org.gtk.glib.VariantBuilder ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_builder_ref.invokeExact(
@@ -373,7 +369,7 @@ public class VariantBuilder extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantBuilder(RESULT, Ownership.FULL);
+        return org.gtk.glib.VariantBuilder.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

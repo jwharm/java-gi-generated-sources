@@ -58,7 +58,7 @@ public enum ConstraintVflParserError implements io.github.jwharm.javagi.Enumerat
         };
     }
     
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_constraint_vfl_parser_error_quark.invokeExact();

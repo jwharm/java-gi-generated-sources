@@ -17,18 +17,16 @@ public class SDPBandwidth extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstSDPBandwidth";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("bwtype"),
-        Interop.valueLayout.C_INT.withName("bandwidth")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("bwtype"),
+            Interop.valueLayout.C_INT.withName("bandwidth")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,28 +46,28 @@ public class SDPBandwidth extends Struct {
      * Get the value of the field {@code bwtype}
      * @return The value of the field {@code bwtype}
      */
-    public java.lang.String bwtype$get() {
+    public java.lang.String getBwtype() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bwtype"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code bwtype}
      * @param bwtype The new value of the field {@code bwtype}
      */
-    public void bwtype$set(java.lang.String bwtype) {
+    public void setBwtype(java.lang.String bwtype) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bwtype"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(bwtype));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bwtype == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(bwtype, null)));
     }
     
     /**
      * Get the value of the field {@code bandwidth}
      * @return The value of the field {@code bandwidth}
      */
-    public int bandwidth$get() {
+    public int getBandwidth() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bandwidth"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -80,7 +78,7 @@ public class SDPBandwidth extends Struct {
      * Change the value of the field {@code bandwidth}
      * @param bandwidth The new value of the field {@code bandwidth}
      */
-    public void bandwidth$set(int bandwidth) {
+    public void setBandwidth(int bandwidth) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bandwidth"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bandwidth);
@@ -91,16 +89,18 @@ public class SDPBandwidth extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SDPBandwidth(Addressable address, Ownership ownership) {
+    protected SDPBandwidth(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SDPBandwidth> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDPBandwidth(input, ownership);
     
     /**
      * Reset the bandwidth information in {@code bw}.
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult clear() {
+    public org.gstreamer.sdp.SDPResult clear() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_bandwidth_clear.invokeExact(
@@ -117,13 +117,12 @@ public class SDPBandwidth extends Struct {
      * @param bandwidth the bandwidth in kilobits per second
      * @return a {@link SDPResult}.
      */
-    public @NotNull org.gstreamer.sdp.SDPResult set(@NotNull java.lang.String bwtype, int bandwidth) {
-        java.util.Objects.requireNonNull(bwtype, "Parameter 'bwtype' must not be null");
+    public org.gstreamer.sdp.SDPResult set(java.lang.String bwtype, int bandwidth) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_sdp_bandwidth_set.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(bwtype),
+                    Marshal.stringToAddress.marshal(bwtype, null),
                     bandwidth);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -145,31 +144,35 @@ public class SDPBandwidth extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link SDPBandwidth.Builder} object constructs a {@link SDPBandwidth} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SDPBandwidth.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SDPBandwidth struct;
+        private final SDPBandwidth struct;
         
-         /**
-         * A {@link SDPBandwidth.Build} object constructs a {@link SDPBandwidth} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SDPBandwidth.allocate();
         }
         
          /**
          * Finish building the {@link SDPBandwidth} struct.
          * @return A new instance of {@code SDPBandwidth} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SDPBandwidth construct() {
+        public SDPBandwidth build() {
             return struct;
         }
         
@@ -178,10 +181,10 @@ public class SDPBandwidth extends Struct {
          * @param bwtype The value for the {@code bwtype} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBwtype(java.lang.String bwtype) {
+        public Builder setBwtype(java.lang.String bwtype) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bwtype"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bwtype == null ? MemoryAddress.NULL : Interop.allocateNativeString(bwtype)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (bwtype == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(bwtype, null)));
             return this;
         }
         
@@ -190,7 +193,7 @@ public class SDPBandwidth extends Struct {
          * @param bandwidth The value for the {@code bandwidth} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBandwidth(int bandwidth) {
+        public Builder setBandwidth(int bandwidth) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bandwidth"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bandwidth);

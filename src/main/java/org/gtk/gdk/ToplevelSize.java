@@ -44,10 +44,12 @@ public class ToplevelSize extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ToplevelSize(Addressable address, Ownership ownership) {
+    protected ToplevelSize(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ToplevelSize> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ToplevelSize(input, ownership);
     
     /**
      * Retrieves the bounds the toplevel is placed within.
@@ -61,9 +63,7 @@ public class ToplevelSize extends Struct {
      * @param boundsHeight return location for height
      */
     public void getBounds(Out<Integer> boundsWidth, Out<Integer> boundsHeight) {
-        java.util.Objects.requireNonNull(boundsWidth, "Parameter 'boundsWidth' must not be null");
         MemorySegment boundsWidthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(boundsHeight, "Parameter 'boundsHeight' must not be null");
         MemorySegment boundsHeightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_toplevel_size_get_bounds.invokeExact(

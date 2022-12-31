@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * provided api.
  * @version 1.18
  */
-public class VulkanWindow extends org.gstreamer.gst.Object {
+public class VulkanWindow extends org.gstreamer.gst.GstObject {
     
     static {
         GstVulkan.javagi$ensureInitialized();
@@ -18,19 +18,17 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanWindow";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("display"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("display"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -38,41 +36,26 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
      * <p>
      * Because VulkanWindow is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanWindow(Addressable address, Ownership ownership) {
+    protected VulkanWindow(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VulkanWindow if its GType is a (or inherits from) "GstVulkanWindow".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VulkanWindow} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVulkanWindow", a ClassCastException will be thrown.
-     */
-    public static VulkanWindow castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VulkanWindow.getType())) {
-            return new VulkanWindow(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVulkanWindow");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanWindow> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanWindow(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.vulkan.VulkanDisplay display) {
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.vulkan.VulkanDisplay display) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_window_new.invokeExact(
                     display.handle());
@@ -82,7 +65,7 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public VulkanWindow(@NotNull org.gstreamer.vulkan.VulkanDisplay display) {
+    public VulkanWindow(org.gstreamer.vulkan.VulkanDisplay display) {
         super(constructNew(display), Ownership.FULL);
     }
     
@@ -98,7 +81,7 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
         }
     }
     
-    public @NotNull org.gstreamer.vulkan.VulkanDisplay getDisplay() {
+    public org.gstreamer.vulkan.VulkanDisplay getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_window_get_display.invokeExact(
@@ -106,11 +89,10 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanDisplay(RESULT, Ownership.FULL);
+        return (org.gstreamer.vulkan.VulkanDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDisplay.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public boolean getPresentationSupport(@NotNull org.gstreamer.vulkan.VulkanDevice device, int queueFamilyIdx) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
+    public boolean getPresentationSupport(org.gstreamer.vulkan.VulkanDevice device, int queueFamilyIdx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_window_get_presentation_support.invokeExact(
@@ -120,10 +102,10 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public @NotNull org.vulkan.SurfaceKHR getSurface() throws io.github.jwharm.javagi.GErrorException {
+    public org.vulkan.SurfaceKHR getSurface() throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -136,12 +118,10 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.vulkan.SurfaceKHR(RESULT, Ownership.UNKNOWN);
+        return org.vulkan.SurfaceKHR.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     public void getSurfaceDimensions(PointerInteger width, PointerInteger height) {
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         try {
             DowncallHandles.gst_vulkan_window_get_surface_dimensions.invokeExact(
                     handle(),
@@ -164,7 +144,7 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_vulkan_window_handle_events.invokeExact(
                     handle(),
-                    handleEvents ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(handleEvents, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -183,7 +163,7 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -216,25 +196,22 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
         }
     }
     
-    public void sendKeyEvent(@NotNull java.lang.String eventType, @NotNull java.lang.String keyStr) {
-        java.util.Objects.requireNonNull(eventType, "Parameter 'eventType' must not be null");
-        java.util.Objects.requireNonNull(keyStr, "Parameter 'keyStr' must not be null");
+    public void sendKeyEvent(java.lang.String eventType, java.lang.String keyStr) {
         try {
             DowncallHandles.gst_vulkan_window_send_key_event.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(eventType),
-                    Interop.allocateNativeString(keyStr));
+                    Marshal.stringToAddress.marshal(eventType, null),
+                    Marshal.stringToAddress.marshal(keyStr, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public void sendMouseEvent(@NotNull java.lang.String eventType, int button, double posx, double posy) {
-        java.util.Objects.requireNonNull(eventType, "Parameter 'eventType' must not be null");
+    public void sendMouseEvent(java.lang.String eventType, int button, double posx, double posy) {
         try {
             DowncallHandles.gst_vulkan_window_send_mouse_event.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(eventType),
+                    Marshal.stringToAddress.marshal(eventType, null),
                     button,
                     posx,
                     posy);
@@ -257,7 +234,7 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_vulkan_window_get_type.invokeExact();
@@ -269,22 +246,26 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface Close {
-        boolean signalReceived(VulkanWindow sourceVulkanWindow);
+        boolean run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceVulkanWindow) {
+            var RESULT = run();
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Close.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<VulkanWindow.Close> onClose(VulkanWindow.Close handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("close"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VulkanWindow.Callbacks.class, "signalVulkanWindowClose",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<VulkanWindow.Close>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("close"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -292,22 +273,25 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface Draw {
-        void signalReceived(VulkanWindow sourceVulkanWindow);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceVulkanWindow) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Draw.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<VulkanWindow.Draw> onDraw(VulkanWindow.Draw handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("draw"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VulkanWindow.Callbacks.class, "signalVulkanWindowDraw",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<VulkanWindow.Draw>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("draw"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +299,18 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface KeyEvent {
-        void signalReceived(VulkanWindow sourceVulkanWindow, @NotNull java.lang.String id, @NotNull java.lang.String key);
+        void run(java.lang.String id, java.lang.String key);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceVulkanWindow, MemoryAddress id, MemoryAddress key) {
+            run(Marshal.addressToString.marshal(id, null), Marshal.addressToString.marshal(key, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(KeyEvent.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -326,16 +321,8 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
     public Signal<VulkanWindow.KeyEvent> onKeyEvent(VulkanWindow.KeyEvent handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("key-event"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VulkanWindow.Callbacks.class, "signalVulkanWindowKeyEvent",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<VulkanWindow.KeyEvent>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("key-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -343,7 +330,18 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface MouseEvent {
-        void signalReceived(VulkanWindow sourceVulkanWindow, @NotNull java.lang.String id, int button, double x, double y);
+        void run(java.lang.String id, int button, double x, double y);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceVulkanWindow, MemoryAddress id, int button, double x, double y) {
+            run(Marshal.addressToString.marshal(id, null), button, x, y);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MouseEvent.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -354,16 +352,8 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
     public Signal<VulkanWindow.MouseEvent> onMouseEvent(VulkanWindow.MouseEvent handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("mouse-event"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VulkanWindow.Callbacks.class, "signalVulkanWindowMouseEvent",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<VulkanWindow.MouseEvent>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("mouse-event"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -371,62 +361,67 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
     
     @FunctionalInterface
     public interface Resize {
-        void signalReceived(VulkanWindow sourceVulkanWindow, int object, int p0);
+        void run(int object, int p0);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceVulkanWindow, int object, int p0) {
+            run(object, p0);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Resize.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<VulkanWindow.Resize> onResize(VulkanWindow.Resize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("resize"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(VulkanWindow.Callbacks.class, "signalVulkanWindowResize",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<VulkanWindow.Resize>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("resize"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link VulkanWindow.Builder} object constructs a {@link VulkanWindow} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VulkanWindow.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link VulkanWindow.Build} object constructs a {@link VulkanWindow} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanWindow} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VulkanWindow} using {@link VulkanWindow#castFrom}.
+         * {@link VulkanWindow}.
          * @return A new instance of {@code VulkanWindow} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanWindow construct() {
-            return VulkanWindow.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VulkanWindow.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VulkanWindow build() {
+            return (VulkanWindow) org.gtk.gobject.GObject.newWithProperties(
+                VulkanWindow.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setDisplay(org.gstreamer.vulkan.VulkanDisplay display) {
+        public Builder setDisplay(org.gstreamer.vulkan.VulkanDisplay display) {
             names.add("display");
             values.add(org.gtk.gobject.Value.create(display));
             return this;
@@ -518,38 +513,5 @@ public class VulkanWindow extends org.gstreamer.gst.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalVulkanWindowClose(MemoryAddress sourceVulkanWindow, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VulkanWindow.Close) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new VulkanWindow(sourceVulkanWindow, Ownership.NONE));
-        }
-        
-        public static void signalVulkanWindowDraw(MemoryAddress sourceVulkanWindow, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VulkanWindow.Draw) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VulkanWindow(sourceVulkanWindow, Ownership.NONE));
-        }
-        
-        public static void signalVulkanWindowKeyEvent(MemoryAddress sourceVulkanWindow, MemoryAddress id, MemoryAddress key, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VulkanWindow.KeyEvent) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VulkanWindow(sourceVulkanWindow, Ownership.NONE), Interop.getStringFrom(id), Interop.getStringFrom(key));
-        }
-        
-        public static void signalVulkanWindowMouseEvent(MemoryAddress sourceVulkanWindow, MemoryAddress id, int button, double x, double y, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VulkanWindow.MouseEvent) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VulkanWindow(sourceVulkanWindow, Ownership.NONE), Interop.getStringFrom(id), button, x, y);
-        }
-        
-        public static void signalVulkanWindowResize(MemoryAddress sourceVulkanWindow, int object, int p0, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VulkanWindow.Resize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new VulkanWindow(sourceVulkanWindow, Ownership.NONE), object, p0);
-        }
     }
 }

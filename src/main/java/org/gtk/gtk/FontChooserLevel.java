@@ -47,11 +47,15 @@ public class FontChooserLevel extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FontChooserLevel or(FontChooserLevel mask) {
-        return new FontChooserLevel(this.getValue() | mask.getValue());
+    public FontChooserLevel or(FontChooserLevel... masks) {
+        int value = this.getValue();
+        for (FontChooserLevel arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FontChooserLevel(value);
     }
     
     /**
@@ -61,7 +65,8 @@ public class FontChooserLevel extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FontChooserLevel combined(FontChooserLevel mask, FontChooserLevel... masks) {
-        int value = mask.getValue();        for (FontChooserLevel arg : masks) {
+        int value = mask.getValue();
+        for (FontChooserLevel arg : masks) {
             value |= arg.getValue();
         }
         return new FontChooserLevel(value);

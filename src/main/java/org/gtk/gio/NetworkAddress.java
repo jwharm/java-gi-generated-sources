@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * See {@link SocketConnectable} for an example of using the connectable
  * interface.
  */
-public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gio.SocketConnectable {
+public class NetworkAddress extends org.gtk.gobject.GObject implements org.gtk.gio.SocketConnectable {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -25,18 +25,16 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
     
     private static final java.lang.String C_TYPE_NAME = "GNetworkAddress";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -44,37 +42,18 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NetworkAddress(Addressable address, Ownership ownership) {
+    protected NetworkAddress(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to NetworkAddress if its GType is a (or inherits from) "GNetworkAddress".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code NetworkAddress} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GNetworkAddress", a ClassCastException will be thrown.
-     */
-    public static NetworkAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), NetworkAddress.getType())) {
-            return new NetworkAddress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GNetworkAddress");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NetworkAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NetworkAddress(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String hostname, short port) {
-        java.util.Objects.requireNonNull(hostname, "Parameter 'hostname' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String hostname, short port) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_address_new.invokeExact(
-                    Interop.allocateNativeString(hostname),
+                    Marshal.stringToAddress.marshal(hostname, null),
                     port);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -94,12 +73,12 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      * @param hostname the hostname
      * @param port the port
      */
-    public NetworkAddress(@NotNull java.lang.String hostname, short port) {
+    public NetworkAddress(java.lang.String hostname, short port) {
         super(constructNew(hostname, port), Ownership.FULL);
     }
     
-    private static Addressable constructNewLoopback(short port) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewLoopback(short port) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_address_new_loopback.invokeExact(
                     port);
@@ -126,7 +105,8 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      * @return the new {@link NetworkAddress}
      */
     public static NetworkAddress newLoopback(short port) {
-        return new NetworkAddress(constructNewLoopback(port), Ownership.FULL);
+        var RESULT = constructNewLoopback(port);
+        return (org.gtk.gio.NetworkAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.NetworkAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -134,7 +114,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      * depending on what {@code addr} was created with.
      * @return {@code addr}'s hostname
      */
-    public @NotNull java.lang.String getHostname() {
+    public java.lang.String getHostname() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_address_get_hostname.invokeExact(
@@ -142,7 +122,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -172,14 +152,14 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_network_address_get_type.invokeExact();
@@ -217,13 +197,12 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      *   {@link NetworkAddress}, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.NetworkAddress parse(@NotNull java.lang.String hostAndPort, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(hostAndPort, "Parameter 'hostAndPort' must not be null");
+    public static org.gtk.gio.NetworkAddress parse(java.lang.String hostAndPort, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse.invokeExact(
-                    Interop.allocateNativeString(hostAndPort),
+                    Marshal.stringToAddress.marshal(hostAndPort, null),
                     defaultPort,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -232,7 +211,7 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.NetworkAddress(RESULT, Ownership.FULL);
+        return (org.gtk.gio.NetworkAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.NetworkAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -248,13 +227,12 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
      *   {@link NetworkAddress}, or {@code null} on error
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.NetworkAddress parseUri(@NotNull java.lang.String uri, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static org.gtk.gio.NetworkAddress parseUri(java.lang.String uri, short defaultPort) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_network_address_parse_uri.invokeExact(
-                    Interop.allocateNativeString(uri),
+                    Marshal.stringToAddress.marshal(uri, null),
                     defaultPort,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -263,56 +241,58 @@ public class NetworkAddress extends org.gtk.gobject.Object implements org.gtk.gi
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.NetworkAddress(RESULT, Ownership.FULL);
+        return (org.gtk.gio.NetworkAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.NetworkAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link NetworkAddress.Builder} object constructs a {@link NetworkAddress} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link NetworkAddress.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link NetworkAddress.Build} object constructs a {@link NetworkAddress} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link NetworkAddress} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link NetworkAddress} using {@link NetworkAddress#castFrom}.
+         * {@link NetworkAddress}.
          * @return A new instance of {@code NetworkAddress} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NetworkAddress construct() {
-            return NetworkAddress.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    NetworkAddress.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public NetworkAddress build() {
+            return (NetworkAddress) org.gtk.gobject.GObject.newWithProperties(
+                NetworkAddress.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setHostname(java.lang.String hostname) {
+        public Builder setHostname(java.lang.String hostname) {
             names.add("hostname");
             values.add(org.gtk.gobject.Value.create(hostname));
             return this;
         }
         
-        public Build setPort(int port) {
+        public Builder setPort(int port) {
             names.add("port");
             values.add(org.gtk.gobject.Value.create(port));
             return this;
         }
         
-        public Build setScheme(java.lang.String scheme) {
+        public Builder setScheme(java.lang.String scheme) {
             names.add("scheme");
             values.add(org.gtk.gobject.Value.create(scheme));
             return this;

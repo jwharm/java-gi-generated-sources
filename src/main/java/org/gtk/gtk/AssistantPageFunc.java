@@ -15,5 +15,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface AssistantPageFunc {
-        int onAssistantPageFunc(int currentPage);
+    int run(int currentPage);
+
+    @ApiStatus.Internal default int upcall(int currentPage, MemoryAddress data) {
+        var RESULT = run(currentPage);
+        return RESULT;
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AssistantPageFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

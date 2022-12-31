@@ -12,5 +12,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface AudioClockGetTimeFunc {
-        org.gstreamer.gst.ClockTime onAudioClockGetTimeFunc(@NotNull org.gstreamer.gst.Clock clock);
+    org.gstreamer.gst.ClockTime run(org.gstreamer.gst.Clock clock);
+
+    @ApiStatus.Internal default long upcall(MemoryAddress clock, MemoryAddress userData) {
+        var RESULT = run((org.gstreamer.gst.Clock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(clock)), org.gstreamer.gst.Clock.fromAddress).marshal(clock, Ownership.NONE));
+        return RESULT.getValue().longValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AudioClockGetTimeFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

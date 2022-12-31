@@ -28,7 +28,7 @@ import org.jetbrains.annotations.*;
  * <a href="https://www.veracrypt.fr/">VeraCrypt</a> is a maintained fork of TrueCrypt with various
  * improvements and auditing fixes.
  */
-public class MountOperation extends org.gtk.gobject.Object {
+public class MountOperation extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -36,18 +36,16 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GMountOperation";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -55,33 +53,15 @@ public class MountOperation extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MountOperation(Addressable address, Ownership ownership) {
+    protected MountOperation(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to MountOperation if its GType is a (or inherits from) "GMountOperation".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MountOperation} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GMountOperation", a ClassCastException will be thrown.
-     */
-    public static MountOperation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MountOperation.getType())) {
-            return new MountOperation(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMountOperation");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MountOperation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MountOperation(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_mount_operation_new.invokeExact();
         } catch (Throwable ERR) {
@@ -110,7 +90,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -141,7 +121,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -157,7 +137,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -173,7 +153,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -188,14 +168,14 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the state of saving passwords for the mount operation.
      * @return a {@link PasswordSave} flag.
      */
-    public @NotNull org.gtk.gio.PasswordSave getPasswordSave() {
+    public org.gtk.gio.PasswordSave getPasswordSave() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_mount_operation_get_password_save.invokeExact(
@@ -233,15 +213,14 @@ public class MountOperation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Emits the {@link MountOperation}::reply signal.
      * @param result a {@link MountOperationResult}
      */
-    public void reply(@NotNull org.gtk.gio.MountOperationResult result) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public void reply(org.gtk.gio.MountOperationResult result) {
         try {
             DowncallHandles.g_mount_operation_reply.invokeExact(
                     handle(),
@@ -259,7 +238,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_mount_operation_set_anonymous.invokeExact(
                     handle(),
-                    anonymous ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(anonymous, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,7 +266,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_mount_operation_set_domain.invokeExact(
                     handle(),
-                    (Addressable) (domain == null ? MemoryAddress.NULL : Interop.allocateNativeString(domain)));
+                    (Addressable) (domain == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(domain, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -301,7 +280,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_mount_operation_set_is_tcrypt_hidden_volume.invokeExact(
                     handle(),
-                    hiddenVolume ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hiddenVolume, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -315,7 +294,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_mount_operation_set_is_tcrypt_system_volume.invokeExact(
                     handle(),
-                    systemVolume ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(systemVolume, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -329,7 +308,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_mount_operation_set_password.invokeExact(
                     handle(),
-                    (Addressable) (password == null ? MemoryAddress.NULL : Interop.allocateNativeString(password)));
+                    (Addressable) (password == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(password, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -339,8 +318,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * Sets the state of saving passwords for the mount operation.
      * @param save a set of {@link PasswordSave} flags.
      */
-    public void setPasswordSave(@NotNull org.gtk.gio.PasswordSave save) {
-        java.util.Objects.requireNonNull(save, "Parameter 'save' must not be null");
+    public void setPasswordSave(org.gtk.gio.PasswordSave save) {
         try {
             DowncallHandles.g_mount_operation_set_password_save.invokeExact(
                     handle(),
@@ -372,7 +350,7 @@ public class MountOperation extends org.gtk.gobject.Object {
         try {
             DowncallHandles.g_mount_operation_set_username.invokeExact(
                     handle(),
-                    (Addressable) (username == null ? MemoryAddress.NULL : Interop.allocateNativeString(username)));
+                    (Addressable) (username == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(username, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -382,7 +360,7 @@ public class MountOperation extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_mount_operation_get_type.invokeExact();
@@ -394,7 +372,18 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Aborted {
-        void signalReceived(MountOperation sourceMountOperation);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceMountOperation) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Aborted.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -409,16 +398,8 @@ public class MountOperation extends org.gtk.gobject.Object {
     public Signal<MountOperation.Aborted> onAborted(MountOperation.Aborted handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("aborted"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAborted",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<MountOperation.Aborted>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("aborted"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -426,7 +407,18 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AskPassword {
-        void signalReceived(MountOperation sourceMountOperation, @NotNull java.lang.String message, @NotNull java.lang.String defaultUser, @NotNull java.lang.String defaultDomain, @NotNull org.gtk.gio.AskPasswordFlags flags);
+        void run(java.lang.String message, java.lang.String defaultUser, java.lang.String defaultDomain, org.gtk.gio.AskPasswordFlags flags);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceMountOperation, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags) {
+            run(Marshal.addressToString.marshal(message, null), Marshal.addressToString.marshal(defaultUser, null), Marshal.addressToString.marshal(defaultDomain, null), new org.gtk.gio.AskPasswordFlags(flags));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AskPassword.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -441,16 +433,8 @@ public class MountOperation extends org.gtk.gobject.Object {
     public Signal<MountOperation.AskPassword> onAskPassword(MountOperation.AskPassword handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("ask-password"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationAskPassword",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<MountOperation.AskPassword>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("ask-password"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -458,7 +442,18 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface AskQuestion {
-        void signalReceived(MountOperation sourceMountOperation, @NotNull java.lang.String message, @NotNull java.lang.String[] choices);
+        void run(java.lang.String message, PointerString choices);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceMountOperation, MemoryAddress message, MemoryAddress choices) {
+            run(Marshal.addressToString.marshal(message, null), new PointerString(choices));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AskQuestion.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -472,12 +467,29 @@ public class MountOperation extends org.gtk.gobject.Object {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MountOperation.AskQuestion> onAskQuestion(MountOperation.AskQuestion handler) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
+                handle(), Interop.allocateNativeString("ask-question"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
     public interface Reply {
-        void signalReceived(MountOperation sourceMountOperation, @NotNull org.gtk.gio.MountOperationResult result);
+        void run(org.gtk.gio.MountOperationResult result);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceMountOperation, int result) {
+            run(org.gtk.gio.MountOperationResult.of(result));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Reply.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -488,16 +500,8 @@ public class MountOperation extends org.gtk.gobject.Object {
     public Signal<MountOperation.Reply> onReply(MountOperation.Reply handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("reply"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationReply",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<MountOperation.Reply>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("reply"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -505,7 +509,18 @@ public class MountOperation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface ShowProcesses {
-        void signalReceived(MountOperation sourceMountOperation, @NotNull java.lang.String message, @NotNull org.gtk.glib.Pid[] processes, @NotNull java.lang.String[] choices);
+        void run(java.lang.String message, PointerInteger processes, PointerString choices);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceMountOperation, MemoryAddress message, MemoryAddress processes, MemoryAddress choices) {
+            run(Marshal.addressToString.marshal(message, null), new PointerInteger(processes), new PointerString(choices));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ShowProcesses.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -525,12 +540,29 @@ public class MountOperation extends org.gtk.gobject.Object {
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<MountOperation.ShowProcesses> onShowProcesses(MountOperation.ShowProcesses handler) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
+                handle(), Interop.allocateNativeString("show-processes"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
     public interface ShowUnmountProgress {
-        void signalReceived(MountOperation sourceMountOperation, @NotNull java.lang.String message, long timeLeft, long bytesLeft);
+        void run(java.lang.String message, long timeLeft, long bytesLeft);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceMountOperation, MemoryAddress message, long timeLeft, long bytesLeft) {
+            run(Marshal.addressToString.marshal(message, null), timeLeft, bytesLeft);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ShowUnmountProgress.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -556,52 +588,46 @@ public class MountOperation extends org.gtk.gobject.Object {
     public Signal<MountOperation.ShowUnmountProgress> onShowUnmountProgress(MountOperation.ShowUnmountProgress handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("show-unmount-progress"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(MountOperation.Callbacks.class, "signalMountOperationShowUnmountProgress",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, long.class, long.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<MountOperation.ShowUnmountProgress>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("show-unmount-progress"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link MountOperation.Builder} object constructs a {@link MountOperation} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MountOperation.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link MountOperation.Build} object constructs a {@link MountOperation} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MountOperation} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MountOperation} using {@link MountOperation#castFrom}.
+         * {@link MountOperation}.
          * @return A new instance of {@code MountOperation} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MountOperation construct() {
-            return MountOperation.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MountOperation.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MountOperation build() {
+            return (MountOperation) org.gtk.gobject.GObject.newWithProperties(
+                MountOperation.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -610,7 +636,7 @@ public class MountOperation extends org.gtk.gobject.Object {
          * @param anonymous The value for the {@code anonymous} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAnonymous(boolean anonymous) {
+        public Builder setAnonymous(boolean anonymous) {
             names.add("anonymous");
             values.add(org.gtk.gobject.Value.create(anonymous));
             return this;
@@ -622,7 +648,7 @@ public class MountOperation extends org.gtk.gobject.Object {
          * @param choice The value for the {@code choice} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChoice(int choice) {
+        public Builder setChoice(int choice) {
             names.add("choice");
             values.add(org.gtk.gobject.Value.create(choice));
             return this;
@@ -633,7 +659,7 @@ public class MountOperation extends org.gtk.gobject.Object {
          * @param domain The value for the {@code domain} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDomain(java.lang.String domain) {
+        public Builder setDomain(java.lang.String domain) {
             names.add("domain");
             values.add(org.gtk.gobject.Value.create(domain));
             return this;
@@ -645,7 +671,7 @@ public class MountOperation extends org.gtk.gobject.Object {
          * @param isTcryptHiddenVolume The value for the {@code is-tcrypt-hidden-volume} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsTcryptHiddenVolume(boolean isTcryptHiddenVolume) {
+        public Builder setIsTcryptHiddenVolume(boolean isTcryptHiddenVolume) {
             names.add("is-tcrypt-hidden-volume");
             values.add(org.gtk.gobject.Value.create(isTcryptHiddenVolume));
             return this;
@@ -660,7 +686,7 @@ public class MountOperation extends org.gtk.gobject.Object {
          * @param isTcryptSystemVolume The value for the {@code is-tcrypt-system-volume} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsTcryptSystemVolume(boolean isTcryptSystemVolume) {
+        public Builder setIsTcryptSystemVolume(boolean isTcryptSystemVolume) {
             names.add("is-tcrypt-system-volume");
             values.add(org.gtk.gobject.Value.create(isTcryptSystemVolume));
             return this;
@@ -672,7 +698,7 @@ public class MountOperation extends org.gtk.gobject.Object {
          * @param password The value for the {@code password} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPassword(java.lang.String password) {
+        public Builder setPassword(java.lang.String password) {
             names.add("password");
             values.add(org.gtk.gobject.Value.create(password));
             return this;
@@ -683,7 +709,7 @@ public class MountOperation extends org.gtk.gobject.Object {
          * @param passwordSave The value for the {@code password-save} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPasswordSave(org.gtk.gio.PasswordSave passwordSave) {
+        public Builder setPasswordSave(org.gtk.gio.PasswordSave passwordSave) {
             names.add("password-save");
             values.add(org.gtk.gobject.Value.create(passwordSave));
             return this;
@@ -695,7 +721,7 @@ public class MountOperation extends org.gtk.gobject.Object {
          * @param pim The value for the {@code pim} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPim(int pim) {
+        public Builder setPim(int pim) {
             names.add("pim");
             values.add(org.gtk.gobject.Value.create(pim));
             return this;
@@ -707,7 +733,7 @@ public class MountOperation extends org.gtk.gobject.Object {
          * @param username The value for the {@code username} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUsername(java.lang.String username) {
+        public Builder setUsername(java.lang.String username) {
             names.add("username");
             values.add(org.gtk.gobject.Value.create(username));
             return this;
@@ -841,40 +867,5 @@ public class MountOperation extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalMountOperationAborted(MemoryAddress sourceMountOperation, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MountOperation.Aborted) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(sourceMountOperation, Ownership.NONE));
-        }
-        
-        public static void signalMountOperationAskPassword(MemoryAddress sourceMountOperation, MemoryAddress message, MemoryAddress defaultUser, MemoryAddress defaultDomain, int flags, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MountOperation.AskPassword) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(sourceMountOperation, Ownership.NONE), Interop.getStringFrom(message), Interop.getStringFrom(defaultUser), Interop.getStringFrom(defaultDomain), new org.gtk.gio.AskPasswordFlags(flags));
-        }
-        
-        public static void signalMountOperationAskQuestion(MemoryAddress sourceMountOperation, MemoryAddress message, MemoryAddress choices, MemoryAddress DATA) {
-        // Operation not supported yet
-    }
-        
-        public static void signalMountOperationReply(MemoryAddress sourceMountOperation, int result, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MountOperation.Reply) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(sourceMountOperation, Ownership.NONE), org.gtk.gio.MountOperationResult.of(result));
-        }
-        
-        public static void signalMountOperationShowProcesses(MemoryAddress sourceMountOperation, MemoryAddress message, MemoryAddress processes, MemoryAddress choices, MemoryAddress DATA) {
-        // Operation not supported yet
-    }
-        
-        public static void signalMountOperationShowUnmountProgress(MemoryAddress sourceMountOperation, MemoryAddress message, long timeLeft, long bytesLeft, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (MountOperation.ShowUnmountProgress) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new MountOperation(sourceMountOperation, Ownership.NONE), Interop.getStringFrom(message), timeLeft, bytesLeft);
-        }
     }
 }

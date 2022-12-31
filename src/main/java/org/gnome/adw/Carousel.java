@@ -45,40 +45,26 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * <p>
      * Because Carousel is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Carousel(Addressable address, Ownership ownership) {
+    protected Carousel(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Carousel if its GType is a (or inherits from) "AdwCarousel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Carousel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwCarousel", a ClassCastException will be thrown.
-     */
-    public static Carousel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Carousel.getType())) {
-            return new Carousel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwCarousel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Carousel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Carousel(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_carousel_new.invokeExact();
         } catch (Throwable ERR) {
@@ -98,8 +84,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * Appends {@code child} to {@code self}.
      * @param child a widget to add
      */
-    public void append(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void append(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.adw_carousel_append.invokeExact(
                     handle(),
@@ -121,7 +106,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -136,7 +121,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -151,7 +136,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -166,7 +151,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -189,7 +174,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * @param n index of the page
      * @return the page
      */
-    public @NotNull org.gtk.gtk.Widget getNthPage(int n) {
+    public org.gtk.gtk.Widget getNthPage(int n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_carousel_get_nth_page.invokeExact(
@@ -198,7 +183,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -237,7 +222,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * Gets the scroll animation spring parameters for {@code self}.
      * @return the animation parameters
      */
-    public @NotNull org.gnome.adw.SpringParams getScrollParams() {
+    public org.gnome.adw.SpringParams getScrollParams() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_carousel_get_scroll_params.invokeExact(
@@ -245,7 +230,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.SpringParams(RESULT, Ownership.FULL);
+        return org.gnome.adw.SpringParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -271,8 +256,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * @param child a widget to add
      * @param position the position to insert {@code child} at
      */
-    public void insert(@NotNull org.gtk.gtk.Widget child, int position) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void insert(org.gtk.gtk.Widget child, int position) {
         try {
             DowncallHandles.adw_carousel_insert.invokeExact(
                     handle(),
@@ -287,8 +271,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * Prepends {@code child} to {@code self}.
      * @param child a widget to add
      */
-    public void prepend(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void prepend(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.adw_carousel_prepend.invokeExact(
                     handle(),
@@ -302,8 +285,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * Removes {@code child} from {@code self}.
      * @param child a widget to remove
      */
-    public void remove(@NotNull org.gtk.gtk.Widget child) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void remove(org.gtk.gtk.Widget child) {
         try {
             DowncallHandles.adw_carousel_remove.invokeExact(
                     handle(),
@@ -321,8 +303,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * @param child a widget to add
      * @param position the position to move {@code child} to
      */
-    public void reorder(@NotNull org.gtk.gtk.Widget child, int position) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
+    public void reorder(org.gtk.gtk.Widget child, int position) {
         try {
             DowncallHandles.adw_carousel_reorder.invokeExact(
                     handle(),
@@ -340,13 +321,12 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * @param widget a child of {@code self}
      * @param animate whether to animate the transition
      */
-    public void scrollTo(@NotNull org.gtk.gtk.Widget widget, boolean animate) {
-        java.util.Objects.requireNonNull(widget, "Parameter 'widget' must not be null");
+    public void scrollTo(org.gtk.gtk.Widget widget, boolean animate) {
         try {
             DowncallHandles.adw_carousel_scroll_to.invokeExact(
                     handle(),
                     widget.handle(),
-                    animate ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(animate, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -363,7 +343,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         try {
             DowncallHandles.adw_carousel_set_allow_long_swipes.invokeExact(
                     handle(),
-                    allowLongSwipes ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(allowLongSwipes, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -379,7 +359,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         try {
             DowncallHandles.adw_carousel_set_allow_mouse_drag.invokeExact(
                     handle(),
-                    allowMouseDrag ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(allowMouseDrag, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -395,7 +375,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         try {
             DowncallHandles.adw_carousel_set_allow_scroll_wheel.invokeExact(
                     handle(),
-                    allowScrollWheel ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(allowScrollWheel, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -412,7 +392,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
         try {
             DowncallHandles.adw_carousel_set_interactive.invokeExact(
                     handle(),
-                    interactive ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(interactive, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -443,8 +423,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * }</pre>
      * @param params the new parameters
      */
-    public void setScrollParams(@NotNull org.gnome.adw.SpringParams params) {
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
+    public void setScrollParams(org.gnome.adw.SpringParams params) {
         try {
             DowncallHandles.adw_carousel_set_scroll_params.invokeExact(
                     handle(),
@@ -472,7 +451,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_carousel_get_type.invokeExact();
@@ -484,7 +463,18 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     
     @FunctionalInterface
     public interface PageChanged {
-        void signalReceived(Carousel sourceCarousel, int index);
+        void run(int index);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceCarousel, int index) {
+            run(index);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PageChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -498,52 +488,46 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
     public Signal<Carousel.PageChanged> onPageChanged(Carousel.PageChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("page-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Carousel.Callbacks.class, "signalCarouselPageChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Carousel.PageChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("page-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Carousel.Builder} object constructs a {@link Carousel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Carousel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Carousel.Build} object constructs a {@link Carousel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Carousel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Carousel} using {@link Carousel#castFrom}.
+         * {@link Carousel}.
          * @return A new instance of {@code Carousel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Carousel construct() {
-            return Carousel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Carousel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Carousel build() {
+            return (Carousel) org.gtk.gobject.GObject.newWithProperties(
+                Carousel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -554,7 +538,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
          * @param allowLongSwipes The value for the {@code allow-long-swipes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllowLongSwipes(boolean allowLongSwipes) {
+        public Builder setAllowLongSwipes(boolean allowLongSwipes) {
             names.add("allow-long-swipes");
             values.add(org.gtk.gobject.Value.create(allowLongSwipes));
             return this;
@@ -567,7 +551,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
          * @param allowMouseDrag The value for the {@code allow-mouse-drag} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllowMouseDrag(boolean allowMouseDrag) {
+        public Builder setAllowMouseDrag(boolean allowMouseDrag) {
             names.add("allow-mouse-drag");
             values.add(org.gtk.gobject.Value.create(allowMouseDrag));
             return this;
@@ -580,7 +564,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
          * @param allowScrollWheel The value for the {@code allow-scroll-wheel} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllowScrollWheel(boolean allowScrollWheel) {
+        public Builder setAllowScrollWheel(boolean allowScrollWheel) {
             names.add("allow-scroll-wheel");
             values.add(org.gtk.gobject.Value.create(allowScrollWheel));
             return this;
@@ -594,7 +578,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
          * @param interactive The value for the {@code interactive} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInteractive(boolean interactive) {
+        public Builder setInteractive(boolean interactive) {
             names.add("interactive");
             values.add(org.gtk.gobject.Value.create(interactive));
             return this;
@@ -605,7 +589,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
          * @param nPages The value for the {@code n-pages} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPages(int nPages) {
+        public Builder setNPages(int nPages) {
             names.add("n-pages");
             values.add(org.gtk.gobject.Value.create(nPages));
             return this;
@@ -618,7 +602,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
          * @param position The value for the {@code position} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPosition(double position) {
+        public Builder setPosition(double position) {
             names.add("position");
             values.add(org.gtk.gobject.Value.create(position));
             return this;
@@ -631,7 +615,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
          * @param revealDuration The value for the {@code reveal-duration} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRevealDuration(int revealDuration) {
+        public Builder setRevealDuration(int revealDuration) {
             names.add("reveal-duration");
             values.add(org.gtk.gobject.Value.create(revealDuration));
             return this;
@@ -647,7 +631,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
          * @param scrollParams The value for the {@code scroll-params} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScrollParams(org.gnome.adw.SpringParams scrollParams) {
+        public Builder setScrollParams(org.gnome.adw.SpringParams scrollParams) {
             names.add("scroll-params");
             values.add(org.gtk.gobject.Value.create(scrollParams));
             return this;
@@ -658,7 +642,7 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
          * @param spacing The value for the {@code spacing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSpacing(int spacing) {
+        public Builder setSpacing(int spacing) {
             names.add("spacing");
             values.add(org.gtk.gobject.Value.create(spacing));
             return this;
@@ -816,14 +800,5 @@ public class Carousel extends org.gtk.gtk.Widget implements org.gnome.adw.Swipea
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalCarouselPageChanged(MemoryAddress sourceCarousel, int index, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Carousel.PageChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Carousel(sourceCarousel, Ownership.NONE), index);
-        }
     }
 }

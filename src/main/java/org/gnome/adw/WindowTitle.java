@@ -42,46 +42,30 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * <p>
      * Because WindowTitle is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WindowTitle(Addressable address, Ownership ownership) {
+    protected WindowTitle(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to WindowTitle if its GType is a (or inherits from) "AdwWindowTitle".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code WindowTitle} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwWindowTitle", a ClassCastException will be thrown.
-     */
-    public static WindowTitle castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), WindowTitle.getType())) {
-            return new WindowTitle(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwWindowTitle");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WindowTitle> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WindowTitle(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String title, @NotNull java.lang.String subtitle) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
-        java.util.Objects.requireNonNull(subtitle, "Parameter 'subtitle' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String title, java.lang.String subtitle) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_window_title_new.invokeExact(
-                    Interop.allocateNativeString(title),
-                    Interop.allocateNativeString(subtitle));
+                    Marshal.stringToAddress.marshal(title, null),
+                    Marshal.stringToAddress.marshal(subtitle, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +77,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * @param title a title
      * @param subtitle a subtitle
      */
-    public WindowTitle(@NotNull java.lang.String title, @NotNull java.lang.String subtitle) {
+    public WindowTitle(java.lang.String title, java.lang.String subtitle) {
         super(constructNew(title, subtitle), Ownership.NONE);
     }
     
@@ -101,7 +85,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Gets the subtitle of {@code self}.
      * @return the subtitle
      */
-    public @NotNull java.lang.String getSubtitle() {
+    public java.lang.String getSubtitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_window_title_get_subtitle.invokeExact(
@@ -109,14 +93,14 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the title of {@code self}.
      * @return the title
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_window_title_get_title.invokeExact(
@@ -124,7 +108,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -133,12 +117,11 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * The subtitle should give the user additional details.
      * @param subtitle a subtitle
      */
-    public void setSubtitle(@NotNull java.lang.String subtitle) {
-        java.util.Objects.requireNonNull(subtitle, "Parameter 'subtitle' must not be null");
+    public void setSubtitle(java.lang.String subtitle) {
         try {
             DowncallHandles.adw_window_title_set_subtitle.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(subtitle));
+                    Marshal.stringToAddress.marshal(subtitle, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -151,12 +134,11 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * generally does not use the application name.
      * @param title a title
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.adw_window_title_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -166,7 +148,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_window_title_get_type.invokeExact();
@@ -175,38 +157,40 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link WindowTitle.Builder} object constructs a {@link WindowTitle} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link WindowTitle.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link WindowTitle.Build} object constructs a {@link WindowTitle} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link WindowTitle} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link WindowTitle} using {@link WindowTitle#castFrom}.
+         * {@link WindowTitle}.
          * @return A new instance of {@code WindowTitle} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public WindowTitle construct() {
-            return WindowTitle.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    WindowTitle.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public WindowTitle build() {
+            return (WindowTitle) org.gtk.gobject.GObject.newWithProperties(
+                WindowTitle.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -217,7 +201,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param subtitle The value for the {@code subtitle} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSubtitle(java.lang.String subtitle) {
+        public Builder setSubtitle(java.lang.String subtitle) {
             names.add("subtitle");
             values.add(org.gtk.gobject.Value.create(subtitle));
             return this;
@@ -231,7 +215,7 @@ public class WindowTitle extends org.gtk.gtk.Widget implements org.gtk.gtk.Acces
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;

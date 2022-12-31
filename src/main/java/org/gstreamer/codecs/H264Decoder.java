@@ -16,20 +16,18 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
     
     private static final java.lang.String C_TYPE_NAME = "GstH264Decoder";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.video.VideoDecoder.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("input_state"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.video.VideoDecoder.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("input_state"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(20, Interop.valueLayout.ADDRESS).withName("padding")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,37 +35,23 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
      * <p>
      * Because H264Decoder is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public H264Decoder(Addressable address, Ownership ownership) {
+    protected H264Decoder(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to H264Decoder if its GType is a (or inherits from) "GstH264Decoder".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code H264Decoder} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstH264Decoder", a ClassCastException will be thrown.
-     */
-    public static H264Decoder castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), H264Decoder.getType())) {
-            return new H264Decoder(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstH264Decoder");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, H264Decoder> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new H264Decoder(input, ownership);
     
     /**
      * Retrive DPB and return a {@link H264Picture} corresponding to
@@ -75,7 +59,7 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
      * @param systemFrameNumber a target system frame number of {@link H264Picture}
      * @return a {@link H264Picture} if successful, or {@code null} otherwise
      */
-    public @NotNull org.gstreamer.codecs.H264Picture getPicture(int systemFrameNumber) {
+    public org.gstreamer.codecs.H264Picture getPicture(int systemFrameNumber) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_h264_decoder_get_picture.invokeExact(
@@ -84,7 +68,7 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.codecs.H264Picture(RESULT, Ownership.FULL);
+        return org.gstreamer.codecs.H264Picture.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -95,7 +79,7 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
         try {
             DowncallHandles.gst_h264_decoder_set_process_ref_pic_lists.invokeExact(
                     handle(),
-                    process ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(process, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -105,7 +89,7 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_h264_decoder_get_type.invokeExact();
@@ -114,38 +98,40 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link H264Decoder.Builder} object constructs a {@link H264Decoder} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link H264Decoder.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.video.VideoDecoder.Build {
+    public static class Builder extends org.gstreamer.video.VideoDecoder.Builder {
         
-         /**
-         * A {@link H264Decoder.Build} object constructs a {@link H264Decoder} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link H264Decoder} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link H264Decoder} using {@link H264Decoder#castFrom}.
+         * {@link H264Decoder}.
          * @return A new instance of {@code H264Decoder} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public H264Decoder construct() {
-            return H264Decoder.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    H264Decoder.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public H264Decoder build() {
+            return (H264Decoder) org.gtk.gobject.GObject.newWithProperties(
+                H264Decoder.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -157,7 +143,7 @@ public class H264Decoder extends org.gstreamer.video.VideoDecoder {
          * @param compliance The value for the {@code compliance} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCompliance(org.gstreamer.codecs.H264DecoderCompliance compliance) {
+        public Builder setCompliance(org.gstreamer.codecs.H264DecoderCompliance compliance) {
             names.add("compliance");
             values.add(org.gtk.gobject.Value.create(compliance));
             return this;

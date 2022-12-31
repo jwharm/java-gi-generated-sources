@@ -33,11 +33,15 @@ public class FileAttributeInfoFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FileAttributeInfoFlags or(FileAttributeInfoFlags mask) {
-        return new FileAttributeInfoFlags(this.getValue() | mask.getValue());
+    public FileAttributeInfoFlags or(FileAttributeInfoFlags... masks) {
+        int value = this.getValue();
+        for (FileAttributeInfoFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FileAttributeInfoFlags(value);
     }
     
     /**
@@ -47,7 +51,8 @@ public class FileAttributeInfoFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FileAttributeInfoFlags combined(FileAttributeInfoFlags mask, FileAttributeInfoFlags... masks) {
-        int value = mask.getValue();        for (FileAttributeInfoFlags arg : masks) {
+        int value = mask.getValue();
+        for (FileAttributeInfoFlags arg : masks) {
             value |= arg.getValue();
         }
         return new FileAttributeInfoFlags(value);

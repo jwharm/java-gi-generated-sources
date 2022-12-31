@@ -40,8 +40,10 @@ public class AdapterClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AdapterClass(Addressable address, Ownership ownership) {
+    protected AdapterClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AdapterClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AdapterClass(input, ownership);
 }

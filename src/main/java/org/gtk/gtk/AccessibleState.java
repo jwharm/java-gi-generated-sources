@@ -81,9 +81,7 @@ public enum AccessibleState implements io.github.jwharm.javagi.Enumeration {
         };
     }
     
-    public static void initValue(@NotNull org.gtk.gtk.AccessibleState state, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void initValue(org.gtk.gtk.AccessibleState state, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gtk_accessible_state_init_value.invokeExact(
                     state.getValue(),

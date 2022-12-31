@@ -40,8 +40,10 @@ public class SystemAllocationScope extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SystemAllocationScope(Addressable address, Ownership ownership) {
+    protected SystemAllocationScope(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SystemAllocationScope> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SystemAllocationScope(input, ownership);
 }

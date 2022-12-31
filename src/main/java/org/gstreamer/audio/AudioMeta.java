@@ -19,22 +19,20 @@ public class AudioMeta extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioMeta";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
-        org.gstreamer.audio.AudioInfo.getMemoryLayout().withName("info"),
-        Interop.valueLayout.C_LONG.withName("samples"),
-        Interop.valueLayout.ADDRESS.withName("offsets"),
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.C_LONG).withName("priv_offsets_arr"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Meta.getMemoryLayout().withName("meta"),
+            org.gstreamer.audio.AudioInfo.getMemoryLayout().withName("info"),
+            Interop.valueLayout.C_LONG.withName("samples"),
+            Interop.valueLayout.ADDRESS.withName("offsets"),
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.C_LONG).withName("priv_offsets_arr"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -54,25 +52,45 @@ public class AudioMeta extends Struct {
      * Get the value of the field {@code meta}
      * @return The value of the field {@code meta}
      */
-    public org.gstreamer.gst.Meta meta$get() {
+    public org.gstreamer.gst.Meta getMeta() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("meta"));
-        return new org.gstreamer.gst.Meta(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Meta.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code meta}
+     * @param meta The new value of the field {@code meta}
+     */
+    public void setMeta(org.gstreamer.gst.Meta meta) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("meta"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
     }
     
     /**
      * Get the value of the field {@code info}
      * @return The value of the field {@code info}
      */
-    public org.gstreamer.audio.AudioInfo info$get() {
+    public org.gstreamer.audio.AudioInfo getInfo_() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("info"));
-        return new org.gstreamer.audio.AudioInfo(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code info}
+     * @param info The new value of the field {@code info}
+     */
+    public void setInfo(org.gstreamer.audio.AudioInfo info) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("info"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
     }
     
     /**
      * Get the value of the field {@code samples}
      * @return The value of the field {@code samples}
      */
-    public long samples$get() {
+    public long getSamples() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("samples"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,7 +101,7 @@ public class AudioMeta extends Struct {
      * Change the value of the field {@code samples}
      * @param samples The new value of the field {@code samples}
      */
-    public void samples$set(long samples) {
+    public void setSamples(long samples) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("samples"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), samples);
@@ -93,7 +111,7 @@ public class AudioMeta extends Struct {
      * Get the value of the field {@code offsets}
      * @return The value of the field {@code offsets}
      */
-    public PointerLong offsets$get() {
+    public PointerLong getOffsets() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offsets"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,10 +122,10 @@ public class AudioMeta extends Struct {
      * Change the value of the field {@code offsets}
      * @param offsets The new value of the field {@code offsets}
      */
-    public void offsets$set(PointerLong offsets) {
+    public void setOffsets(PointerLong offsets) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offsets"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offsets.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offsets == null ? MemoryAddress.NULL : offsets.handle()));
     }
     
     /**
@@ -115,19 +133,21 @@ public class AudioMeta extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioMeta(Addressable address, Ownership ownership) {
+    protected AudioMeta(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo getInfo() {
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioMeta> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioMeta(input, ownership);
+    
+    public static org.gstreamer.gst.MetaInfo getInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -138,31 +158,35 @@ public class AudioMeta extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AudioMeta.Builder} object constructs a {@link AudioMeta} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AudioMeta.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AudioMeta struct;
+        private final AudioMeta struct;
         
-         /**
-         * A {@link AudioMeta.Build} object constructs a {@link AudioMeta} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AudioMeta.allocate();
         }
         
          /**
          * Finish building the {@link AudioMeta} struct.
          * @return A new instance of {@code AudioMeta} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioMeta construct() {
+        public AudioMeta build() {
             return struct;
         }
         
@@ -171,7 +195,7 @@ public class AudioMeta extends Struct {
          * @param meta The value for the {@code meta} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMeta(org.gstreamer.gst.Meta meta) {
+        public Builder setMeta(org.gstreamer.gst.Meta meta) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("meta"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (meta == null ? MemoryAddress.NULL : meta.handle()));
@@ -183,7 +207,7 @@ public class AudioMeta extends Struct {
          * @param info The value for the {@code info} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInfo(org.gstreamer.audio.AudioInfo info) {
+        public Builder setInfo(org.gstreamer.audio.AudioInfo info) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
@@ -195,7 +219,7 @@ public class AudioMeta extends Struct {
          * @param samples The value for the {@code samples} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSamples(long samples) {
+        public Builder setSamples(long samples) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("samples"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), samples);
@@ -209,21 +233,21 @@ public class AudioMeta extends Struct {
          * @param offsets The value for the {@code offsets} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffsets(PointerLong offsets) {
+        public Builder setOffsets(PointerLong offsets) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offsets"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offsets == null ? MemoryAddress.NULL : offsets.handle()));
             return this;
         }
         
-        public Build setPrivOffsetsArr(long[] privOffsetsArr) {
+        public Builder setPrivOffsetsArr(long[] privOffsetsArr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priv_offsets_arr"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privOffsetsArr == null ? MemoryAddress.NULL : Interop.allocateNativeArray(privOffsetsArr, false)));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

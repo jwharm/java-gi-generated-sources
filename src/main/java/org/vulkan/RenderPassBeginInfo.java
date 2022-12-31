@@ -40,8 +40,10 @@ public class RenderPassBeginInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RenderPassBeginInfo(Addressable address, Ownership ownership) {
+    protected RenderPassBeginInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RenderPassBeginInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RenderPassBeginInfo(input, ownership);
 }

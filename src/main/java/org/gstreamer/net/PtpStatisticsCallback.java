@@ -45,5 +45,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PtpStatisticsCallback {
-        boolean onPtpStatisticsCallback(byte domain, @NotNull org.gstreamer.gst.Structure stats);
+    boolean run(byte domain, org.gstreamer.gst.Structure stats);
+
+    @ApiStatus.Internal default int upcall(byte domain, MemoryAddress stats, MemoryAddress userData) {
+        var RESULT = run(domain, org.gstreamer.gst.Structure.fromAddress.marshal(stats, Ownership.NONE));
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.C_BYTE, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PtpStatisticsCallback.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

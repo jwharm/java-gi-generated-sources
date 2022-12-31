@@ -40,8 +40,10 @@ public class CellRendererClassPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CellRendererClassPrivate(Addressable address, Ownership ownership) {
+    protected CellRendererClassPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellRendererClassPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererClassPrivate(input, ownership);
 }

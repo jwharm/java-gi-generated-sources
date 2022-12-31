@@ -46,7 +46,7 @@ import org.jetbrains.annotations.*;
  * task is started; changing the object name after the task has been started, has
  * no effect on the thread name.
  */
-public class Task extends org.gstreamer.gst.Object {
+public class Task extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -54,29 +54,27 @@ public class Task extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstTask";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.C_INT.withName("state"),
-        MemoryLayout.paddingLayout(32),
-        org.gtk.glib.Cond.getMemoryLayout().withName("cond"),
-        Interop.valueLayout.ADDRESS.withName("lock"),
-        Interop.valueLayout.ADDRESS.withName("func"),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.ADDRESS.withName("notify"),
-        Interop.valueLayout.C_INT.withName("running"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("thread"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.C_INT.withName("state"),
+            MemoryLayout.paddingLayout(32),
+            org.gtk.glib.Cond.getMemoryLayout().withName("cond"),
+            Interop.valueLayout.ADDRESS.withName("lock"),
+            Interop.valueLayout.ADDRESS.withName("func"),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.ADDRESS.withName("notify"),
+            Interop.valueLayout.C_INT.withName("running"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("thread"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -84,50 +82,31 @@ public class Task extends org.gstreamer.gst.Object {
      * <p>
      * Because Task is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Task(Addressable address, Ownership ownership) {
+    protected Task(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Task if its GType is a (or inherits from) "GstTask".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Task} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstTask", a ClassCastException will be thrown.
-     */
-    public static Task castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Task.getType())) {
-            return new Task(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstTask");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Task> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Task(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gst.TaskFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.gst.TaskFunction func, org.gtk.glib.DestroyNotify notify) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_task_new.invokeExact(
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbTaskFunction",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -149,9 +128,10 @@ public class Task extends org.gstreamer.gst.Object {
      * gst_task_set_lock() function. This lock will always be acquired while
      * {@code func} is called.
      * @param func The {@link TaskFunction} to use
+     * @param notify the function to call when {@code user_data} is no longer needed.
      */
-    public Task(@NotNull org.gstreamer.gst.TaskFunction func) {
-        super(constructNew(func), Ownership.FULL);
+    public Task(org.gstreamer.gst.TaskFunction func, org.gtk.glib.DestroyNotify notify) {
+        super(constructNew(func, notify), Ownership.FULL);
     }
     
     /**
@@ -162,7 +142,7 @@ public class Task extends org.gstreamer.gst.Object {
      * @return the {@link TaskPool} used by {@code task}. gst_object_unref()
      * after usage.
      */
-    public @NotNull org.gstreamer.gst.TaskPool getPool() {
+    public org.gstreamer.gst.TaskPool getPool() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_task_get_pool.invokeExact(
@@ -170,7 +150,7 @@ public class Task extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TaskPool(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.TaskPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.TaskPool.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -179,7 +159,7 @@ public class Task extends org.gstreamer.gst.Object {
      * <p>
      * MT safe.
      */
-    public @NotNull org.gstreamer.gst.TaskState getState() {
+    public org.gstreamer.gst.TaskState getState() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_task_get_state.invokeExact(
@@ -211,7 +191,7 @@ public class Task extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -231,7 +211,7 @@ public class Task extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -249,7 +229,7 @@ public class Task extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -257,19 +237,15 @@ public class Task extends org.gstreamer.gst.Object {
      * be passed to {@code enter_func} and {@code notify} will be called when {@code user_data} is no
      * longer referenced.
      * @param enterFunc a {@link TaskThreadFunc}
+     * @param notify called when {@code user_data} is no longer referenced
      */
-    public void setEnterCallback(@NotNull org.gstreamer.gst.TaskThreadFunc enterFunc) {
-        java.util.Objects.requireNonNull(enterFunc, "Parameter 'enterFunc' must not be null");
+    public void setEnterCallback(org.gstreamer.gst.TaskThreadFunc enterFunc, org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_task_set_enter_callback.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbTaskThreadFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(enterFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) enterFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -280,19 +256,15 @@ public class Task extends org.gstreamer.gst.Object {
      * be passed to {@code leave_func} and {@code notify} will be called when {@code user_data} is no
      * longer referenced.
      * @param leaveFunc a {@link TaskThreadFunc}
+     * @param notify called when {@code user_data} is no longer referenced
      */
-    public void setLeaveCallback(@NotNull org.gstreamer.gst.TaskThreadFunc leaveFunc) {
-        java.util.Objects.requireNonNull(leaveFunc, "Parameter 'leaveFunc' must not be null");
+    public void setLeaveCallback(org.gstreamer.gst.TaskThreadFunc leaveFunc, org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gst_task_set_leave_callback.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gst.Callbacks.class, "cbTaskThreadFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(leaveFunc)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) leaveFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -308,8 +280,7 @@ public class Task extends org.gstreamer.gst.Object {
      * MT safe.
      * @param mutex The {@link org.gtk.glib.RecMutex} to use
      */
-    public void setLock(@NotNull org.gtk.glib.RecMutex mutex) {
-        java.util.Objects.requireNonNull(mutex, "Parameter 'mutex' must not be null");
+    public void setLock(org.gtk.glib.RecMutex mutex) {
         try {
             DowncallHandles.gst_task_set_lock.invokeExact(
                     handle(),
@@ -326,8 +297,7 @@ public class Task extends org.gstreamer.gst.Object {
      * MT safe.
      * @param pool a {@link TaskPool}
      */
-    public void setPool(@NotNull org.gstreamer.gst.TaskPool pool) {
-        java.util.Objects.requireNonNull(pool, "Parameter 'pool' must not be null");
+    public void setPool(org.gstreamer.gst.TaskPool pool) {
         try {
             DowncallHandles.gst_task_set_pool.invokeExact(
                     handle(),
@@ -348,8 +318,7 @@ public class Task extends org.gstreamer.gst.Object {
      * @param state the new task state
      * @return {@code true} if the state could be changed.
      */
-    public boolean setState(@NotNull org.gstreamer.gst.TaskState state) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public boolean setState(org.gstreamer.gst.TaskState state) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_task_set_state.invokeExact(
@@ -358,7 +327,7 @@ public class Task extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -376,7 +345,7 @@ public class Task extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -395,14 +364,14 @@ public class Task extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_task_get_type.invokeExact();
@@ -425,38 +394,40 @@ public class Task extends org.gstreamer.gst.Object {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Task.Builder} object constructs a {@link Task} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Task.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link Task.Build} object constructs a {@link Task} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Task} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Task} using {@link Task#castFrom}.
+         * {@link Task}.
          * @return A new instance of {@code Task} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Task construct() {
-            return Task.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Task.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Task build() {
+            return (Task) org.gtk.gobject.GObject.newWithProperties(
+                Task.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

@@ -16,5 +16,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface CollectPadsFlushFunction {
-        void onCollectPadsFlushFunction(@NotNull org.gstreamer.base.CollectPads pads);
+    void run(org.gstreamer.base.CollectPads pads);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress pads, MemoryAddress userData) {
+        run((org.gstreamer.base.CollectPads) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pads)), org.gstreamer.base.CollectPads.fromAddress).marshal(pads, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CollectPadsFlushFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

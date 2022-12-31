@@ -51,7 +51,7 @@ public enum ResolverError implements io.github.jwharm.javagi.Enumeration {
      * Gets the {@link Resolver} Error Quark.
      * @return a {@link org.gtk.glib.Quark}.
      */
-    public static @NotNull org.gtk.glib.Quark quark() {
+    public static org.gtk.glib.Quark quark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_resolver_error_quark.invokeExact();

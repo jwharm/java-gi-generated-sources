@@ -24,17 +24,15 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     private static final java.lang.String C_TYPE_NAME = "GtkRange";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -42,43 +40,29 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * <p>
      * Because Range is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Range(Addressable address, Ownership ownership) {
+    protected Range(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Range if its GType is a (or inherits from) "GtkRange".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Range} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkRange", a ClassCastException will be thrown.
-     */
-    public static Range castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Range.getType())) {
-            return new Range(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkRange");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Range> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Range(input, ownership);
     
     /**
      * Get the adjustment which is the “model” object for {@code GtkRange}.
      * @return a {@code GtkAdjustment}
      */
-    public @NotNull org.gtk.gtk.Adjustment getAdjustment() {
+    public org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_range_get_adjustment.invokeExact(
@@ -86,7 +70,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Adjustment) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -118,7 +102,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -135,7 +119,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -145,8 +129,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * This function is useful mainly for {@code GtkRange} subclasses.
      * @param rangeRect return location for the range rectangle
      */
-    public void getRangeRect(@NotNull org.gtk.gdk.Rectangle rangeRect) {
-        java.util.Objects.requireNonNull(rangeRect, "Parameter 'rangeRect' must not be null");
+    public void getRangeRect(org.gtk.gdk.Rectangle rangeRect) {
         try {
             DowncallHandles.gtk_range_get_range_rect.invokeExact(
                     handle(),
@@ -168,7 +151,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -201,7 +184,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -213,20 +196,18 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * @param sliderEnd return location for the slider's end
      */
     public void getSliderRange(Out<Integer> sliderStart, Out<Integer> sliderEnd) {
-        java.util.Objects.requireNonNull(sliderStart, "Parameter 'sliderStart' must not be null");
         MemorySegment sliderStartPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(sliderEnd, "Parameter 'sliderEnd' must not be null");
         MemorySegment sliderEndPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_range_get_slider_range.invokeExact(
                     handle(),
-                    (Addressable) sliderStartPOINTER.address(),
-                    (Addressable) sliderEndPOINTER.address());
+                    (Addressable) (sliderStart == null ? MemoryAddress.NULL : (Addressable) sliderStartPOINTER.address()),
+                    (Addressable) (sliderEnd == null ? MemoryAddress.NULL : (Addressable) sliderEndPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        sliderStart.set(sliderStartPOINTER.get(Interop.valueLayout.C_INT, 0));
-        sliderEnd.set(sliderEndPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (sliderStart != null) sliderStart.set(sliderStartPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (sliderEnd != null) sliderEnd.set(sliderEndPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -243,7 +224,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -273,8 +254,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * The page size affects the size of the scrollbar slider.
      * @param adjustment a {@code GtkAdjustment}
      */
-    public void setAdjustment(@NotNull org.gtk.gtk.Adjustment adjustment) {
-        java.util.Objects.requireNonNull(adjustment, "Parameter 'adjustment' must not be null");
+    public void setAdjustment(org.gtk.gtk.Adjustment adjustment) {
         try {
             DowncallHandles.gtk_range_set_adjustment.invokeExact(
                     handle(),
@@ -327,7 +307,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_range_set_flippable.invokeExact(
                     handle(),
-                    flippable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(flippable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -366,7 +346,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_range_set_inverted.invokeExact(
                     handle(),
-                    setting ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(setting, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -403,7 +383,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_range_set_restrict_to_fill_level.invokeExact(
                     handle(),
-                    restrictToFillLevel ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(restrictToFillLevel, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -437,7 +417,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_range_set_show_fill_level.invokeExact(
                     handle(),
-                    showFillLevel ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(showFillLevel, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -454,7 +434,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
         try {
             DowncallHandles.gtk_range_set_slider_size_fixed.invokeExact(
                     handle(),
-                    sizeFixed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(sizeFixed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -482,7 +462,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_range_get_type.invokeExact();
@@ -494,7 +474,18 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface AdjustBounds {
-        void signalReceived(Range sourceRange, double value);
+        void run(double value);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceRange, double value) {
+            run(value);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AdjustBounds.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -506,16 +497,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Range.AdjustBounds> onAdjustBounds(Range.AdjustBounds handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("adjust-bounds"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeAdjustBounds",
-                        MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Range.AdjustBounds>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("adjust-bounds"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -523,7 +506,19 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ChangeValue {
-        boolean signalReceived(Range sourceRange, @NotNull org.gtk.gtk.ScrollType scroll, double value);
+        boolean run(org.gtk.gtk.ScrollType scroll, double value);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceRange, int scroll, double value) {
+            var RESULT = run(org.gtk.gtk.ScrollType.of(scroll), value);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeValue.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -545,16 +540,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Range.ChangeValue> onChangeValue(Range.ChangeValue handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("change-value"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeChangeValue",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Range.ChangeValue>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("change-value"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -562,7 +549,18 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface MoveSlider {
-        void signalReceived(Range sourceRange, @NotNull org.gtk.gtk.ScrollType step);
+        void run(org.gtk.gtk.ScrollType step);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceRange, int step) {
+            run(org.gtk.gtk.ScrollType.of(step));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveSlider.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -575,16 +573,8 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Range.MoveSlider> onMoveSlider(Range.MoveSlider handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-slider"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeMoveSlider",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Range.MoveSlider>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-slider"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -592,7 +582,18 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     
     @FunctionalInterface
     public interface ValueChanged {
-        void signalReceived(Range sourceRange);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceRange) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -603,52 +604,46 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
     public Signal<Range.ValueChanged> onValueChanged(Range.ValueChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("value-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Range.Callbacks.class, "signalRangeValueChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Range.ValueChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("value-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Range.Builder} object constructs a {@link Range} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Range.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Range.Build} object constructs a {@link Range} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Range} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Range} using {@link Range#castFrom}.
+         * {@link Range}.
          * @return A new instance of {@code Range} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Range construct() {
-            return Range.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Range.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Range build() {
+            return (Range) org.gtk.gobject.GObject.newWithProperties(
+                Range.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -657,7 +652,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param adjustment The value for the {@code adjustment} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAdjustment(org.gtk.gtk.Adjustment adjustment) {
+        public Builder setAdjustment(org.gtk.gtk.Adjustment adjustment) {
             names.add("adjustment");
             values.add(org.gtk.gobject.Value.create(adjustment));
             return this;
@@ -668,7 +663,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param fillLevel The value for the {@code fill-level} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFillLevel(double fillLevel) {
+        public Builder setFillLevel(double fillLevel) {
             names.add("fill-level");
             values.add(org.gtk.gobject.Value.create(fillLevel));
             return this;
@@ -679,7 +674,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param inverted The value for the {@code inverted} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInverted(boolean inverted) {
+        public Builder setInverted(boolean inverted) {
             names.add("inverted");
             values.add(org.gtk.gobject.Value.create(inverted));
             return this;
@@ -691,7 +686,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param restrictToFillLevel The value for the {@code restrict-to-fill-level} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRestrictToFillLevel(boolean restrictToFillLevel) {
+        public Builder setRestrictToFillLevel(boolean restrictToFillLevel) {
             names.add("restrict-to-fill-level");
             values.add(org.gtk.gobject.Value.create(restrictToFillLevel));
             return this;
@@ -705,7 +700,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param roundDigits The value for the {@code round-digits} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRoundDigits(int roundDigits) {
+        public Builder setRoundDigits(int roundDigits) {
             names.add("round-digits");
             values.add(org.gtk.gobject.Value.create(roundDigits));
             return this;
@@ -717,7 +712,7 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
          * @param showFillLevel The value for the {@code show-fill-level} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setShowFillLevel(boolean showFillLevel) {
+        public Builder setShowFillLevel(boolean showFillLevel) {
             names.add("show-fill-level");
             values.add(org.gtk.gobject.Value.create(showFillLevel));
             return this;
@@ -863,32 +858,5 @@ public class Range extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible,
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalRangeAdjustBounds(MemoryAddress sourceRange, double value, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Range.AdjustBounds) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Range(sourceRange, Ownership.NONE), value);
-        }
-        
-        public static boolean signalRangeChangeValue(MemoryAddress sourceRange, int scroll, double value, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Range.ChangeValue) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Range(sourceRange, Ownership.NONE), org.gtk.gtk.ScrollType.of(scroll), value);
-        }
-        
-        public static void signalRangeMoveSlider(MemoryAddress sourceRange, int step, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Range.MoveSlider) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Range(sourceRange, Ownership.NONE), org.gtk.gtk.ScrollType.of(step));
-        }
-        
-        public static void signalRangeValueChanged(MemoryAddress sourceRange, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Range.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Range(sourceRange, Ownership.NONE));
-        }
     }
 }

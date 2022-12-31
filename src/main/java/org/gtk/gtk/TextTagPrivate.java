@@ -40,8 +40,10 @@ public class TextTagPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TextTagPrivate(Addressable address, Ownership ownership) {
+    protected TextTagPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TextTagPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TextTagPrivate(input, ownership);
 }

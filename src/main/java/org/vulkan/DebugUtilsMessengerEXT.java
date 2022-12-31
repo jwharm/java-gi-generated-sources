@@ -40,8 +40,10 @@ public class DebugUtilsMessengerEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DebugUtilsMessengerEXT(Addressable address, Ownership ownership) {
+    protected DebugUtilsMessengerEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DebugUtilsMessengerEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugUtilsMessengerEXT(input, ownership);
 }

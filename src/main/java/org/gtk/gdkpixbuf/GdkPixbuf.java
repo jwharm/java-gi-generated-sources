@@ -14,7 +14,15 @@ public final class GdkPixbuf {
         System.loadLibrary("gdk_pixbuf-2.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Major version of gdk-pixbuf library, that is the "0" in
@@ -42,7 +50,7 @@ public final class GdkPixbuf {
      */
     public static final java.lang.String PIXBUF_VERSION = "2.42.10";
     
-    public static @NotNull org.gtk.glib.Quark pixbufErrorQuark() {
+    public static org.gtk.glib.Quark pixbufErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_pixbuf_error_quark.invokeExact();
@@ -63,52 +71,5 @@ public final class GdkPixbuf {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static void cbPixbufModuleSizeFunc(MemoryAddress width, MemoryAddress height, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PixbufModuleSizeFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPixbufModuleSizeFunc(new PointerInteger(width), new PointerInteger(height));
-        }
-        
-        public static void cbPixbufDestroyNotify(MemoryAddress pixels, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PixbufDestroyNotify) Interop.signalRegistry.get(HASH);
-            HANDLER.onPixbufDestroyNotify(new PointerByte(pixels));
-        }
-        
-        public static int cbPixbufModuleSaveCallbackFunc(MemoryAddress saveFunc, MemoryAddress userData, MemoryAddress pixbuf, MemoryAddress optionKeys, MemoryAddress optionValues) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PixbufModuleSaveCallbackFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPixbufModuleSaveCallbackFunc(null /* Unsupported parameter type */, new org.gtk.gdkpixbuf.Pixbuf(pixbuf, Ownership.NONE), new PointerString(optionKeys), new PointerString(optionValues));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static int cbPixbufSaveFunc(MemoryAddress buf, long count, MemoryAddress error, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PixbufSaveFunc) Interop.signalRegistry.get(HASH);
-        var errorOUT = new Out<PointerProxy<org.gtk.glib.Error>>(new PointerProxy<org.gtk.glib.Error>(error, org.gtk.glib.Error.class));
-            var RESULT = HANDLER.onPixbufSaveFunc(new PointerByte(buf), count, errorOUT);
-            error.set(Interop.valueLayout.ADDRESS, 0, errorOUT.get().handle());
-            return RESULT ? 1 : 0;
-        }
-        
-        public static void cbPixbufModuleUpdatedFunc(MemoryAddress pixbuf, int x, int y, int width, int height, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PixbufModuleUpdatedFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPixbufModuleUpdatedFunc(new org.gtk.gdkpixbuf.Pixbuf(pixbuf, Ownership.NONE), x, y, width, height);
-        }
-        
-        public static void cbPixbufModulePreparedFunc(MemoryAddress pixbuf, MemoryAddress anim, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PixbufModulePreparedFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onPixbufModulePreparedFunc(new org.gtk.gdkpixbuf.Pixbuf(pixbuf, Ownership.NONE), new org.gtk.gdkpixbuf.PixbufAnimation(anim, Ownership.NONE));
-        }
-        
-        public static Addressable cbPixbufModuleBeginLoadFunc(MemoryAddress sizeFunc, MemoryAddress preparedFunc, MemoryAddress updatedFunc, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PixbufModuleBeginLoadFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onPixbufModuleBeginLoadFunc(null /* Unsupported parameter type */, null /* Unsupported parameter type */, null /* Unsupported parameter type */);
-            return (Addressable) RESULT;
-        }
     }
 }

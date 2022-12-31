@@ -12,16 +12,10 @@ import org.jetbrains.annotations.*;
 public class InterfaceInfo extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GInterfaceInfo";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("interface_init"),
-        Interop.valueLayout.ADDRESS.withName("interface_finalize"),
-        Interop.valueLayout.ADDRESS.withName("interface_data")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -29,7 +23,11 @@ public class InterfaceInfo extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("interface_init"),
+            Interop.valueLayout.ADDRESS.withName("interface_finalize"),
+            Interop.valueLayout.ADDRESS.withName("interface_data")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,7 +47,7 @@ public class InterfaceInfo extends Struct {
      * Get the value of the field {@code interface_init}
      * @return The value of the field {@code interface_init}
      */
-    public org.gtk.gobject.InterfaceInitFunc interfaceInit$get() {
+    public org.gtk.gobject.InterfaceInitFunc getInterfaceInit() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -57,10 +55,20 @@ public class InterfaceInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code interface_init}
+     * @param interfaceInit The new value of the field {@code interface_init}
+     */
+    public void setInterfaceInit(org.gtk.gobject.InterfaceInitFunc interfaceInit) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceInit == null ? MemoryAddress.NULL : (Addressable) interfaceInit.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code interface_finalize}
      * @return The value of the field {@code interface_finalize}
      */
-    public org.gtk.gobject.InterfaceFinalizeFunc interfaceFinalize$get() {
+    public org.gtk.gobject.InterfaceFinalizeFunc getInterfaceFinalize() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -68,10 +76,20 @@ public class InterfaceInfo extends Struct {
     }
     
     /**
+     * Change the value of the field {@code interface_finalize}
+     * @param interfaceFinalize The new value of the field {@code interface_finalize}
+     */
+    public void setInterfaceFinalize(org.gtk.gobject.InterfaceFinalizeFunc interfaceFinalize) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceFinalize == null ? MemoryAddress.NULL : (Addressable) interfaceFinalize.toCallback()));
+    }
+    
+    /**
      * Get the value of the field {@code interface_data}
      * @return The value of the field {@code interface_data}
      */
-    public java.lang.foreign.MemoryAddress interfaceData$get() {
+    public java.lang.foreign.MemoryAddress getInterfaceData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -82,10 +100,10 @@ public class InterfaceInfo extends Struct {
      * Change the value of the field {@code interface_data}
      * @param interfaceData The new value of the field {@code interface_data}
      */
-    public void interfaceData$set(java.lang.foreign.MemoryAddress interfaceData) {
+    public void setInterfaceData(java.lang.foreign.MemoryAddress interfaceData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) interfaceData);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceData == null ? MemoryAddress.NULL : (Addressable) interfaceData));
     }
     
     /**
@@ -93,35 +111,41 @@ public class InterfaceInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InterfaceInfo(Addressable address, Ownership ownership) {
+    protected InterfaceInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InterfaceInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InterfaceInfo(input, ownership);
+    
+    /**
+     * A {@link InterfaceInfo.Builder} object constructs a {@link InterfaceInfo} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link InterfaceInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private InterfaceInfo struct;
+        private final InterfaceInfo struct;
         
-         /**
-         * A {@link InterfaceInfo.Build} object constructs a {@link InterfaceInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = InterfaceInfo.allocate();
         }
         
          /**
          * Finish building the {@link InterfaceInfo} struct.
          * @return A new instance of {@code InterfaceInfo} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public InterfaceInfo construct() {
+        public InterfaceInfo build() {
             return struct;
         }
         
@@ -130,10 +154,10 @@ public class InterfaceInfo extends Struct {
          * @param interfaceInit The value for the {@code interfaceInit} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInterfaceInit(java.lang.foreign.MemoryAddress interfaceInit) {
+        public Builder setInterfaceInit(org.gtk.gobject.InterfaceInitFunc interfaceInit) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("interface_init"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceInit == null ? MemoryAddress.NULL : interfaceInit));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceInit == null ? MemoryAddress.NULL : (Addressable) interfaceInit.toCallback()));
             return this;
         }
         
@@ -142,10 +166,10 @@ public class InterfaceInfo extends Struct {
          * @param interfaceFinalize The value for the {@code interfaceFinalize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInterfaceFinalize(java.lang.foreign.MemoryAddress interfaceFinalize) {
+        public Builder setInterfaceFinalize(org.gtk.gobject.InterfaceFinalizeFunc interfaceFinalize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("interface_finalize"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceFinalize == null ? MemoryAddress.NULL : interfaceFinalize));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceFinalize == null ? MemoryAddress.NULL : (Addressable) interfaceFinalize.toCallback()));
             return this;
         }
         
@@ -154,7 +178,7 @@ public class InterfaceInfo extends Struct {
          * @param interfaceData The value for the {@code interfaceData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInterfaceData(java.lang.foreign.MemoryAddress interfaceData) {
+        public Builder setInterfaceData(java.lang.foreign.MemoryAddress interfaceData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("interface_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interfaceData == null ? MemoryAddress.NULL : (Addressable) interfaceData));

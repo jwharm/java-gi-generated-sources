@@ -48,25 +48,8 @@ import org.jetbrains.annotations.*;
  */
 public interface Volume extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Volume if its GType is a (or inherits from) "GVolume".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Volume} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GVolume", a ClassCastException will be thrown.
-     */
-    public static Volume castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Volume.getType())) {
-            return new VolumeImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GVolume");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VolumeImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VolumeImpl(input, ownership);
     
     /**
      * Checks if a volume can be ejected.
@@ -80,7 +63,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -95,7 +78,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -108,19 +91,14 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @deprecated Use g_volume_eject_with_operation() instead.
      */
     @Deprecated
-    default void eject(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void eject(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_volume_eject.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -135,8 +113,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @deprecated Use g_volume_eject_with_operation_finish() instead.
      */
     @Deprecated
-    default boolean ejectFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean ejectFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -150,7 +127,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -163,20 +140,15 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
      * @param callback a {@link AsyncReadyCallback}, or {@code null}
      */
-    default void ejectWithOperation(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void ejectWithOperation(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_volume_eject_with_operation.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -189,8 +161,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the volume was successfully ejected. {@code false} otherwise
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean ejectWithOperationFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean ejectWithOperationFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -204,7 +175,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -213,7 +184,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @return a {@code null}-terminated array
      *   of strings containing kinds of identifiers. Use g_strfreev() to free.
      */
-    default @NotNull PointerString enumerateIdentifiers() {
+    default PointerString enumerateIdentifiers() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_volume_enumerate_identifiers.invokeExact(
@@ -261,7 +232,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -278,7 +249,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Drive.DriveImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Drive) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Drive.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -287,7 +258,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      *     The returned object should be unreffed with g_object_unref()
      *     when no longer needed.
      */
-    default @NotNull org.gtk.gio.Icon getIcon() {
+    default org.gtk.gio.Icon getIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_volume_get_icon.invokeExact(
@@ -295,7 +266,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -307,17 +278,16 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      *     requested identifier, or {@code null} if the {@link Volume}
      *     doesn't have this kind of identifier
      */
-    default @Nullable java.lang.String getIdentifier(@NotNull java.lang.String kind) {
-        java.util.Objects.requireNonNull(kind, "Parameter 'kind' must not be null");
+    default @Nullable java.lang.String getIdentifier(java.lang.String kind) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_volume_get_identifier.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(kind));
+                    Marshal.stringToAddress.marshal(kind, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -334,7 +304,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Mount.MountImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Mount.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -342,7 +312,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @return the name for the given {@code volume}. The returned string should
      *     be freed with g_free() when no longer needed.
      */
-    default @NotNull java.lang.String getName() {
+    default java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_volume_get_name.invokeExact(
@@ -350,7 +320,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -365,7 +335,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -374,7 +344,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      *     The returned object should be unreffed with g_object_unref()
      *     when no longer needed.
      */
-    default @NotNull org.gtk.gio.Icon getSymbolicIcon() {
+    default org.gtk.gio.Icon getSymbolicIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_volume_get_symbolic_icon.invokeExact(
@@ -382,7 +352,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -403,7 +373,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -415,20 +385,15 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
      * @param callback a {@link AsyncReadyCallback}, or {@code null}
      */
-    default void mount(@NotNull org.gtk.gio.MountMountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void mount(org.gtk.gio.MountMountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_volume_mount.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -446,8 +411,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
      * @return {@code true}, {@code false} if operation failed
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean mountFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean mountFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -461,7 +425,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -476,14 +440,14 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_volume_get_type.invokeExact();
@@ -495,7 +459,18 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Changed {
-        void signalReceived(Volume sourceVolume);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceVolume) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Changed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -506,16 +481,8 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     public default Signal<Volume.Changed> onChanged(Volume.Changed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Volume.Callbacks.class, "signalVolumeChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Volume.Changed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -523,7 +490,18 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface Removed {
-        void signalReceived(Volume sourceVolume);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceVolume) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Removed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -536,16 +514,8 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
     public default Signal<Volume.Removed> onRemoved(Volume.Removed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("removed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Volume.Callbacks.class, "signalVolumeRemoved",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Volume.Removed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("removed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -695,23 +665,7 @@ public interface Volume extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalVolumeChanged(MemoryAddress sourceVolume, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Volume.Changed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Volume.VolumeImpl(sourceVolume, Ownership.NONE));
-        }
-        
-        public static void signalVolumeRemoved(MemoryAddress sourceVolume, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Volume.Removed) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Volume.VolumeImpl(sourceVolume, Ownership.NONE));
-        }
-    }
-    
-    class VolumeImpl extends org.gtk.gobject.Object implements Volume {
+    class VolumeImpl extends org.gtk.gobject.GObject implements Volume {
         
         static {
             Gio.javagi$ensureInitialized();

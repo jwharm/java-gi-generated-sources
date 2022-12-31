@@ -49,40 +49,26 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * <p>
      * Because TabBar is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TabBar(Addressable address, Ownership ownership) {
+    protected TabBar(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to TabBar if its GType is a (or inherits from) "AdwTabBar".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TabBar} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwTabBar", a ClassCastException will be thrown.
-     */
-    public static TabBar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TabBar.getType())) {
-            return new TabBar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwTabBar");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TabBar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TabBar(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_tab_bar_new.invokeExact();
         } catch (Throwable ERR) {
@@ -110,7 +96,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -125,7 +111,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -140,7 +126,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -155,7 +141,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,7 +158,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -187,7 +173,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -204,7 +190,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -219,7 +205,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.TabView(RESULT, Ownership.NONE);
+        return (org.gnome.adw.TabView) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.TabView.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -235,7 +221,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         try {
             DowncallHandles.adw_tab_bar_set_autohide.invokeExact(
                     handle(),
-                    autohide ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(autohide, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,7 +252,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         try {
             DowncallHandles.adw_tab_bar_set_expand_tabs.invokeExact(
                     handle(),
-                    expandTabs ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(expandTabs, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,7 +269,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         try {
             DowncallHandles.adw_tab_bar_set_inverted.invokeExact(
                     handle(),
-                    inverted ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(inverted, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -333,8 +319,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param types all supported {@code GType}s that can be dropped
      * @param nTypes number of {@code types}
      */
-    public void setupExtraDropTarget(@NotNull org.gtk.gdk.DragAction actions, @Nullable org.gtk.glib.Type[] types, long nTypes) {
-        java.util.Objects.requireNonNull(actions, "Parameter 'actions' must not be null");
+    public void setupExtraDropTarget(org.gtk.gdk.DragAction actions, @Nullable org.gtk.glib.Type[] types, long nTypes) {
         try {
             DowncallHandles.adw_tab_bar_setup_extra_drop_target.invokeExact(
                     handle(),
@@ -350,7 +335,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_tab_bar_get_type.invokeExact();
@@ -362,7 +347,19 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface ExtraDragDrop {
-        boolean signalReceived(TabBar sourceTabBar, @NotNull org.gnome.adw.TabPage page, @NotNull org.gtk.gobject.Value value);
+        boolean run(org.gnome.adw.TabPage page, org.gtk.gobject.Value value);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceTabBar, MemoryAddress page, MemoryAddress value) {
+            var RESULT = run((org.gnome.adw.TabPage) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(page)), org.gnome.adw.TabPage.fromAddress).marshal(page, Ownership.NONE), org.gtk.gobject.Value.fromAddress.marshal(value, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ExtraDragDrop.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -378,52 +375,46 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public Signal<TabBar.ExtraDragDrop> onExtraDragDrop(TabBar.ExtraDragDrop handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("extra-drag-drop"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(TabBar.Callbacks.class, "signalTabBarExtraDragDrop",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<TabBar.ExtraDragDrop>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("extra-drag-drop"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link TabBar.Builder} object constructs a {@link TabBar} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link TabBar.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link TabBar.Build} object constructs a {@link TabBar} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link TabBar} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link TabBar} using {@link TabBar#castFrom}.
+         * {@link TabBar}.
          * @return A new instance of {@code TabBar} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TabBar construct() {
-            return TabBar.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    TabBar.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public TabBar build() {
+            return (TabBar) org.gtk.gobject.GObject.newWithProperties(
+                TabBar.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -437,7 +428,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param autohide The value for the {@code autohide} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAutohide(boolean autohide) {
+        public Builder setAutohide(boolean autohide) {
             names.add("autohide");
             values.add(org.gtk.gobject.Value.create(autohide));
             return this;
@@ -448,7 +439,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param endActionWidget The value for the {@code end-action-widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEndActionWidget(org.gtk.gtk.Widget endActionWidget) {
+        public Builder setEndActionWidget(org.gtk.gtk.Widget endActionWidget) {
             names.add("end-action-widget");
             values.add(org.gtk.gobject.Value.create(endActionWidget));
             return this;
@@ -462,7 +453,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param expandTabs The value for the {@code expand-tabs} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExpandTabs(boolean expandTabs) {
+        public Builder setExpandTabs(boolean expandTabs) {
             names.add("expand-tabs");
             values.add(org.gtk.gobject.Value.create(expandTabs));
             return this;
@@ -476,7 +467,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param inverted The value for the {@code inverted} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInverted(boolean inverted) {
+        public Builder setInverted(boolean inverted) {
             names.add("inverted");
             values.add(org.gtk.gobject.Value.create(inverted));
             return this;
@@ -489,7 +480,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param isOverflowing The value for the {@code is-overflowing} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsOverflowing(boolean isOverflowing) {
+        public Builder setIsOverflowing(boolean isOverflowing) {
             names.add("is-overflowing");
             values.add(org.gtk.gobject.Value.create(isOverflowing));
             return this;
@@ -500,7 +491,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param startActionWidget The value for the {@code start-action-widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStartActionWidget(org.gtk.gtk.Widget startActionWidget) {
+        public Builder setStartActionWidget(org.gtk.gtk.Widget startActionWidget) {
             names.add("start-action-widget");
             values.add(org.gtk.gobject.Value.create(startActionWidget));
             return this;
@@ -513,7 +504,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param tabsRevealed The value for the {@code tabs-revealed} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTabsRevealed(boolean tabsRevealed) {
+        public Builder setTabsRevealed(boolean tabsRevealed) {
             names.add("tabs-revealed");
             values.add(org.gtk.gobject.Value.create(tabsRevealed));
             return this;
@@ -524,7 +515,7 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param view The value for the {@code view} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setView(org.gnome.adw.TabView view) {
+        public Builder setView(org.gnome.adw.TabView view) {
             names.add("view");
             values.add(org.gtk.gobject.Value.create(view));
             return this;
@@ -634,14 +625,5 @@ public class TabBar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalTabBarExtraDragDrop(MemoryAddress sourceTabBar, MemoryAddress page, MemoryAddress value, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (TabBar.ExtraDragDrop) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new TabBar(sourceTabBar, Ownership.NONE), new org.gnome.adw.TabPage(page, Ownership.NONE), new org.gtk.gobject.Value(value, Ownership.NONE));
-        }
     }
 }

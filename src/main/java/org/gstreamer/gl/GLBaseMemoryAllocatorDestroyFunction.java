@@ -11,5 +11,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface GLBaseMemoryAllocatorDestroyFunction {
-        void onGLBaseMemoryAllocatorDestroyFunction(@NotNull org.gstreamer.gl.GLBaseMemory mem);
+    void run(org.gstreamer.gl.GLBaseMemory mem);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress mem) {
+        run(org.gstreamer.gl.GLBaseMemory.fromAddress.marshal(mem, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GLBaseMemoryAllocatorDestroyFunction.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

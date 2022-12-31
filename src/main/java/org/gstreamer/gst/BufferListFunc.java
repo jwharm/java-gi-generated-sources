@@ -19,5 +19,19 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface BufferListFunc {
-        boolean onBufferListFunc(@Nullable Out<PointerProxy<org.gstreamer.gst.Buffer>> buffer, int idx);
+    boolean run(@Nullable Out<org.gstreamer.gst.Buffer> buffer, int idx);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress buffer, int idx, MemoryAddress userData) {
+        Out<org.gstreamer.gst.Buffer> bufferOUT = new Out<>(org.gstreamer.gst.Buffer.fromAddress.marshal(buffer, Ownership.FULL));
+        var RESULT = run(bufferOUT, idx);
+        buffer.set(Interop.valueLayout.ADDRESS, 0, bufferOUT.get().handle());
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BufferListFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

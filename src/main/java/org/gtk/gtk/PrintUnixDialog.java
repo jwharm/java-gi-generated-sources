@@ -83,43 +83,29 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * <p>
      * Because PrintUnixDialog is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PrintUnixDialog(Addressable address, Ownership ownership) {
+    protected PrintUnixDialog(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PrintUnixDialog if its GType is a (or inherits from) "GtkPrintUnixDialog".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PrintUnixDialog} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPrintUnixDialog", a ClassCastException will be thrown.
-     */
-    public static PrintUnixDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PrintUnixDialog.getType())) {
-            return new PrintUnixDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPrintUnixDialog");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PrintUnixDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintUnixDialog(input, ownership);
     
-    private static Addressable constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable java.lang.String title, @Nullable org.gtk.gtk.Window parent) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_new.invokeExact(
-                    (Addressable) (title == null ? MemoryAddress.NULL : Interop.allocateNativeString(title)),
+                    (Addressable) (title == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(title, null)),
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -141,9 +127,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * @param child the widget to put in the custom tab
      * @param tabLabel the widget to use as tab label
      */
-    public void addCustomTab(@NotNull org.gtk.gtk.Widget child, @NotNull org.gtk.gtk.Widget tabLabel) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(tabLabel, "Parameter 'tabLabel' must not be null");
+    public void addCustomTab(org.gtk.gtk.Widget child, org.gtk.gtk.Widget tabLabel) {
         try {
             DowncallHandles.gtk_print_unix_dialog_add_custom_tab.invokeExact(
                     handle(),
@@ -181,7 +165,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -196,14 +180,14 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the capabilities that have been set on this {@code GtkPrintUnixDialog}.
      * @return the printing capabilities
      */
-    public @NotNull org.gtk.gtk.PrintCapabilities getManualCapabilities() {
+    public org.gtk.gtk.PrintCapabilities getManualCapabilities() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_print_unix_dialog_get_manual_capabilities.invokeExact(
@@ -218,7 +202,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * Gets the page setup that is used by the {@code GtkPrintUnixDialog}.
      * @return the page setup of {@code dialog}.
      */
-    public @NotNull org.gtk.gtk.PageSetup getPageSetup() {
+    public org.gtk.gtk.PageSetup getPageSetup() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_get_page_setup.invokeExact(
@@ -226,7 +210,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageSetup(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -241,7 +225,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -256,7 +240,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Printer(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Printer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Printer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -267,7 +251,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * it if don’t want to keep it.
      * @return a new {@code GtkPrintSettings} object with the values from {@code dialog}
      */
-    public @NotNull org.gtk.gtk.PrintSettings getPrintSettings() {
+    public org.gtk.gtk.PrintSettings getPrintSettings() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_unix_dialog_get_settings.invokeExact(
@@ -275,7 +259,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintSettings(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.PrintSettings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PrintSettings.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -290,7 +274,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -318,7 +302,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         try {
             DowncallHandles.gtk_print_unix_dialog_set_embed_page_setup.invokeExact(
                     handle(),
-                    embed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(embed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -332,7 +316,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         try {
             DowncallHandles.gtk_print_unix_dialog_set_has_selection.invokeExact(
                     handle(),
-                    hasSelection ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hasSelection, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,8 +332,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * handles scaling.
      * @param capabilities the printing capabilities of your application
      */
-    public void setManualCapabilities(@NotNull org.gtk.gtk.PrintCapabilities capabilities) {
-        java.util.Objects.requireNonNull(capabilities, "Parameter 'capabilities' must not be null");
+    public void setManualCapabilities(org.gtk.gtk.PrintCapabilities capabilities) {
         try {
             DowncallHandles.gtk_print_unix_dialog_set_manual_capabilities.invokeExact(
                     handle(),
@@ -363,8 +346,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * Sets the page setup of the {@code GtkPrintUnixDialog}.
      * @param pageSetup a {@code GtkPageSetup}
      */
-    public void setPageSetup(@NotNull org.gtk.gtk.PageSetup pageSetup) {
-        java.util.Objects.requireNonNull(pageSetup, "Parameter 'pageSetup' must not be null");
+    public void setPageSetup(org.gtk.gtk.PageSetup pageSetup) {
         try {
             DowncallHandles.gtk_print_unix_dialog_set_page_setup.invokeExact(
                     handle(),
@@ -400,7 +382,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         try {
             DowncallHandles.gtk_print_unix_dialog_set_support_selection.invokeExact(
                     handle(),
-                    supportSelection ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(supportSelection, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -410,7 +392,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_print_unix_dialog_get_type.invokeExact();
@@ -419,38 +401,40 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PrintUnixDialog.Builder} object constructs a {@link PrintUnixDialog} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PrintUnixDialog.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Dialog.Build {
+    public static class Builder extends org.gtk.gtk.Dialog.Builder {
         
-         /**
-         * A {@link PrintUnixDialog.Build} object constructs a {@link PrintUnixDialog} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PrintUnixDialog} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PrintUnixDialog} using {@link PrintUnixDialog#castFrom}.
+         * {@link PrintUnixDialog}.
          * @return A new instance of {@code PrintUnixDialog} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PrintUnixDialog construct() {
-            return PrintUnixDialog.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PrintUnixDialog.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PrintUnixDialog build() {
+            return (PrintUnixDialog) org.gtk.gobject.GObject.newWithProperties(
+                PrintUnixDialog.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -459,7 +443,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
          * @param currentPage The value for the {@code current-page} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentPage(int currentPage) {
+        public Builder setCurrentPage(int currentPage) {
             names.add("current-page");
             values.add(org.gtk.gobject.Value.create(currentPage));
             return this;
@@ -470,7 +454,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
          * @param embedPageSetup The value for the {@code embed-page-setup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEmbedPageSetup(boolean embedPageSetup) {
+        public Builder setEmbedPageSetup(boolean embedPageSetup) {
             names.add("embed-page-setup");
             values.add(org.gtk.gobject.Value.create(embedPageSetup));
             return this;
@@ -481,7 +465,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
          * @param hasSelection The value for the {@code has-selection} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasSelection(boolean hasSelection) {
+        public Builder setHasSelection(boolean hasSelection) {
             names.add("has-selection");
             values.add(org.gtk.gobject.Value.create(hasSelection));
             return this;
@@ -492,7 +476,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
          * @param manualCapabilities The value for the {@code manual-capabilities} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setManualCapabilities(org.gtk.gtk.PrintCapabilities manualCapabilities) {
+        public Builder setManualCapabilities(org.gtk.gtk.PrintCapabilities manualCapabilities) {
             names.add("manual-capabilities");
             values.add(org.gtk.gobject.Value.create(manualCapabilities));
             return this;
@@ -503,7 +487,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
          * @param pageSetup The value for the {@code page-setup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPageSetup(org.gtk.gtk.PageSetup pageSetup) {
+        public Builder setPageSetup(org.gtk.gtk.PageSetup pageSetup) {
             names.add("page-setup");
             values.add(org.gtk.gobject.Value.create(pageSetup));
             return this;
@@ -514,7 +498,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
          * @param printSettings The value for the {@code print-settings} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrintSettings(org.gtk.gtk.PrintSettings printSettings) {
+        public Builder setPrintSettings(org.gtk.gtk.PrintSettings printSettings) {
             names.add("print-settings");
             values.add(org.gtk.gobject.Value.create(printSettings));
             return this;
@@ -525,7 +509,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
          * @param selectedPrinter The value for the {@code selected-printer} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSelectedPrinter(org.gtk.gtk.Printer selectedPrinter) {
+        public Builder setSelectedPrinter(org.gtk.gtk.Printer selectedPrinter) {
             names.add("selected-printer");
             values.add(org.gtk.gobject.Value.create(selectedPrinter));
             return this;
@@ -536,7 +520,7 @@ public class PrintUnixDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.A
          * @param supportSelection The value for the {@code support-selection} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSupportSelection(boolean supportSelection) {
+        public Builder setSupportSelection(boolean supportSelection) {
             names.add("support-selection");
             values.add(org.gtk.gobject.Value.create(supportSelection));
             return this;

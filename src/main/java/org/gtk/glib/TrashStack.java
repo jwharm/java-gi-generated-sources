@@ -17,17 +17,15 @@ public class TrashStack extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GTrashStack";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("next")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("next")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,21 +45,21 @@ public class TrashStack extends Struct {
      * Get the value of the field {@code next}
      * @return The value of the field {@code next}
      */
-    public org.gtk.glib.TrashStack next$get() {
+    public org.gtk.glib.TrashStack getNext() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.TrashStack(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TrashStack.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code next}
      * @param next The new value of the field {@code next}
      */
-    public void next$set(org.gtk.glib.TrashStack next) {
+    public void setNext(org.gtk.glib.TrashStack next) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
     }
     
     /**
@@ -69,10 +67,12 @@ public class TrashStack extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TrashStack(Addressable address, Ownership ownership) {
+    protected TrashStack(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TrashStack> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TrashStack(input, ownership);
     
     /**
      * Returns the height of a {@link TrashStack}.
@@ -84,8 +84,7 @@ public class TrashStack extends Struct {
      * @deprecated {@link TrashStack} is deprecated without replacement
      */
     @Deprecated
-    public static int height(@NotNull PointerProxy<org.gtk.glib.TrashStack> stackP) {
-        java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
+    public static int height(PointerProxy<org.gtk.glib.TrashStack> stackP) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_trash_stack_height.invokeExact(
@@ -104,8 +103,7 @@ public class TrashStack extends Struct {
      * @deprecated {@link TrashStack} is deprecated without replacement
      */
     @Deprecated
-    public static @Nullable java.lang.foreign.MemoryAddress peek(@NotNull PointerProxy<org.gtk.glib.TrashStack> stackP) {
-        java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress peek(PointerProxy<org.gtk.glib.TrashStack> stackP) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_trash_stack_peek.invokeExact(
@@ -123,8 +121,7 @@ public class TrashStack extends Struct {
      * @deprecated {@link TrashStack} is deprecated without replacement
      */
     @Deprecated
-    public static @Nullable java.lang.foreign.MemoryAddress pop(@NotNull PointerProxy<org.gtk.glib.TrashStack> stackP) {
-        java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress pop(PointerProxy<org.gtk.glib.TrashStack> stackP) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_trash_stack_pop.invokeExact(
@@ -142,9 +139,7 @@ public class TrashStack extends Struct {
      * @deprecated {@link TrashStack} is deprecated without replacement
      */
     @Deprecated
-    public static void push(@NotNull PointerProxy<org.gtk.glib.TrashStack> stackP, @NotNull java.lang.foreign.MemoryAddress dataP) {
-        java.util.Objects.requireNonNull(stackP, "Parameter 'stackP' must not be null");
-        java.util.Objects.requireNonNull(dataP, "Parameter 'dataP' must not be null");
+    public static void push(PointerProxy<org.gtk.glib.TrashStack> stackP, java.lang.foreign.MemoryAddress dataP) {
         try {
             DowncallHandles.g_trash_stack_push.invokeExact(
                     stackP.handle(),
@@ -180,31 +175,35 @@ public class TrashStack extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TrashStack.Builder} object constructs a {@link TrashStack} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TrashStack.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TrashStack struct;
+        private final TrashStack struct;
         
-         /**
-         * A {@link TrashStack.Build} object constructs a {@link TrashStack} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TrashStack.allocate();
         }
         
          /**
          * Finish building the {@link TrashStack} struct.
          * @return A new instance of {@code TrashStack} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TrashStack construct() {
+        public TrashStack build() {
             return struct;
         }
         
@@ -215,7 +214,7 @@ public class TrashStack extends Struct {
          * @param next The value for the {@code next} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNext(org.gtk.glib.TrashStack next) {
+        public Builder setNext(org.gtk.glib.TrashStack next) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));

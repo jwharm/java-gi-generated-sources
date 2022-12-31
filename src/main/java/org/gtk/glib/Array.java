@@ -16,18 +16,16 @@ public class Array extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GArray";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.C_INT.withName("len")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.C_INT.withName("len")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,28 +45,28 @@ public class Array extends Struct {
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public java.lang.String data$get() {
+    public java.lang.String getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(java.lang.String data) {
+    public void setData(java.lang.String data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(data));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(data, null)));
     }
     
     /**
      * Get the value of the field {@code len}
      * @return The value of the field {@code len}
      */
-    public int len$get() {
+    public int getLen() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -79,7 +77,7 @@ public class Array extends Struct {
      * Change the value of the field {@code len}
      * @param len The new value of the field {@code len}
      */
-    public void len$set(int len) {
+    public void setLen(int len) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("len"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);
@@ -90,25 +88,25 @@ public class Array extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Array(Addressable address, Ownership ownership) {
+    protected Array(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Array> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Array(input, ownership);
     
     /**
      * Adds {@code len} elements onto the end of the array.
      * @param array a {@link Array}
-     * @param data a pointer to the elements to append to the end of the array
      * @param len the number of elements to append
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress appendVals(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull java.lang.foreign.MemoryAddress data, int len) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress appendVals(java.lang.foreign.MemoryAddress[] array, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_append_vals.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) data,
+                    (Addressable) MemoryAddress.NULL,
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -150,8 +148,20 @@ public class Array extends Struct {
      *    for the index of the element, if found.
      * @return {@code true} if {@code target} is one of the elements of {@code array}, {@code false} otherwise.
      */
-    public static boolean binarySearch(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress target, @NotNull org.gtk.glib.CompareFunc compareFunc, Out<Integer> outMatchIndex) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static boolean binarySearch(java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress target, org.gtk.glib.CompareFunc compareFunc, Out<Integer> outMatchIndex) {
+        MemorySegment outMatchIndexPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
+        int RESULT;
+        try {
+            RESULT = (int) DowncallHandles.g_array_binary_search.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) (target == null ? MemoryAddress.NULL : (Addressable) target),
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) (outMatchIndex == null ? MemoryAddress.NULL : (Addressable) outMatchIndexPOINTER.address()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        if (outMatchIndex != null) outMatchIndex.set(outMatchIndexPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -160,8 +170,7 @@ public class Array extends Struct {
      * @param array A {@link Array}.
      * @return A copy of {@code array}.
      */
-    public static @NotNull PointerAddress copy(@NotNull java.lang.foreign.MemoryAddress[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress copy(java.lang.foreign.MemoryAddress[] array) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_copy.invokeExact(
@@ -192,17 +201,16 @@ public class Array extends Struct {
      * @return the element data if {@code free_segment} is {@code false}, otherwise
      *     {@code null}. The element data should be freed using g_free().
      */
-    public static @NotNull java.lang.String free(@NotNull java.lang.foreign.MemoryAddress[] array, boolean freeSegment) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static java.lang.String free(java.lang.foreign.MemoryAddress[] array, boolean freeSegment) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_free.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    freeSegment ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(freeSegment, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -210,8 +218,7 @@ public class Array extends Struct {
      * @param array A {@link Array}
      * @return Size of each element, in bytes
      */
-    public static int getElementSize(@NotNull java.lang.foreign.MemoryAddress[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static int getElementSize(java.lang.foreign.MemoryAddress[] array) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_array_get_element_size.invokeExact(
@@ -238,18 +245,16 @@ public class Array extends Struct {
      * function is a no-op.
      * @param array a {@link Array}
      * @param index the index to place the elements at
-     * @param data a pointer to the elements to insert
      * @param len the number of elements to insert
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress insertVals(@NotNull java.lang.foreign.MemoryAddress[] array, int index, @Nullable java.lang.foreign.MemoryAddress data, int len) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress insertVals(java.lang.foreign.MemoryAddress[] array, int index, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_insert_vals.invokeExact(
                     Interop.allocateNativeArray(array, false),
                     index,
-                    (Addressable) data,
+                    (Addressable) MemoryAddress.NULL,
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -266,12 +271,12 @@ public class Array extends Struct {
      * @param elementSize the size of each element in bytes
      * @return the new {@link Array}
      */
-    public static @NotNull PointerAddress new_(boolean zeroTerminated, boolean clear, int elementSize) {
+    public static PointerAddress new_(boolean zeroTerminated, boolean clear, int elementSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_new.invokeExact(
-                    zeroTerminated ? 1 : 0,
-                    clear ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(zeroTerminated, null).intValue(),
+                    Marshal.booleanToInteger.marshal(clear, null).intValue(),
                     elementSize);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -289,17 +294,15 @@ public class Array extends Struct {
      * existing elements in the array have to be moved to make space for
      * the new elements.
      * @param array a {@link Array}
-     * @param data a pointer to the elements to prepend to the start of the array
      * @param len the number of elements to prepend, which may be zero
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress prependVals(@NotNull java.lang.foreign.MemoryAddress[] array, @Nullable java.lang.foreign.MemoryAddress data, int len) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress prependVals(java.lang.foreign.MemoryAddress[] array, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_prepend_vals.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) data,
+                    (Addressable) MemoryAddress.NULL,
                     len);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -313,8 +316,7 @@ public class Array extends Struct {
      * @param array A {@link Array}
      * @return The passed in {@link Array}
      */
-    public static @NotNull PointerAddress ref(@NotNull java.lang.foreign.MemoryAddress[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress ref(java.lang.foreign.MemoryAddress[] array) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_ref.invokeExact(
@@ -332,8 +334,7 @@ public class Array extends Struct {
      * @param index the index of the element to remove
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress removeIndex(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress removeIndex(java.lang.foreign.MemoryAddress[] array, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_remove_index.invokeExact(
@@ -354,8 +355,7 @@ public class Array extends Struct {
      * @param index the index of the element to remove
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress removeIndexFast(@NotNull java.lang.foreign.MemoryAddress[] array, int index) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress removeIndexFast(java.lang.foreign.MemoryAddress[] array, int index) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_remove_index_fast.invokeExact(
@@ -375,8 +375,7 @@ public class Array extends Struct {
      * @param length the number of elements to remove
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress removeRange(@NotNull java.lang.foreign.MemoryAddress[] array, int index, int length) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress removeRange(java.lang.foreign.MemoryAddress[] array, int index, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_remove_range.invokeExact(
@@ -423,8 +422,14 @@ public class Array extends Struct {
      * @param array A {@link Array}
      * @param clearFunc a function to clear an element of {@code array}
      */
-    public static void setClearFunc(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.DestroyNotify clearFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void setClearFunc(java.lang.foreign.MemoryAddress[] array, org.gtk.glib.DestroyNotify clearFunc) {
+        try {
+            DowncallHandles.g_array_set_clear_func.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) clearFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -434,8 +439,7 @@ public class Array extends Struct {
      * @param length the new size of the {@link Array}
      * @return the {@link Array}
      */
-    public static @NotNull PointerAddress setSize(@NotNull java.lang.foreign.MemoryAddress[] array, int length) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static PointerAddress setSize(java.lang.foreign.MemoryAddress[] array, int length) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_set_size.invokeExact(
@@ -460,12 +464,12 @@ public class Array extends Struct {
      * @param reservedSize number of elements preallocated
      * @return the new {@link Array}
      */
-    public static @NotNull PointerAddress sizedNew(boolean zeroTerminated, boolean clear, int elementSize, int reservedSize) {
+    public static PointerAddress sizedNew(boolean zeroTerminated, boolean clear, int elementSize, int reservedSize) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_sized_new.invokeExact(
-                    zeroTerminated ? 1 : 0,
-                    clear ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(zeroTerminated, null).intValue(),
+                    Marshal.booleanToInteger.marshal(clear, null).intValue(),
                     elementSize,
                     reservedSize);
         } catch (Throwable ERR) {
@@ -484,8 +488,14 @@ public class Array extends Struct {
      * @param array a {@link Array}
      * @param compareFunc comparison function
      */
-    public static void sort(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareFunc compareFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void sort(java.lang.foreign.MemoryAddress[] array, org.gtk.glib.CompareFunc compareFunc) {
+        try {
+            DowncallHandles.g_array_sort.invokeExact(
+                    Interop.allocateNativeArray(array, false),
+                    (Addressable) compareFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -500,18 +510,12 @@ public class Array extends Struct {
      * @param array a {@link Array}
      * @param compareFunc comparison function
      */
-    public static void sortWithData(@NotNull java.lang.foreign.MemoryAddress[] array, @NotNull org.gtk.glib.CompareDataFunc compareFunc) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public static void sortWithData(java.lang.foreign.MemoryAddress[] array, org.gtk.glib.CompareDataFunc compareFunc) {
         try {
             DowncallHandles.g_array_sort_with_data.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(compareFunc)));
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -542,19 +546,17 @@ public class Array extends Struct {
      * @return the element data, which should be
      *     freed using g_free().
      */
-    public static @Nullable java.lang.foreign.MemoryAddress steal(@NotNull java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress steal(java.lang.foreign.MemoryAddress[] array, Out<Long> len) {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_array_steal.invokeExact(
                     Interop.allocateNativeArray(array, false),
-                    (Addressable) lenPOINTER.address());
+                    (Addressable) (len == null ? MemoryAddress.NULL : (Addressable) lenPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (len != null) len.set(lenPOINTER.get(Interop.valueLayout.C_LONG, 0));
         return RESULT;
     }
     
@@ -565,8 +567,7 @@ public class Array extends Struct {
      * thread.
      * @param array A {@link Array}
      */
-    public static void unref(@NotNull java.lang.foreign.MemoryAddress[] array) {
-        java.util.Objects.requireNonNull(array, "Parameter 'array' must not be null");
+    public static void unref(java.lang.foreign.MemoryAddress[] array) {
         try {
             DowncallHandles.g_array_unref.invokeExact(
                     Interop.allocateNativeArray(array, false));
@@ -691,31 +692,35 @@ public class Array extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Array.Builder} object constructs a {@link Array} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Array.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Array struct;
+        private final Array struct;
         
-         /**
-         * A {@link Array.Build} object constructs a {@link Array} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Array.allocate();
         }
         
          /**
          * Finish building the {@link Array} struct.
          * @return A new instance of {@code Array} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Array construct() {
+        public Array build() {
             return struct;
         }
         
@@ -725,10 +730,10 @@ public class Array extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(java.lang.String data) {
+        public Builder setData(java.lang.String data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeString(data)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(data, null)));
             return this;
         }
         
@@ -738,7 +743,7 @@ public class Array extends Struct {
          * @param len The value for the {@code len} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLen(int len) {
+        public Builder setLen(int len) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("len"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), len);

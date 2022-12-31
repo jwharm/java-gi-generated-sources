@@ -11,5 +11,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PollFunc {
-        int onPollFunc(@NotNull org.gtk.glib.PollFD ufds, int nfsd, int timeout);
+    int run(org.gtk.glib.PollFD ufds, int nfsd, int timeout);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress ufds, int nfsd, int timeout) {
+        var RESULT = run(org.gtk.glib.PollFD.fromAddress.marshal(ufds, Ownership.NONE), nfsd, timeout);
+        return RESULT;
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PollFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

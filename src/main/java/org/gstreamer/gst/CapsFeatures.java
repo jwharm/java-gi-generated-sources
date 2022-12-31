@@ -61,17 +61,18 @@ public class CapsFeatures extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CapsFeatures(Addressable address, Ownership ownership) {
+    protected CapsFeatures(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String feature1, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(feature1, "Parameter 'feature1' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CapsFeatures> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CapsFeatures(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String feature1, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_new.invokeExact(
-                    Interop.allocateNativeString(feature1),
+                    Marshal.stringToAddress.marshal(feature1, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -85,12 +86,12 @@ public class CapsFeatures extends Struct {
      * @param feature1 name of first feature to set
      * @param varargs additional features
      */
-    public CapsFeatures(@NotNull java.lang.String feature1, java.lang.Object... varargs) {
+    public CapsFeatures(java.lang.String feature1, java.lang.Object... varargs) {
         super(constructNew(feature1, varargs), Ownership.FULL);
     }
     
-    private static Addressable constructNewAny() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewAny() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_new_any.invokeExact();
         } catch (Throwable ERR) {
@@ -106,11 +107,12 @@ public class CapsFeatures extends Struct {
      * @return a new, ANY {@link CapsFeatures}
      */
     public static CapsFeatures newAny() {
-        return new CapsFeatures(constructNewAny(), Ownership.FULL);
+        var RESULT = constructNewAny();
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewEmpty() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewEmpty() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_new_empty.invokeExact();
         } catch (Throwable ERR) {
@@ -124,12 +126,12 @@ public class CapsFeatures extends Struct {
      * @return a new, empty {@link CapsFeatures}
      */
     public static CapsFeatures newEmpty() {
-        return new CapsFeatures(constructNewEmpty(), Ownership.FULL);
+        var RESULT = constructNewEmpty();
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewId(@NotNull org.gtk.glib.Quark feature1, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(feature1, "Parameter 'feature1' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewId(org.gtk.glib.Quark feature1, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_new_id.invokeExact(
                     feature1.getValue().intValue(),
@@ -147,14 +149,13 @@ public class CapsFeatures extends Struct {
      * @param varargs additional features
      * @return a new, empty {@link CapsFeatures}
      */
-    public static CapsFeatures newId(@NotNull org.gtk.glib.Quark feature1, java.lang.Object... varargs) {
-        return new CapsFeatures(constructNewId(feature1, varargs), Ownership.FULL);
+    public static CapsFeatures newId(org.gtk.glib.Quark feature1, java.lang.Object... varargs) {
+        var RESULT = constructNewId(feature1, varargs);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewIdValist(@NotNull org.gtk.glib.Quark feature1, @NotNull VaList varargs) {
-        java.util.Objects.requireNonNull(feature1, "Parameter 'feature1' must not be null");
-        java.util.Objects.requireNonNull(varargs, "Parameter 'varargs' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewIdValist(org.gtk.glib.Quark feature1, VaList varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_new_id_valist.invokeExact(
                     feature1.getValue().intValue(),
@@ -171,16 +172,16 @@ public class CapsFeatures extends Struct {
      * @param varargs variable argument list
      * @return a new, empty {@link CapsFeatures}
      */
-    public static CapsFeatures newIdValist(@NotNull org.gtk.glib.Quark feature1, @NotNull VaList varargs) {
-        return new CapsFeatures(constructNewIdValist(feature1, varargs), Ownership.FULL);
+    public static CapsFeatures newIdValist(org.gtk.glib.Quark feature1, VaList varargs) {
+        var RESULT = constructNewIdValist(feature1, varargs);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewSingle(@NotNull java.lang.String feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSingle(java.lang.String feature) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_new_single.invokeExact(
-                    Interop.allocateNativeString(feature));
+                    Marshal.stringToAddress.marshal(feature, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,17 +193,16 @@ public class CapsFeatures extends Struct {
      * @param feature The feature
      * @return a new {@link CapsFeatures}
      */
-    public static CapsFeatures newSingle(@NotNull java.lang.String feature) {
-        return new CapsFeatures(constructNewSingle(feature), Ownership.FULL);
+    public static CapsFeatures newSingle(java.lang.String feature) {
+        var RESULT = constructNewSingle(feature);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewValist(@NotNull java.lang.String feature1, @NotNull VaList varargs) {
-        java.util.Objects.requireNonNull(feature1, "Parameter 'feature1' must not be null");
-        java.util.Objects.requireNonNull(varargs, "Parameter 'varargs' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewValist(java.lang.String feature1, VaList varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_new_valist.invokeExact(
-                    Interop.allocateNativeString(feature1),
+                    Marshal.stringToAddress.marshal(feature1, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -216,20 +216,20 @@ public class CapsFeatures extends Struct {
      * @param varargs variable argument list
      * @return a new, empty {@link CapsFeatures}
      */
-    public static CapsFeatures newValist(@NotNull java.lang.String feature1, @NotNull VaList varargs) {
-        return new CapsFeatures(constructNewValist(feature1, varargs), Ownership.FULL);
+    public static CapsFeatures newValist(java.lang.String feature1, VaList varargs) {
+        var RESULT = constructNewValist(feature1, varargs);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Adds {@code feature} to {@code features}.
      * @param feature a feature.
      */
-    public void add(@NotNull java.lang.String feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    public void add(java.lang.String feature) {
         try {
             DowncallHandles.gst_caps_features_add.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(feature));
+                    Marshal.stringToAddress.marshal(feature, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,8 +239,7 @@ public class CapsFeatures extends Struct {
      * Adds {@code feature} to {@code features}.
      * @param feature a feature.
      */
-    public void addId(@NotNull org.gtk.glib.Quark feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    public void addId(org.gtk.glib.Quark feature) {
         try {
             DowncallHandles.gst_caps_features_add_id.invokeExact(
                     handle(),
@@ -255,17 +254,16 @@ public class CapsFeatures extends Struct {
      * @param feature a feature
      * @return {@code true} if {@code features} contains {@code feature}.
      */
-    public boolean contains(@NotNull java.lang.String feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    public boolean contains(java.lang.String feature) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_features_contains.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(feature));
+                    Marshal.stringToAddress.marshal(feature, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -273,8 +271,7 @@ public class CapsFeatures extends Struct {
      * @param feature a feature
      * @return {@code true} if {@code features} contains {@code feature}.
      */
-    public boolean containsId(@NotNull org.gtk.glib.Quark feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    public boolean containsId(org.gtk.glib.Quark feature) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_features_contains_id.invokeExact(
@@ -283,14 +280,14 @@ public class CapsFeatures extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Duplicates a {@link CapsFeatures} and all its values.
      * @return a new {@link CapsFeatures}.
      */
-    public @NotNull org.gstreamer.gst.CapsFeatures copy() {
+    public org.gstreamer.gst.CapsFeatures copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_copy.invokeExact(
@@ -298,7 +295,7 @@ public class CapsFeatures extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.CapsFeatures(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -329,7 +326,7 @@ public class CapsFeatures extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -337,7 +334,7 @@ public class CapsFeatures extends Struct {
      * @param i index of the feature
      * @return The {@code i}-th feature of {@code features}.
      */
-    public @NotNull org.gtk.glib.Quark getNthId(int i) {
+    public org.gtk.glib.Quark getNthId(int i) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_features_get_nth_id.invokeExact(
@@ -376,7 +373,7 @@ public class CapsFeatures extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -384,8 +381,7 @@ public class CapsFeatures extends Struct {
      * @param features2 a {@link CapsFeatures}.
      * @return {@code true} if {@code features1} and {@code features2} are equal.
      */
-    public boolean isEqual(@NotNull org.gstreamer.gst.CapsFeatures features2) {
-        java.util.Objects.requireNonNull(features2, "Parameter 'features2' must not be null");
+    public boolean isEqual(org.gstreamer.gst.CapsFeatures features2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_features_is_equal.invokeExact(
@@ -394,19 +390,18 @@ public class CapsFeatures extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Removes {@code feature} from {@code features}.
      * @param feature a feature.
      */
-    public void remove(@NotNull java.lang.String feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    public void remove(java.lang.String feature) {
         try {
             DowncallHandles.gst_caps_features_remove.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(feature));
+                    Marshal.stringToAddress.marshal(feature, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -416,8 +411,7 @@ public class CapsFeatures extends Struct {
      * Removes {@code feature} from {@code features}.
      * @param feature a feature.
      */
-    public void removeId(@NotNull org.gtk.glib.Quark feature) {
-        java.util.Objects.requireNonNull(feature, "Parameter 'feature' must not be null");
+    public void removeId(org.gtk.glib.Quark feature) {
         try {
             DowncallHandles.gst_caps_features_remove_id.invokeExact(
                     handle(),
@@ -436,7 +430,6 @@ public class CapsFeatures extends Struct {
      * @return {@code true} if the parent refcount could be set.
      */
     public boolean setParentRefcount(PointerInteger refcount) {
-        java.util.Objects.requireNonNull(refcount, "Parameter 'refcount' must not be null");
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_caps_features_set_parent_refcount.invokeExact(
@@ -445,7 +438,7 @@ public class CapsFeatures extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -459,7 +452,7 @@ public class CapsFeatures extends Struct {
      * This prints the features in human readable form.
      * @return a pointer to string allocated by g_malloc().
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_to_string.invokeExact(
@@ -467,7 +460,7 @@ public class CapsFeatures extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -476,16 +469,15 @@ public class CapsFeatures extends Struct {
      * @return a new {@link CapsFeatures} or
      *     {@code null} when the string could not be parsed.
      */
-    public static @Nullable org.gstreamer.gst.CapsFeatures fromString(@NotNull java.lang.String features) {
-        java.util.Objects.requireNonNull(features, "Parameter 'features' must not be null");
+    public static @Nullable org.gstreamer.gst.CapsFeatures fromString(java.lang.String features) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_caps_features_from_string.invokeExact(
-                    Interop.allocateNativeString(features));
+                    Marshal.stringToAddress.marshal(features, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.CapsFeatures(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.CapsFeatures.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

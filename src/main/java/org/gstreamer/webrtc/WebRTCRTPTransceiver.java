@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * Mostly matches the WebRTC RTCRtpTransceiver interface.
  */
-public class WebRTCRTPTransceiver extends org.gstreamer.gst.Object {
+public class WebRTCRTPTransceiver extends org.gstreamer.gst.GstObject {
     
     static {
         GstWebRTC.javagi$ensureInitialized();
@@ -30,43 +30,29 @@ public class WebRTCRTPTransceiver extends org.gstreamer.gst.Object {
      * <p>
      * Because WebRTCRTPTransceiver is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WebRTCRTPTransceiver(Addressable address, Ownership ownership) {
+    protected WebRTCRTPTransceiver(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to WebRTCRTPTransceiver if its GType is a (or inherits from) "GstWebRTCRTPTransceiver".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code WebRTCRTPTransceiver} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstWebRTCRTPTransceiver", a ClassCastException will be thrown.
-     */
-    public static WebRTCRTPTransceiver castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), WebRTCRTPTransceiver.getType())) {
-            return new WebRTCRTPTransceiver(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstWebRTCRTPTransceiver");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WebRTCRTPTransceiver> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCRTPTransceiver(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_webrtc_rtp_transceiver_get_type.invokeExact();
@@ -75,38 +61,40 @@ public class WebRTCRTPTransceiver extends org.gstreamer.gst.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link WebRTCRTPTransceiver.Builder} object constructs a {@link WebRTCRTPTransceiver} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link WebRTCRTPTransceiver.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link WebRTCRTPTransceiver.Build} object constructs a {@link WebRTCRTPTransceiver} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link WebRTCRTPTransceiver} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link WebRTCRTPTransceiver} using {@link WebRTCRTPTransceiver#castFrom}.
+         * {@link WebRTCRTPTransceiver}.
          * @return A new instance of {@code WebRTCRTPTransceiver} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public WebRTCRTPTransceiver construct() {
-            return WebRTCRTPTransceiver.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    WebRTCRTPTransceiver.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public WebRTCRTPTransceiver build() {
+            return (WebRTCRTPTransceiver) org.gtk.gobject.GObject.newWithProperties(
+                WebRTCRTPTransceiver.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -115,7 +103,7 @@ public class WebRTCRTPTransceiver extends org.gstreamer.gst.Object {
          * @param codecPreferences The value for the {@code codec-preferences} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCodecPreferences(org.gstreamer.gst.Caps codecPreferences) {
+        public Builder setCodecPreferences(org.gstreamer.gst.Caps codecPreferences) {
             names.add("codec-preferences");
             values.add(org.gtk.gobject.Value.create(codecPreferences));
             return this;
@@ -129,7 +117,7 @@ public class WebRTCRTPTransceiver extends org.gstreamer.gst.Object {
          * @param currentDirection The value for the {@code current-direction} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCurrentDirection(org.gstreamer.webrtc.WebRTCRTPTransceiverDirection currentDirection) {
+        public Builder setCurrentDirection(org.gstreamer.webrtc.WebRTCRTPTransceiverDirection currentDirection) {
             names.add("current-direction");
             values.add(org.gtk.gobject.Value.create(currentDirection));
             return this;
@@ -140,7 +128,7 @@ public class WebRTCRTPTransceiver extends org.gstreamer.gst.Object {
          * @param direction The value for the {@code direction} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDirection(org.gstreamer.webrtc.WebRTCRTPTransceiverDirection direction) {
+        public Builder setDirection(org.gstreamer.webrtc.WebRTCRTPTransceiverDirection direction) {
             names.add("direction");
             values.add(org.gtk.gobject.Value.create(direction));
             return this;
@@ -151,7 +139,7 @@ public class WebRTCRTPTransceiver extends org.gstreamer.gst.Object {
          * @param kind The value for the {@code kind} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setKind(org.gstreamer.webrtc.WebRTCKind kind) {
+        public Builder setKind(org.gstreamer.webrtc.WebRTCKind kind) {
             names.add("kind");
             values.add(org.gtk.gobject.Value.create(kind));
             return this;
@@ -167,25 +155,25 @@ public class WebRTCRTPTransceiver extends org.gstreamer.gst.Object {
          * @param mid The value for the {@code mid} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMid(java.lang.String mid) {
+        public Builder setMid(java.lang.String mid) {
             names.add("mid");
             values.add(org.gtk.gobject.Value.create(mid));
             return this;
         }
         
-        public Build setMlineindex(int mlineindex) {
+        public Builder setMlineindex(int mlineindex) {
             names.add("mlineindex");
             values.add(org.gtk.gobject.Value.create(mlineindex));
             return this;
         }
         
-        public Build setReceiver(org.gstreamer.webrtc.WebRTCRTPReceiver receiver) {
+        public Builder setReceiver(org.gstreamer.webrtc.WebRTCRTPReceiver receiver) {
             names.add("receiver");
             values.add(org.gtk.gobject.Value.create(receiver));
             return this;
         }
         
-        public Build setSender(org.gstreamer.webrtc.WebRTCRTPSender sender) {
+        public Builder setSender(org.gstreamer.webrtc.WebRTCRTPSender sender) {
             names.add("sender");
             values.add(org.gtk.gobject.Value.create(sender));
             return this;

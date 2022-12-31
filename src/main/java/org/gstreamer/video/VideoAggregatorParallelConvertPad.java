@@ -19,17 +19,15 @@ public class VideoAggregatorParallelConvertPad extends org.gstreamer.video.Video
     
     private static final java.lang.String C_TYPE_NAME = "GstVideoAggregatorParallelConvertPad";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.video.VideoAggregatorConvertPad.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.video.VideoAggregatorConvertPad.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,43 +35,29 @@ public class VideoAggregatorParallelConvertPad extends org.gstreamer.video.Video
      * <p>
      * Because VideoAggregatorParallelConvertPad is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VideoAggregatorParallelConvertPad(Addressable address, Ownership ownership) {
+    protected VideoAggregatorParallelConvertPad(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VideoAggregatorParallelConvertPad if its GType is a (or inherits from) "GstVideoAggregatorParallelConvertPad".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VideoAggregatorParallelConvertPad} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVideoAggregatorParallelConvertPad", a ClassCastException will be thrown.
-     */
-    public static VideoAggregatorParallelConvertPad castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VideoAggregatorParallelConvertPad.getType())) {
-            return new VideoAggregatorParallelConvertPad(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVideoAggregatorParallelConvertPad");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VideoAggregatorParallelConvertPad> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VideoAggregatorParallelConvertPad(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_aggregator_parallel_convert_pad_get_type.invokeExact();
@@ -82,38 +66,40 @@ public class VideoAggregatorParallelConvertPad extends org.gstreamer.video.Video
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link VideoAggregatorParallelConvertPad.Builder} object constructs a {@link VideoAggregatorParallelConvertPad} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VideoAggregatorParallelConvertPad.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.video.VideoAggregatorConvertPad.Build {
+    public static class Builder extends org.gstreamer.video.VideoAggregatorConvertPad.Builder {
         
-         /**
-         * A {@link VideoAggregatorParallelConvertPad.Build} object constructs a {@link VideoAggregatorParallelConvertPad} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VideoAggregatorParallelConvertPad} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VideoAggregatorParallelConvertPad} using {@link VideoAggregatorParallelConvertPad#castFrom}.
+         * {@link VideoAggregatorParallelConvertPad}.
          * @return A new instance of {@code VideoAggregatorParallelConvertPad} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VideoAggregatorParallelConvertPad construct() {
-            return VideoAggregatorParallelConvertPad.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VideoAggregatorParallelConvertPad.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VideoAggregatorParallelConvertPad build() {
+            return (VideoAggregatorParallelConvertPad) org.gtk.gobject.GObject.newWithProperties(
+                VideoAggregatorParallelConvertPad.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

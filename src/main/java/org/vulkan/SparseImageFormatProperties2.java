@@ -40,8 +40,10 @@ public class SparseImageFormatProperties2 extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SparseImageFormatProperties2(Addressable address, Ownership ownership) {
+    protected SparseImageFormatProperties2(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SparseImageFormatProperties2> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SparseImageFormatProperties2(input, ownership);
 }

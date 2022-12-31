@@ -48,25 +48,8 @@ import org.jetbrains.annotations.*;
  */
 public interface TagSetter extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to TagSetter if its GType is a (or inherits from) "GstTagSetter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TagSetter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstTagSetter", a ClassCastException will be thrown.
-     */
-    public static TagSetter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TagSetter.getType())) {
-            return new TagSetterImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstTagSetter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TagSetterImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TagSetterImpl(input, ownership);
     
     /**
      * Adds the given tag / value pairs on the setter using the given merge mode.
@@ -75,15 +58,12 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param tag tag to set
      * @param varArgs tag / value pairs to set
      */
-    default void addTagValist(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, @NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+    default void addTagValist(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, VaList varArgs) {
         try {
             DowncallHandles.gst_tag_setter_add_tag_valist.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -97,15 +77,12 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param tag tag to set
      * @param varArgs tag / GValue pairs to set
      */
-    default void addTagValistValues(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, @NotNull VaList varArgs) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(varArgs, "Parameter 'varArgs' must not be null");
+    default void addTagValistValues(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, VaList varArgs) {
         try {
             DowncallHandles.gst_tag_setter_add_tag_valist_values.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     varArgs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -118,15 +95,12 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param tag tag to set
      * @param value GValue to set for the tag
      */
-    default void addTagValue(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    default void addTagValue(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, org.gtk.gobject.Value value) {
         try {
             DowncallHandles.gst_tag_setter_add_tag_value.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -140,14 +114,12 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param tag tag to set
      * @param varargs more tag / GValue pairs to set
      */
-    default void addTagValues(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    default void addTagValues(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_tag_setter_add_tag_values.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -161,14 +133,12 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param tag tag to set
      * @param varargs more tag / value pairs to set
      */
-    default void addTags(@NotNull org.gstreamer.gst.TagMergeMode mode, @NotNull java.lang.String tag, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
-        java.util.Objects.requireNonNull(tag, "Parameter 'tag' must not be null");
+    default void addTags(org.gstreamer.gst.TagMergeMode mode, java.lang.String tag, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_tag_setter_add_tags.invokeExact(
                     handle(),
                     mode.getValue(),
-                    Interop.allocateNativeString(tag),
+                    Marshal.stringToAddress.marshal(tag, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -191,7 +161,7 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -199,7 +169,7 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * from events
      * @return the merge mode used inside the element.
      */
-    default @NotNull org.gstreamer.gst.TagMergeMode getTagMergeMode() {
+    default org.gstreamer.gst.TagMergeMode getTagMergeMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_tag_setter_get_tag_merge_mode.invokeExact(
@@ -215,9 +185,7 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * @param list a tag list to merge from
      * @param mode the mode to merge with
      */
-    default void mergeTags(@NotNull org.gstreamer.gst.TagList list, @NotNull org.gstreamer.gst.TagMergeMode mode) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    default void mergeTags(org.gstreamer.gst.TagList list, org.gstreamer.gst.TagMergeMode mode) {
         try {
             DowncallHandles.gst_tag_setter_merge_tags.invokeExact(
                     handle(),
@@ -247,8 +215,7 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * the tags set with this interface and discards tags from events.
      * @param mode The mode with which tags are added
      */
-    default void setTagMergeMode(@NotNull org.gstreamer.gst.TagMergeMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    default void setTagMergeMode(org.gstreamer.gst.TagMergeMode mode) {
         try {
             DowncallHandles.gst_tag_setter_set_tag_merge_mode.invokeExact(
                     handle(),
@@ -262,7 +229,7 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_tag_setter_get_type.invokeExact();
@@ -353,7 +320,7 @@ public interface TagSetter extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class TagSetterImpl extends org.gtk.gobject.Object implements TagSetter {
+    class TagSetterImpl extends org.gtk.gobject.GObject implements TagSetter {
         
         static {
             Gst.javagi$ensureInitialized();

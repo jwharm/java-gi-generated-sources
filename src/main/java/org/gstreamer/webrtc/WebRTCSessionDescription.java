@@ -16,19 +16,17 @@ public class WebRTCSessionDescription extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstWebRTCSessionDescription";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("type"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("sdp")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("type"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("sdp")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -48,7 +46,7 @@ public class WebRTCSessionDescription extends Struct {
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gstreamer.webrtc.WebRTCSDPType type$get() {
+    public org.gstreamer.webrtc.WebRTCSDPType getType() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -59,31 +57,31 @@ public class WebRTCSessionDescription extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gstreamer.webrtc.WebRTCSDPType type) {
+    public void setType(org.gstreamer.webrtc.WebRTCSDPType type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
     }
     
     /**
      * Get the value of the field {@code sdp}
      * @return The value of the field {@code sdp}
      */
-    public org.gstreamer.sdp.SDPMessage sdp$get() {
+    public org.gstreamer.sdp.SDPMessage getSdp() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sdp"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.sdp.SDPMessage(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.sdp.SDPMessage.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code sdp}
      * @param sdp The new value of the field {@code sdp}
      */
-    public void sdp$set(org.gstreamer.sdp.SDPMessage sdp) {
+    public void setSdp(org.gstreamer.sdp.SDPMessage sdp) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sdp"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sdp.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sdp == null ? MemoryAddress.NULL : sdp.handle()));
     }
     
     /**
@@ -91,15 +89,15 @@ public class WebRTCSessionDescription extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public WebRTCSessionDescription(Addressable address, Ownership ownership) {
+    protected WebRTCSessionDescription(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.webrtc.WebRTCSDPType type, @NotNull org.gstreamer.sdp.SDPMessage sdp) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(sdp, "Parameter 'sdp' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, WebRTCSessionDescription> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new WebRTCSessionDescription(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.webrtc.WebRTCSDPType type, org.gstreamer.sdp.SDPMessage sdp) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_webrtc_session_description_new.invokeExact(
                     type.getValue(),
@@ -111,11 +109,11 @@ public class WebRTCSessionDescription extends Struct {
         return RESULT;
     }
     
-    public WebRTCSessionDescription(@NotNull org.gstreamer.webrtc.WebRTCSDPType type, @NotNull org.gstreamer.sdp.SDPMessage sdp) {
+    public WebRTCSessionDescription(org.gstreamer.webrtc.WebRTCSDPType type, org.gstreamer.sdp.SDPMessage sdp) {
         super(constructNew(type, sdp), Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.webrtc.WebRTCSessionDescription copy() {
+    public org.gstreamer.webrtc.WebRTCSessionDescription copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_webrtc_session_description_copy.invokeExact(
@@ -123,7 +121,7 @@ public class WebRTCSessionDescription extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.webrtc.WebRTCSessionDescription(RESULT, Ownership.FULL);
+        return org.gstreamer.webrtc.WebRTCSessionDescription.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -159,31 +157,35 @@ public class WebRTCSessionDescription extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link WebRTCSessionDescription.Builder} object constructs a {@link WebRTCSessionDescription} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link WebRTCSessionDescription.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private WebRTCSessionDescription struct;
+        private final WebRTCSessionDescription struct;
         
-         /**
-         * A {@link WebRTCSessionDescription.Build} object constructs a {@link WebRTCSessionDescription} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = WebRTCSessionDescription.allocate();
         }
         
          /**
          * Finish building the {@link WebRTCSessionDescription} struct.
          * @return A new instance of {@code WebRTCSessionDescription} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public WebRTCSessionDescription construct() {
+        public WebRTCSessionDescription build() {
             return struct;
         }
         
@@ -192,7 +194,7 @@ public class WebRTCSessionDescription extends Struct {
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gstreamer.webrtc.WebRTCSDPType type) {
+        public Builder setType(org.gstreamer.webrtc.WebRTCSDPType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
@@ -204,7 +206,7 @@ public class WebRTCSessionDescription extends Struct {
          * @param sdp The value for the {@code sdp} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSdp(org.gstreamer.sdp.SDPMessage sdp) {
+        public Builder setSdp(org.gstreamer.sdp.SDPMessage sdp) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("sdp"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sdp == null ? MemoryAddress.NULL : sdp.handle()));

@@ -43,17 +43,15 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     private static final java.lang.String C_TYPE_NAME = "GtkButton";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -61,40 +59,26 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * <p>
      * Because Button is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Button(Addressable address, Ownership ownership) {
+    protected Button(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Button if its GType is a (or inherits from) "GtkButton".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Button} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkButton", a ClassCastException will be thrown.
-     */
-    public static Button castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Button.getType())) {
-            return new Button(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkButton");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Button> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Button(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_button_new.invokeExact();
         } catch (Throwable ERR) {
@@ -112,11 +96,11 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewFromIconName(@Nullable java.lang.String iconName) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromIconName(@Nullable java.lang.String iconName) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_button_new_from_icon_name.invokeExact(
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -133,15 +117,15 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @return a new {@code GtkButton} displaying the themed icon
      */
     public static Button newFromIconName(@Nullable java.lang.String iconName) {
-        return new Button(constructNewFromIconName(iconName), Ownership.NONE);
+        var RESULT = constructNewFromIconName(iconName);
+        return (org.gtk.gtk.Button) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Button.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewWithLabel(@NotNull java.lang.String label) {
-        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithLabel(java.lang.String label) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_button_new_with_label.invokeExact(
-                    Interop.allocateNativeString(label));
+                    Marshal.stringToAddress.marshal(label, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -153,16 +137,16 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * @param label The text you want the {@code GtkLabel} to hold
      * @return The newly created {@code GtkButton} widget
      */
-    public static Button newWithLabel(@NotNull java.lang.String label) {
-        return new Button(constructNewWithLabel(label), Ownership.NONE);
+    public static Button newWithLabel(java.lang.String label) {
+        var RESULT = constructNewWithLabel(label);
+        return (org.gtk.gtk.Button) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Button.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
-    private static Addressable constructNewWithMnemonic(@NotNull java.lang.String label) {
-        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithMnemonic(java.lang.String label) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_button_new_with_mnemonic.invokeExact(
-                    Interop.allocateNativeString(label));
+                    Marshal.stringToAddress.marshal(label, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,8 +164,9 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      *   mnemonic character
      * @return a new {@code GtkButton}
      */
-    public static Button newWithMnemonic(@NotNull java.lang.String label) {
-        return new Button(constructNewWithMnemonic(label), Ownership.NONE);
+    public static Button newWithMnemonic(java.lang.String label) {
+        var RESULT = constructNewWithMnemonic(label);
+        return (org.gtk.gtk.Button) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Button.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -196,7 +181,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -211,7 +196,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -230,7 +215,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -250,7 +235,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -268,7 +253,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -301,7 +286,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         try {
             DowncallHandles.gtk_button_set_has_frame.invokeExact(
                     handle(),
-                    hasFrame ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hasFrame, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -314,12 +299,11 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * be removed and replaced with the image.
      * @param iconName An icon name
      */
-    public void setIconName(@NotNull java.lang.String iconName) {
-        java.util.Objects.requireNonNull(iconName, "Parameter 'iconName' must not be null");
+    public void setIconName(java.lang.String iconName) {
         try {
             DowncallHandles.gtk_button_set_icon_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(iconName));
+                    Marshal.stringToAddress.marshal(iconName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -331,12 +315,11 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * This will also clear any previously set labels.
      * @param label a string
      */
-    public void setLabel(@NotNull java.lang.String label) {
-        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+    public void setLabel(java.lang.String label) {
         try {
             DowncallHandles.gtk_button_set_label.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(label));
+                    Marshal.stringToAddress.marshal(label, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -353,7 +336,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
         try {
             DowncallHandles.gtk_button_set_use_underline.invokeExact(
                     handle(),
-                    useUnderline ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useUnderline, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -363,7 +346,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_button_get_type.invokeExact();
@@ -375,7 +358,18 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Button sourceButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -389,16 +383,8 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public Signal<Button.Activate> onActivate(Button.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Button.Callbacks.class, "signalButtonActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Button.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -406,7 +392,18 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     
     @FunctionalInterface
     public interface Clicked {
-        void signalReceived(Button sourceButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Clicked.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -417,52 +414,46 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
     public Signal<Button.Clicked> onClicked(Button.Clicked handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("clicked"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Button.Callbacks.class, "signalButtonClicked",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Button.Clicked>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("clicked"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Button.Builder} object constructs a {@link Button} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Button.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Button.Build} object constructs a {@link Button} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Button} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Button} using {@link Button#castFrom}.
+         * {@link Button}.
          * @return A new instance of {@code Button} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Button construct() {
-            return Button.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Button.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Button build() {
+            return (Button) org.gtk.gobject.GObject.newWithProperties(
+                Button.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -471,7 +462,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -482,7 +473,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param hasFrame The value for the {@code has-frame} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasFrame(boolean hasFrame) {
+        public Builder setHasFrame(boolean hasFrame) {
             names.add("has-frame");
             values.add(org.gtk.gobject.Value.create(hasFrame));
             return this;
@@ -493,7 +484,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param iconName The value for the {@code icon-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIconName(java.lang.String iconName) {
+        public Builder setIconName(java.lang.String iconName) {
             names.add("icon-name");
             values.add(org.gtk.gobject.Value.create(iconName));
             return this;
@@ -504,7 +495,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param label The value for the {@code label} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLabel(java.lang.String label) {
+        public Builder setLabel(java.lang.String label) {
             names.add("label");
             values.add(org.gtk.gobject.Value.create(label));
             return this;
@@ -516,7 +507,7 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
          * @param useUnderline The value for the {@code use-underline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseUnderline(boolean useUnderline) {
+        public Builder setUseUnderline(boolean useUnderline) {
             names.add("use-underline");
             values.add(org.gtk.gobject.Value.create(useUnderline));
             return this;
@@ -614,20 +605,5 @@ public class Button extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalButtonActivate(MemoryAddress sourceButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Button.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Button(sourceButton, Ownership.NONE));
-        }
-        
-        public static void signalButtonClicked(MemoryAddress sourceButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Button.Clicked) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Button(sourceButton, Ownership.NONE));
-        }
     }
 }

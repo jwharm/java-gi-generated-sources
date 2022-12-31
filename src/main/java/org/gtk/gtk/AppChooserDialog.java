@@ -41,42 +41,26 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
      * <p>
      * Because AppChooserDialog is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AppChooserDialog(Addressable address, Ownership ownership) {
+    protected AppChooserDialog(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to AppChooserDialog if its GType is a (or inherits from) "GtkAppChooserDialog".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AppChooserDialog} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkAppChooserDialog", a ClassCastException will be thrown.
-     */
-    public static AppChooserDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AppChooserDialog.getType())) {
-            return new AppChooserDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkAppChooserDialog");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AppChooserDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AppChooserDialog(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gio.File file) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gio.File file) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_new.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
@@ -96,19 +80,17 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
      * @param flags flags for this dialog
      * @param file a {@code GFile}
      */
-    public AppChooserDialog(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gio.File file) {
+    public AppChooserDialog(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gio.File file) {
         super(constructNew(parent, flags, file), Ownership.NONE);
     }
     
-    private static Addressable constructNewForContentType(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull java.lang.String contentType) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(contentType, "Parameter 'contentType' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForContentType(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, java.lang.String contentType) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_new_for_content_type.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     flags.getValue(),
-                    Interop.allocateNativeString(contentType));
+                    Marshal.stringToAddress.marshal(contentType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -124,8 +106,9 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
      * @param contentType a content type string
      * @return a newly created {@code GtkAppChooserDialog}
      */
-    public static AppChooserDialog newForContentType(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull java.lang.String contentType) {
-        return new AppChooserDialog(constructNewForContentType(parent, flags, contentType), Ownership.NONE);
+    public static AppChooserDialog newForContentType(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, java.lang.String contentType) {
+        var RESULT = constructNewForContentType(parent, flags, contentType);
+        return (org.gtk.gtk.AppChooserDialog) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.AppChooserDialog.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -141,14 +124,14 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Returns the {@code GtkAppChooserWidget} of this dialog.
      * @return the {@code GtkAppChooserWidget} of {@code self}
      */
-    public @NotNull org.gtk.gtk.Widget getWidget() {
+    public org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_app_chooser_dialog_get_widget.invokeExact(
@@ -156,7 +139,7 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -165,12 +148,11 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
      * If the heading is not set, the dialog displays a default text.
      * @param heading a string containing Pango markup
      */
-    public void setHeading(@NotNull java.lang.String heading) {
-        java.util.Objects.requireNonNull(heading, "Parameter 'heading' must not be null");
+    public void setHeading(java.lang.String heading) {
         try {
             DowncallHandles.gtk_app_chooser_dialog_set_heading.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(heading));
+                    Marshal.stringToAddress.marshal(heading, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -180,7 +162,7 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_app_chooser_dialog_get_type.invokeExact();
@@ -189,38 +171,40 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link AppChooserDialog.Builder} object constructs a {@link AppChooserDialog} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AppChooserDialog.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Dialog.Build {
+    public static class Builder extends org.gtk.gtk.Dialog.Builder {
         
-         /**
-         * A {@link AppChooserDialog.Build} object constructs a {@link AppChooserDialog} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AppChooserDialog} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AppChooserDialog} using {@link AppChooserDialog#castFrom}.
+         * {@link AppChooserDialog}.
          * @return A new instance of {@code AppChooserDialog} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AppChooserDialog construct() {
-            return AppChooserDialog.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AppChooserDialog.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AppChooserDialog build() {
+            return (AppChooserDialog) org.gtk.gobject.GObject.newWithProperties(
+                AppChooserDialog.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -232,7 +216,7 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
          * @param gfile The value for the {@code gfile} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGfile(org.gtk.gio.File gfile) {
+        public Builder setGfile(org.gtk.gio.File gfile) {
             names.add("gfile");
             values.add(org.gtk.gobject.Value.create(gfile));
             return this;
@@ -245,7 +229,7 @@ public class AppChooserDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.
          * @param heading The value for the {@code heading} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeading(java.lang.String heading) {
+        public Builder setHeading(java.lang.String heading) {
             names.add("heading");
             values.add(org.gtk.gobject.Value.create(heading));
             return this;

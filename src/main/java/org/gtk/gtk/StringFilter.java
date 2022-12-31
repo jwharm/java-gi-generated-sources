@@ -42,33 +42,15 @@ public class StringFilter extends org.gtk.gtk.Filter {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public StringFilter(Addressable address, Ownership ownership) {
+    protected StringFilter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to StringFilter if its GType is a (or inherits from) "GtkStringFilter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code StringFilter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkStringFilter", a ClassCastException will be thrown.
-     */
-    public static StringFilter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StringFilter.getType())) {
-            return new StringFilter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkStringFilter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StringFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StringFilter(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.Expression expression) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Expression expression) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_string_filter_new.invokeExact(
                     (Addressable) (expression == null ? MemoryAddress.NULL : expression.handle()));
@@ -103,7 +85,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Expression(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Expression) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Expression.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -118,14 +100,14 @@ public class StringFilter extends org.gtk.gtk.Filter {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Returns the match mode that the filter is using.
      * @return the match mode of the filter
      */
-    public @NotNull org.gtk.gtk.StringFilterMatchMode getMatchMode() {
+    public org.gtk.gtk.StringFilterMatchMode getMatchMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_string_filter_get_match_mode.invokeExact(
@@ -148,7 +130,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -176,7 +158,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
         try {
             DowncallHandles.gtk_string_filter_set_ignore_case.invokeExact(
                     handle(),
-                    ignoreCase ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(ignoreCase, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -186,8 +168,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
      * Sets the match mode for the filter.
      * @param mode the new match mode
      */
-    public void setMatchMode(@NotNull org.gtk.gtk.StringFilterMatchMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public void setMatchMode(org.gtk.gtk.StringFilterMatchMode mode) {
         try {
             DowncallHandles.gtk_string_filter_set_match_mode.invokeExact(
                     handle(),
@@ -206,7 +187,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
         try {
             DowncallHandles.gtk_string_filter_set_search.invokeExact(
                     handle(),
-                    (Addressable) (search == null ? MemoryAddress.NULL : Interop.allocateNativeString(search)));
+                    (Addressable) (search == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(search, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -216,7 +197,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_string_filter_get_type.invokeExact();
@@ -225,38 +206,40 @@ public class StringFilter extends org.gtk.gtk.Filter {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link StringFilter.Builder} object constructs a {@link StringFilter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link StringFilter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Filter.Build {
+    public static class Builder extends org.gtk.gtk.Filter.Builder {
         
-         /**
-         * A {@link StringFilter.Build} object constructs a {@link StringFilter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link StringFilter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link StringFilter} using {@link StringFilter#castFrom}.
+         * {@link StringFilter}.
          * @return A new instance of {@code StringFilter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public StringFilter construct() {
-            return StringFilter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    StringFilter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public StringFilter build() {
+            return (StringFilter) org.gtk.gobject.GObject.newWithProperties(
+                StringFilter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -265,7 +248,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
          * @param expression The value for the {@code expression} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExpression(org.gtk.gtk.Expression expression) {
+        public Builder setExpression(org.gtk.gtk.Expression expression) {
             names.add("expression");
             values.add(org.gtk.gobject.Value.create(expression));
             return this;
@@ -276,7 +259,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
          * @param ignoreCase The value for the {@code ignore-case} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIgnoreCase(boolean ignoreCase) {
+        public Builder setIgnoreCase(boolean ignoreCase) {
             names.add("ignore-case");
             values.add(org.gtk.gobject.Value.create(ignoreCase));
             return this;
@@ -287,7 +270,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
          * @param matchMode The value for the {@code match-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMatchMode(org.gtk.gtk.StringFilterMatchMode matchMode) {
+        public Builder setMatchMode(org.gtk.gtk.StringFilterMatchMode matchMode) {
             names.add("match-mode");
             values.add(org.gtk.gobject.Value.create(matchMode));
             return this;
@@ -298,7 +281,7 @@ public class StringFilter extends org.gtk.gtk.Filter {
          * @param search The value for the {@code search} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSearch(java.lang.String search) {
+        public Builder setSearch(java.lang.String search) {
             names.add("search");
             values.add(org.gtk.gobject.Value.create(search));
             return this;

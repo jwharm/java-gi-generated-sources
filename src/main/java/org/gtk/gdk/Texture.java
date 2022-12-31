@@ -19,9 +19,9 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GdkTexture} is an immutable object: That means you cannot change
  * anything about it other than increasing the reference count via
- * {@link org.gtk.gobject.Object#ref}, and consequently, it is a thread-safe object.
+ * {@link org.gtk.gobject.GObject#ref}, and consequently, it is a thread-safe object.
  */
-public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
+public class Texture extends org.gtk.gobject.GObject implements org.gtk.gdk.Paintable, org.gtk.gio.Icon, org.gtk.gio.LoadableIcon {
     
     static {
         Gdk.javagi$ensureInitialized();
@@ -43,34 +43,15 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Texture(Addressable address, Ownership ownership) {
+    protected Texture(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Texture if its GType is a (or inherits from) "GdkTexture".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Texture} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkTexture", a ClassCastException will be thrown.
-     */
-    public static Texture castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Texture.getType())) {
-            return new Texture(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkTexture");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Texture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Texture(input, ownership);
     
-    private static Addressable constructNewForPixbuf(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        java.util.Objects.requireNonNull(pixbuf, "Parameter 'pixbuf' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_for_pixbuf.invokeExact(
                     pixbuf.handle());
@@ -89,14 +70,14 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @param pixbuf a {@code GdkPixbuf}
      * @return a new {@code GdkTexture}
      */
-    public static Texture newForPixbuf(@NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf) {
-        return new Texture(constructNewForPixbuf(pixbuf), Ownership.FULL);
+    public static Texture newForPixbuf(org.gtk.gdkpixbuf.Pixbuf pixbuf) {
+        var RESULT = constructNewForPixbuf(pixbuf);
+        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromBytes(@NotNull org.gtk.glib.Bytes bytes) throws GErrorException {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
+    private static MemoryAddress constructNewFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_bytes.invokeExact(
                     bytes.handle(),
@@ -125,14 +106,14 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @return A newly-created {@code GdkTexture}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static Texture newFromBytes(@NotNull org.gtk.glib.Bytes bytes) throws GErrorException {
-        return new Texture(constructNewFromBytes(bytes), Ownership.FULL);
+    public static Texture newFromBytes(org.gtk.glib.Bytes bytes) throws GErrorException {
+        var RESULT = constructNewFromBytes(bytes);
+        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromFile(@NotNull org.gtk.gio.File file) throws GErrorException {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
+    private static MemoryAddress constructNewFromFile(org.gtk.gio.File file) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_file.invokeExact(
                     file.handle(),
@@ -161,17 +142,17 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @return A newly-created {@code GdkTexture}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static Texture newFromFile(@NotNull org.gtk.gio.File file) throws GErrorException {
-        return new Texture(constructNewFromFile(file), Ownership.FULL);
+    public static Texture newFromFile(org.gtk.gio.File file) throws GErrorException {
+        var RESULT = constructNewFromFile(file);
+        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromFilename(@NotNull java.lang.String path) throws GErrorException {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    private static MemoryAddress constructNewFromFilename(java.lang.String path) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_filename.invokeExact(
-                    Interop.allocateNativeString(path),
+                    Marshal.stringToAddress.marshal(path, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -197,16 +178,16 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @return A newly-created {@code GdkTexture}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static Texture newFromFilename(@NotNull java.lang.String path) throws GErrorException {
-        return new Texture(constructNewFromFilename(path), Ownership.FULL);
+    public static Texture newFromFilename(java.lang.String path) throws GErrorException {
+        var RESULT = constructNewFromFilename(path);
+        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromResource(@NotNull java.lang.String resourcePath) {
-        java.util.Objects.requireNonNull(resourcePath, "Parameter 'resourcePath' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromResource(java.lang.String resourcePath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_texture_new_from_resource.invokeExact(
-                    Interop.allocateNativeString(resourcePath));
+                    Marshal.stringToAddress.marshal(resourcePath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -230,8 +211,9 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @param resourcePath the path of the resource file
      * @return A newly-created {@code GdkTexture}
      */
-    public static Texture newFromResource(@NotNull java.lang.String resourcePath) {
-        return new Texture(constructNewFromResource(resourcePath), Ownership.FULL);
+    public static Texture newFromResource(java.lang.String resourcePath) {
+        var RESULT = constructNewFromResource(resourcePath);
+        return (org.gtk.gdk.Texture) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Texture.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -258,8 +240,7 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      *   downloaded data of {@code texture}
      * @param stride rowstride in bytes
      */
-    public void download(@NotNull byte[] data, long stride) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void download(byte[] data, long stride) {
         try {
             DowncallHandles.gdk_texture_download.invokeExact(
                     handle(),
@@ -311,17 +292,16 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @param filename the filename to store to
      * @return {@code true} if saving succeeded, {@code false} on failure.
      */
-    public boolean saveToPng(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public boolean saveToPng(java.lang.String filename) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_texture_save_to_png.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -341,7 +321,7 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * instead.
      * @return a newly allocated {@code GBytes} containing PNG data
      */
-    public @NotNull org.gtk.glib.Bytes saveToPngBytes() {
+    public org.gtk.glib.Bytes saveToPngBytes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_png_bytes.invokeExact(
@@ -349,7 +329,7 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -359,17 +339,16 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * @param filename the filename to store to
      * @return {@code true} if saving succeeded, {@code false} on failure.
      */
-    public boolean saveToTiff(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public boolean saveToTiff(java.lang.String filename) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_texture_save_to_tiff.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -387,7 +366,7 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
      * use {@link Texture#saveToPngBytes}.
      * @return a newly allocated {@code GBytes} containing TIFF data
      */
-    public @NotNull org.gtk.glib.Bytes saveToTiffBytes() {
+    public org.gtk.glib.Bytes saveToTiffBytes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_texture_save_to_tiff_bytes.invokeExact(
@@ -395,14 +374,14 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_texture_get_type.invokeExact();
@@ -411,38 +390,40 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Texture.Builder} object constructs a {@link Texture} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Texture.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Texture.Build} object constructs a {@link Texture} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Texture} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Texture} using {@link Texture#castFrom}.
+         * {@link Texture}.
          * @return A new instance of {@code Texture} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Texture construct() {
-            return Texture.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Texture.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Texture build() {
+            return (Texture) org.gtk.gobject.GObject.newWithProperties(
+                Texture.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -451,7 +432,7 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
          * @param height The value for the {@code height} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeight(int height) {
+        public Builder setHeight(int height) {
             names.add("height");
             values.add(org.gtk.gobject.Value.create(height));
             return this;
@@ -462,7 +443,7 @@ public class Texture extends org.gtk.gobject.Object implements org.gtk.gdk.Paint
          * @param width The value for the {@code width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidth(int width) {
+        public Builder setWidth(int width) {
             names.add("width");
             values.add(org.gtk.gobject.Value.create(width));
             return this;

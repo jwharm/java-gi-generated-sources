@@ -75,17 +75,15 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     private static final java.lang.String C_TYPE_NAME = "GtkText";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -93,40 +91,26 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * <p>
      * Because Text is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Text(Addressable address, Ownership ownership) {
+    protected Text(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Text if its GType is a (or inherits from) "GtkText".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Text} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkText", a ClassCastException will be thrown.
-     */
-    public static Text castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Text.getType())) {
-            return new Text(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkText");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Text> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Text(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_new.invokeExact();
         } catch (Throwable ERR) {
@@ -142,9 +126,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         super(constructNew(), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithBuffer(org.gtk.gtk.EntryBuffer buffer) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_new_with_buffer.invokeExact(
                     buffer.handle());
@@ -159,8 +142,9 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * @param buffer The buffer to use for the new {@code GtkText}.
      * @return a new {@code GtkText}
      */
-    public static Text newWithBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
-        return new Text(constructNewWithBuffer(buffer), Ownership.NONE);
+    public static Text newWithBuffer(org.gtk.gtk.EntryBuffer buffer) {
+        var RESULT = constructNewWithBuffer(buffer);
+        return (org.gtk.gtk.Text) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Text.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -178,15 +162,13 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * @param strong location to store the strong cursor position
      * @param weak location to store the weak cursor position
      */
-    public void computeCursorExtents(long position, @NotNull org.gtk.graphene.Rect strong, @NotNull org.gtk.graphene.Rect weak) {
-        java.util.Objects.requireNonNull(strong, "Parameter 'strong' must not be null");
-        java.util.Objects.requireNonNull(weak, "Parameter 'weak' must not be null");
+    public void computeCursorExtents(long position, @Nullable org.gtk.graphene.Rect strong, @Nullable org.gtk.graphene.Rect weak) {
         try {
             DowncallHandles.gtk_text_compute_cursor_extents.invokeExact(
                     handle(),
                     position,
-                    strong.handle(),
-                    weak.handle());
+                    (Addressable) (strong == null ? MemoryAddress.NULL : strong.handle()),
+                    (Addressable) (weak == null ? MemoryAddress.NULL : weak.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -207,7 +189,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -224,7 +206,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.AttrList(RESULT, Ownership.NONE);
+        return org.pango.AttrList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -232,7 +214,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * this widget.
      * @return A {@code GtkEntryBuffer} object.
      */
-    public @NotNull org.gtk.gtk.EntryBuffer getBuffer() {
+    public org.gtk.gtk.EntryBuffer getBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_text_get_buffer.invokeExact(
@@ -240,7 +222,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.EntryBuffer(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.EntryBuffer) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.EntryBuffer.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -256,7 +238,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -273,13 +255,13 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.MenuModel(RESULT, Ownership.NONE);
+        return (org.gtk.gio.MenuModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MenuModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Gets the input hints of the {@code GtkText}.
      */
-    public @NotNull org.gtk.gtk.InputHints getInputHints() {
+    public org.gtk.gtk.InputHints getInputHints() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_get_input_hints.invokeExact(
@@ -293,7 +275,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     /**
      * Gets the input purpose of the {@code GtkText}.
      */
-    public @NotNull org.gtk.gtk.InputPurpose getInputPurpose() {
+    public org.gtk.gtk.InputPurpose getInputPurpose() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_text_get_input_purpose.invokeExact(
@@ -359,7 +341,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -377,7 +359,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -393,7 +375,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -410,7 +392,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.TabArray(RESULT, Ownership.NONE);
+        return org.pango.TabArray.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -445,7 +427,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -460,7 +442,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -481,7 +463,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -497,7 +479,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         try {
             DowncallHandles.gtk_text_set_activates_default.invokeExact(
                     handle(),
-                    activates ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(activates, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -522,8 +504,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * this widget.
      * @param buffer a {@code GtkEntryBuffer}
      */
-    public void setBuffer(@NotNull org.gtk.gtk.EntryBuffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public void setBuffer(org.gtk.gtk.EntryBuffer buffer) {
         try {
             DowncallHandles.gtk_text_set_buffer.invokeExact(
                     handle(),
@@ -545,7 +526,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         try {
             DowncallHandles.gtk_text_set_enable_emoji_completion.invokeExact(
                     handle(),
-                    enableEmojiCompletion ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enableEmojiCompletion, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -571,8 +552,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * to fine-tune their behaviour.
      * @param hints the hints
      */
-    public void setInputHints(@NotNull org.gtk.gtk.InputHints hints) {
-        java.util.Objects.requireNonNull(hints, "Parameter 'hints' must not be null");
+    public void setInputHints(org.gtk.gtk.InputHints hints) {
         try {
             DowncallHandles.gtk_text_set_input_hints.invokeExact(
                     handle(),
@@ -589,8 +569,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * input methods to adjust their behaviour.
      * @param purpose the purpose
      */
-    public void setInputPurpose(@NotNull org.gtk.gtk.InputPurpose purpose) {
-        java.util.Objects.requireNonNull(purpose, "Parameter 'purpose' must not be null");
+    public void setInputPurpose(org.gtk.gtk.InputPurpose purpose) {
         try {
             DowncallHandles.gtk_text_set_input_purpose.invokeExact(
                     handle(),
@@ -650,7 +629,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         try {
             DowncallHandles.gtk_text_set_overwrite_mode.invokeExact(
                     handle(),
-                    overwrite ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(overwrite, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -668,7 +647,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         try {
             DowncallHandles.gtk_text_set_placeholder_text.invokeExact(
                     handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -682,7 +661,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         try {
             DowncallHandles.gtk_text_set_propagate_text_width.invokeExact(
                     handle(),
-                    propagateTextWidth ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(propagateTextWidth, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -711,7 +690,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         try {
             DowncallHandles.gtk_text_set_truncate_multiline.invokeExact(
                     handle(),
-                    truncateMultiline ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(truncateMultiline, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -739,7 +718,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
         try {
             DowncallHandles.gtk_text_set_visibility.invokeExact(
                     handle(),
-                    visible ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(visible, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -764,7 +743,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_text_get_type.invokeExact();
@@ -776,7 +755,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface Activate {
-        void signalReceived(Text sourceText);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Activate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -790,16 +780,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.Activate> onActivate(Text.Activate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextActivate",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.Activate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -807,7 +789,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface Backspace {
-        void signalReceived(Text sourceText);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Backspace.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -823,16 +816,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.Backspace> onBackspace(Text.Backspace handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("backspace"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextBackspace",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.Backspace>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("backspace"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -840,7 +825,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface CopyClipboard {
-        void signalReceived(Text sourceText);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CopyClipboard.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -857,16 +853,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.CopyClipboard> onCopyClipboard(Text.CopyClipboard handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("copy-clipboard"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextCopyClipboard",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.CopyClipboard>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("copy-clipboard"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -874,7 +862,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface CutClipboard {
-        void signalReceived(Text sourceText);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(CutClipboard.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -891,16 +890,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.CutClipboard> onCutClipboard(Text.CutClipboard handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("cut-clipboard"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextCutClipboard",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.CutClipboard>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("cut-clipboard"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -908,7 +899,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface DeleteFromCursor {
-        void signalReceived(Text sourceText, @NotNull org.gtk.gtk.DeleteType type, int count);
+        void run(org.gtk.gtk.DeleteType type, int count);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText, int type, int count) {
+            run(org.gtk.gtk.DeleteType.of(type), count);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DeleteFromCursor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -929,16 +931,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.DeleteFromCursor> onDeleteFromCursor(Text.DeleteFromCursor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("delete-from-cursor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextDeleteFromCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.DeleteFromCursor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("delete-from-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -946,7 +940,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface InsertAtCursor {
-        void signalReceived(Text sourceText, @NotNull java.lang.String string);
+        void run(java.lang.String string);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText, MemoryAddress string) {
+            run(Marshal.addressToString.marshal(string, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertAtCursor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -962,16 +967,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.InsertAtCursor> onInsertAtCursor(Text.InsertAtCursor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-at-cursor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextInsertAtCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.InsertAtCursor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-at-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -979,7 +976,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface InsertEmoji {
-        void signalReceived(Text sourceText);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(InsertEmoji.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -996,16 +1004,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.InsertEmoji> onInsertEmoji(Text.InsertEmoji handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("insert-emoji"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextInsertEmoji",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.InsertEmoji>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("insert-emoji"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1013,7 +1013,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface MoveCursor {
-        void signalReceived(Text sourceText, @NotNull org.gtk.gtk.MovementStep step, int count, boolean extend);
+        void run(org.gtk.gtk.MovementStep step, int count, boolean extend);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText, int step, int count, int extend) {
+            run(org.gtk.gtk.MovementStep.of(step), count, Marshal.integerToBoolean.marshal(extend, null).booleanValue());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveCursor.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1044,16 +1055,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.MoveCursor> onMoveCursor(Text.MoveCursor handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-cursor"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextMoveCursor",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.MoveCursor>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-cursor"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1061,7 +1064,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface PasteClipboard {
-        void signalReceived(Text sourceText);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PasteClipboard.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1077,16 +1091,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.PasteClipboard> onPasteClipboard(Text.PasteClipboard handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("paste-clipboard"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextPasteClipboard",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.PasteClipboard>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("paste-clipboard"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1094,7 +1100,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface PreeditChanged {
-        void signalReceived(Text sourceText, @NotNull java.lang.String preedit);
+        void run(java.lang.String preedit);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText, MemoryAddress preedit) {
+            run(Marshal.addressToString.marshal(preedit, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PreeditChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1109,16 +1126,8 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.PreeditChanged> onPreeditChanged(Text.PreeditChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("preedit-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextPreeditChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.PreeditChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("preedit-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1126,7 +1135,18 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     
     @FunctionalInterface
     public interface ToggleOverwrite {
-        void signalReceived(Text sourceText);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceText) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ToggleOverwrite.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -1141,52 +1161,46 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
     public Signal<Text.ToggleOverwrite> onToggleOverwrite(Text.ToggleOverwrite handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("toggle-overwrite"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Text.Callbacks.class, "signalTextToggleOverwrite",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Text.ToggleOverwrite>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("toggle-overwrite"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Text.Builder} object constructs a {@link Text} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Text.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Text.Build} object constructs a {@link Text} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Text} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Text} using {@link Text#castFrom}.
+         * {@link Text}.
          * @return A new instance of {@code Text} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Text construct() {
-            return Text.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Text.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Text build() {
+            return (Text) org.gtk.gobject.GObject.newWithProperties(
+                Text.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1195,7 +1209,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param activatesDefault The value for the {@code activates-default} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setActivatesDefault(boolean activatesDefault) {
+        public Builder setActivatesDefault(boolean activatesDefault) {
             names.add("activates-default");
             values.add(org.gtk.gobject.Value.create(activatesDefault));
             return this;
@@ -1211,7 +1225,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param attributes The value for the {@code attributes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAttributes(org.pango.AttrList attributes) {
+        public Builder setAttributes(org.pango.AttrList attributes) {
             names.add("attributes");
             values.add(org.gtk.gobject.Value.create(attributes));
             return this;
@@ -1222,7 +1236,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param buffer The value for the {@code buffer} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBuffer(org.gtk.gtk.EntryBuffer buffer) {
+        public Builder setBuffer(org.gtk.gtk.EntryBuffer buffer) {
             names.add("buffer");
             values.add(org.gtk.gobject.Value.create(buffer));
             return this;
@@ -1233,7 +1247,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param enableEmojiCompletion The value for the {@code enable-emoji-completion} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnableEmojiCompletion(boolean enableEmojiCompletion) {
+        public Builder setEnableEmojiCompletion(boolean enableEmojiCompletion) {
             names.add("enable-emoji-completion");
             values.add(org.gtk.gobject.Value.create(enableEmojiCompletion));
             return this;
@@ -1245,7 +1259,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param extraMenu The value for the {@code extra-menu} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
+        public Builder setExtraMenu(org.gtk.gio.MenuModel extraMenu) {
             names.add("extra-menu");
             values.add(org.gtk.gobject.Value.create(extraMenu));
             return this;
@@ -1262,7 +1276,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param imModule The value for the {@code im-module} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setImModule(java.lang.String imModule) {
+        public Builder setImModule(java.lang.String imModule) {
             names.add("im-module");
             values.add(org.gtk.gobject.Value.create(imModule));
             return this;
@@ -1274,7 +1288,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param inputHints The value for the {@code input-hints} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputHints(org.gtk.gtk.InputHints inputHints) {
+        public Builder setInputHints(org.gtk.gtk.InputHints inputHints) {
             names.add("input-hints");
             values.add(org.gtk.gobject.Value.create(inputHints));
             return this;
@@ -1292,7 +1306,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param inputPurpose The value for the {@code input-purpose} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
+        public Builder setInputPurpose(org.gtk.gtk.InputPurpose inputPurpose) {
             names.add("input-purpose");
             values.add(org.gtk.gobject.Value.create(inputPurpose));
             return this;
@@ -1303,7 +1317,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param invisibleChar The value for the {@code invisible-char} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInvisibleChar(int invisibleChar) {
+        public Builder setInvisibleChar(int invisibleChar) {
             names.add("invisible-char");
             values.add(org.gtk.gobject.Value.create(invisibleChar));
             return this;
@@ -1314,7 +1328,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param invisibleCharSet The value for the {@code invisible-char-set} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInvisibleCharSet(boolean invisibleCharSet) {
+        public Builder setInvisibleCharSet(boolean invisibleCharSet) {
             names.add("invisible-char-set");
             values.add(org.gtk.gobject.Value.create(invisibleCharSet));
             return this;
@@ -1327,7 +1341,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param maxLength The value for the {@code max-length} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxLength(int maxLength) {
+        public Builder setMaxLength(int maxLength) {
             names.add("max-length");
             values.add(org.gtk.gobject.Value.create(maxLength));
             return this;
@@ -1338,7 +1352,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param overwriteMode The value for the {@code overwrite-mode} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOverwriteMode(boolean overwriteMode) {
+        public Builder setOverwriteMode(boolean overwriteMode) {
             names.add("overwrite-mode");
             values.add(org.gtk.gobject.Value.create(overwriteMode));
             return this;
@@ -1350,7 +1364,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param placeholderText The value for the {@code placeholder-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlaceholderText(java.lang.String placeholderText) {
+        public Builder setPlaceholderText(java.lang.String placeholderText) {
             names.add("placeholder-text");
             values.add(org.gtk.gobject.Value.create(placeholderText));
             return this;
@@ -1361,7 +1375,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param propagateTextWidth The value for the {@code propagate-text-width} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPropagateTextWidth(boolean propagateTextWidth) {
+        public Builder setPropagateTextWidth(boolean propagateTextWidth) {
             names.add("propagate-text-width");
             values.add(org.gtk.gobject.Value.create(propagateTextWidth));
             return this;
@@ -1372,7 +1386,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param scrollOffset The value for the {@code scroll-offset} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScrollOffset(int scrollOffset) {
+        public Builder setScrollOffset(int scrollOffset) {
             names.add("scroll-offset");
             values.add(org.gtk.gobject.Value.create(scrollOffset));
             return this;
@@ -1383,7 +1397,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param tabs The value for the {@code tabs} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTabs(org.pango.TabArray tabs) {
+        public Builder setTabs(org.pango.TabArray tabs) {
             names.add("tabs");
             values.add(org.gtk.gobject.Value.create(tabs));
             return this;
@@ -1394,7 +1408,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param truncateMultiline The value for the {@code truncate-multiline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTruncateMultiline(boolean truncateMultiline) {
+        public Builder setTruncateMultiline(boolean truncateMultiline) {
             names.add("truncate-multiline");
             values.add(org.gtk.gobject.Value.create(truncateMultiline));
             return this;
@@ -1405,7 +1419,7 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
          * @param visibility The value for the {@code visibility} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisibility(boolean visibility) {
+        public Builder setVisibility(boolean visibility) {
             names.add("visibility");
             values.add(org.gtk.gobject.Value.create(visibility));
             return this;
@@ -1635,74 +1649,5 @@ public class Text extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessible, 
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalTextActivate(MemoryAddress sourceText, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.Activate) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
-        }
-        
-        public static void signalTextBackspace(MemoryAddress sourceText, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.Backspace) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
-        }
-        
-        public static void signalTextCopyClipboard(MemoryAddress sourceText, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.CopyClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
-        }
-        
-        public static void signalTextCutClipboard(MemoryAddress sourceText, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.CutClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
-        }
-        
-        public static void signalTextDeleteFromCursor(MemoryAddress sourceText, int type, int count, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.DeleteFromCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE), org.gtk.gtk.DeleteType.of(type), count);
-        }
-        
-        public static void signalTextInsertAtCursor(MemoryAddress sourceText, MemoryAddress string, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.InsertAtCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE), Interop.getStringFrom(string));
-        }
-        
-        public static void signalTextInsertEmoji(MemoryAddress sourceText, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.InsertEmoji) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
-        }
-        
-        public static void signalTextMoveCursor(MemoryAddress sourceText, int step, int count, int extend, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.MoveCursor) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE), org.gtk.gtk.MovementStep.of(step), count, extend != 0);
-        }
-        
-        public static void signalTextPasteClipboard(MemoryAddress sourceText, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.PasteClipboard) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
-        }
-        
-        public static void signalTextPreeditChanged(MemoryAddress sourceText, MemoryAddress preedit, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.PreeditChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE), Interop.getStringFrom(preedit));
-        }
-        
-        public static void signalTextToggleOverwrite(MemoryAddress sourceText, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Text.ToggleOverwrite) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Text(sourceText, Ownership.NONE));
-        }
     }
 }

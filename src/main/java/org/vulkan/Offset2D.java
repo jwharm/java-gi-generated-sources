@@ -40,8 +40,10 @@ public class Offset2D extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Offset2D(Addressable address, Ownership ownership) {
+    protected Offset2D(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Offset2D> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Offset2D(input, ownership);
 }

@@ -49,15 +49,15 @@ public class AudioStreamAlign extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioStreamAlign(Addressable address, Ownership ownership) {
+    protected AudioStreamAlign(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(int rate, @NotNull org.gstreamer.gst.ClockTime alignmentThreshold, @NotNull org.gstreamer.gst.ClockTime discontWait) {
-        java.util.Objects.requireNonNull(alignmentThreshold, "Parameter 'alignmentThreshold' must not be null");
-        java.util.Objects.requireNonNull(discontWait, "Parameter 'discontWait' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioStreamAlign> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioStreamAlign(input, ownership);
+    
+    private static MemoryAddress constructNew(int rate, org.gstreamer.gst.ClockTime alignmentThreshold, org.gstreamer.gst.ClockTime discontWait) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_stream_align_new.invokeExact(
                     rate,
@@ -85,7 +85,7 @@ public class AudioStreamAlign extends Struct {
      * @param alignmentThreshold a alignment threshold in nanoseconds
      * @param discontWait discont wait in nanoseconds
      */
-    public AudioStreamAlign(int rate, @NotNull org.gstreamer.gst.ClockTime alignmentThreshold, @NotNull org.gstreamer.gst.ClockTime discontWait) {
+    public AudioStreamAlign(int rate, org.gstreamer.gst.ClockTime alignmentThreshold, org.gstreamer.gst.ClockTime discontWait) {
         super(constructNew(rate, alignmentThreshold, discontWait), Ownership.FULL);
     }
     
@@ -93,7 +93,7 @@ public class AudioStreamAlign extends Struct {
      * Copy a GstAudioStreamAlign structure.
      * @return a new {@link AudioStreamAlign}. free with gst_audio_stream_align_free.
      */
-    public @NotNull org.gstreamer.audio.AudioStreamAlign copy() {
+    public org.gstreamer.audio.AudioStreamAlign copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_stream_align_copy.invokeExact(
@@ -101,7 +101,7 @@ public class AudioStreamAlign extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioStreamAlign(RESULT, Ownership.FULL);
+        return org.gstreamer.audio.AudioStreamAlign.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -121,7 +121,7 @@ public class AudioStreamAlign extends Struct {
      * Gets the currently configured alignment threshold.
      * @return The currently configured alignment threshold
      */
-    public @NotNull org.gstreamer.gst.ClockTime getAlignmentThreshold() {
+    public org.gstreamer.gst.ClockTime getAlignmentThreshold() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_stream_align_get_alignment_threshold.invokeExact(
@@ -136,7 +136,7 @@ public class AudioStreamAlign extends Struct {
      * Gets the currently configured discont wait.
      * @return The currently configured discont wait
      */
-    public @NotNull org.gstreamer.gst.ClockTime getDiscontWait() {
+    public org.gstreamer.gst.ClockTime getDiscontWait() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_stream_align_get_discont_wait.invokeExact(
@@ -183,7 +183,7 @@ public class AudioStreamAlign extends Struct {
      * timestamp after the discontinuity.
      * @return The last timestamp at when a discontinuity was detected
      */
-    public @NotNull org.gstreamer.gst.ClockTime getTimestampAtDiscont() {
+    public org.gstreamer.gst.ClockTime getTimestampAtDiscont() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_audio_stream_align_get_timestamp_at_discont.invokeExact(
@@ -231,19 +231,15 @@ public class AudioStreamAlign extends Struct {
      * @param outSamplePosition output sample position of the start of the data
      * @return {@code true} if a discontinuity was detected, {@code false} otherwise.
      */
-    public boolean process(boolean discont, @NotNull org.gstreamer.gst.ClockTime timestamp, int nSamples, @NotNull Out<org.gstreamer.gst.ClockTime> outTimestamp, @NotNull Out<org.gstreamer.gst.ClockTime> outDuration, Out<Long> outSamplePosition) {
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
-        java.util.Objects.requireNonNull(outTimestamp, "Parameter 'outTimestamp' must not be null");
+    public boolean process(boolean discont, org.gstreamer.gst.ClockTime timestamp, int nSamples, org.gstreamer.gst.ClockTime outTimestamp, org.gstreamer.gst.ClockTime outDuration, Out<Long> outSamplePosition) {
         MemorySegment outTimestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(outDuration, "Parameter 'outDuration' must not be null");
         MemorySegment outDurationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(outSamplePosition, "Parameter 'outSamplePosition' must not be null");
         MemorySegment outSamplePositionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_stream_align_process.invokeExact(
                     handle(),
-                    discont ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(discont, null).intValue(),
                     timestamp.getValue().longValue(),
                     nSamples,
                     (Addressable) outTimestampPOINTER.address(),
@@ -252,18 +248,17 @@ public class AudioStreamAlign extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        outTimestamp.set(new org.gstreamer.gst.ClockTime(outTimestampPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        outDuration.set(new org.gstreamer.gst.ClockTime(outDurationPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        outTimestamp.setValue(outTimestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        outDuration.setValue(outDurationPOINTER.get(Interop.valueLayout.C_LONG, 0));
         outSamplePosition.set(outSamplePositionPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Sets {@code alignment_treshold} as new alignment threshold for the following processing.
      * @param alignmentThreshold a new alignment threshold
      */
-    public void setAlignmentThreshold(@NotNull org.gstreamer.gst.ClockTime alignmentThreshold) {
-        java.util.Objects.requireNonNull(alignmentThreshold, "Parameter 'alignmentThreshold' must not be null");
+    public void setAlignmentThreshold(org.gstreamer.gst.ClockTime alignmentThreshold) {
         try {
             DowncallHandles.gst_audio_stream_align_set_alignment_threshold.invokeExact(
                     handle(),
@@ -277,8 +272,7 @@ public class AudioStreamAlign extends Struct {
      * Sets {@code alignment_treshold} as new discont wait for the following processing.
      * @param discontWait a new discont wait
      */
-    public void setDiscontWait(@NotNull org.gstreamer.gst.ClockTime discontWait) {
-        java.util.Objects.requireNonNull(discontWait, "Parameter 'discontWait' must not be null");
+    public void setDiscontWait(org.gstreamer.gst.ClockTime discontWait) {
         try {
             DowncallHandles.gst_audio_stream_align_set_discont_wait.invokeExact(
                     handle(),

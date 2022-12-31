@@ -10,7 +10,15 @@ import org.jetbrains.annotations.*;
  */
 public final class Gdk {
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Defines all possible DND actions.
@@ -4656,9 +4664,7 @@ public final class Gdk {
      *   image surface.
      */
     @Deprecated
-    public static void cairoDrawFromGl(@NotNull org.cairographics.Context cr, @NotNull org.gtk.gdk.Surface surface, int source, int sourceType, int bufferScale, int x, int y, int width, int height) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
+    public static void cairoDrawFromGl(org.cairographics.Context cr, org.gtk.gdk.Surface surface, int source, int sourceType, int bufferScale, int x, int y, int width, int height) {
         try {
             DowncallHandles.gdk_cairo_draw_from_gl.invokeExact(
                     cr.handle(),
@@ -4680,9 +4686,7 @@ public final class Gdk {
      * @param cr a cairo context
      * @param rectangle a {@code GdkRectangle}
      */
-    public static void cairoRectangle(@NotNull org.cairographics.Context cr, @NotNull org.gtk.gdk.Rectangle rectangle) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(rectangle, "Parameter 'rectangle' must not be null");
+    public static void cairoRectangle(org.cairographics.Context cr, org.gtk.gdk.Rectangle rectangle) {
         try {
             DowncallHandles.gdk_cairo_rectangle.invokeExact(
                     cr.handle(),
@@ -4697,9 +4701,7 @@ public final class Gdk {
      * @param cr a cairo context
      * @param region a {@code cairo_region_t}
      */
-    public static void cairoRegion(@NotNull org.cairographics.Context cr, @NotNull org.cairographics.Region region) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(region, "Parameter 'region' must not be null");
+    public static void cairoRegion(org.cairographics.Context cr, org.cairographics.Region region) {
         try {
             DowncallHandles.gdk_cairo_region.invokeExact(
                     cr.handle(),
@@ -4718,8 +4720,7 @@ public final class Gdk {
      * @param surface a cairo surface
      * @return A {@code cairo_region_t}
      */
-    public static @NotNull org.cairographics.Region cairoRegionCreateFromSurface(@NotNull org.cairographics.Surface surface) {
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
+    public static org.cairographics.Region cairoRegionCreateFromSurface(org.cairographics.Surface surface) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_cairo_region_create_from_surface.invokeExact(
@@ -4727,7 +4728,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Region(RESULT, Ownership.FULL);
+        return org.cairographics.Region.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4740,9 +4741,7 @@ public final class Gdk {
      * @param pixbufX X coordinate of location to place upper left corner of {@code pixbuf}
      * @param pixbufY Y coordinate of location to place upper left corner of {@code pixbuf}
      */
-    public static void cairoSetSourcePixbuf(@NotNull org.cairographics.Context cr, @NotNull org.gtk.gdkpixbuf.Pixbuf pixbuf, double pixbufX, double pixbufY) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(pixbuf, "Parameter 'pixbuf' must not be null");
+    public static void cairoSetSourcePixbuf(org.cairographics.Context cr, org.gtk.gdkpixbuf.Pixbuf pixbuf, double pixbufX, double pixbufY) {
         try {
             DowncallHandles.gdk_cairo_set_source_pixbuf.invokeExact(
                     cr.handle(),
@@ -4759,9 +4758,7 @@ public final class Gdk {
      * @param cr a cairo context
      * @param rgba a {@code GdkRGBA}
      */
-    public static void cairoSetSourceRgba(@NotNull org.cairographics.Context cr, @NotNull org.gtk.gdk.RGBA rgba) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(rgba, "Parameter 'rgba' must not be null");
+    public static void cairoSetSourceRgba(org.cairographics.Context cr, org.gtk.gdk.RGBA rgba) {
         try {
             DowncallHandles.gdk_cairo_set_source_rgba.invokeExact(
                     cr.handle(),
@@ -4786,23 +4783,16 @@ public final class Gdk {
      * @param cancellable optional {@code GCancellable} object
      * @param callback callback to call when the operation is done
      */
-    public static void contentDeserializeAsync(@NotNull org.gtk.gio.InputStream stream, @NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Type type, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static void contentDeserializeAsync(org.gtk.gio.InputStream stream, java.lang.String mimeType, org.gtk.glib.Type type, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.gdk_content_deserialize_async.invokeExact(
                     stream.handle(),
-                    Interop.allocateNativeString(mimeType),
+                    Marshal.stringToAddress.marshal(mimeType, null),
                     type.getValue().longValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4817,9 +4807,7 @@ public final class Gdk {
      *   {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean contentDeserializeFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static boolean contentDeserializeFinish(org.gtk.gio.AsyncResult result, org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -4833,7 +4821,7 @@ public final class Gdk {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4848,16 +4836,15 @@ public final class Gdk {
      * @param string the string to parse
      * @return the content formats if {@code string} is valid
      */
-    public static @Nullable org.gtk.gdk.ContentFormats contentFormatsParse(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static @Nullable org.gtk.gdk.ContentFormats contentFormatsParse(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_content_formats_parse.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.ContentFormats(RESULT, Ownership.FULL);
+        return org.gtk.gdk.ContentFormats.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4865,22 +4852,16 @@ public final class Gdk {
      * @param mimeType the mime type which the function can deserialize from
      * @param type the type of objects that the function creates
      * @param deserialize the callback
+     * @param notify destroy notify for {@code data}
      */
-    public static void contentRegisterDeserializer(@NotNull java.lang.String mimeType, @NotNull org.gtk.glib.Type type, @NotNull org.gtk.gdk.ContentDeserializeFunc deserialize) {
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(deserialize, "Parameter 'deserialize' must not be null");
+    public static void contentRegisterDeserializer(java.lang.String mimeType, org.gtk.glib.Type type, org.gtk.gdk.ContentDeserializeFunc deserialize, org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gdk_content_register_deserializer.invokeExact(
-                    Interop.allocateNativeString(mimeType),
+                    Marshal.stringToAddress.marshal(mimeType, null),
                     type.getValue().longValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbContentDeserializeFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(deserialize)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) deserialize.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4891,22 +4872,16 @@ public final class Gdk {
      * @param type the type of objects that the function can serialize
      * @param mimeType the mime type to serialize to
      * @param serialize the callback
+     * @param notify destroy notify for {@code data}
      */
-    public static void contentRegisterSerializer(@NotNull org.gtk.glib.Type type, @NotNull java.lang.String mimeType, @NotNull org.gtk.gdk.ContentSerializeFunc serialize) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
-        java.util.Objects.requireNonNull(serialize, "Parameter 'serialize' must not be null");
+    public static void contentRegisterSerializer(org.gtk.glib.Type type, java.lang.String mimeType, org.gtk.gdk.ContentSerializeFunc serialize, org.gtk.glib.DestroyNotify notify) {
         try {
             DowncallHandles.gdk_content_register_serializer.invokeExact(
                     type.getValue().longValue(),
-                    Interop.allocateNativeString(mimeType),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbContentSerializeFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(serialize)),
-                    Interop.cbDestroyNotifySymbol());
+                    Marshal.stringToAddress.marshal(mimeType, null),
+                    (Addressable) serialize.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4927,23 +4902,16 @@ public final class Gdk {
      * @param cancellable optional {@code GCancellable} object
      * @param callback callback to call when the operation is done
      */
-    public static void contentSerializeAsync(@NotNull org.gtk.gio.OutputStream stream, @NotNull java.lang.String mimeType, @NotNull org.gtk.gobject.Value value, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(stream, "Parameter 'stream' must not be null");
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static void contentSerializeAsync(org.gtk.gio.OutputStream stream, java.lang.String mimeType, org.gtk.gobject.Value value, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.gdk_content_serialize_async.invokeExact(
                     stream.handle(),
-                    Interop.allocateNativeString(mimeType),
+                    Marshal.stringToAddress.marshal(mimeType, null),
                     value.handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gdk.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4956,8 +4924,7 @@ public final class Gdk {
      *   error occurred. In this case, {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static boolean contentSerializeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static boolean contentSerializeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -4970,7 +4937,7 @@ public final class Gdk {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4982,8 +4949,7 @@ public final class Gdk {
      * @param action a {@code GdkDragAction}
      * @return {@code true} if exactly one action was given
      */
-    public static boolean dragActionIsUnique(@NotNull org.gtk.gdk.DragAction action) {
-        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+    public static boolean dragActionIsUnique(org.gtk.gdk.DragAction action) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_drag_action_is_unique.invokeExact(
@@ -4991,7 +4957,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5008,10 +4974,7 @@ public final class Gdk {
      * @param angle return location for the relative angle between both events
      * @return {@code true} if the angle could be calculated.
      */
-    public static boolean eventsGetAngle(@NotNull org.gtk.gdk.Event event1, @NotNull org.gtk.gdk.Event event2, Out<Double> angle) {
-        java.util.Objects.requireNonNull(event1, "Parameter 'event1' must not be null");
-        java.util.Objects.requireNonNull(event2, "Parameter 'event2' must not be null");
-        java.util.Objects.requireNonNull(angle, "Parameter 'angle' must not be null");
+    public static boolean eventsGetAngle(org.gtk.gdk.Event event1, org.gtk.gdk.Event event2, Out<Double> angle) {
         MemorySegment anglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -5023,7 +4986,7 @@ public final class Gdk {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         angle.set(anglePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5037,12 +5000,8 @@ public final class Gdk {
      * @param y return location for the Y coordinate of the center
      * @return {@code true} if the center could be calculated.
      */
-    public static boolean eventsGetCenter(@NotNull org.gtk.gdk.Event event1, @NotNull org.gtk.gdk.Event event2, Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(event1, "Parameter 'event1' must not be null");
-        java.util.Objects.requireNonNull(event2, "Parameter 'event2' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static boolean eventsGetCenter(org.gtk.gdk.Event event1, org.gtk.gdk.Event event2, Out<Double> x, Out<Double> y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -5056,7 +5015,7 @@ public final class Gdk {
         }
         x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5069,10 +5028,7 @@ public final class Gdk {
      * @param distance return location for the distance
      * @return {@code true} if the distance could be calculated.
      */
-    public static boolean eventsGetDistance(@NotNull org.gtk.gdk.Event event1, @NotNull org.gtk.gdk.Event event2, Out<Double> distance) {
-        java.util.Objects.requireNonNull(event1, "Parameter 'event1' must not be null");
-        java.util.Objects.requireNonNull(event2, "Parameter 'event2' must not be null");
-        java.util.Objects.requireNonNull(distance, "Parameter 'distance' must not be null");
+    public static boolean eventsGetDistance(org.gtk.gdk.Event event1, org.gtk.gdk.Event event2, Out<Double> distance) {
         MemorySegment distancePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -5084,10 +5040,10 @@ public final class Gdk {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         distance.set(distancePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Quark glErrorQuark() {
+    public static org.gtk.glib.Quark glErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_gl_error_quark.invokeExact();
@@ -5106,16 +5062,15 @@ public final class Gdk {
      * @return An interned string for the canonicalized
      *   mime type or {@code null} if the string wasn't a valid mime type
      */
-    public static @Nullable java.lang.String internMimeType(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static @Nullable java.lang.String internMimeType(java.lang.String string) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_intern_mime_type.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5127,9 +5082,7 @@ public final class Gdk {
      * @param upper return location for uppercase version of {@code symbol}
      */
     public static void keyvalConvertCase(int symbol, Out<Integer> lower, Out<Integer> upper) {
-        java.util.Objects.requireNonNull(lower, "Parameter 'lower' must not be null");
         MemorySegment lowerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(upper, "Parameter 'upper' must not be null");
         MemorySegment upperPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_keyval_convert_case.invokeExact(
@@ -5153,12 +5106,11 @@ public final class Gdk {
      * @return the corresponding key value, or {@code GDK_KEY_VoidSymbol}
      *   if the key name is not a valid key
      */
-    public static int keyvalFromName(@NotNull java.lang.String keyvalName) {
-        java.util.Objects.requireNonNull(keyvalName, "Parameter 'keyvalName' must not be null");
+    public static int keyvalFromName(java.lang.String keyvalName) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_keyval_from_name.invokeExact(
-                    Interop.allocateNativeString(keyvalName));
+                    Marshal.stringToAddress.marshal(keyvalName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -5179,7 +5131,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5196,7 +5148,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -5217,7 +5169,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -5287,7 +5239,7 @@ public final class Gdk {
      * @param intrinsicHeight The intrinsic height to report. Can be 0 for no height.
      * @return a {@code GdkPaintable}
      */
-    public static @NotNull org.gtk.gdk.Paintable paintableNewEmpty(int intrinsicWidth, int intrinsicHeight) {
+    public static org.gtk.gdk.Paintable paintableNewEmpty(int intrinsicWidth, int intrinsicHeight) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_paintable_new_empty.invokeExact(
@@ -5296,7 +5248,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Paintable.PaintableImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gdk.Paintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Paintable.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5317,9 +5269,7 @@ public final class Gdk {
      * @param nRanges number of ranges in {@code index_ranges}, i.e. half the size of {@code index_ranges}
      * @return a clip region containing the given ranges
      */
-    public static @NotNull org.cairographics.Region pangoLayoutGetClipRegion(@NotNull org.pango.Layout layout, int xOrigin, int yOrigin, PointerInteger indexRanges, int nRanges) {
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
-        java.util.Objects.requireNonNull(indexRanges, "Parameter 'indexRanges' must not be null");
+    public static org.cairographics.Region pangoLayoutGetClipRegion(org.pango.Layout layout, int xOrigin, int yOrigin, PointerInteger indexRanges, int nRanges) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pango_layout_get_clip_region.invokeExact(
@@ -5331,7 +5281,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Region(RESULT, Ownership.FULL);
+        return org.cairographics.Region.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5358,9 +5308,7 @@ public final class Gdk {
      * @param nRanges number of ranges in {@code index_ranges}, i.e. half the size of {@code index_ranges}
      * @return a clip region containing the given ranges
      */
-    public static @NotNull org.cairographics.Region pangoLayoutLineGetClipRegion(@NotNull org.pango.LayoutLine line, int xOrigin, int yOrigin, @NotNull int[] indexRanges, int nRanges) {
-        java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
-        java.util.Objects.requireNonNull(indexRanges, "Parameter 'indexRanges' must not be null");
+    public static org.cairographics.Region pangoLayoutLineGetClipRegion(org.pango.LayoutLine line, int xOrigin, int yOrigin, int[] indexRanges, int nRanges) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pango_layout_line_get_clip_region.invokeExact(
@@ -5372,7 +5320,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Region(RESULT, Ownership.FULL);
+        return org.cairographics.Region.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5391,8 +5339,7 @@ public final class Gdk {
      * @return A newly-created pixbuf with a
      *   reference count of 1
      */
-    public static @Nullable org.gtk.gdkpixbuf.Pixbuf pixbufGetFromSurface(@NotNull org.cairographics.Surface surface, int srcX, int srcY, int width, int height) {
-        java.util.Objects.requireNonNull(surface, "Parameter 'surface' must not be null");
+    public static @Nullable org.gtk.gdkpixbuf.Pixbuf pixbufGetFromSurface(org.cairographics.Surface surface, int srcX, int srcY, int width, int height) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_from_surface.invokeExact(
@@ -5404,7 +5351,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdkpixbuf.Pixbuf(RESULT, Ownership.FULL);
+        return (org.gtk.gdkpixbuf.Pixbuf) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdkpixbuf.Pixbuf.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5416,8 +5363,7 @@ public final class Gdk {
      * @param texture a {@code GdkTexture}
      * @return a new {@code GdkPixbuf}
      */
-    public static @Nullable org.gtk.gdkpixbuf.Pixbuf pixbufGetFromTexture(@NotNull org.gtk.gdk.Texture texture) {
-        java.util.Objects.requireNonNull(texture, "Parameter 'texture' must not be null");
+    public static @Nullable org.gtk.gdkpixbuf.Pixbuf pixbufGetFromTexture(org.gtk.gdk.Texture texture) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_pixbuf_get_from_texture.invokeExact(
@@ -5425,7 +5371,7 @@ public final class Gdk {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdkpixbuf.Pixbuf(RESULT, Ownership.FULL);
+        return (org.gtk.gdkpixbuf.Pixbuf) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdkpixbuf.Pixbuf.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -5464,17 +5410,16 @@ public final class Gdk {
      * in order to take effect.
      * @param backends a comma-separated list of backends
      */
-    public static void setAllowedBackends(@NotNull java.lang.String backends) {
-        java.util.Objects.requireNonNull(backends, "Parameter 'backends' must not be null");
+    public static void setAllowedBackends(java.lang.String backends) {
         try {
             DowncallHandles.gdk_set_allowed_backends.invokeExact(
-                    Interop.allocateNativeString(backends));
+                    Marshal.stringToAddress.marshal(backends, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static @NotNull org.gtk.glib.Quark textureErrorQuark() {
+    public static org.gtk.glib.Quark textureErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_texture_error_quark.invokeExact();
@@ -5484,7 +5429,7 @@ public final class Gdk {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Type toplevelSizeGetType() {
+    public static org.gtk.glib.Type toplevelSizeGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_toplevel_size_get_type.invokeExact();
@@ -5511,7 +5456,7 @@ public final class Gdk {
         return RESULT;
     }
     
-    public static @NotNull org.gtk.glib.Quark vulkanErrorQuark() {
+    public static org.gtk.glib.Quark vulkanErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_vulkan_error_quark.invokeExact();

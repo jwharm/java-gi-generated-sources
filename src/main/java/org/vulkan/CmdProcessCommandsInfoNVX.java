@@ -40,8 +40,10 @@ public class CmdProcessCommandsInfoNVX extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CmdProcessCommandsInfoNVX(Addressable address, Ownership ownership) {
+    protected CmdProcessCommandsInfoNVX(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CmdProcessCommandsInfoNVX> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CmdProcessCommandsInfoNVX(input, ownership);
 }

@@ -21,7 +21,7 @@ import org.jetbrains.annotations.*;
  * The source and target, as well as their attributes, of a {@code GtkConstraint}
  * instance are immutable after creation.
  */
-public class Constraint extends org.gtk.gobject.Object {
+public class Constraint extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -43,36 +43,15 @@ public class Constraint extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Constraint(Addressable address, Ownership ownership) {
+    protected Constraint(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Constraint if its GType is a (or inherits from) "GtkConstraint".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Constraint} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkConstraint", a ClassCastException will be thrown.
-     */
-    public static Constraint castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Constraint.getType())) {
-            return new Constraint(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkConstraint");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Constraint> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Constraint(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.ConstraintTarget target, @NotNull org.gtk.gtk.ConstraintAttribute targetAttribute, @NotNull org.gtk.gtk.ConstraintRelation relation, @Nullable org.gtk.gtk.ConstraintTarget source, @NotNull org.gtk.gtk.ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
-        java.util.Objects.requireNonNull(targetAttribute, "Parameter 'targetAttribute' must not be null");
-        java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
-        java.util.Objects.requireNonNull(sourceAttribute, "Parameter 'sourceAttribute' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.ConstraintTarget target, org.gtk.gtk.ConstraintAttribute targetAttribute, org.gtk.gtk.ConstraintRelation relation, @Nullable org.gtk.gtk.ConstraintTarget source, org.gtk.gtk.ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_new.invokeExact(
                     (Addressable) (target == null ? MemoryAddress.NULL : target.handle()),
@@ -101,14 +80,12 @@ public class Constraint extends org.gtk.gobject.Object {
      * @param constant a constant factor to be added to {@code source_attribute}
      * @param strength the strength of the constraint
      */
-    public Constraint(@Nullable org.gtk.gtk.ConstraintTarget target, @NotNull org.gtk.gtk.ConstraintAttribute targetAttribute, @NotNull org.gtk.gtk.ConstraintRelation relation, @Nullable org.gtk.gtk.ConstraintTarget source, @NotNull org.gtk.gtk.ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
+    public Constraint(@Nullable org.gtk.gtk.ConstraintTarget target, org.gtk.gtk.ConstraintAttribute targetAttribute, org.gtk.gtk.ConstraintRelation relation, @Nullable org.gtk.gtk.ConstraintTarget source, org.gtk.gtk.ConstraintAttribute sourceAttribute, double multiplier, double constant, int strength) {
         super(constructNew(target, targetAttribute, relation, source, sourceAttribute, multiplier, constant, strength), Ownership.FULL);
     }
     
-    private static Addressable constructNewConstant(@Nullable org.gtk.gtk.ConstraintTarget target, @NotNull org.gtk.gtk.ConstraintAttribute targetAttribute, @NotNull org.gtk.gtk.ConstraintRelation relation, double constant, int strength) {
-        java.util.Objects.requireNonNull(targetAttribute, "Parameter 'targetAttribute' must not be null");
-        java.util.Objects.requireNonNull(relation, "Parameter 'relation' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewConstant(@Nullable org.gtk.gtk.ConstraintTarget target, org.gtk.gtk.ConstraintAttribute targetAttribute, org.gtk.gtk.ConstraintRelation relation, double constant, int strength) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_constraint_new_constant.invokeExact(
                     (Addressable) (target == null ? MemoryAddress.NULL : target.handle()),
@@ -132,8 +109,9 @@ public class Constraint extends org.gtk.gobject.Object {
      * @param strength the strength of the constraint
      * @return the newly created constraint
      */
-    public static Constraint newConstant(@Nullable org.gtk.gtk.ConstraintTarget target, @NotNull org.gtk.gtk.ConstraintAttribute targetAttribute, @NotNull org.gtk.gtk.ConstraintRelation relation, double constant, int strength) {
-        return new Constraint(constructNewConstant(target, targetAttribute, relation, constant, strength), Ownership.FULL);
+    public static Constraint newConstant(@Nullable org.gtk.gtk.ConstraintTarget target, org.gtk.gtk.ConstraintAttribute targetAttribute, org.gtk.gtk.ConstraintRelation relation, double constant, int strength) {
+        var RESULT = constructNewConstant(target, targetAttribute, relation, constant, strength);
+        return (org.gtk.gtk.Constraint) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Constraint.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -171,7 +149,7 @@ public class Constraint extends org.gtk.gobject.Object {
      * The order relation between the terms of the constraint.
      * @return a relation type
      */
-    public @NotNull org.gtk.gtk.ConstraintRelation getRelation() {
+    public org.gtk.gtk.ConstraintRelation getRelation() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_constraint_get_relation.invokeExact(
@@ -198,14 +176,14 @@ public class Constraint extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ConstraintTarget.ConstraintTargetImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ConstraintTarget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ConstraintTarget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves the attribute of the source to be read by the constraint.
      * @return the source's attribute
      */
-    public @NotNull org.gtk.gtk.ConstraintAttribute getSourceAttribute() {
+    public org.gtk.gtk.ConstraintAttribute getSourceAttribute() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_constraint_get_source_attribute.invokeExact(
@@ -247,14 +225,14 @@ public class Constraint extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.ConstraintTarget.ConstraintTargetImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.ConstraintTarget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.ConstraintTarget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves the attribute of the target to be set by the constraint.
      * @return the target's attribute
      */
-    public @NotNull org.gtk.gtk.ConstraintAttribute getTargetAttribute() {
+    public org.gtk.gtk.ConstraintAttribute getTargetAttribute() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_constraint_get_target_attribute.invokeExact(
@@ -278,7 +256,7 @@ public class Constraint extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -294,7 +272,7 @@ public class Constraint extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -310,14 +288,14 @@ public class Constraint extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_constraint_get_type.invokeExact();
@@ -326,38 +304,40 @@ public class Constraint extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Constraint.Builder} object constructs a {@link Constraint} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Constraint.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Constraint.Build} object constructs a {@link Constraint} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Constraint} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Constraint} using {@link Constraint#castFrom}.
+         * {@link Constraint}.
          * @return A new instance of {@code Constraint} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Constraint construct() {
-            return Constraint.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Constraint.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Constraint build() {
+            return (Constraint) org.gtk.gobject.GObject.newWithProperties(
+                Constraint.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -366,7 +346,7 @@ public class Constraint extends org.gtk.gobject.Object {
          * @param constant The value for the {@code constant} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setConstant(double constant) {
+        public Builder setConstant(double constant) {
             names.add("constant");
             values.add(org.gtk.gobject.Value.create(constant));
             return this;
@@ -378,7 +358,7 @@ public class Constraint extends org.gtk.gobject.Object {
          * @param multiplier The value for the {@code multiplier} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMultiplier(double multiplier) {
+        public Builder setMultiplier(double multiplier) {
             names.add("multiplier");
             values.add(org.gtk.gobject.Value.create(multiplier));
             return this;
@@ -389,7 +369,7 @@ public class Constraint extends org.gtk.gobject.Object {
          * @param relation The value for the {@code relation} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRelation(org.gtk.gtk.ConstraintRelation relation) {
+        public Builder setRelation(org.gtk.gtk.ConstraintRelation relation) {
             names.add("relation");
             values.add(org.gtk.gobject.Value.create(relation));
             return this;
@@ -404,7 +384,7 @@ public class Constraint extends org.gtk.gobject.Object {
          * @param source The value for the {@code source} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSource(org.gtk.gtk.ConstraintTarget source) {
+        public Builder setSource(org.gtk.gtk.ConstraintTarget source) {
             names.add("source");
             values.add(org.gtk.gobject.Value.create(source));
             return this;
@@ -416,7 +396,7 @@ public class Constraint extends org.gtk.gobject.Object {
          * @param sourceAttribute The value for the {@code source-attribute} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSourceAttribute(org.gtk.gtk.ConstraintAttribute sourceAttribute) {
+        public Builder setSourceAttribute(org.gtk.gtk.ConstraintAttribute sourceAttribute) {
             names.add("source-attribute");
             values.add(org.gtk.gobject.Value.create(sourceAttribute));
             return this;
@@ -431,7 +411,7 @@ public class Constraint extends org.gtk.gobject.Object {
          * @param strength The value for the {@code strength} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStrength(int strength) {
+        public Builder setStrength(int strength) {
             names.add("strength");
             values.add(org.gtk.gobject.Value.create(strength));
             return this;
@@ -446,7 +426,7 @@ public class Constraint extends org.gtk.gobject.Object {
          * @param target The value for the {@code target} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTarget(org.gtk.gtk.ConstraintTarget target) {
+        public Builder setTarget(org.gtk.gtk.ConstraintTarget target) {
             names.add("target");
             values.add(org.gtk.gobject.Value.create(target));
             return this;
@@ -457,7 +437,7 @@ public class Constraint extends org.gtk.gobject.Object {
          * @param targetAttribute The value for the {@code target-attribute} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTargetAttribute(org.gtk.gtk.ConstraintAttribute targetAttribute) {
+        public Builder setTargetAttribute(org.gtk.gtk.ConstraintAttribute targetAttribute) {
             names.add("target-attribute");
             values.add(org.gtk.gobject.Value.create(targetAttribute));
             return this;

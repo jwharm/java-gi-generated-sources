@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * through the provided API
  * @version 1.18
  */
-public class VulkanDisplay extends org.gstreamer.gst.Object {
+public class VulkanDisplay extends org.gstreamer.gst.GstObject {
     
     static {
         GstVulkan.javagi$ensureInitialized();
@@ -18,25 +18,23 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanDisplay";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("object"),
-        Interop.valueLayout.C_INT.withName("type"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("instance"),
-        Interop.valueLayout.ADDRESS.withName("windows"),
-        Interop.valueLayout.ADDRESS.withName("main_context"),
-        Interop.valueLayout.ADDRESS.withName("main_loop"),
-        Interop.valueLayout.ADDRESS.withName("event_source"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("object"),
+            Interop.valueLayout.C_INT.withName("type"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("instance"),
+            Interop.valueLayout.ADDRESS.withName("windows"),
+            Interop.valueLayout.ADDRESS.withName("main_context"),
+            Interop.valueLayout.ADDRESS.withName("main_loop"),
+            Interop.valueLayout.ADDRESS.withName("event_source"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -44,41 +42,26 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
      * <p>
      * Because VulkanDisplay is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanDisplay(Addressable address, Ownership ownership) {
+    protected VulkanDisplay(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to VulkanDisplay if its GType is a (or inherits from) "GstVulkanDisplay".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code VulkanDisplay} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstVulkanDisplay", a ClassCastException will be thrown.
-     */
-    public static VulkanDisplay castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), VulkanDisplay.getType())) {
-            return new VulkanDisplay(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstVulkanDisplay");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanDisplay> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanDisplay(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.vulkan.VulkanInstance instance) {
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.vulkan.VulkanInstance instance) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_new.invokeExact(
                     instance.handle());
@@ -88,14 +71,12 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public VulkanDisplay(@NotNull org.gstreamer.vulkan.VulkanInstance instance) {
+    public VulkanDisplay(org.gstreamer.vulkan.VulkanInstance instance) {
         super(constructNew(instance), Ownership.FULL);
     }
     
-    private static Addressable constructNewWithType(@NotNull org.gstreamer.vulkan.VulkanInstance instance, @NotNull org.gstreamer.vulkan.VulkanDisplayType type) {
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithType(org.gstreamer.vulkan.VulkanInstance instance, org.gstreamer.vulkan.VulkanDisplayType type) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_new_with_type.invokeExact(
                     instance.handle(),
@@ -106,11 +87,12 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public static VulkanDisplay newWithType(@NotNull org.gstreamer.vulkan.VulkanInstance instance, @NotNull org.gstreamer.vulkan.VulkanDisplayType type) {
-        return new VulkanDisplay(constructNewWithType(instance, type), Ownership.FULL);
+    public static VulkanDisplay newWithType(org.gstreamer.vulkan.VulkanInstance instance, org.gstreamer.vulkan.VulkanDisplayType type) {
+        var RESULT = constructNewWithType(instance, type);
+        return (org.gstreamer.vulkan.VulkanDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDisplay.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.vulkan.VulkanWindow createWindow() {
+    public org.gstreamer.vulkan.VulkanWindow createWindow() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_create_window.invokeExact(
@@ -118,7 +100,7 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanWindow(RESULT, Ownership.FULL);
+        return (org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -129,22 +111,17 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
      * @return The first {@link VulkanWindow} that causes a match
      *          from {@code compare_func}
      */
-    public @NotNull org.gstreamer.vulkan.VulkanWindow findWindow(@NotNull org.gtk.glib.CompareFunc compareFunc) {
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public org.gstreamer.vulkan.VulkanWindow findWindow(org.gtk.glib.CompareFunc compareFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_display_find_window.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(compareFunc)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstVulkan.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) compareFunc.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanWindow(RESULT, Ownership.FULL);
+        return (org.gstreamer.vulkan.VulkanWindow) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanWindow.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     public @Nullable java.lang.foreign.MemoryAddress getHandle() {
@@ -158,7 +135,7 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
         return RESULT;
     }
     
-    public @NotNull org.gstreamer.vulkan.VulkanDisplayType getHandleType() {
+    public org.gstreamer.vulkan.VulkanDisplayType getHandleType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_display_get_handle_type.invokeExact(
@@ -169,8 +146,7 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
         return new org.gstreamer.vulkan.VulkanDisplayType(RESULT);
     }
     
-    public boolean removeWindow(@NotNull org.gstreamer.vulkan.VulkanWindow window) {
-        java.util.Objects.requireNonNull(window, "Parameter 'window' must not be null");
+    public boolean removeWindow(org.gstreamer.vulkan.VulkanWindow window) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_display_remove_window.invokeExact(
@@ -179,14 +155,14 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_vulkan_display_get_type.invokeExact();
@@ -205,8 +181,7 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
      * @return the default {@link VulkanDisplayType} {@link VulkanInstance} will choose
      *          on creation
      */
-    public static @NotNull org.gstreamer.vulkan.VulkanDisplayType chooseType(@NotNull org.gstreamer.vulkan.VulkanInstance instance) {
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
+    public static org.gstreamer.vulkan.VulkanDisplayType chooseType(org.gstreamer.vulkan.VulkanInstance instance) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_display_choose_type.invokeExact(
@@ -227,9 +202,7 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
      * @param display the {@link VulkanDisplay}
      * @return whether {@code query} was responded to with {@code display}
      */
-    public static boolean handleContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Query query, @Nullable org.gstreamer.vulkan.VulkanDisplay display) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public static boolean handleContextQuery(org.gstreamer.gst.Element element, org.gstreamer.gst.Query query, @Nullable org.gstreamer.vulkan.VulkanDisplay display) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_display_handle_context_query.invokeExact(
@@ -239,7 +212,7 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -249,9 +222,7 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
      * @param display a {@link VulkanDisplay}
      * @return whether {@code display} contains a valid {@link VulkanDisplay}
      */
-    public static boolean runContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull Out<org.gstreamer.vulkan.VulkanDisplay> display) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public static boolean runContextQuery(org.gstreamer.gst.Element element, Out<org.gstreamer.vulkan.VulkanDisplay> display) {
         MemorySegment displayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -261,41 +232,43 @@ public class VulkanDisplay extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        display.set(new org.gstreamer.vulkan.VulkanDisplay(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        display.set((org.gstreamer.vulkan.VulkanDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.vulkan.VulkanDisplay.fromAddress).marshal(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
-
+    
+    /**
+     * A {@link VulkanDisplay.Builder} object constructs a {@link VulkanDisplay} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link VulkanDisplay.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link VulkanDisplay.Build} object constructs a {@link VulkanDisplay} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link VulkanDisplay} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link VulkanDisplay} using {@link VulkanDisplay#castFrom}.
+         * {@link VulkanDisplay}.
          * @return A new instance of {@code VulkanDisplay} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanDisplay construct() {
-            return VulkanDisplay.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    VulkanDisplay.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public VulkanDisplay build() {
+            return (VulkanDisplay) org.gtk.gobject.GObject.newWithProperties(
+                VulkanDisplay.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

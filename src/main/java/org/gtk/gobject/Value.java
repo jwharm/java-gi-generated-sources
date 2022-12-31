@@ -20,15 +20,10 @@ import org.jetbrains.annotations.*;
 public class Value extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GValue";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("g_type"),
-        MemoryLayout.sequenceLayout(2, org.gtk.gobject.ValueDataUnion.getMemoryLayout()).withName("data")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -36,7 +31,10 @@ public class Value extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("g_type"),
+            MemoryLayout.sequenceLayout(2, org.gtk.gobject.ValueDataUnion.getMemoryLayout()).withName("data")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -53,21 +51,43 @@ public class Value extends Struct {
     }
     
     /**
+     * Get the value of the field {@code data}
+     * @return The value of the field {@code data}
+     */
+    public org.gtk.gobject.ValueDataUnion[] getData() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gtk.gobject.ValueDataUnion>(RESULT, org.gtk.gobject.ValueDataUnion.fromAddress).toArray((int) 2, org.gtk.gobject.ValueDataUnion.class);
+    }
+    
+    /**
+     * Change the value of the field {@code data}
+     * @param data The new value of the field {@code data}
+     */
+    public void setData(org.gtk.gobject.ValueDataUnion[] data) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("data"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+    }
+    
+    /**
      * Create a Value proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Value(Addressable address, Ownership ownership) {
+    protected Value(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Value> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Value(input, ownership);
     
     /**
      * Copies the value of {@code src_value} into {@code dest_value}.
      * @param destValue An initialized {@link Value} structure of the same type as {@code src_value}.
      */
-    public void copy(@NotNull org.gtk.gobject.Value destValue) {
-        java.util.Objects.requireNonNull(destValue, "Parameter 'destValue' must not be null");
+    public void copy(org.gtk.gobject.Value destValue) {
         try {
             DowncallHandles.g_value_copy.invokeExact(
                     handle(),
@@ -102,7 +122,7 @@ public class Value extends Struct {
      * @return object content of {@code value},
      *          should be unreferenced when no longer needed.
      */
-    public @NotNull org.gtk.gobject.Object dupObject() {
+    public org.gtk.gobject.GObject dupObject() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_dup_object.invokeExact(
@@ -110,7 +130,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -119,7 +139,7 @@ public class Value extends Struct {
      * @return {@link ParamSpec} content of {@code value}, should be
      *     unreferenced when no longer needed.
      */
-    public @NotNull org.gtk.gobject.ParamSpec dupParam() {
+    public org.gtk.gobject.ParamSpec dupParam() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_dup_param.invokeExact(
@@ -127,14 +147,14 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get a copy the contents of a {@code G_TYPE_STRING} {@link Value}.
      * @return a newly allocated copy of the string content of {@code value}
      */
-    public @NotNull java.lang.String dupString() {
+    public java.lang.String dupString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_dup_string.invokeExact(
@@ -142,7 +162,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -159,7 +179,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.FULL);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -175,7 +195,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -190,7 +210,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -290,9 +310,9 @@ public class Value extends Struct {
     
     /**
      * Get the contents of a {@code G_TYPE_GTYPE} {@link Value}.
-     * @return the {@link Type} stored in {@code value}
+     * @return the {@link org.gtk.glib.Type} stored in {@code value}
      */
-    public @NotNull org.gtk.glib.Type getGtype() {
+    public org.gtk.glib.Type getGtype() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_value_get_gtype.invokeExact(
@@ -352,7 +372,7 @@ public class Value extends Struct {
      * Get the contents of a {@code G_TYPE_OBJECT} derived {@link Value}.
      * @return object contents of {@code value}
      */
-    public @NotNull org.gtk.gobject.Object getObject() {
+    public org.gtk.gobject.GObject getObject() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_get_object.invokeExact(
@@ -360,14 +380,14 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the contents of a {@code G_TYPE_PARAM} {@link Value}.
      * @return {@link ParamSpec} content of {@code value}
      */
-    public @NotNull org.gtk.gobject.ParamSpec getParam() {
+    public org.gtk.gobject.ParamSpec getParam() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_get_param.invokeExact(
@@ -375,7 +395,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.ParamSpec(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.ParamSpec) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.ParamSpec.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -412,7 +432,7 @@ public class Value extends Struct {
      * Get the contents of a {@code G_TYPE_STRING} {@link Value}.
      * @return string content of {@code value}
      */
-    public @NotNull java.lang.String getString() {
+    public java.lang.String getString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_get_string.invokeExact(
@@ -420,7 +440,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -495,7 +515,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -503,8 +523,7 @@ public class Value extends Struct {
      * @param gType Type the {@link Value} should hold values of.
      * @return the {@link Value} structure that has been passed in
      */
-    public @NotNull org.gtk.gobject.Value init(@NotNull org.gtk.glib.Type gType) {
-        java.util.Objects.requireNonNull(gType, "Parameter 'gType' must not be null");
+    public org.gtk.gobject.Value init(org.gtk.glib.Type gType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_init.invokeExact(
@@ -513,7 +532,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -526,8 +545,7 @@ public class Value extends Struct {
      * g_value_init() and g_value_set_instance().
      * @param instance the instance
      */
-    public void initFromInstance(@NotNull org.gtk.gobject.TypeInstance instance) {
-        java.util.Objects.requireNonNull(instance, "Parameter 'instance' must not be null");
+    public void initFromInstance(org.gtk.gobject.TypeInstance instance) {
         try {
             DowncallHandles.g_value_init_from_instance.invokeExact(
                     handle(),
@@ -559,7 +577,7 @@ public class Value extends Struct {
      * (as if the value had just been initialized).
      * @return the {@link Value} structure that has been passed in
      */
-    public @NotNull org.gtk.gobject.Value reset() {
+    public org.gtk.gobject.Value reset() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_value_reset.invokeExact(
@@ -567,7 +585,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.FULL);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -578,7 +596,7 @@ public class Value extends Struct {
         try {
             DowncallHandles.g_value_set_boolean.invokeExact(
                     handle(),
-                    vBoolean ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(vBoolean, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -688,10 +706,9 @@ public class Value extends Struct {
     
     /**
      * Set the contents of a {@code G_TYPE_GTYPE} {@link Value} to {@code v_gtype}.
-     * @param vGtype {@link Type} to be set
+     * @param vGtype {@link org.gtk.glib.Type} to be set
      */
-    public void setGtype(@NotNull org.gtk.glib.Type vGtype) {
-        java.util.Objects.requireNonNull(vGtype, "Parameter 'vGtype' must not be null");
+    public void setGtype(org.gtk.glib.Type vGtype) {
         try {
             DowncallHandles.g_value_set_gtype.invokeExact(
                     handle(),
@@ -754,7 +771,7 @@ public class Value extends Struct {
         try {
             DowncallHandles.g_value_set_interned_string.invokeExact(
                     handle(),
-                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(vString, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -788,7 +805,7 @@ public class Value extends Struct {
      * the {@link Value} still exists).
      * @param vObject object value to be set
      */
-    public void setObject(@Nullable org.gtk.gobject.Object vObject) {
+    public void setObject(@Nullable org.gtk.gobject.GObject vObject) {
         try {
             DowncallHandles.g_value_set_object.invokeExact(
                     handle(),
@@ -902,7 +919,7 @@ public class Value extends Struct {
         try {
             DowncallHandles.g_value_set_static_string.invokeExact(
                     handle(),
-                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(vString, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -916,7 +933,7 @@ public class Value extends Struct {
         try {
             DowncallHandles.g_value_set_string.invokeExact(
                     handle(),
-                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(vString, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -932,7 +949,7 @@ public class Value extends Struct {
         try {
             DowncallHandles.g_value_set_string_take_ownership.invokeExact(
                     handle(),
-                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(vString, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1069,7 +1086,7 @@ public class Value extends Struct {
         try {
             DowncallHandles.g_value_take_string.invokeExact(
                     handle(),
-                    (Addressable) (vString == null ? MemoryAddress.NULL : Interop.allocateNativeString(vString)));
+                    (Addressable) (vString == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(vString, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1113,8 +1130,7 @@ public class Value extends Struct {
      * @return Whether a transformation rule was found and could be applied.
      *  Upon failing transformations, {@code dest_value} is left untouched.
      */
-    public boolean transform(@NotNull org.gtk.gobject.Value destValue) {
-        java.util.Objects.requireNonNull(destValue, "Parameter 'destValue' must not be null");
+    public boolean transform(org.gtk.gobject.Value destValue) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_value_transform.invokeExact(
@@ -1123,7 +1139,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1150,8 +1166,15 @@ public class Value extends Struct {
      * @param transformFunc a function which transforms values of type {@code src_type}
      *  into value of type {@code dest_type}
      */
-    public static void registerTransformFunc(@NotNull org.gtk.glib.Type srcType, @NotNull org.gtk.glib.Type destType, @NotNull org.gtk.gobject.ValueTransform transformFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void registerTransformFunc(org.gtk.glib.Type srcType, org.gtk.glib.Type destType, org.gtk.gobject.ValueTransform transformFunc) {
+        try {
+            DowncallHandles.g_value_register_transform_func.invokeExact(
+                    srcType.getValue().longValue(),
+                    destType.getValue().longValue(),
+                    (Addressable) transformFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -1161,9 +1184,7 @@ public class Value extends Struct {
      * @param destType destination type for copying.
      * @return {@code true} if g_value_copy() is possible with {@code src_type} and {@code dest_type}.
      */
-    public static boolean typeCompatible(@NotNull org.gtk.glib.Type srcType, @NotNull org.gtk.glib.Type destType) {
-        java.util.Objects.requireNonNull(srcType, "Parameter 'srcType' must not be null");
-        java.util.Objects.requireNonNull(destType, "Parameter 'destType' must not be null");
+    public static boolean typeCompatible(org.gtk.glib.Type srcType, org.gtk.glib.Type destType) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_value_type_compatible.invokeExact(
@@ -1172,7 +1193,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1184,9 +1205,7 @@ public class Value extends Struct {
      * @param destType Target type.
      * @return {@code true} if the transformation is possible, {@code false} otherwise.
      */
-    public static boolean typeTransformable(@NotNull org.gtk.glib.Type srcType, @NotNull org.gtk.glib.Type destType) {
-        java.util.Objects.requireNonNull(srcType, "Parameter 'srcType' must not be null");
-        java.util.Objects.requireNonNull(destType, "Parameter 'destType' must not be null");
+    public static boolean typeTransformable(org.gtk.glib.Type srcType, org.gtk.glib.Type destType) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_value_type_transformable.invokeExact(
@@ -1195,7 +1214,7 @@ public class Value extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -1628,6 +1647,51 @@ public class Value extends Struct {
     }
     
     /**
+     * A {@link Value.Builder} object constructs a {@link Value} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Value.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
+    /**
+     * Inner class implementing a builder pattern to construct 
+     * a struct and set its values.
+     */
+    public static class Builder {
+        
+        private final Value struct;
+        
+        private Builder() {
+            struct = Value.allocate();
+        }
+        
+         /**
+         * Finish building the {@link Value} struct.
+         * @return A new instance of {@code Value} with the fields 
+         *         that were set in the Builder object.
+         */
+        public Value build() {
+            return struct;
+        }
+        
+        public Builder setGType(org.gtk.glib.Type gType) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gType == null ? MemoryAddress.NULL : gType.getValue().longValue()));
+            return this;
+        }
+        
+        public Builder setData(org.gtk.gobject.ValueDataUnion[] data) {
+            getMemoryLayout()
+                .varHandle(MemoryLayout.PathElement.groupElement("data"))
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
+            return this;
+        }
+    }
+    /**
      * Create a {@link Value} of with the provided {@code boolean} value.
      * @param  arg The initial value to set
      * @return The new {@link Value}
@@ -1736,11 +1800,11 @@ public class Value extends Struct {
     }
     
     /**
-     * Create a {@link Value} of with the provided {@code org.gtk.gobject.Object} value.
+     * Create a {@link Value} of with the provided {@code org.gtk.gobject.GObject} value.
      * @param  arg The initial value to set
      * @return The new {@link Value}
      */
-    public static Value create(org.gtk.gobject.Object arg) {
+    public static Value create(org.gtk.gobject.GObject arg) {
         Value v = allocate();
         v.init(org.gtk.glib.Type.G_TYPE_OBJECT);
         v.setObject(arg);
@@ -1754,7 +1818,7 @@ public class Value extends Struct {
      */
     public static Value create(org.gtk.glib.Type arg) {
         Value v = allocate();
-        v.init(org.gtk.gobject.GObject.gtypeGetType());
+        v.init(org.gtk.gobject.GObjects.gtypeGetType());
         v.setGtype(arg);
         return v;
     }
@@ -1803,49 +1867,7 @@ public class Value extends Struct {
     public static Value create(Proxy arg) {
         Value v = allocate();
         v.init(org.gtk.glib.Type.G_TYPE_OBJECT);
-        v.setObject((org.gtk.gobject.Object) arg);
+        v.setObject((org.gtk.gobject.GObject) arg);
         return v;
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * a struct and set its values.
-     */
-    public static class Build {
-        
-        private Value struct;
-        
-         /**
-         * A {@link Value.Build} object constructs a {@link Value} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-            struct = Value.allocate();
-        }
-        
-         /**
-         * Finish building the {@link Value} struct.
-         * @return A new instance of {@code Value} with the fields 
-         *         that were set in the Build object.
-         */
-        public Value construct() {
-            return struct;
-        }
-        
-        public Build setGType(org.gtk.glib.Type gType) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("g_type"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gType == null ? MemoryAddress.NULL : gType.getValue().longValue()));
-            return this;
-        }
-        
-        public Build setData(org.gtk.gobject.ValueDataUnion[] data) {
-            getMemoryLayout()
-                .varHandle(MemoryLayout.PathElement.groupElement("data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : Interop.allocateNativeArray(data, false)));
-            return this;
-        }
     }
 }

@@ -17,17 +17,15 @@ public class DtlsClientConnectionInterface extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GDtlsClientConnectionInterface";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,9 +45,19 @@ public class DtlsClientConnectionInterface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface gIface$get() {
+    public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code g_iface}
+     * @param gIface The new value of the field {@code g_iface}
+     */
+    public void setGIface(org.gtk.gobject.TypeInterface gIface) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
     }
     
     /**
@@ -57,35 +65,41 @@ public class DtlsClientConnectionInterface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DtlsClientConnectionInterface(Addressable address, Ownership ownership) {
+    protected DtlsClientConnectionInterface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DtlsClientConnectionInterface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DtlsClientConnectionInterface(input, ownership);
+    
+    /**
+     * A {@link DtlsClientConnectionInterface.Builder} object constructs a {@link DtlsClientConnectionInterface} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DtlsClientConnectionInterface.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DtlsClientConnectionInterface struct;
+        private final DtlsClientConnectionInterface struct;
         
-         /**
-         * A {@link DtlsClientConnectionInterface.Build} object constructs a {@link DtlsClientConnectionInterface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DtlsClientConnectionInterface.allocate();
         }
         
          /**
          * Finish building the {@link DtlsClientConnectionInterface} struct.
          * @return A new instance of {@code DtlsClientConnectionInterface} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DtlsClientConnectionInterface construct() {
+        public DtlsClientConnectionInterface build() {
             return struct;
         }
         
@@ -94,7 +108,7 @@ public class DtlsClientConnectionInterface extends Struct {
          * @param gIface The value for the {@code gIface} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
+        public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));

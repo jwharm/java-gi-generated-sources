@@ -25,5 +25,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface TaskThreadFunc {
-        void onTaskThreadFunc(@NotNull org.gtk.gio.Task task, @NotNull org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.Cancellable cancellable);
+    void run(org.gtk.gio.Task task, org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.Cancellable cancellable);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress task, MemoryAddress sourceObject, MemoryAddress taskData, MemoryAddress cancellable) {
+        run((org.gtk.gio.Task) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(task)), org.gtk.gio.Task.fromAddress).marshal(task, Ownership.NONE), (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(sourceObject)), org.gtk.gobject.GObject.fromAddress).marshal(sourceObject, Ownership.NONE), (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(cancellable)), org.gtk.gio.Cancellable.fromAddress).marshal(cancellable, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(TaskThreadFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

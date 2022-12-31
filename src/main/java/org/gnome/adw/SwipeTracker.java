@@ -18,7 +18,7 @@ import org.jetbrains.annotations.*;
  * direction.
  * @version 1.0
  */
-public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.Orientable {
+public class SwipeTracker extends org.gtk.gobject.GObject implements org.gtk.gtk.Orientable {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -40,34 +40,15 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SwipeTracker(Addressable address, Ownership ownership) {
+    protected SwipeTracker(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SwipeTracker if its GType is a (or inherits from) "AdwSwipeTracker".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SwipeTracker} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwSwipeTracker", a ClassCastException will be thrown.
-     */
-    public static SwipeTracker castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SwipeTracker.getType())) {
-            return new SwipeTracker(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwSwipeTracker");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SwipeTracker> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SwipeTracker(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gnome.adw.Swipeable swipeable) {
-        java.util.Objects.requireNonNull(swipeable, "Parameter 'swipeable' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gnome.adw.Swipeable swipeable) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_swipe_tracker_new.invokeExact(
                     swipeable.handle());
@@ -81,7 +62,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * Creates a new {@code AdwSwipeTracker} for {@code widget}.
      * @param swipeable a widget to add the tracker on
      */
-    public SwipeTracker(@NotNull org.gnome.adw.Swipeable swipeable) {
+    public SwipeTracker(org.gnome.adw.Swipeable swipeable) {
         super(constructNew(swipeable), Ownership.FULL);
     }
     
@@ -97,7 +78,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -112,7 +93,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -127,7 +108,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -142,14 +123,14 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the widget {@code self} is attached to.
      * @return the swipeable widget
      */
-    public @NotNull org.gnome.adw.Swipeable getSwipeable() {
+    public org.gnome.adw.Swipeable getSwipeable() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_swipe_tracker_get_swipeable.invokeExact(
@@ -157,7 +138,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.Swipeable.SwipeableImpl(RESULT, Ownership.NONE);
+        return (org.gnome.adw.Swipeable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.Swipeable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -171,7 +152,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         try {
             DowncallHandles.adw_swipe_tracker_set_allow_long_swipes.invokeExact(
                     handle(),
-                    allowLongSwipes ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(allowLongSwipes, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -185,7 +166,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         try {
             DowncallHandles.adw_swipe_tracker_set_allow_mouse_drag.invokeExact(
                     handle(),
-                    allowMouseDrag ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(allowMouseDrag, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -202,7 +183,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         try {
             DowncallHandles.adw_swipe_tracker_set_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -219,7 +200,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
         try {
             DowncallHandles.adw_swipe_tracker_set_reversed.invokeExact(
                     handle(),
-                    reversed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(reversed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -246,7 +227,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_swipe_tracker_get_type.invokeExact();
@@ -258,7 +239,18 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface BeginSwipe {
-        void signalReceived(SwipeTracker sourceSwipeTracker);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSwipeTracker) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(BeginSwipe.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -270,16 +262,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public Signal<SwipeTracker.BeginSwipe> onBeginSwipe(SwipeTracker.BeginSwipe handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("begin-swipe"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerBeginSwipe",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SwipeTracker.BeginSwipe>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("begin-swipe"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -287,7 +271,18 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface EndSwipe {
-        void signalReceived(SwipeTracker sourceSwipeTracker, double velocity, double to);
+        void run(double velocity, double to);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSwipeTracker, double velocity, double to) {
+            run(velocity, to);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndSwipe.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -303,16 +298,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public Signal<SwipeTracker.EndSwipe> onEndSwipe(SwipeTracker.EndSwipe handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("end-swipe"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerEndSwipe",
-                        MethodType.methodType(void.class, MemoryAddress.class, double.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SwipeTracker.EndSwipe>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("end-swipe"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -320,7 +307,18 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface Prepare {
-        void signalReceived(SwipeTracker sourceSwipeTracker, @NotNull org.gnome.adw.NavigationDirection direction);
+        void run(org.gnome.adw.NavigationDirection direction);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSwipeTracker, int direction) {
+            run(org.gnome.adw.NavigationDirection.of(direction));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Prepare.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -334,16 +332,8 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public Signal<SwipeTracker.Prepare> onPrepare(SwipeTracker.Prepare handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("prepare"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerPrepare",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SwipeTracker.Prepare>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("prepare"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -351,7 +341,18 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     
     @FunctionalInterface
     public interface UpdateSwipe {
-        void signalReceived(SwipeTracker sourceSwipeTracker, double progress);
+        void run(double progress);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSwipeTracker, double progress) {
+            run(progress);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UpdateSwipe.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -362,52 +363,46 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
     public Signal<SwipeTracker.UpdateSwipe> onUpdateSwipe(SwipeTracker.UpdateSwipe handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("update-swipe"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SwipeTracker.Callbacks.class, "signalSwipeTrackerUpdateSwipe",
-                        MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SwipeTracker.UpdateSwipe>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("update-swipe"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link SwipeTracker.Builder} object constructs a {@link SwipeTracker} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SwipeTracker.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SwipeTracker.Build} object constructs a {@link SwipeTracker} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SwipeTracker} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SwipeTracker} using {@link SwipeTracker#castFrom}.
+         * {@link SwipeTracker}.
          * @return A new instance of {@code SwipeTracker} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SwipeTracker construct() {
-            return SwipeTracker.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SwipeTracker.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SwipeTracker build() {
+            return (SwipeTracker) org.gtk.gobject.GObject.newWithProperties(
+                SwipeTracker.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -419,7 +414,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
          * @param allowLongSwipes The value for the {@code allow-long-swipes} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllowLongSwipes(boolean allowLongSwipes) {
+        public Builder setAllowLongSwipes(boolean allowLongSwipes) {
             names.add("allow-long-swipes");
             values.add(org.gtk.gobject.Value.create(allowLongSwipes));
             return this;
@@ -430,7 +425,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
          * @param allowMouseDrag The value for the {@code allow-mouse-drag} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllowMouseDrag(boolean allowMouseDrag) {
+        public Builder setAllowMouseDrag(boolean allowMouseDrag) {
             names.add("allow-mouse-drag");
             values.add(org.gtk.gobject.Value.create(allowMouseDrag));
             return this;
@@ -444,7 +439,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
          * @param enabled The value for the {@code enabled} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnabled(boolean enabled) {
+        public Builder setEnabled(boolean enabled) {
             names.add("enabled");
             values.add(org.gtk.gobject.Value.create(enabled));
             return this;
@@ -458,7 +453,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
          * @param reversed The value for the {@code reversed} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReversed(boolean reversed) {
+        public Builder setReversed(boolean reversed) {
             names.add("reversed");
             values.add(org.gtk.gobject.Value.create(reversed));
             return this;
@@ -469,7 +464,7 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
          * @param swipeable The value for the {@code swipeable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSwipeable(org.gnome.adw.Swipeable swipeable) {
+        public Builder setSwipeable(org.gnome.adw.Swipeable swipeable) {
             names.add("swipeable");
             values.add(org.gtk.gobject.Value.create(swipeable));
             return this;
@@ -549,32 +544,5 @@ public class SwipeTracker extends org.gtk.gobject.Object implements org.gtk.gtk.
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalSwipeTrackerBeginSwipe(MemoryAddress sourceSwipeTracker, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SwipeTracker.BeginSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(sourceSwipeTracker, Ownership.NONE));
-        }
-        
-        public static void signalSwipeTrackerEndSwipe(MemoryAddress sourceSwipeTracker, double velocity, double to, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SwipeTracker.EndSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(sourceSwipeTracker, Ownership.NONE), velocity, to);
-        }
-        
-        public static void signalSwipeTrackerPrepare(MemoryAddress sourceSwipeTracker, int direction, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SwipeTracker.Prepare) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(sourceSwipeTracker, Ownership.NONE), org.gnome.adw.NavigationDirection.of(direction));
-        }
-        
-        public static void signalSwipeTrackerUpdateSwipe(MemoryAddress sourceSwipeTracker, double progress, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SwipeTracker.UpdateSwipe) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SwipeTracker(sourceSwipeTracker, Ownership.NONE), progress);
-        }
     }
 }

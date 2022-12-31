@@ -40,8 +40,10 @@ public class QueryControlFlags extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public QueryControlFlags(Addressable address, Ownership ownership) {
+    protected QueryControlFlags(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, QueryControlFlags> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new QueryControlFlags(input, ownership);
 }

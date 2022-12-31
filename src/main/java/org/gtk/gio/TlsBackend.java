@@ -11,32 +11,15 @@ import org.jetbrains.annotations.*;
  */
 public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to TlsBackend if its GType is a (or inherits from) "GTlsBackend".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TlsBackend} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GTlsBackend", a ClassCastException will be thrown.
-     */
-    public static TlsBackend castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TlsBackend.getType())) {
-            return new TlsBackendImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTlsBackend");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TlsBackendImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TlsBackendImpl(input, ownership);
     
     /**
-     * Gets the {@link org.gtk.gobject.Type} of {@code backend}'s {@link TlsCertificate} implementation.
-     * @return the {@link org.gtk.gobject.Type} of {@code backend}'s {@link TlsCertificate}
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsCertificate} implementation.
+     * @return the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsCertificate}
      *   implementation.
      */
-    default @NotNull org.gtk.glib.Type getCertificateType() {
+    default org.gtk.glib.Type getCertificateType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_backend_get_certificate_type.invokeExact(
@@ -48,11 +31,11 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
-     * Gets the {@link org.gtk.gobject.Type} of {@code backend}'s {@link TlsClientConnection} implementation.
-     * @return the {@link org.gtk.gobject.Type} of {@code backend}'s {@link TlsClientConnection}
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsClientConnection} implementation.
+     * @return the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsClientConnection}
      *   implementation.
      */
-    default @NotNull org.gtk.glib.Type getClientConnectionType() {
+    default org.gtk.glib.Type getClientConnectionType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_backend_get_client_connection_type.invokeExact(
@@ -68,7 +51,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
      * @return the default database, which should be
      *               unreffed when done.
      */
-    default @NotNull org.gtk.gio.TlsDatabase getDefaultDatabase() {
+    default org.gtk.gio.TlsDatabase getDefaultDatabase() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_backend_get_default_database.invokeExact(
@@ -76,15 +59,15 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsDatabase(RESULT, Ownership.FULL);
+        return (org.gtk.gio.TlsDatabase) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsDatabase.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
-     * Gets the {@link org.gtk.gobject.Type} of {@code backend}’s {@link DtlsClientConnection} implementation.
-     * @return the {@link org.gtk.gobject.Type} of {@code backend}’s {@link DtlsClientConnection}
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}’s {@link DtlsClientConnection} implementation.
+     * @return the {@link org.gtk.glib.Type} of {@code backend}’s {@link DtlsClientConnection}
      *   implementation, or {@code G_TYPE_INVALID} if this backend doesn’t support DTLS.
      */
-    default @NotNull org.gtk.glib.Type getDtlsClientConnectionType() {
+    default org.gtk.glib.Type getDtlsClientConnectionType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_client_connection_type.invokeExact(
@@ -96,11 +79,11 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
-     * Gets the {@link org.gtk.gobject.Type} of {@code backend}’s {@link DtlsServerConnection} implementation.
-     * @return the {@link org.gtk.gobject.Type} of {@code backend}’s {@link DtlsServerConnection}
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}’s {@link DtlsServerConnection} implementation.
+     * @return the {@link org.gtk.glib.Type} of {@code backend}’s {@link DtlsServerConnection}
      *   implementation, or {@code G_TYPE_INVALID} if this backend doesn’t support DTLS.
      */
-    default @NotNull org.gtk.glib.Type getDtlsServerConnectionType() {
+    default org.gtk.glib.Type getDtlsServerConnectionType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_backend_get_dtls_server_connection_type.invokeExact(
@@ -112,10 +95,10 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
-     * Gets the {@link org.gtk.gobject.Type} of {@code backend}'s {@link TlsFileDatabase} implementation.
-     * @return the {@link org.gtk.gobject.Type} of backend's {@link TlsFileDatabase} implementation.
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsFileDatabase} implementation.
+     * @return the {@link org.gtk.glib.Type} of backend's {@link TlsFileDatabase} implementation.
      */
-    default @NotNull org.gtk.glib.Type getFileDatabaseType() {
+    default org.gtk.glib.Type getFileDatabaseType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_backend_get_file_database_type.invokeExact(
@@ -127,11 +110,11 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
     }
     
     /**
-     * Gets the {@link org.gtk.gobject.Type} of {@code backend}'s {@link TlsServerConnection} implementation.
-     * @return the {@link org.gtk.gobject.Type} of {@code backend}'s {@link TlsServerConnection}
+     * Gets the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsServerConnection} implementation.
+     * @return the {@link org.gtk.glib.Type} of {@code backend}'s {@link TlsServerConnection}
      *   implementation.
      */
-    default @NotNull org.gtk.glib.Type getServerConnectionType() {
+    default org.gtk.glib.Type getServerConnectionType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_backend_get_server_connection_type.invokeExact(
@@ -176,7 +159,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -192,14 +175,14 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_tls_backend_get_type.invokeExact();
@@ -214,14 +197,14 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
      * @return a {@link TlsBackend}, which will be a
      *     dummy object if no TLS backend is available
      */
-    public static @NotNull org.gtk.gio.TlsBackend getDefault() {
+    public static org.gtk.gio.TlsBackend getDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_tls_backend_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.TlsBackend.TlsBackendImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.TlsBackend) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.TlsBackend.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     @ApiStatus.Internal
@@ -312,7 +295,7 @@ public interface TlsBackend extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class TlsBackendImpl extends org.gtk.gobject.Object implements TlsBackend {
+    class TlsBackendImpl extends org.gtk.gobject.GObject implements TlsBackend {
         
         static {
             Gio.javagi$ensureInitialized();

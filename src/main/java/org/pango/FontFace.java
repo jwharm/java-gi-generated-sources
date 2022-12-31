@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * A {@code PangoFontFace} is used to represent a group of fonts with
  * the same family, slant, weight, and width, but varying sizes.
  */
-public class FontFace extends org.gtk.gobject.Object {
+public class FontFace extends org.gtk.gobject.GObject {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -17,17 +17,15 @@ public class FontFace extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "PangoFontFace";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -35,30 +33,12 @@ public class FontFace extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FontFace(Addressable address, Ownership ownership) {
+    protected FontFace(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FontFace if its GType is a (or inherits from) "PangoFontFace".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FontFace} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "PangoFontFace", a ClassCastException will be thrown.
-     */
-    public static FontFace castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontFace.getType())) {
-            return new FontFace(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoFontFace");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FontFace> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontFace(input, ownership);
     
     /**
      * Returns a font description that matches the face.
@@ -70,7 +50,7 @@ public class FontFace extends org.gtk.gobject.Object {
      *   holding the description of the face. Use {@link FontDescription#free}
      *   to free the result.
      */
-    public @NotNull org.pango.FontDescription describe() {
+    public org.pango.FontDescription describe() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_face_describe.invokeExact(
@@ -78,7 +58,7 @@ public class FontFace extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontDescription(RESULT, Ownership.FULL);
+        return org.pango.FontDescription.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -90,7 +70,7 @@ public class FontFace extends org.gtk.gobject.Object {
      * @return the face name for the face. This string is
      *   owned by the face object and must not be modified or freed.
      */
-    public @NotNull java.lang.String getFaceName() {
+    public java.lang.String getFaceName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_face_get_face_name.invokeExact(
@@ -98,14 +78,14 @@ public class FontFace extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the {@code PangoFontFamily} that {@code face} belongs to.
      * @return the {@code PangoFontFamily}
      */
-    public @NotNull org.pango.FontFamily getFamily() {
+    public org.pango.FontFamily getFamily() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_face_get_family.invokeExact(
@@ -113,7 +93,7 @@ public class FontFace extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontFamily(RESULT, Ownership.NONE);
+        return (org.pango.FontFamily) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontFamily.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -132,7 +112,7 @@ public class FontFace extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -146,9 +126,8 @@ public class FontFace extends org.gtk.gobject.Object {
      *   should be freed with g_free().
      * @param nSizes location to store the number of elements in {@code sizes}
      */
-    public void listSizes(@Nullable Out<int[]> sizes, Out<Integer> nSizes) {
+    public void listSizes(Out<int[]> sizes, Out<Integer> nSizes) {
         MemorySegment sizesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(nSizes, "Parameter 'nSizes' must not be null");
         MemorySegment nSizesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_font_face_list_sizes.invokeExact(
@@ -166,7 +145,7 @@ public class FontFace extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.pango_font_face_get_type.invokeExact();
@@ -175,38 +154,40 @@ public class FontFace extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link FontFace.Builder} object constructs a {@link FontFace} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FontFace.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link FontFace.Build} object constructs a {@link FontFace} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FontFace} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FontFace} using {@link FontFace#castFrom}.
+         * {@link FontFace}.
          * @return A new instance of {@code FontFace} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FontFace construct() {
-            return FontFace.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FontFace.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FontFace build() {
+            return (FontFace) org.gtk.gobject.GObject.newWithProperties(
+                FontFace.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

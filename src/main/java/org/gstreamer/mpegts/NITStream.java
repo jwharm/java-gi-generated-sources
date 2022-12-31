@@ -13,20 +13,18 @@ public class NITStream extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsNITStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("transport_stream_id"),
-        Interop.valueLayout.C_SHORT.withName("original_network_id"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("descriptors")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("transport_stream_id"),
+            Interop.valueLayout.C_SHORT.withName("original_network_id"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("descriptors")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -46,7 +44,7 @@ public class NITStream extends Struct {
      * Get the value of the field {@code transport_stream_id}
      * @return The value of the field {@code transport_stream_id}
      */
-    public short transportStreamId$get() {
+    public short getTransportStreamId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -57,7 +55,7 @@ public class NITStream extends Struct {
      * Change the value of the field {@code transport_stream_id}
      * @param transportStreamId The new value of the field {@code transport_stream_id}
      */
-    public void transportStreamId$set(short transportStreamId) {
+    public void setTransportStreamId(short transportStreamId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
@@ -67,7 +65,7 @@ public class NITStream extends Struct {
      * Get the value of the field {@code original_network_id}
      * @return The value of the field {@code original_network_id}
      */
-    public short originalNetworkId$get() {
+    public short getOriginalNetworkId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -78,10 +76,31 @@ public class NITStream extends Struct {
      * Change the value of the field {@code original_network_id}
      * @param originalNetworkId The new value of the field {@code original_network_id}
      */
-    public void originalNetworkId$set(short originalNetworkId) {
+    public void setOriginalNetworkId(short originalNetworkId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
+    }
+    
+    /**
+     * Get the value of the field {@code descriptors}
+     * @return The value of the field {@code descriptors}
+     */
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code descriptors}
+     * @param descriptors The new value of the field {@code descriptors}
+     */
+    public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
     }
     
     /**
@@ -89,13 +108,15 @@ public class NITStream extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public NITStream(Addressable address, Ownership ownership) {
+    protected NITStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, NITStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new NITStream(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_nit_stream_new.invokeExact();
         } catch (Throwable ERR) {
@@ -119,49 +140,53 @@ public class NITStream extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link NITStream.Builder} object constructs a {@link NITStream} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link NITStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private NITStream struct;
+        private final NITStream struct;
         
-         /**
-         * A {@link NITStream.Build} object constructs a {@link NITStream} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = NITStream.allocate();
         }
         
          /**
          * Finish building the {@link NITStream} struct.
          * @return A new instance of {@code NITStream} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public NITStream construct() {
+        public NITStream build() {
             return struct;
         }
         
-        public Build setTransportStreamId(short transportStreamId) {
+        public Builder setTransportStreamId(short transportStreamId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("transport_stream_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), transportStreamId);
             return this;
         }
         
-        public Build setOriginalNetworkId(short originalNetworkId) {
+        public Builder setOriginalNetworkId(short originalNetworkId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("original_network_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), originalNetworkId);
             return this;
         }
         
-        public Build setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));

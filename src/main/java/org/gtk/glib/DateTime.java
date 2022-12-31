@@ -44,14 +44,15 @@ public class DateTime extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DateTime(Addressable address, Ownership ownership) {
+    protected DateTime(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gtk.glib.TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
-        java.util.Objects.requireNonNull(tz, "Parameter 'tz' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DateTime> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DateTime(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gtk.glib.TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new.invokeExact(
                     tz.handle(),
@@ -104,16 +105,15 @@ public class DateTime extends Struct {
      * @param minute the minute component of the date
      * @param seconds the number of seconds past the minute
      */
-    public DateTime(@NotNull org.gtk.glib.TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
+    public DateTime(org.gtk.glib.TimeZone tz, int year, int month, int day, int hour, int minute, double seconds) {
         super(constructNew(tz, year, month, day, hour, minute, seconds), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromIso8601(@NotNull java.lang.String text, @Nullable org.gtk.glib.TimeZone defaultTz) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromIso8601(java.lang.String text, @Nullable org.gtk.glib.TimeZone defaultTz) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_iso8601.invokeExact(
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     (Addressable) (defaultTz == null ? MemoryAddress.NULL : defaultTz.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -173,13 +173,13 @@ public class DateTime extends Struct {
      *                          timezone, or {@code null}.
      * @return a new {@link DateTime}, or {@code null}
      */
-    public static DateTime newFromIso8601(@NotNull java.lang.String text, @Nullable org.gtk.glib.TimeZone defaultTz) {
-        return new DateTime(constructNewFromIso8601(text, defaultTz), Ownership.FULL);
+    public static DateTime newFromIso8601(java.lang.String text, @Nullable org.gtk.glib.TimeZone defaultTz) {
+        var RESULT = constructNewFromIso8601(text, defaultTz);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromTimevalLocal(@NotNull org.gtk.glib.TimeVal tv) {
-        java.util.Objects.requireNonNull(tv, "Parameter 'tv' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromTimevalLocal(org.gtk.glib.TimeVal tv) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_local.invokeExact(
                     tv.handle());
@@ -208,13 +208,13 @@ public class DateTime extends Struct {
      *    g_date_time_new_from_unix_local() instead.
      */
     @Deprecated
-    public static DateTime newFromTimevalLocal(@NotNull org.gtk.glib.TimeVal tv) {
-        return new DateTime(constructNewFromTimevalLocal(tv), Ownership.FULL);
+    public static DateTime newFromTimevalLocal(org.gtk.glib.TimeVal tv) {
+        var RESULT = constructNewFromTimevalLocal(tv);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromTimevalUtc(@NotNull org.gtk.glib.TimeVal tv) {
-        java.util.Objects.requireNonNull(tv, "Parameter 'tv' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromTimevalUtc(org.gtk.glib.TimeVal tv) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_timeval_utc.invokeExact(
                     tv.handle());
@@ -241,12 +241,13 @@ public class DateTime extends Struct {
      *    g_date_time_new_from_unix_utc() instead.
      */
     @Deprecated
-    public static DateTime newFromTimevalUtc(@NotNull org.gtk.glib.TimeVal tv) {
-        return new DateTime(constructNewFromTimevalUtc(tv), Ownership.FULL);
+    public static DateTime newFromTimevalUtc(org.gtk.glib.TimeVal tv) {
+        var RESULT = constructNewFromTimevalUtc(tv);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromUnixLocal(long t) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromUnixLocal(long t) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_unix_local.invokeExact(
                     t);
@@ -272,11 +273,12 @@ public class DateTime extends Struct {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newFromUnixLocal(long t) {
-        return new DateTime(constructNewFromUnixLocal(t), Ownership.FULL);
+        var RESULT = constructNewFromUnixLocal(t);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromUnixUtc(long t) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromUnixUtc(long t) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_from_unix_utc.invokeExact(
                     t);
@@ -301,11 +303,12 @@ public class DateTime extends Struct {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newFromUnixUtc(long t) {
-        return new DateTime(constructNewFromUnixUtc(t), Ownership.FULL);
+        var RESULT = constructNewFromUnixUtc(t);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewLocal(int year, int month, int day, int hour, int minute, double seconds) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewLocal(int year, int month, int day, int hour, int minute, double seconds) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_local.invokeExact(
                     year,
@@ -335,12 +338,12 @@ public class DateTime extends Struct {
      * @return a {@link DateTime}, or {@code null}
      */
     public static DateTime newLocal(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(constructNewLocal(year, month, day, hour, minute, seconds), Ownership.FULL);
+        var RESULT = constructNewLocal(year, month, day, hour, minute, seconds);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewNow(@NotNull org.gtk.glib.TimeZone tz) {
-        java.util.Objects.requireNonNull(tz, "Parameter 'tz' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewNow(org.gtk.glib.TimeZone tz) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_now.invokeExact(
                     tz.handle());
@@ -363,12 +366,13 @@ public class DateTime extends Struct {
      * @param tz a {@link TimeZone}
      * @return a new {@link DateTime}, or {@code null}
      */
-    public static DateTime newNow(@NotNull org.gtk.glib.TimeZone tz) {
-        return new DateTime(constructNewNow(tz), Ownership.FULL);
+    public static DateTime newNow(org.gtk.glib.TimeZone tz) {
+        var RESULT = constructNewNow(tz);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewNowLocal() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewNowLocal() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_now_local.invokeExact();
         } catch (Throwable ERR) {
@@ -386,11 +390,12 @@ public class DateTime extends Struct {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newNowLocal() {
-        return new DateTime(constructNewNowLocal(), Ownership.FULL);
+        var RESULT = constructNewNowLocal();
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewNowUtc() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewNowUtc() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_now_utc.invokeExact();
         } catch (Throwable ERR) {
@@ -407,11 +412,12 @@ public class DateTime extends Struct {
      * @return a new {@link DateTime}, or {@code null}
      */
     public static DateTime newNowUtc() {
-        return new DateTime(constructNewNowUtc(), Ownership.FULL);
+        var RESULT = constructNewNowUtc();
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewUtc(int year, int month, int day, int hour, int minute, double seconds) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewUtc(int year, int month, int day, int hour, int minute, double seconds) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_new_utc.invokeExact(
                     year,
@@ -441,7 +447,8 @@ public class DateTime extends Struct {
      * @return a {@link DateTime}, or {@code null}
      */
     public static DateTime newUtc(int year, int month, int day, int hour, int minute, double seconds) {
-        return new DateTime(constructNewUtc(year, month, day, hour, minute, seconds), Ownership.FULL);
+        var RESULT = constructNewUtc(year, month, day, hour, minute, seconds);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -450,8 +457,7 @@ public class DateTime extends Struct {
      * @return the newly created {@link DateTime} which
      *   should be freed with g_date_time_unref(), or {@code null}
      */
-    public @Nullable org.gtk.glib.DateTime add(@NotNull org.gtk.glib.TimeSpan timespan) {
-        java.util.Objects.requireNonNull(timespan, "Parameter 'timespan' must not be null");
+    public @Nullable org.gtk.glib.DateTime add(org.gtk.glib.TimeSpan timespan) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_add.invokeExact(
@@ -460,7 +466,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -479,7 +485,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -508,7 +514,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -527,7 +533,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -546,7 +552,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -570,7 +576,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -589,7 +595,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -608,7 +614,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -630,7 +636,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -640,8 +646,7 @@ public class DateTime extends Struct {
      * @return -1, 0 or 1 if {@code dt1} is less than, equal to or greater
      *   than {@code dt2}.
      */
-    public int compare(@NotNull org.gtk.glib.DateTime dt2) {
-        java.util.Objects.requireNonNull(dt2, "Parameter 'dt2' must not be null");
+    public int compare(org.gtk.glib.DateTime dt2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_time_compare.invokeExact(
@@ -661,8 +666,7 @@ public class DateTime extends Struct {
      * @return the difference between the two {@link DateTime}, as a time
      *   span expressed in microseconds.
      */
-    public @NotNull org.gtk.glib.TimeSpan difference(@NotNull org.gtk.glib.DateTime begin) {
-        java.util.Objects.requireNonNull(begin, "Parameter 'begin' must not be null");
+    public org.gtk.glib.TimeSpan difference(org.gtk.glib.DateTime begin) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_date_time_difference.invokeExact(
@@ -682,8 +686,7 @@ public class DateTime extends Struct {
      * @param dt2 a {@link DateTime}
      * @return {@code true} if {@code dt1} and {@code dt2} are equal
      */
-    public boolean equal(@NotNull org.gtk.glib.DateTime dt2) {
-        java.util.Objects.requireNonNull(dt2, "Parameter 'dt2' must not be null");
+    public boolean equal(org.gtk.glib.DateTime dt2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_time_equal.invokeExact(
@@ -692,7 +695,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -805,17 +808,16 @@ public class DateTime extends Struct {
      *    as a format specifier not being supported in the current locale). The
      *    string should be freed with g_free().
      */
-    public @Nullable java.lang.String format(@NotNull java.lang.String format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public @Nullable java.lang.String format(java.lang.String format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_format.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format));
+                    Marshal.stringToAddress.marshal(format, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -836,7 +838,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -983,7 +985,7 @@ public class DateTime extends Struct {
      * Get the time zone for this {@code datetime}.
      * @return the time zone
      */
-    public @NotNull org.gtk.glib.TimeZone getTimezone() {
+    public org.gtk.glib.TimeZone getTimezone() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_get_timezone.invokeExact(
@@ -991,7 +993,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TimeZone(RESULT, Ownership.NONE);
+        return org.gtk.glib.TimeZone.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1005,7 +1007,7 @@ public class DateTime extends Struct {
      *          string is owned by the {@link DateTime} and it should not be
      *          modified or freed
      */
-    public @NotNull java.lang.String getTimezoneAbbreviation() {
+    public java.lang.String getTimezoneAbbreviation() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_get_timezone_abbreviation.invokeExact(
@@ -1013,7 +1015,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1028,7 +1030,7 @@ public class DateTime extends Struct {
      * @return the number of microseconds that should be added to UTC to
      *          get the local time
      */
-    public @NotNull org.gtk.glib.TimeSpan getUtcOffset() {
+    public org.gtk.glib.TimeSpan getUtcOffset() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_date_time_get_utc_offset.invokeExact(
@@ -1135,24 +1137,21 @@ public class DateTime extends Struct {
      * @param day the return location for the day of the month, or {@code null}.
      */
     public void getYmd(Out<Integer> year, Out<Integer> month, Out<Integer> day) {
-        java.util.Objects.requireNonNull(year, "Parameter 'year' must not be null");
         MemorySegment yearPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(month, "Parameter 'month' must not be null");
         MemorySegment monthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(day, "Parameter 'day' must not be null");
         MemorySegment dayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.g_date_time_get_ymd.invokeExact(
                     handle(),
-                    (Addressable) yearPOINTER.address(),
-                    (Addressable) monthPOINTER.address(),
-                    (Addressable) dayPOINTER.address());
+                    (Addressable) (year == null ? MemoryAddress.NULL : (Addressable) yearPOINTER.address()),
+                    (Addressable) (month == null ? MemoryAddress.NULL : (Addressable) monthPOINTER.address()),
+                    (Addressable) (day == null ? MemoryAddress.NULL : (Addressable) dayPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        year.set(yearPOINTER.get(Interop.valueLayout.C_INT, 0));
-        month.set(monthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        day.set(dayPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (year != null) year.set(yearPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (month != null) month.set(monthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (day != null) day.set(dayPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -1183,14 +1182,14 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Atomically increments the reference count of {@code datetime} by one.
      * @return the {@link DateTime} with the reference count increased
      */
-    public @NotNull org.gtk.glib.DateTime ref() {
+    public org.gtk.glib.DateTime ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_ref.invokeExact(
@@ -1198,7 +1197,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1218,7 +1217,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1241,8 +1240,7 @@ public class DateTime extends Struct {
      *    g_date_time_to_unix() instead.
      */
     @Deprecated
-    public boolean toTimeval(@NotNull org.gtk.glib.TimeVal tv) {
-        java.util.Objects.requireNonNull(tv, "Parameter 'tv' must not be null");
+    public boolean toTimeval(org.gtk.glib.TimeVal tv) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_date_time_to_timeval.invokeExact(
@@ -1251,7 +1249,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1265,8 +1263,7 @@ public class DateTime extends Struct {
      * @return the newly created {@link DateTime} which
      *   should be freed with g_date_time_unref(), or {@code null}
      */
-    public @Nullable org.gtk.glib.DateTime toTimezone(@NotNull org.gtk.glib.TimeZone tz) {
-        java.util.Objects.requireNonNull(tz, "Parameter 'tz' must not be null");
+    public @Nullable org.gtk.glib.DateTime toTimezone(org.gtk.glib.TimeZone tz) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_date_time_to_timezone.invokeExact(
@@ -1275,7 +1272,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1314,7 +1311,7 @@ public class DateTime extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.DateTime(RESULT, Ownership.FULL);
+        return org.gtk.glib.DateTime.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**

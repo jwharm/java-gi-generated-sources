@@ -235,8 +235,7 @@ public enum AttrType implements io.github.jwharm.javagi.Enumeration {
      *   may be {@code null}), or {@code null} if {@code type} is a built-in Pango
      *   attribute type or invalid.
      */
-    public static @Nullable java.lang.String getName(@NotNull org.pango.AttrType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static @Nullable java.lang.String getName(org.pango.AttrType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_attr_type_get_name.invokeExact(
@@ -244,7 +243,7 @@ public enum AttrType implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -255,12 +254,11 @@ public enum AttrType implements io.github.jwharm.javagi.Enumeration {
      * @param name an identifier for the type
      * @return the new type ID.
      */
-    public static @NotNull org.pango.AttrType register(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.pango.AttrType register(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.pango_attr_type_register.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

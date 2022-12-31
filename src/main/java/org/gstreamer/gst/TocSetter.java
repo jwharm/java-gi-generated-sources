@@ -23,25 +23,8 @@ import org.jetbrains.annotations.*;
  */
 public interface TocSetter extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to TocSetter if its GType is a (or inherits from) "GstTocSetter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code TocSetter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstTocSetter", a ClassCastException will be thrown.
-     */
-    public static TocSetter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), TocSetter.getType())) {
-            return new TocSetterImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstTocSetter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TocSetterImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TocSetterImpl(input, ownership);
     
     /**
      * Return current TOC the setter uses. The TOC should not be
@@ -57,7 +40,7 @@ public interface TocSetter extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Toc(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Toc.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -92,7 +75,7 @@ public interface TocSetter extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_toc_setter_get_type.invokeExact();
@@ -134,7 +117,7 @@ public interface TocSetter extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class TocSetterImpl extends org.gtk.gobject.Object implements TocSetter {
+    class TocSetterImpl extends org.gtk.gobject.GObject implements TocSetter {
         
         static {
             Gst.javagi$ensureInitialized();

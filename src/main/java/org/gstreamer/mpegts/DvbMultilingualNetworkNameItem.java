@@ -16,18 +16,16 @@ public class DvbMultilingualNetworkNameItem extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDvbMultilingualNetworkNameItem";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("language_code"),
-        Interop.valueLayout.ADDRESS.withName("network_name")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("language_code"),
+            Interop.valueLayout.ADDRESS.withName("network_name")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,42 +45,42 @@ public class DvbMultilingualNetworkNameItem extends Struct {
      * Get the value of the field {@code language_code}
      * @return The value of the field {@code language_code}
      */
-    public java.lang.String languageCode$get() {
+    public java.lang.String getLanguageCode() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code language_code}
      * @param languageCode The new value of the field {@code language_code}
      */
-    public void languageCode$set(java.lang.String languageCode) {
+    public void setLanguageCode(java.lang.String languageCode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(languageCode));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
     }
     
     /**
      * Get the value of the field {@code network_name}
      * @return The value of the field {@code network_name}
      */
-    public java.lang.String networkName$get() {
+    public java.lang.String getNetworkName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("network_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code network_name}
      * @param networkName The new value of the field {@code network_name}
      */
-    public void networkName$set(java.lang.String networkName) {
+    public void setNetworkName(java.lang.String networkName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("network_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(networkName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (networkName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(networkName, null)));
     }
     
     /**
@@ -90,35 +88,41 @@ public class DvbMultilingualNetworkNameItem extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DvbMultilingualNetworkNameItem(Addressable address, Ownership ownership) {
+    protected DvbMultilingualNetworkNameItem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DvbMultilingualNetworkNameItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DvbMultilingualNetworkNameItem(input, ownership);
+    
+    /**
+     * A {@link DvbMultilingualNetworkNameItem.Builder} object constructs a {@link DvbMultilingualNetworkNameItem} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DvbMultilingualNetworkNameItem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DvbMultilingualNetworkNameItem struct;
+        private final DvbMultilingualNetworkNameItem struct;
         
-         /**
-         * A {@link DvbMultilingualNetworkNameItem.Build} object constructs a {@link DvbMultilingualNetworkNameItem} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DvbMultilingualNetworkNameItem.allocate();
         }
         
          /**
          * Finish building the {@link DvbMultilingualNetworkNameItem} struct.
          * @return A new instance of {@code DvbMultilingualNetworkNameItem} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DvbMultilingualNetworkNameItem construct() {
+        public DvbMultilingualNetworkNameItem build() {
             return struct;
         }
         
@@ -127,10 +131,10 @@ public class DvbMultilingualNetworkNameItem extends Struct {
          * @param languageCode The value for the {@code languageCode} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLanguageCode(java.lang.String languageCode) {
+        public Builder setLanguageCode(java.lang.String languageCode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("language_code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Interop.allocateNativeString(languageCode)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (languageCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(languageCode, null)));
             return this;
         }
         
@@ -139,10 +143,10 @@ public class DvbMultilingualNetworkNameItem extends Struct {
          * @param networkName The value for the {@code networkName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNetworkName(java.lang.String networkName) {
+        public Builder setNetworkName(java.lang.String networkName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("network_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (networkName == null ? MemoryAddress.NULL : Interop.allocateNativeString(networkName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (networkName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(networkName, null)));
             return this;
         }
     }

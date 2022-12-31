@@ -40,8 +40,10 @@ public class PhysicalDeviceMemoryBudgetPropertiesEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceMemoryBudgetPropertiesEXT(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceMemoryBudgetPropertiesEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceMemoryBudgetPropertiesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceMemoryBudgetPropertiesEXT(input, ownership);
 }

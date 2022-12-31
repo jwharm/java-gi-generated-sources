@@ -29,41 +29,39 @@ public class Scanner extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GScanner";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.C_INT.withName("max_parse_errors"),
-        Interop.valueLayout.C_INT.withName("parse_errors"),
-        Interop.valueLayout.ADDRESS.withName("input_name"),
-        Interop.valueLayout.ADDRESS.withName("qdata"),
-        Interop.valueLayout.ADDRESS.withName("config"),
-        Interop.valueLayout.C_INT.withName("token"),
-        MemoryLayout.paddingLayout(32),
-        org.gtk.glib.TokenValue.getMemoryLayout().withName("value"),
-        Interop.valueLayout.C_INT.withName("line"),
-        Interop.valueLayout.C_INT.withName("position"),
-        Interop.valueLayout.C_INT.withName("next_token"),
-        MemoryLayout.paddingLayout(32),
-        org.gtk.glib.TokenValue.getMemoryLayout().withName("next_value"),
-        Interop.valueLayout.C_INT.withName("next_line"),
-        Interop.valueLayout.C_INT.withName("next_position"),
-        Interop.valueLayout.ADDRESS.withName("symbol_table"),
-        Interop.valueLayout.C_INT.withName("input_fd"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("text"),
-        Interop.valueLayout.ADDRESS.withName("text_end"),
-        Interop.valueLayout.ADDRESS.withName("buffer"),
-        Interop.valueLayout.C_INT.withName("scope_id"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("msg_handler")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.C_INT.withName("max_parse_errors"),
+            Interop.valueLayout.C_INT.withName("parse_errors"),
+            Interop.valueLayout.ADDRESS.withName("input_name"),
+            Interop.valueLayout.ADDRESS.withName("qdata"),
+            Interop.valueLayout.ADDRESS.withName("config"),
+            Interop.valueLayout.C_INT.withName("token"),
+            MemoryLayout.paddingLayout(32),
+            org.gtk.glib.TokenValue.getMemoryLayout().withName("value"),
+            Interop.valueLayout.C_INT.withName("line"),
+            Interop.valueLayout.C_INT.withName("position"),
+            Interop.valueLayout.C_INT.withName("next_token"),
+            MemoryLayout.paddingLayout(32),
+            org.gtk.glib.TokenValue.getMemoryLayout().withName("next_value"),
+            Interop.valueLayout.C_INT.withName("next_line"),
+            Interop.valueLayout.C_INT.withName("next_position"),
+            Interop.valueLayout.ADDRESS.withName("symbol_table"),
+            Interop.valueLayout.C_INT.withName("input_fd"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("text"),
+            Interop.valueLayout.ADDRESS.withName("text_end"),
+            Interop.valueLayout.ADDRESS.withName("buffer"),
+            Interop.valueLayout.C_INT.withName("scope_id"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("msg_handler")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -83,7 +81,7 @@ public class Scanner extends Struct {
      * Get the value of the field {@code user_data}
      * @return The value of the field {@code user_data}
      */
-    public java.lang.foreign.MemoryAddress userData$get() {
+    public java.lang.foreign.MemoryAddress getUserData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -94,17 +92,17 @@ public class Scanner extends Struct {
      * Change the value of the field {@code user_data}
      * @param userData The new value of the field {@code user_data}
      */
-    public void userData$set(java.lang.foreign.MemoryAddress userData) {
+    public void setUserData(java.lang.foreign.MemoryAddress userData) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) userData);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
     }
     
     /**
      * Get the value of the field {@code max_parse_errors}
      * @return The value of the field {@code max_parse_errors}
      */
-    public int maxParseErrors$get() {
+    public int getMaxParseErrors() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -115,7 +113,7 @@ public class Scanner extends Struct {
      * Change the value of the field {@code max_parse_errors}
      * @param maxParseErrors The new value of the field {@code max_parse_errors}
      */
-    public void maxParseErrors$set(int maxParseErrors) {
+    public void setMaxParseErrors(int maxParseErrors) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxParseErrors);
@@ -125,7 +123,7 @@ public class Scanner extends Struct {
      * Get the value of the field {@code parse_errors}
      * @return The value of the field {@code parse_errors}
      */
-    public int parseErrors$get() {
+    public int getParseErrors() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -136,7 +134,7 @@ public class Scanner extends Struct {
      * Change the value of the field {@code parse_errors}
      * @param parseErrors The new value of the field {@code parse_errors}
      */
-    public void parseErrors$set(int parseErrors) {
+    public void setParseErrors(int parseErrors) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), parseErrors);
@@ -146,49 +144,49 @@ public class Scanner extends Struct {
      * Get the value of the field {@code input_name}
      * @return The value of the field {@code input_name}
      */
-    public java.lang.String inputName$get() {
+    public java.lang.String getInputName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code input_name}
      * @param inputName The new value of the field {@code input_name}
      */
-    public void inputName$set(java.lang.String inputName) {
+    public void setInputName(java.lang.String inputName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(inputName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(inputName, null)));
     }
     
     /**
      * Get the value of the field {@code config}
      * @return The value of the field {@code config}
      */
-    public org.gtk.glib.ScannerConfig config$get() {
+    public org.gtk.glib.ScannerConfig getConfig() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("config"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.ScannerConfig(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.ScannerConfig.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code config}
      * @param config The new value of the field {@code config}
      */
-    public void config$set(org.gtk.glib.ScannerConfig config) {
+    public void setConfig(org.gtk.glib.ScannerConfig config) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("config"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), config.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (config == null ? MemoryAddress.NULL : config.handle()));
     }
     
     /**
      * Get the value of the field {@code token}
      * @return The value of the field {@code token}
      */
-    public org.gtk.glib.TokenType token$get() {
+    public org.gtk.glib.TokenType getToken() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("token"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -199,38 +197,38 @@ public class Scanner extends Struct {
      * Change the value of the field {@code token}
      * @param token The new value of the field {@code token}
      */
-    public void token$set(org.gtk.glib.TokenType token) {
+    public void setToken(org.gtk.glib.TokenType token) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("token"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), token.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (token == null ? MemoryAddress.NULL : token.getValue()));
     }
     
     /**
      * Get the value of the field {@code value}
      * @return The value of the field {@code value}
      */
-    public org.gtk.glib.TokenValue value$get() {
+    public org.gtk.glib.TokenValue getValue() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.TokenValue(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TokenValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code value}
      * @param value The new value of the field {@code value}
      */
-    public void value$set(org.gtk.glib.TokenValue value) {
+    public void setValue(org.gtk.glib.TokenValue value) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), value.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
     }
     
     /**
      * Get the value of the field {@code line}
      * @return The value of the field {@code line}
      */
-    public int line$get() {
+    public int getLine() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -241,7 +239,7 @@ public class Scanner extends Struct {
      * Change the value of the field {@code line}
      * @param line The new value of the field {@code line}
      */
-    public void line$set(int line) {
+    public void setLine(int line) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("line"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), line);
@@ -251,7 +249,7 @@ public class Scanner extends Struct {
      * Get the value of the field {@code position}
      * @return The value of the field {@code position}
      */
-    public int position$get() {
+    public int getPosition() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("position"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -262,7 +260,7 @@ public class Scanner extends Struct {
      * Change the value of the field {@code position}
      * @param position The new value of the field {@code position}
      */
-    public void position$set(int position) {
+    public void setPosition(int position) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("position"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), position);
@@ -272,7 +270,7 @@ public class Scanner extends Struct {
      * Get the value of the field {@code next_token}
      * @return The value of the field {@code next_token}
      */
-    public org.gtk.glib.TokenType nextToken$get() {
+    public org.gtk.glib.TokenType getNextToken_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -283,38 +281,38 @@ public class Scanner extends Struct {
      * Change the value of the field {@code next_token}
      * @param nextToken The new value of the field {@code next_token}
      */
-    public void nextToken$set(org.gtk.glib.TokenType nextToken) {
+    public void setNextToken(org.gtk.glib.TokenType nextToken) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextToken.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextToken == null ? MemoryAddress.NULL : nextToken.getValue()));
     }
     
     /**
      * Get the value of the field {@code next_value}
      * @return The value of the field {@code next_value}
      */
-    public org.gtk.glib.TokenValue nextValue$get() {
+    public org.gtk.glib.TokenValue getNextValue() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.TokenValue(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TokenValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code next_value}
      * @param nextValue The new value of the field {@code next_value}
      */
-    public void nextValue$set(org.gtk.glib.TokenValue nextValue) {
+    public void setNextValue(org.gtk.glib.TokenValue nextValue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextValue.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextValue == null ? MemoryAddress.NULL : nextValue.handle()));
     }
     
     /**
      * Get the value of the field {@code next_line}
      * @return The value of the field {@code next_line}
      */
-    public int nextLine$get() {
+    public int getNextLine() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -325,7 +323,7 @@ public class Scanner extends Struct {
      * Change the value of the field {@code next_line}
      * @param nextLine The new value of the field {@code next_line}
      */
-    public void nextLine$set(int nextLine) {
+    public void setNextLine(int nextLine) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextLine);
@@ -335,7 +333,7 @@ public class Scanner extends Struct {
      * Get the value of the field {@code next_position}
      * @return The value of the field {@code next_position}
      */
-    public int nextPosition$get() {
+    public int getNextPosition() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -346,7 +344,7 @@ public class Scanner extends Struct {
      * Change the value of the field {@code next_position}
      * @param nextPosition The new value of the field {@code next_position}
      */
-    public void nextPosition$set(int nextPosition) {
+    public void setNextPosition(int nextPosition) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextPosition);
@@ -356,7 +354,7 @@ public class Scanner extends Struct {
      * Get the value of the field {@code msg_handler}
      * @return The value of the field {@code msg_handler}
      */
-    public org.gtk.glib.ScannerMsgFunc msgHandler$get() {
+    public org.gtk.glib.ScannerMsgFunc getMsgHandler() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -364,14 +362,26 @@ public class Scanner extends Struct {
     }
     
     /**
+     * Change the value of the field {@code msg_handler}
+     * @param msgHandler The new value of the field {@code msg_handler}
+     */
+    public void setMsgHandler(org.gtk.glib.ScannerMsgFunc msgHandler) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msgHandler == null ? MemoryAddress.NULL : (Addressable) msgHandler.toCallback()));
+    }
+    
+    /**
      * Create a Scanner proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Scanner(Addressable address, Ownership ownership) {
+    protected Scanner(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Scanner> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Scanner(input, ownership);
     
     /**
      * Returns the current line in the input stream (counting
@@ -412,7 +422,7 @@ public class Scanner extends Struct {
      * field in the {@link Scanner} structure.
      * @return the current token type
      */
-    public @NotNull org.gtk.glib.TokenType curToken() {
+    public org.gtk.glib.TokenType curToken() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_scanner_cur_token.invokeExact(
@@ -428,7 +438,7 @@ public class Scanner extends Struct {
      * field in the {@link Scanner} structure.
      * @return the current token value
      */
-    public @NotNull org.gtk.glib.TokenValue curValue() {
+    public org.gtk.glib.TokenValue curValue() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_scanner_cur_value.invokeExact(
@@ -436,7 +446,7 @@ public class Scanner extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.TokenValue(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.TokenValue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -465,7 +475,7 @@ public class Scanner extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -473,12 +483,11 @@ public class Scanner extends Struct {
      * @param format the message format. See the printf() documentation
      * @param varargs the parameters to insert into the format string
      */
-    public void error(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void error(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_scanner_error.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -492,7 +501,7 @@ public class Scanner extends Struct {
      * the {@link Scanner} structure.
      * @return the type of the token
      */
-    public @NotNull org.gtk.glib.TokenType getNextToken() {
+    public org.gtk.glib.TokenType getNextToken() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_scanner_get_next_token.invokeExact(
@@ -522,12 +531,11 @@ public class Scanner extends Struct {
      * @param text the text buffer to scan
      * @param textLen the length of the text buffer
      */
-    public void inputText(@NotNull java.lang.String text, int textLen) {
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
+    public void inputText(java.lang.String text, int textLen) {
         try {
             DowncallHandles.g_scanner_input_text.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     textLen);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -542,13 +550,12 @@ public class Scanner extends Struct {
      * @return the value of {@code symbol} in the current scope, or {@code null}
      *     if {@code symbol} is not bound in the current scope
      */
-    public @Nullable java.lang.foreign.MemoryAddress lookupSymbol(@NotNull java.lang.String symbol) {
-        java.util.Objects.requireNonNull(symbol, "Parameter 'symbol' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress lookupSymbol(java.lang.String symbol) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_scanner_lookup_symbol.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(symbol));
+                    Marshal.stringToAddress.marshal(symbol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -569,7 +576,7 @@ public class Scanner extends Struct {
      * any symbols that may have been added or removed in the new scope.
      * @return the type of the token
      */
-    public @NotNull org.gtk.glib.TokenType peekNextToken() {
+    public org.gtk.glib.TokenType peekNextToken() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_scanner_peek_next_token.invokeExact(
@@ -586,13 +593,12 @@ public class Scanner extends Struct {
      * @param symbol the symbol to add
      * @param value the value of the symbol
      */
-    public void scopeAddSymbol(int scopeId, @NotNull java.lang.String symbol, @Nullable java.lang.foreign.MemoryAddress value) {
-        java.util.Objects.requireNonNull(symbol, "Parameter 'symbol' must not be null");
+    public void scopeAddSymbol(int scopeId, java.lang.String symbol, @Nullable java.lang.foreign.MemoryAddress value) {
         try {
             DowncallHandles.g_scanner_scope_add_symbol.invokeExact(
                     handle(),
                     scopeId,
-                    Interop.allocateNativeString(symbol),
+                    Marshal.stringToAddress.marshal(symbol, null),
                     (Addressable) (value == null ? MemoryAddress.NULL : (Addressable) value));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -607,18 +613,13 @@ public class Scanner extends Struct {
      * @param scopeId the scope id
      * @param func the function to call for each symbol/value pair
      */
-    public void scopeForeachSymbol(int scopeId, @NotNull org.gtk.glib.HFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void scopeForeachSymbol(int scopeId, org.gtk.glib.HFunc func) {
         try {
             DowncallHandles.g_scanner_scope_foreach_symbol.invokeExact(
                     handle(),
                     scopeId,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -632,14 +633,13 @@ public class Scanner extends Struct {
      * @return the value of {@code symbol} in the given scope, or {@code null}
      *     if {@code symbol} is not bound in the given scope.
      */
-    public @Nullable java.lang.foreign.MemoryAddress scopeLookupSymbol(int scopeId, @NotNull java.lang.String symbol) {
-        java.util.Objects.requireNonNull(symbol, "Parameter 'symbol' must not be null");
+    public @Nullable java.lang.foreign.MemoryAddress scopeLookupSymbol(int scopeId, java.lang.String symbol) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_scanner_scope_lookup_symbol.invokeExact(
                     handle(),
                     scopeId,
-                    Interop.allocateNativeString(symbol));
+                    Marshal.stringToAddress.marshal(symbol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -651,13 +651,12 @@ public class Scanner extends Struct {
      * @param scopeId the scope id
      * @param symbol the symbol to remove
      */
-    public void scopeRemoveSymbol(int scopeId, @NotNull java.lang.String symbol) {
-        java.util.Objects.requireNonNull(symbol, "Parameter 'symbol' must not be null");
+    public void scopeRemoveSymbol(int scopeId, java.lang.String symbol) {
         try {
             DowncallHandles.g_scanner_scope_remove_symbol.invokeExact(
                     handle(),
                     scopeId,
-                    Interop.allocateNativeString(symbol));
+                    Marshal.stringToAddress.marshal(symbol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -719,20 +718,15 @@ public class Scanner extends Struct {
      * @param isError if {@code true} it is output as an error. If {@code false} it is
      *     output as a warning.
      */
-    public void unexpToken(@NotNull org.gtk.glib.TokenType expectedToken, @NotNull java.lang.String identifierSpec, @NotNull java.lang.String symbolSpec, @NotNull java.lang.String symbolName, @NotNull java.lang.String message, int isError) {
-        java.util.Objects.requireNonNull(expectedToken, "Parameter 'expectedToken' must not be null");
-        java.util.Objects.requireNonNull(identifierSpec, "Parameter 'identifierSpec' must not be null");
-        java.util.Objects.requireNonNull(symbolSpec, "Parameter 'symbolSpec' must not be null");
-        java.util.Objects.requireNonNull(symbolName, "Parameter 'symbolName' must not be null");
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public void unexpToken(org.gtk.glib.TokenType expectedToken, java.lang.String identifierSpec, java.lang.String symbolSpec, java.lang.String symbolName, java.lang.String message, int isError) {
         try {
             DowncallHandles.g_scanner_unexp_token.invokeExact(
                     handle(),
                     expectedToken.getValue(),
-                    Interop.allocateNativeString(identifierSpec),
-                    Interop.allocateNativeString(symbolSpec),
-                    Interop.allocateNativeString(symbolName),
-                    Interop.allocateNativeString(message),
+                    Marshal.stringToAddress.marshal(identifierSpec, null),
+                    Marshal.stringToAddress.marshal(symbolSpec, null),
+                    Marshal.stringToAddress.marshal(symbolName, null),
+                    Marshal.stringToAddress.marshal(message, null),
                     isError);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -744,12 +738,11 @@ public class Scanner extends Struct {
      * @param format the message format. See the printf() documentation
      * @param varargs the parameters to insert into the format string
      */
-    public void warn(@NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void warn(java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_scanner_warn.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -766,8 +759,7 @@ public class Scanner extends Struct {
      * @param configTempl the initial scanner settings
      * @return the new {@link Scanner}
      */
-    public static @NotNull org.gtk.glib.Scanner new_(@NotNull org.gtk.glib.ScannerConfig configTempl) {
-        java.util.Objects.requireNonNull(configTempl, "Parameter 'configTempl' must not be null");
+    public static org.gtk.glib.Scanner new_(org.gtk.glib.ScannerConfig configTempl) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_scanner_new.invokeExact(
@@ -775,7 +767,7 @@ public class Scanner extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Scanner(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Scanner.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -906,31 +898,35 @@ public class Scanner extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Scanner.Builder} object constructs a {@link Scanner} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Scanner.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Scanner struct;
+        private final Scanner struct;
         
-         /**
-         * A {@link Scanner.Build} object constructs a {@link Scanner} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Scanner.allocate();
         }
         
          /**
          * Finish building the {@link Scanner} struct.
          * @return A new instance of {@code Scanner} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Scanner construct() {
+        public Scanner build() {
             return struct;
         }
         
@@ -939,7 +935,7 @@ public class Scanner extends Struct {
          * @param userData The value for the {@code userData} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
@@ -951,7 +947,7 @@ public class Scanner extends Struct {
          * @param maxParseErrors The value for the {@code maxParseErrors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMaxParseErrors(int maxParseErrors) {
+        public Builder setMaxParseErrors(int maxParseErrors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("max_parse_errors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), maxParseErrors);
@@ -963,7 +959,7 @@ public class Scanner extends Struct {
          * @param parseErrors The value for the {@code parseErrors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParseErrors(int parseErrors) {
+        public Builder setParseErrors(int parseErrors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parse_errors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), parseErrors);
@@ -975,10 +971,10 @@ public class Scanner extends Struct {
          * @param inputName The value for the {@code inputName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInputName(java.lang.String inputName) {
+        public Builder setInputName(java.lang.String inputName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("input_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputName == null ? MemoryAddress.NULL : Interop.allocateNativeString(inputName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (inputName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(inputName, null)));
             return this;
         }
         
@@ -987,7 +983,7 @@ public class Scanner extends Struct {
          * @param qdata The value for the {@code qdata} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setQdata(org.gtk.glib.Data qdata) {
+        public Builder setQdata(org.gtk.glib.Data qdata) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("qdata"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (qdata == null ? MemoryAddress.NULL : qdata.handle()));
@@ -999,7 +995,7 @@ public class Scanner extends Struct {
          * @param config The value for the {@code config} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setConfig(org.gtk.glib.ScannerConfig config) {
+        public Builder setConfig(org.gtk.glib.ScannerConfig config) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("config"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (config == null ? MemoryAddress.NULL : config.handle()));
@@ -1011,7 +1007,7 @@ public class Scanner extends Struct {
          * @param token The value for the {@code token} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setToken(org.gtk.glib.TokenType token) {
+        public Builder setToken(org.gtk.glib.TokenType token) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("token"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (token == null ? MemoryAddress.NULL : token.getValue()));
@@ -1023,7 +1019,7 @@ public class Scanner extends Struct {
          * @param value The value for the {@code value} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(org.gtk.glib.TokenValue value) {
+        public Builder setValue(org.gtk.glib.TokenValue value) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (value == null ? MemoryAddress.NULL : value.handle()));
@@ -1035,7 +1031,7 @@ public class Scanner extends Struct {
          * @param line The value for the {@code line} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLine(int line) {
+        public Builder setLine(int line) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("line"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), line);
@@ -1047,7 +1043,7 @@ public class Scanner extends Struct {
          * @param position The value for the {@code position} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPosition(int position) {
+        public Builder setPosition(int position) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("position"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), position);
@@ -1059,7 +1055,7 @@ public class Scanner extends Struct {
          * @param nextToken The value for the {@code nextToken} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNextToken(org.gtk.glib.TokenType nextToken) {
+        public Builder setNextToken(org.gtk.glib.TokenType nextToken) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_token"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextToken == null ? MemoryAddress.NULL : nextToken.getValue()));
@@ -1071,7 +1067,7 @@ public class Scanner extends Struct {
          * @param nextValue The value for the {@code nextValue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNextValue(org.gtk.glib.TokenValue nextValue) {
+        public Builder setNextValue(org.gtk.glib.TokenValue nextValue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_value"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (nextValue == null ? MemoryAddress.NULL : nextValue.handle()));
@@ -1083,7 +1079,7 @@ public class Scanner extends Struct {
          * @param nextLine The value for the {@code nextLine} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNextLine(int nextLine) {
+        public Builder setNextLine(int nextLine) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_line"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextLine);
@@ -1095,49 +1091,49 @@ public class Scanner extends Struct {
          * @param nextPosition The value for the {@code nextPosition} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNextPosition(int nextPosition) {
+        public Builder setNextPosition(int nextPosition) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next_position"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nextPosition);
             return this;
         }
         
-        public Build setSymbolTable(org.gtk.glib.HashTable symbolTable) {
+        public Builder setSymbolTable(org.gtk.glib.HashTable symbolTable) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("symbol_table"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (symbolTable == null ? MemoryAddress.NULL : symbolTable.handle()));
             return this;
         }
         
-        public Build setInputFd(int inputFd) {
+        public Builder setInputFd(int inputFd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("input_fd"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), inputFd);
             return this;
         }
         
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("text"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
             return this;
         }
         
-        public Build setTextEnd(java.lang.String textEnd) {
+        public Builder setTextEnd(java.lang.String textEnd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("text_end"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (textEnd == null ? MemoryAddress.NULL : Interop.allocateNativeString(textEnd)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (textEnd == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(textEnd, null)));
             return this;
         }
         
-        public Build setBuffer(java.lang.String buffer) {
+        public Builder setBuffer(java.lang.String buffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : Interop.allocateNativeString(buffer)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(buffer, null)));
             return this;
         }
         
-        public Build setScopeId(int scopeId) {
+        public Builder setScopeId(int scopeId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("scope_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), scopeId);
@@ -1149,10 +1145,10 @@ public class Scanner extends Struct {
          * @param msgHandler The value for the {@code msgHandler} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMsgHandler(java.lang.foreign.MemoryAddress msgHandler) {
+        public Builder setMsgHandler(org.gtk.glib.ScannerMsgFunc msgHandler) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("msg_handler"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msgHandler == null ? MemoryAddress.NULL : msgHandler));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (msgHandler == null ? MemoryAddress.NULL : (Addressable) msgHandler.toCallback()));
             return this;
         }
     }

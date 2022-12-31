@@ -13,24 +13,22 @@ public class SDTService extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsSDTService";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_SHORT.withName("service_id"),
-        MemoryLayout.paddingLayout(16),
-        Interop.valueLayout.C_INT.withName("EIT_schedule_flag"),
-        Interop.valueLayout.C_INT.withName("EIT_present_following_flag"),
-        Interop.valueLayout.C_INT.withName("running_status"),
-        Interop.valueLayout.C_INT.withName("free_CA_mode"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("descriptors")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_SHORT.withName("service_id"),
+            MemoryLayout.paddingLayout(16),
+            Interop.valueLayout.C_INT.withName("EIT_schedule_flag"),
+            Interop.valueLayout.C_INT.withName("EIT_present_following_flag"),
+            Interop.valueLayout.C_INT.withName("running_status"),
+            Interop.valueLayout.C_INT.withName("free_CA_mode"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("descriptors")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -50,7 +48,7 @@ public class SDTService extends Struct {
      * Get the value of the field {@code service_id}
      * @return The value of the field {@code service_id}
      */
-    public short serviceId$get() {
+    public short getServiceId() {
         var RESULT = (short) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -61,7 +59,7 @@ public class SDTService extends Struct {
      * Change the value of the field {@code service_id}
      * @param serviceId The new value of the field {@code service_id}
      */
-    public void serviceId$set(short serviceId) {
+    public void setServiceId(short serviceId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
@@ -71,49 +69,49 @@ public class SDTService extends Struct {
      * Get the value of the field {@code EIT_schedule_flag}
      * @return The value of the field {@code EIT_schedule_flag}
      */
-    public boolean EITScheduleFlag$get() {
+    public boolean getEITScheduleFlag() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("EIT_schedule_flag"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code EIT_schedule_flag}
      * @param EITScheduleFlag The new value of the field {@code EIT_schedule_flag}
      */
-    public void EITScheduleFlag$set(boolean EITScheduleFlag) {
+    public void setEITScheduleFlag(boolean EITScheduleFlag) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("EIT_schedule_flag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), EITScheduleFlag ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(EITScheduleFlag, null).intValue());
     }
     
     /**
      * Get the value of the field {@code EIT_present_following_flag}
      * @return The value of the field {@code EIT_present_following_flag}
      */
-    public boolean EITPresentFollowingFlag$get() {
+    public boolean getEITPresentFollowingFlag() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("EIT_present_following_flag"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code EIT_present_following_flag}
      * @param EITPresentFollowingFlag The new value of the field {@code EIT_present_following_flag}
      */
-    public void EITPresentFollowingFlag$set(boolean EITPresentFollowingFlag) {
+    public void setEITPresentFollowingFlag(boolean EITPresentFollowingFlag) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("EIT_present_following_flag"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), EITPresentFollowingFlag ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(EITPresentFollowingFlag, null).intValue());
     }
     
     /**
      * Get the value of the field {@code running_status}
      * @return The value of the field {@code running_status}
      */
-    public org.gstreamer.mpegts.RunningStatus runningStatus$get() {
+    public org.gstreamer.mpegts.RunningStatus getRunningStatus() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -124,31 +122,52 @@ public class SDTService extends Struct {
      * Change the value of the field {@code running_status}
      * @param runningStatus The new value of the field {@code running_status}
      */
-    public void runningStatus$set(org.gstreamer.mpegts.RunningStatus runningStatus) {
+    public void setRunningStatus(org.gstreamer.mpegts.RunningStatus runningStatus) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), runningStatus.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runningStatus == null ? MemoryAddress.NULL : runningStatus.getValue()));
     }
     
     /**
      * Get the value of the field {@code free_CA_mode}
      * @return The value of the field {@code free_CA_mode}
      */
-    public boolean freeCAMode$get() {
+    public boolean getFreeCAMode() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("free_CA_mode"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code free_CA_mode}
      * @param freeCAMode The new value of the field {@code free_CA_mode}
      */
-    public void freeCAMode$set(boolean freeCAMode) {
+    public void setFreeCAMode(boolean freeCAMode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("free_CA_mode"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), freeCAMode ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(freeCAMode, null).intValue());
+    }
+    
+    /**
+     * Get the value of the field {@code descriptors}
+     * @return The value of the field {@code descriptors}
+     */
+    public PointerProxy<org.gstreamer.mpegts.Descriptor> getDescriptors() {
+        var RESULT = (MemoryAddress) getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
+        return new PointerProxy<org.gstreamer.mpegts.Descriptor>(RESULT, org.gstreamer.mpegts.Descriptor.fromAddress);
+    }
+    
+    /**
+     * Change the value of the field {@code descriptors}
+     * @param descriptors The new value of the field {@code descriptors}
+     */
+    public void setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));
     }
     
     /**
@@ -156,13 +175,15 @@ public class SDTService extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SDTService(Addressable address, Ownership ownership) {
+    protected SDTService(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SDTService> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SDTService(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_mpegts_sdt_service_new.invokeExact();
         } catch (Throwable ERR) {
@@ -186,31 +207,35 @@ public class SDTService extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link SDTService.Builder} object constructs a {@link SDTService} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link SDTService.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private SDTService struct;
+        private final SDTService struct;
         
-         /**
-         * A {@link SDTService.Build} object constructs a {@link SDTService} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = SDTService.allocate();
         }
         
          /**
          * Finish building the {@link SDTService} struct.
          * @return A new instance of {@code SDTService} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SDTService construct() {
+        public SDTService build() {
             return struct;
         }
         
@@ -219,7 +244,7 @@ public class SDTService extends Struct {
          * @param serviceId The value for the {@code serviceId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setServiceId(short serviceId) {
+        public Builder setServiceId(short serviceId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("service_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), serviceId);
@@ -231,10 +256,10 @@ public class SDTService extends Struct {
          * @param EITScheduleFlag The value for the {@code EITScheduleFlag} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEITScheduleFlag(boolean EITScheduleFlag) {
+        public Builder setEITScheduleFlag(boolean EITScheduleFlag) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("EIT_schedule_flag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), EITScheduleFlag ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(EITScheduleFlag, null).intValue());
             return this;
         }
         
@@ -243,10 +268,10 @@ public class SDTService extends Struct {
          * @param EITPresentFollowingFlag The value for the {@code EITPresentFollowingFlag} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEITPresentFollowingFlag(boolean EITPresentFollowingFlag) {
+        public Builder setEITPresentFollowingFlag(boolean EITPresentFollowingFlag) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("EIT_present_following_flag"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), EITPresentFollowingFlag ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(EITPresentFollowingFlag, null).intValue());
             return this;
         }
         
@@ -255,7 +280,7 @@ public class SDTService extends Struct {
          * @param runningStatus The value for the {@code runningStatus} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRunningStatus(org.gstreamer.mpegts.RunningStatus runningStatus) {
+        public Builder setRunningStatus(org.gstreamer.mpegts.RunningStatus runningStatus) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("running_status"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (runningStatus == null ? MemoryAddress.NULL : runningStatus.getValue()));
@@ -267,10 +292,10 @@ public class SDTService extends Struct {
          * @param freeCAMode The value for the {@code freeCAMode} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFreeCAMode(boolean freeCAMode) {
+        public Builder setFreeCAMode(boolean freeCAMode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("free_CA_mode"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), freeCAMode ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(freeCAMode, null).intValue());
             return this;
         }
         
@@ -279,7 +304,7 @@ public class SDTService extends Struct {
          * @param descriptors The value for the {@code descriptors} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
+        public Builder setDescriptors(org.gstreamer.mpegts.Descriptor[] descriptors) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("descriptors"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (descriptors == null ? MemoryAddress.NULL : Interop.allocateNativeArray(descriptors, org.gstreamer.mpegts.Descriptor.getMemoryLayout(), false)));

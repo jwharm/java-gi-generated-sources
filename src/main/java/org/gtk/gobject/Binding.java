@@ -7,7 +7,7 @@ import org.jetbrains.annotations.*;
 
 /**
  * {@link Binding} is the representation of a binding between a property on a
- * {@link Object} instance (or source) and another property on another {@link Object}
+ * {@link GObject} instance (or source) and another property on another {@link GObject}
  * instance (or target).
  * <p>
  * Whenever the source property changes, the same value is applied to the
@@ -23,7 +23,7 @@ import org.jetbrains.annotations.*;
  * the property "property-a" of {@code object1}.
  * <p>
  * It is possible to create a bidirectional binding between two properties
- * of two {@link Object} instances, so that if either property changes, the
+ * of two {@link GObject} instances, so that if either property changes, the
  * other is updated as well, for instance:
  * <pre>{@code <!-- language="C" -->
  *   g_object_bind_property (object1, "property-a",
@@ -64,14 +64,14 @@ import org.jetbrains.annotations.*;
  * }</pre>
  * <p>
  * might lead to an infinite loop. The loop, in this particular case,
- * can be avoided if the objects emit the {@link Object}::notify signal only
+ * can be avoided if the objects emit the {@link GObject}::notify signal only
  * if the value has effectively been changed. A binding is implemented
- * using the {@link Object}::notify signal, so it is susceptible to all the
+ * using the {@link GObject}::notify signal, so it is susceptible to all the
  * various ways of blocking a signal emission, like g_signal_stop_emission()
  * or g_signal_handler_block().
  * <p>
  * A binding will be severed, and the resources it allocates freed, whenever
- * either one of the {@link Object} instances it refers to are finalized, or when
+ * either one of the {@link GObject} instances it refers to are finalized, or when
  * the {@link Binding} instance loses its last reference.
  * <p>
  * Bindings for languages with garbage collection can use
@@ -82,10 +82,10 @@ import org.jetbrains.annotations.*;
  * {@link Binding} is available since GObject 2.26
  * @version 2.26
  */
-public class Binding extends org.gtk.gobject.Object {
+public class Binding extends org.gtk.gobject.GObject {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GBinding";
@@ -104,41 +104,23 @@ public class Binding extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Binding(Addressable address, Ownership ownership) {
+    protected Binding(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Binding if its GType is a (or inherits from) "GBinding".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Binding} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GBinding", a ClassCastException will be thrown.
-     */
-    public static Binding castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Binding.getType())) {
-            return new Binding(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GBinding");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Binding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Binding(input, ownership);
     
     /**
-     * Retrieves the {@link Object} instance used as the source of the binding.
+     * Retrieves the {@link GObject} instance used as the source of the binding.
      * <p>
-     * A {@link Binding} can outlive the source {@link Object} as the binding does not hold a
+     * A {@link Binding} can outlive the source {@link GObject} as the binding does not hold a
      * strong reference to the source. If the source is destroyed before the
      * binding then this function will return {@code null}.
-     * @return the source {@link Object}, or {@code null} if the
+     * @return the source {@link GObject}, or {@code null} if the
      *     source does not exist any more.
      */
-    public @Nullable org.gtk.gobject.Object dupSource() {
+    public @Nullable org.gtk.gobject.GObject dupSource() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_source.invokeExact(
@@ -146,19 +128,19 @@ public class Binding extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
-     * Retrieves the {@link Object} instance used as the target of the binding.
+     * Retrieves the {@link GObject} instance used as the target of the binding.
      * <p>
-     * A {@link Binding} can outlive the target {@link Object} as the binding does not hold a
+     * A {@link Binding} can outlive the target {@link GObject} as the binding does not hold a
      * strong reference to the target. If the target is destroyed before the
      * binding then this function will return {@code null}.
-     * @return the target {@link Object}, or {@code null} if the
+     * @return the target {@link GObject}, or {@code null} if the
      *     target does not exist any more.
      */
-    public @Nullable org.gtk.gobject.Object dupTarget() {
+    public @Nullable org.gtk.gobject.GObject dupTarget() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_binding_dup_target.invokeExact(
@@ -166,14 +148,14 @@ public class Binding extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Retrieves the flags passed when constructing the {@link Binding}.
      * @return the {@link BindingFlags} used by the {@link Binding}
      */
-    public @NotNull org.gtk.gobject.BindingFlags getFlags() {
+    public org.gtk.gobject.BindingFlags getFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_binding_get_flags.invokeExact(
@@ -185,22 +167,22 @@ public class Binding extends org.gtk.gobject.Object {
     }
     
     /**
-     * Retrieves the {@link Object} instance used as the source of the binding.
+     * Retrieves the {@link GObject} instance used as the source of the binding.
      * <p>
-     * A {@link Binding} can outlive the source {@link Object} as the binding does not hold a
+     * A {@link Binding} can outlive the source {@link GObject} as the binding does not hold a
      * strong reference to the source. If the source is destroyed before the
      * binding then this function will return {@code null}.
      * <p>
      * Use g_binding_dup_source() if the source or binding are used from different
      * threads as otherwise the pointer returned from this function might become
      * invalid if the source is finalized from another thread in the meantime.
-     * @return the source {@link Object}, or {@code null} if the
+     * @return the source {@link GObject}, or {@code null} if the
      *     source does not exist any more.
      * @deprecated Use g_binding_dup_source() for a safer version of this
      * function.
      */
     @Deprecated
-    public @Nullable org.gtk.gobject.Object getSource() {
+    public @Nullable org.gtk.gobject.GObject getSource() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source.invokeExact(
@@ -208,7 +190,7 @@ public class Binding extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -216,7 +198,7 @@ public class Binding extends org.gtk.gobject.Object {
      * of the binding.
      * @return the name of the source property
      */
-    public @NotNull java.lang.String getSourceProperty() {
+    public java.lang.String getSourceProperty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_binding_get_source_property.invokeExact(
@@ -224,26 +206,26 @@ public class Binding extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
-     * Retrieves the {@link Object} instance used as the target of the binding.
+     * Retrieves the {@link GObject} instance used as the target of the binding.
      * <p>
-     * A {@link Binding} can outlive the target {@link Object} as the binding does not hold a
+     * A {@link Binding} can outlive the target {@link GObject} as the binding does not hold a
      * strong reference to the target. If the target is destroyed before the
      * binding then this function will return {@code null}.
      * <p>
      * Use g_binding_dup_target() if the target or binding are used from different
      * threads as otherwise the pointer returned from this function might become
      * invalid if the target is finalized from another thread in the meantime.
-     * @return the target {@link Object}, or {@code null} if the
+     * @return the target {@link GObject}, or {@code null} if the
      *     target does not exist any more.
      * @deprecated Use g_binding_dup_target() for a safer version of this
      * function.
      */
     @Deprecated
-    public @Nullable org.gtk.gobject.Object getTarget() {
+    public @Nullable org.gtk.gobject.GObject getTarget() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target.invokeExact(
@@ -251,7 +233,7 @@ public class Binding extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -259,7 +241,7 @@ public class Binding extends org.gtk.gobject.Object {
      * of the binding.
      * @return the name of the target property
      */
-    public @NotNull java.lang.String getTargetProperty() {
+    public java.lang.String getTargetProperty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_binding_get_target_property.invokeExact(
@@ -267,7 +249,7 @@ public class Binding extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -296,7 +278,7 @@ public class Binding extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_binding_get_type.invokeExact();
@@ -305,38 +287,40 @@ public class Binding extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Binding.Builder} object constructs a {@link Binding} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Binding.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Binding.Build} object constructs a {@link Binding} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Binding} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Binding} using {@link Binding#castFrom}.
+         * {@link Binding}.
          * @return A new instance of {@code Binding} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Binding construct() {
-            return Binding.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Binding.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Binding build() {
+            return (Binding) org.gtk.gobject.GObject.newWithProperties(
+                Binding.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -345,18 +329,18 @@ public class Binding extends org.gtk.gobject.Object {
          * @param flags The value for the {@code flags} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(org.gtk.gobject.BindingFlags flags) {
+        public Builder setFlags(org.gtk.gobject.BindingFlags flags) {
             names.add("flags");
             values.add(org.gtk.gobject.Value.create(flags));
             return this;
         }
         
         /**
-         * The {@link Object} that should be used as the source of the binding
+         * The {@link GObject} that should be used as the source of the binding
          * @param source The value for the {@code source} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSource(org.gtk.gobject.Object source) {
+        public Builder setSource(org.gtk.gobject.GObject source) {
             names.add("source");
             values.add(org.gtk.gobject.Value.create(source));
             return this;
@@ -371,18 +355,18 @@ public class Binding extends org.gtk.gobject.Object {
          * @param sourceProperty The value for the {@code source-property} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSourceProperty(java.lang.String sourceProperty) {
+        public Builder setSourceProperty(java.lang.String sourceProperty) {
             names.add("source-property");
             values.add(org.gtk.gobject.Value.create(sourceProperty));
             return this;
         }
         
         /**
-         * The {@link Object} that should be used as the target of the binding
+         * The {@link GObject} that should be used as the target of the binding
          * @param target The value for the {@code target} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTarget(org.gtk.gobject.Object target) {
+        public Builder setTarget(org.gtk.gobject.GObject target) {
             names.add("target");
             values.add(org.gtk.gobject.Value.create(target));
             return this;
@@ -397,7 +381,7 @@ public class Binding extends org.gtk.gobject.Object {
          * @param targetProperty The value for the {@code target-property} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTargetProperty(java.lang.String targetProperty) {
+        public Builder setTargetProperty(java.lang.String targetProperty) {
             names.add("target-property");
             values.add(org.gtk.gobject.Value.create(targetProperty));
             return this;

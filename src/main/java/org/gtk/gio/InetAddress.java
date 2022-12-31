@@ -17,7 +17,7 @@ import org.jetbrains.annotations.*;
  * {@link InetSocketAddress} (which includes a {@link InetAddress} as well as a
  * port number).
  */
-public class InetAddress extends org.gtk.gobject.Object {
+public class InetAddress extends org.gtk.gobject.GObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -25,18 +25,16 @@ public class InetAddress extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GInetAddress";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -44,34 +42,15 @@ public class InetAddress extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InetAddress(Addressable address, Ownership ownership) {
+    protected InetAddress(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to InetAddress if its GType is a (or inherits from) "GInetAddress".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code InetAddress} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GInetAddress", a ClassCastException will be thrown.
-     */
-    public static InetAddress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), InetAddress.getType())) {
-            return new InetAddress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GInetAddress");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InetAddress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InetAddress(input, ownership);
     
-    private static Addressable constructNewAny(@NotNull org.gtk.gio.SocketFamily family) {
-        java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewAny(org.gtk.gio.SocketFamily family) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_address_new_any.invokeExact(
                     family.getValue());
@@ -89,14 +68,13 @@ public class InetAddress extends org.gtk.gobject.Object {
      * for {@code family}.
      *     Free the returned object with g_object_unref().
      */
-    public static InetAddress newAny(@NotNull org.gtk.gio.SocketFamily family) {
-        return new InetAddress(constructNewAny(family), Ownership.FULL);
+    public static InetAddress newAny(org.gtk.gio.SocketFamily family) {
+        var RESULT = constructNewAny(family);
+        return (org.gtk.gio.InetAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromBytes(@NotNull byte[] bytes, @NotNull org.gtk.gio.SocketFamily family) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
-        java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromBytes(byte[] bytes, org.gtk.gio.SocketFamily family) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_address_new_from_bytes.invokeExact(
                     Interop.allocateNativeArray(bytes, false),
@@ -116,16 +94,16 @@ public class InetAddress extends org.gtk.gobject.Object {
      * @return a new {@link InetAddress} corresponding to {@code family} and {@code bytes}.
      *     Free the returned object with g_object_unref().
      */
-    public static InetAddress newFromBytes(@NotNull byte[] bytes, @NotNull org.gtk.gio.SocketFamily family) {
-        return new InetAddress(constructNewFromBytes(bytes, family), Ownership.FULL);
+    public static InetAddress newFromBytes(byte[] bytes, org.gtk.gio.SocketFamily family) {
+        var RESULT = constructNewFromBytes(bytes, family);
+        return (org.gtk.gio.InetAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewFromString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromString(java.lang.String string) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_address_new_from_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,13 +117,13 @@ public class InetAddress extends org.gtk.gobject.Object {
      * to {@code string}, or {@code null} if {@code string} could not be parsed.
      *     Free the returned object with g_object_unref().
      */
-    public static InetAddress newFromString(@NotNull java.lang.String string) {
-        return new InetAddress(constructNewFromString(string), Ownership.FULL);
+    public static InetAddress newFromString(java.lang.String string) {
+        var RESULT = constructNewFromString(string);
+        return (org.gtk.gio.InetAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewLoopback(@NotNull org.gtk.gio.SocketFamily family) {
-        java.util.Objects.requireNonNull(family, "Parameter 'family' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewLoopback(org.gtk.gio.SocketFamily family) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_address_new_loopback.invokeExact(
                     family.getValue());
@@ -162,8 +140,9 @@ public class InetAddress extends org.gtk.gobject.Object {
      * for {@code family}.
      *     Free the returned object with g_object_unref().
      */
-    public static InetAddress newLoopback(@NotNull org.gtk.gio.SocketFamily family) {
-        return new InetAddress(constructNewLoopback(family), Ownership.FULL);
+    public static InetAddress newLoopback(org.gtk.gio.SocketFamily family) {
+        var RESULT = constructNewLoopback(family);
+        return (org.gtk.gio.InetAddress) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.InetAddress.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -171,8 +150,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * @param otherAddress Another {@link InetAddress}.
      * @return {@code true} if {@code address} and {@code other_address} are equal, {@code false} otherwise.
      */
-    public boolean equal(@NotNull org.gtk.gio.InetAddress otherAddress) {
-        java.util.Objects.requireNonNull(otherAddress, "Parameter 'otherAddress' must not be null");
+    public boolean equal(org.gtk.gio.InetAddress otherAddress) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_inet_address_equal.invokeExact(
@@ -181,14 +159,14 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets {@code address}'s family
      * @return {@code address}'s family
      */
-    public @NotNull org.gtk.gio.SocketFamily getFamily() {
+    public org.gtk.gio.SocketFamily getFamily() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_inet_address_get_family.invokeExact(
@@ -211,7 +189,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -228,7 +206,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -243,7 +221,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -258,7 +236,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -273,7 +251,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -288,7 +266,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -303,7 +281,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -318,7 +296,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -333,7 +311,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -351,7 +329,7 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -392,7 +370,7 @@ public class InetAddress extends org.gtk.gobject.Object {
      * @return a representation of {@code address} as a string, which should be
      * freed after use.
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_inet_address_to_string.invokeExact(
@@ -400,14 +378,14 @@ public class InetAddress extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_inet_address_get_type.invokeExact();
@@ -416,48 +394,50 @@ public class InetAddress extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link InetAddress.Builder} object constructs a {@link InetAddress} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link InetAddress.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link InetAddress.Build} object constructs a {@link InetAddress} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link InetAddress} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link InetAddress} using {@link InetAddress#castFrom}.
+         * {@link InetAddress}.
          * @return A new instance of {@code InetAddress} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public InetAddress construct() {
-            return InetAddress.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    InetAddress.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public InetAddress build() {
+            return (InetAddress) org.gtk.gobject.GObject.newWithProperties(
+                InetAddress.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setBytes(java.lang.foreign.MemoryAddress bytes) {
+        public Builder setBytes(java.lang.foreign.MemoryAddress bytes) {
             names.add("bytes");
             values.add(org.gtk.gobject.Value.create(bytes));
             return this;
         }
         
-        public Build setFamily(org.gtk.gio.SocketFamily family) {
+        public Builder setFamily(org.gtk.gio.SocketFamily family) {
             names.add("family");
             values.add(org.gtk.gobject.Value.create(family));
             return this;
@@ -469,7 +449,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isAny The value for the {@code is-any} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsAny(boolean isAny) {
+        public Builder setIsAny(boolean isAny) {
             names.add("is-any");
             values.add(org.gtk.gobject.Value.create(isAny));
             return this;
@@ -481,7 +461,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isLinkLocal The value for the {@code is-link-local} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsLinkLocal(boolean isLinkLocal) {
+        public Builder setIsLinkLocal(boolean isLinkLocal) {
             names.add("is-link-local");
             values.add(org.gtk.gobject.Value.create(isLinkLocal));
             return this;
@@ -493,7 +473,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isLoopback The value for the {@code is-loopback} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsLoopback(boolean isLoopback) {
+        public Builder setIsLoopback(boolean isLoopback) {
             names.add("is-loopback");
             values.add(org.gtk.gobject.Value.create(isLoopback));
             return this;
@@ -505,7 +485,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isMcGlobal The value for the {@code is-mc-global} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsMcGlobal(boolean isMcGlobal) {
+        public Builder setIsMcGlobal(boolean isMcGlobal) {
             names.add("is-mc-global");
             values.add(org.gtk.gobject.Value.create(isMcGlobal));
             return this;
@@ -517,7 +497,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isMcLinkLocal The value for the {@code is-mc-link-local} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsMcLinkLocal(boolean isMcLinkLocal) {
+        public Builder setIsMcLinkLocal(boolean isMcLinkLocal) {
             names.add("is-mc-link-local");
             values.add(org.gtk.gobject.Value.create(isMcLinkLocal));
             return this;
@@ -529,7 +509,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isMcNodeLocal The value for the {@code is-mc-node-local} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsMcNodeLocal(boolean isMcNodeLocal) {
+        public Builder setIsMcNodeLocal(boolean isMcNodeLocal) {
             names.add("is-mc-node-local");
             values.add(org.gtk.gobject.Value.create(isMcNodeLocal));
             return this;
@@ -541,7 +521,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isMcOrgLocal The value for the {@code is-mc-org-local} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsMcOrgLocal(boolean isMcOrgLocal) {
+        public Builder setIsMcOrgLocal(boolean isMcOrgLocal) {
             names.add("is-mc-org-local");
             values.add(org.gtk.gobject.Value.create(isMcOrgLocal));
             return this;
@@ -553,7 +533,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isMcSiteLocal The value for the {@code is-mc-site-local} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsMcSiteLocal(boolean isMcSiteLocal) {
+        public Builder setIsMcSiteLocal(boolean isMcSiteLocal) {
             names.add("is-mc-site-local");
             values.add(org.gtk.gobject.Value.create(isMcSiteLocal));
             return this;
@@ -565,7 +545,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isMulticast The value for the {@code is-multicast} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsMulticast(boolean isMulticast) {
+        public Builder setIsMulticast(boolean isMulticast) {
             names.add("is-multicast");
             values.add(org.gtk.gobject.Value.create(isMulticast));
             return this;
@@ -577,7 +557,7 @@ public class InetAddress extends org.gtk.gobject.Object {
          * @param isSiteLocal The value for the {@code is-site-local} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsSiteLocal(boolean isSiteLocal) {
+        public Builder setIsSiteLocal(boolean isSiteLocal) {
             names.add("is-site-local");
             values.add(org.gtk.gobject.Value.create(isSiteLocal));
             return this;

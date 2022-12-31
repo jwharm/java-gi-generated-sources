@@ -44,20 +44,18 @@ public class GLAPI extends io.github.jwharm.javagi.Bitfield {
         super(value);
     }
     
-    public static @NotNull org.gstreamer.gl.GLAPI fromString(@NotNull java.lang.String apiS) {
-        java.util.Objects.requireNonNull(apiS, "Parameter 'apiS' must not be null");
+    public static org.gstreamer.gl.GLAPI fromString(java.lang.String apiS) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_api_from_string.invokeExact(
-                    Interop.allocateNativeString(apiS));
+                    Marshal.stringToAddress.marshal(apiS, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gstreamer.gl.GLAPI(RESULT);
     }
     
-    public static @NotNull java.lang.String toString(@NotNull org.gstreamer.gl.GLAPI api) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
+    public static java.lang.String toString(org.gstreamer.gl.GLAPI api) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_api_to_string.invokeExact(
@@ -65,16 +63,20 @@ public class GLAPI extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public GLAPI or(GLAPI mask) {
-        return new GLAPI(this.getValue() | mask.getValue());
+    public GLAPI or(GLAPI... masks) {
+        int value = this.getValue();
+        for (GLAPI arg : masks) {
+            value |= arg.getValue();
+        }
+        return new GLAPI(value);
     }
     
     /**
@@ -84,7 +86,8 @@ public class GLAPI extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static GLAPI combined(GLAPI mask, GLAPI... masks) {
-        int value = mask.getValue();        for (GLAPI arg : masks) {
+        int value = mask.getValue();
+        for (GLAPI arg : masks) {
             value |= arg.getValue();
         }
         return new GLAPI(value);

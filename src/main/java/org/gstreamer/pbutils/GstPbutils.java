@@ -14,7 +14,15 @@ public final class GstPbutils {
         System.loadLibrary("gstpbutils-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * {@link EncodingTarget} category for recording and capture.
@@ -88,9 +96,7 @@ public final class GstPbutils {
      * @param len Length of {@code audio_config} in bytes
      * @return {@code true} if the level and profile could be set, {@code false} otherwise.
      */
-    public static boolean codecUtilsAacCapsSetLevelAndProfile(@NotNull org.gstreamer.gst.Caps caps, @NotNull byte[] audioConfig, int len) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(audioConfig, "Parameter 'audioConfig' must not be null");
+    public static boolean codecUtilsAacCapsSetLevelAndProfile(org.gstreamer.gst.Caps caps, byte[] audioConfig, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_codec_utils_aac_caps_set_level_and_profile.invokeExact(
@@ -100,7 +106,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -111,8 +117,7 @@ public final class GstPbutils {
      * @param len Length of {@code audio_config} in bytes
      * @return The channels or 0 if the channel could not be determined.
      */
-    public static int codecUtilsAacGetChannels(@NotNull byte[] audioConfig, int len) {
-        java.util.Objects.requireNonNull(audioConfig, "Parameter 'audioConfig' must not be null");
+    public static int codecUtilsAacGetChannels(byte[] audioConfig, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_codec_utils_aac_get_channels.invokeExact(
@@ -162,8 +167,7 @@ public final class GstPbutils {
      * @return The level as a const string and {@code null} if the level could not be
      * determined.
      */
-    public static @Nullable java.lang.String codecUtilsAacGetLevel(@NotNull byte[] audioConfig, int len) {
-        java.util.Objects.requireNonNull(audioConfig, "Parameter 'audioConfig' must not be null");
+    public static @Nullable java.lang.String codecUtilsAacGetLevel(byte[] audioConfig, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_aac_get_level.invokeExact(
@@ -172,7 +176,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -186,8 +190,7 @@ public final class GstPbutils {
      * @return The profile as a const string and {@code null} if the profile could not be
      * determined.
      */
-    public static @Nullable java.lang.String codecUtilsAacGetProfile(@NotNull byte[] audioConfig, int len) {
-        java.util.Objects.requireNonNull(audioConfig, "Parameter 'audioConfig' must not be null");
+    public static @Nullable java.lang.String codecUtilsAacGetProfile(byte[] audioConfig, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_aac_get_profile.invokeExact(
@@ -196,7 +199,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -208,8 +211,7 @@ public final class GstPbutils {
      * @param len Length of {@code audio_config}
      * @return The sample rate if sr_idx is valid, 0 otherwise.
      */
-    public static int codecUtilsAacGetSampleRate(@NotNull byte[] audioConfig, int len) {
-        java.util.Objects.requireNonNull(audioConfig, "Parameter 'audioConfig' must not be null");
+    public static int codecUtilsAacGetSampleRate(byte[] audioConfig, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_codec_utils_aac_get_sample_rate.invokeExact(
@@ -249,8 +251,7 @@ public final class GstPbutils {
      * @param caps A {@link org.gstreamer.gst.Caps} to convert to mime codec
      * @return a RFC 6381 compatible codec string or {@code null}
      */
-    public static @Nullable java.lang.String codecUtilsCapsGetMimeCodec(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static @Nullable java.lang.String codecUtilsCapsGetMimeCodec(org.gstreamer.gst.Caps caps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_caps_get_mime_codec.invokeExact(
@@ -258,7 +259,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -270,9 +271,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code sps}.
      * @return {@code true} if the level and profile could be set, {@code false} otherwise.
      */
-    public static boolean codecUtilsH264CapsSetLevelAndProfile(@NotNull org.gstreamer.gst.Caps caps, @NotNull byte[] sps, int len) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(sps, "Parameter 'sps' must not be null");
+    public static boolean codecUtilsH264CapsSetLevelAndProfile(org.gstreamer.gst.Caps caps, byte[] sps, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_codec_utils_h264_caps_set_level_and_profile.invokeExact(
@@ -282,7 +281,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -293,8 +292,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code sps}.
      * @return The level as a const string, or {@code null} if there is an error.
      */
-    public static @Nullable java.lang.String codecUtilsH264GetLevel(@NotNull byte[] sps, int len) {
-        java.util.Objects.requireNonNull(sps, "Parameter 'sps' must not be null");
+    public static @Nullable java.lang.String codecUtilsH264GetLevel(byte[] sps, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_h264_get_level.invokeExact(
@@ -303,7 +301,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -311,12 +309,11 @@ public final class GstPbutils {
      * @param level A level string from caps
      * @return the level_idc or 0 if the level is unknown
      */
-    public static byte codecUtilsH264GetLevelIdc(@NotNull java.lang.String level) {
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
+    public static byte codecUtilsH264GetLevelIdc(java.lang.String level) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.gst_codec_utils_h264_get_level_idc.invokeExact(
-                    Interop.allocateNativeString(level));
+                    Marshal.stringToAddress.marshal(level, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -342,8 +339,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code sps}.
      * @return The profile as a const string, or {@code null} if there is an error.
      */
-    public static @Nullable java.lang.String codecUtilsH264GetProfile(@NotNull byte[] sps, int len) {
-        java.util.Objects.requireNonNull(sps, "Parameter 'sps' must not be null");
+    public static @Nullable java.lang.String codecUtilsH264GetProfile(byte[] sps, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_h264_get_profile.invokeExact(
@@ -352,7 +348,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -370,29 +366,25 @@ public final class GstPbutils {
      * @param level return location h264 level_idc or {@code null}
      * @return {@code true} on success, {@code false} on failure
      */
-    public static boolean codecUtilsH264GetProfileFlagsLevel(@NotNull byte[] codecData, int len, Out<Byte> profile, Out<Byte> flags, Out<Byte> level) {
-        java.util.Objects.requireNonNull(codecData, "Parameter 'codecData' must not be null");
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public static boolean codecUtilsH264GetProfileFlagsLevel(byte[] codecData, int len, Out<Byte> profile, Out<Byte> flags, Out<Byte> level) {
         MemorySegment profilePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
         MemorySegment flagsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
         MemorySegment levelPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_codec_utils_h264_get_profile_flags_level.invokeExact(
                     Interop.allocateNativeArray(codecData, false),
                     len,
-                    (Addressable) profilePOINTER.address(),
-                    (Addressable) flagsPOINTER.address(),
-                    (Addressable) levelPOINTER.address());
+                    (Addressable) (profile == null ? MemoryAddress.NULL : (Addressable) profilePOINTER.address()),
+                    (Addressable) (flags == null ? MemoryAddress.NULL : (Addressable) flagsPOINTER.address()),
+                    (Addressable) (level == null ? MemoryAddress.NULL : (Addressable) levelPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        profile.set(profilePOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        flags.set(flagsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        level.set(levelPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        return RESULT != 0;
+        if (profile != null) profile.set(profilePOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (flags != null) flags.set(flagsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (level != null) level.set(levelPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -406,9 +398,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code profile_tier_level}.
      * @return {@code true} if the level, tier, profile could be set, {@code false} otherwise.
      */
-    public static boolean codecUtilsH265CapsSetLevelTierAndProfile(@NotNull org.gstreamer.gst.Caps caps, @NotNull byte[] profileTierLevel, int len) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(profileTierLevel, "Parameter 'profileTierLevel' must not be null");
+    public static boolean codecUtilsH265CapsSetLevelTierAndProfile(org.gstreamer.gst.Caps caps, byte[] profileTierLevel, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_codec_utils_h265_caps_set_level_tier_and_profile.invokeExact(
@@ -418,7 +408,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -430,8 +420,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code profile_tier_level}.
      * @return The level as a const string, or {@code null} if there is an error.
      */
-    public static @Nullable java.lang.String codecUtilsH265GetLevel(@NotNull byte[] profileTierLevel, int len) {
-        java.util.Objects.requireNonNull(profileTierLevel, "Parameter 'profileTierLevel' must not be null");
+    public static @Nullable java.lang.String codecUtilsH265GetLevel(byte[] profileTierLevel, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_h265_get_level.invokeExact(
@@ -440,7 +429,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -448,12 +437,11 @@ public final class GstPbutils {
      * @param level A level string from caps
      * @return the level_idc or 0 if the level is unknown
      */
-    public static byte codecUtilsH265GetLevelIdc(@NotNull java.lang.String level) {
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
+    public static byte codecUtilsH265GetLevelIdc(java.lang.String level) {
         byte RESULT;
         try {
             RESULT = (byte) DowncallHandles.gst_codec_utils_h265_get_level_idc.invokeExact(
-                    Interop.allocateNativeString(level));
+                    Marshal.stringToAddress.marshal(level, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -482,8 +470,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code profile_tier_level}
      * @return The profile as a const string, or {@code null} if there is an error.
      */
-    public static @Nullable java.lang.String codecUtilsH265GetProfile(@NotNull byte[] profileTierLevel, int len) {
-        java.util.Objects.requireNonNull(profileTierLevel, "Parameter 'profileTierLevel' must not be null");
+    public static @Nullable java.lang.String codecUtilsH265GetProfile(byte[] profileTierLevel, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_h265_get_profile.invokeExact(
@@ -492,7 +479,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -504,8 +491,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code profile_tier_level}.
      * @return The tier as a const string, or {@code null} if there is an error.
      */
-    public static @Nullable java.lang.String codecUtilsH265GetTier(@NotNull byte[] profileTierLevel, int len) {
-        java.util.Objects.requireNonNull(profileTierLevel, "Parameter 'profileTierLevel' must not be null");
+    public static @Nullable java.lang.String codecUtilsH265GetTier(byte[] profileTierLevel, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_h265_get_tier.invokeExact(
@@ -514,7 +500,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -528,9 +514,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code sps}.
      * @return {@code true} if the level and profile could be set, {@code false} otherwise.
      */
-    public static boolean codecUtilsMpeg4videoCapsSetLevelAndProfile(@NotNull org.gstreamer.gst.Caps caps, @NotNull byte[] visObjSeq, int len) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(visObjSeq, "Parameter 'visObjSeq' must not be null");
+    public static boolean codecUtilsMpeg4videoCapsSetLevelAndProfile(org.gstreamer.gst.Caps caps, byte[] visObjSeq, int len) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_codec_utils_mpeg4video_caps_set_level_and_profile.invokeExact(
@@ -540,7 +524,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -553,8 +537,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code sps}.
      * @return The level as a const string, or NULL if there is an error.
      */
-    public static @Nullable java.lang.String codecUtilsMpeg4videoGetLevel(@NotNull byte[] visObjSeq, int len) {
-        java.util.Objects.requireNonNull(visObjSeq, "Parameter 'visObjSeq' must not be null");
+    public static @Nullable java.lang.String codecUtilsMpeg4videoGetLevel(byte[] visObjSeq, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_mpeg4video_get_level.invokeExact(
@@ -563,7 +546,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -576,8 +559,7 @@ public final class GstPbutils {
      * @param len Length of the data available in {@code sps}.
      * @return The profile as a const string, or NULL if there is an error.
      */
-    public static @Nullable java.lang.String codecUtilsMpeg4videoGetProfile(@NotNull byte[] visObjSeq, int len) {
-        java.util.Objects.requireNonNull(visObjSeq, "Parameter 'visObjSeq' must not be null");
+    public static @Nullable java.lang.String codecUtilsMpeg4videoGetProfile(byte[] visObjSeq, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_mpeg4video_get_profile.invokeExact(
@@ -586,7 +568,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -600,7 +582,7 @@ public final class GstPbutils {
      * @return The {@link org.gstreamer.gst.Caps}, or {@code null} if the parameters would lead to
      * invalid Opus caps.
      */
-    public static @NotNull org.gstreamer.gst.Caps codecUtilsOpusCreateCaps(int rate, byte channels, byte channelMappingFamily, byte streamCount, byte coupledCount, @Nullable byte[] channelMapping) {
+    public static org.gstreamer.gst.Caps codecUtilsOpusCreateCaps(int rate, byte channels, byte channelMappingFamily, byte streamCount, byte coupledCount, byte[] channelMapping) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_opus_create_caps.invokeExact(
@@ -613,7 +595,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -623,8 +605,7 @@ public final class GstPbutils {
      * @param comments Comment header or NULL
      * @return The {@link org.gstreamer.gst.Caps}.
      */
-    public static @NotNull org.gstreamer.gst.Caps codecUtilsOpusCreateCapsFromHeader(@NotNull org.gstreamer.gst.Buffer header, @Nullable org.gstreamer.gst.Buffer comments) {
-        java.util.Objects.requireNonNull(header, "Parameter 'header' must not be null");
+    public static org.gstreamer.gst.Caps codecUtilsOpusCreateCapsFromHeader(org.gstreamer.gst.Buffer header, @Nullable org.gstreamer.gst.Buffer comments) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_opus_create_caps_from_header.invokeExact(
@@ -633,7 +614,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -648,7 +629,7 @@ public final class GstPbutils {
      * @param outputGain Output gain or 0
      * @return The {@link org.gstreamer.gst.Buffer} containing the OpusHead.
      */
-    public static @NotNull org.gstreamer.gst.Buffer codecUtilsOpusCreateHeader(int rate, byte channels, byte channelMappingFamily, byte streamCount, byte coupledCount, @Nullable byte[] channelMapping, short preSkip, short outputGain) {
+    public static org.gstreamer.gst.Buffer codecUtilsOpusCreateHeader(int rate, byte channels, byte channelMappingFamily, byte streamCount, byte coupledCount, byte[] channelMapping, short preSkip, short outputGain) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_codec_utils_opus_create_header.invokeExact(
@@ -663,7 +644,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -677,40 +658,33 @@ public final class GstPbutils {
      * @param channelMapping the mapping between the streams
      * @return {@code true} if parsing was successful, {@code false} otherwise.
      */
-    public static boolean codecUtilsOpusParseCaps(@NotNull org.gstreamer.gst.Caps caps, Out<Integer> rate, Out<Byte> channels, Out<Byte> channelMappingFamily, Out<Byte> streamCount, Out<Byte> coupledCount, @NotNull Out<byte[]> channelMapping) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(rate, "Parameter 'rate' must not be null");
+    public static boolean codecUtilsOpusParseCaps(org.gstreamer.gst.Caps caps, Out<Integer> rate, Out<Byte> channels, Out<Byte> channelMappingFamily, Out<Byte> streamCount, Out<Byte> coupledCount, Out<byte[]> channelMapping) {
         MemorySegment ratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(channels, "Parameter 'channels' must not be null");
         MemorySegment channelsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(channelMappingFamily, "Parameter 'channelMappingFamily' must not be null");
         MemorySegment channelMappingFamilyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(streamCount, "Parameter 'streamCount' must not be null");
         MemorySegment streamCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(coupledCount, "Parameter 'coupledCount' must not be null");
         MemorySegment coupledCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(channelMapping, "Parameter 'channelMapping' must not be null");
         MemorySegment channelMappingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_codec_utils_opus_parse_caps.invokeExact(
                     caps.handle(),
-                    (Addressable) ratePOINTER.address(),
-                    (Addressable) channelsPOINTER.address(),
-                    (Addressable) channelMappingFamilyPOINTER.address(),
-                    (Addressable) streamCountPOINTER.address(),
-                    (Addressable) coupledCountPOINTER.address(),
-                    (Addressable) channelMappingPOINTER.address());
+                    (Addressable) (rate == null ? MemoryAddress.NULL : (Addressable) ratePOINTER.address()),
+                    (Addressable) (channels == null ? MemoryAddress.NULL : (Addressable) channelsPOINTER.address()),
+                    (Addressable) (channelMappingFamily == null ? MemoryAddress.NULL : (Addressable) channelMappingFamilyPOINTER.address()),
+                    (Addressable) (streamCount == null ? MemoryAddress.NULL : (Addressable) streamCountPOINTER.address()),
+                    (Addressable) (coupledCount == null ? MemoryAddress.NULL : (Addressable) coupledCountPOINTER.address()),
+                    (Addressable) (channelMapping == null ? MemoryAddress.NULL : (Addressable) channelMappingPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rate.set(ratePOINTER.get(Interop.valueLayout.C_INT, 0));
-        channels.set(channelsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        channelMappingFamily.set(channelMappingFamilyPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        streamCount.set(streamCountPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        coupledCount.set(coupledCountPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (rate != null) rate.set(ratePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (channels != null) channels.set(channelsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (channelMappingFamily != null) channelMappingFamily.set(channelMappingFamilyPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (streamCount != null) streamCount.set(streamCountPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (coupledCount != null) coupledCount.set(coupledCountPOINTER.get(Interop.valueLayout.C_BYTE, 0));
         channelMapping.set(MemorySegment.ofAddress(channelMappingPOINTER.get(Interop.valueLayout.ADDRESS, 0), 256 * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -726,48 +700,39 @@ public final class GstPbutils {
      * @param outputGain Output gain or 0
      * @return {@code true} if parsing was successful, {@code false} otherwise.
      */
-    public static boolean codecUtilsOpusParseHeader(@NotNull org.gstreamer.gst.Buffer header, Out<Integer> rate, Out<Byte> channels, Out<Byte> channelMappingFamily, Out<Byte> streamCount, Out<Byte> coupledCount, @NotNull Out<byte[]> channelMapping, Out<Short> preSkip, Out<Short> outputGain) {
-        java.util.Objects.requireNonNull(header, "Parameter 'header' must not be null");
-        java.util.Objects.requireNonNull(rate, "Parameter 'rate' must not be null");
+    public static boolean codecUtilsOpusParseHeader(org.gstreamer.gst.Buffer header, Out<Integer> rate, Out<Byte> channels, Out<Byte> channelMappingFamily, Out<Byte> streamCount, Out<Byte> coupledCount, Out<byte[]> channelMapping, Out<Short> preSkip, Out<Short> outputGain) {
         MemorySegment ratePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(channels, "Parameter 'channels' must not be null");
         MemorySegment channelsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(channelMappingFamily, "Parameter 'channelMappingFamily' must not be null");
         MemorySegment channelMappingFamilyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(streamCount, "Parameter 'streamCount' must not be null");
         MemorySegment streamCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(coupledCount, "Parameter 'coupledCount' must not be null");
         MemorySegment coupledCountPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_BYTE);
-        java.util.Objects.requireNonNull(channelMapping, "Parameter 'channelMapping' must not be null");
         MemorySegment channelMappingPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(preSkip, "Parameter 'preSkip' must not be null");
         MemorySegment preSkipPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
-        java.util.Objects.requireNonNull(outputGain, "Parameter 'outputGain' must not be null");
         MemorySegment outputGainPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_SHORT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_codec_utils_opus_parse_header.invokeExact(
                     header.handle(),
-                    (Addressable) ratePOINTER.address(),
-                    (Addressable) channelsPOINTER.address(),
-                    (Addressable) channelMappingFamilyPOINTER.address(),
-                    (Addressable) streamCountPOINTER.address(),
-                    (Addressable) coupledCountPOINTER.address(),
-                    (Addressable) channelMappingPOINTER.address(),
-                    (Addressable) preSkipPOINTER.address(),
-                    (Addressable) outputGainPOINTER.address());
+                    (Addressable) (rate == null ? MemoryAddress.NULL : (Addressable) ratePOINTER.address()),
+                    (Addressable) (channels == null ? MemoryAddress.NULL : (Addressable) channelsPOINTER.address()),
+                    (Addressable) (channelMappingFamily == null ? MemoryAddress.NULL : (Addressable) channelMappingFamilyPOINTER.address()),
+                    (Addressable) (streamCount == null ? MemoryAddress.NULL : (Addressable) streamCountPOINTER.address()),
+                    (Addressable) (coupledCount == null ? MemoryAddress.NULL : (Addressable) coupledCountPOINTER.address()),
+                    (Addressable) (channelMapping == null ? MemoryAddress.NULL : (Addressable) channelMappingPOINTER.address()),
+                    (Addressable) (preSkip == null ? MemoryAddress.NULL : (Addressable) preSkipPOINTER.address()),
+                    (Addressable) (outputGain == null ? MemoryAddress.NULL : (Addressable) outputGainPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        rate.set(ratePOINTER.get(Interop.valueLayout.C_INT, 0));
-        channels.set(channelsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        channelMappingFamily.set(channelMappingFamilyPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        streamCount.set(streamCountPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        coupledCount.set(coupledCountPOINTER.get(Interop.valueLayout.C_BYTE, 0));
-        preSkip.set(preSkipPOINTER.get(Interop.valueLayout.C_SHORT, 0));
-        outputGain.set(outputGainPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+        if (rate != null) rate.set(ratePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (channels != null) channels.set(channelsPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (channelMappingFamily != null) channelMappingFamily.set(channelMappingFamilyPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (streamCount != null) streamCount.set(streamCountPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (coupledCount != null) coupledCount.set(coupledCountPOINTER.get(Interop.valueLayout.C_BYTE, 0));
+        if (preSkip != null) preSkip.set(preSkipPOINTER.get(Interop.valueLayout.C_SHORT, 0));
+        if (outputGain != null) outputGain.set(outputGainPOINTER.get(Interop.valueLayout.C_SHORT, 0));
         channelMapping.set(MemorySegment.ofAddress(channelMappingPOINTER.get(Interop.valueLayout.ADDRESS, 0), 256 * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -777,15 +742,15 @@ public final class GstPbutils {
      * Can be {@code null}.
      * @return The list of {@link EncodingTarget}
      */
-    public static @NotNull org.gtk.glib.List encodingListAllTargets(@Nullable java.lang.String categoryname) {
+    public static org.gtk.glib.List encodingListAllTargets(@Nullable java.lang.String categoryname) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_list_all_targets.invokeExact(
-                    (Addressable) (categoryname == null ? MemoryAddress.NULL : Interop.allocateNativeString(categoryname)));
+                    (Addressable) (categoryname == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(categoryname, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -793,14 +758,14 @@ public final class GstPbutils {
      * @return A list
      * of {@link EncodingTarget} categories.
      */
-    public static @NotNull org.gtk.glib.List encodingListAvailableCategories() {
+    public static org.gtk.glib.List encodingListAvailableCategories() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_encoding_list_available_categories.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -826,20 +791,14 @@ public final class GstPbutils {
      * @param func the function to call when the installer program returns
      * @return result code whether an external installer could be started
      */
-    public static @NotNull org.gstreamer.pbutils.InstallPluginsReturn installPluginsAsync(@NotNull java.lang.String[] details, @Nullable org.gstreamer.pbutils.InstallPluginsContext ctx, @NotNull org.gstreamer.pbutils.InstallPluginsResultFunc func) {
-        java.util.Objects.requireNonNull(details, "Parameter 'details' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gstreamer.pbutils.InstallPluginsReturn installPluginsAsync(java.lang.String[] details, @Nullable org.gstreamer.pbutils.InstallPluginsContext ctx, org.gstreamer.pbutils.InstallPluginsResultFunc func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_install_plugins_async.invokeExact(
                     Interop.allocateNativeArray(details, false),
                     (Addressable) (ctx == null ? MemoryAddress.NULL : ctx.handle()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstPbutils.Callbacks.class, "cbInstallPluginsResultFunc",
-                            MethodType.methodType(void.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -858,7 +817,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -869,8 +828,7 @@ public final class GstPbutils {
      * @param ret the return status code
      * @return a descriptive string for the status code in {@code ret}
      */
-    public static @NotNull java.lang.String installPluginsReturnGetName(@NotNull org.gstreamer.pbutils.InstallPluginsReturn ret) {
-        java.util.Objects.requireNonNull(ret, "Parameter 'ret' must not be null");
+    public static java.lang.String installPluginsReturnGetName(org.gstreamer.pbutils.InstallPluginsReturn ret) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_install_plugins_return_get_name.invokeExact(
@@ -878,7 +836,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -895,7 +853,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -912,8 +870,7 @@ public final class GstPbutils {
      * @param ctx a {@link InstallPluginsContext}, or NULL
      * @return the result of the installation.
      */
-    public static @NotNull org.gstreamer.pbutils.InstallPluginsReturn installPluginsSync(@NotNull java.lang.String[] details, @Nullable org.gstreamer.pbutils.InstallPluginsContext ctx) {
-        java.util.Objects.requireNonNull(details, "Parameter 'details' must not be null");
+    public static org.gstreamer.pbutils.InstallPluginsReturn installPluginsSync(java.lang.String[] details, @Nullable org.gstreamer.pbutils.InstallPluginsContext ctx) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_install_plugins_sync.invokeExact(
@@ -930,8 +887,7 @@ public final class GstPbutils {
      * @param msg a {@link org.gstreamer.gst.Message}
      * @return {@code true} if {@code msg} is a missing-plugins message, otherwise {@code false}.
      */
-    public static boolean isMissingPluginMessage(@NotNull org.gstreamer.gst.Message msg) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static boolean isMissingPluginMessage(org.gstreamer.gst.Message msg) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_missing_plugin_message.invokeExact(
@@ -939,7 +895,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -955,8 +911,7 @@ public final class GstPbutils {
      * @return a newly-allocated detail string, or NULL on error. Free string
      *          with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String missingDecoderInstallerDetailNew(@NotNull org.gstreamer.gst.Caps decodeCaps) {
-        java.util.Objects.requireNonNull(decodeCaps, "Parameter 'decodeCaps' must not be null");
+    public static java.lang.String missingDecoderInstallerDetailNew(org.gstreamer.gst.Caps decodeCaps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_decoder_installer_detail_new.invokeExact(
@@ -964,7 +919,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -975,9 +930,7 @@ public final class GstPbutils {
      * @param decodeCaps the (fixed) caps for which a decoder element is needed
      * @return a new {@link org.gstreamer.gst.Message}, or NULL on error
      */
-    public static @NotNull org.gstreamer.gst.Message missingDecoderMessageNew(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Caps decodeCaps) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(decodeCaps, "Parameter 'decodeCaps' must not be null");
+    public static org.gstreamer.gst.Message missingDecoderMessageNew(org.gstreamer.gst.Element element, org.gstreamer.gst.Caps decodeCaps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_decoder_message_new.invokeExact(
@@ -986,7 +939,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1003,16 +956,15 @@ public final class GstPbutils {
      * @return a newly-allocated detail string, or NULL on error. Free string
      *          with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String missingElementInstallerDetailNew(@NotNull java.lang.String factoryName) {
-        java.util.Objects.requireNonNull(factoryName, "Parameter 'factoryName' must not be null");
+    public static java.lang.String missingElementInstallerDetailNew(java.lang.String factoryName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_element_installer_detail_new.invokeExact(
-                    Interop.allocateNativeString(factoryName));
+                    Marshal.stringToAddress.marshal(factoryName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1024,18 +976,16 @@ public final class GstPbutils {
      *            e.g. "videoscale" or "cdparanoiasrc"
      * @return a new {@link org.gstreamer.gst.Message}, or NULL on error
      */
-    public static @NotNull org.gstreamer.gst.Message missingElementMessageNew(@NotNull org.gstreamer.gst.Element element, @NotNull java.lang.String factoryName) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(factoryName, "Parameter 'factoryName' must not be null");
+    public static org.gstreamer.gst.Message missingElementMessageNew(org.gstreamer.gst.Element element, java.lang.String factoryName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_element_message_new.invokeExact(
                     element.handle(),
-                    Interop.allocateNativeString(factoryName));
+                    Marshal.stringToAddress.marshal(factoryName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1051,8 +1001,7 @@ public final class GstPbutils {
      * @return a newly-allocated detail string, or NULL on error. Free string
      *          with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String missingEncoderInstallerDetailNew(@NotNull org.gstreamer.gst.Caps encodeCaps) {
-        java.util.Objects.requireNonNull(encodeCaps, "Parameter 'encodeCaps' must not be null");
+    public static java.lang.String missingEncoderInstallerDetailNew(org.gstreamer.gst.Caps encodeCaps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_encoder_installer_detail_new.invokeExact(
@@ -1060,7 +1009,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1071,9 +1020,7 @@ public final class GstPbutils {
      * @param encodeCaps the (fixed) caps for which an encoder element is needed
      * @return a new {@link org.gstreamer.gst.Message}, or NULL on error
      */
-    public static @NotNull org.gstreamer.gst.Message missingEncoderMessageNew(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Caps encodeCaps) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(encodeCaps, "Parameter 'encodeCaps' must not be null");
+    public static org.gstreamer.gst.Message missingEncoderMessageNew(org.gstreamer.gst.Element element, org.gstreamer.gst.Caps encodeCaps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_encoder_message_new.invokeExact(
@@ -1082,7 +1029,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1097,8 +1044,7 @@ public final class GstPbutils {
      * @return a newly-allocated description string, or NULL on error. Free
      *          string with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String missingPluginMessageGetDescription(@NotNull org.gstreamer.gst.Message msg) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static java.lang.String missingPluginMessageGetDescription(org.gstreamer.gst.Message msg) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_plugin_message_get_description.invokeExact(
@@ -1106,7 +1052,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1120,8 +1066,7 @@ public final class GstPbutils {
      * @return a newly-allocated detail string, or NULL on error. Free string
      *          with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String missingPluginMessageGetInstallerDetail(@NotNull org.gstreamer.gst.Message msg) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static java.lang.String missingPluginMessageGetInstallerDetail(org.gstreamer.gst.Message msg) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_plugin_message_get_installer_detail.invokeExact(
@@ -1129,7 +1074,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1146,16 +1091,15 @@ public final class GstPbutils {
      * @return a newly-allocated detail string, or NULL on error. Free string
      *          with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String missingUriSinkInstallerDetailNew(@NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static java.lang.String missingUriSinkInstallerDetailNew(java.lang.String protocol) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_uri_sink_installer_detail_new.invokeExact(
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1167,18 +1111,16 @@ public final class GstPbutils {
      *            e.g. "http" or "smb"
      * @return a new {@link org.gstreamer.gst.Message}, or NULL on error
      */
-    public static @NotNull org.gstreamer.gst.Message missingUriSinkMessageNew(@NotNull org.gstreamer.gst.Element element, @NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static org.gstreamer.gst.Message missingUriSinkMessageNew(org.gstreamer.gst.Element element, java.lang.String protocol) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_uri_sink_message_new.invokeExact(
                     element.handle(),
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1195,16 +1137,15 @@ public final class GstPbutils {
      * @return a newly-allocated detail string, or NULL on error. Free string
      *          with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String missingUriSourceInstallerDetailNew(@NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static java.lang.String missingUriSourceInstallerDetailNew(java.lang.String protocol) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_uri_source_installer_detail_new.invokeExact(
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1216,18 +1157,16 @@ public final class GstPbutils {
      *            e.g. "http" or "mms"
      * @return a new {@link org.gstreamer.gst.Message}, or NULL on error
      */
-    public static @NotNull org.gstreamer.gst.Message missingUriSourceMessageNew(@NotNull org.gstreamer.gst.Element element, @NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static org.gstreamer.gst.Message missingUriSourceMessageNew(org.gstreamer.gst.Element element, java.lang.String protocol) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_missing_uri_source_message_new.invokeExact(
                     element.handle(),
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1239,19 +1178,17 @@ public final class GstPbutils {
      * @param caps the (fixed) {@link org.gstreamer.gst.Caps} for which a codec tag should be added.
      * @return TRUE if a codec tag was added, FALSE otherwise.
      */
-    public static boolean pbUtilsAddCodecDescriptionToTagList(@NotNull org.gstreamer.gst.TagList taglist, @Nullable java.lang.String codecTag, @NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(taglist, "Parameter 'taglist' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static boolean pbUtilsAddCodecDescriptionToTagList(org.gstreamer.gst.TagList taglist, @Nullable java.lang.String codecTag, org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_pb_utils_add_codec_description_to_tag_list.invokeExact(
                     taglist.handle(),
-                    (Addressable) (codecTag == null ? MemoryAddress.NULL : Interop.allocateNativeString(codecTag)),
+                    (Addressable) (codecTag == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(codecTag, null)),
                     caps.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1261,8 +1198,7 @@ public final class GstPbutils {
      * @return {@link PbUtilsCapsDescriptionFlags} that describe {@code caps}, or no flags
      *          if the caps are unknown.
      */
-    public static @NotNull org.gstreamer.pbutils.PbUtilsCapsDescriptionFlags pbUtilsGetCapsDescriptionFlags(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static org.gstreamer.pbutils.PbUtilsCapsDescriptionFlags pbUtilsGetCapsDescriptionFlags(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_pb_utils_get_caps_description_flags.invokeExact(
@@ -1284,8 +1220,7 @@ public final class GstPbutils {
      * @return a newly-allocated description string, or NULL on error. Free
      *          string with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String pbUtilsGetCodecDescription(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static java.lang.String pbUtilsGetCodecDescription(org.gstreamer.gst.Caps caps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pb_utils_get_codec_description.invokeExact(
@@ -1293,7 +1228,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1308,8 +1243,7 @@ public final class GstPbutils {
      * @return a newly-allocated description string, or NULL on error. Free
      *          string with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String pbUtilsGetDecoderDescription(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static java.lang.String pbUtilsGetDecoderDescription(org.gstreamer.gst.Caps caps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pb_utils_get_decoder_description.invokeExact(
@@ -1317,7 +1251,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1332,16 +1266,15 @@ public final class GstPbutils {
      * @return a newly-allocated description string, or NULL on error. Free
      *          string with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String pbUtilsGetElementDescription(@NotNull java.lang.String factoryName) {
-        java.util.Objects.requireNonNull(factoryName, "Parameter 'factoryName' must not be null");
+    public static java.lang.String pbUtilsGetElementDescription(java.lang.String factoryName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pb_utils_get_element_description.invokeExact(
-                    Interop.allocateNativeString(factoryName));
+                    Marshal.stringToAddress.marshal(factoryName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1356,8 +1289,7 @@ public final class GstPbutils {
      * @return a newly-allocated description string, or NULL on error. Free
      *          string with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String pbUtilsGetEncoderDescription(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static java.lang.String pbUtilsGetEncoderDescription(org.gstreamer.gst.Caps caps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pb_utils_get_encoder_description.invokeExact(
@@ -1365,7 +1297,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1374,8 +1306,7 @@ public final class GstPbutils {
      * @return a newly-allocated file extension string, or NULL on error. Free
      *          string with g_free() when not needed any longer.
      */
-    public static @Nullable java.lang.String pbUtilsGetFileExtensionFromCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static @Nullable java.lang.String pbUtilsGetFileExtensionFromCaps(org.gstreamer.gst.Caps caps) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pb_utils_get_file_extension_from_caps.invokeExact(
@@ -1383,7 +1314,7 @@ public final class GstPbutils {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1398,16 +1329,15 @@ public final class GstPbutils {
      * @return a newly-allocated description string, or NULL on error. Free
      *          string with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String pbUtilsGetSinkDescription(@NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static java.lang.String pbUtilsGetSinkDescription(java.lang.String protocol) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pb_utils_get_sink_description.invokeExact(
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1422,16 +1352,15 @@ public final class GstPbutils {
      * @return a newly-allocated description string, or NULL on error. Free
      *          string with g_free() when not needed any longer.
      */
-    public static @NotNull java.lang.String pbUtilsGetSourceDescription(@NotNull java.lang.String protocol) {
-        java.util.Objects.requireNonNull(protocol, "Parameter 'protocol' must not be null");
+    public static java.lang.String pbUtilsGetSourceDescription(java.lang.String protocol) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pb_utils_get_source_description.invokeExact(
-                    Interop.allocateNativeString(protocol));
+                    Marshal.stringToAddress.marshal(protocol, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1458,13 +1387,9 @@ public final class GstPbutils {
      * @param nano pointer to a guint to store the nano version number, or {@code null}
      */
     public static void pluginsBaseVersion(Out<Integer> major, Out<Integer> minor, Out<Integer> micro, Out<Integer> nano) {
-        java.util.Objects.requireNonNull(major, "Parameter 'major' must not be null");
         MemorySegment majorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minor, "Parameter 'minor' must not be null");
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(micro, "Parameter 'micro' must not be null");
         MemorySegment microPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(nano, "Parameter 'nano' must not be null");
         MemorySegment nanoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_plugins_base_version.invokeExact(
@@ -1487,14 +1412,14 @@ public final class GstPbutils {
      * strings, logging, about dialogs ...
      * @return a newly allocated string describing this version of gst-plugins-base
      */
-    public static @NotNull java.lang.String pluginsBaseVersionString() {
+    public static java.lang.String pluginsBaseVersionString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_plugins_base_version_string.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
@@ -1850,11 +1775,5 @@ public final class GstPbutils {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static void cbInstallPluginsResultFunc(int result, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (InstallPluginsResultFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onInstallPluginsResultFunc(org.gstreamer.pbutils.InstallPluginsReturn.of(result));
-        }
     }
 }

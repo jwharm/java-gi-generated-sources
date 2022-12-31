@@ -28,11 +28,15 @@ public class FileQueryInfoFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FileQueryInfoFlags or(FileQueryInfoFlags mask) {
-        return new FileQueryInfoFlags(this.getValue() | mask.getValue());
+    public FileQueryInfoFlags or(FileQueryInfoFlags... masks) {
+        int value = this.getValue();
+        for (FileQueryInfoFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FileQueryInfoFlags(value);
     }
     
     /**
@@ -42,7 +46,8 @@ public class FileQueryInfoFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FileQueryInfoFlags combined(FileQueryInfoFlags mask, FileQueryInfoFlags... masks) {
-        int value = mask.getValue();        for (FileQueryInfoFlags arg : masks) {
+        int value = mask.getValue();
+        for (FileQueryInfoFlags arg : masks) {
             value |= arg.getValue();
         }
         return new FileQueryInfoFlags(value);

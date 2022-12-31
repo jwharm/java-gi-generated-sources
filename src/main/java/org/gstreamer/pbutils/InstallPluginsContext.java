@@ -44,13 +44,15 @@ public class InstallPluginsContext extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public InstallPluginsContext(Addressable address, Ownership ownership) {
+    protected InstallPluginsContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, InstallPluginsContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new InstallPluginsContext(input, ownership);
+    
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_install_plugins_context_new.invokeExact();
         } catch (Throwable ERR) {
@@ -70,7 +72,7 @@ public class InstallPluginsContext extends Struct {
      * Copies a {@link InstallPluginsContext}.
      * @return A copy of {@code ctx}
      */
-    public @NotNull org.gstreamer.pbutils.InstallPluginsContext copy() {
+    public org.gstreamer.pbutils.InstallPluginsContext copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_install_plugins_context_copy.invokeExact(
@@ -78,7 +80,7 @@ public class InstallPluginsContext extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.pbutils.InstallPluginsContext(RESULT, Ownership.FULL);
+        return org.gstreamer.pbutils.InstallPluginsContext.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -105,7 +107,7 @@ public class InstallPluginsContext extends Struct {
         try {
             DowncallHandles.gst_install_plugins_context_set_confirm_search.invokeExact(
                     handle(),
-                    confirmSearch ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(confirmSearch, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,12 +124,11 @@ public class InstallPluginsContext extends Struct {
      * --desktop-id= command line option.
      * @param desktopId the desktop file ID of the calling application
      */
-    public void setDesktopId(@NotNull java.lang.String desktopId) {
-        java.util.Objects.requireNonNull(desktopId, "Parameter 'desktopId' must not be null");
+    public void setDesktopId(java.lang.String desktopId) {
         try {
             DowncallHandles.gst_install_plugins_context_set_desktop_id.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(desktopId));
+                    Marshal.stringToAddress.marshal(desktopId, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -154,12 +155,11 @@ public class InstallPluginsContext extends Struct {
      * }</pre>
      * @param startupId the startup notification ID
      */
-    public void setStartupNotificationId(@NotNull java.lang.String startupId) {
-        java.util.Objects.requireNonNull(startupId, "Parameter 'startupId' must not be null");
+    public void setStartupNotificationId(java.lang.String startupId) {
         try {
             DowncallHandles.gst_install_plugins_context_set_startup_notification_id.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(startupId));
+                    Marshal.stringToAddress.marshal(startupId, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

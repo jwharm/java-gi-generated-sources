@@ -19,22 +19,20 @@ public class BitWriter extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstBitWriter";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.C_INT.withName("bit_size"),
-        Interop.valueLayout.C_INT.withName("bit_capacity"),
-        Interop.valueLayout.C_INT.withName("auto_grow"),
-        Interop.valueLayout.C_INT.withName("owned"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.C_INT.withName("bit_size"),
+            Interop.valueLayout.C_INT.withName("bit_capacity"),
+            Interop.valueLayout.C_INT.withName("auto_grow"),
+            Interop.valueLayout.C_INT.withName("owned"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -54,7 +52,7 @@ public class BitWriter extends Struct {
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public PointerByte data$get() {
+    public PointerByte getData_() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -65,17 +63,17 @@ public class BitWriter extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(PointerByte data) {
+    public void setData(PointerByte data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), data.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
     }
     
     /**
      * Get the value of the field {@code bit_size}
      * @return The value of the field {@code bit_size}
      */
-    public int bitSize$get() {
+    public int getBitSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bit_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -86,7 +84,7 @@ public class BitWriter extends Struct {
      * Change the value of the field {@code bit_size}
      * @param bitSize The new value of the field {@code bit_size}
      */
-    public void bitSize$set(int bitSize) {
+    public void setBitSize(int bitSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bit_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bitSize);
@@ -97,10 +95,12 @@ public class BitWriter extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BitWriter(Addressable address, Ownership ownership) {
+    protected BitWriter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BitWriter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BitWriter(input, ownership);
     
     /**
      * Write trailing bit to align last byte of {@code data}. {@code trailing_bit} can
@@ -117,7 +117,7 @@ public class BitWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -141,7 +141,7 @@ public class BitWriter extends Struct {
      * @return a new allocated {@link org.gstreamer.gst.Buffer} wrapping the
      *     data inside. gst_buffer_unref() after usage.
      */
-    public @NotNull org.gstreamer.gst.Buffer freeAndGetBuffer() {
+    public org.gstreamer.gst.Buffer freeAndGetBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_free_and_get_buffer.invokeExact(
@@ -150,7 +150,7 @@ public class BitWriter extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         this.yieldOwnership();
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -161,7 +161,7 @@ public class BitWriter extends Struct {
      * @return the current data. g_free() after
      *     usage.
      */
-    public @NotNull PointerByte freeAndGetData() {
+    public PointerByte freeAndGetData() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_free_and_get_data.invokeExact(
@@ -177,7 +177,7 @@ public class BitWriter extends Struct {
      * Get written data pointer
      * @return data pointer
      */
-    public @NotNull PointerByte getData() {
+    public PointerByte getData() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_get_data.invokeExact(
@@ -234,14 +234,13 @@ public class BitWriter extends Struct {
      * @param size Size of {@code data} in bytes
      * @param initialized If {@code true} the complete data can be read from the beginning
      */
-    public void initWithData(@NotNull byte[] data, int size, boolean initialized) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public void initWithData(byte[] data, int size, boolean initialized) {
         try {
             DowncallHandles.gst_bit_writer_init_with_data.invokeExact(
                     handle(),
                     Interop.allocateNativeArray(data, false),
                     size,
-                    initialized ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(initialized, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -258,7 +257,7 @@ public class BitWriter extends Struct {
             DowncallHandles.gst_bit_writer_init_with_size.invokeExact(
                     handle(),
                     size,
-                    fixed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(fixed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -280,7 +279,7 @@ public class BitWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -299,7 +298,7 @@ public class BitWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -318,7 +317,7 @@ public class BitWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -337,7 +336,7 @@ public class BitWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -346,8 +345,7 @@ public class BitWriter extends Struct {
      * @param nbytes number of bytes to write
      * @return {@code true} if successful, {@code false} otherwise.
      */
-    public boolean putBytes(@NotNull byte[] data, int nbytes) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public boolean putBytes(byte[] data, int nbytes) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_bit_writer_put_bytes.invokeExact(
@@ -357,7 +355,7 @@ public class BitWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -379,7 +377,7 @@ public class BitWriter extends Struct {
      * @return a new allocated {@link org.gstreamer.gst.Buffer} wrapping the
      *     current data. gst_buffer_unref() after usage.
      */
-    public @NotNull org.gstreamer.gst.Buffer resetAndGetBuffer() {
+    public org.gstreamer.gst.Buffer resetAndGetBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_reset_and_get_buffer.invokeExact(
@@ -387,7 +385,7 @@ public class BitWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -397,7 +395,7 @@ public class BitWriter extends Struct {
      * @return the current data. g_free() after
      *     usage.
      */
-    public @NotNull PointerByte resetAndGetData() {
+    public PointerByte resetAndGetData() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_reset_and_get_data.invokeExact(
@@ -417,7 +415,7 @@ public class BitWriter extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -426,14 +424,14 @@ public class BitWriter extends Struct {
      * Free-function: gst_bit_writer_free
      * @return a new, empty {@link ByteWriter} instance
      */
-    public static @NotNull org.gstreamer.base.BitWriter new_() {
+    public static org.gstreamer.base.BitWriter new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.BitWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.BitWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -447,18 +445,17 @@ public class BitWriter extends Struct {
      * @param initialized if {@code true} the complete data can be read from the beginning
      * @return a new {@link BitWriter} instance
      */
-    public static @NotNull org.gstreamer.base.BitWriter newWithData(@NotNull byte[] data, int size, boolean initialized) {
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.base.BitWriter newWithData(byte[] data, int size, boolean initialized) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_new_with_data.invokeExact(
                     Interop.allocateNativeArray(data, false),
                     size,
-                    initialized ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(initialized, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.BitWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.BitWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -469,16 +466,16 @@ public class BitWriter extends Struct {
      * @param fixed If {@code true} the data can't be reallocated
      * @return a new {@link BitWriter} instance
      */
-    public static @NotNull org.gstreamer.base.BitWriter newWithSize(int size, boolean fixed) {
+    public static org.gstreamer.base.BitWriter newWithSize(int size, boolean fixed) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_bit_writer_new_with_size.invokeExact(
                     size,
-                    fixed ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(fixed, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.BitWriter(RESULT, Ownership.FULL);
+        return org.gstreamer.base.BitWriter.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -615,31 +612,35 @@ public class BitWriter extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link BitWriter.Builder} object constructs a {@link BitWriter} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link BitWriter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private BitWriter struct;
+        private final BitWriter struct;
         
-         /**
-         * A {@link BitWriter.Build} object constructs a {@link BitWriter} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = BitWriter.allocate();
         }
         
          /**
          * Finish building the {@link BitWriter} struct.
          * @return A new instance of {@code BitWriter} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BitWriter construct() {
+        public BitWriter build() {
             return struct;
         }
         
@@ -648,7 +649,7 @@ public class BitWriter extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(PointerByte data) {
+        public Builder setData(PointerByte data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : data.handle()));
@@ -660,35 +661,35 @@ public class BitWriter extends Struct {
          * @param bitSize The value for the {@code bitSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBitSize(int bitSize) {
+        public Builder setBitSize(int bitSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bit_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bitSize);
             return this;
         }
         
-        public Build setBitCapacity(int bitCapacity) {
+        public Builder setBitCapacity(int bitCapacity) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bit_capacity"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bitCapacity);
             return this;
         }
         
-        public Build setAutoGrow(boolean autoGrow) {
+        public Builder setAutoGrow(boolean autoGrow) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("auto_grow"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), autoGrow ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(autoGrow, null).intValue());
             return this;
         }
         
-        public Build setOwned(boolean owned) {
+        public Builder setOwned(boolean owned) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("owned"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), owned ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(owned, null).intValue());
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

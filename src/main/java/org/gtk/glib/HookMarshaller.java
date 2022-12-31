@@ -10,5 +10,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface HookMarshaller {
-        void onHookMarshaller(@NotNull org.gtk.glib.Hook hook);
+    void run(org.gtk.glib.Hook hook);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress hook, MemoryAddress userData) {
+        run(org.gtk.glib.Hook.fromAddress.marshal(hook, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(HookMarshaller.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

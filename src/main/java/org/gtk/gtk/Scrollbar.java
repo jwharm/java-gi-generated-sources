@@ -69,41 +69,26 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * <p>
      * Because Scrollbar is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Scrollbar(Addressable address, Ownership ownership) {
+    protected Scrollbar(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Scrollbar if its GType is a (or inherits from) "GtkScrollbar".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Scrollbar} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkScrollbar", a ClassCastException will be thrown.
-     */
-    public static Scrollbar castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Scrollbar.getType())) {
-            return new Scrollbar(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkScrollbar");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Scrollbar> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Scrollbar(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_scrollbar_new.invokeExact(
                     orientation.getValue(),
@@ -120,7 +105,7 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * @param adjustment the {@link Adjustment} to use, or {@code null}
      *   to create a new adjustment.
      */
-    public Scrollbar(@NotNull org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
+    public Scrollbar(org.gtk.gtk.Orientation orientation, @Nullable org.gtk.gtk.Adjustment adjustment) {
         super(constructNew(orientation, adjustment), Ownership.NONE);
     }
     
@@ -128,7 +113,7 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Returns the scrollbar's adjustment.
      * @return the scrollbar's adjustment
      */
-    public @NotNull org.gtk.gtk.Adjustment getAdjustment() {
+    public org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_scrollbar_get_adjustment.invokeExact(
@@ -136,7 +121,7 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Adjustment) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -157,7 +142,7 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_scrollbar_get_type.invokeExact();
@@ -166,38 +151,40 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Scrollbar.Builder} object constructs a {@link Scrollbar} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Scrollbar.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link Scrollbar.Build} object constructs a {@link Scrollbar} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Scrollbar} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Scrollbar} using {@link Scrollbar#castFrom}.
+         * {@link Scrollbar}.
          * @return A new instance of {@code Scrollbar} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Scrollbar construct() {
-            return Scrollbar.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Scrollbar.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Scrollbar build() {
+            return (Scrollbar) org.gtk.gobject.GObject.newWithProperties(
+                Scrollbar.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -206,7 +193,7 @@ public class Scrollbar extends org.gtk.gtk.Widget implements org.gtk.gtk.Accessi
          * @param adjustment The value for the {@code adjustment} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAdjustment(org.gtk.gtk.Adjustment adjustment) {
+        public Builder setAdjustment(org.gtk.gtk.Adjustment adjustment) {
             names.add("adjustment");
             values.add(org.gtk.gobject.Value.create(adjustment));
             return this;

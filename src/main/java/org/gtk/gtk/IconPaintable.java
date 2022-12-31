@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * <p>
  * {@code GtkIconPaintable} implements {@code GdkPaintable}.
  */
-public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk.Paintable, org.gtk.gtk.SymbolicPaintable {
+public class IconPaintable extends org.gtk.gobject.GObject implements org.gtk.gdk.Paintable, org.gtk.gtk.SymbolicPaintable {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -32,34 +32,15 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public IconPaintable(Addressable address, Ownership ownership) {
+    protected IconPaintable(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to IconPaintable if its GType is a (or inherits from) "GtkIconPaintable".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code IconPaintable} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkIconPaintable", a ClassCastException will be thrown.
-     */
-    public static IconPaintable castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), IconPaintable.getType())) {
-            return new IconPaintable(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkIconPaintable");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, IconPaintable> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new IconPaintable(input, ownership);
     
-    private static Addressable constructNewForFile(@NotNull org.gtk.gio.File file, int size, int scale) {
-        java.util.Objects.requireNonNull(file, "Parameter 'file' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewForFile(org.gtk.gio.File file, int size, int scale) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_icon_paintable_new_for_file.invokeExact(
                     file.handle(),
@@ -81,8 +62,9 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
      * @return a {@code GtkIconPaintable} containing
      *   for the icon. Unref with g_object_unref()
      */
-    public static IconPaintable newForFile(@NotNull org.gtk.gio.File file, int size, int scale) {
-        return new IconPaintable(constructNewForFile(file, size, scale), Ownership.FULL);
+    public static IconPaintable newForFile(org.gtk.gio.File file, int size, int scale) {
+        var RESULT = constructNewForFile(file, size, scale);
+        return (org.gtk.gtk.IconPaintable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.IconPaintable.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -99,7 +81,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -123,7 +105,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -144,14 +126,14 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_icon_paintable_get_type.invokeExact();
@@ -160,38 +142,40 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link IconPaintable.Builder} object constructs a {@link IconPaintable} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link IconPaintable.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link IconPaintable.Build} object constructs a {@link IconPaintable} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link IconPaintable} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link IconPaintable} using {@link IconPaintable#castFrom}.
+         * {@link IconPaintable}.
          * @return A new instance of {@code IconPaintable} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public IconPaintable construct() {
-            return IconPaintable.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    IconPaintable.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public IconPaintable build() {
+            return (IconPaintable) org.gtk.gobject.GObject.newWithProperties(
+                IconPaintable.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -200,7 +184,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
          * @param file The value for the {@code file} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFile(org.gtk.gio.File file) {
+        public Builder setFile(org.gtk.gio.File file) {
             names.add("file");
             values.add(org.gtk.gobject.Value.create(file));
             return this;
@@ -211,7 +195,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
          * @param iconName The value for the {@code icon-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIconName(java.lang.String iconName) {
+        public Builder setIconName(java.lang.String iconName) {
             names.add("icon-name");
             values.add(org.gtk.gobject.Value.create(iconName));
             return this;
@@ -222,7 +206,7 @@ public class IconPaintable extends org.gtk.gobject.Object implements org.gtk.gdk
          * @param isSymbolic The value for the {@code is-symbolic} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsSymbolic(boolean isSymbolic) {
+        public Builder setIsSymbolic(boolean isSymbolic) {
             names.add("is-symbolic");
             values.add(org.gtk.gobject.Value.create(isSymbolic));
             return this;

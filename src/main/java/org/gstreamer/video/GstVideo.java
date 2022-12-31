@@ -14,7 +14,15 @@ public final class GstVideo {
         System.loadLibrary("gstvideo-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     public static final java.lang.String BUFFER_POOL_OPTION_VIDEO_AFFINE_TRANSFORMATION_META = "GstBufferPoolOptionVideoAffineTransformation";
     
@@ -393,10 +401,7 @@ public final class GstVideo {
      * @param afd {@link VideoAFDValue} AFD enumeration
      * @return the {@link VideoAFDMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoAFDMeta bufferAddVideoAfdMeta(@NotNull org.gstreamer.gst.Buffer buffer, byte field, @NotNull org.gstreamer.video.VideoAFDSpec spec, @NotNull org.gstreamer.video.VideoAFDValue afd) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
-        java.util.Objects.requireNonNull(afd, "Parameter 'afd' must not be null");
+    public static org.gstreamer.video.VideoAFDMeta bufferAddVideoAfdMeta(org.gstreamer.gst.Buffer buffer, byte field, org.gstreamer.video.VideoAFDSpec spec, org.gstreamer.video.VideoAFDValue afd) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_afd_meta.invokeExact(
@@ -407,7 +412,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoAFDMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoAFDMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -416,8 +421,7 @@ public final class GstVideo {
      * @param buffer a {@link org.gstreamer.gst.Buffer}
      * @return the {@link VideoAffineTransformationMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoAffineTransformationMeta bufferAddVideoAffineTransformationMeta(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.video.VideoAffineTransformationMeta bufferAddVideoAffineTransformationMeta(org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_affine_transformation_meta.invokeExact(
@@ -425,7 +429,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoAffineTransformationMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoAffineTransformationMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -448,20 +452,19 @@ public final class GstVideo {
      * <p>
      * https://www.atsc.org/wp-content/uploads/2015/03/a_53-Part-4-2009.pdf
      */
-    public static @NotNull org.gstreamer.video.VideoBarMeta bufferAddVideoBarMeta(@NotNull org.gstreamer.gst.Buffer buffer, byte field, boolean isLetterbox, int barData1, int barData2) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.video.VideoBarMeta bufferAddVideoBarMeta(org.gstreamer.gst.Buffer buffer, byte field, boolean isLetterbox, int barData1, int barData2) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_bar_meta.invokeExact(
                     buffer.handle(),
                     field,
-                    isLetterbox ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(isLetterbox, null).intValue(),
                     barData1,
                     barData2);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoBarMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoBarMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -473,10 +476,7 @@ public final class GstVideo {
      * @param size The size of {@code data} in bytes
      * @return the {@link VideoCaptionMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoCaptionMeta bufferAddVideoCaptionMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.video.VideoCaptionType captionType, @NotNull byte[] data, long size) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(captionType, "Parameter 'captionType' must not be null");
-        java.util.Objects.requireNonNull(data, "Parameter 'data' must not be null");
+    public static org.gstreamer.video.VideoCaptionMeta bufferAddVideoCaptionMeta(org.gstreamer.gst.Buffer buffer, org.gstreamer.video.VideoCaptionType captionType, byte[] data, long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_caption_meta.invokeExact(
@@ -487,7 +487,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoCaptionMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoCaptionMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -497,9 +497,7 @@ public final class GstVideo {
      * @param alphaBuffer a {@link org.gstreamer.gst.Buffer}
      * @return the {@link VideoCodecAlphaMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoCodecAlphaMeta bufferAddVideoCodecAlphaMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.Buffer alphaBuffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(alphaBuffer, "Parameter 'alphaBuffer' must not be null");
+    public static org.gstreamer.video.VideoCodecAlphaMeta bufferAddVideoCodecAlphaMeta(org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.Buffer alphaBuffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_codec_alpha_meta.invokeExact(
@@ -509,7 +507,7 @@ public final class GstVideo {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         alphaBuffer.yieldOwnership();
-        return new org.gstreamer.video.VideoCodecAlphaMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoCodecAlphaMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -524,40 +522,22 @@ public final class GstVideo {
      * @param userDataFree function to free {@code user_data}
      * @return the {@link VideoGLTextureUploadMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoGLTextureUploadMeta bufferAddVideoGlTextureUploadMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.video.VideoGLTextureOrientation textureOrientation, int nTextures, @NotNull org.gstreamer.video.VideoGLTextureType textureType, @NotNull org.gstreamer.video.VideoGLTextureUpload upload, @NotNull org.gtk.gobject.BoxedCopyFunc userDataCopy, @NotNull org.gtk.gobject.BoxedFreeFunc userDataFree) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(textureOrientation, "Parameter 'textureOrientation' must not be null");
-        java.util.Objects.requireNonNull(textureType, "Parameter 'textureType' must not be null");
-        java.util.Objects.requireNonNull(upload, "Parameter 'upload' must not be null");
-        java.util.Objects.requireNonNull(userDataCopy, "Parameter 'userDataCopy' must not be null");
-        java.util.Objects.requireNonNull(userDataFree, "Parameter 'userDataFree' must not be null");
+    public static org.gstreamer.video.VideoGLTextureUploadMeta bufferAddVideoGlTextureUploadMeta(org.gstreamer.gst.Buffer buffer, org.gstreamer.video.VideoGLTextureOrientation textureOrientation, int nTextures, PointerEnumeration<org.gstreamer.video.VideoGLTextureType> textureType, org.gstreamer.video.VideoGLTextureUpload upload, org.gtk.gobject.BoxedCopyFunc userDataCopy, org.gtk.gobject.BoxedFreeFunc userDataFree) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_gl_texture_upload_meta.invokeExact(
                     buffer.handle(),
                     textureOrientation.getValue(),
                     nTextures,
-                    new PointerInteger(textureType.getValue()).handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstVideo.Callbacks.class, "cbVideoGLTextureUpload",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(upload)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstVideo.Callbacks.class, "cbBoxedCopyFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstVideo.Callbacks.class, "cbBoxedFreeFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    textureType.handle(),
+                    (Addressable) upload.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) userDataCopy.toCallback(),
+                    (Addressable) userDataFree.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoGLTextureUploadMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoGLTextureUploadMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -573,10 +553,7 @@ public final class GstVideo {
      * @param height the height
      * @return the {@link VideoMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoMeta bufferAddVideoMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.video.VideoFrameFlags flags, @NotNull org.gstreamer.video.VideoFormat format, int width, int height) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.video.VideoMeta bufferAddVideoMeta(org.gstreamer.gst.Buffer buffer, org.gstreamer.video.VideoFrameFlags flags, org.gstreamer.video.VideoFormat format, int width, int height) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_meta.invokeExact(
@@ -588,7 +565,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -603,12 +580,7 @@ public final class GstVideo {
      * @param stride stride of each plane
      * @return the {@link VideoMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoMeta bufferAddVideoMetaFull(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.video.VideoFrameFlags flags, @NotNull org.gstreamer.video.VideoFormat format, int width, int height, int nPlanes, @NotNull long[] offset, @NotNull int[] stride) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
-        java.util.Objects.requireNonNull(stride, "Parameter 'stride' must not be null");
+    public static org.gstreamer.video.VideoMeta bufferAddVideoMetaFull(org.gstreamer.gst.Buffer buffer, org.gstreamer.video.VideoFrameFlags flags, org.gstreamer.video.VideoFormat format, int width, int height, int nPlanes, long[] offset, int[] stride) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_meta_full.invokeExact(
@@ -623,7 +595,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -634,8 +606,7 @@ public final class GstVideo {
      * @param comp a {@link VideoOverlayComposition}
      * @return a {@link VideoOverlayCompositionMeta}
      */
-    public static @NotNull org.gstreamer.video.VideoOverlayCompositionMeta bufferAddVideoOverlayCompositionMeta(@NotNull org.gstreamer.gst.Buffer buf, @Nullable org.gstreamer.video.VideoOverlayComposition comp) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public static org.gstreamer.video.VideoOverlayCompositionMeta bufferAddVideoOverlayCompositionMeta(org.gstreamer.gst.Buffer buf, @Nullable org.gstreamer.video.VideoOverlayComposition comp) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_overlay_composition_meta.invokeExact(
@@ -644,7 +615,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoOverlayCompositionMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoOverlayCompositionMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -658,14 +629,12 @@ public final class GstVideo {
      * @param h height
      * @return the {@link VideoRegionOfInterestMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoRegionOfInterestMeta bufferAddVideoRegionOfInterestMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull java.lang.String roiType, int x, int y, int w, int h) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(roiType, "Parameter 'roiType' must not be null");
+    public static org.gstreamer.video.VideoRegionOfInterestMeta bufferAddVideoRegionOfInterestMeta(org.gstreamer.gst.Buffer buffer, java.lang.String roiType, int x, int y, int w, int h) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_region_of_interest_meta.invokeExact(
                     buffer.handle(),
-                    Interop.allocateNativeString(roiType),
+                    Marshal.stringToAddress.marshal(roiType, null),
                     x,
                     y,
                     w,
@@ -673,7 +642,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoRegionOfInterestMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoRegionOfInterestMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -687,9 +656,7 @@ public final class GstVideo {
      * @param h height
      * @return the {@link VideoRegionOfInterestMeta} on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoRegionOfInterestMeta bufferAddVideoRegionOfInterestMetaId(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gtk.glib.Quark roiType, int x, int y, int w, int h) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(roiType, "Parameter 'roiType' must not be null");
+    public static org.gstreamer.video.VideoRegionOfInterestMeta bufferAddVideoRegionOfInterestMetaId(org.gstreamer.gst.Buffer buffer, org.gtk.glib.Quark roiType, int x, int y, int w, int h) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_region_of_interest_meta_id.invokeExact(
@@ -702,7 +669,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoRegionOfInterestMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoRegionOfInterestMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -713,9 +680,7 @@ public final class GstVideo {
      * @return the {@link VideoTimeCodeMeta} on {@code buffer}, or
      * (since 1.16) {@code null} if the timecode was invalid.
      */
-    public static @Nullable org.gstreamer.video.VideoTimeCodeMeta bufferAddVideoTimeCodeMeta(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.video.VideoTimeCode tc) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(tc, "Parameter 'tc' must not be null");
+    public static @Nullable org.gstreamer.video.VideoTimeCodeMeta bufferAddVideoTimeCodeMeta(org.gstreamer.gst.Buffer buffer, org.gstreamer.video.VideoTimeCode tc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_time_code_meta.invokeExact(
@@ -724,7 +689,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoTimeCodeMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoTimeCodeMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -743,10 +708,7 @@ public final class GstVideo {
      * @return the {@link VideoTimeCodeMeta} on {@code buffer}, or
      * (since 1.16) {@code null} if the timecode was invalid.
      */
-    public static @NotNull org.gstreamer.video.VideoTimeCodeMeta bufferAddVideoTimeCodeMetaFull(@NotNull org.gstreamer.gst.Buffer buffer, int fpsN, int fpsD, @NotNull org.gtk.glib.DateTime latestDailyJam, @NotNull org.gstreamer.video.VideoTimeCodeFlags flags, int hours, int minutes, int seconds, int frames, int fieldCount) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(latestDailyJam, "Parameter 'latestDailyJam' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gstreamer.video.VideoTimeCodeMeta bufferAddVideoTimeCodeMetaFull(org.gstreamer.gst.Buffer buffer, int fpsN, int fpsD, org.gtk.glib.DateTime latestDailyJam, org.gstreamer.video.VideoTimeCodeFlags flags, int hours, int minutes, int seconds, int frames, int fieldCount) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_video_time_code_meta_full.invokeExact(
@@ -763,7 +725,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoTimeCodeMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoTimeCodeMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -775,8 +737,7 @@ public final class GstVideo {
      * @return the {@link VideoMeta} with lowest id (usually 0) or {@code null} when there
      * is no such metadata on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoMeta bufferGetVideoMeta(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.video.VideoMeta bufferGetVideoMeta(org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_video_meta.invokeExact(
@@ -784,7 +745,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -797,8 +758,7 @@ public final class GstVideo {
      * @return the {@link VideoMeta} with {@code id} or {@code null} when there is no such metadata
      * on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoMeta bufferGetVideoMetaId(@NotNull org.gstreamer.gst.Buffer buffer, int id) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.video.VideoMeta bufferGetVideoMetaId(org.gstreamer.gst.Buffer buffer, int id) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_video_meta_id.invokeExact(
@@ -807,7 +767,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -820,8 +780,7 @@ public final class GstVideo {
      * @return the {@link VideoRegionOfInterestMeta} with {@code id} or {@code null} when there is
      * no such metadata on {@code buffer}.
      */
-    public static @NotNull org.gstreamer.video.VideoRegionOfInterestMeta bufferGetVideoRegionOfInterestMetaId(@NotNull org.gstreamer.gst.Buffer buffer, int id) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.video.VideoRegionOfInterestMeta bufferGetVideoRegionOfInterestMetaId(org.gstreamer.gst.Buffer buffer, int id) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_get_video_region_of_interest_meta_id.invokeExact(
@@ -830,7 +789,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoRegionOfInterestMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoRegionOfInterestMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -840,9 +799,7 @@ public final class GstVideo {
      * @param align a {@link VideoAlignment}
      * @return {@code true} if {@code config} could be parsed correctly.
      */
-    public static boolean bufferPoolConfigGetVideoAlignment(@NotNull org.gstreamer.gst.Structure config, @NotNull org.gstreamer.video.VideoAlignment align) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
-        java.util.Objects.requireNonNull(align, "Parameter 'align' must not be null");
+    public static boolean bufferPoolConfigGetVideoAlignment(org.gstreamer.gst.Structure config, org.gstreamer.video.VideoAlignment align) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_buffer_pool_config_get_video_alignment.invokeExact(
@@ -851,7 +808,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -860,9 +817,7 @@ public final class GstVideo {
      * @param config a {@link org.gstreamer.gst.Structure}
      * @param align a {@link VideoAlignment}
      */
-    public static void bufferPoolConfigSetVideoAlignment(@NotNull org.gstreamer.gst.Structure config, @NotNull org.gstreamer.video.VideoAlignment align) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
-        java.util.Objects.requireNonNull(align, "Parameter 'align' must not be null");
+    public static void bufferPoolConfigSetVideoAlignment(org.gstreamer.gst.Structure config, org.gstreamer.video.VideoAlignment align) {
         try {
             DowncallHandles.gst_buffer_pool_config_set_video_alignment.invokeExact(
                     config.handle(),
@@ -878,8 +833,7 @@ public final class GstVideo {
      * @param msg a {@link org.gstreamer.gst.Message}
      * @return whether {@code msg} is a "prepare-window-handle" message
      */
-    public static boolean isVideoOverlayPrepareWindowHandleMessage(@NotNull org.gstreamer.gst.Message msg) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
+    public static boolean isVideoOverlayPrepareWindowHandleMessage(org.gstreamer.gst.Message msg) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_video_overlay_prepare_window_handle_message.invokeExact(
@@ -887,7 +841,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -895,8 +849,7 @@ public final class GstVideo {
      * {@code GST_NAVIGATION_EVENT_INVALID} if the event is not a {@link Navigation} event.
      * @param event A {@link org.gstreamer.gst.Event} to inspect.
      */
-    public static @NotNull org.gstreamer.video.NavigationEventType navigationEventGetType(@NotNull org.gstreamer.gst.Event event) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public static org.gstreamer.video.NavigationEventType navigationEventGetType(org.gstreamer.gst.Event event) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_get_type.invokeExact(
@@ -915,36 +868,32 @@ public final class GstVideo {
      *     type of the navigation event.
      * @return TRUE if the navigation command could be extracted, otherwise FALSE.
      */
-    public static boolean navigationEventParseCommand(@NotNull org.gstreamer.gst.Event event, @NotNull Out<org.gstreamer.video.NavigationCommand> command) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(command, "Parameter 'command' must not be null");
+    public static boolean navigationEventParseCommand(org.gstreamer.gst.Event event, @Nullable Out<org.gstreamer.video.NavigationCommand> command) {
         MemorySegment commandPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_command.invokeExact(
                     event.handle(),
-                    (Addressable) commandPOINTER.address());
+                    (Addressable) (command == null ? MemoryAddress.NULL : (Addressable) commandPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        command.set(org.gstreamer.video.NavigationCommand.of(commandPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        if (command != null) command.set(org.gstreamer.video.NavigationCommand.of(commandPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean navigationEventParseKeyEvent(@NotNull org.gstreamer.gst.Event event, @NotNull Out<java.lang.String> key) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public static boolean navigationEventParseKeyEvent(org.gstreamer.gst.Event event, @Nullable Out<java.lang.String> key) {
         MemorySegment keyPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_key_event.invokeExact(
                     event.handle(),
-                    (Addressable) keyPOINTER.address());
+                    (Addressable) (key == null ? MemoryAddress.NULL : (Addressable) keyPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        key.set(Interop.getStringFrom(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (key != null) key.set(Marshal.addressToString.marshal(keyPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -961,28 +910,24 @@ public final class GstVideo {
      * @return TRUE if the button number and both coordinates could be extracted,
      *     otherwise FALSE.
      */
-    public static boolean navigationEventParseMouseButtonEvent(@NotNull org.gstreamer.gst.Event event, Out<Integer> button, Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(button, "Parameter 'button' must not be null");
+    public static boolean navigationEventParseMouseButtonEvent(org.gstreamer.gst.Event event, Out<Integer> button, Out<Double> x, Out<Double> y) {
         MemorySegment buttonPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_button_event.invokeExact(
                     event.handle(),
-                    (Addressable) buttonPOINTER.address(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address());
+                    (Addressable) (button == null ? MemoryAddress.NULL : (Addressable) buttonPOINTER.address()),
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        button.set(buttonPOINTER.get(Interop.valueLayout.C_INT, 0));
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        if (button != null) button.set(buttonPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -995,24 +940,21 @@ public final class GstVideo {
      *     mouse movement.
      * @return TRUE if both coordinates could be extracted, otherwise FALSE.
      */
-    public static boolean navigationEventParseMouseMoveEvent(@NotNull org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static boolean navigationEventParseMouseMoveEvent(org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_move_event.invokeExact(
                     event.handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address());
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1029,32 +971,27 @@ public final class GstVideo {
      *     mouse movement.
      * @return TRUE if all coordinates could be extracted, otherwise FALSE.
      */
-    public static boolean navigationEventParseMouseScrollEvent(@NotNull org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y, Out<Double> deltaX, Out<Double> deltaY) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(x, "Parameter 'x' must not be null");
+    public static boolean navigationEventParseMouseScrollEvent(org.gstreamer.gst.Event event, Out<Double> x, Out<Double> y, Out<Double> deltaX, Out<Double> deltaY) {
         MemorySegment xPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(y, "Parameter 'y' must not be null");
         MemorySegment yPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(deltaX, "Parameter 'deltaX' must not be null");
         MemorySegment deltaXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(deltaY, "Parameter 'deltaY' must not be null");
         MemorySegment deltaYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_event_parse_mouse_scroll_event.invokeExact(
                     event.handle(),
-                    (Addressable) xPOINTER.address(),
-                    (Addressable) yPOINTER.address(),
-                    (Addressable) deltaXPOINTER.address(),
-                    (Addressable) deltaYPOINTER.address());
+                    (Addressable) (x == null ? MemoryAddress.NULL : (Addressable) xPOINTER.address()),
+                    (Addressable) (y == null ? MemoryAddress.NULL : (Addressable) yPOINTER.address()),
+                    (Addressable) (deltaX == null ? MemoryAddress.NULL : (Addressable) deltaXPOINTER.address()),
+                    (Addressable) (deltaY == null ? MemoryAddress.NULL : (Addressable) deltaYPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        deltaX.set(deltaXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        deltaY.set(deltaYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        if (x != null) x.set(xPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (y != null) y.set(yPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (deltaX != null) deltaX.set(deltaXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (deltaY != null) deltaY.set(deltaYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1065,8 +1002,7 @@ public final class GstVideo {
      * {@code GST_NAVIGATION_MESSAGE_INVALID} if the message is not a {@link Navigation}
      * notification.
      */
-    public static @NotNull org.gstreamer.video.NavigationMessageType navigationMessageGetType(@NotNull org.gstreamer.gst.Message message) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public static org.gstreamer.video.NavigationMessageType navigationMessageGetType(org.gstreamer.gst.Message message) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_message_get_type.invokeExact(
@@ -1082,13 +1018,12 @@ public final class GstVideo {
      * {@code GST_NAVIGATION_MESSAGE_ANGLES_CHANGED} for notifying an application
      * that the current angle, or current number of angles available in a
      * multiangle video has changed.
-     * @param src A {@link org.gstreamer.gst.Object} to set as source of the new message.
+     * @param src A {@link org.gstreamer.gst.GstObject} to set as source of the new message.
      * @param curAngle The currently selected angle.
      * @param nAngles The number of viewing angles now available.
      * @return The new {@link org.gstreamer.gst.Message}.
      */
-    public static @NotNull org.gstreamer.gst.Message navigationMessageNewAnglesChanged(@NotNull org.gstreamer.gst.Object src, int curAngle, int nAngles) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static org.gstreamer.gst.Message navigationMessageNewAnglesChanged(org.gstreamer.gst.GstObject src, int curAngle, int nAngles) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_angles_changed.invokeExact(
@@ -1098,17 +1033,16 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new {@link Navigation} message with type
      * {@code GST_NAVIGATION_MESSAGE_COMMANDS_CHANGED}
-     * @param src A {@link org.gstreamer.gst.Object} to set as source of the new message.
+     * @param src A {@link org.gstreamer.gst.GstObject} to set as source of the new message.
      * @return The new {@link org.gstreamer.gst.Message}.
      */
-    public static @NotNull org.gstreamer.gst.Message navigationMessageNewCommandsChanged(@NotNull org.gstreamer.gst.Object src) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static org.gstreamer.gst.Message navigationMessageNewCommandsChanged(org.gstreamer.gst.GstObject src) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_commands_changed.invokeExact(
@@ -1116,19 +1050,17 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new {@link Navigation} message with type
      * {@code GST_NAVIGATION_MESSAGE_EVENT}.
-     * @param src A {@link org.gstreamer.gst.Object} to set as source of the new message.
+     * @param src A {@link org.gstreamer.gst.GstObject} to set as source of the new message.
      * @param event A navigation {@link org.gstreamer.gst.Event}
      * @return The new {@link org.gstreamer.gst.Message}.
      */
-    public static @NotNull org.gstreamer.gst.Message navigationMessageNewEvent(@NotNull org.gstreamer.gst.Object src, @NotNull org.gstreamer.gst.Event event) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public static org.gstreamer.gst.Message navigationMessageNewEvent(org.gstreamer.gst.GstObject src, org.gstreamer.gst.Event event) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_event.invokeExact(
@@ -1137,28 +1069,27 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Creates a new {@link Navigation} message with type
      * {@code GST_NAVIGATION_MESSAGE_MOUSE_OVER}.
-     * @param src A {@link org.gstreamer.gst.Object} to set as source of the new message.
+     * @param src A {@link org.gstreamer.gst.GstObject} to set as source of the new message.
      * @param active {@code true} if the mouse has entered a clickable area of the display.
      * {@code false} if it over a non-clickable area.
      * @return The new {@link org.gstreamer.gst.Message}.
      */
-    public static @NotNull org.gstreamer.gst.Message navigationMessageNewMouseOver(@NotNull org.gstreamer.gst.Object src, boolean active) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static org.gstreamer.gst.Message navigationMessageNewMouseOver(org.gstreamer.gst.GstObject src, boolean active) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_message_new_mouse_over.invokeExact(
                     src.handle(),
-                    active ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(active, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Message(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Message.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1171,24 +1102,21 @@ public final class GstVideo {
      *     count, or NULL.
      * @return {@code true} if the message could be successfully parsed. {@code false} if not.
      */
-    public static boolean navigationMessageParseAnglesChanged(@NotNull org.gstreamer.gst.Message message, Out<Integer> curAngle, Out<Integer> nAngles) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(curAngle, "Parameter 'curAngle' must not be null");
+    public static boolean navigationMessageParseAnglesChanged(org.gstreamer.gst.Message message, Out<Integer> curAngle, Out<Integer> nAngles) {
         MemorySegment curAnglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(nAngles, "Parameter 'nAngles' must not be null");
         MemorySegment nAnglesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_message_parse_angles_changed.invokeExact(
                     message.handle(),
-                    (Addressable) curAnglePOINTER.address(),
-                    (Addressable) nAnglesPOINTER.address());
+                    (Addressable) (curAngle == null ? MemoryAddress.NULL : (Addressable) curAnglePOINTER.address()),
+                    (Addressable) (nAngles == null ? MemoryAddress.NULL : (Addressable) nAnglesPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
-        nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (curAngle != null) curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (nAngles != null) nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1200,20 +1128,18 @@ public final class GstVideo {
      *     the contained navigation event.
      * @return {@code true} if the message could be successfully parsed. {@code false} if not.
      */
-    public static boolean navigationMessageParseEvent(@NotNull org.gstreamer.gst.Message message, @NotNull Out<org.gstreamer.gst.Event> event) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public static boolean navigationMessageParseEvent(org.gstreamer.gst.Message message, @Nullable Out<org.gstreamer.gst.Event> event) {
         MemorySegment eventPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_message_parse_event.invokeExact(
                     message.handle(),
-                    (Addressable) eventPOINTER.address());
+                    (Addressable) (event == null ? MemoryAddress.NULL : (Addressable) eventPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        event.set(new org.gstreamer.gst.Event(eventPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        if (event != null) event.set(org.gstreamer.gst.Event.fromAddress.marshal(eventPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1225,20 +1151,18 @@ public final class GstVideo {
      *     active/inactive state, or NULL.
      * @return {@code true} if the message could be successfully parsed. {@code false} if not.
      */
-    public static boolean navigationMessageParseMouseOver(@NotNull org.gstreamer.gst.Message message, Out<Boolean> active) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(active, "Parameter 'active' must not be null");
+    public static boolean navigationMessageParseMouseOver(org.gstreamer.gst.Message message, Out<Boolean> active) {
         MemorySegment activePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_message_parse_mouse_over.invokeExact(
                     message.handle(),
-                    (Addressable) activePOINTER.address());
+                    (Addressable) (active == null ? MemoryAddress.NULL : (Addressable) activePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        active.set(activePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        if (active != null) active.set(activePOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1248,8 +1172,7 @@ public final class GstVideo {
      * @return The {@link NavigationQueryType} of the query, or
      * {@code GST_NAVIGATION_QUERY_INVALID}
      */
-    public static @NotNull org.gstreamer.video.NavigationQueryType navigationQueryGetType(@NotNull org.gstreamer.gst.Query query) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public static org.gstreamer.video.NavigationQueryType navigationQueryGetType(org.gstreamer.gst.Query query) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_query_get_type.invokeExact(
@@ -1266,14 +1189,14 @@ public final class GstVideo {
      * greater than one in a multiangle video.
      * @return The new query.
      */
-    public static @NotNull org.gstreamer.gst.Query navigationQueryNewAngles() {
+    public static org.gstreamer.gst.Query navigationQueryNewAngles() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_query_new_angles.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Query(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1281,14 +1204,14 @@ public final class GstVideo {
      * query the pipeline for the set of currently available commands.
      * @return The new query.
      */
-    public static @NotNull org.gstreamer.gst.Query navigationQueryNewCommands() {
+    public static org.gstreamer.gst.Query navigationQueryNewCommands() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_navigation_query_new_commands.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Query(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Query.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1302,24 +1225,21 @@ public final class GstVideo {
      *     number of angles value from the query, or NULL
      * @return {@code true} if the query could be successfully parsed. {@code false} if not.
      */
-    public static boolean navigationQueryParseAngles(@NotNull org.gstreamer.gst.Query query, Out<Integer> curAngle, Out<Integer> nAngles) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(curAngle, "Parameter 'curAngle' must not be null");
+    public static boolean navigationQueryParseAngles(org.gstreamer.gst.Query query, Out<Integer> curAngle, Out<Integer> nAngles) {
         MemorySegment curAnglePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(nAngles, "Parameter 'nAngles' must not be null");
         MemorySegment nAnglesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_query_parse_angles.invokeExact(
                     query.handle(),
-                    (Addressable) curAnglePOINTER.address(),
-                    (Addressable) nAnglesPOINTER.address());
+                    (Addressable) (curAngle == null ? MemoryAddress.NULL : (Addressable) curAnglePOINTER.address()),
+                    (Addressable) (nAngles == null ? MemoryAddress.NULL : (Addressable) nAnglesPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
-        nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (curAngle != null) curAngle.set(curAnglePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (nAngles != null) nAngles.set(nAnglesPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1328,20 +1248,18 @@ public final class GstVideo {
      * @param nCmds the number of commands in this query.
      * @return {@code true} if the query could be successfully parsed. {@code false} if not.
      */
-    public static boolean navigationQueryParseCommandsLength(@NotNull org.gstreamer.gst.Query query, Out<Integer> nCmds) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(nCmds, "Parameter 'nCmds' must not be null");
+    public static boolean navigationQueryParseCommandsLength(org.gstreamer.gst.Query query, Out<Integer> nCmds) {
         MemorySegment nCmdsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_query_parse_commands_length.invokeExact(
                     query.handle(),
-                    (Addressable) nCmdsPOINTER.address());
+                    (Addressable) (nCmds == null ? MemoryAddress.NULL : (Addressable) nCmdsPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        nCmds.set(nCmdsPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (nCmds != null) nCmds.set(nCmdsPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1353,21 +1271,19 @@ public final class GstVideo {
      * @param cmd a pointer to store the nth command into.
      * @return {@code true} if the query could be successfully parsed. {@code false} if not.
      */
-    public static boolean navigationQueryParseCommandsNth(@NotNull org.gstreamer.gst.Query query, int nth, @NotNull Out<org.gstreamer.video.NavigationCommand> cmd) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(cmd, "Parameter 'cmd' must not be null");
+    public static boolean navigationQueryParseCommandsNth(org.gstreamer.gst.Query query, int nth, @Nullable Out<org.gstreamer.video.NavigationCommand> cmd) {
         MemorySegment cmdPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_navigation_query_parse_commands_nth.invokeExact(
                     query.handle(),
                     nth,
-                    (Addressable) cmdPOINTER.address());
+                    (Addressable) (cmd == null ? MemoryAddress.NULL : (Addressable) cmdPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        cmd.set(org.gstreamer.video.NavigationCommand.of(cmdPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        if (cmd != null) cmd.set(org.gstreamer.video.NavigationCommand.of(cmdPOINTER.get(Interop.valueLayout.C_INT, 0)));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1376,8 +1292,7 @@ public final class GstVideo {
      * @param curAngle the current viewing angle to set.
      * @param nAngles the number of viewing angles to set.
      */
-    public static void navigationQuerySetAngles(@NotNull org.gstreamer.gst.Query query, int curAngle, int nAngles) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public static void navigationQuerySetAngles(org.gstreamer.gst.Query query, int curAngle, int nAngles) {
         try {
             DowncallHandles.gst_navigation_query_set_angles.invokeExact(
                     query.handle(),
@@ -1396,9 +1311,7 @@ public final class GstVideo {
      * @param cmds An array containing {@code n_cmds}
      *     {@code GstNavigationCommand} values.
      */
-    public static void navigationQuerySetCommandsv(@NotNull org.gstreamer.gst.Query query, int nCmds, @NotNull org.gstreamer.video.NavigationCommand[] cmds) {
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
-        java.util.Objects.requireNonNull(cmds, "Parameter 'cmds' must not be null");
+    public static void navigationQuerySetCommandsv(org.gstreamer.gst.Query query, int nCmds, org.gstreamer.video.NavigationCommand[] cmds) {
         try {
             DowncallHandles.gst_navigation_query_set_commandsv.invokeExact(
                     query.handle(),
@@ -1409,7 +1322,7 @@ public final class GstVideo {
         }
     }
     
-    public static @NotNull org.gtk.glib.Type videoAfdMetaApiGetType() {
+    public static org.gtk.glib.Type videoAfdMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_afd_meta_api_get_type.invokeExact();
@@ -1419,17 +1332,17 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoAfdMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoAfdMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_afd_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.Type videoAffineTransformationMetaApiGetType() {
+    public static org.gtk.glib.Type videoAffineTransformationMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_affine_transformation_meta_api_get_type.invokeExact();
@@ -1439,17 +1352,17 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoAffineTransformationMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoAffineTransformationMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_affine_transformation_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.Type videoBarMetaApiGetType() {
+    public static org.gtk.glib.Type videoBarMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_bar_meta_api_get_type.invokeExact();
@@ -1459,14 +1372,14 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoBarMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoBarMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_bar_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1478,9 +1391,7 @@ public final class GstVideo {
      * @param globalAlpha the global_alpha each per-pixel alpha value is multiplied
      *                with
      */
-    public static boolean videoBlend(@NotNull org.gstreamer.video.VideoFrame dest, @NotNull org.gstreamer.video.VideoFrame src, int x, int y, float globalAlpha) {
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
+    public static boolean videoBlend(org.gstreamer.video.VideoFrame dest, org.gstreamer.video.VideoFrame src, int x, int y, float globalAlpha) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_blend.invokeExact(
@@ -1492,7 +1403,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1509,11 +1420,7 @@ public final class GstVideo {
      * @param destBuffer a pointer to a {@link org.gstreamer.gst.Buffer} variable, which will be
      *     set to a newly-allocated buffer containing the scaled pixels.
      */
-    public static void videoBlendScaleLinearRGBA(@NotNull org.gstreamer.video.VideoInfo src, @NotNull org.gstreamer.gst.Buffer srcBuffer, int destHeight, int destWidth, @NotNull org.gstreamer.video.VideoInfo dest, @NotNull Out<org.gstreamer.gst.Buffer> destBuffer) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(srcBuffer, "Parameter 'srcBuffer' must not be null");
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
-        java.util.Objects.requireNonNull(destBuffer, "Parameter 'destBuffer' must not be null");
+    public static void videoBlendScaleLinearRGBA(org.gstreamer.video.VideoInfo src, org.gstreamer.gst.Buffer srcBuffer, int destHeight, int destWidth, org.gstreamer.video.VideoInfo dest, Out<org.gstreamer.gst.Buffer> destBuffer) {
         MemorySegment destBufferPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_video_blend_scale_linear_RGBA.invokeExact(
@@ -1526,7 +1433,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        destBuffer.set(new org.gstreamer.gst.Buffer(destBufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        destBuffer.set(org.gstreamer.gst.Buffer.fromAddress.marshal(destBufferPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -1546,9 +1453,7 @@ public final class GstVideo {
      * The return value is FALSE in the case of integer overflow or other error.
      */
     public static boolean videoCalculateDisplayRatio(Out<Integer> darN, Out<Integer> darD, int videoWidth, int videoHeight, int videoParN, int videoParD, int displayParN, int displayParD) {
-        java.util.Objects.requireNonNull(darN, "Parameter 'darN' must not be null");
         MemorySegment darNPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(darD, "Parameter 'darD' must not be null");
         MemorySegment darDPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -1566,10 +1471,10 @@ public final class GstVideo {
         }
         darN.set(darNPOINTER.get(Interop.valueLayout.C_INT, 0));
         darD.set(darDPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Type videoCaptionMetaApiGetType() {
+    public static org.gtk.glib.Type videoCaptionMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_caption_meta_api_get_type.invokeExact();
@@ -1579,14 +1484,14 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoCaptionMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoCaptionMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_caption_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1595,8 +1500,7 @@ public final class GstVideo {
      * @param caps Fixed {@link org.gstreamer.gst.Caps} to parse
      * @return {@link VideoCaptionType}.
      */
-    public static @NotNull org.gstreamer.video.VideoCaptionType videoCaptionTypeFromCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static org.gstreamer.video.VideoCaptionType videoCaptionTypeFromCaps(org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_caption_type_from_caps.invokeExact(
@@ -1612,8 +1516,7 @@ public final class GstVideo {
      * @param type {@link VideoCaptionType}
      * @return new {@link org.gstreamer.gst.Caps}
      */
-    public static @NotNull org.gstreamer.gst.Caps videoCaptionTypeToCaps(@NotNull org.gstreamer.video.VideoCaptionType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gstreamer.gst.Caps videoCaptionTypeToCaps(org.gstreamer.video.VideoCaptionType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_caption_type_to_caps.invokeExact(
@@ -1621,7 +1524,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1633,16 +1536,13 @@ public final class GstVideo {
      * @param result a pointer to a {@link VideoRectangle} which will receive the result area
      * @param scaling a {@code gboolean} indicating if scaling should be applied or not
      */
-    public static void videoCenterRect(@NotNull org.gstreamer.video.VideoRectangle src, @NotNull org.gstreamer.video.VideoRectangle dst, @NotNull org.gstreamer.video.VideoRectangle result, boolean scaling) {
-        java.util.Objects.requireNonNull(src, "Parameter 'src' must not be null");
-        java.util.Objects.requireNonNull(dst, "Parameter 'dst' must not be null");
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static void videoCenterRect(org.gstreamer.video.VideoRectangle src, org.gstreamer.video.VideoRectangle dst, org.gstreamer.video.VideoRectangle result, boolean scaling) {
         try {
             DowncallHandles.gst_video_center_rect.invokeExact(
                     src.handle(),
                     dst.handle(),
                     result.handle(),
-                    scaling ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(scaling, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1656,12 +1556,11 @@ public final class GstVideo {
      * @deprecated Use gst_video_chroma_site_from_string() instead.
      */
     @Deprecated
-    public static @NotNull org.gstreamer.video.VideoChromaSite videoChromaFromString(@NotNull java.lang.String s) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
+    public static org.gstreamer.video.VideoChromaSite videoChromaFromString(java.lang.String s) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_chroma_from_string.invokeExact(
-                    Interop.allocateNativeString(s));
+                    Marshal.stringToAddress.marshal(s, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1674,8 +1573,7 @@ public final class GstVideo {
      * @param lines pixel lines
      * @param width the number of pixels on one line
      */
-    public static void videoChromaResample(@NotNull org.gstreamer.video.VideoChromaResample resample, @Nullable java.lang.foreign.MemoryAddress lines, int width) {
-        java.util.Objects.requireNonNull(resample, "Parameter 'resample' must not be null");
+    public static void videoChromaResample(org.gstreamer.video.VideoChromaResample resample, @Nullable java.lang.foreign.MemoryAddress lines, int width) {
         try {
             DowncallHandles.gst_video_chroma_resample.invokeExact(
                     resample.handle(),
@@ -1699,11 +1597,7 @@ public final class GstVideo {
      * @return a new {@link VideoChromaResample} that should be freed with
      *     gst_video_chroma_resample_free() after usage.
      */
-    public static @NotNull org.gstreamer.video.VideoChromaResample videoChromaResampleNew(@NotNull org.gstreamer.video.VideoChromaMethod method, @NotNull org.gstreamer.video.VideoChromaSite site, @NotNull org.gstreamer.video.VideoChromaFlags flags, @NotNull org.gstreamer.video.VideoFormat format, int hFactor, int vFactor) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(site, "Parameter 'site' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.video.VideoChromaResample videoChromaResampleNew(org.gstreamer.video.VideoChromaMethod method, org.gstreamer.video.VideoChromaSite site, org.gstreamer.video.VideoChromaFlags flags, org.gstreamer.video.VideoFormat format, int hFactor, int vFactor) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_chroma_resample_new.invokeExact(
@@ -1716,7 +1610,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoChromaResample(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoChromaResample.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1725,12 +1619,11 @@ public final class GstVideo {
      * @return a {@link VideoChromaSite} or {@link VideoChromaSite#UNKNOWN} when {@code s} does
      * not contain a valid chroma-site description.
      */
-    public static @NotNull org.gstreamer.video.VideoChromaSite videoChromaSiteFromString(@NotNull java.lang.String s) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
+    public static org.gstreamer.video.VideoChromaSite videoChromaSiteFromString(java.lang.String s) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_chroma_site_from_string.invokeExact(
-                    Interop.allocateNativeString(s));
+                    Marshal.stringToAddress.marshal(s, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1744,8 +1637,7 @@ public final class GstVideo {
      *          or {@code null} if {@code site} contains undefined value or
      *          is equal to {@link VideoChromaSite#UNKNOWN}
      */
-    public static @Nullable java.lang.String videoChromaSiteToString(@NotNull org.gstreamer.video.VideoChromaSite site) {
-        java.util.Objects.requireNonNull(site, "Parameter 'site' must not be null");
+    public static @Nullable java.lang.String videoChromaSiteToString(org.gstreamer.video.VideoChromaSite site) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_chroma_site_to_string.invokeExact(
@@ -1753,7 +1645,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1763,8 +1655,7 @@ public final class GstVideo {
      * @deprecated Use gst_video_chroma_site_to_string() instead.
      */
     @Deprecated
-    public static @NotNull java.lang.String videoChromaToString(@NotNull org.gstreamer.video.VideoChromaSite site) {
-        java.util.Objects.requireNonNull(site, "Parameter 'site' must not be null");
+    public static java.lang.String videoChromaToString(org.gstreamer.video.VideoChromaSite site) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_chroma_to_string.invokeExact(
@@ -1772,10 +1663,10 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Type videoCodecAlphaMetaApiGetType() {
+    public static org.gtk.glib.Type videoCodecAlphaMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_codec_alpha_meta_api_get_type.invokeExact();
@@ -1785,14 +1676,14 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoCodecAlphaMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoCodecAlphaMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_codec_alpha_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1804,7 +1695,7 @@ public final class GstVideo {
      * @param value a ITU-T H.273 matrix coefficients value
      * @return the matched {@link VideoColorMatrix}
      */
-    public static @NotNull org.gstreamer.video.VideoColorMatrix videoColorMatrixFromIso(int value) {
+    public static org.gstreamer.video.VideoColorMatrix videoColorMatrixFromIso(int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_color_matrix_from_iso.invokeExact(
@@ -1843,11 +1734,8 @@ public final class GstVideo {
      * @return TRUE if {@code matrix} was a YUV color format and {@code Kr} and {@code Kb} contain valid
      *    values.
      */
-    public static boolean videoColorMatrixGetKrKb(@NotNull org.gstreamer.video.VideoColorMatrix matrix, Out<Double> Kr, Out<Double> Kb) {
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
-        java.util.Objects.requireNonNull(Kr, "Parameter 'Kr' must not be null");
+    public static boolean videoColorMatrixGetKrKb(org.gstreamer.video.VideoColorMatrix matrix, Out<Double> Kr, Out<Double> Kb) {
         MemorySegment KrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(Kb, "Parameter 'Kb' must not be null");
         MemorySegment KbPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -1860,7 +1748,7 @@ public final class GstVideo {
         }
         Kr.set(KrPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         Kb.set(KbPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1871,8 +1759,7 @@ public final class GstVideo {
      * @param matrix a {@link VideoColorMatrix}
      * @return The value of ISO/IEC 23001-8 matrix coefficients.
      */
-    public static int videoColorMatrixToIso(@NotNull org.gstreamer.video.VideoColorMatrix matrix) {
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
+    public static int videoColorMatrixToIso(org.gstreamer.video.VideoColorMatrix matrix) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_color_matrix_to_iso.invokeExact(
@@ -1891,7 +1778,7 @@ public final class GstVideo {
      * @param value a ITU-T H.273 colour primaries value
      * @return the matched {@link VideoColorPrimaries}
      */
-    public static @NotNull org.gstreamer.video.VideoColorPrimaries videoColorPrimariesFromIso(int value) {
+    public static org.gstreamer.video.VideoColorPrimaries videoColorPrimariesFromIso(int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_color_primaries_from_iso.invokeExact(
@@ -1907,8 +1794,7 @@ public final class GstVideo {
      * @param primaries a {@link VideoColorPrimaries}
      * @return a {@link VideoColorPrimariesInfo} for {@code primaries}.
      */
-    public static @NotNull org.gstreamer.video.VideoColorPrimariesInfo videoColorPrimariesGetInfo(@NotNull org.gstreamer.video.VideoColorPrimaries primaries) {
-        java.util.Objects.requireNonNull(primaries, "Parameter 'primaries' must not be null");
+    public static org.gstreamer.video.VideoColorPrimariesInfo videoColorPrimariesGetInfo(org.gstreamer.video.VideoColorPrimaries primaries) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_color_primaries_get_info.invokeExact(
@@ -1916,7 +1802,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoColorPrimariesInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoColorPrimariesInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1927,8 +1813,7 @@ public final class GstVideo {
      * @param primaries a {@link VideoColorPrimaries}
      * @return The value of ISO/IEC 23001-8 colour primaries.
      */
-    public static int videoColorPrimariesToIso(@NotNull org.gstreamer.video.VideoColorPrimaries primaries) {
-        java.util.Objects.requireNonNull(primaries, "Parameter 'primaries' must not be null");
+    public static int videoColorPrimariesToIso(org.gstreamer.video.VideoColorPrimaries primaries) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_color_primaries_to_iso.invokeExact(
@@ -1952,12 +1837,8 @@ public final class GstVideo {
      * @param offset output offsets
      * @param scale output scale
      */
-    public static void videoColorRangeOffsets(@NotNull org.gstreamer.video.VideoColorRange range, @NotNull org.gstreamer.video.VideoFormatInfo info, @NotNull Out<int[]> offset, @NotNull Out<int[]> scale) {
-        java.util.Objects.requireNonNull(range, "Parameter 'range' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
+    public static void videoColorRangeOffsets(org.gstreamer.video.VideoColorRange range, org.gstreamer.video.VideoFormatInfo info, Out<int[]> offset, Out<int[]> scale) {
         MemorySegment offsetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(scale, "Parameter 'scale' must not be null");
         MemorySegment scalePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_video_color_range_offsets.invokeExact(
@@ -1973,8 +1854,7 @@ public final class GstVideo {
     }
     
     @Deprecated
-    public static double videoColorTransferDecode(@NotNull org.gstreamer.video.VideoTransferFunction func, double val) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static double videoColorTransferDecode(org.gstreamer.video.VideoTransferFunction func, double val) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_video_color_transfer_decode.invokeExact(
@@ -1987,8 +1867,7 @@ public final class GstVideo {
     }
     
     @Deprecated
-    public static double videoColorTransferEncode(@NotNull org.gstreamer.video.VideoTransferFunction func, double val) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static double videoColorTransferEncode(org.gstreamer.video.VideoTransferFunction func, double val) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_video_color_transfer_encode.invokeExact(
@@ -2013,10 +1892,7 @@ public final class GstVideo {
      * will point to the {@link org.gtk.glib.Error}).
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gstreamer.gst.Sample videoConvertSample(@NotNull org.gstreamer.gst.Sample sample, @NotNull org.gstreamer.gst.Caps toCaps, @NotNull org.gstreamer.gst.ClockTime timeout) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(sample, "Parameter 'sample' must not be null");
-        java.util.Objects.requireNonNull(toCaps, "Parameter 'toCaps' must not be null");
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
+    public static org.gstreamer.gst.Sample videoConvertSample(org.gstreamer.gst.Sample sample, org.gstreamer.gst.Caps toCaps, org.gstreamer.gst.ClockTime timeout) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2031,7 +1907,7 @@ public final class GstVideo {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gstreamer.gst.Sample(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Sample.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2052,24 +1928,17 @@ public final class GstVideo {
      * @param toCaps the {@link org.gstreamer.gst.Caps} to convert to
      * @param timeout the maximum amount of time allowed for the processing.
      * @param callback {@code GstVideoConvertSampleCallback} that will be called after conversion.
+     * @param destroyNotify {@code GDestroyNotify} to be called after {@code user_data} is not needed anymore
      */
-    public static void videoConvertSampleAsync(@NotNull org.gstreamer.gst.Sample sample, @NotNull org.gstreamer.gst.Caps toCaps, @NotNull org.gstreamer.gst.ClockTime timeout, @NotNull org.gstreamer.video.VideoConvertSampleCallback callback) {
-        java.util.Objects.requireNonNull(sample, "Parameter 'sample' must not be null");
-        java.util.Objects.requireNonNull(toCaps, "Parameter 'toCaps' must not be null");
-        java.util.Objects.requireNonNull(timeout, "Parameter 'timeout' must not be null");
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public static void videoConvertSampleAsync(org.gstreamer.gst.Sample sample, org.gstreamer.gst.Caps toCaps, org.gstreamer.gst.ClockTime timeout, org.gstreamer.video.VideoConvertSampleCallback callback, org.gtk.glib.DestroyNotify destroyNotify) {
         try {
             DowncallHandles.gst_video_convert_sample_async.invokeExact(
                     sample.handle(),
                     toCaps.handle(),
                     timeout.getValue().longValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstVideo.Callbacks.class, "cbVideoConvertSampleCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyNotify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2083,10 +1952,7 @@ public final class GstVideo {
      * @param config a {@link org.gstreamer.gst.Structure} with configuration options
      * @return a {@link VideoConverter} or {@code null} if conversion is not possible.
      */
-    public static @NotNull org.gstreamer.video.VideoConverter videoConverterNew(@NotNull org.gstreamer.video.VideoInfo inInfo, @NotNull org.gstreamer.video.VideoInfo outInfo, @NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(inInfo, "Parameter 'inInfo' must not be null");
-        java.util.Objects.requireNonNull(outInfo, "Parameter 'outInfo' must not be null");
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static org.gstreamer.video.VideoConverter videoConverterNew(org.gstreamer.video.VideoInfo inInfo, org.gstreamer.video.VideoInfo outInfo, org.gstreamer.gst.Structure config) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_converter_new.invokeExact(
@@ -2097,7 +1963,7 @@ public final class GstVideo {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return new org.gstreamer.video.VideoConverter(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoConverter.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -2112,10 +1978,7 @@ public final class GstVideo {
      * @param pool a {@link org.gstreamer.gst.TaskPool} to spawn threads from
      * @return a {@link VideoConverter} or {@code null} if conversion is not possible.
      */
-    public static @NotNull org.gstreamer.video.VideoConverter videoConverterNewWithPool(@NotNull org.gstreamer.video.VideoInfo inInfo, @NotNull org.gstreamer.video.VideoInfo outInfo, @NotNull org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.TaskPool pool) {
-        java.util.Objects.requireNonNull(inInfo, "Parameter 'inInfo' must not be null");
-        java.util.Objects.requireNonNull(outInfo, "Parameter 'outInfo' must not be null");
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static org.gstreamer.video.VideoConverter videoConverterNewWithPool(org.gstreamer.video.VideoInfo inInfo, org.gstreamer.video.VideoInfo outInfo, org.gstreamer.gst.Structure config, @Nullable org.gstreamer.gst.TaskPool pool) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_converter_new_with_pool.invokeExact(
@@ -2127,10 +1990,10 @@ public final class GstVideo {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         config.yieldOwnership();
-        return new org.gstreamer.video.VideoConverter(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoConverter.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
-    public static @NotNull org.gtk.glib.Type videoCropMetaApiGetType() {
+    public static org.gtk.glib.Type videoCropMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_crop_meta_api_get_type.invokeExact();
@@ -2140,14 +2003,14 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoCropMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoCropMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_crop_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2165,11 +2028,7 @@ public final class GstVideo {
      * @param width the width of the lines
      * @return a new {@link VideoDither}
      */
-    public static @NotNull org.gstreamer.video.VideoDither videoDitherNew(@NotNull org.gstreamer.video.VideoDitherMethod method, @NotNull org.gstreamer.video.VideoDitherFlags flags, @NotNull org.gstreamer.video.VideoFormat format, PointerInteger quantizer, int width) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(quantizer, "Parameter 'quantizer' must not be null");
+    public static org.gstreamer.video.VideoDither videoDitherNew(org.gstreamer.video.VideoDitherMethod method, org.gstreamer.video.VideoDitherFlags flags, org.gstreamer.video.VideoFormat format, PointerInteger quantizer, int width) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_dither_new.invokeExact(
@@ -2181,7 +2040,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoDither(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoDither.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -2190,8 +2049,7 @@ public final class GstVideo {
      * @param event A {@link org.gstreamer.gst.Event} to check
      * @return {@code true} if the event is a valid force key unit event
      */
-    public static boolean videoEventIsForceKeyUnit(@NotNull org.gstreamer.gst.Event event) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public static boolean videoEventIsForceKeyUnit(org.gstreamer.gst.Event event) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_event_is_force_key_unit.invokeExact(
@@ -2199,7 +2057,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2218,22 +2076,19 @@ public final class GstVideo {
      * @param count integer that can be used to number key units
      * @return The new GstEvent
      */
-    public static @NotNull org.gstreamer.gst.Event videoEventNewDownstreamForceKeyUnit(@NotNull org.gstreamer.gst.ClockTime timestamp, @NotNull org.gstreamer.gst.ClockTime streamTime, @NotNull org.gstreamer.gst.ClockTime runningTime, boolean allHeaders, int count) {
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
-        java.util.Objects.requireNonNull(streamTime, "Parameter 'streamTime' must not be null");
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
+    public static org.gstreamer.gst.Event videoEventNewDownstreamForceKeyUnit(org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime streamTime, org.gstreamer.gst.ClockTime runningTime, boolean allHeaders, int count) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_event_new_downstream_force_key_unit.invokeExact(
                     timestamp.getValue().longValue(),
                     streamTime.getValue().longValue(),
                     runningTime.getValue().longValue(),
-                    allHeaders ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(allHeaders, null).intValue(),
                     count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Event(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2246,15 +2101,15 @@ public final class GstVideo {
      * @param inStill boolean value for the still-frame state of the event.
      * @return The new GstEvent
      */
-    public static @NotNull org.gstreamer.gst.Event videoEventNewStillFrame(boolean inStill) {
+    public static org.gstreamer.gst.Event videoEventNewStillFrame(boolean inStill) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_event_new_still_frame.invokeExact(
-                    inStill ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(inStill, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Event(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2272,18 +2127,17 @@ public final class GstVideo {
      * @param count integer that can be used to number key units
      * @return The new GstEvent
      */
-    public static @NotNull org.gstreamer.gst.Event videoEventNewUpstreamForceKeyUnit(@NotNull org.gstreamer.gst.ClockTime runningTime, boolean allHeaders, int count) {
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
+    public static org.gstreamer.gst.Event videoEventNewUpstreamForceKeyUnit(org.gstreamer.gst.ClockTime runningTime, boolean allHeaders, int count) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_event_new_upstream_force_key_unit.invokeExact(
                     runningTime.getValue().longValue(),
-                    allHeaders ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(allHeaders, null).intValue(),
                     count);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Event(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2300,17 +2154,11 @@ public final class GstVideo {
      * @param count A pointer to the count field of the event
      * @return {@code true} if the event is a valid downstream force key unit event.
      */
-    public static boolean videoEventParseDownstreamForceKeyUnit(@NotNull org.gstreamer.gst.Event event, @NotNull Out<org.gstreamer.gst.ClockTime> timestamp, @NotNull Out<org.gstreamer.gst.ClockTime> streamTime, @NotNull Out<org.gstreamer.gst.ClockTime> runningTime, Out<Boolean> allHeaders, Out<Integer> count) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
+    public static boolean videoEventParseDownstreamForceKeyUnit(org.gstreamer.gst.Event event, org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime streamTime, org.gstreamer.gst.ClockTime runningTime, Out<Boolean> allHeaders, Out<Integer> count) {
         MemorySegment timestampPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(streamTime, "Parameter 'streamTime' must not be null");
         MemorySegment streamTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
         MemorySegment runningTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(allHeaders, "Parameter 'allHeaders' must not be null");
         MemorySegment allHeadersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
         MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -2324,12 +2172,12 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        timestamp.set(new org.gstreamer.gst.ClockTime(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        streamTime.set(new org.gstreamer.gst.ClockTime(streamTimePOINTER.get(Interop.valueLayout.C_LONG, 0)));
-        runningTime.set(new org.gstreamer.gst.ClockTime(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        timestamp.setValue(timestampPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        streamTime.setValue(streamTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        runningTime.setValue(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
         allHeaders.set(allHeadersPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2345,9 +2193,7 @@ public final class GstVideo {
      * @param inStill A boolean to receive the still-frame status from the event, or NULL
      * @return {@code true} if the event is a valid still-frame event. {@code false} if not
      */
-    public static boolean videoEventParseStillFrame(@NotNull org.gstreamer.gst.Event event, Out<Boolean> inStill) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(inStill, "Parameter 'inStill' must not be null");
+    public static boolean videoEventParseStillFrame(org.gstreamer.gst.Event event, Out<Boolean> inStill) {
         MemorySegment inStillPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -2358,7 +2204,7 @@ public final class GstVideo {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         inStill.set(inStillPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2375,13 +2221,9 @@ public final class GstVideo {
      * @param count A pointer to the count field in the event
      * @return {@code true} if the event is a valid upstream force-key-unit event. {@code false} if not
      */
-    public static boolean videoEventParseUpstreamForceKeyUnit(@NotNull org.gstreamer.gst.Event event, @NotNull Out<org.gstreamer.gst.ClockTime> runningTime, Out<Boolean> allHeaders, Out<Integer> count) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
-        java.util.Objects.requireNonNull(runningTime, "Parameter 'runningTime' must not be null");
+    public static boolean videoEventParseUpstreamForceKeyUnit(org.gstreamer.gst.Event event, org.gstreamer.gst.ClockTime runningTime, Out<Boolean> allHeaders, Out<Integer> count) {
         MemorySegment runningTimePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(allHeaders, "Parameter 'allHeaders' must not be null");
         MemorySegment allHeadersPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(count, "Parameter 'count' must not be null");
         MemorySegment countPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -2393,10 +2235,10 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        runningTime.set(new org.gstreamer.gst.ClockTime(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        runningTime.setValue(runningTimePOINTER.get(Interop.valueLayout.C_LONG, 0));
         allHeaders.set(allHeadersPOINTER.get(Interop.valueLayout.C_INT, 0) != 0);
         count.set(countPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2406,12 +2248,11 @@ public final class GstVideo {
      *    {@code GST_VIDEO_FIELD_ORDER_UNKNOWN} when {@code order} is not a valid
      *    string representation for a {@link VideoFieldOrder}.
      */
-    public static @NotNull org.gstreamer.video.VideoFieldOrder videoFieldOrderFromString(@NotNull java.lang.String order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public static org.gstreamer.video.VideoFieldOrder videoFieldOrderFromString(java.lang.String order) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_field_order_from_string.invokeExact(
-                    Interop.allocateNativeString(order));
+                    Marshal.stringToAddress.marshal(order, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2423,8 +2264,7 @@ public final class GstVideo {
      * @param order a {@link VideoFieldOrder}
      * @return {@code order} as a string or NULL if {@code order} in invalid.
      */
-    public static @NotNull java.lang.String videoFieldOrderToString(@NotNull org.gstreamer.video.VideoFieldOrder order) {
-        java.util.Objects.requireNonNull(order, "Parameter 'order' must not be null");
+    public static java.lang.String videoFieldOrderToString(org.gstreamer.video.VideoFieldOrder order) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_field_order_to_string.invokeExact(
@@ -2432,7 +2272,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2442,7 +2282,7 @@ public final class GstVideo {
      * @param fourcc a FOURCC value representing raw YUV video
      * @return the {@link VideoFormat} describing the FOURCC value
      */
-    public static @NotNull org.gstreamer.video.VideoFormat videoFormatFromFourcc(int fourcc) {
+    public static org.gstreamer.video.VideoFormat videoFormatFromFourcc(int fourcc) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_format_from_fourcc.invokeExact(
@@ -2466,7 +2306,7 @@ public final class GstVideo {
      * @return a {@link VideoFormat} or GST_VIDEO_FORMAT_UNKNOWN when the parameters to
      * not specify a known format.
      */
-    public static @NotNull org.gstreamer.video.VideoFormat videoFormatFromMasks(int depth, int bpp, int endianness, int redMask, int greenMask, int blueMask, int alphaMask) {
+    public static org.gstreamer.video.VideoFormat videoFormatFromMasks(int depth, int bpp, int endianness, int redMask, int greenMask, int blueMask, int alphaMask) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_format_from_masks.invokeExact(
@@ -2489,12 +2329,11 @@ public final class GstVideo {
      * @return the {@link VideoFormat} for {@code format} or GST_VIDEO_FORMAT_UNKNOWN when the
      * string is not a known format.
      */
-    public static @NotNull org.gstreamer.video.VideoFormat videoFormatFromString(@NotNull java.lang.String format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.video.VideoFormat videoFormatFromString(java.lang.String format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_format_from_string.invokeExact(
-                    Interop.allocateNativeString(format));
+                    Marshal.stringToAddress.marshal(format, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2506,8 +2345,7 @@ public final class GstVideo {
      * @param format a {@link VideoFormat}
      * @return The {@link VideoFormatInfo} for {@code format}.
      */
-    public static @NotNull org.gstreamer.video.VideoFormatInfo videoFormatGetInfo(@NotNull org.gstreamer.video.VideoFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.video.VideoFormatInfo videoFormatGetInfo(org.gstreamer.video.VideoFormat format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_format_get_info.invokeExact(
@@ -2515,7 +2353,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoFormatInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.video.VideoFormatInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2526,9 +2364,7 @@ public final class GstVideo {
      * @return the default palette of {@code format} or {@code null} when
      * {@code format} does not have a palette.
      */
-    public static @Nullable java.lang.foreign.MemoryAddress videoFormatGetPalette(@NotNull org.gstreamer.video.VideoFormat format, Out<Long> size) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
+    public static @Nullable java.lang.foreign.MemoryAddress videoFormatGetPalette(org.gstreamer.video.VideoFormat format, Out<Long> size) {
         MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
@@ -2549,8 +2385,7 @@ public final class GstVideo {
      * @param format a {@link VideoFormat} video format
      * @return the FOURCC corresponding to {@code format}
      */
-    public static int videoFormatToFourcc(@NotNull org.gstreamer.video.VideoFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static int videoFormatToFourcc(org.gstreamer.video.VideoFormat format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_format_to_fourcc.invokeExact(
@@ -2567,8 +2402,7 @@ public final class GstVideo {
      * @param format a {@link VideoFormat} video format
      * @return the name corresponding to {@code format}
      */
-    public static @NotNull java.lang.String videoFormatToString(@NotNull org.gstreamer.video.VideoFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static java.lang.String videoFormatToString(org.gstreamer.video.VideoFormat format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_format_to_string.invokeExact(
@@ -2576,7 +2410,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2584,8 +2418,7 @@ public final class GstVideo {
      * @param len the number of elements in the returned array
      * @return an array of {@link VideoFormat}
      */
-    public static @NotNull org.gstreamer.video.VideoFormat[] videoFormatsRaw(Out<Integer> len) {
-        java.util.Objects.requireNonNull(len, "Parameter 'len' must not be null");
+    public static org.gstreamer.video.VideoFormat[] videoFormatsRaw(Out<Integer> len) {
         MemorySegment lenPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         MemoryAddress RESULT;
         try {
@@ -2652,11 +2485,7 @@ public final class GstVideo {
      * @param flags {@link org.gstreamer.gst.MapFlags}
      * @return {@code true} on success.
      */
-    public static boolean videoFrameMap(@NotNull org.gstreamer.video.VideoFrame frame, @NotNull org.gstreamer.video.VideoInfo info, @NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(frame, "Parameter 'frame' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean videoFrameMap(org.gstreamer.video.VideoFrame frame, org.gstreamer.video.VideoInfo info, org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.MapFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_frame_map.invokeExact(
@@ -2667,7 +2496,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2686,11 +2515,7 @@ public final class GstVideo {
      * @param flags {@link org.gstreamer.gst.MapFlags}
      * @return {@code true} on success.
      */
-    public static boolean videoFrameMapId(@NotNull org.gstreamer.video.VideoFrame frame, @NotNull org.gstreamer.video.VideoInfo info, @NotNull org.gstreamer.gst.Buffer buffer, int id, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(frame, "Parameter 'frame' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean videoFrameMapId(org.gstreamer.video.VideoFrame frame, org.gstreamer.video.VideoInfo info, org.gstreamer.gst.Buffer buffer, int id, org.gstreamer.gst.MapFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_frame_map_id.invokeExact(
@@ -2702,10 +2527,10 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Type videoGlTextureUploadMetaApiGetType() {
+    public static org.gtk.glib.Type videoGlTextureUploadMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_gl_texture_upload_meta_api_get_type.invokeExact();
@@ -2715,14 +2540,14 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoGlTextureUploadMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoGlTextureUploadMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_gl_texture_upload_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2740,24 +2565,21 @@ public final class GstVideo {
      * @return {@code true} if a close "standard" framerate was
      * recognised, and {@code false} otherwise.
      */
-    public static boolean videoGuessFramerate(@NotNull org.gstreamer.gst.ClockTime duration, Out<Integer> destN, Out<Integer> destD) {
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
-        java.util.Objects.requireNonNull(destN, "Parameter 'destN' must not be null");
+    public static boolean videoGuessFramerate(org.gstreamer.gst.ClockTime duration, Out<Integer> destN, Out<Integer> destD) {
         MemorySegment destNPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(destD, "Parameter 'destD' must not be null");
         MemorySegment destDPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_guess_framerate.invokeExact(
                     duration.getValue().longValue(),
-                    (Addressable) destNPOINTER.address(),
-                    (Addressable) destDPOINTER.address());
+                    (Addressable) (destN == null ? MemoryAddress.NULL : (Addressable) destNPOINTER.address()),
+                    (Addressable) (destD == null ? MemoryAddress.NULL : (Addressable) destDPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        destN.set(destNPOINTER.get(Interop.valueLayout.C_INT, 0));
-        destD.set(destDPOINTER.get(Interop.valueLayout.C_INT, 0));
-        return RESULT != 0;
+        if (destN != null) destN.set(destNPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (destD != null) destD.set(destDPOINTER.get(Interop.valueLayout.C_INT, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2766,9 +2588,7 @@ public final class GstVideo {
      * @param caps a {@link org.gstreamer.gst.Caps}
      * @return TRUE if {@code caps} could be parsed
      */
-    public static boolean videoInfoFromCaps(@NotNull org.gstreamer.video.VideoInfo info, @NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public static boolean videoInfoFromCaps(org.gstreamer.video.VideoInfo info, org.gstreamer.gst.Caps caps) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_info_from_caps.invokeExact(
@@ -2777,15 +2597,14 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Initialize {@code info} with default values.
      * @param info a {@link VideoInfo}
      */
-    public static void videoInfoInit(@NotNull org.gstreamer.video.VideoInfo info) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    public static void videoInfoInit(org.gstreamer.video.VideoInfo info) {
         try {
             DowncallHandles.gst_video_info_init.invokeExact(
                     info.handle());
@@ -2801,12 +2620,11 @@ public final class GstVideo {
      *    {@code GST_VIDEO_INTERLACE_MODE_PROGRESSIVE} when {@code mode} is not a valid
      *    string representation for a {@link VideoInterlaceMode}.
      */
-    public static @NotNull org.gstreamer.video.VideoInterlaceMode videoInterlaceModeFromString(@NotNull java.lang.String mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static org.gstreamer.video.VideoInterlaceMode videoInterlaceModeFromString(java.lang.String mode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_interlace_mode_from_string.invokeExact(
-                    Interop.allocateNativeString(mode));
+                    Marshal.stringToAddress.marshal(mode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2818,8 +2636,7 @@ public final class GstVideo {
      * @param mode a {@link VideoInterlaceMode}
      * @return {@code mode} as a string or NULL if {@code mode} in invalid.
      */
-    public static @NotNull java.lang.String videoInterlaceModeToString(@NotNull org.gstreamer.video.VideoInterlaceMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static java.lang.String videoInterlaceModeToString(org.gstreamer.video.VideoInterlaceMode mode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_interlace_mode_to_string.invokeExact(
@@ -2827,7 +2644,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2838,7 +2655,7 @@ public final class GstVideo {
      * @param len the size of {@code formats}
      * @return a video {@code GstCaps}
      */
-    public static @NotNull org.gstreamer.gst.Caps videoMakeRawCaps(@Nullable org.gstreamer.video.VideoFormat[] formats, int len) {
+    public static org.gstreamer.gst.Caps videoMakeRawCaps(@Nullable org.gstreamer.video.VideoFormat[] formats, int len) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_make_raw_caps.invokeExact(
@@ -2847,7 +2664,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2860,7 +2677,7 @@ public final class GstVideo {
      * @param features the {@link org.gstreamer.gst.CapsFeatures} to set on the caps
      * @return a video {@code GstCaps}
      */
-    public static @NotNull org.gstreamer.gst.Caps videoMakeRawCapsWithFeatures(@Nullable org.gstreamer.video.VideoFormat[] formats, int len, @Nullable org.gstreamer.gst.CapsFeatures features) {
+    public static org.gstreamer.gst.Caps videoMakeRawCapsWithFeatures(@Nullable org.gstreamer.video.VideoFormat[] formats, int len, @Nullable org.gstreamer.gst.CapsFeatures features) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_make_raw_caps_with_features.invokeExact(
@@ -2871,7 +2688,7 @@ public final class GstVideo {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         features.yieldOwnership();
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2880,21 +2697,19 @@ public final class GstVideo {
      * @param mastering a {@link org.gstreamer.gst.Structure} representing {@link VideoMasteringDisplayInfo}
      * @return {@code true} if {@code minfo} was filled with {@code mastering}
      */
-    public static boolean videoMasteringDisplayInfoFromString(@NotNull org.gstreamer.video.VideoMasteringDisplayInfo minfo, @NotNull java.lang.String mastering) {
-        java.util.Objects.requireNonNull(minfo, "Parameter 'minfo' must not be null");
-        java.util.Objects.requireNonNull(mastering, "Parameter 'mastering' must not be null");
+    public static boolean videoMasteringDisplayInfoFromString(org.gstreamer.video.VideoMasteringDisplayInfo minfo, java.lang.String mastering) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_mastering_display_info_from_string.invokeExact(
                     minfo.handle(),
-                    Interop.allocateNativeString(mastering));
+                    Marshal.stringToAddress.marshal(mastering, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Type videoMetaApiGetType() {
+    public static org.gtk.glib.Type videoMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_meta_api_get_type.invokeExact();
@@ -2904,21 +2719,21 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the {@link org.gtk.glib.Quark} for the "gst-video-scale" metadata transform operation.
      * @return a {@link org.gtk.glib.Quark}
      */
-    public static @NotNull org.gtk.glib.Quark videoMetaTransformScaleGetQuark() {
+    public static org.gtk.glib.Quark videoMetaTransformScaleGetQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_meta_transform_scale_get_quark.invokeExact();
@@ -2928,58 +2743,57 @@ public final class GstVideo {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull org.gtk.gobject.Value videoMultiviewGetDoubledHeightModes() {
+    public static org.gtk.gobject.Value videoMultiviewGetDoubledHeightModes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_multiview_get_doubled_height_modes.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.gobject.Value videoMultiviewGetDoubledSizeModes() {
+    public static org.gtk.gobject.Value videoMultiviewGetDoubledSizeModes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_multiview_get_doubled_size_modes.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.gobject.Value videoMultiviewGetDoubledWidthModes() {
+    public static org.gtk.gobject.Value videoMultiviewGetDoubledWidthModes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_multiview_get_doubled_width_modes.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.gobject.Value videoMultiviewGetMonoModes() {
+    public static org.gtk.gobject.Value videoMultiviewGetMonoModes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_multiview_get_mono_modes.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.gobject.Value videoMultiviewGetUnpackedModes() {
+    public static org.gtk.gobject.Value videoMultiviewGetUnpackedModes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_multiview_get_unpacked_modes.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.NONE);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static boolean videoMultiviewGuessHalfAspect(@NotNull org.gstreamer.video.VideoMultiviewMode mvMode, int width, int height, int parN, int parD) {
-        java.util.Objects.requireNonNull(mvMode, "Parameter 'mvMode' must not be null");
+    public static boolean videoMultiviewGuessHalfAspect(org.gstreamer.video.VideoMultiviewMode mvMode, int width, int height, int parN, int parD) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_multiview_guess_half_aspect.invokeExact(
@@ -2991,23 +2805,21 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gstreamer.video.VideoMultiviewMode videoMultiviewModeFromCapsString(@NotNull java.lang.String capsMviewMode) {
-        java.util.Objects.requireNonNull(capsMviewMode, "Parameter 'capsMviewMode' must not be null");
+    public static org.gstreamer.video.VideoMultiviewMode videoMultiviewModeFromCapsString(java.lang.String capsMviewMode) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_multiview_mode_from_caps_string.invokeExact(
-                    Interop.allocateNativeString(capsMviewMode));
+                    Marshal.stringToAddress.marshal(capsMviewMode, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return org.gstreamer.video.VideoMultiviewMode.of(RESULT);
     }
     
-    public static @NotNull java.lang.String videoMultiviewModeToCapsString(@NotNull org.gstreamer.video.VideoMultiviewMode mviewMode) {
-        java.util.Objects.requireNonNull(mviewMode, "Parameter 'mviewMode' must not be null");
+    public static java.lang.String videoMultiviewModeToCapsString(org.gstreamer.video.VideoMultiviewMode mviewMode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_multiview_mode_to_caps_string.invokeExact(
@@ -3015,7 +2827,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -3026,10 +2838,7 @@ public final class GstVideo {
      * @param outMviewMode A {@link VideoMultiviewMode} value
      * @param outMviewFlags A set of {@link VideoMultiviewFlags}
      */
-    public static void videoMultiviewVideoInfoChangeMode(@NotNull org.gstreamer.video.VideoInfo info, @NotNull org.gstreamer.video.VideoMultiviewMode outMviewMode, @NotNull org.gstreamer.video.VideoMultiviewFlags outMviewFlags) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(outMviewMode, "Parameter 'outMviewMode' must not be null");
-        java.util.Objects.requireNonNull(outMviewFlags, "Parameter 'outMviewFlags' must not be null");
+    public static void videoMultiviewVideoInfoChangeMode(org.gstreamer.video.VideoInfo info, org.gstreamer.video.VideoMultiviewMode outMviewMode, org.gstreamer.video.VideoMultiviewFlags outMviewFlags) {
         try {
             DowncallHandles.gst_video_multiview_video_info_change_mode.invokeExact(
                     info.handle(),
@@ -3047,9 +2856,7 @@ public final class GstVideo {
      * @param method The location where to return the orientation.
      * @return TRUE if there was a valid "image-orientation" tag in the taglist.
      */
-    public static boolean videoOrientationFromTag(@NotNull org.gstreamer.gst.TagList taglist, @NotNull Out<org.gstreamer.video.VideoOrientationMethod> method) {
-        java.util.Objects.requireNonNull(taglist, "Parameter 'taglist' must not be null");
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
+    public static boolean videoOrientationFromTag(org.gstreamer.gst.TagList taglist, Out<org.gstreamer.video.VideoOrientationMethod> method) {
         MemorySegment methodPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
@@ -3060,10 +2867,10 @@ public final class GstVideo {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         method.set(org.gstreamer.video.VideoOrientationMethod.of(methodPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Type videoOverlayCompositionMetaApiGetType() {
+    public static org.gtk.glib.Type videoOverlayCompositionMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_overlay_composition_meta_api_get_type.invokeExact();
@@ -3073,14 +2880,14 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoOverlayCompositionMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoOverlayCompositionMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_overlay_composition_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3091,8 +2898,7 @@ public final class GstVideo {
      * @param oclass The class on which the properties will be installed
      * @param lastPropId The first free property ID to use
      */
-    public static void videoOverlayInstallProperties(@NotNull org.gtk.gobject.ObjectClass oclass, int lastPropId) {
-        java.util.Objects.requireNonNull(oclass, "Parameter 'oclass' must not be null");
+    public static void videoOverlayInstallProperties(org.gtk.gobject.ObjectClass oclass, int lastPropId) {
         try {
             DowncallHandles.gst_video_overlay_install_properties.invokeExact(
                     oclass.handle(),
@@ -3113,9 +2919,7 @@ public final class GstVideo {
      * @param value The {@link org.gtk.gobject.Value} to be set
      * @return {@code true} if the {@code property_id} matches the GstVideoOverlay property
      */
-    public static boolean videoOverlaySetProperty(@NotNull org.gtk.gobject.Object object, int lastPropId, int propertyId, @NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static boolean videoOverlaySetProperty(org.gtk.gobject.GObject object, int lastPropId, int propertyId, org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_overlay_set_property.invokeExact(
@@ -3126,10 +2930,10 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gtk.glib.Type videoRegionOfInterestMetaApiGetType() {
+    public static org.gtk.glib.Type videoRegionOfInterestMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_region_of_interest_meta_api_get_type.invokeExact();
@@ -3139,14 +2943,14 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoRegionOfInterestMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoRegionOfInterestMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_region_of_interest_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3164,9 +2968,7 @@ public final class GstVideo {
      * @param options extra options
      * @return a {@link VideoScaler}
      */
-    public static @NotNull org.gstreamer.video.VideoScaler videoScalerNew(@NotNull org.gstreamer.video.VideoResamplerMethod method, @NotNull org.gstreamer.video.VideoScalerFlags flags, int nTaps, int inSize, int outSize, @Nullable org.gstreamer.gst.Structure options) {
-        java.util.Objects.requireNonNull(method, "Parameter 'method' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static org.gstreamer.video.VideoScaler videoScalerNew(org.gstreamer.video.VideoResamplerMethod method, org.gstreamer.video.VideoScalerFlags flags, int nTaps, int inSize, int outSize, @Nullable org.gstreamer.gst.Structure options) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_scaler_new.invokeExact(
@@ -3179,7 +2981,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.video.VideoScaler(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.video.VideoScaler.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -3195,8 +2997,7 @@ public final class GstVideo {
      * @return the index of the tile at {@code x} and {@code y} in the tiled image of
      *   {@code x_tiles} by {@code y_tiles}.
      */
-    public static int videoTileGetIndex(@NotNull org.gstreamer.video.VideoTileMode mode, int x, int y, int xTiles, int yTiles) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static int videoTileGetIndex(org.gstreamer.video.VideoTileMode mode, int x, int y, int xTiles, int yTiles) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_tile_get_index.invokeExact(
@@ -3211,7 +3012,7 @@ public final class GstVideo {
         return RESULT;
     }
     
-    public static @NotNull org.gtk.glib.Type videoTimeCodeMetaApiGetType() {
+    public static org.gtk.glib.Type videoTimeCodeMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_video_time_code_meta_api_get_type.invokeExact();
@@ -3221,14 +3022,14 @@ public final class GstVideo {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo videoTimeCodeMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo videoTimeCodeMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_video_time_code_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -3247,8 +3048,7 @@ public final class GstVideo {
      * @param val a value
      * @return the gamma decoded value of {@code val}
      */
-    public static double videoTransferFunctionDecode(@NotNull org.gstreamer.video.VideoTransferFunction func, double val) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static double videoTransferFunctionDecode(org.gstreamer.video.VideoTransferFunction func, double val) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_video_transfer_function_decode.invokeExact(
@@ -3275,8 +3075,7 @@ public final class GstVideo {
      * @param val a value
      * @return the gamma encoded value of {@code val}
      */
-    public static double videoTransferFunctionEncode(@NotNull org.gstreamer.video.VideoTransferFunction func, double val) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static double videoTransferFunctionEncode(org.gstreamer.video.VideoTransferFunction func, double val) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_video_transfer_function_encode.invokeExact(
@@ -3297,7 +3096,7 @@ public final class GstVideo {
      * @param value a ITU-T H.273 transfer characteristics value
      * @return the matched {@link VideoTransferFunction}
      */
-    public static @NotNull org.gstreamer.video.VideoTransferFunction videoTransferFunctionFromIso(int value) {
+    public static org.gstreamer.video.VideoTransferFunction videoTransferFunctionFromIso(int value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_transfer_function_from_iso.invokeExact(
@@ -3320,9 +3119,7 @@ public final class GstVideo {
      * @param toBpp bits per pixel to convert into
      * @return TRUE if {@code from_func} and {@code to_func} can be considered equivalent.
      */
-    public static boolean videoTransferFunctionIsEquivalent(@NotNull org.gstreamer.video.VideoTransferFunction fromFunc, int fromBpp, @NotNull org.gstreamer.video.VideoTransferFunction toFunc, int toBpp) {
-        java.util.Objects.requireNonNull(fromFunc, "Parameter 'fromFunc' must not be null");
-        java.util.Objects.requireNonNull(toFunc, "Parameter 'toFunc' must not be null");
+    public static boolean videoTransferFunctionIsEquivalent(org.gstreamer.video.VideoTransferFunction fromFunc, int fromBpp, org.gstreamer.video.VideoTransferFunction toFunc, int toBpp) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_transfer_function_is_equivalent.invokeExact(
@@ -3333,7 +3130,7 @@ public final class GstVideo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3344,8 +3141,7 @@ public final class GstVideo {
      * @param func a {@link VideoTransferFunction}
      * @return The value of ISO/IEC 23001-8 transfer characteristics.
      */
-    public static int videoTransferFunctionToIso(@NotNull org.gstreamer.video.VideoTransferFunction func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static int videoTransferFunctionToIso(org.gstreamer.video.VideoTransferFunction func) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_video_transfer_function_to_iso.invokeExact(
@@ -4177,11 +3973,5 @@ public final class GstVideo {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static void cbVideoConvertSampleCallback(MemoryAddress sample, MemoryAddress error, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (VideoConvertSampleCallback) Interop.signalRegistry.get(HASH);
-            HANDLER.onVideoConvertSampleCallback(new org.gstreamer.gst.Sample(sample, Ownership.NONE), new org.gtk.glib.Error(error, Ownership.NONE));
-        }
     }
 }

@@ -50,8 +50,7 @@ public enum PadMode implements io.github.jwharm.javagi.Enumeration {
      * @param mode the pad mode
      * @return short mnemonic for pad mode {@code mode}
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.gst.PadMode mode) {
-        java.util.Objects.requireNonNull(mode, "Parameter 'mode' must not be null");
+    public static java.lang.String getName(org.gstreamer.gst.PadMode mode) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_pad_mode_get_name.invokeExact(
@@ -59,7 +58,7 @@ public enum PadMode implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

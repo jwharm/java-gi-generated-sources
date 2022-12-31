@@ -92,32 +92,15 @@ import org.jetbrains.annotations.*;
  */
 public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to AsyncResult if its GType is a (or inherits from) "GAsyncResult".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AsyncResult} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GAsyncResult", a ClassCastException will be thrown.
-     */
-    public static AsyncResult castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AsyncResult.getType())) {
-            return new AsyncResultImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GAsyncResult");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AsyncResultImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AsyncResultImpl(input, ownership);
     
     /**
      * Gets the source object from a {@link AsyncResult}.
      * @return a new reference to the source
      *    object for the {@code res}, or {@code null} if there is none.
      */
-    default @Nullable org.gtk.gobject.Object getSourceObject() {
+    default @Nullable org.gtk.gobject.GObject getSourceObject() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_async_result_get_source_object.invokeExact(
@@ -125,7 +108,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.FULL);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -159,7 +142,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -190,14 +173,14 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_async_result_get_type.invokeExact();
@@ -246,7 +229,7 @@ public interface AsyncResult extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class AsyncResultImpl extends org.gtk.gobject.Object implements AsyncResult {
+    class AsyncResultImpl extends org.gtk.gobject.GObject implements AsyncResult {
         
         static {
             Gio.javagi$ensureInitialized();

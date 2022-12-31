@@ -13,19 +13,17 @@ public class VulkanBarrierBufferInfo extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanBarrierBufferInfo";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.vulkan.VulkanBarrierMemoryInfo.getMemoryLayout().withName("parent"),
-        org.vulkan.DeviceSize.getMemoryLayout().withName("offset"),
-        org.vulkan.DeviceSize.getMemoryLayout().withName("size")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.vulkan.VulkanBarrierMemoryInfo.getMemoryLayout().withName("parent"),
+            org.vulkan.DeviceSize.getMemoryLayout().withName("offset"),
+            org.vulkan.DeviceSize.getMemoryLayout().withName("size")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -45,27 +43,57 @@ public class VulkanBarrierBufferInfo extends Struct {
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gstreamer.vulkan.VulkanBarrierMemoryInfo parent$get() {
+    public org.gstreamer.vulkan.VulkanBarrierMemoryInfo getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gstreamer.vulkan.VulkanBarrierMemoryInfo(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.vulkan.VulkanBarrierMemoryInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent}
+     * @param parent The new value of the field {@code parent}
+     */
+    public void setParent(org.gstreamer.vulkan.VulkanBarrierMemoryInfo parent) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
      * Get the value of the field {@code offset}
      * @return The value of the field {@code offset}
      */
-    public org.vulkan.DeviceSize offset$get() {
+    public org.vulkan.DeviceSize getOffset() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("offset"));
-        return new org.vulkan.DeviceSize(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.DeviceSize.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code offset}
+     * @param offset The new value of the field {@code offset}
+     */
+    public void setOffset(org.vulkan.DeviceSize offset) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("offset"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offset == null ? MemoryAddress.NULL : offset.handle()));
     }
     
     /**
      * Get the value of the field {@code size}
      * @return The value of the field {@code size}
      */
-    public org.vulkan.DeviceSize size$get() {
+    public org.vulkan.DeviceSize getSize() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("size"));
-        return new org.vulkan.DeviceSize(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.DeviceSize.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code size}
+     * @param size The new value of the field {@code size}
+     */
+    public void setSize(org.vulkan.DeviceSize size) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("size"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size == null ? MemoryAddress.NULL : size.handle()));
     }
     
     /**
@@ -73,35 +101,41 @@ public class VulkanBarrierBufferInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanBarrierBufferInfo(Addressable address, Ownership ownership) {
+    protected VulkanBarrierBufferInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanBarrierBufferInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanBarrierBufferInfo(input, ownership);
+    
+    /**
+     * A {@link VulkanBarrierBufferInfo.Builder} object constructs a {@link VulkanBarrierBufferInfo} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VulkanBarrierBufferInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VulkanBarrierBufferInfo struct;
+        private final VulkanBarrierBufferInfo struct;
         
-         /**
-         * A {@link VulkanBarrierBufferInfo.Build} object constructs a {@link VulkanBarrierBufferInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VulkanBarrierBufferInfo.allocate();
         }
         
          /**
          * Finish building the {@link VulkanBarrierBufferInfo} struct.
          * @return A new instance of {@code VulkanBarrierBufferInfo} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanBarrierBufferInfo construct() {
+        public VulkanBarrierBufferInfo build() {
             return struct;
         }
         
@@ -110,7 +144,7 @@ public class VulkanBarrierBufferInfo extends Struct {
          * @param parent The value for the {@code parent} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gstreamer.vulkan.VulkanBarrierMemoryInfo parent) {
+        public Builder setParent(org.gstreamer.vulkan.VulkanBarrierMemoryInfo parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -122,7 +156,7 @@ public class VulkanBarrierBufferInfo extends Struct {
          * @param offset The value for the {@code offset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(org.vulkan.DeviceSize offset) {
+        public Builder setOffset(org.vulkan.DeviceSize offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (offset == null ? MemoryAddress.NULL : offset.handle()));
@@ -134,7 +168,7 @@ public class VulkanBarrierBufferInfo extends Struct {
          * @param size The value for the {@code size} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(org.vulkan.DeviceSize size) {
+        public Builder setSize(org.vulkan.DeviceSize size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (size == null ? MemoryAddress.NULL : size.handle()));

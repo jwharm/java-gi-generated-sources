@@ -75,7 +75,7 @@ import org.jetbrains.annotations.*;
  * }
  * }</pre>
  */
-public class PrintContext extends org.gtk.gobject.Object {
+public class PrintContext extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -97,37 +97,19 @@ public class PrintContext extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PrintContext(Addressable address, Ownership ownership) {
+    protected PrintContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PrintContext if its GType is a (or inherits from) "GtkPrintContext".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PrintContext} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPrintContext", a ClassCastException will be thrown.
-     */
-    public static PrintContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PrintContext.getType())) {
-            return new PrintContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPrintContext");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PrintContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintContext(input, ownership);
     
     /**
      * Creates a new {@code PangoContext} that can be used with the
      * {@code GtkPrintContext}.
      * @return a new Pango context for {@code context}
      */
-    public @NotNull org.pango.Context createPangoContext() {
+    public org.pango.Context createPangoContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_context.invokeExact(
@@ -135,7 +117,7 @@ public class PrintContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(RESULT, Ownership.FULL);
+        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -143,7 +125,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * with the {@code GtkPrintContext}.
      * @return a new Pango layout for {@code context}
      */
-    public @NotNull org.pango.Layout createPangoLayout() {
+    public org.pango.Layout createPangoLayout() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_create_pango_layout.invokeExact(
@@ -151,7 +133,7 @@ public class PrintContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(RESULT, Ownership.FULL);
+        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -159,7 +141,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * {@code GtkPrintContext}.
      * @return the cairo context of {@code context}
      */
-    public @NotNull org.cairographics.Context getCairoContext() {
+    public org.cairographics.Context getCairoContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_cairo_context.invokeExact(
@@ -167,7 +149,7 @@ public class PrintContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.Context(RESULT, Ownership.NONE);
+        return org.cairographics.Context.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -212,13 +194,9 @@ public class PrintContext extends org.gtk.gobject.Object {
      * @return {@code true} if the hard margins were retrieved
      */
     public boolean getHardMargins(Out<Double> top, Out<Double> bottom, Out<Double> left, Out<Double> right) {
-        java.util.Objects.requireNonNull(top, "Parameter 'top' must not be null");
         MemorySegment topPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(bottom, "Parameter 'bottom' must not be null");
         MemorySegment bottomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(left, "Parameter 'left' must not be null");
         MemorySegment leftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(right, "Parameter 'right' must not be null");
         MemorySegment rightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -235,7 +213,7 @@ public class PrintContext extends org.gtk.gobject.Object {
         bottom.set(bottomPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         left.set(leftPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         right.set(rightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -258,7 +236,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * dimensions of the {@code GtkPrintContext}.
      * @return the page setup of {@code context}
      */
-    public @NotNull org.gtk.gtk.PageSetup getPageSetup() {
+    public org.gtk.gtk.PageSetup getPageSetup() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_page_setup.invokeExact(
@@ -266,7 +244,7 @@ public class PrintContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageSetup(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -274,7 +252,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * with the {@code GtkPrintContext}.
      * @return the font map of {@code context}
      */
-    public @NotNull org.pango.FontMap getPangoFontmap() {
+    public org.pango.FontMap getPangoFontmap() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_print_context_get_pango_fontmap.invokeExact(
@@ -282,7 +260,7 @@ public class PrintContext extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(RESULT, Ownership.NONE);
+        return (org.pango.FontMap) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontMap.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -311,8 +289,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * @param dpiX the horizontal resolution to use with {@code cr}
      * @param dpiY the vertical resolution to use with {@code cr}
      */
-    public void setCairoContext(@NotNull org.cairographics.Context cr, double dpiX, double dpiY) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public void setCairoContext(org.cairographics.Context cr, double dpiX, double dpiY) {
         try {
             DowncallHandles.gtk_print_context_set_cairo_context.invokeExact(
                     handle(),
@@ -328,7 +305,7 @@ public class PrintContext extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_print_context_get_type.invokeExact();
@@ -337,38 +314,40 @@ public class PrintContext extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PrintContext.Builder} object constructs a {@link PrintContext} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PrintContext.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PrintContext.Build} object constructs a {@link PrintContext} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PrintContext} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PrintContext} using {@link PrintContext#castFrom}.
+         * {@link PrintContext}.
          * @return A new instance of {@code PrintContext} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PrintContext construct() {
-            return PrintContext.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PrintContext.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PrintContext build() {
+            return (PrintContext) org.gtk.gobject.GObject.newWithProperties(
+                PrintContext.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

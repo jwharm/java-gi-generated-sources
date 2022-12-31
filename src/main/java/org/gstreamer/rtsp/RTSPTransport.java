@@ -16,35 +16,33 @@ public class RTSPTransport extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTSPTransport";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("trans"),
-        Interop.valueLayout.C_INT.withName("profile"),
-        Interop.valueLayout.C_INT.withName("lower_transport"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("destination"),
-        Interop.valueLayout.ADDRESS.withName("source"),
-        Interop.valueLayout.C_INT.withName("layers"),
-        Interop.valueLayout.C_INT.withName("mode_play"),
-        Interop.valueLayout.C_INT.withName("mode_record"),
-        Interop.valueLayout.C_INT.withName("append"),
-        org.gstreamer.rtsp.RTSPRange.getMemoryLayout().withName("interleaved"),
-        Interop.valueLayout.C_INT.withName("ttl"),
-        MemoryLayout.paddingLayout(32),
-        org.gstreamer.rtsp.RTSPRange.getMemoryLayout().withName("port"),
-        org.gstreamer.rtsp.RTSPRange.getMemoryLayout().withName("client_port"),
-        org.gstreamer.rtsp.RTSPRange.getMemoryLayout().withName("server_port"),
-        Interop.valueLayout.C_INT.withName("ssrc"),
-        MemoryLayout.paddingLayout(32),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("trans"),
+            Interop.valueLayout.C_INT.withName("profile"),
+            Interop.valueLayout.C_INT.withName("lower_transport"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("destination"),
+            Interop.valueLayout.ADDRESS.withName("source"),
+            Interop.valueLayout.C_INT.withName("layers"),
+            Interop.valueLayout.C_INT.withName("mode_play"),
+            Interop.valueLayout.C_INT.withName("mode_record"),
+            Interop.valueLayout.C_INT.withName("append"),
+            org.gstreamer.rtsp.RTSPRange.getMemoryLayout().withName("interleaved"),
+            Interop.valueLayout.C_INT.withName("ttl"),
+            MemoryLayout.paddingLayout(32),
+            org.gstreamer.rtsp.RTSPRange.getMemoryLayout().withName("port"),
+            org.gstreamer.rtsp.RTSPRange.getMemoryLayout().withName("client_port"),
+            org.gstreamer.rtsp.RTSPRange.getMemoryLayout().withName("server_port"),
+            Interop.valueLayout.C_INT.withName("ssrc"),
+            MemoryLayout.paddingLayout(32),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -64,7 +62,7 @@ public class RTSPTransport extends Struct {
      * Get the value of the field {@code trans}
      * @return The value of the field {@code trans}
      */
-    public org.gstreamer.rtsp.RTSPTransMode trans$get() {
+    public org.gstreamer.rtsp.RTSPTransMode getTrans() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("trans"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -75,17 +73,17 @@ public class RTSPTransport extends Struct {
      * Change the value of the field {@code trans}
      * @param trans The new value of the field {@code trans}
      */
-    public void trans$set(org.gstreamer.rtsp.RTSPTransMode trans) {
+    public void setTrans(org.gstreamer.rtsp.RTSPTransMode trans) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("trans"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), trans.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (trans == null ? MemoryAddress.NULL : trans.getValue()));
     }
     
     /**
      * Get the value of the field {@code profile}
      * @return The value of the field {@code profile}
      */
-    public org.gstreamer.rtsp.RTSPProfile profile$get() {
+    public org.gstreamer.rtsp.RTSPProfile getProfile() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("profile"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -96,17 +94,17 @@ public class RTSPTransport extends Struct {
      * Change the value of the field {@code profile}
      * @param profile The new value of the field {@code profile}
      */
-    public void profile$set(org.gstreamer.rtsp.RTSPProfile profile) {
+    public void setProfile(org.gstreamer.rtsp.RTSPProfile profile) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("profile"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), profile.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (profile == null ? MemoryAddress.NULL : profile.getValue()));
     }
     
     /**
      * Get the value of the field {@code lower_transport}
      * @return The value of the field {@code lower_transport}
      */
-    public org.gstreamer.rtsp.RTSPLowerTrans lowerTransport$get() {
+    public org.gstreamer.rtsp.RTSPLowerTrans getLowerTransport() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lower_transport"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -117,59 +115,59 @@ public class RTSPTransport extends Struct {
      * Change the value of the field {@code lower_transport}
      * @param lowerTransport The new value of the field {@code lower_transport}
      */
-    public void lowerTransport$set(org.gstreamer.rtsp.RTSPLowerTrans lowerTransport) {
+    public void setLowerTransport(org.gstreamer.rtsp.RTSPLowerTrans lowerTransport) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lower_transport"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lowerTransport.getValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lowerTransport == null ? MemoryAddress.NULL : lowerTransport.getValue()));
     }
     
     /**
      * Get the value of the field {@code destination}
      * @return The value of the field {@code destination}
      */
-    public java.lang.String destination$get() {
+    public java.lang.String getDestination() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("destination"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code destination}
      * @param destination The new value of the field {@code destination}
      */
-    public void destination$set(java.lang.String destination) {
+    public void setDestination(java.lang.String destination) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("destination"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(destination));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destination == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(destination, null)));
     }
     
     /**
      * Get the value of the field {@code source}
      * @return The value of the field {@code source}
      */
-    public java.lang.String source$get() {
+    public java.lang.String getSource() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("source"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code source}
      * @param source The new value of the field {@code source}
      */
-    public void source$set(java.lang.String source) {
+    public void setSource(java.lang.String source) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("source"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(source));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (source == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(source, null)));
     }
     
     /**
      * Get the value of the field {@code layers}
      * @return The value of the field {@code layers}
      */
-    public int layers$get() {
+    public int getLayers() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("layers"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -180,7 +178,7 @@ public class RTSPTransport extends Struct {
      * Change the value of the field {@code layers}
      * @param layers The new value of the field {@code layers}
      */
-    public void layers$set(int layers) {
+    public void setLayers(int layers) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("layers"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), layers);
@@ -190,79 +188,89 @@ public class RTSPTransport extends Struct {
      * Get the value of the field {@code mode_play}
      * @return The value of the field {@code mode_play}
      */
-    public boolean modePlay$get() {
+    public boolean getModePlay() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mode_play"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code mode_play}
      * @param modePlay The new value of the field {@code mode_play}
      */
-    public void modePlay$set(boolean modePlay) {
+    public void setModePlay(boolean modePlay) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mode_play"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), modePlay ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(modePlay, null).intValue());
     }
     
     /**
      * Get the value of the field {@code mode_record}
      * @return The value of the field {@code mode_record}
      */
-    public boolean modeRecord$get() {
+    public boolean getModeRecord() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mode_record"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code mode_record}
      * @param modeRecord The new value of the field {@code mode_record}
      */
-    public void modeRecord$set(boolean modeRecord) {
+    public void setModeRecord(boolean modeRecord) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mode_record"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), modeRecord ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(modeRecord, null).intValue());
     }
     
     /**
      * Get the value of the field {@code append}
      * @return The value of the field {@code append}
      */
-    public boolean append$get() {
+    public boolean getAppend() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("append"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Change the value of the field {@code append}
      * @param append The new value of the field {@code append}
      */
-    public void append$set(boolean append) {
+    public void setAppend(boolean append) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("append"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), append ? 1 : 0);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(append, null).intValue());
     }
     
     /**
      * Get the value of the field {@code interleaved}
      * @return The value of the field {@code interleaved}
      */
-    public org.gstreamer.rtsp.RTSPRange interleaved$get() {
+    public org.gstreamer.rtsp.RTSPRange getInterleaved() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("interleaved"));
-        return new org.gstreamer.rtsp.RTSPRange(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPRange.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code interleaved}
+     * @param interleaved The new value of the field {@code interleaved}
+     */
+    public void setInterleaved(org.gstreamer.rtsp.RTSPRange interleaved) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("interleaved"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interleaved == null ? MemoryAddress.NULL : interleaved.handle()));
     }
     
     /**
      * Get the value of the field {@code ttl}
      * @return The value of the field {@code ttl}
      */
-    public int ttl$get() {
+    public int getTtl() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ttl"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -273,7 +281,7 @@ public class RTSPTransport extends Struct {
      * Change the value of the field {@code ttl}
      * @param ttl The new value of the field {@code ttl}
      */
-    public void ttl$set(int ttl) {
+    public void setTtl(int ttl) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ttl"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ttl);
@@ -283,34 +291,64 @@ public class RTSPTransport extends Struct {
      * Get the value of the field {@code port}
      * @return The value of the field {@code port}
      */
-    public org.gstreamer.rtsp.RTSPRange port$get() {
+    public org.gstreamer.rtsp.RTSPRange getPort() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("port"));
-        return new org.gstreamer.rtsp.RTSPRange(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPRange.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code port}
+     * @param port The new value of the field {@code port}
+     */
+    public void setPort(org.gstreamer.rtsp.RTSPRange port) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("port"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (port == null ? MemoryAddress.NULL : port.handle()));
     }
     
     /**
      * Get the value of the field {@code client_port}
      * @return The value of the field {@code client_port}
      */
-    public org.gstreamer.rtsp.RTSPRange clientPort$get() {
+    public org.gstreamer.rtsp.RTSPRange getClientPort() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("client_port"));
-        return new org.gstreamer.rtsp.RTSPRange(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPRange.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code client_port}
+     * @param clientPort The new value of the field {@code client_port}
+     */
+    public void setClientPort(org.gstreamer.rtsp.RTSPRange clientPort) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("client_port"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (clientPort == null ? MemoryAddress.NULL : clientPort.handle()));
     }
     
     /**
      * Get the value of the field {@code server_port}
      * @return The value of the field {@code server_port}
      */
-    public org.gstreamer.rtsp.RTSPRange serverPort$get() {
+    public org.gstreamer.rtsp.RTSPRange getServerPort() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("server_port"));
-        return new org.gstreamer.rtsp.RTSPRange(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.rtsp.RTSPRange.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code server_port}
+     * @param serverPort The new value of the field {@code server_port}
+     */
+    public void setServerPort(org.gstreamer.rtsp.RTSPRange serverPort) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("server_port"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serverPort == null ? MemoryAddress.NULL : serverPort.handle()));
     }
     
     /**
      * Get the value of the field {@code ssrc}
      * @return The value of the field {@code ssrc}
      */
-    public int ssrc$get() {
+    public int getSsrc() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -321,7 +359,7 @@ public class RTSPTransport extends Struct {
      * Change the value of the field {@code ssrc}
      * @param ssrc The new value of the field {@code ssrc}
      */
-    public void ssrc$set(int ssrc) {
+    public void setSsrc(int ssrc) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), ssrc);
@@ -332,10 +370,12 @@ public class RTSPTransport extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTSPTransport(Addressable address, Ownership ownership) {
+    protected RTSPTransport(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTSPTransport> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTSPTransport(input, ownership);
     
     /**
      * Convert {@code transport} into a string that can be used to signal the transport in
@@ -343,7 +383,7 @@ public class RTSPTransport extends Struct {
      * @return a string describing the RTSP transport or {@code null} when the transport
      * is invalid.
      */
-    public @NotNull java.lang.String asText() {
+    public java.lang.String asText() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtsp_transport_as_text.invokeExact(
@@ -351,14 +391,14 @@ public class RTSPTransport extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Free the memory used by {@code transport}.
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult free() {
+    public org.gstreamer.rtsp.RTSPResult free() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_transport_free.invokeExact(
@@ -375,8 +415,7 @@ public class RTSPTransport extends Struct {
      * @param mediaType media type of {@code transport}
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult getMediaType(@NotNull Out<java.lang.String> mediaType) {
-        java.util.Objects.requireNonNull(mediaType, "Parameter 'mediaType' must not be null");
+    public org.gstreamer.rtsp.RTSPResult getMediaType(Out<java.lang.String> mediaType) {
         MemorySegment mediaTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -386,7 +425,7 @@ public class RTSPTransport extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        mediaType.set(Interop.getStringFrom(mediaTypePOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        mediaType.set(Marshal.addressToString.marshal(mediaTypePOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -394,7 +433,7 @@ public class RTSPTransport extends Struct {
      * Initialize {@code transport} so that it can be used.
      * @return {@code GST_RTSP_OK}.
      */
-    public @NotNull org.gstreamer.rtsp.RTSPResult init() {
+    public org.gstreamer.rtsp.RTSPResult init() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_transport_init.invokeExact(
@@ -418,8 +457,7 @@ public class RTSPTransport extends Struct {
      * @param option option index.
      * @return {@code GST_RTSP_OK}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult getManager(@NotNull org.gstreamer.rtsp.RTSPTransMode trans, @Nullable Out<java.lang.String> manager, int option) {
-        java.util.Objects.requireNonNull(trans, "Parameter 'trans' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult getManager(org.gstreamer.rtsp.RTSPTransMode trans, @Nullable Out<java.lang.String> manager, int option) {
         MemorySegment managerPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -430,7 +468,7 @@ public class RTSPTransport extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        if (manager != null) manager.set(Interop.getStringFrom(managerPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (manager != null) manager.set(Marshal.addressToString.marshal(managerPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         return org.gstreamer.rtsp.RTSPResult.of(RESULT);
     }
     
@@ -445,9 +483,7 @@ public class RTSPTransport extends Struct {
      *    gst_rtsp_transport_get_media_type() instead.
      */
     @Deprecated
-    public static @NotNull org.gstreamer.rtsp.RTSPResult getMime(@NotNull org.gstreamer.rtsp.RTSPTransMode trans, @NotNull PointerString mime) {
-        java.util.Objects.requireNonNull(trans, "Parameter 'trans' must not be null");
-        java.util.Objects.requireNonNull(mime, "Parameter 'mime' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult getMime(org.gstreamer.rtsp.RTSPTransMode trans, PointerString mime) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_transport_get_mime.invokeExact(
@@ -465,8 +501,7 @@ public class RTSPTransport extends Struct {
      * @param transport location to hold the new {@link RTSPTransport}
      * @return a {@link RTSPResult}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult new_(@NotNull PointerProxy<org.gstreamer.rtsp.RTSPTransport> transport) {
-        java.util.Objects.requireNonNull(transport, "Parameter 'transport' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult new_(PointerProxy<org.gstreamer.rtsp.RTSPTransport> transport) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_transport_new.invokeExact(
@@ -483,13 +518,11 @@ public class RTSPTransport extends Struct {
      * @param transport a {@link RTSPTransport}
      * @return a {@link RTSPResult}.
      */
-    public static @NotNull org.gstreamer.rtsp.RTSPResult parse(@NotNull java.lang.String str, @NotNull org.gstreamer.rtsp.RTSPTransport transport) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
-        java.util.Objects.requireNonNull(transport, "Parameter 'transport' must not be null");
+    public static org.gstreamer.rtsp.RTSPResult parse(java.lang.String str, org.gstreamer.rtsp.RTSPTransport transport) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_rtsp_transport_parse.invokeExact(
-                    Interop.allocateNativeString(str),
+                    Marshal.stringToAddress.marshal(str, null),
                     transport.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -547,31 +580,35 @@ public class RTSPTransport extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RTSPTransport.Builder} object constructs a {@link RTSPTransport} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RTSPTransport.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RTSPTransport struct;
+        private final RTSPTransport struct;
         
-         /**
-         * A {@link RTSPTransport.Build} object constructs a {@link RTSPTransport} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RTSPTransport.allocate();
         }
         
          /**
          * Finish building the {@link RTSPTransport} struct.
          * @return A new instance of {@code RTSPTransport} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTSPTransport construct() {
+        public RTSPTransport build() {
             return struct;
         }
         
@@ -580,7 +617,7 @@ public class RTSPTransport extends Struct {
          * @param trans The value for the {@code trans} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTrans(org.gstreamer.rtsp.RTSPTransMode trans) {
+        public Builder setTrans(org.gstreamer.rtsp.RTSPTransMode trans) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("trans"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (trans == null ? MemoryAddress.NULL : trans.getValue()));
@@ -592,7 +629,7 @@ public class RTSPTransport extends Struct {
          * @param profile The value for the {@code profile} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setProfile(org.gstreamer.rtsp.RTSPProfile profile) {
+        public Builder setProfile(org.gstreamer.rtsp.RTSPProfile profile) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("profile"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (profile == null ? MemoryAddress.NULL : profile.getValue()));
@@ -604,7 +641,7 @@ public class RTSPTransport extends Struct {
          * @param lowerTransport The value for the {@code lowerTransport} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLowerTransport(org.gstreamer.rtsp.RTSPLowerTrans lowerTransport) {
+        public Builder setLowerTransport(org.gstreamer.rtsp.RTSPLowerTrans lowerTransport) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lower_transport"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lowerTransport == null ? MemoryAddress.NULL : lowerTransport.getValue()));
@@ -616,10 +653,10 @@ public class RTSPTransport extends Struct {
          * @param destination The value for the {@code destination} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDestination(java.lang.String destination) {
+        public Builder setDestination(java.lang.String destination) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("destination"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destination == null ? MemoryAddress.NULL : Interop.allocateNativeString(destination)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destination == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(destination, null)));
             return this;
         }
         
@@ -628,10 +665,10 @@ public class RTSPTransport extends Struct {
          * @param source The value for the {@code source} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSource(java.lang.String source) {
+        public Builder setSource(java.lang.String source) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("source"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (source == null ? MemoryAddress.NULL : Interop.allocateNativeString(source)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (source == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(source, null)));
             return this;
         }
         
@@ -640,7 +677,7 @@ public class RTSPTransport extends Struct {
          * @param layers The value for the {@code layers} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLayers(int layers) {
+        public Builder setLayers(int layers) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("layers"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), layers);
@@ -652,10 +689,10 @@ public class RTSPTransport extends Struct {
          * @param modePlay The value for the {@code modePlay} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModePlay(boolean modePlay) {
+        public Builder setModePlay(boolean modePlay) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mode_play"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), modePlay ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(modePlay, null).intValue());
             return this;
         }
         
@@ -664,10 +701,10 @@ public class RTSPTransport extends Struct {
          * @param modeRecord The value for the {@code modeRecord} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModeRecord(boolean modeRecord) {
+        public Builder setModeRecord(boolean modeRecord) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mode_record"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), modeRecord ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(modeRecord, null).intValue());
             return this;
         }
         
@@ -676,10 +713,10 @@ public class RTSPTransport extends Struct {
          * @param append The value for the {@code append} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAppend(boolean append) {
+        public Builder setAppend(boolean append) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("append"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), append ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(append, null).intValue());
             return this;
         }
         
@@ -688,7 +725,7 @@ public class RTSPTransport extends Struct {
          * @param interleaved The value for the {@code interleaved} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInterleaved(org.gstreamer.rtsp.RTSPRange interleaved) {
+        public Builder setInterleaved(org.gstreamer.rtsp.RTSPRange interleaved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("interleaved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interleaved == null ? MemoryAddress.NULL : interleaved.handle()));
@@ -700,7 +737,7 @@ public class RTSPTransport extends Struct {
          * @param ttl The value for the {@code ttl} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTtl(int ttl) {
+        public Builder setTtl(int ttl) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ttl"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ttl);
@@ -712,7 +749,7 @@ public class RTSPTransport extends Struct {
          * @param port The value for the {@code port} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPort(org.gstreamer.rtsp.RTSPRange port) {
+        public Builder setPort(org.gstreamer.rtsp.RTSPRange port) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("port"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (port == null ? MemoryAddress.NULL : port.handle()));
@@ -726,7 +763,7 @@ public class RTSPTransport extends Struct {
          * @param clientPort The value for the {@code clientPort} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClientPort(org.gstreamer.rtsp.RTSPRange clientPort) {
+        public Builder setClientPort(org.gstreamer.rtsp.RTSPRange clientPort) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("client_port"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (clientPort == null ? MemoryAddress.NULL : clientPort.handle()));
@@ -740,7 +777,7 @@ public class RTSPTransport extends Struct {
          * @param serverPort The value for the {@code serverPort} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setServerPort(org.gstreamer.rtsp.RTSPRange serverPort) {
+        public Builder setServerPort(org.gstreamer.rtsp.RTSPRange serverPort) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("server_port"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (serverPort == null ? MemoryAddress.NULL : serverPort.handle()));
@@ -752,14 +789,14 @@ public class RTSPTransport extends Struct {
          * @param ssrc The value for the {@code ssrc} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSsrc(int ssrc) {
+        public Builder setSsrc(int ssrc) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ssrc"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), ssrc);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

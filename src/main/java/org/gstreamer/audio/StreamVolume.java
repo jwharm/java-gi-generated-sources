@@ -10,40 +10,23 @@ import org.jetbrains.annotations.*;
  * such elements are {@code volume} and {@code playbin}.
  * <p>
  * Applications can use this interface to get or set the current stream volume. For this
- * the "volume" {@link org.gtk.gobject.Object} property can be used or the helper functions gst_stream_volume_set_volume()
+ * the "volume" {@link org.gtk.gobject.GObject} property can be used or the helper functions gst_stream_volume_set_volume()
  * and gst_stream_volume_get_volume(). This volume is always a linear factor, i.e. 0.0 is muted
  * 1.0 is 100%. For showing the volume in a GUI it might make sense to convert it to
  * a different format by using gst_stream_volume_convert_volume(). Volume sliders should usually
  * use a cubic volume.
  * <p>
- * Separate from the volume the stream can also be muted by the "mute" {@link org.gtk.gobject.Object} property or
+ * Separate from the volume the stream can also be muted by the "mute" {@link org.gtk.gobject.GObject} property or
  * gst_stream_volume_set_mute() and gst_stream_volume_get_mute().
  * <p>
  * Elements that provide some kind of stream volume should implement the "volume" and
- * "mute" {@link org.gtk.gobject.Object} properties and handle setting and getting of them properly.
+ * "mute" {@link org.gtk.gobject.GObject} properties and handle setting and getting of them properly.
  * The volume property is defined to be a linear volume factor.
  */
 public interface StreamVolume extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to StreamVolume if its GType is a (or inherits from) "GstStreamVolume".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code StreamVolume} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstStreamVolume", a ClassCastException will be thrown.
-     */
-    public static StreamVolume castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), StreamVolume.getType())) {
-            return new StreamVolumeImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstStreamVolume");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, StreamVolumeImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new StreamVolumeImpl(input, ownership);
     
     default boolean getMute() {
         int RESULT;
@@ -53,11 +36,10 @@ public interface StreamVolume extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    default double getVolume(@NotNull org.gstreamer.audio.StreamVolumeFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    default double getVolume(org.gstreamer.audio.StreamVolumeFormat format) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_stream_volume_get_volume.invokeExact(
@@ -73,14 +55,13 @@ public interface StreamVolume extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.gst_stream_volume_set_mute.invokeExact(
                     handle(),
-                    mute ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(mute, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    default void setVolume(@NotNull org.gstreamer.audio.StreamVolumeFormat format, double val) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    default void setVolume(org.gstreamer.audio.StreamVolumeFormat format, double val) {
         try {
             DowncallHandles.gst_stream_volume_set_volume.invokeExact(
                     handle(),
@@ -95,7 +76,7 @@ public interface StreamVolume extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_stream_volume_get_type.invokeExact();
@@ -105,9 +86,7 @@ public interface StreamVolume extends io.github.jwharm.javagi.Proxy {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static double convertVolume(@NotNull org.gstreamer.audio.StreamVolumeFormat from, @NotNull org.gstreamer.audio.StreamVolumeFormat to, double val) {
-        java.util.Objects.requireNonNull(from, "Parameter 'from' must not be null");
-        java.util.Objects.requireNonNull(to, "Parameter 'to' must not be null");
+    public static double convertVolume(org.gstreamer.audio.StreamVolumeFormat from, org.gstreamer.audio.StreamVolumeFormat to, double val) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.gst_stream_volume_convert_volume.invokeExact(
@@ -166,7 +145,7 @@ public interface StreamVolume extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class StreamVolumeImpl extends org.gtk.gobject.Object implements StreamVolume {
+    class StreamVolumeImpl extends org.gtk.gobject.GObject implements StreamVolume {
         
         static {
             GstAudio.javagi$ensureInitialized();

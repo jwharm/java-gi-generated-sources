@@ -20,18 +20,16 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
     
     private static final java.lang.String C_TYPE_NAME = "GMemoryOutputStream";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gio.OutputStream.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -39,43 +37,21 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MemoryOutputStream(Addressable address, Ownership ownership) {
+    protected MemoryOutputStream(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to MemoryOutputStream if its GType is a (or inherits from) "GMemoryOutputStream".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MemoryOutputStream} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GMemoryOutputStream", a ClassCastException will be thrown.
-     */
-    public static MemoryOutputStream castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MemoryOutputStream.getType())) {
-            return new MemoryOutputStream(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GMemoryOutputStream");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MemoryOutputStream> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MemoryOutputStream(input, ownership);
     
-    private static Addressable constructNew(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction, @Nullable org.gtk.glib.DestroyNotify destroyFunction) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_new.invokeExact(
-                    (Addressable) (reallocFunction == null ? MemoryAddress.NULL : Interop.registerCallback(reallocFunction)),
+                    (Addressable) MemoryAddress.NULL,
                     size,
-                    (Addressable) (reallocFunction == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbReallocFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, long.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG),
-                        Interop.getScope())),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (reallocFunction == null ? MemoryAddress.NULL : (Addressable) reallocFunction.toCallback()),
+                    (Addressable) (destroyFunction == null ? MemoryAddress.NULL : (Addressable) destroyFunction.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -126,13 +102,15 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * @param size the size of {@code data}
      * @param reallocFunction a function with realloc() semantics (like g_realloc())
      *     to be called when {@code data} needs to be grown, or {@code null}
+     * @param destroyFunction a function to be called on {@code data} when the stream is
+     *     finalized, or {@code null}
      */
-    public MemoryOutputStream(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction) {
-        super(constructNew(size, reallocFunction), Ownership.FULL);
+    public MemoryOutputStream(long size, @Nullable org.gtk.gio.ReallocFunc reallocFunction, @Nullable org.gtk.glib.DestroyNotify destroyFunction) {
+        super(constructNew(size, reallocFunction, destroyFunction), Ownership.FULL);
     }
     
-    private static Addressable constructNewResizable() {
-        Addressable RESULT;
+    private static MemoryAddress constructNewResizable() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_new_resizable.invokeExact();
         } catch (Throwable ERR) {
@@ -146,7 +124,8 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * for memory allocation.
      */
     public static MemoryOutputStream newResizable() {
-        return new MemoryOutputStream(constructNewResizable(), Ownership.FULL);
+        var RESULT = constructNewResizable();
+        return (org.gtk.gio.MemoryOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.MemoryOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -218,7 +197,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * closed before calling this function.
      * @return the stream's data
      */
-    public @NotNull org.gtk.glib.Bytes stealAsBytes() {
+    public org.gtk.glib.Bytes stealAsBytes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_memory_output_stream_steal_as_bytes.invokeExact(
@@ -226,7 +205,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -254,7 +233,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_memory_output_stream_get_type.invokeExact();
@@ -263,38 +242,40 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link MemoryOutputStream.Builder} object constructs a {@link MemoryOutputStream} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MemoryOutputStream.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gio.OutputStream.Build {
+    public static class Builder extends org.gtk.gio.OutputStream.Builder {
         
-         /**
-         * A {@link MemoryOutputStream.Build} object constructs a {@link MemoryOutputStream} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MemoryOutputStream} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MemoryOutputStream} using {@link MemoryOutputStream#castFrom}.
+         * {@link MemoryOutputStream}.
          * @return A new instance of {@code MemoryOutputStream} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MemoryOutputStream construct() {
-            return MemoryOutputStream.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MemoryOutputStream.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MemoryOutputStream build() {
+            return (MemoryOutputStream) org.gtk.gobject.GObject.newWithProperties(
+                MemoryOutputStream.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -303,7 +284,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
          * @param data The value for the {@code data} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(java.lang.foreign.MemoryAddress data) {
+        public Builder setData(java.lang.foreign.MemoryAddress data) {
             names.add("data");
             values.add(org.gtk.gobject.Value.create(data));
             return this;
@@ -314,7 +295,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
          * @param dataSize The value for the {@code data-size} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDataSize(long dataSize) {
+        public Builder setDataSize(long dataSize) {
             names.add("data-size");
             values.add(org.gtk.gobject.Value.create(dataSize));
             return this;
@@ -325,7 +306,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
          * @param destroyFunction The value for the {@code destroy-function} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDestroyFunction(java.lang.foreign.MemoryAddress destroyFunction) {
+        public Builder setDestroyFunction(java.lang.foreign.MemoryAddress destroyFunction) {
             names.add("destroy-function");
             values.add(org.gtk.gobject.Value.create(destroyFunction));
             return this;
@@ -336,7 +317,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
          * @param reallocFunction The value for the {@code realloc-function} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReallocFunction(java.lang.foreign.MemoryAddress reallocFunction) {
+        public Builder setReallocFunction(java.lang.foreign.MemoryAddress reallocFunction) {
             names.add("realloc-function");
             values.add(org.gtk.gobject.Value.create(reallocFunction));
             return this;
@@ -347,7 +328,7 @@ public class MemoryOutputStream extends org.gtk.gio.OutputStream implements org.
          * @param size The value for the {@code size} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSize(long size) {
+        public Builder setSize(long size) {
             names.add("size");
             values.add(org.gtk.gobject.Value.create(size));
             return this;

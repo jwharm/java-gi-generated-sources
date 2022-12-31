@@ -16,26 +16,24 @@ public class RTPPayloadInfo extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstRTPPayloadInfo";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_BYTE.withName("payload_type"),
-        MemoryLayout.paddingLayout(56),
-        Interop.valueLayout.ADDRESS.withName("media"),
-        Interop.valueLayout.ADDRESS.withName("encoding_name"),
-        Interop.valueLayout.C_INT.withName("clock_rate"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("encoding_parameters"),
-        Interop.valueLayout.C_INT.withName("bitrate"),
-        MemoryLayout.paddingLayout(160),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_BYTE.withName("payload_type"),
+            MemoryLayout.paddingLayout(56),
+            Interop.valueLayout.ADDRESS.withName("media"),
+            Interop.valueLayout.ADDRESS.withName("encoding_name"),
+            Interop.valueLayout.C_INT.withName("clock_rate"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("encoding_parameters"),
+            Interop.valueLayout.C_INT.withName("bitrate"),
+            MemoryLayout.paddingLayout(160),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,7 +53,7 @@ public class RTPPayloadInfo extends Struct {
      * Get the value of the field {@code payload_type}
      * @return The value of the field {@code payload_type}
      */
-    public byte payloadType$get() {
+    public byte getPayloadType() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("payload_type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -66,7 +64,7 @@ public class RTPPayloadInfo extends Struct {
      * Change the value of the field {@code payload_type}
      * @param payloadType The new value of the field {@code payload_type}
      */
-    public void payloadType$set(byte payloadType) {
+    public void setPayloadType(byte payloadType) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("payload_type"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), payloadType);
@@ -76,49 +74,49 @@ public class RTPPayloadInfo extends Struct {
      * Get the value of the field {@code media}
      * @return The value of the field {@code media}
      */
-    public java.lang.String media$get() {
+    public java.lang.String getMedia() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("media"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code media}
      * @param media The new value of the field {@code media}
      */
-    public void media$set(java.lang.String media) {
+    public void setMedia(java.lang.String media) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("media"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(media));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, null)));
     }
     
     /**
      * Get the value of the field {@code encoding_name}
      * @return The value of the field {@code encoding_name}
      */
-    public java.lang.String encodingName$get() {
+    public java.lang.String getEncodingName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("encoding_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code encoding_name}
      * @param encodingName The new value of the field {@code encoding_name}
      */
-    public void encodingName$set(java.lang.String encodingName) {
+    public void setEncodingName(java.lang.String encodingName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("encoding_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(encodingName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingName, null)));
     }
     
     /**
      * Get the value of the field {@code clock_rate}
      * @return The value of the field {@code clock_rate}
      */
-    public int clockRate$get() {
+    public int getClockRate() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("clock_rate"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -129,7 +127,7 @@ public class RTPPayloadInfo extends Struct {
      * Change the value of the field {@code clock_rate}
      * @param clockRate The new value of the field {@code clock_rate}
      */
-    public void clockRate$set(int clockRate) {
+    public void setClockRate(int clockRate) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("clock_rate"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), clockRate);
@@ -139,28 +137,28 @@ public class RTPPayloadInfo extends Struct {
      * Get the value of the field {@code encoding_parameters}
      * @return The value of the field {@code encoding_parameters}
      */
-    public java.lang.String encodingParameters$get() {
+    public java.lang.String getEncodingParameters() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("encoding_parameters"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code encoding_parameters}
      * @param encodingParameters The new value of the field {@code encoding_parameters}
      */
-    public void encodingParameters$set(java.lang.String encodingParameters) {
+    public void setEncodingParameters(java.lang.String encodingParameters) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("encoding_parameters"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(encodingParameters));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingParameters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingParameters, null)));
     }
     
     /**
      * Get the value of the field {@code bitrate}
      * @return The value of the field {@code bitrate}
      */
-    public int bitrate$get() {
+    public int getBitrate() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bitrate"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -171,7 +169,7 @@ public class RTPPayloadInfo extends Struct {
      * Change the value of the field {@code bitrate}
      * @param bitrate The new value of the field {@code bitrate}
      */
-    public void bitrate$set(int bitrate) {
+    public void setBitrate(int bitrate) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("bitrate"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), bitrate);
@@ -182,10 +180,12 @@ public class RTPPayloadInfo extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RTPPayloadInfo(Addressable address, Ownership ownership) {
+    protected RTPPayloadInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RTPPayloadInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RTPPayloadInfo(input, ownership);
     
     /**
      * Get the {@link RTPPayloadInfo} for {@code media} and {@code encoding_name}. This function is
@@ -197,18 +197,16 @@ public class RTPPayloadInfo extends Struct {
      * @param encodingName the encoding name to find
      * @return a {@link RTPPayloadInfo} or NULL when no info could be found.
      */
-    public static @NotNull org.gstreamer.rtp.RTPPayloadInfo forName(@NotNull java.lang.String media, @NotNull java.lang.String encodingName) {
-        java.util.Objects.requireNonNull(media, "Parameter 'media' must not be null");
-        java.util.Objects.requireNonNull(encodingName, "Parameter 'encodingName' must not be null");
+    public static org.gstreamer.rtp.RTPPayloadInfo forName(java.lang.String media, java.lang.String encodingName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_payload_info_for_name.invokeExact(
-                    Interop.allocateNativeString(media),
-                    Interop.allocateNativeString(encodingName));
+                    Marshal.stringToAddress.marshal(media, null),
+                    Marshal.stringToAddress.marshal(encodingName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.rtp.RTPPayloadInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.rtp.RTPPayloadInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -218,7 +216,7 @@ public class RTPPayloadInfo extends Struct {
      * @param payloadType the payload_type to find
      * @return a {@link RTPPayloadInfo} or NULL when no info could be found.
      */
-    public static @NotNull org.gstreamer.rtp.RTPPayloadInfo forPt(byte payloadType) {
+    public static org.gstreamer.rtp.RTPPayloadInfo forPt(byte payloadType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_rtp_payload_info_for_pt.invokeExact(
@@ -226,7 +224,7 @@ public class RTPPayloadInfo extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.rtp.RTPPayloadInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.rtp.RTPPayloadInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {
@@ -243,31 +241,35 @@ public class RTPPayloadInfo extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RTPPayloadInfo.Builder} object constructs a {@link RTPPayloadInfo} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RTPPayloadInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RTPPayloadInfo struct;
+        private final RTPPayloadInfo struct;
         
-         /**
-         * A {@link RTPPayloadInfo.Build} object constructs a {@link RTPPayloadInfo} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RTPPayloadInfo.allocate();
         }
         
          /**
          * Finish building the {@link RTPPayloadInfo} struct.
          * @return A new instance of {@code RTPPayloadInfo} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RTPPayloadInfo construct() {
+        public RTPPayloadInfo build() {
             return struct;
         }
         
@@ -276,7 +278,7 @@ public class RTPPayloadInfo extends Struct {
          * @param payloadType The value for the {@code payloadType} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPayloadType(byte payloadType) {
+        public Builder setPayloadType(byte payloadType) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("payload_type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), payloadType);
@@ -289,10 +291,10 @@ public class RTPPayloadInfo extends Struct {
          * @param media The value for the {@code media} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMedia(java.lang.String media) {
+        public Builder setMedia(java.lang.String media) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("media"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Interop.allocateNativeString(media)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (media == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(media, null)));
             return this;
         }
         
@@ -301,10 +303,10 @@ public class RTPPayloadInfo extends Struct {
          * @param encodingName The value for the {@code encodingName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEncodingName(java.lang.String encodingName) {
+        public Builder setEncodingName(java.lang.String encodingName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("encoding_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingName == null ? MemoryAddress.NULL : Interop.allocateNativeString(encodingName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingName, null)));
             return this;
         }
         
@@ -313,7 +315,7 @@ public class RTPPayloadInfo extends Struct {
          * @param clockRate The value for the {@code clockRate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClockRate(int clockRate) {
+        public Builder setClockRate(int clockRate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("clock_rate"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), clockRate);
@@ -326,10 +328,10 @@ public class RTPPayloadInfo extends Struct {
          * @param encodingParameters The value for the {@code encodingParameters} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEncodingParameters(java.lang.String encodingParameters) {
+        public Builder setEncodingParameters(java.lang.String encodingParameters) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("encoding_parameters"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingParameters == null ? MemoryAddress.NULL : Interop.allocateNativeString(encodingParameters)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (encodingParameters == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(encodingParameters, null)));
             return this;
         }
         
@@ -338,14 +340,14 @@ public class RTPPayloadInfo extends Struct {
          * @param bitrate The value for the {@code bitrate} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBitrate(int bitrate) {
+        public Builder setBitrate(int bitrate) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("bitrate"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), bitrate);
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

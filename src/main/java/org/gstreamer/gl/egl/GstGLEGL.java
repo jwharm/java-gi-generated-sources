@@ -10,7 +10,15 @@ import org.jetbrains.annotations.*;
  */
 public final class GstGLEGL {
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     public static final java.lang.String GL_DISPLAY_EGL_NAME = "gst.gl.display.egl";
     
@@ -19,7 +27,7 @@ public final class GstGLEGL {
      */
     public static final java.lang.String GL_MEMORY_EGL_ALLOCATOR_NAME = "GLMemoryEGL";
     
-    public static @NotNull java.lang.String eglGetErrorString(int err) {
+    public static java.lang.String eglGetErrorString(int err) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_egl_get_error_string.invokeExact(
@@ -27,7 +35,7 @@ public final class GstGLEGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -45,9 +53,7 @@ public final class GstGLEGL {
      * @param offset the byte-offset in the data
      * @return a {@link EGLImage} wrapping {@code dmabuf} or {@code null} on failure
      */
-    public static @NotNull org.gstreamer.gl.egl.EGLImage eglImageFromDmabuf(@NotNull org.gstreamer.gl.GLContext context, int dmabuf, @NotNull org.gstreamer.video.VideoInfo inInfo, int plane, long offset) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(inInfo, "Parameter 'inInfo' must not be null");
+    public static org.gstreamer.gl.egl.EGLImage eglImageFromDmabuf(org.gstreamer.gl.GLContext context, int dmabuf, org.gstreamer.video.VideoInfo inInfo, int plane, long offset) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_egl_image_from_dmabuf.invokeExact(
@@ -59,7 +65,7 @@ public final class GstGLEGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.egl.EGLImage(RESULT, Ownership.FULL);
+        return org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -78,11 +84,7 @@ public final class GstGLEGL {
      * @param inInfo the {@link org.gstreamer.video.VideoInfo}
      * @return a {@link EGLImage} wrapping {@code dmabuf} or {@code null} on failure
      */
-    public static @NotNull org.gstreamer.gl.egl.EGLImage eglImageFromDmabufDirect(@NotNull org.gstreamer.gl.GLContext context, PointerInteger fd, PointerLong offset, @NotNull org.gstreamer.video.VideoInfo inInfo) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
-        java.util.Objects.requireNonNull(inInfo, "Parameter 'inInfo' must not be null");
+    public static org.gstreamer.gl.egl.EGLImage eglImageFromDmabufDirect(org.gstreamer.gl.GLContext context, PointerInteger fd, PointerLong offset, org.gstreamer.video.VideoInfo inInfo) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_egl_image_from_dmabuf_direct.invokeExact(
@@ -93,7 +95,7 @@ public final class GstGLEGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.egl.EGLImage(RESULT, Ownership.FULL);
+        return org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -113,12 +115,7 @@ public final class GstGLEGL {
      * @param target GL texture target this GstEGLImage is intended for
      * @return a {@link EGLImage} wrapping {@code dmabuf} or {@code null} on failure
      */
-    public static @NotNull org.gstreamer.gl.egl.EGLImage eglImageFromDmabufDirectTarget(@NotNull org.gstreamer.gl.GLContext context, PointerInteger fd, PointerLong offset, @NotNull org.gstreamer.video.VideoInfo inInfo, @NotNull org.gstreamer.gl.GLTextureTarget target) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(fd, "Parameter 'fd' must not be null");
-        java.util.Objects.requireNonNull(offset, "Parameter 'offset' must not be null");
-        java.util.Objects.requireNonNull(inInfo, "Parameter 'inInfo' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public static org.gstreamer.gl.egl.EGLImage eglImageFromDmabufDirectTarget(org.gstreamer.gl.GLContext context, PointerInteger fd, PointerLong offset, org.gstreamer.video.VideoInfo inInfo, org.gstreamer.gl.GLTextureTarget target) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_egl_image_from_dmabuf_direct_target.invokeExact(
@@ -130,13 +127,10 @@ public final class GstGLEGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.egl.EGLImage(RESULT, Ownership.FULL);
+        return org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.gl.egl.EGLImage eglImageFromTexture(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gl.GLMemory glMem, PointerLong attribs) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(glMem, "Parameter 'glMem' must not be null");
-        java.util.Objects.requireNonNull(attribs, "Parameter 'attribs' must not be null");
+    public static org.gstreamer.gl.egl.EGLImage eglImageFromTexture(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLMemory glMem, PointerLong attribs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_egl_image_from_texture.invokeExact(
@@ -146,7 +140,7 @@ public final class GstGLEGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.egl.EGLImage(RESULT, Ownership.FULL);
+        return org.gstreamer.gl.egl.EGLImage.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -161,8 +155,7 @@ public final class GstGLEGL {
         }
     }
     
-    public static boolean isGlMemoryEgl(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isGlMemoryEgl(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_gl_memory_egl.invokeExact(
@@ -170,7 +163,7 @@ public final class GstGLEGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -220,11 +213,5 @@ public final class GstGLEGL {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static void cbEGLImageDestroyNotify(MemoryAddress image, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EGLImageDestroyNotify) Interop.signalRegistry.get(HASH);
-            HANDLER.onEGLImageDestroyNotify(new org.gstreamer.gl.egl.EGLImage(image, Ownership.NONE));
-        }
     }
 }

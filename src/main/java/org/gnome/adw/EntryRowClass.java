@@ -13,17 +13,15 @@ public class EntryRowClass extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "AdwEntryRowClass";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gnome.adw.PreferencesRowClass.getMemoryLayout().withName("parent_class")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gnome.adw.PreferencesRowClass.getMemoryLayout().withName("parent_class")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -43,9 +41,19 @@ public class EntryRowClass extends Struct {
      * Get the value of the field {@code parent_class}
      * @return The value of the field {@code parent_class}
      */
-    public org.gnome.adw.PreferencesRowClass parentClass$get() {
+    public org.gnome.adw.PreferencesRowClass getParentClass() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent_class"));
-        return new org.gnome.adw.PreferencesRowClass(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gnome.adw.PreferencesRowClass.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent_class}
+     * @param parentClass The new value of the field {@code parent_class}
+     */
+    public void setParentClass(org.gnome.adw.PreferencesRowClass parentClass) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));
     }
     
     /**
@@ -53,35 +61,41 @@ public class EntryRowClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EntryRowClass(Addressable address, Ownership ownership) {
+    protected EntryRowClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EntryRowClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EntryRowClass(input, ownership);
+    
+    /**
+     * A {@link EntryRowClass.Builder} object constructs a {@link EntryRowClass} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link EntryRowClass.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private EntryRowClass struct;
+        private final EntryRowClass struct;
         
-         /**
-         * A {@link EntryRowClass.Build} object constructs a {@link EntryRowClass} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = EntryRowClass.allocate();
         }
         
          /**
          * Finish building the {@link EntryRowClass} struct.
          * @return A new instance of {@code EntryRowClass} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EntryRowClass construct() {
+        public EntryRowClass build() {
             return struct;
         }
         
@@ -90,7 +104,7 @@ public class EntryRowClass extends Struct {
          * @param parentClass The value for the {@code parentClass} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParentClass(org.gnome.adw.PreferencesRowClass parentClass) {
+        public Builder setParentClass(org.gnome.adw.PreferencesRowClass parentClass) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent_class"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parentClass == null ? MemoryAddress.NULL : parentClass.handle()));

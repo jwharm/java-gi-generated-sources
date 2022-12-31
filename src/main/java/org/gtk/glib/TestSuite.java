@@ -43,17 +43,18 @@ public class TestSuite extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TestSuite(Addressable address, Ownership ownership) {
+    protected TestSuite(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TestSuite> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TestSuite(input, ownership);
     
     /**
      * Adds {@code test_case} to {@code suite}.
      * @param testCase a {@link TestCase}
      */
-    public void add(@NotNull org.gtk.glib.TestCase testCase) {
-        java.util.Objects.requireNonNull(testCase, "Parameter 'testCase' must not be null");
+    public void add(org.gtk.glib.TestCase testCase) {
         try {
             DowncallHandles.g_test_suite_add.invokeExact(
                     handle(),
@@ -67,8 +68,7 @@ public class TestSuite extends Struct {
      * Adds {@code nestedsuite} to {@code suite}.
      * @param nestedsuite another {@link TestSuite}
      */
-    public void addSuite(@NotNull org.gtk.glib.TestSuite nestedsuite) {
-        java.util.Objects.requireNonNull(nestedsuite, "Parameter 'nestedsuite' must not be null");
+    public void addSuite(org.gtk.glib.TestSuite nestedsuite) {
         try {
             DowncallHandles.g_test_suite_add_suite.invokeExact(
                     handle(),

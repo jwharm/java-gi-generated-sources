@@ -52,7 +52,7 @@ import org.jetbrains.annotations.*;
  * {@code AdwAnimation} object can be reused.
  * @version 1.0
  */
-public class Animation extends org.gtk.gobject.Object {
+public class Animation extends org.gtk.gobject.GObject {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -60,17 +60,15 @@ public class Animation extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "AdwAnimation";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -78,30 +76,12 @@ public class Animation extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Animation(Addressable address, Ownership ownership) {
+    protected Animation(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Animation if its GType is a (or inherits from) "AdwAnimation".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Animation} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwAnimation", a ClassCastException will be thrown.
-     */
-    public static Animation castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Animation.getType())) {
-            return new Animation(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwAnimation");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Animation> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Animation(input, ownership);
     
     /**
      * Gets the current value of {@code self}.
@@ -110,7 +90,7 @@ public class Animation extends org.gtk.gobject.Object {
      * hasn't been started yet.
      * @return the animation value
      */
-    public @NotNull org.gnome.adw.AnimationState getState() {
+    public org.gnome.adw.AnimationState getState() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.adw_animation_get_state.invokeExact(
@@ -125,7 +105,7 @@ public class Animation extends org.gtk.gobject.Object {
      * Gets the target {@code self} animates.
      * @return the animation target
      */
-    public @NotNull org.gnome.adw.AnimationTarget getTarget() {
+    public org.gnome.adw.AnimationTarget getTarget() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_target.invokeExact(
@@ -133,7 +113,7 @@ public class Animation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gnome.adw.AnimationTarget(RESULT, Ownership.NONE);
+        return (org.gnome.adw.AnimationTarget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gnome.adw.AnimationTarget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -162,7 +142,7 @@ public class Animation extends org.gtk.gobject.Object {
      * will be automatically skipped.
      * @return the animation widget
      */
-    public @NotNull org.gtk.gtk.Widget getWidget() {
+    public org.gtk.gtk.Widget getWidget() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_animation_get_widget.invokeExact(
@@ -170,7 +150,7 @@ public class Animation extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -250,8 +230,7 @@ public class Animation extends org.gtk.gobject.Object {
      * Sets the target {@code self} animates to {@code target}.
      * @param target an animation target
      */
-    public void setTarget(@NotNull org.gnome.adw.AnimationTarget target) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public void setTarget(org.gnome.adw.AnimationTarget target) {
         try {
             DowncallHandles.adw_animation_set_target.invokeExact(
                     handle(),
@@ -283,7 +262,7 @@ public class Animation extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_animation_get_type.invokeExact();
@@ -295,7 +274,18 @@ public class Animation extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Done {
-        void signalReceived(Animation sourceAnimation);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceAnimation) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Done.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -307,52 +297,46 @@ public class Animation extends org.gtk.gobject.Object {
     public Signal<Animation.Done> onDone(Animation.Done handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("done"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Animation.Callbacks.class, "signalAnimationDone",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Animation.Done>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("done"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Animation.Builder} object constructs a {@link Animation} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Animation.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Animation.Build} object constructs a {@link Animation} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Animation} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Animation} using {@link Animation#castFrom}.
+         * {@link Animation}.
          * @return A new instance of {@code Animation} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Animation construct() {
-            return Animation.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Animation.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Animation build() {
+            return (Animation) org.gtk.gobject.GObject.newWithProperties(
+                Animation.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -364,7 +348,7 @@ public class Animation extends org.gtk.gobject.Object {
          * @param state The value for the {@code state} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setState(org.gnome.adw.AnimationState state) {
+        public Builder setState(org.gnome.adw.AnimationState state) {
             names.add("state");
             values.add(org.gtk.gobject.Value.create(state));
             return this;
@@ -375,7 +359,7 @@ public class Animation extends org.gtk.gobject.Object {
          * @param target The value for the {@code target} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTarget(org.gnome.adw.AnimationTarget target) {
+        public Builder setTarget(org.gnome.adw.AnimationTarget target) {
             names.add("target");
             values.add(org.gtk.gobject.Value.create(target));
             return this;
@@ -386,7 +370,7 @@ public class Animation extends org.gtk.gobject.Object {
          * @param value The value for the {@code value} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(double value) {
+        public Builder setValue(double value) {
             names.add("value");
             values.add(org.gtk.gobject.Value.create(value));
             return this;
@@ -404,7 +388,7 @@ public class Animation extends org.gtk.gobject.Object {
          * @param widget The value for the {@code widget} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidget(org.gtk.gtk.Widget widget) {
+        public Builder setWidget(org.gtk.gtk.Widget widget) {
             names.add("widget");
             values.add(org.gtk.gobject.Value.create(widget));
             return this;
@@ -478,14 +462,5 @@ public class Animation extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalAnimationDone(MemoryAddress sourceAnimation, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Animation.Done) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Animation(sourceAnimation, Ownership.NONE));
-        }
     }
 }

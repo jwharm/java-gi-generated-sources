@@ -32,4 +32,14 @@ public class Time extends io.github.jwharm.javagi.Alias<Integer> {
     public Time(int value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static Time[] fromNativeArray(MemoryAddress address, long length) {
+        Time[] array = new Time[(int) length];
+        long bytesSize = Interop.valueLayout.C_INT.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new Time(address.get(Interop.valueLayout.C_INT, i * bytesSize));
+        }
+        return array;
+    }
 }

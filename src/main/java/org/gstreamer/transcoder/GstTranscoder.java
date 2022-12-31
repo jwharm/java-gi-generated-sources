@@ -14,15 +14,22 @@ public final class GstTranscoder {
         System.loadLibrary("gsttranscoder-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Gets a string representing the given error.
      * @param error a {@link TranscoderError}
      * @return a string with the given error.
      */
-    public static @NotNull java.lang.String transcoderErrorGetName(@NotNull org.gstreamer.transcoder.TranscoderError error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public static java.lang.String transcoderErrorGetName(org.gstreamer.transcoder.TranscoderError error) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_error_get_name.invokeExact(
@@ -30,10 +37,10 @@ public final class GstTranscoder {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark transcoderErrorQuark() {
+    public static org.gtk.glib.Quark transcoderErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_transcoder_error_quark.invokeExact();
@@ -47,8 +54,7 @@ public final class GstTranscoder {
      * Returns (transfer none): The message name
      * @param message a {@link TranscoderMessage}
      */
-    public static @NotNull java.lang.String transcoderMessageGetName(@NotNull org.gstreamer.transcoder.TranscoderMessage message) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
+    public static java.lang.String transcoderMessageGetName(org.gstreamer.transcoder.TranscoderMessage message) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_message_get_name.invokeExact(
@@ -56,7 +62,7 @@ public final class GstTranscoder {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -64,9 +70,7 @@ public final class GstTranscoder {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param duration the resulting duration
      */
-    public static void transcoderMessageParseDuration(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.gst.ClockTime> duration) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(duration, "Parameter 'duration' must not be null");
+    public static void transcoderMessageParseDuration(org.gstreamer.gst.Message msg, org.gstreamer.gst.ClockTime duration) {
         MemorySegment durationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_transcoder_message_parse_duration.invokeExact(
@@ -75,7 +79,7 @@ public final class GstTranscoder {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        duration.set(new org.gstreamer.gst.ClockTime(durationPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        duration.setValue(durationPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -84,10 +88,7 @@ public final class GstTranscoder {
      * @param error the resulting error
      * @param details (transfer none): A GstStructure containing extra details about the error
      */
-    public static void transcoderMessageParseError(@NotNull org.gstreamer.gst.Message msg, @NotNull org.gtk.glib.Error error, @NotNull Out<org.gstreamer.gst.Structure> details) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(details, "Parameter 'details' must not be null");
+    public static void transcoderMessageParseError(org.gstreamer.gst.Message msg, org.gtk.glib.Error error, Out<org.gstreamer.gst.Structure> details) {
         MemorySegment detailsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_transcoder_message_parse_error.invokeExact(
@@ -97,7 +98,7 @@ public final class GstTranscoder {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        details.set(new org.gstreamer.gst.Structure(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        details.set(org.gstreamer.gst.Structure.fromAddress.marshal(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -105,9 +106,7 @@ public final class GstTranscoder {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param position the resulting position
      */
-    public static void transcoderMessageParsePosition(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.gst.ClockTime> position) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(position, "Parameter 'position' must not be null");
+    public static void transcoderMessageParsePosition(org.gstreamer.gst.Message msg, org.gstreamer.gst.ClockTime position) {
         MemorySegment positionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         try {
             DowncallHandles.gst_transcoder_message_parse_position.invokeExact(
@@ -116,7 +115,7 @@ public final class GstTranscoder {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        position.set(new org.gstreamer.gst.ClockTime(positionPOINTER.get(Interop.valueLayout.C_LONG, 0)));
+        position.setValue(positionPOINTER.get(Interop.valueLayout.C_LONG, 0));
     }
     
     /**
@@ -124,9 +123,7 @@ public final class GstTranscoder {
      * @param msg A {@link org.gstreamer.gst.Message}
      * @param state the resulting state
      */
-    public static void transcoderMessageParseState(@NotNull org.gstreamer.gst.Message msg, @NotNull Out<org.gstreamer.transcoder.TranscoderState> state) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public static void transcoderMessageParseState(org.gstreamer.gst.Message msg, Out<org.gstreamer.transcoder.TranscoderState> state) {
         MemorySegment statePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_transcoder_message_parse_state.invokeExact(
@@ -144,10 +141,7 @@ public final class GstTranscoder {
      * @param error the resulting warning
      * @param details (transfer none): A GstStructure containing extra details about the warning
      */
-    public static void transcoderMessageParseWarning(@NotNull org.gstreamer.gst.Message msg, @NotNull org.gtk.glib.Error error, @NotNull Out<org.gstreamer.gst.Structure> details) {
-        java.util.Objects.requireNonNull(msg, "Parameter 'msg' must not be null");
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
-        java.util.Objects.requireNonNull(details, "Parameter 'details' must not be null");
+    public static void transcoderMessageParseWarning(org.gstreamer.gst.Message msg, org.gtk.glib.Error error, Out<org.gstreamer.gst.Structure> details) {
         MemorySegment detailsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_transcoder_message_parse_warning.invokeExact(
@@ -157,7 +151,7 @@ public final class GstTranscoder {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        details.set(new org.gstreamer.gst.Structure(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        details.set(org.gstreamer.gst.Structure.fromAddress.marshal(detailsPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
     }
     
     /**
@@ -165,8 +159,7 @@ public final class GstTranscoder {
      * @param state a {@link TranscoderState}
      * @return a string with the name of the state.
      */
-    public static @NotNull java.lang.String transcoderStateGetName(@NotNull org.gstreamer.transcoder.TranscoderState state) {
-        java.util.Objects.requireNonNull(state, "Parameter 'state' must not be null");
+    public static java.lang.String transcoderStateGetName(org.gstreamer.transcoder.TranscoderState state) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_transcoder_state_get_name.invokeExact(
@@ -174,7 +167,7 @@ public final class GstTranscoder {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

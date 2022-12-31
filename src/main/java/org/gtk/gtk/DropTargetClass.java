@@ -40,8 +40,10 @@ public class DropTargetClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DropTargetClass(Addressable address, Ownership ownership) {
+    protected DropTargetClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DropTargetClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DropTargetClass(input, ownership);
 }

@@ -40,8 +40,10 @@ public class DragSourceClass extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DragSourceClass(Addressable address, Ownership ownership) {
+    protected DragSourceClass(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DragSourceClass> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DragSourceClass(input, ownership);
 }

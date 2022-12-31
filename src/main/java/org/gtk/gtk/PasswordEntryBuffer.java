@@ -34,33 +34,15 @@ public class PasswordEntryBuffer extends org.gtk.gtk.EntryBuffer {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PasswordEntryBuffer(Addressable address, Ownership ownership) {
+    protected PasswordEntryBuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PasswordEntryBuffer if its GType is a (or inherits from) "GtkPasswordEntryBuffer".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PasswordEntryBuffer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPasswordEntryBuffer", a ClassCastException will be thrown.
-     */
-    public static PasswordEntryBuffer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PasswordEntryBuffer.getType())) {
-            return new PasswordEntryBuffer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPasswordEntryBuffer");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PasswordEntryBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PasswordEntryBuffer(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_password_entry_buffer_new.invokeExact();
         } catch (Throwable ERR) {
@@ -80,7 +62,7 @@ public class PasswordEntryBuffer extends org.gtk.gtk.EntryBuffer {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_password_entry_buffer_get_type.invokeExact();
@@ -89,38 +71,40 @@ public class PasswordEntryBuffer extends org.gtk.gtk.EntryBuffer {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PasswordEntryBuffer.Builder} object constructs a {@link PasswordEntryBuffer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PasswordEntryBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.EntryBuffer.Build {
+    public static class Builder extends org.gtk.gtk.EntryBuffer.Builder {
         
-         /**
-         * A {@link PasswordEntryBuffer.Build} object constructs a {@link PasswordEntryBuffer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PasswordEntryBuffer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PasswordEntryBuffer} using {@link PasswordEntryBuffer#castFrom}.
+         * {@link PasswordEntryBuffer}.
          * @return A new instance of {@code PasswordEntryBuffer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PasswordEntryBuffer construct() {
-            return PasswordEntryBuffer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PasswordEntryBuffer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PasswordEntryBuffer build() {
+            return (PasswordEntryBuffer) org.gtk.gobject.GObject.newWithProperties(
+                PasswordEntryBuffer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

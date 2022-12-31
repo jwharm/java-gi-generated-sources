@@ -16,26 +16,24 @@ public class Hook extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GHook";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("data"),
-        Interop.valueLayout.ADDRESS.withName("next"),
-        Interop.valueLayout.ADDRESS.withName("prev"),
-        Interop.valueLayout.C_INT.withName("ref_count"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("hook_id"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("func"),
-        Interop.valueLayout.ADDRESS.withName("destroy")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("data"),
+            Interop.valueLayout.ADDRESS.withName("next"),
+            Interop.valueLayout.ADDRESS.withName("prev"),
+            Interop.valueLayout.C_INT.withName("ref_count"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("hook_id"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("func"),
+            Interop.valueLayout.ADDRESS.withName("destroy")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -55,7 +53,7 @@ public class Hook extends Struct {
      * Get the value of the field {@code data}
      * @return The value of the field {@code data}
      */
-    public java.lang.foreign.MemoryAddress data$get() {
+    public java.lang.foreign.MemoryAddress getData() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -66,59 +64,59 @@ public class Hook extends Struct {
      * Change the value of the field {@code data}
      * @param data The new value of the field {@code data}
      */
-    public void data$set(java.lang.foreign.MemoryAddress data) {
+    public void setData(java.lang.foreign.MemoryAddress data) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("data"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) data);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
     }
     
     /**
      * Get the value of the field {@code next}
      * @return The value of the field {@code next}
      */
-    public org.gtk.glib.Hook next$get() {
+    public org.gtk.glib.Hook getNext() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code next}
      * @param next The new value of the field {@code next}
      */
-    public void next$set(org.gtk.glib.Hook next) {
+    public void setNext(org.gtk.glib.Hook next) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("next"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), next.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
     }
     
     /**
      * Get the value of the field {@code prev}
      * @return The value of the field {@code prev}
      */
-    public org.gtk.glib.Hook prev$get() {
+    public org.gtk.glib.Hook getPrev() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prev"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code prev}
      * @param prev The new value of the field {@code prev}
      */
-    public void prev$set(org.gtk.glib.Hook prev) {
+    public void setPrev(org.gtk.glib.Hook prev) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prev"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), prev.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
     }
     
     /**
      * Get the value of the field {@code ref_count}
      * @return The value of the field {@code ref_count}
      */
-    public int refCount$get() {
+    public int getRefCount() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -129,7 +127,7 @@ public class Hook extends Struct {
      * Change the value of the field {@code ref_count}
      * @param refCount The new value of the field {@code ref_count}
      */
-    public void refCount$set(int refCount) {
+    public void setRefCount(int refCount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
@@ -139,7 +137,7 @@ public class Hook extends Struct {
      * Get the value of the field {@code hook_id}
      * @return The value of the field {@code hook_id}
      */
-    public long hookId$get() {
+    public long getHookId() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hook_id"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -150,7 +148,7 @@ public class Hook extends Struct {
      * Change the value of the field {@code hook_id}
      * @param hookId The new value of the field {@code hook_id}
      */
-    public void hookId$set(long hookId) {
+    public void setHookId(long hookId) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("hook_id"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), hookId);
@@ -160,7 +158,7 @@ public class Hook extends Struct {
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public int flags$get() {
+    public int getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -171,7 +169,7 @@ public class Hook extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(int flags) {
+    public void setFlags(int flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -181,7 +179,7 @@ public class Hook extends Struct {
      * Get the value of the field {@code func}
      * @return The value of the field {@code func}
      */
-    public java.lang.foreign.MemoryAddress func$get() {
+    public java.lang.foreign.MemoryAddress getFunc() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("func"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -192,17 +190,17 @@ public class Hook extends Struct {
      * Change the value of the field {@code func}
      * @param func The new value of the field {@code func}
      */
-    public void func$set(java.lang.foreign.MemoryAddress func) {
+    public void setFunc(java.lang.foreign.MemoryAddress func) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("func"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) func);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func));
     }
     
     /**
      * Get the value of the field {@code destroy}
      * @return The value of the field {@code destroy}
      */
-    public org.gtk.glib.DestroyNotify destroy$get() {
+    public org.gtk.glib.DestroyNotify getDestroy() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("destroy"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -210,14 +208,26 @@ public class Hook extends Struct {
     }
     
     /**
+     * Change the value of the field {@code destroy}
+     * @param destroy The new value of the field {@code destroy}
+     */
+    public void setDestroy(org.gtk.glib.DestroyNotify destroy) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("destroy"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
+    }
+    
+    /**
      * Create a Hook proxy instance for the provided memory address.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Hook(Addressable address, Ownership ownership) {
+    protected Hook(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Hook> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Hook(input, ownership);
     
     /**
      * Compares the ids of two {@link Hook} elements, returning a negative value
@@ -225,8 +235,7 @@ public class Hook extends Struct {
      * @param sibling a {@link Hook} to compare with {@code new_hook}
      * @return a value &lt;= 0 if the id of {@code sibling} is &gt;= the id of {@code new_hook}
      */
-    public int compareIds(@NotNull org.gtk.glib.Hook sibling) {
-        java.util.Objects.requireNonNull(sibling, "Parameter 'sibling' must not be null");
+    public int compareIds(org.gtk.glib.Hook sibling) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hook_compare_ids.invokeExact(
@@ -243,8 +252,7 @@ public class Hook extends Struct {
      * @param hookList a {@link HookList}
      * @return a new {@link Hook}
      */
-    public static @NotNull org.gtk.glib.Hook alloc(@NotNull org.gtk.glib.HookList hookList) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
+    public static org.gtk.glib.Hook alloc(org.gtk.glib.HookList hookList) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_alloc.invokeExact(
@@ -252,7 +260,7 @@ public class Hook extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -261,8 +269,7 @@ public class Hook extends Struct {
      * @param hookId a hook ID
      * @return {@code true} if the {@link Hook} was found in the {@link HookList} and destroyed
      */
-    public static boolean destroy(@NotNull org.gtk.glib.HookList hookList, long hookId) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
+    public static boolean destroy(org.gtk.glib.HookList hookList, long hookId) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_hook_destroy.invokeExact(
@@ -271,7 +278,7 @@ public class Hook extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -280,9 +287,7 @@ public class Hook extends Struct {
      * @param hookList a {@link HookList}
      * @param hook the {@link Hook} to remove
      */
-    public static void destroyLink(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void destroyLink(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_destroy_link.invokeExact(
                     hookList.handle(),
@@ -302,24 +307,18 @@ public class Hook extends Struct {
      *     {@code true} when the {@link Hook} has been found
      * @return the found {@link Hook} or {@code null} if no matching {@link Hook} is found
      */
-    public static @NotNull org.gtk.glib.Hook find(@NotNull org.gtk.glib.HookList hookList, boolean needValids, @NotNull org.gtk.glib.HookFindFunc func) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gtk.glib.Hook find(org.gtk.glib.HookList hookList, boolean needValids, org.gtk.glib.HookFindFunc func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_find.invokeExact(
                     hookList.handle(),
-                    needValids ? 1 : 0,
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbHookFindFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    Marshal.booleanToInteger.marshal(needValids, null).intValue(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -327,22 +326,20 @@ public class Hook extends Struct {
      * @param hookList a {@link HookList}
      * @param needValids {@code true} if {@link Hook} elements which have been destroyed
      *     should be skipped
-     * @param data the data to find
      * @return the {@link Hook} with the given {@code data} or {@code null} if no matching
      *     {@link Hook} is found
      */
-    public static @NotNull org.gtk.glib.Hook findData(@NotNull org.gtk.glib.HookList hookList, boolean needValids, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
+    public static org.gtk.glib.Hook findData(org.gtk.glib.HookList hookList, boolean needValids) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_find_data.invokeExact(
                     hookList.handle(),
-                    needValids ? 1 : 0,
-                    (Addressable) data);
+                    Marshal.booleanToInteger.marshal(needValids, null).intValue(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -354,18 +351,17 @@ public class Hook extends Struct {
      * @return the {@link Hook} with the given {@code func} or {@code null} if no matching
      *     {@link Hook} is found
      */
-    public static @NotNull org.gtk.glib.Hook findFunc(@NotNull org.gtk.glib.HookList hookList, boolean needValids, @Nullable java.lang.foreign.MemoryAddress func) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
+    public static org.gtk.glib.Hook findFunc(org.gtk.glib.HookList hookList, boolean needValids, @Nullable java.lang.foreign.MemoryAddress func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_find_func.invokeExact(
                     hookList.handle(),
-                    needValids ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(needValids, null).intValue(),
                     (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -374,24 +370,21 @@ public class Hook extends Struct {
      * @param needValids {@code true} if {@link Hook} elements which have been destroyed
      *     should be skipped
      * @param func the function to find
-     * @param data the data to find
      * @return the {@link Hook} with the given {@code func} and {@code data} or {@code null} if
      *     no matching {@link Hook} is found
      */
-    public static @NotNull org.gtk.glib.Hook findFuncData(@NotNull org.gtk.glib.HookList hookList, boolean needValids, @NotNull java.lang.foreign.MemoryAddress func, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gtk.glib.Hook findFuncData(org.gtk.glib.HookList hookList, boolean needValids, java.lang.foreign.MemoryAddress func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_find_func_data.invokeExact(
                     hookList.handle(),
-                    needValids ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(needValids, null).intValue(),
                     (Addressable) func,
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -405,17 +398,16 @@ public class Hook extends Struct {
      *     these are skipped
      * @return the first valid {@link Hook}, or {@code null} if none are valid
      */
-    public static @NotNull org.gtk.glib.Hook firstValid(@NotNull org.gtk.glib.HookList hookList, boolean mayBeInCall) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
+    public static org.gtk.glib.Hook firstValid(org.gtk.glib.HookList hookList, boolean mayBeInCall) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_first_valid.invokeExact(
                     hookList.handle(),
-                    mayBeInCall ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(mayBeInCall, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -424,9 +416,7 @@ public class Hook extends Struct {
      * @param hookList a {@link HookList}
      * @param hook the {@link Hook} to free
      */
-    public static void free(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void free(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_free.invokeExact(
                     hookList.handle(),
@@ -442,8 +432,7 @@ public class Hook extends Struct {
      * @param hookId a hook id
      * @return the {@link Hook} with the given id, or {@code null} if it is not found
      */
-    public static @NotNull org.gtk.glib.Hook get(@NotNull org.gtk.glib.HookList hookList, long hookId) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
+    public static org.gtk.glib.Hook get(org.gtk.glib.HookList hookList, long hookId) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_get.invokeExact(
@@ -452,7 +441,7 @@ public class Hook extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -461,9 +450,7 @@ public class Hook extends Struct {
      * @param sibling the {@link Hook} to insert the new {@link Hook} before
      * @param hook the {@link Hook} to insert
      */
-    public static void insertBefore(@NotNull org.gtk.glib.HookList hookList, @Nullable org.gtk.glib.Hook sibling, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void insertBefore(org.gtk.glib.HookList hookList, @Nullable org.gtk.glib.Hook sibling, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_insert_before.invokeExact(
                     hookList.handle(),
@@ -480,8 +467,15 @@ public class Hook extends Struct {
      * @param hook the {@link Hook} to insert
      * @param func the comparison function used to sort the {@link Hook} elements
      */
-    public static void insertSorted(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook, @NotNull org.gtk.glib.HookCompareFunc func) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static void insertSorted(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook, org.gtk.glib.HookCompareFunc func) {
+        try {
+            DowncallHandles.g_hook_insert_sorted.invokeExact(
+                    hookList.handle(),
+                    hook.handle(),
+                    (Addressable) func.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -496,19 +490,17 @@ public class Hook extends Struct {
      *     these are skipped
      * @return the next valid {@link Hook}, or {@code null} if none are valid
      */
-    public static @NotNull org.gtk.glib.Hook nextValid(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook, boolean mayBeInCall) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static org.gtk.glib.Hook nextValid(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook, boolean mayBeInCall) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_next_valid.invokeExact(
                     hookList.handle(),
                     hook.handle(),
-                    mayBeInCall ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(mayBeInCall, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -516,9 +508,7 @@ public class Hook extends Struct {
      * @param hookList a {@link HookList}
      * @param hook the {@link Hook} to add to the start of {@code hook_list}
      */
-    public static void prepend(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void prepend(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_prepend.invokeExact(
                     hookList.handle(),
@@ -534,9 +524,7 @@ public class Hook extends Struct {
      * @param hook the {@link Hook} to increment the reference count of
      * @return the {@code hook} that was passed in (since 2.6)
      */
-    public static @NotNull org.gtk.glib.Hook ref(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static org.gtk.glib.Hook ref(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_hook_ref.invokeExact(
@@ -545,7 +533,7 @@ public class Hook extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Hook(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Hook.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -555,9 +543,7 @@ public class Hook extends Struct {
      * @param hookList a {@link HookList}
      * @param hook the {@link Hook} to unref
      */
-    public static void unref(@NotNull org.gtk.glib.HookList hookList, @NotNull org.gtk.glib.Hook hook) {
-        java.util.Objects.requireNonNull(hookList, "Parameter 'hookList' must not be null");
-        java.util.Objects.requireNonNull(hook, "Parameter 'hook' must not be null");
+    public static void unref(org.gtk.glib.HookList hookList, org.gtk.glib.Hook hook) {
         try {
             DowncallHandles.g_hook_unref.invokeExact(
                     hookList.handle(),
@@ -671,31 +657,35 @@ public class Hook extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Hook.Builder} object constructs a {@link Hook} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Hook.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Hook struct;
+        private final Hook struct;
         
-         /**
-         * A {@link Hook.Build} object constructs a {@link Hook} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Hook.allocate();
         }
         
          /**
          * Finish building the {@link Hook} struct.
          * @return A new instance of {@code Hook} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Hook construct() {
+        public Hook build() {
             return struct;
         }
         
@@ -704,7 +694,7 @@ public class Hook extends Struct {
          * @param data The value for the {@code data} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setData(java.lang.foreign.MemoryAddress data) {
+        public Builder setData(java.lang.foreign.MemoryAddress data) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
@@ -716,7 +706,7 @@ public class Hook extends Struct {
          * @param next The value for the {@code next} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNext(org.gtk.glib.Hook next) {
+        public Builder setNext(org.gtk.glib.Hook next) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("next"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (next == null ? MemoryAddress.NULL : next.handle()));
@@ -728,7 +718,7 @@ public class Hook extends Struct {
          * @param prev The value for the {@code prev} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrev(org.gtk.glib.Hook prev) {
+        public Builder setPrev(org.gtk.glib.Hook prev) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("prev"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prev == null ? MemoryAddress.NULL : prev.handle()));
@@ -740,7 +730,7 @@ public class Hook extends Struct {
          * @param refCount The value for the {@code refCount} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRefCount(int refCount) {
+        public Builder setRefCount(int refCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ref_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refCount);
@@ -752,7 +742,7 @@ public class Hook extends Struct {
          * @param hookId The value for the {@code hookId} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHookId(long hookId) {
+        public Builder setHookId(long hookId) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("hook_id"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), hookId);
@@ -765,7 +755,7 @@ public class Hook extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(int flags) {
+        public Builder setFlags(int flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -778,7 +768,7 @@ public class Hook extends Struct {
          * @param func The value for the {@code func} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFunc(java.lang.foreign.MemoryAddress func) {
+        public Builder setFunc(java.lang.foreign.MemoryAddress func) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("func"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func));
@@ -791,10 +781,10 @@ public class Hook extends Struct {
          * @param destroy The value for the {@code destroy} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDestroy(java.lang.foreign.MemoryAddress destroy) {
+        public Builder setDestroy(org.gtk.glib.DestroyNotify destroy) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("destroy"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroy == null ? MemoryAddress.NULL : destroy));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
             return this;
         }
     }

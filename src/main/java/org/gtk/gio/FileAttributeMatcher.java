@@ -43,17 +43,18 @@ public class FileAttributeMatcher extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FileAttributeMatcher(Addressable address, Ownership ownership) {
+    protected FileAttributeMatcher(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String attributes) {
-        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FileAttributeMatcher> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileAttributeMatcher(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String attributes) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_new.invokeExact(
-                    Interop.allocateNativeString(attributes));
+                    Marshal.stringToAddress.marshal(attributes, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -83,7 +84,7 @@ public class FileAttributeMatcher extends Struct {
      * </ul>
      * @param attributes an attribute string to match.
      */
-    public FileAttributeMatcher(@NotNull java.lang.String attributes) {
+    public FileAttributeMatcher(java.lang.String attributes) {
         super(constructNew(attributes), Ownership.FULL);
     }
     
@@ -98,17 +99,16 @@ public class FileAttributeMatcher extends Struct {
      * @return {@code true} if the matcher matches all of the entries
      * in the given {@code ns}, {@code false} otherwise.
      */
-    public boolean enumerateNamespace(@NotNull java.lang.String ns) {
-        java.util.Objects.requireNonNull(ns, "Parameter 'ns' must not be null");
+    public boolean enumerateNamespace(java.lang.String ns) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_attribute_matcher_enumerate_namespace.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(ns));
+                    Marshal.stringToAddress.marshal(ns, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -124,7 +124,7 @@ public class FileAttributeMatcher extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -134,17 +134,16 @@ public class FileAttributeMatcher extends Struct {
      * @param attribute a file attribute key.
      * @return {@code true} if {@code attribute} matches {@code matcher}. {@code false} otherwise.
      */
-    public boolean matches(@NotNull java.lang.String attribute) {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+    public boolean matches(java.lang.String attribute) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute));
+                    Marshal.stringToAddress.marshal(attribute, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -153,24 +152,23 @@ public class FileAttributeMatcher extends Struct {
      * @param attribute a file attribute key.
      * @return {@code true} if the matcher only matches {@code attribute}. {@code false} otherwise.
      */
-    public boolean matchesOnly(@NotNull java.lang.String attribute) {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
+    public boolean matchesOnly(java.lang.String attribute) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_attribute_matcher_matches_only.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute));
+                    Marshal.stringToAddress.marshal(attribute, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * References a file attribute matcher.
      * @return a {@link FileAttributeMatcher}.
      */
-    public @NotNull org.gtk.gio.FileAttributeMatcher ref() {
+    public org.gtk.gio.FileAttributeMatcher ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_ref.invokeExact(
@@ -178,7 +176,7 @@ public class FileAttributeMatcher extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeMatcher(RESULT, Ownership.FULL);
+        return org.gtk.gio.FileAttributeMatcher.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -203,7 +201,7 @@ public class FileAttributeMatcher extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.FileAttributeMatcher(RESULT, Ownership.FULL);
+        return org.gtk.gio.FileAttributeMatcher.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -214,7 +212,7 @@ public class FileAttributeMatcher extends Struct {
      * @return a string describing the attributes the matcher matches
      *   against or {@code null} if {@code matcher} was {@code null}.
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_attribute_matcher_to_string.invokeExact(
@@ -222,7 +220,7 @@ public class FileAttributeMatcher extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**

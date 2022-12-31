@@ -16,5 +16,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface PixbufDestroyNotify {
-        void onPixbufDestroyNotify(@NotNull PointerByte pixels);
+    void run(PointerByte pixels);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress pixels, MemoryAddress data) {
+        run(new PointerByte(pixels));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PixbufDestroyNotify.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

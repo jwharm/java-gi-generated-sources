@@ -24,26 +24,24 @@ public class AudioBuffer extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstAudioBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.audio.AudioInfo.getMemoryLayout().withName("info"),
-        Interop.valueLayout.C_LONG.withName("n_samples"),
-        Interop.valueLayout.C_INT.withName("n_planes"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("planes"),
-        Interop.valueLayout.ADDRESS.withName("buffer"),
-        Interop.valueLayout.ADDRESS.withName("map_infos"),
-        MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("priv_planes_arr"),
-        MemoryLayout.sequenceLayout(8, org.gstreamer.gst.MapInfo.getMemoryLayout()).withName("priv_map_infos_arr"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.audio.AudioInfo.getMemoryLayout().withName("info"),
+            Interop.valueLayout.C_LONG.withName("n_samples"),
+            Interop.valueLayout.C_INT.withName("n_planes"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("planes"),
+            Interop.valueLayout.ADDRESS.withName("buffer"),
+            Interop.valueLayout.ADDRESS.withName("map_infos"),
+            MemoryLayout.sequenceLayout(8, Interop.valueLayout.ADDRESS).withName("priv_planes_arr"),
+            MemoryLayout.sequenceLayout(8, org.gstreamer.gst.MapInfo.getMemoryLayout()).withName("priv_map_infos_arr"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -63,16 +61,26 @@ public class AudioBuffer extends Struct {
      * Get the value of the field {@code info}
      * @return The value of the field {@code info}
      */
-    public org.gstreamer.audio.AudioInfo info$get() {
+    public org.gstreamer.audio.AudioInfo getInfo() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("info"));
-        return new org.gstreamer.audio.AudioInfo(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.audio.AudioInfo.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code info}
+     * @param info The new value of the field {@code info}
+     */
+    public void setInfo(org.gstreamer.audio.AudioInfo info) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("info"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
     }
     
     /**
      * Get the value of the field {@code n_samples}
      * @return The value of the field {@code n_samples}
      */
-    public long nSamples$get() {
+    public long getNSamples() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_samples"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -83,7 +91,7 @@ public class AudioBuffer extends Struct {
      * Change the value of the field {@code n_samples}
      * @param nSamples The new value of the field {@code n_samples}
      */
-    public void nSamples$set(long nSamples) {
+    public void setNSamples(long nSamples) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_samples"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nSamples);
@@ -93,7 +101,7 @@ public class AudioBuffer extends Struct {
      * Get the value of the field {@code n_planes}
      * @return The value of the field {@code n_planes}
      */
-    public int nPlanes$get() {
+    public int getNPlanes() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,7 +112,7 @@ public class AudioBuffer extends Struct {
      * Change the value of the field {@code n_planes}
      * @param nPlanes The new value of the field {@code n_planes}
      */
-    public void nPlanes$set(int nPlanes) {
+    public void setNPlanes(int nPlanes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
@@ -114,7 +122,7 @@ public class AudioBuffer extends Struct {
      * Get the value of the field {@code planes}
      * @return The value of the field {@code planes}
      */
-    public java.lang.foreign.MemoryAddress planes$get() {
+    public java.lang.foreign.MemoryAddress getPlanes() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("planes"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -125,31 +133,31 @@ public class AudioBuffer extends Struct {
      * Change the value of the field {@code planes}
      * @param planes The new value of the field {@code planes}
      */
-    public void planes$set(java.lang.foreign.MemoryAddress planes) {
+    public void setPlanes(java.lang.foreign.MemoryAddress planes) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("planes"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) planes);
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (planes == null ? MemoryAddress.NULL : (Addressable) planes));
     }
     
     /**
      * Get the value of the field {@code buffer}
      * @return The value of the field {@code buffer}
      */
-    public org.gstreamer.gst.Buffer buffer$get() {
+    public org.gstreamer.gst.Buffer getBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code buffer}
      * @param buffer The new value of the field {@code buffer}
      */
-    public void buffer$set(org.gstreamer.gst.Buffer buffer) {
+    public void setBuffer(org.gstreamer.gst.Buffer buffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), buffer.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
     }
     
     /**
@@ -157,10 +165,12 @@ public class AudioBuffer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AudioBuffer(Addressable address, Ownership ownership) {
+    protected AudioBuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AudioBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AudioBuffer(input, ownership);
     
     /**
      * Unmaps an audio buffer that was previously mapped with
@@ -192,9 +202,7 @@ public class AudioBuffer extends Struct {
      * If the buffer has no timestamp, it is assumed to be inside the segment and
      * is not clipped
      */
-    public static @NotNull org.gstreamer.gst.Buffer clip(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gst.Segment segment, int rate, int bpf) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(segment, "Parameter 'segment' must not be null");
+    public static org.gstreamer.gst.Buffer clip(org.gstreamer.gst.Buffer buffer, org.gstreamer.gst.Segment segment, int rate, int bpf) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_buffer_clip.invokeExact(
@@ -206,7 +214,7 @@ public class AudioBuffer extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -240,11 +248,7 @@ public class AudioBuffer extends Struct {
      * @param flags the access mode for the memory
      * @return {@code true} if the map operation succeeded or {@code false} on failure
      */
-    public static boolean map(@NotNull org.gstreamer.audio.AudioBuffer buffer, @NotNull org.gstreamer.audio.AudioInfo info, @NotNull org.gstreamer.gst.Buffer gstbuffer, @NotNull org.gstreamer.gst.MapFlags flags) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(gstbuffer, "Parameter 'gstbuffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public static boolean map(org.gstreamer.audio.AudioBuffer buffer, org.gstreamer.audio.AudioInfo info, org.gstreamer.gst.Buffer gstbuffer, org.gstreamer.gst.MapFlags flags) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_buffer_map.invokeExact(
@@ -255,7 +259,7 @@ public class AudioBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -270,11 +274,7 @@ public class AudioBuffer extends Struct {
      * @param to The channel positions to convert to.
      * @return {@code true} if the reordering was possible.
      */
-    public static boolean reorderChannels(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.audio.AudioFormat format, int channels, @NotNull org.gstreamer.audio.AudioChannelPosition[] from, @NotNull org.gstreamer.audio.AudioChannelPosition[] to) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(from, "Parameter 'from' must not be null");
-        java.util.Objects.requireNonNull(to, "Parameter 'to' must not be null");
+    public static boolean reorderChannels(org.gstreamer.gst.Buffer buffer, org.gstreamer.audio.AudioFormat format, int channels, org.gstreamer.audio.AudioChannelPosition[] from, org.gstreamer.audio.AudioChannelPosition[] to) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_buffer_reorder_channels.invokeExact(
@@ -286,7 +286,7 @@ public class AudioBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -312,8 +312,7 @@ public class AudioBuffer extends Struct {
      * @return the truncated buffer or {@code null} if the arguments
      *   were invalid
      */
-    public static @NotNull org.gstreamer.gst.Buffer truncate(@NotNull org.gstreamer.gst.Buffer buffer, int bpf, long trim, long samples) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gst.Buffer truncate(org.gstreamer.gst.Buffer buffer, int bpf, long trim, long samples) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_buffer_truncate.invokeExact(
@@ -325,7 +324,7 @@ public class AudioBuffer extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {
@@ -360,31 +359,35 @@ public class AudioBuffer extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link AudioBuffer.Builder} object constructs a {@link AudioBuffer} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link AudioBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private AudioBuffer struct;
+        private final AudioBuffer struct;
         
-         /**
-         * A {@link AudioBuffer.Build} object constructs a {@link AudioBuffer} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = AudioBuffer.allocate();
         }
         
          /**
          * Finish building the {@link AudioBuffer} struct.
          * @return A new instance of {@code AudioBuffer} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AudioBuffer construct() {
+        public AudioBuffer build() {
             return struct;
         }
         
@@ -393,7 +396,7 @@ public class AudioBuffer extends Struct {
          * @param info The value for the {@code info} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInfo(org.gstreamer.audio.AudioInfo info) {
+        public Builder setInfo(org.gstreamer.audio.AudioInfo info) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (info == null ? MemoryAddress.NULL : info.handle()));
@@ -405,7 +408,7 @@ public class AudioBuffer extends Struct {
          * @param nSamples The value for the {@code nSamples} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNSamples(long nSamples) {
+        public Builder setNSamples(long nSamples) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_samples"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nSamples);
@@ -417,7 +420,7 @@ public class AudioBuffer extends Struct {
          * @param nPlanes The value for the {@code nPlanes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNPlanes(int nPlanes) {
+        public Builder setNPlanes(int nPlanes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("n_planes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), nPlanes);
@@ -430,7 +433,7 @@ public class AudioBuffer extends Struct {
          * @param planes The value for the {@code planes} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPlanes(java.lang.foreign.MemoryAddress planes) {
+        public Builder setPlanes(java.lang.foreign.MemoryAddress planes) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("planes"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (planes == null ? MemoryAddress.NULL : (Addressable) planes));
@@ -442,35 +445,35 @@ public class AudioBuffer extends Struct {
          * @param buffer The value for the {@code buffer} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBuffer(org.gstreamer.gst.Buffer buffer) {
+        public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
             return this;
         }
         
-        public Build setMapInfos(org.gstreamer.gst.MapInfo mapInfos) {
+        public Builder setMapInfos(org.gstreamer.gst.MapInfo mapInfos) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map_infos"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mapInfos == null ? MemoryAddress.NULL : mapInfos.handle()));
             return this;
         }
         
-        public Build setPrivPlanesArr(java.lang.foreign.MemoryAddress[] privPlanesArr) {
+        public Builder setPrivPlanesArr(java.lang.foreign.MemoryAddress[] privPlanesArr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priv_planes_arr"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privPlanesArr == null ? MemoryAddress.NULL : Interop.allocateNativeArray(privPlanesArr, false)));
             return this;
         }
         
-        public Build setPrivMapInfosArr(org.gstreamer.gst.MapInfo[] privMapInfosArr) {
+        public Builder setPrivMapInfosArr(org.gstreamer.gst.MapInfo[] privMapInfosArr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priv_map_infos_arr"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (privMapInfosArr == null ? MemoryAddress.NULL : Interop.allocateNativeArray(privMapInfosArr, org.gstreamer.gst.MapInfo.getMemoryLayout(), false)));
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

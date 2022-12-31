@@ -16,18 +16,16 @@ public class GLRenderbufferAllocator extends org.gstreamer.gl.GLBaseMemoryAlloca
     
     private static final java.lang.String C_TYPE_NAME = "GstGLRenderbufferAllocator";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gl.GLBaseMemoryAllocator.getMemoryLayout().withName("parent"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gl.GLBaseMemoryAllocator.getMemoryLayout().withName("parent"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -35,43 +33,29 @@ public class GLRenderbufferAllocator extends org.gstreamer.gl.GLBaseMemoryAlloca
      * <p>
      * Because GLRenderbufferAllocator is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLRenderbufferAllocator(Addressable address, Ownership ownership) {
+    protected GLRenderbufferAllocator(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLRenderbufferAllocator if its GType is a (or inherits from) "GstGLRenderbufferAllocator".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLRenderbufferAllocator} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLRenderbufferAllocator", a ClassCastException will be thrown.
-     */
-    public static GLRenderbufferAllocator castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLRenderbufferAllocator.getType())) {
-            return new GLRenderbufferAllocator(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLRenderbufferAllocator");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLRenderbufferAllocator> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLRenderbufferAllocator(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_renderbuffer_allocator_get_type.invokeExact();
@@ -80,38 +64,40 @@ public class GLRenderbufferAllocator extends org.gstreamer.gl.GLBaseMemoryAlloca
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GLRenderbufferAllocator.Builder} object constructs a {@link GLRenderbufferAllocator} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLRenderbufferAllocator.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gl.GLBaseMemoryAllocator.Build {
+    public static class Builder extends org.gstreamer.gl.GLBaseMemoryAllocator.Builder {
         
-         /**
-         * A {@link GLRenderbufferAllocator.Build} object constructs a {@link GLRenderbufferAllocator} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLRenderbufferAllocator} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLRenderbufferAllocator} using {@link GLRenderbufferAllocator#castFrom}.
+         * {@link GLRenderbufferAllocator}.
          * @return A new instance of {@code GLRenderbufferAllocator} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLRenderbufferAllocator construct() {
-            return GLRenderbufferAllocator.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLRenderbufferAllocator.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLRenderbufferAllocator build() {
+            return (GLRenderbufferAllocator) org.gtk.gobject.GObject.newWithProperties(
+                GLRenderbufferAllocator.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

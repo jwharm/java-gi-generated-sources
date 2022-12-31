@@ -22,31 +22,14 @@ import org.jetbrains.annotations.*;
  */
 public interface Root extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to Root if its GType is a (or inherits from) "GtkRoot".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Root} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkRoot", a ClassCastException will be thrown.
-     */
-    public static Root castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Root.getType())) {
-            return new RootImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkRoot");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RootImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RootImpl(input, ownership);
     
     /**
      * Returns the display that this {@code GtkRoot} is on.
      * @return the display of {@code root}
      */
-    default @NotNull org.gtk.gdk.Display getDisplay() {
+    default org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_root_get_display.invokeExact(
@@ -54,7 +37,7 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -74,7 +57,7 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -103,7 +86,7 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_root_get_type.invokeExact();
@@ -145,7 +128,7 @@ public interface Root extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class RootImpl extends org.gtk.gobject.Object implements Root {
+    class RootImpl extends org.gtk.gobject.GObject implements Root {
         
         static {
             Gtk.javagi$ensureInitialized();

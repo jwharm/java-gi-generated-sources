@@ -74,33 +74,15 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FileFilter(Addressable address, Ownership ownership) {
+    protected FileFilter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FileFilter if its GType is a (or inherits from) "GtkFileFilter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FileFilter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkFileFilter", a ClassCastException will be thrown.
-     */
-    public static FileFilter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FileFilter.getType())) {
-            return new FileFilter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFileFilter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FileFilter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileFilter(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_new.invokeExact();
         } catch (Throwable ERR) {
@@ -129,9 +111,8 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
         super(constructNew(), Ownership.FULL);
     }
     
-    private static Addressable constructNewFromGvariant(@NotNull org.gtk.glib.Variant variant) {
-        java.util.Objects.requireNonNull(variant, "Parameter 'variant' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewFromGvariant(org.gtk.glib.Variant variant) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_new_from_gvariant.invokeExact(
                     variant.handle());
@@ -149,20 +130,20 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * @param variant an {@code a{sv}} {@code GVariant}
      * @return a new {@code GtkFileFilter} object
      */
-    public static FileFilter newFromGvariant(@NotNull org.gtk.glib.Variant variant) {
-        return new FileFilter(constructNewFromGvariant(variant), Ownership.FULL);
+    public static FileFilter newFromGvariant(org.gtk.glib.Variant variant) {
+        var RESULT = constructNewFromGvariant(variant);
+        return (org.gtk.gtk.FileFilter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.FileFilter.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Adds a rule allowing a given mime type to {@code filter}.
      * @param mimeType name of a MIME type
      */
-    public void addMimeType(@NotNull java.lang.String mimeType) {
-        java.util.Objects.requireNonNull(mimeType, "Parameter 'mimeType' must not be null");
+    public void addMimeType(java.lang.String mimeType) {
         try {
             DowncallHandles.gtk_file_filter_add_mime_type.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(mimeType));
+                    Marshal.stringToAddress.marshal(mimeType, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -176,12 +157,11 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * other platforms, it doesn't.
      * @param pattern a shell style glob
      */
-    public void addPattern(@NotNull java.lang.String pattern) {
-        java.util.Objects.requireNonNull(pattern, "Parameter 'pattern' must not be null");
+    public void addPattern(java.lang.String pattern) {
         try {
             DowncallHandles.gtk_file_filter_add_pattern.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(pattern));
+                    Marshal.stringToAddress.marshal(pattern, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -213,12 +193,11 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * are <em>always</em> case-insensitive.
      * @param suffix filename suffix to match
      */
-    public void addSuffix(@NotNull java.lang.String suffix) {
-        java.util.Objects.requireNonNull(suffix, "Parameter 'suffix' must not be null");
+    public void addSuffix(java.lang.String suffix) {
         try {
             DowncallHandles.gtk_file_filter_add_suffix.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(suffix));
+                    Marshal.stringToAddress.marshal(suffix, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -233,7 +212,7 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * of {@code GtkFileChooser}.
      * @return the attributes
      */
-    public @NotNull PointerString getAttributes() {
+    public PointerString getAttributes() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_get_attributes.invokeExact(
@@ -258,7 +237,7 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -273,7 +252,7 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
         try {
             DowncallHandles.gtk_file_filter_set_name.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -283,7 +262,7 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
      * Serialize a file filter to an {@code a{sv}} variant.
      * @return a new, floating, {@code GVariant}
      */
-    public @NotNull org.gtk.glib.Variant toGvariant() {
+    public org.gtk.glib.Variant toGvariant() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_file_filter_to_gvariant.invokeExact(
@@ -291,14 +270,14 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Variant(RESULT, Ownership.NONE);
+        return org.gtk.glib.Variant.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_file_filter_get_type.invokeExact();
@@ -307,38 +286,40 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link FileFilter.Builder} object constructs a {@link FileFilter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FileFilter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Filter.Build {
+    public static class Builder extends org.gtk.gtk.Filter.Builder {
         
-         /**
-         * A {@link FileFilter.Build} object constructs a {@link FileFilter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FileFilter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FileFilter} using {@link FileFilter#castFrom}.
+         * {@link FileFilter}.
          * @return A new instance of {@code FileFilter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FileFilter construct() {
-            return FileFilter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FileFilter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FileFilter build() {
+            return (FileFilter) org.gtk.gobject.GObject.newWithProperties(
+                FileFilter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -350,7 +331,7 @@ public class FileFilter extends org.gtk.gtk.Filter implements org.gtk.gtk.Builda
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;

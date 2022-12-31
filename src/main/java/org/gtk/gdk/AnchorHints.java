@@ -77,11 +77,15 @@ public class AnchorHints extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public AnchorHints or(AnchorHints mask) {
-        return new AnchorHints(this.getValue() | mask.getValue());
+    public AnchorHints or(AnchorHints... masks) {
+        int value = this.getValue();
+        for (AnchorHints arg : masks) {
+            value |= arg.getValue();
+        }
+        return new AnchorHints(value);
     }
     
     /**
@@ -91,7 +95,8 @@ public class AnchorHints extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static AnchorHints combined(AnchorHints mask, AnchorHints... masks) {
-        int value = mask.getValue();        for (AnchorHints arg : masks) {
+        int value = mask.getValue();
+        for (AnchorHints arg : masks) {
             value |= arg.getValue();
         }
         return new AnchorHints(value);

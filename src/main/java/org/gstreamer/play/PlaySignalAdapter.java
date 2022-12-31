@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class PlaySignalAdapter extends org.gtk.gobject.Object {
+public class PlaySignalAdapter extends org.gtk.gobject.GObject {
     
     static {
         GstPlay.javagi$ensureInitialized();
@@ -27,34 +27,15 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PlaySignalAdapter(Addressable address, Ownership ownership) {
+    protected PlaySignalAdapter(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PlaySignalAdapter if its GType is a (or inherits from) "GstPlaySignalAdapter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PlaySignalAdapter} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPlaySignalAdapter", a ClassCastException will be thrown.
-     */
-    public static PlaySignalAdapter castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PlaySignalAdapter.getType())) {
-            return new PlaySignalAdapter(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPlaySignalAdapter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PlaySignalAdapter> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlaySignalAdapter(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.play.Play play) {
-        java.util.Objects.requireNonNull(play, "Parameter 'play' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.play.Play play) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_signal_adapter_new.invokeExact(
                     play.handle());
@@ -71,13 +52,12 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
      * messages from the bus will be emitted by it on the created adapter object.
      * @param play {@link Play} instance to emit signals for.
      */
-    public PlaySignalAdapter(@NotNull org.gstreamer.play.Play play) {
+    public PlaySignalAdapter(org.gstreamer.play.Play play) {
         super(constructNew(play), Ownership.FULL);
     }
     
-    private static Addressable constructNewSyncEmit(@NotNull org.gstreamer.play.Play play) {
-        java.util.Objects.requireNonNull(play, "Parameter 'play' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewSyncEmit(org.gstreamer.play.Play play) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_signal_adapter_new_sync_emit.invokeExact(
                     play.handle());
@@ -93,14 +73,13 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
      * @param play {@link Play} instance to emit signals for.
      * @return A new {@link PlaySignalAdapter} to connect signal handlers to.
      */
-    public static PlaySignalAdapter newSyncEmit(@NotNull org.gstreamer.play.Play play) {
-        return new PlaySignalAdapter(constructNewSyncEmit(play), Ownership.FULL);
+    public static PlaySignalAdapter newSyncEmit(org.gstreamer.play.Play play) {
+        var RESULT = constructNewSyncEmit(play);
+        return (org.gstreamer.play.PlaySignalAdapter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlaySignalAdapter.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWithMainContext(@NotNull org.gstreamer.play.Play play, @NotNull org.gtk.glib.MainContext context) {
-        java.util.Objects.requireNonNull(play, "Parameter 'play' must not be null");
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithMainContext(org.gstreamer.play.Play play, org.gtk.glib.MainContext context) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_signal_adapter_new_with_main_context.invokeExact(
                     play.handle(),
@@ -120,11 +99,12 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
      * @param context A {@link org.gtk.glib.MainContext} on which the main-loop will process play bus messages on.
      * @return A new {@link PlaySignalAdapter} to connect signal handlers to.
      */
-    public static PlaySignalAdapter newWithMainContext(@NotNull org.gstreamer.play.Play play, @NotNull org.gtk.glib.MainContext context) {
-        return new PlaySignalAdapter(constructNewWithMainContext(play, context), Ownership.FULL);
+    public static PlaySignalAdapter newWithMainContext(org.gstreamer.play.Play play, org.gtk.glib.MainContext context) {
+        var RESULT = constructNewWithMainContext(play, context);
+        return (org.gstreamer.play.PlaySignalAdapter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.PlaySignalAdapter.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public @NotNull org.gstreamer.play.Play getPlay() {
+    public org.gstreamer.play.Play getPlay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_signal_adapter_get_play.invokeExact(
@@ -132,14 +112,14 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.play.Play(RESULT, Ownership.NONE);
+        return (org.gstreamer.play.Play) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.play.Play.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_play_signal_adapter_get_type.invokeExact();
@@ -151,22 +131,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Buffering {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, int object);
+        void run(int object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, int object) {
+            run(object);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Buffering.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.Buffering> onBuffering(PlaySignalAdapter.Buffering handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("buffering"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterBuffering",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.Buffering>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("buffering"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -174,22 +157,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DurationChanged {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, long object);
+        void run(long object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, long object) {
+            run(object);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DurationChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.DurationChanged> onDurationChanged(PlaySignalAdapter.DurationChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("duration-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterDurationChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, long.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.DurationChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("duration-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -197,22 +183,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface EndOfStream {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndOfStream.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.EndOfStream> onEndOfStream(PlaySignalAdapter.EndOfStream handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("end-of-stream"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterEndOfStream",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.EndOfStream>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("end-of-stream"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,22 +209,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Error {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, @NotNull org.gtk.glib.Error object, @NotNull org.gstreamer.gst.Structure p0);
+        void run(org.gtk.glib.Error object, org.gstreamer.gst.Structure p0);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, MemoryAddress object, MemoryAddress p0) {
+            run(org.gtk.glib.Error.fromAddress.marshal(object, Ownership.NONE), org.gstreamer.gst.Structure.fromAddress.marshal(p0, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Error.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.Error> onError(PlaySignalAdapter.Error handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("error"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterError",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.Error>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("error"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -243,22 +235,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MediaInfoUpdated {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, @NotNull org.gstreamer.play.PlayMediaInfo object);
+        void run(org.gstreamer.play.PlayMediaInfo object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, MemoryAddress object) {
+            run((org.gstreamer.play.PlayMediaInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(object)), org.gstreamer.play.PlayMediaInfo.fromAddress).marshal(object, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MediaInfoUpdated.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.MediaInfoUpdated> onMediaInfoUpdated(PlaySignalAdapter.MediaInfoUpdated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("media-info-updated"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterMediaInfoUpdated",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.MediaInfoUpdated>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("media-info-updated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -266,22 +261,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface MuteChanged {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, boolean object);
+        void run(boolean object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, int object) {
+            run(Marshal.integerToBoolean.marshal(object, null).booleanValue());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MuteChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.MuteChanged> onMuteChanged(PlaySignalAdapter.MuteChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("mute-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterMuteChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.MuteChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("mute-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -289,22 +287,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface PositionUpdated {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, long object);
+        void run(long object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, long object) {
+            run(object);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(PositionUpdated.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.PositionUpdated> onPositionUpdated(PlaySignalAdapter.PositionUpdated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("position-updated"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterPositionUpdated",
-                        MethodType.methodType(void.class, MemoryAddress.class, long.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.PositionUpdated>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("position-updated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -312,22 +313,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface SeekDone {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, long object);
+        void run(long object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, long object) {
+            run(object);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(SeekDone.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.SeekDone> onSeekDone(PlaySignalAdapter.SeekDone handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("seek-done"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterSeekDone",
-                        MethodType.methodType(void.class, MemoryAddress.class, long.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.SeekDone>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("seek-done"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -335,22 +339,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface StateChanged {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, @NotNull org.gstreamer.play.PlayState object);
+        void run(org.gstreamer.play.PlayState object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, int object) {
+            run(org.gstreamer.play.PlayState.of(object));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StateChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.StateChanged> onStateChanged(PlaySignalAdapter.StateChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("state-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterStateChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.StateChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("state-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -358,22 +365,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface UriLoaded {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, @NotNull java.lang.String object);
+        void run(java.lang.String object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, MemoryAddress object) {
+            run(Marshal.addressToString.marshal(object, null));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(UriLoaded.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.UriLoaded> onUriLoaded(PlaySignalAdapter.UriLoaded handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("uri-loaded"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterUriLoaded",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.UriLoaded>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("uri-loaded"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -381,22 +391,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface VideoDimensionsChanged {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, int object, int p0);
+        void run(int object, int p0);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, int object, int p0) {
+            run(object, p0);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VideoDimensionsChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.VideoDimensionsChanged> onVideoDimensionsChanged(PlaySignalAdapter.VideoDimensionsChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("video-dimensions-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterVideoDimensionsChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.VideoDimensionsChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("video-dimensions-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -404,22 +417,25 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface VolumeChanged {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, double object);
+        void run(double object);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, double object) {
+            run(object);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VolumeChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.VolumeChanged> onVolumeChanged(PlaySignalAdapter.VolumeChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("volume-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterVolumeChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, double.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_DOUBLE, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.VolumeChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("volume-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -427,62 +443,67 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface Warning {
-        void signalReceived(PlaySignalAdapter sourcePlaySignalAdapter, @NotNull org.gtk.glib.Error object, @NotNull org.gstreamer.gst.Structure p0);
+        void run(org.gtk.glib.Error object, org.gstreamer.gst.Structure p0);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePlaySignalAdapter, MemoryAddress object, MemoryAddress p0) {
+            run(org.gtk.glib.Error.fromAddress.marshal(object, Ownership.NONE), org.gstreamer.gst.Structure.fromAddress.marshal(p0, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Warning.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     public Signal<PlaySignalAdapter.Warning> onWarning(PlaySignalAdapter.Warning handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("warning"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(PlaySignalAdapter.Callbacks.class, "signalPlaySignalAdapterWarning",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<PlaySignalAdapter.Warning>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("warning"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link PlaySignalAdapter.Builder} object constructs a {@link PlaySignalAdapter} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PlaySignalAdapter.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PlaySignalAdapter.Build} object constructs a {@link PlaySignalAdapter} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PlaySignalAdapter} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PlaySignalAdapter} using {@link PlaySignalAdapter#castFrom}.
+         * {@link PlaySignalAdapter}.
          * @return A new instance of {@code PlaySignalAdapter} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PlaySignalAdapter construct() {
-            return PlaySignalAdapter.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PlaySignalAdapter.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PlaySignalAdapter build() {
+            return (PlaySignalAdapter) org.gtk.gobject.GObject.newWithProperties(
+                PlaySignalAdapter.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setPlay(org.gstreamer.play.Play play) {
+        public Builder setPlay(org.gstreamer.play.Play play) {
             names.add("play");
             values.add(org.gtk.gobject.Value.create(play));
             return this;
@@ -520,86 +541,5 @@ public class PlaySignalAdapter extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalPlaySignalAdapterBuffering(MemoryAddress sourcePlaySignalAdapter, int object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.Buffering) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), object);
-        }
-        
-        public static void signalPlaySignalAdapterDurationChanged(MemoryAddress sourcePlaySignalAdapter, long object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.DurationChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), object);
-        }
-        
-        public static void signalPlaySignalAdapterEndOfStream(MemoryAddress sourcePlaySignalAdapter, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.EndOfStream) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE));
-        }
-        
-        public static void signalPlaySignalAdapterError(MemoryAddress sourcePlaySignalAdapter, MemoryAddress object, MemoryAddress p0, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.Error) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), new org.gtk.glib.Error(object, Ownership.NONE), new org.gstreamer.gst.Structure(p0, Ownership.NONE));
-        }
-        
-        public static void signalPlaySignalAdapterMediaInfoUpdated(MemoryAddress sourcePlaySignalAdapter, MemoryAddress object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.MediaInfoUpdated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), new org.gstreamer.play.PlayMediaInfo(object, Ownership.NONE));
-        }
-        
-        public static void signalPlaySignalAdapterMuteChanged(MemoryAddress sourcePlaySignalAdapter, int object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.MuteChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), object != 0);
-        }
-        
-        public static void signalPlaySignalAdapterPositionUpdated(MemoryAddress sourcePlaySignalAdapter, long object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.PositionUpdated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), object);
-        }
-        
-        public static void signalPlaySignalAdapterSeekDone(MemoryAddress sourcePlaySignalAdapter, long object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.SeekDone) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), object);
-        }
-        
-        public static void signalPlaySignalAdapterStateChanged(MemoryAddress sourcePlaySignalAdapter, int object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.StateChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), org.gstreamer.play.PlayState.of(object));
-        }
-        
-        public static void signalPlaySignalAdapterUriLoaded(MemoryAddress sourcePlaySignalAdapter, MemoryAddress object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.UriLoaded) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), Interop.getStringFrom(object));
-        }
-        
-        public static void signalPlaySignalAdapterVideoDimensionsChanged(MemoryAddress sourcePlaySignalAdapter, int object, int p0, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.VideoDimensionsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), object, p0);
-        }
-        
-        public static void signalPlaySignalAdapterVolumeChanged(MemoryAddress sourcePlaySignalAdapter, double object, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.VolumeChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), object);
-        }
-        
-        public static void signalPlaySignalAdapterWarning(MemoryAddress sourcePlaySignalAdapter, MemoryAddress object, MemoryAddress p0, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (PlaySignalAdapter.Warning) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new PlaySignalAdapter(sourcePlaySignalAdapter, Ownership.NONE), new org.gtk.glib.Error(object, Ownership.NONE), new org.gstreamer.gst.Structure(p0, Ownership.NONE));
-        }
     }
 }

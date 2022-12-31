@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * etc. Most importantly, a {@code GtkPrinter} object can be used to create
  * a {@link PrintJob} object, which lets you print to the printer.
  */
-public class Printer extends org.gtk.gobject.Object {
+public class Printer extends org.gtk.gobject.GObject {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -38,40 +38,20 @@ public class Printer extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Printer(Addressable address, Ownership ownership) {
+    protected Printer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Printer if its GType is a (or inherits from) "GtkPrinter".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Printer} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkPrinter", a ClassCastException will be thrown.
-     */
-    public static Printer castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Printer.getType())) {
-            return new Printer(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkPrinter");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Printer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Printer(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String name, @NotNull org.gtk.gtk.PrintBackend backend, boolean virtual) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(backend, "Parameter 'backend' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String name, org.gtk.gtk.PrintBackend backend, boolean virtual) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_printer_new.invokeExact(
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     backend.handle(),
-                    virtual ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(virtual, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,7 +64,7 @@ public class Printer extends org.gtk.gobject.Object {
      * @param backend a {@code GtkPrintBackend}
      * @param virtual whether the printer is virtual
      */
-    public Printer(@NotNull java.lang.String name, @NotNull org.gtk.gtk.PrintBackend backend, boolean virtual) {
+    public Printer(java.lang.String name, org.gtk.gtk.PrintBackend backend, boolean virtual) {
         super(constructNew(name, backend, virtual), Ownership.FULL);
     }
     
@@ -101,7 +81,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -117,7 +97,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -126,8 +106,7 @@ public class Printer extends org.gtk.gobject.Object {
      * @return 0 if the printer match, a negative value if {@code a} &lt; {@code b},
      *   or a positive value if {@code a} &gt; {@code b}
      */
-    public int compare(@NotNull org.gtk.gtk.Printer b) {
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
+    public int compare(org.gtk.gtk.Printer b) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_printer_compare.invokeExact(
@@ -143,7 +122,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Returns the backend of the printer.
      * @return the backend of {@code printer}
      */
-    public @NotNull org.gtk.gtk.PrintBackend getBackend() {
+    public org.gtk.gtk.PrintBackend getBackend() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_printer_get_backend.invokeExact(
@@ -151,7 +130,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PrintBackend(RESULT, Ownership.NONE);
+        return org.gtk.gtk.PrintBackend.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -166,7 +145,7 @@ public class Printer extends org.gtk.gobject.Object {
      * {@link Printer#requestDetails}.
      * @return the printer’s capabilities
      */
-    public @NotNull org.gtk.gtk.PrintCapabilities getCapabilities() {
+    public org.gtk.gtk.PrintCapabilities getCapabilities() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_printer_get_capabilities.invokeExact(
@@ -182,7 +161,7 @@ public class Printer extends org.gtk.gobject.Object {
      * @return a newly allocated {@code GtkPageSetup} with default page size
      *   of the printer.
      */
-    public @NotNull org.gtk.gtk.PageSetup getDefaultPageSize() {
+    public org.gtk.gtk.PageSetup getDefaultPageSize() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_printer_get_default_page_size.invokeExact(
@@ -190,14 +169,14 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.PageSetup(RESULT, Ownership.FULL);
+        return (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.PageSetup.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Gets the description of the printer.
      * @return the description of {@code printer}
      */
-    public @NotNull java.lang.String getDescription() {
+    public java.lang.String getDescription() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_printer_get_description.invokeExact(
@@ -205,7 +184,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -224,13 +203,9 @@ public class Printer extends org.gtk.gobject.Object {
      * @return {@code true} iff the hard margins were retrieved
      */
     public boolean getHardMargins(Out<Double> top, Out<Double> bottom, Out<Double> left, Out<Double> right) {
-        java.util.Objects.requireNonNull(top, "Parameter 'top' must not be null");
         MemorySegment topPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(bottom, "Parameter 'bottom' must not be null");
         MemorySegment bottomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(left, "Parameter 'left' must not be null");
         MemorySegment leftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(right, "Parameter 'right' must not be null");
         MemorySegment rightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -247,7 +222,7 @@ public class Printer extends org.gtk.gobject.Object {
         bottom.set(bottomPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         left.set(leftPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         right.set(rightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -266,15 +241,10 @@ public class Printer extends org.gtk.gobject.Object {
      * @param right a location to store the right margin in
      * @return {@code true} iff the hard margins were retrieved
      */
-    public boolean getHardMarginsForPaperSize(@NotNull org.gtk.gtk.PaperSize paperSize, Out<Double> top, Out<Double> bottom, Out<Double> left, Out<Double> right) {
-        java.util.Objects.requireNonNull(paperSize, "Parameter 'paperSize' must not be null");
-        java.util.Objects.requireNonNull(top, "Parameter 'top' must not be null");
+    public boolean getHardMarginsForPaperSize(org.gtk.gtk.PaperSize paperSize, Out<Double> top, Out<Double> bottom, Out<Double> left, Out<Double> right) {
         MemorySegment topPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(bottom, "Parameter 'bottom' must not be null");
         MemorySegment bottomPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(left, "Parameter 'left' must not be null");
         MemorySegment leftPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(right, "Parameter 'right' must not be null");
         MemorySegment rightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -292,14 +262,14 @@ public class Printer extends org.gtk.gobject.Object {
         bottom.set(bottomPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         left.set(leftPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
         right.set(rightPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Gets the name of the icon to use for the printer.
      * @return the icon name for {@code printer}
      */
-    public @NotNull java.lang.String getIconName() {
+    public java.lang.String getIconName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_printer_get_icon_name.invokeExact(
@@ -307,7 +277,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -329,7 +299,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Returns a description of the location of the printer.
      * @return the location of {@code printer}
      */
-    public @NotNull java.lang.String getLocation() {
+    public java.lang.String getLocation() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_printer_get_location.invokeExact(
@@ -337,14 +307,14 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Returns the name of the printer.
      * @return the name of {@code printer}
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_printer_get_name.invokeExact(
@@ -352,7 +322,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -360,7 +330,7 @@ public class Printer extends org.gtk.gobject.Object {
      * of the printer.
      * @return the state message of {@code printer}
      */
-    public @NotNull java.lang.String getStateMessage() {
+    public java.lang.String getStateMessage() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_printer_get_state_message.invokeExact(
@@ -368,7 +338,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -383,7 +353,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -398,7 +368,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -414,7 +384,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -429,7 +399,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -447,7 +417,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -464,7 +434,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -476,7 +446,7 @@ public class Printer extends org.gtk.gobject.Object {
      * @return a newly
      *   allocated list of newly allocated {@code GtkPageSetup}s.
      */
-    public @NotNull org.gtk.glib.List listPapers() {
+    public org.gtk.glib.List listPapers() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_printer_list_papers.invokeExact(
@@ -484,7 +454,7 @@ public class Printer extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -507,7 +477,7 @@ public class Printer extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_printer_get_type.invokeExact();
@@ -519,7 +489,18 @@ public class Printer extends org.gtk.gobject.Object {
     
     @FunctionalInterface
     public interface DetailsAcquired {
-        void signalReceived(Printer sourcePrinter, boolean success);
+        void run(boolean success);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourcePrinter, int success) {
+            run(Marshal.integerToBoolean.marshal(success, null).booleanValue());
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DetailsAcquired.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -534,52 +515,46 @@ public class Printer extends org.gtk.gobject.Object {
     public Signal<Printer.DetailsAcquired> onDetailsAcquired(Printer.DetailsAcquired handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("details-acquired"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Printer.Callbacks.class, "signalPrinterDetailsAcquired",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Printer.DetailsAcquired>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("details-acquired"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Printer.Builder} object constructs a {@link Printer} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Printer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Printer.Build} object constructs a {@link Printer} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Printer} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Printer} using {@link Printer#castFrom}.
+         * {@link Printer}.
          * @return A new instance of {@code Printer} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Printer construct() {
-            return Printer.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Printer.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Printer build() {
+            return (Printer) org.gtk.gobject.GObject.newWithProperties(
+                Printer.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -588,7 +563,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param acceptingJobs The value for the {@code accepting-jobs} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAcceptingJobs(boolean acceptingJobs) {
+        public Builder setAcceptingJobs(boolean acceptingJobs) {
             names.add("accepting-jobs");
             values.add(org.gtk.gobject.Value.create(acceptingJobs));
             return this;
@@ -599,7 +574,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param acceptsPdf The value for the {@code accepts-pdf} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAcceptsPdf(boolean acceptsPdf) {
+        public Builder setAcceptsPdf(boolean acceptsPdf) {
             names.add("accepts-pdf");
             values.add(org.gtk.gobject.Value.create(acceptsPdf));
             return this;
@@ -610,7 +585,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param acceptsPs The value for the {@code accepts-ps} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAcceptsPs(boolean acceptsPs) {
+        public Builder setAcceptsPs(boolean acceptsPs) {
             names.add("accepts-ps");
             values.add(org.gtk.gobject.Value.create(acceptsPs));
             return this;
@@ -621,7 +596,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param backend The value for the {@code backend} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBackend(java.lang.foreign.MemoryAddress backend) {
+        public Builder setBackend(java.lang.foreign.MemoryAddress backend) {
             names.add("backend");
             values.add(org.gtk.gobject.Value.create(backend));
             return this;
@@ -632,7 +607,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param iconName The value for the {@code icon-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIconName(java.lang.String iconName) {
+        public Builder setIconName(java.lang.String iconName) {
             names.add("icon-name");
             values.add(org.gtk.gobject.Value.create(iconName));
             return this;
@@ -643,7 +618,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param isVirtual The value for the {@code is-virtual} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsVirtual(boolean isVirtual) {
+        public Builder setIsVirtual(boolean isVirtual) {
             names.add("is-virtual");
             values.add(org.gtk.gobject.Value.create(isVirtual));
             return this;
@@ -654,7 +629,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param jobCount The value for the {@code job-count} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setJobCount(int jobCount) {
+        public Builder setJobCount(int jobCount) {
             names.add("job-count");
             values.add(org.gtk.gobject.Value.create(jobCount));
             return this;
@@ -665,7 +640,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param location The value for the {@code location} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLocation(java.lang.String location) {
+        public Builder setLocation(java.lang.String location) {
             names.add("location");
             values.add(org.gtk.gobject.Value.create(location));
             return this;
@@ -676,7 +651,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
@@ -690,7 +665,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param paused The value for the {@code paused} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPaused(boolean paused) {
+        public Builder setPaused(boolean paused) {
             names.add("paused");
             values.add(org.gtk.gobject.Value.create(paused));
             return this;
@@ -701,7 +676,7 @@ public class Printer extends org.gtk.gobject.Object {
          * @param stateMessage The value for the {@code state-message} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setStateMessage(java.lang.String stateMessage) {
+        public Builder setStateMessage(java.lang.String stateMessage) {
             names.add("state-message");
             values.add(org.gtk.gobject.Value.create(stateMessage));
             return this;
@@ -853,14 +828,5 @@ public class Printer extends org.gtk.gobject.Object {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalPrinterDetailsAcquired(MemoryAddress sourcePrinter, int success, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Printer.DetailsAcquired) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Printer(sourcePrinter, Ownership.NONE), success != 0);
-        }
     }
 }

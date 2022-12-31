@@ -44,10 +44,12 @@ public class UnixMountPoint extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public UnixMountPoint(Addressable address, Ownership ownership) {
+    protected UnixMountPoint(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, UnixMountPoint> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new UnixMountPoint(input, ownership);
     
     /**
      * Compares two unix mount points.
@@ -55,8 +57,7 @@ public class UnixMountPoint extends Struct {
      * @return 1, 0 or -1 if {@code mount1} is greater than, equal to,
      * or less than {@code mount2}, respectively.
      */
-    public int compare(@NotNull org.gtk.gio.UnixMountPoint mount2) {
-        java.util.Objects.requireNonNull(mount2, "Parameter 'mount2' must not be null");
+    public int compare(org.gtk.gio.UnixMountPoint mount2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_unix_mount_point_compare.invokeExact(
@@ -72,7 +73,7 @@ public class UnixMountPoint extends Struct {
      * Makes a copy of {@code mount_point}.
      * @return a new {@link UnixMountPoint}
      */
-    public @NotNull org.gtk.gio.UnixMountPoint copy() {
+    public org.gtk.gio.UnixMountPoint copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_copy.invokeExact(
@@ -80,7 +81,7 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.UnixMountPoint(RESULT, Ownership.FULL);
+        return org.gtk.gio.UnixMountPoint.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -99,7 +100,7 @@ public class UnixMountPoint extends Struct {
      * Gets the device path for a unix mount point.
      * @return a string containing the device path.
      */
-    public @NotNull java.lang.String getDevicePath() {
+    public java.lang.String getDevicePath() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_device_path.invokeExact(
@@ -107,14 +108,14 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the file system type for the mount point.
      * @return a string containing the file system type.
      */
-    public @NotNull java.lang.String getFsType() {
+    public java.lang.String getFsType() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_fs_type.invokeExact(
@@ -122,14 +123,14 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the mount path for a unix mount point.
      * @return a string containing the mount path.
      */
-    public @NotNull java.lang.String getMountPath() {
+    public java.lang.String getMountPath() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_get_mount_path.invokeExact(
@@ -137,7 +138,7 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -152,7 +153,7 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -167,14 +168,14 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Guesses the icon of a Unix mount point.
      * @return a {@link Icon}
      */
-    public @NotNull org.gtk.gio.Icon guessIcon() {
+    public org.gtk.gio.Icon guessIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_icon.invokeExact(
@@ -182,7 +183,7 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -191,7 +192,7 @@ public class UnixMountPoint extends Struct {
      * @return A newly allocated string that must
      *     be freed with g_free()
      */
-    public @NotNull java.lang.String guessName() {
+    public java.lang.String guessName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_name.invokeExact(
@@ -199,14 +200,14 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Guesses the symbolic icon of a Unix mount point.
      * @return a {@link Icon}
      */
-    public @NotNull org.gtk.gio.Icon guessSymbolicIcon() {
+    public org.gtk.gio.Icon guessSymbolicIcon() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_guess_symbolic_icon.invokeExact(
@@ -214,7 +215,7 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Icon.IconImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Icon) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Icon.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -229,7 +230,7 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -244,7 +245,7 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -259,7 +260,7 @@ public class UnixMountPoint extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -274,20 +275,18 @@ public class UnixMountPoint extends Struct {
      * @return a {@link UnixMountPoint}, or {@code null} if no match
      * is found.
      */
-    public static @Nullable org.gtk.gio.UnixMountPoint at(@NotNull java.lang.String mountPath, Out<Long> timeRead) {
-        java.util.Objects.requireNonNull(mountPath, "Parameter 'mountPath' must not be null");
-        java.util.Objects.requireNonNull(timeRead, "Parameter 'timeRead' must not be null");
+    public static @Nullable org.gtk.gio.UnixMountPoint at(java.lang.String mountPath, Out<Long> timeRead) {
         MemorySegment timeReadPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_unix_mount_point_at.invokeExact(
-                    Interop.allocateNativeString(mountPath),
-                    (Addressable) timeReadPOINTER.address());
+                    Marshal.stringToAddress.marshal(mountPath, null),
+                    (Addressable) (timeRead == null ? MemoryAddress.NULL : (Addressable) timeReadPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        timeRead.set(timeReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new org.gtk.gio.UnixMountPoint(RESULT, Ownership.FULL);
+        if (timeRead != null) timeRead.set(timeReadPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return org.gtk.gio.UnixMountPoint.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

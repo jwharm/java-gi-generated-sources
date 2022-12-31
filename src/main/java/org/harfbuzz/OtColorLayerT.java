@@ -21,18 +21,16 @@ public class OtColorLayerT extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "hb_ot_color_layer_t";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("glyph"),
-        Interop.valueLayout.C_INT.withName("color_index")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("glyph"),
+            Interop.valueLayout.C_INT.withName("color_index")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -52,7 +50,7 @@ public class OtColorLayerT extends Struct {
      * Get the value of the field {@code glyph}
      * @return The value of the field {@code glyph}
      */
-    public org.harfbuzz.CodepointT glyph$get() {
+    public org.harfbuzz.CodepointT getGlyph() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -63,17 +61,17 @@ public class OtColorLayerT extends Struct {
      * Change the value of the field {@code glyph}
      * @param glyph The new value of the field {@code glyph}
      */
-    public void glyph$set(org.harfbuzz.CodepointT glyph) {
+    public void setGlyph(org.harfbuzz.CodepointT glyph) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), glyph.getValue().intValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
     }
     
     /**
      * Get the value of the field {@code color_index}
      * @return The value of the field {@code color_index}
      */
-    public int colorIndex$get() {
+    public int getColorIndex() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -84,7 +82,7 @@ public class OtColorLayerT extends Struct {
      * Change the value of the field {@code color_index}
      * @param colorIndex The new value of the field {@code color_index}
      */
-    public void colorIndex$set(int colorIndex) {
+    public void setColorIndex(int colorIndex) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorIndex);
@@ -95,35 +93,41 @@ public class OtColorLayerT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public OtColorLayerT(Addressable address, Ownership ownership) {
+    protected OtColorLayerT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, OtColorLayerT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OtColorLayerT(input, ownership);
+    
+    /**
+     * A {@link OtColorLayerT.Builder} object constructs a {@link OtColorLayerT} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link OtColorLayerT.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private OtColorLayerT struct;
+        private final OtColorLayerT struct;
         
-         /**
-         * A {@link OtColorLayerT.Build} object constructs a {@link OtColorLayerT} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = OtColorLayerT.allocate();
         }
         
          /**
          * Finish building the {@link OtColorLayerT} struct.
          * @return A new instance of {@code OtColorLayerT} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public OtColorLayerT construct() {
+        public OtColorLayerT build() {
             return struct;
         }
         
@@ -132,7 +136,7 @@ public class OtColorLayerT extends Struct {
          * @param glyph The value for the {@code glyph} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGlyph(org.harfbuzz.CodepointT glyph) {
+        public Builder setGlyph(org.harfbuzz.CodepointT glyph) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("glyph"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (glyph == null ? MemoryAddress.NULL : glyph.getValue().intValue()));
@@ -144,7 +148,7 @@ public class OtColorLayerT extends Struct {
          * @param colorIndex The value for the {@code colorIndex} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setColorIndex(int colorIndex) {
+        public Builder setColorIndex(int colorIndex) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("color_index"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), colorIndex);

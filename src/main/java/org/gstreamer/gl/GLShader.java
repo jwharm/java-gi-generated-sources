@@ -5,7 +5,7 @@ import java.lang.foreign.*;
 import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
-public class GLShader extends org.gstreamer.gst.Object {
+public class GLShader extends org.gstreamer.gst.GstObject {
     
     static {
         GstGL.javagi$ensureInitialized();
@@ -13,20 +13,18 @@ public class GLShader extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstGLShader";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("context"),
-        Interop.valueLayout.ADDRESS.withName("priv"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("context"),
+            Interop.valueLayout.ADDRESS.withName("priv"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_padding")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -34,41 +32,26 @@ public class GLShader extends org.gstreamer.gst.Object {
      * <p>
      * Because GLShader is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLShader(Addressable address, Ownership ownership) {
+    protected GLShader(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to GLShader if its GType is a (or inherits from) "GstGLShader".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLShader} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstGLShader", a ClassCastException will be thrown.
-     */
-    public static GLShader castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLShader.getType())) {
-            return new GLShader(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstGLShader");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLShader> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLShader(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gl.GLContext context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gstreamer.gl.GLContext context) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_shader_new.invokeExact(
                     context.handle());
@@ -82,14 +65,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * Note: must be called in the GL thread
      * @param context a {@link GLContext}
      */
-    public GLShader(@NotNull org.gstreamer.gl.GLContext context) {
+    public GLShader(org.gstreamer.gl.GLContext context) {
         super(constructNew(context), Ownership.FULL);
     }
     
-    private static Addressable constructNewDefault(@NotNull org.gstreamer.gl.GLContext context) throws GErrorException {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    private static MemoryAddress constructNewDefault(org.gstreamer.gl.GLContext context) throws GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        Addressable RESULT;
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_shader_new_default.invokeExact(
                     context.handle(),
@@ -109,13 +91,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @return a default {@code shader} or {@code null} on failure
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static GLShader newDefault(@NotNull org.gstreamer.gl.GLContext context) throws GErrorException {
-        return new GLShader(constructNewDefault(context), Ownership.FULL);
+    public static GLShader newDefault(org.gstreamer.gl.GLContext context) throws GErrorException {
+        var RESULT = constructNewDefault(context);
+        return (org.gstreamer.gl.GLShader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLShader.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewLinkWithStages(@NotNull org.gstreamer.gl.GLContext context, @NotNull PointerProxy<org.gtk.glib.Error> error, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewLinkWithStages(org.gstreamer.gl.GLContext context, PointerProxy<org.gtk.glib.Error> error, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_shader_new_link_with_stages.invokeExact(
                     context.handle(),
@@ -138,13 +120,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param varargs a NULL terminated list of {@link GLSLStage}'s
      * @return a new {@code shader} with the specified stages.
      */
-    public static GLShader newLinkWithStages(@NotNull org.gstreamer.gl.GLContext context, @NotNull PointerProxy<org.gtk.glib.Error> error, java.lang.Object... varargs) {
-        return new GLShader(constructNewLinkWithStages(context, error, varargs), Ownership.FULL);
+    public static GLShader newLinkWithStages(org.gstreamer.gl.GLContext context, PointerProxy<org.gtk.glib.Error> error, java.lang.Object... varargs) {
+        var RESULT = constructNewLinkWithStages(context, error, varargs);
+        return (org.gstreamer.gl.GLShader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLShader.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewWithStages(@NotNull org.gstreamer.gl.GLContext context, @NotNull PointerProxy<org.gtk.glib.Error> error, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithStages(org.gstreamer.gl.GLContext context, PointerProxy<org.gtk.glib.Error> error, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_shader_new_with_stages.invokeExact(
                     context.handle(),
@@ -166,8 +148,9 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param varargs a NULL terminated list of {@link GLSLStage}'s
      * @return a new {@code shader} with the specified stages.
      */
-    public static GLShader newWithStages(@NotNull org.gstreamer.gl.GLContext context, @NotNull PointerProxy<org.gtk.glib.Error> error, java.lang.Object... varargs) {
-        return new GLShader(constructNewWithStages(context, error, varargs), Ownership.FULL);
+    public static GLShader newWithStages(org.gstreamer.gl.GLContext context, PointerProxy<org.gtk.glib.Error> error, java.lang.Object... varargs) {
+        var RESULT = constructNewWithStages(context, error, varargs);
+        return (org.gstreamer.gl.GLShader) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gl.GLShader.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -178,8 +161,7 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param stage a {@link GLSLStage} to attach
      * @return whether {@code stage} could be attached to {@code shader}
      */
-    public boolean attach(@NotNull org.gstreamer.gl.GLSLStage stage) {
-        java.util.Objects.requireNonNull(stage, "Parameter 'stage' must not be null");
+    public boolean attach(org.gstreamer.gl.GLSLStage stage) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_shader_attach.invokeExact(
@@ -188,7 +170,7 @@ public class GLShader extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -199,8 +181,7 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param stage a {@link GLSLStage} to attach
      * @return whether {@code stage} could be attached to {@code shader}
      */
-    public boolean attachUnlocked(@NotNull org.gstreamer.gl.GLSLStage stage) {
-        java.util.Objects.requireNonNull(stage, "Parameter 'stage' must not be null");
+    public boolean attachUnlocked(org.gstreamer.gl.GLSLStage stage) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_shader_attach_unlocked.invokeExact(
@@ -209,7 +190,7 @@ public class GLShader extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -218,13 +199,12 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param index attribute index to set
      * @param name name of the attribute
      */
-    public void bindAttributeLocation(int index, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void bindAttributeLocation(int index, java.lang.String name) {
         try {
             DowncallHandles.gst_gl_shader_bind_attribute_location.invokeExact(
                     handle(),
                     index,
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -236,13 +216,12 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param index attribute index to set
      * @param name name of the attribute
      */
-    public void bindFragDataLocation(int index, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void bindFragDataLocation(int index, java.lang.String name) {
         try {
             DowncallHandles.gst_gl_shader_bind_frag_data_location.invokeExact(
                     handle(),
                     index,
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -256,8 +235,7 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @return whether {@code stage} could be compiled and attached to {@code shader}
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean compileAttachStage(@NotNull org.gstreamer.gl.GLSLStage stage) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(stage, "Parameter 'stage' must not be null");
+    public boolean compileAttachStage(org.gstreamer.gl.GLSLStage stage) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -271,7 +249,7 @@ public class GLShader extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -281,8 +259,7 @@ public class GLShader extends org.gstreamer.gst.Object {
      * Note: must be called in the GL thread
      * @param stage a {@link GLSLStage} to attach
      */
-    public void detach(@NotNull org.gstreamer.gl.GLSLStage stage) {
-        java.util.Objects.requireNonNull(stage, "Parameter 'stage' must not be null");
+    public void detach(org.gstreamer.gl.GLSLStage stage) {
         try {
             DowncallHandles.gst_gl_shader_detach.invokeExact(
                     handle(),
@@ -299,8 +276,7 @@ public class GLShader extends org.gstreamer.gst.Object {
      * Note: must be called in the GL thread
      * @param stage a {@link GLSLStage} to attach
      */
-    public void detachUnlocked(@NotNull org.gstreamer.gl.GLSLStage stage) {
-        java.util.Objects.requireNonNull(stage, "Parameter 'stage' must not be null");
+    public void detachUnlocked(org.gstreamer.gl.GLSLStage stage) {
         try {
             DowncallHandles.gst_gl_shader_detach_unlocked.invokeExact(
                     handle(),
@@ -310,13 +286,12 @@ public class GLShader extends org.gstreamer.gst.Object {
         }
     }
     
-    public int getAttributeLocation(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public int getAttributeLocation(java.lang.String name) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_shader_get_attribute_location.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -346,7 +321,7 @@ public class GLShader extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -369,7 +344,7 @@ public class GLShader extends org.gstreamer.gst.Object {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -405,12 +380,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param name name of the uniform
      * @param value value to set
      */
-    public void setUniform1f(@NotNull java.lang.String name, float value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setUniform1f(java.lang.String name, float value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_1f.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -423,13 +397,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param count number of values to set
      * @param value values to set
      */
-    public void setUniform1fv(@NotNull java.lang.String name, int count, @NotNull float[] value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniform1fv(java.lang.String name, int count, float[] value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_1fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
                     Interop.allocateNativeArray(value, false));
         } catch (Throwable ERR) {
@@ -442,12 +414,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param name name of the uniform
      * @param value value to set
      */
-    public void setUniform1i(@NotNull java.lang.String name, int value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setUniform1i(java.lang.String name, int value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_1i.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     value);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -460,13 +431,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param count number of values to set
      * @param value values to set
      */
-    public void setUniform1iv(@NotNull java.lang.String name, int count, @NotNull int[] value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniform1iv(java.lang.String name, int count, int[] value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_1iv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
                     Interop.allocateNativeArray(value, false));
         } catch (Throwable ERR) {
@@ -480,12 +449,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param v0 first value to set
      * @param v1 second value to set
      */
-    public void setUniform2f(@NotNull java.lang.String name, float v0, float v1) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setUniform2f(java.lang.String name, float v0, float v1) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_2f.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     v0,
                     v1);
         } catch (Throwable ERR) {
@@ -499,13 +467,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param count number of values to set
      * @param value values to set
      */
-    public void setUniform2fv(@NotNull java.lang.String name, int count, @NotNull float[] value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniform2fv(java.lang.String name, int count, float[] value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_2fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
                     Interop.allocateNativeArray(value, false));
         } catch (Throwable ERR) {
@@ -519,12 +485,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param v0 first value to set
      * @param v1 second value to set
      */
-    public void setUniform2i(@NotNull java.lang.String name, int v0, int v1) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setUniform2i(java.lang.String name, int v0, int v1) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_2i.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     v0,
                     v1);
         } catch (Throwable ERR) {
@@ -538,13 +503,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param count number of values to set
      * @param value values to set
      */
-    public void setUniform2iv(@NotNull java.lang.String name, int count, @NotNull int[] value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniform2iv(java.lang.String name, int count, int[] value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_2iv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
                     Interop.allocateNativeArray(value, false));
         } catch (Throwable ERR) {
@@ -559,12 +522,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param v1 second value to set
      * @param v2 third value to set
      */
-    public void setUniform3f(@NotNull java.lang.String name, float v0, float v1, float v2) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setUniform3f(java.lang.String name, float v0, float v1, float v2) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_3f.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     v0,
                     v1,
                     v2);
@@ -579,13 +541,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param count number of values to set
      * @param value values to set
      */
-    public void setUniform3fv(@NotNull java.lang.String name, int count, @NotNull float[] value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniform3fv(java.lang.String name, int count, float[] value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_3fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
                     Interop.allocateNativeArray(value, false));
         } catch (Throwable ERR) {
@@ -600,12 +560,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param v1 second value to set
      * @param v2 third value to set
      */
-    public void setUniform3i(@NotNull java.lang.String name, int v0, int v1, int v2) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setUniform3i(java.lang.String name, int v0, int v1, int v2) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_3i.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     v0,
                     v1,
                     v2);
@@ -620,13 +579,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param count number of values to set
      * @param value values to set
      */
-    public void setUniform3iv(@NotNull java.lang.String name, int count, @NotNull int[] value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniform3iv(java.lang.String name, int count, int[] value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_3iv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
                     Interop.allocateNativeArray(value, false));
         } catch (Throwable ERR) {
@@ -642,12 +599,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param v2 third value to set
      * @param v3 fourth value to set
      */
-    public void setUniform4f(@NotNull java.lang.String name, float v0, float v1, float v2, float v3) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setUniform4f(java.lang.String name, float v0, float v1, float v2, float v3) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_4f.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     v0,
                     v1,
                     v2,
@@ -663,13 +619,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param count number of values to set
      * @param value values to set
      */
-    public void setUniform4fv(@NotNull java.lang.String name, int count, @NotNull float[] value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniform4fv(java.lang.String name, int count, float[] value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_4fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
                     Interop.allocateNativeArray(value, false));
         } catch (Throwable ERR) {
@@ -685,12 +639,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param v2 third value to set
      * @param v3 fourth value to set
      */
-    public void setUniform4i(@NotNull java.lang.String name, int v0, int v1, int v2, int v3) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setUniform4i(java.lang.String name, int v0, int v1, int v2, int v3) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_4i.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     v0,
                     v1,
                     v2,
@@ -706,13 +659,11 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param count number of values to set
      * @param value values to set
      */
-    public void setUniform4iv(@NotNull java.lang.String name, int count, @NotNull int[] value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniform4iv(java.lang.String name, int count, int[] value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_4iv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
                     Interop.allocateNativeArray(value, false));
         } catch (Throwable ERR) {
@@ -727,15 +678,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param transpose transpose the matrix
      * @param value matrix to set
      */
-    public void setUniformMatrix2fv(@NotNull java.lang.String name, int count, boolean transpose, PointerFloat value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniformMatrix2fv(java.lang.String name, int count, boolean transpose, PointerFloat value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_matrix_2fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
-                    transpose ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(transpose, null).intValue(),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -749,15 +698,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param transpose transpose the matrix
      * @param value values to set
      */
-    public void setUniformMatrix2x3fv(@NotNull java.lang.String name, int count, boolean transpose, PointerFloat value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniformMatrix2x3fv(java.lang.String name, int count, boolean transpose, PointerFloat value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_matrix_2x3fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
-                    transpose ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(transpose, null).intValue(),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -771,15 +718,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param transpose transpose the matrix
      * @param value values to set
      */
-    public void setUniformMatrix2x4fv(@NotNull java.lang.String name, int count, boolean transpose, PointerFloat value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniformMatrix2x4fv(java.lang.String name, int count, boolean transpose, PointerFloat value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_matrix_2x4fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
-                    transpose ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(transpose, null).intValue(),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -793,15 +738,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param transpose transpose the matrix
      * @param value values to set
      */
-    public void setUniformMatrix3fv(@NotNull java.lang.String name, int count, boolean transpose, PointerFloat value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniformMatrix3fv(java.lang.String name, int count, boolean transpose, PointerFloat value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_matrix_3fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
-                    transpose ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(transpose, null).intValue(),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -815,15 +758,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param transpose transpose the matrix
      * @param value values to set
      */
-    public void setUniformMatrix3x2fv(@NotNull java.lang.String name, int count, boolean transpose, PointerFloat value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniformMatrix3x2fv(java.lang.String name, int count, boolean transpose, PointerFloat value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_matrix_3x2fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
-                    transpose ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(transpose, null).intValue(),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -837,15 +778,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param transpose transpose the matrix
      * @param value values to set
      */
-    public void setUniformMatrix3x4fv(@NotNull java.lang.String name, int count, boolean transpose, PointerFloat value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniformMatrix3x4fv(java.lang.String name, int count, boolean transpose, PointerFloat value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_matrix_3x4fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
-                    transpose ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(transpose, null).intValue(),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -859,15 +798,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param transpose transpose the matrix
      * @param value values to set
      */
-    public void setUniformMatrix4fv(@NotNull java.lang.String name, int count, boolean transpose, PointerFloat value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniformMatrix4fv(java.lang.String name, int count, boolean transpose, PointerFloat value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_matrix_4fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
-                    transpose ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(transpose, null).intValue(),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -881,15 +818,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param transpose transpose the matrix
      * @param value values to set
      */
-    public void setUniformMatrix4x2fv(@NotNull java.lang.String name, int count, boolean transpose, PointerFloat value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniformMatrix4x2fv(java.lang.String name, int count, boolean transpose, PointerFloat value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_matrix_4x2fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
-                    transpose ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(transpose, null).intValue(),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -903,15 +838,13 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @param transpose transpose the matrix
      * @param value values to set
      */
-    public void setUniformMatrix4x3fv(@NotNull java.lang.String name, int count, boolean transpose, PointerFloat value) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public void setUniformMatrix4x3fv(java.lang.String name, int count, boolean transpose, PointerFloat value) {
         try {
             DowncallHandles.gst_gl_shader_set_uniform_matrix_4x3fv.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     count,
-                    transpose ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(transpose, null).intValue(),
                     value.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -936,7 +869,7 @@ public class GLShader extends org.gstreamer.gst.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_shader_get_type.invokeExact();
@@ -946,10 +879,7 @@ public class GLShader extends org.gstreamer.gst.Object {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull java.lang.String stringFragmentExternalOesGetDefault(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gl.GLSLVersion version, @NotNull org.gstreamer.gl.GLSLProfile profile) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public static java.lang.String stringFragmentExternalOesGetDefault(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLSLVersion version, org.gstreamer.gl.GLSLProfile profile) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_shader_string_fragment_external_oes_get_default.invokeExact(
@@ -959,13 +889,10 @@ public class GLShader extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull java.lang.String stringFragmentGetDefault(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gl.GLSLVersion version, @NotNull org.gstreamer.gl.GLSLProfile profile) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public static java.lang.String stringFragmentGetDefault(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLSLVersion version, org.gstreamer.gl.GLSLProfile profile) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_shader_string_fragment_get_default.invokeExact(
@@ -975,7 +902,7 @@ public class GLShader extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -992,10 +919,7 @@ public class GLShader extends org.gstreamer.gst.Object {
      * @return a shader string defining the precision of float types based on
      *      {@code context}, {@code version} and {@code profile}
      */
-    public static @NotNull java.lang.String stringGetHighestPrecision(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gl.GLSLVersion version, @NotNull org.gstreamer.gl.GLSLProfile profile) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public static java.lang.String stringGetHighestPrecision(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLSLVersion version, org.gstreamer.gl.GLSLProfile profile) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_shader_string_get_highest_precision.invokeExact(
@@ -1005,44 +929,46 @@ public class GLShader extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
-
+    
+    /**
+     * A {@link GLShader.Builder} object constructs a {@link GLShader} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLShader.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link GLShader.Build} object constructs a {@link GLShader} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLShader} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLShader} using {@link GLShader#castFrom}.
+         * {@link GLShader}.
          * @return A new instance of {@code GLShader} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLShader construct() {
-            return GLShader.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLShader.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLShader build() {
+            return (GLShader) org.gtk.gobject.GObject.newWithProperties(
+                GLShader.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setLinked(boolean linked) {
+        public Builder setLinked(boolean linked) {
             names.add("linked");
             values.add(org.gtk.gobject.Value.create(linked));
             return this;

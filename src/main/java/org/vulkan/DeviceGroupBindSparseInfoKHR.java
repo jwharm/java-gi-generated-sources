@@ -40,8 +40,10 @@ public class DeviceGroupBindSparseInfoKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DeviceGroupBindSparseInfoKHR(Addressable address, Ownership ownership) {
+    protected DeviceGroupBindSparseInfoKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DeviceGroupBindSparseInfoKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceGroupBindSparseInfoKHR(input, ownership);
 }

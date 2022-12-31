@@ -24,20 +24,18 @@ public class RGBA extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GdkRGBA";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_FLOAT.withName("red"),
-        Interop.valueLayout.C_FLOAT.withName("green"),
-        Interop.valueLayout.C_FLOAT.withName("blue"),
-        Interop.valueLayout.C_FLOAT.withName("alpha")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_FLOAT.withName("red"),
+            Interop.valueLayout.C_FLOAT.withName("green"),
+            Interop.valueLayout.C_FLOAT.withName("blue"),
+            Interop.valueLayout.C_FLOAT.withName("alpha")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -57,7 +55,7 @@ public class RGBA extends Struct {
      * Get the value of the field {@code red}
      * @return The value of the field {@code red}
      */
-    public float red$get() {
+    public float getRed() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("red"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -68,7 +66,7 @@ public class RGBA extends Struct {
      * Change the value of the field {@code red}
      * @param red The new value of the field {@code red}
      */
-    public void red$set(float red) {
+    public void setRed(float red) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("red"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
@@ -78,7 +76,7 @@ public class RGBA extends Struct {
      * Get the value of the field {@code green}
      * @return The value of the field {@code green}
      */
-    public float green$get() {
+    public float getGreen() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("green"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -89,7 +87,7 @@ public class RGBA extends Struct {
      * Change the value of the field {@code green}
      * @param green The new value of the field {@code green}
      */
-    public void green$set(float green) {
+    public void setGreen(float green) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("green"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
@@ -99,7 +97,7 @@ public class RGBA extends Struct {
      * Get the value of the field {@code blue}
      * @return The value of the field {@code blue}
      */
-    public float blue$get() {
+    public float getBlue() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("blue"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -110,7 +108,7 @@ public class RGBA extends Struct {
      * Change the value of the field {@code blue}
      * @param blue The new value of the field {@code blue}
      */
-    public void blue$set(float blue) {
+    public void setBlue(float blue) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("blue"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
@@ -120,7 +118,7 @@ public class RGBA extends Struct {
      * Get the value of the field {@code alpha}
      * @return The value of the field {@code alpha}
      */
-    public float alpha$get() {
+    public float getAlpha() {
         var RESULT = (float) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -131,7 +129,7 @@ public class RGBA extends Struct {
      * Change the value of the field {@code alpha}
      * @param alpha The new value of the field {@code alpha}
      */
-    public void alpha$set(float alpha) {
+    public void setAlpha(float alpha) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), alpha);
@@ -142,10 +140,12 @@ public class RGBA extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RGBA(Addressable address, Ownership ownership) {
+    protected RGBA(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RGBA> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RGBA(input, ownership);
     
     /**
      * Makes a copy of a {@code GdkRGBA}.
@@ -153,7 +153,7 @@ public class RGBA extends Struct {
      * The result must be freed through {@link RGBA#free}.
      * @return A newly allocated {@code GdkRGBA}, with the same contents as {@code rgba}
      */
-    public @NotNull org.gtk.gdk.RGBA copy() {
+    public org.gtk.gdk.RGBA copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_copy.invokeExact(
@@ -161,7 +161,7 @@ public class RGBA extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.RGBA(RESULT, Ownership.FULL);
+        return org.gtk.gdk.RGBA.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -169,8 +169,7 @@ public class RGBA extends Struct {
      * @param p2 another {@code GdkRGBA}
      * @return {@code true} if the two colors compare equal
      */
-    public boolean equal(@NotNull org.gtk.gdk.RGBA p2) {
-        java.util.Objects.requireNonNull(p2, "Parameter 'p2' must not be null");
+    public boolean equal(org.gtk.gdk.RGBA p2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_rgba_equal.invokeExact(
@@ -179,7 +178,7 @@ public class RGBA extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -224,7 +223,7 @@ public class RGBA extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -242,7 +241,7 @@ public class RGBA extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -268,17 +267,16 @@ public class RGBA extends Struct {
      * @param spec the string specifying the color
      * @return {@code true} if the parsing succeeded
      */
-    public boolean parse(@NotNull java.lang.String spec) {
-        java.util.Objects.requireNonNull(spec, "Parameter 'spec' must not be null");
+    public boolean parse(java.lang.String spec) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_rgba_parse.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(spec));
+                    Marshal.stringToAddress.marshal(spec, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -297,7 +295,7 @@ public class RGBA extends Struct {
      * this is a concern, you should use a different representation.
      * @return A newly allocated text string
      */
-    public @NotNull java.lang.String toString() {
+    public java.lang.String toString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_rgba_to_string.invokeExact(
@@ -305,7 +303,7 @@ public class RGBA extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
@@ -358,31 +356,35 @@ public class RGBA extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link RGBA.Builder} object constructs a {@link RGBA} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link RGBA.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private RGBA struct;
+        private final RGBA struct;
         
-         /**
-         * A {@link RGBA.Build} object constructs a {@link RGBA} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = RGBA.allocate();
         }
         
          /**
          * Finish building the {@link RGBA} struct.
          * @return A new instance of {@code RGBA} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public RGBA construct() {
+        public RGBA build() {
             return struct;
         }
         
@@ -391,7 +393,7 @@ public class RGBA extends Struct {
          * @param red The value for the {@code red} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRed(float red) {
+        public Builder setRed(float red) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("red"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), red);
@@ -403,7 +405,7 @@ public class RGBA extends Struct {
          * @param green The value for the {@code green} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGreen(float green) {
+        public Builder setGreen(float green) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("green"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), green);
@@ -415,7 +417,7 @@ public class RGBA extends Struct {
          * @param blue The value for the {@code blue} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBlue(float blue) {
+        public Builder setBlue(float blue) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("blue"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), blue);
@@ -428,7 +430,7 @@ public class RGBA extends Struct {
          * @param alpha The value for the {@code alpha} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAlpha(float alpha) {
+        public Builder setAlpha(float alpha) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("alpha"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), alpha);

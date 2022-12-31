@@ -503,7 +503,7 @@ import org.jetbrains.annotations.*;
  *   0 to g_input_stream_read_async()).
  * </ul>
  */
-public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncResult {
+public class Task extends org.gtk.gobject.GObject implements org.gtk.gio.AsyncResult {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -525,43 +525,21 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Task(Addressable address, Ownership ownership) {
+    protected Task(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Task if its GType is a (or inherits from) "GTask".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Task} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GTask", a ClassCastException will be thrown.
-     */
-    public static Task castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Task.getType())) {
-            return new Task(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GTask");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Task> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Task(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_task_new.invokeExact(
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -585,12 +563,12 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * other objects that the task depends on have been destroyed. If you
      * do not want this behavior, you can use
      * g_task_set_check_cancellable() to change it.
-     * @param sourceObject the {@link org.gtk.gobject.Object} that owns
+     * @param sourceObject the {@link org.gtk.gobject.GObject} that owns
      *   this task, or {@code null}.
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore.
      * @param callback a {@link AsyncReadyCallback}.
      */
-    public Task(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
+    public Task(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         super(constructNew(sourceObject, cancellable, callback), Ownership.FULL);
     }
     
@@ -607,15 +585,22 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * @param source the source to attach
      * @param callback the callback to invoke when {@code source} triggers
      */
-    public void attachSource(@NotNull org.gtk.glib.Source source, @NotNull org.gtk.glib.SourceFunc callback) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void attachSource(org.gtk.glib.Source source, org.gtk.glib.SourceFunc callback) {
+        try {
+            DowncallHandles.g_task_attach_source.invokeExact(
+                    handle(),
+                    source.handle(),
+                    (Addressable) callback.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
      * Gets {@code task}'s {@link Cancellable}
      * @return {@code task}'s {@link Cancellable}
      */
-    public @NotNull org.gtk.gio.Cancellable getCancellable() {
+    public org.gtk.gio.Cancellable getCancellable() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_task_get_cancellable.invokeExact(
@@ -623,7 +608,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Cancellable(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Cancellable) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Cancellable.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -638,7 +623,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -655,7 +640,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -668,7 +653,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * context is the default {@link org.gtk.glib.MainContext}.
      * @return {@code task}'s {@link org.gtk.glib.MainContext}
      */
-    public @NotNull org.gtk.glib.MainContext getContext() {
+    public org.gtk.glib.MainContext getContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_task_get_context.invokeExact(
@@ -676,7 +661,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.MainContext(RESULT, Ownership.NONE);
+        return org.gtk.glib.MainContext.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -691,7 +676,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -721,7 +706,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -729,7 +714,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * g_async_result_get_source_object(), but does not ref the object.
      * @return {@code task}'s source object, or {@code null}
      */
-    public @Nullable org.gtk.gobject.Object getSourceObject() {
+    public @Nullable org.gtk.gobject.GObject getSourceObject() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_task_get_source_object.invokeExact(
@@ -737,7 +722,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -782,7 +767,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -809,7 +794,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -882,8 +867,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * @return {@code true} if {@code task} succeeded, {@code false} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean propagateValue(@NotNull org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public boolean propagateValue(org.gtk.gobject.Value value) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -897,7 +881,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -910,7 +894,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         try {
             DowncallHandles.g_task_return_boolean.invokeExact(
                     handle(),
-                    result ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(result, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -930,8 +914,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * See also g_task_return_new_error().
      * @param error the {@link org.gtk.glib.Error} result of a task function.
      */
-    public void returnError(@NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public void returnError(org.gtk.glib.Error error) {
         try {
             DowncallHandles.g_task_return_error.invokeExact(
                     handle(),
@@ -957,7 +940,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -988,15 +971,13 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * @param format a string with format characters.
      * @param varargs a list of values to insert into {@code format}.
      */
-    public void returnNewError(@NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public void returnNewError(org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_task_return_new_error.invokeExact(
                     handle(),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1027,7 +1008,14 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * @param resultDestroy a {@link org.gtk.glib.DestroyNotify} function.
      */
     public void returnPointer(@Nullable java.lang.foreign.MemoryAddress result, @Nullable org.gtk.glib.DestroyNotify resultDestroy) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            DowncallHandles.g_task_return_pointer.invokeExact(
+                    handle(),
+                    (Addressable) (result == null ? MemoryAddress.NULL : (Addressable) result),
+                    (Addressable) (resultDestroy == null ? MemoryAddress.NULL : (Addressable) resultDestroy.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -1067,8 +1055,14 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * limited number of them (around ten) at a time.
      * @param taskFunc a {@link TaskThreadFunc}
      */
-    public void runInThread(@NotNull org.gtk.gio.TaskThreadFunc taskFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void runInThread(org.gtk.gio.TaskThreadFunc taskFunc) {
+        try {
+            DowncallHandles.g_task_run_in_thread.invokeExact(
+                    handle(),
+                    (Addressable) taskFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -1090,8 +1084,14 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * limited number of them at a time.
      * @param taskFunc a {@link TaskThreadFunc}
      */
-    public void runInThreadSync(@NotNull org.gtk.gio.TaskThreadFunc taskFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void runInThreadSync(org.gtk.gio.TaskThreadFunc taskFunc) {
+        try {
+            DowncallHandles.g_task_run_in_thread_sync.invokeExact(
+                    handle(),
+                    (Addressable) taskFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -1116,7 +1116,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         try {
             DowncallHandles.g_task_set_check_cancellable.invokeExact(
                     handle(),
-                    checkCancellable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(checkCancellable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1139,7 +1139,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         try {
             DowncallHandles.g_task_set_name.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1205,11 +1205,11 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         try {
             RESULT = (int) DowncallHandles.g_task_set_return_on_cancel.invokeExact(
                     handle(),
-                    returnOnCancel ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(returnOnCancel, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1239,15 +1239,14 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
     
     /**
      * Sets {@code task}'s task data (freeing the existing task data, if any).
-     * @param taskData task-specific data
      * @param taskDataDestroy {@link org.gtk.glib.DestroyNotify} for {@code task_data}
      */
-    public void setTaskData(@Nullable java.lang.foreign.MemoryAddress taskData, @Nullable org.gtk.glib.DestroyNotify taskDataDestroy) {
+    public void setTaskData(@Nullable org.gtk.glib.DestroyNotify taskDataDestroy) {
         try {
             DowncallHandles.g_task_set_task_data.invokeExact(
                     handle(),
-                    (Addressable) taskData,
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (taskDataDestroy == null ? MemoryAddress.NULL : (Addressable) taskDataDestroy.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1257,7 +1256,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_task_get_type.invokeExact();
@@ -1277,8 +1276,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * @return {@code true} if {@code result} and {@code source_object} are valid, {@code false}
      * if not
      */
-    public static boolean isValid(@NotNull org.gtk.gio.AsyncResult result, @Nullable org.gtk.gobject.Object sourceObject) {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static boolean isValid(org.gtk.gio.AsyncResult result, @Nullable org.gtk.gobject.GObject sourceObject) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_task_is_valid.invokeExact(
@@ -1287,7 +1285,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1299,23 +1297,18 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * wrapper method, and deal with it appropriately if so.
      * <p>
      * See also g_task_report_new_error().
-     * @param sourceObject the {@link org.gtk.gobject.Object} that owns
+     * @param sourceObject the {@link org.gtk.gobject.GObject} that owns
      *   this task, or {@code null}.
      * @param callback a {@link AsyncReadyCallback}.
      * @param sourceTag an opaque pointer indicating the source of this task
      * @param error error to report
      */
-    public static void reportError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @Nullable java.lang.foreign.MemoryAddress sourceTag, @NotNull org.gtk.glib.Error error) {
-        java.util.Objects.requireNonNull(error, "Parameter 'error' must not be null");
+    public static void reportError(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @Nullable java.lang.foreign.MemoryAddress sourceTag, org.gtk.glib.Error error) {
         try {
             DowncallHandles.g_task_report_error.invokeExact(
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) (sourceTag == null ? MemoryAddress.NULL : (Addressable) sourceTag),
                     error.handle());
         } catch (Throwable ERR) {
@@ -1334,7 +1327,7 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * appropriately if so.
      * <p>
      * See also g_task_report_error().
-     * @param sourceObject the {@link org.gtk.gobject.Object} that owns
+     * @param sourceObject the {@link org.gtk.gobject.GObject} that owns
      *   this task, or {@code null}.
      * @param callback a {@link AsyncReadyCallback}.
      * @param sourceTag an opaque pointer indicating the source of this task
@@ -1343,59 +1336,55 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
      * @param format a string with format characters.
      * @param varargs a list of values to insert into {@code format}.
      */
-    public static void reportNewError(@Nullable org.gtk.gobject.Object sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @Nullable java.lang.foreign.MemoryAddress sourceTag, @NotNull org.gtk.glib.Quark domain, int code, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void reportNewError(@Nullable org.gtk.gobject.GObject sourceObject, @Nullable org.gtk.gio.AsyncReadyCallback callback, @Nullable java.lang.foreign.MemoryAddress sourceTag, org.gtk.glib.Quark domain, int code, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.g_task_report_new_error.invokeExact(
                     (Addressable) (sourceObject == null ? MemoryAddress.NULL : sourceObject.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) (sourceTag == null ? MemoryAddress.NULL : (Addressable) sourceTag),
                     domain.getValue().intValue(),
                     code,
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Task.Builder} object constructs a {@link Task} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Task.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Task.Build} object constructs a {@link Task} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Task} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Task} using {@link Task#castFrom}.
+         * {@link Task}.
          * @return A new instance of {@code Task} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Task construct() {
-            return Task.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Task.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Task build() {
+            return (Task) org.gtk.gobject.GObject.newWithProperties(
+                Task.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -1407,12 +1396,12 @@ public class Task extends org.gtk.gobject.Object implements org.gtk.gio.AsyncRes
          * <p>
          * This property is guaranteed to change from {@code false} to {@code true} exactly once.
          * <p>
-         * The {@link org.gtk.gobject.Object}::notify signal for this change is emitted in the same main
+         * The {@link org.gtk.gobject.GObject}::notify signal for this change is emitted in the same main
          * context as the task’s callback, immediately after that callback is invoked.
          * @param completed The value for the {@code completed} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCompleted(boolean completed) {
+        public Builder setCompleted(boolean completed) {
             names.add("completed");
             values.add(org.gtk.gobject.Value.create(completed));
             return this;

@@ -40,11 +40,15 @@ public class VulkanFormatFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public VulkanFormatFlags or(VulkanFormatFlags mask) {
-        return new VulkanFormatFlags(this.getValue() | mask.getValue());
+    public VulkanFormatFlags or(VulkanFormatFlags... masks) {
+        int value = this.getValue();
+        for (VulkanFormatFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new VulkanFormatFlags(value);
     }
     
     /**
@@ -54,7 +58,8 @@ public class VulkanFormatFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static VulkanFormatFlags combined(VulkanFormatFlags mask, VulkanFormatFlags... masks) {
-        int value = mask.getValue();        for (VulkanFormatFlags arg : masks) {
+        int value = mask.getValue();
+        for (VulkanFormatFlags arg : masks) {
             value |= arg.getValue();
         }
         return new VulkanFormatFlags(value);

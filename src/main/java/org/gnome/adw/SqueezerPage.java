@@ -8,7 +8,7 @@ import org.jetbrains.annotations.*;
 /**
  * An auxiliary class used by {@link Squeezer}.
  */
-public class SqueezerPage extends org.gtk.gobject.Object {
+public class SqueezerPage extends org.gtk.gobject.GObject {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -30,36 +30,18 @@ public class SqueezerPage extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SqueezerPage(Addressable address, Ownership ownership) {
+    protected SqueezerPage(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SqueezerPage if its GType is a (or inherits from) "AdwSqueezerPage".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SqueezerPage} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwSqueezerPage", a ClassCastException will be thrown.
-     */
-    public static SqueezerPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SqueezerPage.getType())) {
-            return new SqueezerPage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwSqueezerPage");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SqueezerPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SqueezerPage(input, ownership);
     
     /**
      * Returns the squeezer child to which {@code self} belongs.
      * @return the child to which {@code self} belongs
      */
-    public @NotNull org.gtk.gtk.Widget getChild() {
+    public org.gtk.gtk.Widget getChild() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_squeezer_page_get_child.invokeExact(
@@ -67,7 +49,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -82,7 +64,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -102,7 +84,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
         try {
             DowncallHandles.adw_squeezer_page_set_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -112,7 +94,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_squeezer_page_get_type.invokeExact();
@@ -121,38 +103,40 @@ public class SqueezerPage extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SqueezerPage.Builder} object constructs a {@link SqueezerPage} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SqueezerPage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SqueezerPage.Build} object constructs a {@link SqueezerPage} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SqueezerPage} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SqueezerPage} using {@link SqueezerPage#castFrom}.
+         * {@link SqueezerPage}.
          * @return A new instance of {@code SqueezerPage} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SqueezerPage construct() {
-            return SqueezerPage.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SqueezerPage.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SqueezerPage build() {
+            return (SqueezerPage) org.gtk.gobject.GObject.newWithProperties(
+                SqueezerPage.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -161,7 +145,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
          * @param child The value for the {@code child} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setChild(org.gtk.gtk.Widget child) {
+        public Builder setChild(org.gtk.gtk.Widget child) {
             names.add("child");
             values.add(org.gtk.gobject.Value.create(child));
             return this;
@@ -181,7 +165,7 @@ public class SqueezerPage extends org.gtk.gobject.Object {
          * @param enabled The value for the {@code enabled} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setEnabled(boolean enabled) {
+        public Builder setEnabled(boolean enabled) {
             names.add("enabled");
             values.add(org.gtk.gobject.Value.create(enabled));
             return this;

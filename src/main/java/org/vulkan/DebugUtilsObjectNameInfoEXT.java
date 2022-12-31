@@ -40,8 +40,10 @@ public class DebugUtilsObjectNameInfoEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DebugUtilsObjectNameInfoEXT(Addressable address, Ownership ownership) {
+    protected DebugUtilsObjectNameInfoEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DebugUtilsObjectNameInfoEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DebugUtilsObjectNameInfoEXT(input, ownership);
 }

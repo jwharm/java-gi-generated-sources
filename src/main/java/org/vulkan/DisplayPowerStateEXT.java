@@ -40,8 +40,10 @@ public class DisplayPowerStateEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DisplayPowerStateEXT(Addressable address, Ownership ownership) {
+    protected DisplayPowerStateEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DisplayPowerStateEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DisplayPowerStateEXT(input, ownership);
 }

@@ -43,11 +43,15 @@ public class RTSPProfile extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public RTSPProfile or(RTSPProfile mask) {
-        return new RTSPProfile(this.getValue() | mask.getValue());
+    public RTSPProfile or(RTSPProfile... masks) {
+        int value = this.getValue();
+        for (RTSPProfile arg : masks) {
+            value |= arg.getValue();
+        }
+        return new RTSPProfile(value);
     }
     
     /**
@@ -57,7 +61,8 @@ public class RTSPProfile extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static RTSPProfile combined(RTSPProfile mask, RTSPProfile... masks) {
-        int value = mask.getValue();        for (RTSPProfile arg : masks) {
+        int value = mask.getValue();
+        for (RTSPProfile arg : masks) {
             value |= arg.getValue();
         }
         return new RTSPProfile(value);

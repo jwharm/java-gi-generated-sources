@@ -95,25 +95,8 @@ import org.jetbrains.annotations.*;
  */
 public interface File extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to File if its GType is a (or inherits from) "GFile".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code File} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GFile", a ClassCastException will be thrown.
-     */
-    public static File castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), File.getType())) {
-            return new FileImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GFile");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FileImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FileImpl(input, ownership);
     
     /**
      * Gets an output stream for appending data to the file.
@@ -140,8 +123,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileOutputStream appendTo(@NotNull org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileOutputStream appendTo(org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -156,7 +138,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileOutputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -175,20 +157,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void appendToAsync(@NotNull org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void appendToAsync(org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_append_to_async.invokeExact(
                     handle(),
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -203,8 +180,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileOutputStream appendToFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileOutputStream appendToFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -218,7 +194,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileOutputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -238,8 +214,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   or {@code null} if an error occurs.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull java.lang.String buildAttributeListForCopy(@NotNull org.gtk.gio.FileCopyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default java.lang.String buildAttributeListForCopy(org.gtk.gio.FileCopyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -254,7 +229,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -307,9 +282,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} on success, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean copy(@NotNull org.gtk.gio.File destination, @NotNull org.gtk.gio.FileCopyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(destination, "Parameter 'destination' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean copy(org.gtk.gio.File destination, org.gtk.gio.FileCopyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -318,12 +291,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     destination.handle(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbFileProgressCallback",
-                            MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : Interop.registerCallback(progressCallback)),
+                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) progressCallback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -331,7 +300,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -354,9 +323,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   information, or {@code null} if progress information is not needed
      * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied
      */
-    default void copyAsync(@NotNull org.gtk.gio.File destination, @NotNull org.gtk.gio.FileCopyFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileProgressCallback progressCallback, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(destination, "Parameter 'destination' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void copyAsync(org.gtk.gio.File destination, org.gtk.gio.FileCopyFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileProgressCallback progressCallback, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_copy_async.invokeExact(
                     handle(),
@@ -364,18 +331,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbFileProgressCallback",
-                            MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : Interop.registerCallback(progressCallback)),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : Interop.registerCallback(progressCallback)));
+                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) progressCallback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -398,9 +357,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean copyAttributes(@NotNull org.gtk.gio.File destination, @NotNull org.gtk.gio.FileCopyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(destination, "Parameter 'destination' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean copyAttributes(org.gtk.gio.File destination, org.gtk.gio.FileCopyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -416,7 +373,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -425,8 +382,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return a {@code true} on success, {@code false} on error.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean copyFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default boolean copyFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -440,7 +396,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -471,8 +427,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileOutputStream create(@NotNull org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileOutputStream create(org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -487,7 +442,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileOutputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -507,20 +462,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void createAsync(@NotNull org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void createAsync(org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_create_async.invokeExact(
                     handle(),
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -534,8 +484,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileOutputStream createFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileOutputStream createFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -549,7 +498,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileOutputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -584,8 +533,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileIOStream createReadwrite(@NotNull org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileIOStream createReadwrite(org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -600,7 +548,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileIOStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileIOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileIOStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -620,20 +568,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void createReadwriteAsync(@NotNull org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void createReadwriteAsync(org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_create_readwrite_async.invokeExact(
                     handle(),
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -647,8 +590,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileIOStream createReadwriteFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileIOStream createReadwriteFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -662,7 +604,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileIOStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileIOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileIOStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -706,7 +648,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -725,12 +667,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -742,8 +680,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the file was deleted. {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean deleteFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean deleteFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -757,7 +694,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -774,7 +711,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return a new {@link File} that is a duplicate
      *   of the given {@link File}.
      */
-    default @NotNull org.gtk.gio.File dup() {
+    default org.gtk.gio.File dup() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_dup.invokeExact(
@@ -782,7 +719,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -802,19 +739,14 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @deprecated Use g_file_eject_mountable_with_operation() instead.
      */
     @Deprecated
-    default void ejectMountable(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void ejectMountable(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_eject_mountable.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -831,8 +763,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   instead.
      */
     @Deprecated
-    default boolean ejectMountableFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean ejectMountableFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -846,7 +777,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -866,20 +797,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied, or {@code null}
      */
-    default void ejectMountableWithOperation(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void ejectMountableWithOperation(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_eject_mountable_with_operation.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -893,8 +819,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean ejectMountableWithOperationFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean ejectMountableWithOperationFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -908,7 +833,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -945,15 +870,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   {@code null} on error. Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileEnumerator enumerateChildren(@NotNull java.lang.String attributes, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileEnumerator enumerateChildren(java.lang.String attributes, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_enumerate_children.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attributes),
+                    Marshal.stringToAddress.marshal(attributes, null),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
@@ -963,7 +886,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileEnumerator(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileEnumerator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileEnumerator.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -985,22 +908,16 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call when the
      *   request is satisfied
      */
-    default void enumerateChildrenAsync(@NotNull java.lang.String attributes, @NotNull org.gtk.gio.FileQueryInfoFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void enumerateChildrenAsync(java.lang.String attributes, org.gtk.gio.FileQueryInfoFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_enumerate_children_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attributes),
+                    Marshal.stringToAddress.marshal(attributes, null),
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1015,8 +932,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileEnumerator enumerateChildrenFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileEnumerator enumerateChildrenFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -1030,7 +946,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileEnumerator(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileEnumerator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileEnumerator.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1044,8 +960,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param file2 the second {@link File}
      * @return {@code true} if {@code file1} and {@code file2} are equal.
      */
-    default boolean equal(@NotNull org.gtk.gio.File file2) {
-        java.util.Objects.requireNonNull(file2, "Parameter 'file2' must not be null");
+    default boolean equal(org.gtk.gio.File file2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_equal.invokeExact(
@@ -1054,7 +969,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1074,7 +989,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.Mount findEnclosingMount(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default org.gtk.gio.Mount findEnclosingMount(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -1088,7 +1003,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Mount.MountImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Mount.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1112,12 +1027,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1131,8 +1042,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.Mount findEnclosingMountFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.Mount findEnclosingMountFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -1146,7 +1056,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.Mount.MountImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.Mount) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Mount.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1175,7 +1085,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1190,17 +1100,16 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return a {@link File} to a child specified by {@code name}.
      *   Free the returned object with g_object_unref().
      */
-    default @NotNull org.gtk.gio.File getChild(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    default org.gtk.gio.File getChild(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_get_child.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1218,14 +1127,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.File getChildForDisplayName(@NotNull java.lang.String displayName) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(displayName, "Parameter 'displayName' must not be null");
+    default org.gtk.gio.File getChildForDisplayName(java.lang.String displayName) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_get_child_for_display_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(displayName),
+                    Marshal.stringToAddress.marshal(displayName, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1233,7 +1141,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1254,7 +1162,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1276,7 +1184,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   The returned string should be freed with g_free()
      *   when no longer needed.
      */
-    default @NotNull java.lang.String getParseName() {
+    default java.lang.String getParseName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_get_parse_name.invokeExact(
@@ -1284,7 +1192,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1304,7 +1212,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1317,8 +1225,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   prefix. The returned string should be freed with g_free() when
      *   no longer needed.
      */
-    default @Nullable java.lang.String getRelativePath(@NotNull org.gtk.gio.File descendant) {
-        java.util.Objects.requireNonNull(descendant, "Parameter 'descendant' must not be null");
+    default @Nullable java.lang.String getRelativePath(org.gtk.gio.File descendant) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_get_relative_path.invokeExact(
@@ -1327,7 +1234,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1339,7 +1246,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   The returned string should be freed with g_free()
      *   when no longer needed.
      */
-    default @NotNull java.lang.String getUri() {
+    default java.lang.String getUri() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_get_uri.invokeExact(
@@ -1347,7 +1254,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1374,7 +1281,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1396,7 +1303,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1418,8 +1325,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the {@code file}'s parent, grandparent, etc is {@code prefix},
      *   {@code false} otherwise.
      */
-    default boolean hasPrefix(@NotNull org.gtk.gio.File prefix) {
-        java.util.Objects.requireNonNull(prefix, "Parameter 'prefix' must not be null");
+    default boolean hasPrefix(org.gtk.gio.File prefix) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_has_prefix.invokeExact(
@@ -1428,7 +1334,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1440,17 +1346,16 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   given URI scheme, {@code false} if URI scheme is {@code null},
      *   not supported, or {@link File} is invalid.
      */
-    default boolean hasUriScheme(@NotNull java.lang.String uriScheme) {
-        java.util.Objects.requireNonNull(uriScheme, "Parameter 'uriScheme' must not be null");
+    default boolean hasUriScheme(java.lang.String uriScheme) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_has_uri_scheme.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(uriScheme));
+                    Marshal.stringToAddress.marshal(uriScheme, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1495,7 +1400,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1516,7 +1421,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return a {@link org.gtk.glib.Bytes} or {@code null} and {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.glib.Bytes loadBytes(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
+    default org.gtk.glib.Bytes loadBytes(@Nullable org.gtk.gio.Cancellable cancellable, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -1532,8 +1437,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (etagOut != null) etagOut.set(Interop.getStringFrom(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        if (etagOut != null) etagOut.set(Marshal.addressToString.marshal(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1556,12 +1461,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
             DowncallHandles.g_file_load_bytes_async.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1583,8 +1484,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return a {@link org.gtk.glib.Bytes} or {@code null} and {@code error} is set
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.glib.Bytes loadBytesFinish(@NotNull org.gtk.gio.AsyncResult result, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default org.gtk.glib.Bytes loadBytesFinish(org.gtk.gio.AsyncResult result, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -1600,8 +1500,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (etagOut != null) etagOut.set(Interop.getStringFrom(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        if (etagOut != null) etagOut.set(Marshal.addressToString.marshal(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1623,10 +1523,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   {@code false} if there were errors.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean loadContents(@Nullable org.gtk.gio.Cancellable cancellable, @NotNull Out<byte[]> contents, Out<Long> length, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
+    default boolean loadContents(@Nullable org.gtk.gio.Cancellable cancellable, Out<byte[]> contents, Out<Long> length, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment contentsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -1636,7 +1534,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) contentsPOINTER.address(),
-                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) (etagOut == null ? MemoryAddress.NULL : (Addressable) etagOutPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -1645,10 +1543,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (etagOut != null) etagOut.set(Interop.getStringFrom(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (etagOut != null) etagOut.set(Marshal.addressToString.marshal(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         contents.set(MemorySegment.ofAddress(contentsPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1673,12 +1571,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
             DowncallHandles.g_file_load_contents_async.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1700,11 +1594,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   present, it will be set appropriately.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean loadContentsFinish(@NotNull org.gtk.gio.AsyncResult res, @NotNull Out<byte[]> contents, Out<Long> length, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
+    default boolean loadContentsFinish(org.gtk.gio.AsyncResult res, Out<byte[]> contents, Out<Long> length, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment contentsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -1714,7 +1605,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     res.handle(),
                     (Addressable) contentsPOINTER.address(),
-                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) (etagOut == null ? MemoryAddress.NULL : (Addressable) etagOutPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -1723,10 +1614,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (etagOut != null) etagOut.set(Interop.getStringFrom(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (etagOut != null) etagOut.set(Marshal.addressToString.marshal(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         contents.set(MemorySegment.ofAddress(contentsPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1748,23 +1639,14 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void loadPartialContentsAsync(@Nullable org.gtk.gio.Cancellable cancellable, @NotNull org.gtk.gio.FileReadMoreCallback readMoreCallback, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(readMoreCallback, "Parameter 'readMoreCallback' must not be null");
+    default void loadPartialContentsAsync(@Nullable org.gtk.gio.Cancellable cancellable, org.gtk.gio.FileReadMoreCallback readMoreCallback, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_load_partial_contents_async.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbFileReadMoreCallback",
-                            MethodType.methodType(int.class, MemoryAddress.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(int.class, MemoryAddress.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (Interop.registerCallback(readMoreCallback)));
+                    (Addressable) readMoreCallback.toCallback(),
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1786,11 +1668,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   present, it will be set appropriately.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean loadPartialContentsFinish(@NotNull org.gtk.gio.AsyncResult res, @NotNull Out<byte[]> contents, Out<Long> length, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
-        java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
+    default boolean loadPartialContentsFinish(org.gtk.gio.AsyncResult res, Out<byte[]> contents, Out<Long> length, @Nullable Out<java.lang.String> etagOut) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment contentsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(length, "Parameter 'length' must not be null");
         MemorySegment lengthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment etagOutPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
@@ -1800,7 +1679,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     res.handle(),
                     (Addressable) contentsPOINTER.address(),
-                    (Addressable) lengthPOINTER.address(),
+                    (Addressable) (length == null ? MemoryAddress.NULL : (Addressable) lengthPOINTER.address()),
                     (Addressable) (etagOut == null ? MemoryAddress.NULL : (Addressable) etagOutPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -1809,10 +1688,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        if (etagOut != null) etagOut.set(Interop.getStringFrom(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
+        if (length != null) length.set(lengthPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (etagOut != null) etagOut.set(Marshal.addressToString.marshal(etagOutPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
         contents.set(MemorySegment.ofAddress(contentsPOINTER.get(Interop.valueLayout.ADDRESS, 0), length.get().intValue() * Interop.valueLayout.C_BYTE.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_BYTE));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1849,7 +1728,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1866,12 +1745,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1884,8 +1759,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} on successful directory creation, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean makeDirectoryFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean makeDirectoryFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -1899,7 +1773,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1936,7 +1810,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1953,14 +1827,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} on the creation of a new symlink, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean makeSymbolicLink(@NotNull java.lang.String symlinkValue, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(symlinkValue, "Parameter 'symlinkValue' must not be null");
+    default boolean makeSymbolicLink(java.lang.String symlinkValue, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_make_symbolic_link.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(symlinkValue),
+                    Marshal.stringToAddress.marshal(symlinkValue, null),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -1969,7 +1842,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1983,20 +1856,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void makeSymbolicLinkAsync(@NotNull java.lang.String symlinkValue, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(symlinkValue, "Parameter 'symlinkValue' must not be null");
+    default void makeSymbolicLinkAsync(java.lang.String symlinkValue, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_make_symbolic_link_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(symlinkValue),
+                    Marshal.stringToAddress.marshal(symlinkValue, null),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2009,8 +1877,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} on successful directory creation, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean makeSymbolicLinkFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean makeSymbolicLinkFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -2024,7 +1891,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2056,13 +1923,9 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   {@code false} otherwise, with {@code error} set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean measureDiskUsage(@NotNull org.gtk.gio.FileMeasureFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileMeasureProgressCallback progressCallback, Out<Long> diskUsage, Out<Long> numDirs, Out<Long> numFiles) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(diskUsage, "Parameter 'diskUsage' must not be null");
+    default boolean measureDiskUsage(org.gtk.gio.FileMeasureFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileMeasureProgressCallback progressCallback, Out<Long> diskUsage, Out<Long> numDirs, Out<Long> numFiles) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment diskUsagePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(numDirs, "Parameter 'numDirs' must not be null");
         MemorySegment numDirsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(numFiles, "Parameter 'numFiles' must not be null");
         MemorySegment numFilesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -2071,15 +1934,11 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbFileMeasureProgressCallback",
-                            MethodType.methodType(void.class, int.class, long.class, long.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : Interop.registerCallback(progressCallback)),
-                    (Addressable) diskUsagePOINTER.address(),
-                    (Addressable) numDirsPOINTER.address(),
-                    (Addressable) numFilesPOINTER.address(),
+                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) progressCallback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (diskUsage == null ? MemoryAddress.NULL : (Addressable) diskUsagePOINTER.address()),
+                    (Addressable) (numDirs == null ? MemoryAddress.NULL : (Addressable) numDirsPOINTER.address()),
+                    (Addressable) (numFiles == null ? MemoryAddress.NULL : (Addressable) numFilesPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2087,10 +1946,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        diskUsage.set(diskUsagePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        numDirs.set(numDirsPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        numFiles.set(numFilesPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (diskUsage != null) diskUsage.set(diskUsagePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (numDirs != null) numDirs.set(numDirsPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (numFiles != null) numFiles.set(numFilesPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2104,26 +1963,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param progressCallback a {@link FileMeasureProgressCallback}
      * @param callback a {@link AsyncReadyCallback} to call when complete
      */
-    default void measureDiskUsageAsync(@NotNull org.gtk.gio.FileMeasureFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileMeasureProgressCallback progressCallback, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void measureDiskUsageAsync(org.gtk.gio.FileMeasureFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileMeasureProgressCallback progressCallback, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_measure_disk_usage_async.invokeExact(
                     handle(),
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbFileMeasureProgressCallback",
-                            MethodType.methodType(void.class, int.class, long.class, long.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : Interop.registerCallback(progressCallback)),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, int.class, long.class, long.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : Interop.registerCallback(progressCallback)));
+                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) progressCallback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2141,13 +1991,9 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   {@code false} otherwise, with {@code error} set.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean measureDiskUsageFinish(@NotNull org.gtk.gio.AsyncResult result, Out<Long> diskUsage, Out<Long> numDirs, Out<Long> numFiles) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNull(diskUsage, "Parameter 'diskUsage' must not be null");
+    default boolean measureDiskUsageFinish(org.gtk.gio.AsyncResult result, Out<Long> diskUsage, Out<Long> numDirs, Out<Long> numFiles) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment diskUsagePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(numDirs, "Parameter 'numDirs' must not be null");
         MemorySegment numDirsPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        java.util.Objects.requireNonNull(numFiles, "Parameter 'numFiles' must not be null");
         MemorySegment numFilesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -2155,9 +2001,9 @@ public interface File extends io.github.jwharm.javagi.Proxy {
             RESULT = (int) DowncallHandles.g_file_measure_disk_usage_finish.invokeExact(
                     handle(),
                     result.handle(),
-                    (Addressable) diskUsagePOINTER.address(),
-                    (Addressable) numDirsPOINTER.address(),
-                    (Addressable) numFilesPOINTER.address(),
+                    (Addressable) (diskUsage == null ? MemoryAddress.NULL : (Addressable) diskUsagePOINTER.address()),
+                    (Addressable) (numDirs == null ? MemoryAddress.NULL : (Addressable) numDirsPOINTER.address()),
+                    (Addressable) (numFiles == null ? MemoryAddress.NULL : (Addressable) numFilesPOINTER.address()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2165,10 +2011,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        diskUsage.set(diskUsagePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        numDirs.set(numDirsPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        numFiles.set(numFilesPOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return RESULT != 0;
+        if (diskUsage != null) diskUsage.set(diskUsagePOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (numDirs != null) numDirs.set(numDirsPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        if (numFiles != null) numFiles.set(numFilesPOINTER.get(Interop.valueLayout.C_LONG, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2186,8 +2032,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileMonitor monitor(@NotNull org.gtk.gio.FileMonitorFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileMonitor monitor(org.gtk.gio.FileMonitorFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2202,7 +2047,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileMonitor(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileMonitor.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2226,8 +2071,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileMonitor monitorDirectory(@NotNull org.gtk.gio.FileMonitorFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileMonitor monitorDirectory(org.gtk.gio.FileMonitorFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2242,7 +2086,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileMonitor(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileMonitor.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2268,8 +2112,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileMonitor monitorFile(@NotNull org.gtk.gio.FileMonitorFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileMonitor monitorFile(org.gtk.gio.FileMonitorFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2284,7 +2127,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileMonitor(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileMonitor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileMonitor.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2306,20 +2149,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied, or {@code null}
      */
-    default void mountEnclosingVolume(@NotNull org.gtk.gio.MountMountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void mountEnclosingVolume(org.gtk.gio.MountMountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_mount_enclosing_volume.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2333,8 +2171,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   appropriately if present.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean mountEnclosingVolumeFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean mountEnclosingVolumeFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -2348,7 +2185,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2371,20 +2208,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied, or {@code null}
      */
-    default void mountMountable(@NotNull org.gtk.gio.MountMountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void mountMountable(org.gtk.gio.MountMountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_mount_mountable.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2400,8 +2232,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.File mountMountableFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default org.gtk.gio.File mountMountableFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2415,7 +2246,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2461,9 +2292,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} on successful move, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean move(@NotNull org.gtk.gio.File destination, @NotNull org.gtk.gio.FileCopyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(destination, "Parameter 'destination' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean move(org.gtk.gio.File destination, org.gtk.gio.FileCopyFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileProgressCallback progressCallback) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -2472,12 +2301,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     destination.handle(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbFileProgressCallback",
-                            MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : Interop.registerCallback(progressCallback)),
+                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) progressCallback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2485,7 +2310,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2508,9 +2333,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void moveAsync(@NotNull org.gtk.gio.File destination, @NotNull org.gtk.gio.FileCopyFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileProgressCallback progressCallback, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(destination, "Parameter 'destination' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void moveAsync(org.gtk.gio.File destination, org.gtk.gio.FileCopyFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.FileProgressCallback progressCallback, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_move_async.invokeExact(
                     handle(),
@@ -2518,18 +2341,10 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbFileProgressCallback",
-                            MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : Interop.registerCallback(progressCallback)),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, long.class, long.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.C_LONG, Interop.valueLayout.C_LONG, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : Interop.registerCallback(progressCallback)));
+                    (Addressable) (progressCallback == null ? MemoryAddress.NULL : (Addressable) progressCallback.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2542,8 +2357,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} on successful file move, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean moveFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean moveFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -2557,7 +2371,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2582,7 +2396,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileIOStream openReadwrite(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default org.gtk.gio.FileIOStream openReadwrite(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2596,7 +2410,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileIOStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileIOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileIOStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2620,12 +2434,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2639,8 +2449,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileIOStream openReadwriteFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileIOStream openReadwriteFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2654,7 +2463,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileIOStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileIOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileIOStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2676,7 +2485,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2698,12 +2507,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
             DowncallHandles.g_file_poll_mountable.invokeExact(
                     handle(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2719,8 +2524,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean pollMountableFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean pollMountableFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -2734,7 +2538,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2750,7 +2554,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   When you are done with it, release it with g_object_unref()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.AppInfo queryDefaultHandler(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default org.gtk.gio.AppInfo queryDefaultHandler(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2764,7 +2568,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.AppInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2779,12 +2583,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2798,8 +2598,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   When you are done with it, release it with g_object_unref()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.AppInfo queryDefaultHandlerFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default org.gtk.gio.AppInfo queryDefaultHandlerFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2813,7 +2612,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.AppInfo.AppInfoImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.AppInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.AppInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2853,7 +2652,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2868,8 +2667,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return The {@link FileType} of the file and {@link FileType#UNKNOWN}
      *   if the file does not exist
      */
-    default @NotNull org.gtk.gio.FileType queryFileType(@NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileType queryFileType(org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_query_file_type.invokeExact(
@@ -2915,14 +2713,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileInfo queryFilesystemInfo(@NotNull java.lang.String attributes, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
+    default org.gtk.gio.FileInfo queryFilesystemInfo(java.lang.String attributes, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_query_filesystem_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attributes),
+                    Marshal.stringToAddress.marshal(attributes, null),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -2931,7 +2728,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInfo(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2953,20 +2750,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void queryFilesystemInfoAsync(@NotNull java.lang.String attributes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
+    default void queryFilesystemInfoAsync(java.lang.String attributes, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_query_filesystem_info_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attributes),
+                    Marshal.stringToAddress.marshal(attributes, null),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2981,8 +2773,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileInfo queryFilesystemInfoFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileInfo queryFilesystemInfoFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -2996,7 +2787,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInfo(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3038,15 +2829,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   on error. Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileInfo queryInfo(@NotNull java.lang.String attributes, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileInfo queryInfo(java.lang.String attributes, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_query_info.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attributes),
+                    Marshal.stringToAddress.marshal(attributes, null),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
@@ -3056,7 +2845,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInfo(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3077,22 +2866,16 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call when the
      *   request is satisfied
      */
-    default void queryInfoAsync(@NotNull java.lang.String attributes, @NotNull org.gtk.gio.FileQueryInfoFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(attributes, "Parameter 'attributes' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void queryInfoAsync(java.lang.String attributes, org.gtk.gio.FileQueryInfoFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_query_info_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attributes),
+                    Marshal.stringToAddress.marshal(attributes, null),
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3107,8 +2890,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileInfo queryInfoFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileInfo queryInfoFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -3122,7 +2904,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInfo(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileInfo.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3143,7 +2925,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   g_file_attribute_info_list_unref()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileAttributeInfoList querySettableAttributes(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default org.gtk.gio.FileAttributeInfoList querySettableAttributes(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -3157,7 +2939,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileAttributeInfoList(RESULT, Ownership.FULL);
+        return org.gtk.gio.FileAttributeInfoList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3175,7 +2957,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   g_file_attribute_info_list_unref()
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileAttributeInfoList queryWritableNamespaces(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default org.gtk.gio.FileAttributeInfoList queryWritableNamespaces(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -3189,7 +2971,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileAttributeInfoList(RESULT, Ownership.FULL);
+        return org.gtk.gio.FileAttributeInfoList.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3209,7 +2991,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileInputStream read(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
+    default org.gtk.gio.FileInputStream read(@Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -3223,7 +3005,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileInputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3247,12 +3029,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3266,8 +3044,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileInputStream readFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileInputStream readFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -3281,7 +3058,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileInputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileInputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileInputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3336,15 +3113,14 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileOutputStream replace(@Nullable java.lang.String etag, boolean makeBackup, @NotNull org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileOutputStream replace(@Nullable java.lang.String etag, boolean makeBackup, org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_replace.invokeExact(
                     handle(),
-                    (Addressable) (etag == null ? MemoryAddress.NULL : Interop.allocateNativeString(etag)),
-                    makeBackup ? 1 : 0,
+                    (Addressable) (etag == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(etag, null)),
+                    Marshal.booleanToInteger.marshal(makeBackup, null).intValue(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
@@ -3354,7 +3130,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileOutputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3377,22 +3153,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void replaceAsync(@Nullable java.lang.String etag, boolean makeBackup, @NotNull org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void replaceAsync(@Nullable java.lang.String etag, boolean makeBackup, org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_replace_async.invokeExact(
                     handle(),
-                    (Addressable) (etag == null ? MemoryAddress.NULL : Interop.allocateNativeString(etag)),
-                    makeBackup ? 1 : 0,
+                    (Addressable) (etag == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(etag, null)),
+                    Marshal.booleanToInteger.marshal(makeBackup, null).intValue(),
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3429,9 +3200,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   will return {@code false} and set {@code error} appropriately if present.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean replaceContents(@NotNull byte[] contents, long length, @Nullable java.lang.String etag, boolean makeBackup, @NotNull org.gtk.gio.FileCreateFlags flags, @Nullable Out<java.lang.String> newEtag, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean replaceContents(byte[] contents, long length, @Nullable java.lang.String etag, boolean makeBackup, org.gtk.gio.FileCreateFlags flags, @Nullable Out<java.lang.String> newEtag, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment newEtagPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -3440,8 +3209,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     Interop.allocateNativeArray(contents, false),
                     length,
-                    (Addressable) (etag == null ? MemoryAddress.NULL : Interop.allocateNativeString(etag)),
-                    makeBackup ? 1 : 0,
+                    (Addressable) (etag == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(etag, null)),
+                    Marshal.booleanToInteger.marshal(makeBackup, null).intValue(),
                     flags.getValue(),
                     (Addressable) (newEtag == null ? MemoryAddress.NULL : (Addressable) newEtagPOINTER.address()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -3452,8 +3221,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (newEtag != null) newEtag.set(Interop.getStringFrom(newEtagPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (newEtag != null) newEtag.set(Marshal.addressToString.marshal(newEtagPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3484,24 +3253,18 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
      * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied
      */
-    default void replaceContentsAsync(@NotNull byte[] contents, long length, @Nullable java.lang.String etag, boolean makeBackup, @NotNull org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void replaceContentsAsync(byte[] contents, long length, @Nullable java.lang.String etag, boolean makeBackup, org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_replace_contents_async.invokeExact(
                     handle(),
                     Interop.allocateNativeArray(contents, false),
                     length,
-                    (Addressable) (etag == null ? MemoryAddress.NULL : Interop.allocateNativeString(etag)),
-                    makeBackup ? 1 : 0,
+                    (Addressable) (etag == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(etag, null)),
+                    Marshal.booleanToInteger.marshal(makeBackup, null).intValue(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3523,23 +3286,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
      * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied
      */
-    default void replaceContentsBytesAsync(@NotNull org.gtk.glib.Bytes contents, @Nullable java.lang.String etag, boolean makeBackup, @NotNull org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(contents, "Parameter 'contents' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void replaceContentsBytesAsync(org.gtk.glib.Bytes contents, @Nullable java.lang.String etag, boolean makeBackup, org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_replace_contents_bytes_async.invokeExact(
                     handle(),
                     contents.handle(),
-                    (Addressable) (etag == null ? MemoryAddress.NULL : Interop.allocateNativeString(etag)),
-                    makeBackup ? 1 : 0,
+                    (Addressable) (etag == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(etag, null)),
+                    Marshal.booleanToInteger.marshal(makeBackup, null).intValue(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3556,8 +3313,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} on success, {@code false} on failure.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean replaceContentsFinish(@NotNull org.gtk.gio.AsyncResult res, @Nullable Out<java.lang.String> newEtag) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default boolean replaceContentsFinish(org.gtk.gio.AsyncResult res, @Nullable Out<java.lang.String> newEtag) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment newEtagPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -3573,8 +3329,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        if (newEtag != null) newEtag.set(Interop.getStringFrom(newEtagPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (newEtag != null) newEtag.set(Marshal.addressToString.marshal(newEtagPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3585,8 +3341,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileOutputStream replaceFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileOutputStream replaceFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -3600,7 +3355,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileOutputStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileOutputStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileOutputStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3624,15 +3379,14 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileIOStream replaceReadwrite(@Nullable java.lang.String etag, boolean makeBackup, @NotNull org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default org.gtk.gio.FileIOStream replaceReadwrite(@Nullable java.lang.String etag, boolean makeBackup, org.gtk.gio.FileCreateFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_replace_readwrite.invokeExact(
                     handle(),
-                    (Addressable) (etag == null ? MemoryAddress.NULL : Interop.allocateNativeString(etag)),
-                    makeBackup ? 1 : 0,
+                    (Addressable) (etag == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(etag, null)),
+                    Marshal.booleanToInteger.marshal(makeBackup, null).intValue(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
@@ -3642,7 +3396,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileIOStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileIOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileIOStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3666,22 +3420,17 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void replaceReadwriteAsync(@Nullable java.lang.String etag, boolean makeBackup, @NotNull org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void replaceReadwriteAsync(@Nullable java.lang.String etag, boolean makeBackup, org.gtk.gio.FileCreateFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_replace_readwrite_async.invokeExact(
                     handle(),
-                    (Addressable) (etag == null ? MemoryAddress.NULL : Interop.allocateNativeString(etag)),
-                    makeBackup ? 1 : 0,
+                    (Addressable) (etag == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(etag, null)),
+                    Marshal.booleanToInteger.marshal(makeBackup, null).intValue(),
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3695,8 +3444,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.FileIOStream replaceReadwriteFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.FileIOStream replaceReadwriteFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -3710,7 +3458,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.FileIOStream(RESULT, Ownership.FULL);
+        return (org.gtk.gio.FileIOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.FileIOStream.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3723,17 +3471,16 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param relativePath a given relative path string
      * @return a {@link File} for the resolved path.
      */
-    default @NotNull org.gtk.gio.File resolveRelativePath(@NotNull java.lang.String relativePath) {
-        java.util.Objects.requireNonNull(relativePath, "Parameter 'relativePath' must not be null");
+    default org.gtk.gio.File resolveRelativePath(java.lang.String relativePath) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_resolve_relative_path.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(relativePath));
+                    Marshal.stringToAddress.marshal(relativePath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -3755,16 +3502,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the attribute was set, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttribute(@NotNull java.lang.String attribute, @NotNull org.gtk.gio.FileAttributeType type, @Nullable java.lang.foreign.MemoryAddress valueP, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean setAttribute(java.lang.String attribute, org.gtk.gio.FileAttributeType type, @Nullable java.lang.foreign.MemoryAddress valueP, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_attribute.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
+                    Marshal.stringToAddress.marshal(attribute, null),
                     type.getValue(),
                     (Addressable) (valueP == null ? MemoryAddress.NULL : (Addressable) valueP),
                     flags.getValue(),
@@ -3776,7 +3520,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3796,17 +3540,14 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   in the {@code file}, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttributeByteString(@NotNull java.lang.String attribute, @NotNull java.lang.String value, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean setAttributeByteString(java.lang.String attribute, java.lang.String value, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_attribute_byte_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
-                    Interop.allocateNativeString(value),
+                    Marshal.stringToAddress.marshal(attribute, null),
+                    Marshal.stringToAddress.marshal(value, null),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
@@ -3816,7 +3557,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3835,15 +3576,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   in the {@code file}, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttributeInt32(@NotNull java.lang.String attribute, int value, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean setAttributeInt32(java.lang.String attribute, int value, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_attribute_int32.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
+                    Marshal.stringToAddress.marshal(attribute, null),
                     value,
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -3854,7 +3593,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3872,15 +3611,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the {@code attribute} was successfully set, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttributeInt64(@NotNull java.lang.String attribute, long value, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean setAttributeInt64(java.lang.String attribute, long value, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_attribute_int64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
+                    Marshal.stringToAddress.marshal(attribute, null),
                     value,
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -3891,7 +3628,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3909,17 +3646,14 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the {@code attribute} was successfully set, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttributeString(@NotNull java.lang.String attribute, @NotNull java.lang.String value, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean setAttributeString(java.lang.String attribute, java.lang.String value, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_attribute_string.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
-                    Interop.allocateNativeString(value),
+                    Marshal.stringToAddress.marshal(attribute, null),
+                    Marshal.stringToAddress.marshal(value, null),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
@@ -3929,7 +3663,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3948,15 +3682,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   in the {@code file}, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttributeUint32(@NotNull java.lang.String attribute, int value, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean setAttributeUint32(java.lang.String attribute, int value, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_attribute_uint32.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
+                    Marshal.stringToAddress.marshal(attribute, null),
                     value,
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -3967,7 +3699,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3986,15 +3718,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   in the {@code file}, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttributeUint64(@NotNull java.lang.String attribute, long value, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(attribute, "Parameter 'attribute' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean setAttributeUint64(java.lang.String attribute, long value, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_file_set_attribute_uint64.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(attribute),
+                    Marshal.stringToAddress.marshal(attribute, null),
                     value,
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
@@ -4005,7 +3735,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4024,9 +3754,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   {@code null} to ignore
      * @param callback a {@link AsyncReadyCallback}
      */
-    default void setAttributesAsync(@NotNull org.gtk.gio.FileInfo info, @NotNull org.gtk.gio.FileQueryInfoFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void setAttributesAsync(org.gtk.gio.FileInfo info, org.gtk.gio.FileQueryInfoFlags flags, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_set_attributes_async.invokeExact(
                     handle(),
@@ -4034,12 +3762,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     flags.getValue(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4052,9 +3776,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} if the attributes were set correctly, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttributesFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<org.gtk.gio.FileInfo> info) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
+    default boolean setAttributesFinish(org.gtk.gio.AsyncResult result, Out<org.gtk.gio.FileInfo> info) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment infoPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
@@ -4070,8 +3792,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        info.set(new org.gtk.gio.FileInfo(infoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        info.set((org.gtk.gio.FileInfo) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(infoPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gio.FileInfo.fromAddress).marshal(infoPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4094,9 +3816,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code false} if there was any error, {@code true} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean setAttributesFromInfo(@NotNull org.gtk.gio.FileInfo info, @NotNull org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default boolean setAttributesFromInfo(org.gtk.gio.FileInfo info, org.gtk.gio.FileQueryInfoFlags flags, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -4112,7 +3832,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4139,14 +3859,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.File setDisplayName(@NotNull java.lang.String displayName, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(displayName, "Parameter 'displayName' must not be null");
+    default org.gtk.gio.File setDisplayName(java.lang.String displayName, @Nullable org.gtk.gio.Cancellable cancellable) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_set_display_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(displayName),
+                    Marshal.stringToAddress.marshal(displayName, null),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -4155,7 +3874,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4174,20 +3893,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied
      */
-    default void setDisplayNameAsync(@NotNull java.lang.String displayName, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(displayName, "Parameter 'displayName' must not be null");
+    default void setDisplayNameAsync(java.lang.String displayName, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_set_display_name_async.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(displayName),
+                    Marshal.stringToAddress.marshal(displayName, null),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4201,8 +3915,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default @NotNull org.gtk.gio.File setDisplayNameFinish(@NotNull org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(res, "Parameter 'res' must not be null");
+    default org.gtk.gio.File setDisplayNameFinish(org.gtk.gio.AsyncResult res) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -4216,7 +3929,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4236,20 +3949,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param cancellable optional {@link Cancellable} object, {@code null} to ignore
      * @param callback a {@link AsyncReadyCallback} to call when the request is satisfied, or {@code null}
      */
-    default void startMountable(@NotNull org.gtk.gio.DriveStartFlags flags, @Nullable org.gtk.gio.MountOperation startOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void startMountable(org.gtk.gio.DriveStartFlags flags, @Nullable org.gtk.gio.MountOperation startOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_start_mountable.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (startOperation == null ? MemoryAddress.NULL : startOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4265,8 +3973,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean startMountableFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean startMountableFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -4280,7 +3987,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4301,20 +4008,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied, or {@code null}
      */
-    default void stopMountable(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void stopMountable(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_stop_mountable.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4330,8 +4032,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean stopMountableFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean stopMountableFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -4345,7 +4046,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4363,7 +4064,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4396,7 +4097,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4413,12 +4114,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
                     handle(),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4431,8 +4128,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return {@code true} on successful trash, {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean trashFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean trashFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -4446,7 +4142,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4467,19 +4163,14 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @deprecated Use g_file_unmount_mountable_with_operation() instead.
      */
     @Deprecated
-    default void unmountMountable(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void unmountMountable(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_unmount_mountable.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4498,8 +4189,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   instead.
      */
     @Deprecated
-    default boolean unmountMountableFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean unmountMountableFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -4513,7 +4203,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -4534,20 +4224,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param callback a {@link AsyncReadyCallback} to call
      *   when the request is satisfied, or {@code null}
      */
-    default void unmountMountableWithOperation(@NotNull org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    default void unmountMountableWithOperation(org.gtk.gio.MountUnmountFlags flags, @Nullable org.gtk.gio.MountOperation mountOperation, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_unmount_mountable_with_operation.invokeExact(
                     handle(),
                     flags.getValue(),
                     (Addressable) (mountOperation == null ? MemoryAddress.NULL : mountOperation.handle()),
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4564,8 +4249,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   {@code false} otherwise.
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    default boolean unmountMountableWithOperationFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    default boolean unmountMountableWithOperationFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -4579,14 +4263,14 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_file_get_type.invokeExact();
@@ -4606,17 +4290,16 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param varargs remaining elements in path, terminated by {@code null}
      * @return a new {@link File}
      */
-    public static @NotNull org.gtk.gio.File newBuildFilename(@NotNull java.lang.String firstElement, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(firstElement, "Parameter 'firstElement' must not be null");
+    public static org.gtk.gio.File newBuildFilename(java.lang.String firstElement, java.lang.Object... varargs) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_build_filename.invokeExact(
-                    Interop.allocateNativeString(firstElement),
+                    Marshal.stringToAddress.marshal(firstElement, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4638,16 +4321,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return a new {@link File}.
      *   Free the returned object with g_object_unref().
      */
-    public static @NotNull org.gtk.gio.File newForCommandlineArg(@NotNull java.lang.String arg) {
-        java.util.Objects.requireNonNull(arg, "Parameter 'arg' must not be null");
+    public static org.gtk.gio.File newForCommandlineArg(java.lang.String arg) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_commandline_arg.invokeExact(
-                    Interop.allocateNativeString(arg));
+                    Marshal.stringToAddress.marshal(arg, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4666,18 +4348,16 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param cwd the current working directory of the commandline
      * @return a new {@link File}
      */
-    public static @NotNull org.gtk.gio.File newForCommandlineArgAndCwd(@NotNull java.lang.String arg, @NotNull java.lang.String cwd) {
-        java.util.Objects.requireNonNull(arg, "Parameter 'arg' must not be null");
-        java.util.Objects.requireNonNull(cwd, "Parameter 'cwd' must not be null");
+    public static org.gtk.gio.File newForCommandlineArgAndCwd(java.lang.String arg, java.lang.String cwd) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_commandline_arg_and_cwd.invokeExact(
-                    Interop.allocateNativeString(arg),
-                    Interop.allocateNativeString(cwd));
+                    Marshal.stringToAddress.marshal(arg, null),
+                    Marshal.stringToAddress.marshal(cwd, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4689,16 +4369,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return a new {@link File} for the given {@code path}.
      *   Free the returned object with g_object_unref().
      */
-    public static @NotNull org.gtk.gio.File newForPath(@NotNull java.lang.String path) {
-        java.util.Objects.requireNonNull(path, "Parameter 'path' must not be null");
+    public static org.gtk.gio.File newForPath(java.lang.String path) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_path.invokeExact(
-                    Interop.allocateNativeString(path));
+                    Marshal.stringToAddress.marshal(path, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4710,16 +4389,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @return a new {@link File} for the given {@code uri}.
      *   Free the returned object with g_object_unref().
      */
-    public static @NotNull org.gtk.gio.File newForUri(@NotNull java.lang.String uri) {
-        java.util.Objects.requireNonNull(uri, "Parameter 'uri' must not be null");
+    public static org.gtk.gio.File newForUri(java.lang.String uri) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_for_uri.invokeExact(
-                    Interop.allocateNativeString(uri));
+                    Marshal.stringToAddress.marshal(uri, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4740,14 +4418,13 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.File newTmp(@Nullable java.lang.String tmpl, @NotNull Out<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(iostream, "Parameter 'iostream' must not be null");
+    public static org.gtk.gio.File newTmp(@Nullable java.lang.String tmpl, Out<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment iostreamPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_new_tmp.invokeExact(
-                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
+                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tmpl, null)),
                     (Addressable) iostreamPOINTER.address(),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
@@ -4756,8 +4433,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        iostream.set(new org.gtk.gio.FileIOStream(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        iostream.set((org.gtk.gio.FileIOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gio.FileIOStream.fromAddress).marshal(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4776,15 +4453,11 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     public static void newTmpAsync(@Nullable java.lang.String tmpl, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_new_tmp_async.invokeExact(
-                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
+                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tmpl, null)),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4806,15 +4479,11 @@ public interface File extends io.github.jwharm.javagi.Proxy {
     public static void newTmpDirAsync(@Nullable java.lang.String tmpl, int ioPriority, @Nullable org.gtk.gio.Cancellable cancellable, @Nullable org.gtk.gio.AsyncReadyCallback callback) {
         try {
             DowncallHandles.g_file_new_tmp_dir_async.invokeExact(
-                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Interop.allocateNativeString(tmpl)),
+                    (Addressable) (tmpl == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(tmpl, null)),
                     ioPriority,
                     (Addressable) (cancellable == null ? MemoryAddress.NULL : cancellable.handle()),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gio.Callbacks.class, "cbAsyncReadyCallback",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (callback == null ? MemoryAddress.NULL : Interop.registerCallback(callback)));
+                    (Addressable) (callback == null ? MemoryAddress.NULL : (Addressable) callback.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4828,8 +4497,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.File newTmpDirFinish(@NotNull org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static org.gtk.gio.File newTmpDirFinish(org.gtk.gio.AsyncResult result) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
         try {
@@ -4842,7 +4510,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4853,9 +4521,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      *   Free the returned object with g_object_unref().
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public static @NotNull org.gtk.gio.File newTmpFinish(@NotNull org.gtk.gio.AsyncResult result, @NotNull Out<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
-        java.util.Objects.requireNonNull(iostream, "Parameter 'iostream' must not be null");
+    public static org.gtk.gio.File newTmpFinish(org.gtk.gio.AsyncResult result, Out<org.gtk.gio.FileIOStream> iostream) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment iostreamPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         MemoryAddress RESULT;
@@ -4870,8 +4536,8 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        iostream.set(new org.gtk.gio.FileIOStream(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        iostream.set((org.gtk.gio.FileIOStream) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gio.FileIOStream.fromAddress).marshal(iostreamPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -4882,16 +4548,15 @@ public interface File extends io.github.jwharm.javagi.Proxy {
      * @param parseName a file name or path to be parsed
      * @return a new {@link File}.
      */
-    public static @NotNull org.gtk.gio.File parseName(@NotNull java.lang.String parseName) {
-        java.util.Objects.requireNonNull(parseName, "Parameter 'parseName' must not be null");
+    public static org.gtk.gio.File parseName(java.lang.String parseName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_file_parse_name.invokeExact(
-                    Interop.allocateNativeString(parseName));
+                    Marshal.stringToAddress.marshal(parseName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.File.FileImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.File) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.File.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     @ApiStatus.Internal
@@ -5885,7 +5550,7 @@ public interface File extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    class FileImpl extends org.gtk.gobject.Object implements File {
+    class FileImpl extends org.gtk.gobject.GObject implements File {
         
         static {
             Gio.javagi$ensureInitialized();

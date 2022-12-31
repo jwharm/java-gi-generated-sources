@@ -16,25 +16,23 @@ public class CollectData extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstCollectData";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("collect"),
-        Interop.valueLayout.ADDRESS.withName("pad"),
-        Interop.valueLayout.ADDRESS.withName("buffer"),
-        Interop.valueLayout.C_INT.withName("pos"),
-        MemoryLayout.paddingLayout(32),
-        org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
-        Interop.valueLayout.C_INT.withName("state"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("collect"),
+            Interop.valueLayout.ADDRESS.withName("pad"),
+            Interop.valueLayout.ADDRESS.withName("buffer"),
+            Interop.valueLayout.C_INT.withName("pos"),
+            MemoryLayout.paddingLayout(32),
+            org.gstreamer.gst.Segment.getMemoryLayout().withName("segment"),
+            Interop.valueLayout.C_INT.withName("state"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -54,70 +52,70 @@ public class CollectData extends Struct {
      * Get the value of the field {@code collect}
      * @return The value of the field {@code collect}
      */
-    public org.gstreamer.base.CollectPads collect$get() {
+    public org.gstreamer.base.CollectPads getCollect() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("collect"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.base.CollectPads(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.base.CollectPads) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.base.CollectPads.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code collect}
      * @param collect The new value of the field {@code collect}
      */
-    public void collect$set(org.gstreamer.base.CollectPads collect) {
+    public void setCollect(org.gstreamer.base.CollectPads collect) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("collect"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), collect.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collect == null ? MemoryAddress.NULL : collect.handle()));
     }
     
     /**
      * Get the value of the field {@code pad}
      * @return The value of the field {@code pad}
      */
-    public org.gstreamer.gst.Pad pad$get() {
+    public org.gstreamer.gst.Pad getPad() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pad"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code pad}
      * @param pad The new value of the field {@code pad}
      */
-    public void pad$set(org.gstreamer.gst.Pad pad) {
+    public void setPad(org.gstreamer.gst.Pad pad) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pad.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pad == null ? MemoryAddress.NULL : pad.handle()));
     }
     
     /**
      * Get the value of the field {@code buffer}
      * @return The value of the field {@code buffer}
      */
-    public org.gstreamer.gst.Buffer buffer$get() {
+    public org.gstreamer.gst.Buffer getBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code buffer}
      * @param buffer The new value of the field {@code buffer}
      */
-    public void buffer$set(org.gstreamer.gst.Buffer buffer) {
+    public void setBuffer(org.gstreamer.gst.Buffer buffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), buffer.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
     }
     
     /**
      * Get the value of the field {@code pos}
      * @return The value of the field {@code pos}
      */
-    public int pos$get() {
+    public int getPos() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pos"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -128,7 +126,7 @@ public class CollectData extends Struct {
      * Change the value of the field {@code pos}
      * @param pos The new value of the field {@code pos}
      */
-    public void pos$set(int pos) {
+    public void setPos(int pos) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pos"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pos);
@@ -138,9 +136,19 @@ public class CollectData extends Struct {
      * Get the value of the field {@code segment}
      * @return The value of the field {@code segment}
      */
-    public org.gstreamer.gst.Segment segment$get() {
+    public org.gstreamer.gst.Segment getSegment() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("segment"));
-        return new org.gstreamer.gst.Segment(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Segment.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code segment}
+     * @param segment The new value of the field {@code segment}
+     */
+    public void setSegment(org.gstreamer.gst.Segment segment) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("segment"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segment == null ? MemoryAddress.NULL : segment.handle()));
     }
     
     /**
@@ -148,35 +156,41 @@ public class CollectData extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CollectData(Addressable address, Ownership ownership) {
+    protected CollectData(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CollectData> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CollectData(input, ownership);
+    
+    /**
+     * A {@link CollectData.Builder} object constructs a {@link CollectData} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link CollectData.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private CollectData struct;
+        private final CollectData struct;
         
-         /**
-         * A {@link CollectData.Build} object constructs a {@link CollectData} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = CollectData.allocate();
         }
         
          /**
          * Finish building the {@link CollectData} struct.
          * @return A new instance of {@code CollectData} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CollectData construct() {
+        public CollectData build() {
             return struct;
         }
         
@@ -185,7 +199,7 @@ public class CollectData extends Struct {
          * @param collect The value for the {@code collect} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCollect(org.gstreamer.base.CollectPads collect) {
+        public Builder setCollect(org.gstreamer.base.CollectPads collect) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("collect"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (collect == null ? MemoryAddress.NULL : collect.handle()));
@@ -197,7 +211,7 @@ public class CollectData extends Struct {
          * @param pad The value for the {@code pad} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPad(org.gstreamer.gst.Pad pad) {
+        public Builder setPad(org.gstreamer.gst.Pad pad) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pad"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pad == null ? MemoryAddress.NULL : pad.handle()));
@@ -209,7 +223,7 @@ public class CollectData extends Struct {
          * @param buffer The value for the {@code buffer} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBuffer(org.gstreamer.gst.Buffer buffer) {
+        public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
@@ -221,7 +235,7 @@ public class CollectData extends Struct {
          * @param pos The value for the {@code pos} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPos(int pos) {
+        public Builder setPos(int pos) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pos"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), pos);
@@ -233,21 +247,21 @@ public class CollectData extends Struct {
          * @param segment The value for the {@code segment} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSegment(org.gstreamer.gst.Segment segment) {
+        public Builder setSegment(org.gstreamer.gst.Segment segment) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("segment"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (segment == null ? MemoryAddress.NULL : segment.handle()));
             return this;
         }
         
-        public Build setState(org.gstreamer.base.CollectPadsStateFlags state) {
+        public Builder setState(org.gstreamer.base.CollectPadsStateFlags state) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("state"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (state == null ? MemoryAddress.NULL : state.getValue()));
             return this;
         }
         
-        public Build setPriv(org.gstreamer.base.CollectDataPrivate priv) {
+        public Builder setPriv(org.gstreamer.base.CollectDataPrivate priv) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priv"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));

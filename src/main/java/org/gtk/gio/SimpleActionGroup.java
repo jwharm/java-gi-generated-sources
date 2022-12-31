@@ -10,7 +10,7 @@ import org.jetbrains.annotations.*;
  * implementing the {@link ActionGroup} and {@link ActionMap} interfaces.
  * @version 2.28
  */
-public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap {
+public class SimpleActionGroup extends org.gtk.gobject.GObject implements org.gtk.gio.ActionGroup, org.gtk.gio.ActionMap {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -18,18 +18,16 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
     
     private static final java.lang.String C_TYPE_NAME = "GSimpleActionGroup";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -37,33 +35,15 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SimpleActionGroup(Addressable address, Ownership ownership) {
+    protected SimpleActionGroup(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to SimpleActionGroup if its GType is a (or inherits from) "GSimpleActionGroup".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SimpleActionGroup} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GSimpleActionGroup", a ClassCastException will be thrown.
-     */
-    public static SimpleActionGroup castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SimpleActionGroup.getType())) {
-            return new SimpleActionGroup(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GSimpleActionGroup");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SimpleActionGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SimpleActionGroup(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_action_group_new.invokeExact();
         } catch (Throwable ERR) {
@@ -85,18 +65,16 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      * @param entries a pointer to the first item in
      *           an array of {@link ActionEntry} structs
      * @param nEntries the length of {@code entries}, or -1
-     * @param userData the user data for signal connections
      * @deprecated Use g_action_map_add_action_entries()
      */
     @Deprecated
-    public void addEntries(@NotNull org.gtk.gio.ActionEntry[] entries, int nEntries, @Nullable java.lang.foreign.MemoryAddress userData) {
-        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
+    public void addEntries(org.gtk.gio.ActionEntry[] entries, int nEntries) {
         try {
             DowncallHandles.g_simple_action_group_add_entries.invokeExact(
                     handle(),
                     Interop.allocateNativeArray(entries, org.gtk.gio.ActionEntry.getMemoryLayout(), false),
                     nEntries,
-                    (Addressable) userData);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -113,8 +91,7 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use g_action_map_add_action()
      */
     @Deprecated
-    public void insert(@NotNull org.gtk.gio.Action action) {
-        java.util.Objects.requireNonNull(action, "Parameter 'action' must not be null");
+    public void insert(org.gtk.gio.Action action) {
         try {
             DowncallHandles.g_simple_action_group_insert.invokeExact(
                     handle(),
@@ -133,17 +110,16 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use g_action_map_lookup_action()
      */
     @Deprecated
-    public @NotNull org.gtk.gio.Action lookup(@NotNull java.lang.String actionName) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+    public org.gtk.gio.Action lookup(java.lang.String actionName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_simple_action_group_lookup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName));
+                    Marshal.stringToAddress.marshal(actionName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.Action.ActionImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.Action) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.Action.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -154,12 +130,11 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      * @deprecated Use g_action_map_remove_action()
      */
     @Deprecated
-    public void remove(@NotNull java.lang.String actionName) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+    public void remove(java.lang.String actionName) {
         try {
             DowncallHandles.g_simple_action_group_remove.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName));
+                    Marshal.stringToAddress.marshal(actionName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -169,7 +144,7 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_simple_action_group_get_type.invokeExact();
@@ -178,38 +153,40 @@ public class SimpleActionGroup extends org.gtk.gobject.Object implements org.gtk
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link SimpleActionGroup.Builder} object constructs a {@link SimpleActionGroup} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SimpleActionGroup.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link SimpleActionGroup.Build} object constructs a {@link SimpleActionGroup} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SimpleActionGroup} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SimpleActionGroup} using {@link SimpleActionGroup#castFrom}.
+         * {@link SimpleActionGroup}.
          * @return A new instance of {@code SimpleActionGroup} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SimpleActionGroup construct() {
-            return SimpleActionGroup.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SimpleActionGroup.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SimpleActionGroup build() {
+            return (SimpleActionGroup) org.gtk.gobject.GObject.newWithProperties(
+                SimpleActionGroup.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

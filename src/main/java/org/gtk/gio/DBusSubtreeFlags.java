@@ -31,11 +31,15 @@ public class DBusSubtreeFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public DBusSubtreeFlags or(DBusSubtreeFlags mask) {
-        return new DBusSubtreeFlags(this.getValue() | mask.getValue());
+    public DBusSubtreeFlags or(DBusSubtreeFlags... masks) {
+        int value = this.getValue();
+        for (DBusSubtreeFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new DBusSubtreeFlags(value);
     }
     
     /**
@@ -45,7 +49,8 @@ public class DBusSubtreeFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static DBusSubtreeFlags combined(DBusSubtreeFlags mask, DBusSubtreeFlags... masks) {
-        int value = mask.getValue();        for (DBusSubtreeFlags arg : masks) {
+        int value = mask.getValue();
+        for (DBusSubtreeFlags arg : masks) {
             value |= arg.getValue();
         }
         return new DBusSubtreeFlags(value);

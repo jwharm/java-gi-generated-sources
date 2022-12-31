@@ -37,11 +37,15 @@ public class BinFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public BinFlags or(BinFlags mask) {
-        return new BinFlags(this.getValue() | mask.getValue());
+    public BinFlags or(BinFlags... masks) {
+        int value = this.getValue();
+        for (BinFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new BinFlags(value);
     }
     
     /**
@@ -51,7 +55,8 @@ public class BinFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static BinFlags combined(BinFlags mask, BinFlags... masks) {
-        int value = mask.getValue();        for (BinFlags arg : masks) {
+        int value = mask.getValue();
+        for (BinFlags arg : masks) {
             value |= arg.getValue();
         }
         return new BinFlags(value);

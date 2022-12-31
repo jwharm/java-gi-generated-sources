@@ -13,30 +13,28 @@ public class VulkanMemory extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanMemory";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Memory.getMemoryLayout().withName("mem"),
-        Interop.valueLayout.ADDRESS.withName("device"),
-        org.vulkan.DeviceMemory.getMemoryLayout().withName("mem_ptr"),
-        org.gtk.glib.Mutex.getMemoryLayout().withName("lock"),
-        Interop.valueLayout.C_INT.withName("map_count"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("notify"),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        org.vulkan.MemoryAllocateInfo.getMemoryLayout().withName("alloc_info"),
-        org.vulkan.MemoryPropertyFlags.getMemoryLayout().withName("properties"),
-        Interop.valueLayout.C_LONG.withName("vk_offset"),
-        Interop.valueLayout.C_INT.withName("wrapped"),
-        MemoryLayout.paddingLayout(96),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.Memory.getMemoryLayout().withName("mem"),
+            Interop.valueLayout.ADDRESS.withName("device"),
+            org.vulkan.DeviceMemory.getMemoryLayout().withName("mem_ptr"),
+            org.gtk.glib.Mutex.getMemoryLayout().withName("lock"),
+            Interop.valueLayout.C_INT.withName("map_count"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("notify"),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            org.vulkan.MemoryAllocateInfo.getMemoryLayout().withName("alloc_info"),
+            org.vulkan.MemoryPropertyFlags.getMemoryLayout().withName("properties"),
+            Interop.valueLayout.C_LONG.withName("vk_offset"),
+            Interop.valueLayout.C_INT.withName("wrapped"),
+            MemoryLayout.paddingLayout(96),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,67 +54,87 @@ public class VulkanMemory extends Struct {
      * Get the value of the field {@code mem}
      * @return The value of the field {@code mem}
      */
-    public org.gstreamer.gst.Memory mem$get() {
+    public org.gstreamer.gst.Memory getMem() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mem"));
-        return new org.gstreamer.gst.Memory(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mem}
+     * @param mem The new value of the field {@code mem}
+     */
+    public void setMem(org.gstreamer.gst.Memory mem) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mem"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
     }
     
     /**
      * Get the value of the field {@code device}
      * @return The value of the field {@code device}
      */
-    public org.gstreamer.vulkan.VulkanDevice device$get() {
+    public org.gstreamer.vulkan.VulkanDevice getDevice() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("device"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.vulkan.VulkanDevice(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.vulkan.VulkanDevice) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanDevice.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code device}
      * @param device The new value of the field {@code device}
      */
-    public void device$set(org.gstreamer.vulkan.VulkanDevice device) {
+    public void setDevice(org.gstreamer.vulkan.VulkanDevice device) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("device"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), device.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (device == null ? MemoryAddress.NULL : device.handle()));
     }
     
     /**
      * Get the value of the field {@code mem_ptr}
      * @return The value of the field {@code mem_ptr}
      */
-    public org.vulkan.DeviceMemory memPtr$get() {
+    public org.vulkan.DeviceMemory getMemPtr() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("mem_ptr"));
-        return new org.vulkan.DeviceMemory(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.DeviceMemory.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code mem_ptr}
+     * @param memPtr The new value of the field {@code mem_ptr}
+     */
+    public void setMemPtr(org.vulkan.DeviceMemory memPtr) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("mem_ptr"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (memPtr == null ? MemoryAddress.NULL : memPtr.handle()));
     }
     
     /**
      * Get the value of the field {@code lock}
      * @return The value of the field {@code lock}
      */
-    public org.gtk.glib.Mutex lock$get() {
+    public org.gtk.glib.Mutex getLock() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lock"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.Mutex(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Mutex.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code lock}
      * @param lock The new value of the field {@code lock}
      */
-    public void lock$set(org.gtk.glib.Mutex lock) {
+    public void setLock(org.gtk.glib.Mutex lock) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("lock"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), lock.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
     }
     
     /**
      * Get the value of the field {@code map_count}
      * @return The value of the field {@code map_count}
      */
-    public int mapCount$get() {
+    public int getMapCount() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("map_count"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -127,7 +145,7 @@ public class VulkanMemory extends Struct {
      * Change the value of the field {@code map_count}
      * @param mapCount The new value of the field {@code map_count}
      */
-    public void mapCount$set(int mapCount) {
+    public void setMapCount(int mapCount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("map_count"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), mapCount);
@@ -138,10 +156,12 @@ public class VulkanMemory extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanMemory(Addressable address, Ownership ownership) {
+    protected VulkanMemory(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanMemory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanMemory(input, ownership);
     
     /**
      * Allocated a new {@link VulkanMemory}.
@@ -151,10 +171,7 @@ public class VulkanMemory extends Struct {
      * @param size the size to allocate
      * @return a {@link org.gstreamer.gst.Memory} object backed by a vulkan device memory
      */
-    public static @NotNull org.gstreamer.gst.Memory alloc(@NotNull org.gstreamer.vulkan.VulkanDevice device, int memoryTypeIndex, @NotNull org.gstreamer.gst.AllocationParams params, long size, @NotNull org.vulkan.MemoryPropertyFlags memPropFlags) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
-        java.util.Objects.requireNonNull(memPropFlags, "Parameter 'memPropFlags' must not be null");
+    public static org.gstreamer.gst.Memory alloc(org.gstreamer.vulkan.VulkanDevice device, int memoryTypeIndex, org.gstreamer.gst.AllocationParams params, long size, org.vulkan.MemoryPropertyFlags memPropFlags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_memory_alloc.invokeExact(
@@ -166,13 +183,10 @@ public class VulkanMemory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Memory(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Memory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static boolean findMemoryTypeIndexWithTypeProperties(@NotNull org.gstreamer.vulkan.VulkanDevice device, int typeBits, @NotNull org.vulkan.MemoryPropertyFlags properties, PointerInteger typeIndex) {
-        java.util.Objects.requireNonNull(device, "Parameter 'device' must not be null");
-        java.util.Objects.requireNonNull(properties, "Parameter 'properties' must not be null");
-        java.util.Objects.requireNonNull(typeIndex, "Parameter 'typeIndex' must not be null");
+    public static boolean findMemoryTypeIndexWithTypeProperties(org.gstreamer.vulkan.VulkanDevice device, int typeBits, org.vulkan.MemoryPropertyFlags properties, PointerInteger typeIndex) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_vulkan_memory_find_memory_type_index_with_type_properties.invokeExact(
@@ -183,11 +197,10 @@ public class VulkanMemory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull java.lang.String heapFlagsToString(@NotNull org.vulkan.MemoryHeapFlags propBits) {
-        java.util.Objects.requireNonNull(propBits, "Parameter 'propBits' must not be null");
+    public static java.lang.String heapFlagsToString(org.vulkan.MemoryHeapFlags propBits) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_memory_heap_flags_to_string.invokeExact(
@@ -195,7 +208,7 @@ public class VulkanMemory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -210,8 +223,7 @@ public class VulkanMemory extends Struct {
         }
     }
     
-    public static @NotNull java.lang.String propertyFlagsToString(@NotNull org.vulkan.MemoryPropertyFlags propBits) {
-        java.util.Objects.requireNonNull(propBits, "Parameter 'propBits' must not be null");
+    public static java.lang.String propertyFlagsToString(org.vulkan.MemoryPropertyFlags propBits) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_memory_property_flags_to_string.invokeExact(
@@ -219,7 +231,7 @@ public class VulkanMemory extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {
@@ -254,31 +266,35 @@ public class VulkanMemory extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VulkanMemory.Builder} object constructs a {@link VulkanMemory} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VulkanMemory.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VulkanMemory struct;
+        private final VulkanMemory struct;
         
-         /**
-         * A {@link VulkanMemory.Build} object constructs a {@link VulkanMemory} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VulkanMemory.allocate();
         }
         
          /**
          * Finish building the {@link VulkanMemory} struct.
          * @return A new instance of {@code VulkanMemory} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanMemory construct() {
+        public VulkanMemory build() {
             return struct;
         }
         
@@ -287,7 +303,7 @@ public class VulkanMemory extends Struct {
          * @param mem The value for the {@code mem} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMem(org.gstreamer.gst.Memory mem) {
+        public Builder setMem(org.gstreamer.gst.Memory mem) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mem"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mem == null ? MemoryAddress.NULL : mem.handle()));
@@ -299,7 +315,7 @@ public class VulkanMemory extends Struct {
          * @param device The value for the {@code device} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDevice(org.gstreamer.vulkan.VulkanDevice device) {
+        public Builder setDevice(org.gstreamer.vulkan.VulkanDevice device) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("device"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (device == null ? MemoryAddress.NULL : device.handle()));
@@ -311,7 +327,7 @@ public class VulkanMemory extends Struct {
          * @param memPtr The value for the {@code memPtr} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMemPtr(org.vulkan.DeviceMemory memPtr) {
+        public Builder setMemPtr(org.vulkan.DeviceMemory memPtr) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mem_ptr"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (memPtr == null ? MemoryAddress.NULL : memPtr.handle()));
@@ -323,7 +339,7 @@ public class VulkanMemory extends Struct {
          * @param lock The value for the {@code lock} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLock(org.gtk.glib.Mutex lock) {
+        public Builder setLock(org.gtk.glib.Mutex lock) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("lock"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (lock == null ? MemoryAddress.NULL : lock.handle()));
@@ -335,56 +351,56 @@ public class VulkanMemory extends Struct {
          * @param mapCount The value for the {@code mapCount} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMapCount(int mapCount) {
+        public Builder setMapCount(int mapCount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("map_count"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), mapCount);
             return this;
         }
         
-        public Build setNotify(java.lang.foreign.MemoryAddress notify) {
+        public Builder setNotify(org.gtk.glib.DestroyNotify notify) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("notify"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : notify));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (notify == null ? MemoryAddress.NULL : (Addressable) notify.toCallback()));
             return this;
         }
         
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
             return this;
         }
         
-        public Build setAllocInfo(org.vulkan.MemoryAllocateInfo allocInfo) {
+        public Builder setAllocInfo(org.vulkan.MemoryAllocateInfo allocInfo) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("alloc_info"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (allocInfo == null ? MemoryAddress.NULL : allocInfo.handle()));
             return this;
         }
         
-        public Build setProperties(org.vulkan.MemoryPropertyFlags properties) {
+        public Builder setProperties(org.vulkan.MemoryPropertyFlags properties) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("properties"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (properties == null ? MemoryAddress.NULL : properties.handle()));
             return this;
         }
         
-        public Build setVkOffset(long vkOffset) {
+        public Builder setVkOffset(long vkOffset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("vk_offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), vkOffset);
             return this;
         }
         
-        public Build setWrapped(boolean wrapped) {
+        public Builder setWrapped(boolean wrapped) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("wrapped"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), wrapped ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(wrapped, null).intValue());
             return this;
         }
         
-        public Build setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
+        public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));

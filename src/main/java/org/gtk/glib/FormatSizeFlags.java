@@ -57,11 +57,15 @@ public class FormatSizeFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FormatSizeFlags or(FormatSizeFlags mask) {
-        return new FormatSizeFlags(this.getValue() | mask.getValue());
+    public FormatSizeFlags or(FormatSizeFlags... masks) {
+        int value = this.getValue();
+        for (FormatSizeFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FormatSizeFlags(value);
     }
     
     /**
@@ -71,7 +75,8 @@ public class FormatSizeFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FormatSizeFlags combined(FormatSizeFlags mask, FormatSizeFlags... masks) {
-        int value = mask.getValue();        for (FormatSizeFlags arg : masks) {
+        int value = mask.getValue();
+        for (FormatSizeFlags arg : masks) {
             value |= arg.getValue();
         }
         return new FormatSizeFlags(value);

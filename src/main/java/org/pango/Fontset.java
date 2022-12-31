@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * component font for a particular Unicode character, and for finding a
  * composite set of metrics for the entire fontset.
  */
-public class Fontset extends org.gtk.gobject.Object {
+public class Fontset extends org.gtk.gobject.GObject {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -21,17 +21,15 @@ public class Fontset extends org.gtk.gobject.Object {
     
     private static final java.lang.String C_TYPE_NAME = "PangoFontset";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -39,30 +37,12 @@ public class Fontset extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Fontset(Addressable address, Ownership ownership) {
+    protected Fontset(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to Fontset if its GType is a (or inherits from) "PangoFontset".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Fontset} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "PangoFontset", a ClassCastException will be thrown.
-     */
-    public static Fontset castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Fontset.getType())) {
-            return new Fontset(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoFontset");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Fontset> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Fontset(input, ownership);
     
     /**
      * Iterates through all the fonts in a fontset, calling {@code func} for
@@ -71,17 +51,12 @@ public class Fontset extends org.gtk.gobject.Object {
      * If {@code func} returns {@code true}, that stops the iteration.
      * @param func Callback function
      */
-    public void foreach(@NotNull org.pango.FontsetForeachFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void foreach(org.pango.FontsetForeachFunc func) {
         try {
             DowncallHandles.pango_fontset_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Pango.Callbacks.class, "cbFontsetForeachFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -93,7 +68,7 @@ public class Fontset extends org.gtk.gobject.Object {
      * @param wc a Unicode character
      * @return a {@code PangoFont}
      */
-    public @NotNull org.pango.Font getFont(int wc) {
+    public org.pango.Font getFont(int wc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_fontset_get_font.invokeExact(
@@ -102,14 +77,14 @@ public class Fontset extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Font(RESULT, Ownership.FULL);
+        return (org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Font.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get overall metric information for the fonts in the fontset.
      * @return a {@code PangoFontMetrics} object
      */
-    public @NotNull org.pango.FontMetrics getMetrics() {
+    public org.pango.FontMetrics getMetrics() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_fontset_get_metrics.invokeExact(
@@ -117,14 +92,14 @@ public class Fontset extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMetrics(RESULT, Ownership.FULL);
+        return org.pango.FontMetrics.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.pango_fontset_get_type.invokeExact();
@@ -133,38 +108,40 @@ public class Fontset extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link Fontset.Builder} object constructs a {@link Fontset} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Fontset.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link Fontset.Build} object constructs a {@link Fontset} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Fontset} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Fontset} using {@link Fontset#castFrom}.
+         * {@link Fontset}.
          * @return A new instance of {@code Fontset} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Fontset construct() {
-            return Fontset.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Fontset.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Fontset build() {
+            return (Fontset) org.gtk.gobject.GObject.newWithProperties(
+                Fontset.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

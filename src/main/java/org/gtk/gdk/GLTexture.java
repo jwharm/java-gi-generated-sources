@@ -30,42 +30,23 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLTexture(Addressable address, Ownership ownership) {
+    protected GLTexture(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to GLTexture if its GType is a (or inherits from) "GdkGLTexture".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLTexture} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkGLTexture", a ClassCastException will be thrown.
-     */
-    public static GLTexture castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLTexture.getType())) {
-            return new GLTexture(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkGLTexture");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLTexture> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLTexture(input, ownership);
     
-    private static Addressable constructNew(@NotNull org.gtk.gdk.GLContext context, int id, int width, int height, @NotNull org.gtk.glib.DestroyNotify destroy, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(org.gtk.gdk.GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gdk_gl_texture_new.invokeExact(
                     context.handle(),
                     id,
                     width,
                     height,
-                    Interop.cbDestroyNotifySymbol(),
-                    (Addressable) data);
+                    (Addressable) destroy.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -84,10 +65,9 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
      * @param height the nominal height of the texture
      * @param destroy a destroy notify that will be called when the GL resources
      *   are released
-     * @param data data that gets passed to {@code destroy}
      */
-    public GLTexture(@NotNull org.gtk.gdk.GLContext context, int id, int width, int height, @NotNull org.gtk.glib.DestroyNotify destroy, @Nullable java.lang.foreign.MemoryAddress data) {
-        super(constructNew(context, id, width, height, destroy, data), Ownership.FULL);
+    public GLTexture(org.gtk.gdk.GLContext context, int id, int width, int height, org.gtk.glib.DestroyNotify destroy) {
+        super(constructNew(context, id, width, height, destroy), Ownership.FULL);
     }
     
     /**
@@ -110,7 +90,7 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_gl_texture_get_type.invokeExact();
@@ -119,38 +99,40 @@ public class GLTexture extends org.gtk.gdk.Texture implements org.gtk.gdk.Painta
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link GLTexture.Builder} object constructs a {@link GLTexture} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLTexture.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gdk.Texture.Build {
+    public static class Builder extends org.gtk.gdk.Texture.Builder {
         
-         /**
-         * A {@link GLTexture.Build} object constructs a {@link GLTexture} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLTexture} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLTexture} using {@link GLTexture#castFrom}.
+         * {@link GLTexture}.
          * @return A new instance of {@code GLTexture} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLTexture construct() {
-            return GLTexture.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLTexture.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLTexture build() {
+            return (GLTexture) org.gtk.gobject.GObject.newWithProperties(
+                GLTexture.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

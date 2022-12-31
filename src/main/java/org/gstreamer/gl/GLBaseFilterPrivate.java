@@ -40,8 +40,10 @@ public class GLBaseFilterPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLBaseFilterPrivate(Addressable address, Ownership ownership) {
+    protected GLBaseFilterPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLBaseFilterPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLBaseFilterPrivate(input, ownership);
 }

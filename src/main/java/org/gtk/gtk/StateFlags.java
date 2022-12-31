@@ -102,11 +102,15 @@ public class StateFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public StateFlags or(StateFlags mask) {
-        return new StateFlags(this.getValue() | mask.getValue());
+    public StateFlags or(StateFlags... masks) {
+        int value = this.getValue();
+        for (StateFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new StateFlags(value);
     }
     
     /**
@@ -116,7 +120,8 @@ public class StateFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static StateFlags combined(StateFlags mask, StateFlags... masks) {
-        int value = mask.getValue();        for (StateFlags arg : masks) {
+        int value = mask.getValue();
+        for (StateFlags arg : masks) {
             value |= arg.getValue();
         }
         return new StateFlags(value);

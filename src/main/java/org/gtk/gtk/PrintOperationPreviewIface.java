@@ -13,30 +13,28 @@ public class PrintOperationPreviewIface extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GtkPrintOperationPreviewIface";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
-        Interop.valueLayout.ADDRESS.withName("ready"),
-        Interop.valueLayout.ADDRESS.withName("got_page_size"),
-        Interop.valueLayout.ADDRESS.withName("render_page"),
-        Interop.valueLayout.ADDRESS.withName("is_selected"),
-        Interop.valueLayout.ADDRESS.withName("end_preview"),
-        Interop.valueLayout.ADDRESS.withName("_gtk_reserved1"),
-        Interop.valueLayout.ADDRESS.withName("_gtk_reserved2"),
-        Interop.valueLayout.ADDRESS.withName("_gtk_reserved3"),
-        Interop.valueLayout.ADDRESS.withName("_gtk_reserved4"),
-        Interop.valueLayout.ADDRESS.withName("_gtk_reserved5"),
-        Interop.valueLayout.ADDRESS.withName("_gtk_reserved6"),
-        Interop.valueLayout.ADDRESS.withName("_gtk_reserved7"),
-        Interop.valueLayout.ADDRESS.withName("_gtk_reserved8")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.TypeInterface.getMemoryLayout().withName("g_iface"),
+            Interop.valueLayout.ADDRESS.withName("ready"),
+            Interop.valueLayout.ADDRESS.withName("got_page_size"),
+            Interop.valueLayout.ADDRESS.withName("render_page"),
+            Interop.valueLayout.ADDRESS.withName("is_selected"),
+            Interop.valueLayout.ADDRESS.withName("end_preview"),
+            Interop.valueLayout.ADDRESS.withName("_gtk_reserved1"),
+            Interop.valueLayout.ADDRESS.withName("_gtk_reserved2"),
+            Interop.valueLayout.ADDRESS.withName("_gtk_reserved3"),
+            Interop.valueLayout.ADDRESS.withName("_gtk_reserved4"),
+            Interop.valueLayout.ADDRESS.withName("_gtk_reserved5"),
+            Interop.valueLayout.ADDRESS.withName("_gtk_reserved6"),
+            Interop.valueLayout.ADDRESS.withName("_gtk_reserved7"),
+            Interop.valueLayout.ADDRESS.withName("_gtk_reserved8")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,9 +54,358 @@ public class PrintOperationPreviewIface extends Struct {
      * Get the value of the field {@code g_iface}
      * @return The value of the field {@code g_iface}
      */
-    public org.gtk.gobject.TypeInterface gIface$get() {
+    public org.gtk.gobject.TypeInterface getGIface() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("g_iface"));
-        return new org.gtk.gobject.TypeInterface(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gtk.gobject.TypeInterface.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code g_iface}
+     * @param gIface The new value of the field {@code g_iface}
+     */
+    public void setGIface(org.gtk.gobject.TypeInterface gIface) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
+    }
+    
+    @FunctionalInterface
+    public interface ReadyCallback {
+        void run(org.gtk.gtk.PrintOperationPreview preview, org.gtk.gtk.PrintContext context);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress preview, MemoryAddress context) {
+            run((org.gtk.gtk.PrintOperationPreview) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preview)), org.gtk.gtk.PrintOperationPreview.fromAddress).marshal(preview, Ownership.NONE), (org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ReadyCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code ready}
+     * @param ready The new value of the field {@code ready}
+     */
+    public void setReady(ReadyCallback ready) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("ready"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ready == null ? MemoryAddress.NULL : ready.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GotPageSizeCallback {
+        void run(org.gtk.gtk.PrintOperationPreview preview, org.gtk.gtk.PrintContext context, org.gtk.gtk.PageSetup pageSetup);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress preview, MemoryAddress context, MemoryAddress pageSetup) {
+            run((org.gtk.gtk.PrintOperationPreview) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preview)), org.gtk.gtk.PrintOperationPreview.fromAddress).marshal(preview, Ownership.NONE), (org.gtk.gtk.PrintContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(context)), org.gtk.gtk.PrintContext.fromAddress).marshal(context, Ownership.NONE), (org.gtk.gtk.PageSetup) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(pageSetup)), org.gtk.gtk.PageSetup.fromAddress).marshal(pageSetup, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GotPageSizeCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code got_page_size}
+     * @param gotPageSize The new value of the field {@code got_page_size}
+     */
+    public void setGotPageSize(GotPageSizeCallback gotPageSize) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("got_page_size"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gotPageSize == null ? MemoryAddress.NULL : gotPageSize.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface RenderPageCallback {
+        void run(org.gtk.gtk.PrintOperationPreview preview, int pageNr);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress preview, int pageNr) {
+            run((org.gtk.gtk.PrintOperationPreview) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preview)), org.gtk.gtk.PrintOperationPreview.fromAddress).marshal(preview, Ownership.NONE), pageNr);
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(RenderPageCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code render_page}
+     * @param renderPage The new value of the field {@code render_page}
+     */
+    public void setRenderPage(RenderPageCallback renderPage) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("render_page"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderPage == null ? MemoryAddress.NULL : renderPage.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface IsSelectedCallback {
+        boolean run(org.gtk.gtk.PrintOperationPreview preview, int pageNr);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress preview, int pageNr) {
+            var RESULT = run((org.gtk.gtk.PrintOperationPreview) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preview)), org.gtk.gtk.PrintOperationPreview.fromAddress).marshal(preview, Ownership.NONE), pageNr);
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(IsSelectedCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code is_selected}
+     * @param isSelected The new value of the field {@code is_selected}
+     */
+    public void setIsSelected(IsSelectedCallback isSelected) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("is_selected"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSelected == null ? MemoryAddress.NULL : isSelected.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface EndPreviewCallback {
+        void run(org.gtk.gtk.PrintOperationPreview preview);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress preview) {
+            run((org.gtk.gtk.PrintOperationPreview) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(preview)), org.gtk.gtk.PrintOperationPreview.fromAddress).marshal(preview, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(EndPreviewCallback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code end_preview}
+     * @param endPreview The new value of the field {@code end_preview}
+     */
+    public void setEndPreview(EndPreviewCallback endPreview) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("end_preview"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPreview == null ? MemoryAddress.NULL : endPreview.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GtkReserved1Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved1Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _gtk_reserved1}
+     * @param GtkReserved1 The new value of the field {@code _gtk_reserved1}
+     */
+    public void setGtkReserved1(GtkReserved1Callback GtkReserved1) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved1 == null ? MemoryAddress.NULL : GtkReserved1.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GtkReserved2Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved2Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _gtk_reserved2}
+     * @param GtkReserved2 The new value of the field {@code _gtk_reserved2}
+     */
+    public void setGtkReserved2(GtkReserved2Callback GtkReserved2) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved2 == null ? MemoryAddress.NULL : GtkReserved2.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GtkReserved3Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved3Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _gtk_reserved3}
+     * @param GtkReserved3 The new value of the field {@code _gtk_reserved3}
+     */
+    public void setGtkReserved3(GtkReserved3Callback GtkReserved3) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved3 == null ? MemoryAddress.NULL : GtkReserved3.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GtkReserved4Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved4Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _gtk_reserved4}
+     * @param GtkReserved4 The new value of the field {@code _gtk_reserved4}
+     */
+    public void setGtkReserved4(GtkReserved4Callback GtkReserved4) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved4 == null ? MemoryAddress.NULL : GtkReserved4.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GtkReserved5Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved5Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _gtk_reserved5}
+     * @param GtkReserved5 The new value of the field {@code _gtk_reserved5}
+     */
+    public void setGtkReserved5(GtkReserved5Callback GtkReserved5) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved5"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved5 == null ? MemoryAddress.NULL : GtkReserved5.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GtkReserved6Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved6Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _gtk_reserved6}
+     * @param GtkReserved6 The new value of the field {@code _gtk_reserved6}
+     */
+    public void setGtkReserved6(GtkReserved6Callback GtkReserved6) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved6"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved6 == null ? MemoryAddress.NULL : GtkReserved6.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GtkReserved7Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved7Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _gtk_reserved7}
+     * @param GtkReserved7 The new value of the field {@code _gtk_reserved7}
+     */
+    public void setGtkReserved7(GtkReserved7Callback GtkReserved7) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved7"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved7 == null ? MemoryAddress.NULL : GtkReserved7.toCallback()));
+    }
+    
+    @FunctionalInterface
+    public interface GtkReserved8Callback {
+        void run();
+
+        @ApiStatus.Internal default void upcall() {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid();
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(GtkReserved8Callback.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
+    }
+    
+    /**
+     * Change the value of the field {@code _gtk_reserved8}
+     * @param GtkReserved8 The new value of the field {@code _gtk_reserved8}
+     */
+    public void setGtkReserved8(GtkReserved8Callback GtkReserved8) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved8"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved8 == null ? MemoryAddress.NULL : GtkReserved8.toCallback()));
     }
     
     /**
@@ -66,133 +413,139 @@ public class PrintOperationPreviewIface extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PrintOperationPreviewIface(Addressable address, Ownership ownership) {
+    protected PrintOperationPreviewIface(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PrintOperationPreviewIface> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PrintOperationPreviewIface(input, ownership);
+    
+    /**
+     * A {@link PrintOperationPreviewIface.Builder} object constructs a {@link PrintOperationPreviewIface} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link PrintOperationPreviewIface.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private PrintOperationPreviewIface struct;
+        private final PrintOperationPreviewIface struct;
         
-         /**
-         * A {@link PrintOperationPreviewIface.Build} object constructs a {@link PrintOperationPreviewIface} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = PrintOperationPreviewIface.allocate();
         }
         
          /**
          * Finish building the {@link PrintOperationPreviewIface} struct.
          * @return A new instance of {@code PrintOperationPreviewIface} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PrintOperationPreviewIface construct() {
+        public PrintOperationPreviewIface build() {
             return struct;
         }
         
-        public Build setGIface(org.gtk.gobject.TypeInterface gIface) {
+        public Builder setGIface(org.gtk.gobject.TypeInterface gIface) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("g_iface"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gIface == null ? MemoryAddress.NULL : gIface.handle()));
             return this;
         }
         
-        public Build setReady(java.lang.foreign.MemoryAddress ready) {
+        public Builder setReady(ReadyCallback ready) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("ready"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ready == null ? MemoryAddress.NULL : ready));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (ready == null ? MemoryAddress.NULL : ready.toCallback()));
             return this;
         }
         
-        public Build setGotPageSize(java.lang.foreign.MemoryAddress gotPageSize) {
+        public Builder setGotPageSize(GotPageSizeCallback gotPageSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("got_page_size"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gotPageSize == null ? MemoryAddress.NULL : gotPageSize));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (gotPageSize == null ? MemoryAddress.NULL : gotPageSize.toCallback()));
             return this;
         }
         
-        public Build setRenderPage(java.lang.foreign.MemoryAddress renderPage) {
+        public Builder setRenderPage(RenderPageCallback renderPage) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("render_page"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderPage == null ? MemoryAddress.NULL : renderPage));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (renderPage == null ? MemoryAddress.NULL : renderPage.toCallback()));
             return this;
         }
         
-        public Build setIsSelected(java.lang.foreign.MemoryAddress isSelected) {
+        public Builder setIsSelected(IsSelectedCallback isSelected) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("is_selected"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSelected == null ? MemoryAddress.NULL : isSelected));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (isSelected == null ? MemoryAddress.NULL : isSelected.toCallback()));
             return this;
         }
         
-        public Build setEndPreview(java.lang.foreign.MemoryAddress endPreview) {
+        public Builder setEndPreview(EndPreviewCallback endPreview) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("end_preview"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPreview == null ? MemoryAddress.NULL : endPreview));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (endPreview == null ? MemoryAddress.NULL : endPreview.toCallback()));
             return this;
         }
         
-        public Build setGtkReserved1(java.lang.foreign.MemoryAddress GtkReserved1) {
+        public Builder setGtkReserved1(GtkReserved1Callback GtkReserved1) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved1"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved1 == null ? MemoryAddress.NULL : GtkReserved1));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved1 == null ? MemoryAddress.NULL : GtkReserved1.toCallback()));
             return this;
         }
         
-        public Build setGtkReserved2(java.lang.foreign.MemoryAddress GtkReserved2) {
+        public Builder setGtkReserved2(GtkReserved2Callback GtkReserved2) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved2"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved2 == null ? MemoryAddress.NULL : GtkReserved2));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved2 == null ? MemoryAddress.NULL : GtkReserved2.toCallback()));
             return this;
         }
         
-        public Build setGtkReserved3(java.lang.foreign.MemoryAddress GtkReserved3) {
+        public Builder setGtkReserved3(GtkReserved3Callback GtkReserved3) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved3"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved3 == null ? MemoryAddress.NULL : GtkReserved3));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved3 == null ? MemoryAddress.NULL : GtkReserved3.toCallback()));
             return this;
         }
         
-        public Build setGtkReserved4(java.lang.foreign.MemoryAddress GtkReserved4) {
+        public Builder setGtkReserved4(GtkReserved4Callback GtkReserved4) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved4"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved4 == null ? MemoryAddress.NULL : GtkReserved4));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved4 == null ? MemoryAddress.NULL : GtkReserved4.toCallback()));
             return this;
         }
         
-        public Build setGtkReserved5(java.lang.foreign.MemoryAddress GtkReserved5) {
+        public Builder setGtkReserved5(GtkReserved5Callback GtkReserved5) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved5"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved5 == null ? MemoryAddress.NULL : GtkReserved5));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved5 == null ? MemoryAddress.NULL : GtkReserved5.toCallback()));
             return this;
         }
         
-        public Build setGtkReserved6(java.lang.foreign.MemoryAddress GtkReserved6) {
+        public Builder setGtkReserved6(GtkReserved6Callback GtkReserved6) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved6"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved6 == null ? MemoryAddress.NULL : GtkReserved6));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved6 == null ? MemoryAddress.NULL : GtkReserved6.toCallback()));
             return this;
         }
         
-        public Build setGtkReserved7(java.lang.foreign.MemoryAddress GtkReserved7) {
+        public Builder setGtkReserved7(GtkReserved7Callback GtkReserved7) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved7"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved7 == null ? MemoryAddress.NULL : GtkReserved7));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved7 == null ? MemoryAddress.NULL : GtkReserved7.toCallback()));
             return this;
         }
         
-        public Build setGtkReserved8(java.lang.foreign.MemoryAddress GtkReserved8) {
+        public Builder setGtkReserved8(GtkReserved8Callback GtkReserved8) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gtk_reserved8"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved8 == null ? MemoryAddress.NULL : GtkReserved8));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GtkReserved8 == null ? MemoryAddress.NULL : GtkReserved8.toCallback()));
             return this;
         }
     }

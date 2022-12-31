@@ -38,33 +38,15 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public EventControllerFocus(Addressable address, Ownership ownership) {
+    protected EventControllerFocus(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to EventControllerFocus if its GType is a (or inherits from) "GtkEventControllerFocus".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code EventControllerFocus} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkEventControllerFocus", a ClassCastException will be thrown.
-     */
-    public static EventControllerFocus castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), EventControllerFocus.getType())) {
-            return new EventControllerFocus(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkEventControllerFocus");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, EventControllerFocus> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new EventControllerFocus(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_event_controller_focus_new.invokeExact();
         } catch (Throwable ERR) {
@@ -92,7 +74,7 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -107,14 +89,14 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_event_controller_focus_get_type.invokeExact();
@@ -126,7 +108,18 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Enter {
-        void signalReceived(EventControllerFocus sourceEventControllerFocus);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEventControllerFocus) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Enter.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -146,16 +139,8 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     public Signal<EventControllerFocus.Enter> onEnter(EventControllerFocus.Enter handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("enter"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerFocus.Callbacks.class, "signalEventControllerFocusEnter",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerFocus.Enter>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("enter"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -163,7 +148,18 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     
     @FunctionalInterface
     public interface Leave {
-        void signalReceived(EventControllerFocus sourceEventControllerFocus);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceEventControllerFocus) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Leave.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -182,52 +178,46 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
     public Signal<EventControllerFocus.Leave> onLeave(EventControllerFocus.Leave handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("leave"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(EventControllerFocus.Callbacks.class, "signalEventControllerFocusLeave",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<EventControllerFocus.Leave>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("leave"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link EventControllerFocus.Builder} object constructs a {@link EventControllerFocus} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link EventControllerFocus.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.EventController.Build {
+    public static class Builder extends org.gtk.gtk.EventController.Builder {
         
-         /**
-         * A {@link EventControllerFocus.Build} object constructs a {@link EventControllerFocus} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link EventControllerFocus} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link EventControllerFocus} using {@link EventControllerFocus#castFrom}.
+         * {@link EventControllerFocus}.
          * @return A new instance of {@code EventControllerFocus} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public EventControllerFocus construct() {
-            return EventControllerFocus.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    EventControllerFocus.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public EventControllerFocus build() {
+            return (EventControllerFocus) org.gtk.gobject.GObject.newWithProperties(
+                EventControllerFocus.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -243,7 +233,7 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
          * @param containsFocus The value for the {@code contains-focus} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setContainsFocus(boolean containsFocus) {
+        public Builder setContainsFocus(boolean containsFocus) {
             names.add("contains-focus");
             values.add(org.gtk.gobject.Value.create(containsFocus));
             return this;
@@ -261,7 +251,7 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
          * @param isFocus The value for the {@code is-focus} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIsFocus(boolean isFocus) {
+        public Builder setIsFocus(boolean isFocus) {
             names.add("is-focus");
             values.add(org.gtk.gobject.Value.create(isFocus));
             return this;
@@ -293,20 +283,5 @@ public class EventControllerFocus extends org.gtk.gtk.EventController {
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalEventControllerFocusEnter(MemoryAddress sourceEventControllerFocus, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerFocus.Enter) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerFocus(sourceEventControllerFocus, Ownership.NONE));
-        }
-        
-        public static void signalEventControllerFocusLeave(MemoryAddress sourceEventControllerFocus, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (EventControllerFocus.Leave) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new EventControllerFocus(sourceEventControllerFocus, Ownership.NONE));
-        }
     }
 }

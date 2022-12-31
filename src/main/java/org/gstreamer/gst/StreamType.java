@@ -52,8 +52,7 @@ public class StreamType extends io.github.jwharm.javagi.Bitfield {
      * @param stype a {@link StreamType}
      * @return A string describing the stream type
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.gst.StreamType stype) {
-        java.util.Objects.requireNonNull(stype, "Parameter 'stype' must not be null");
+    public static java.lang.String getName(org.gstreamer.gst.StreamType stype) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_stream_type_get_name.invokeExact(
@@ -61,16 +60,20 @@ public class StreamType extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public StreamType or(StreamType mask) {
-        return new StreamType(this.getValue() | mask.getValue());
+    public StreamType or(StreamType... masks) {
+        int value = this.getValue();
+        for (StreamType arg : masks) {
+            value |= arg.getValue();
+        }
+        return new StreamType(value);
     }
     
     /**
@@ -80,7 +83,8 @@ public class StreamType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static StreamType combined(StreamType mask, StreamType... masks) {
-        int value = mask.getValue();        for (StreamType arg : masks) {
+        int value = mask.getValue();
+        for (StreamType arg : masks) {
             value |= arg.getValue();
         }
         return new StreamType(value);

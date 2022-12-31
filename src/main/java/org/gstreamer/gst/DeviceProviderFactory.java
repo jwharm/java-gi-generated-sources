@@ -38,37 +38,23 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * <p>
      * Because DeviceProviderFactory is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DeviceProviderFactory(Addressable address, Ownership ownership) {
+    protected DeviceProviderFactory(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to DeviceProviderFactory if its GType is a (or inherits from) "GstDeviceProviderFactory".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DeviceProviderFactory} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstDeviceProviderFactory", a ClassCastException will be thrown.
-     */
-    public static DeviceProviderFactory castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DeviceProviderFactory.getType())) {
-            return new DeviceProviderFactory(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstDeviceProviderFactory");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DeviceProviderFactory> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DeviceProviderFactory(input, ownership);
     
     /**
      * Returns the device provider of the type defined by the given device
@@ -84,16 +70,16 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.DeviceProvider(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.DeviceProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.DeviceProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
-     * Get the {@link org.gtk.gobject.Type} for device providers managed by this factory. The type can
+     * Get the {@link org.gtk.glib.Type} for device providers managed by this factory. The type can
      * only be retrieved if the device provider factory is loaded, which can be
      * assured with gst_plugin_feature_load().
-     * @return the {@link org.gtk.gobject.Type} for device providers managed by this factory.
+     * @return the {@link org.gtk.glib.Type} for device providers managed by this factory.
      */
-    public @NotNull org.gtk.glib.Type getDeviceProviderType() {
+    public org.gtk.glib.Type getDeviceProviderType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_device_provider_factory_get_device_provider_type.invokeExact(
@@ -110,17 +96,16 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * @return the metadata with {@code key} on {@code factory} or {@code null}
      * when there was no metadata with the given {@code key}.
      */
-    public @Nullable java.lang.String getMetadata(@NotNull java.lang.String key) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
+    public @Nullable java.lang.String getMetadata(java.lang.String key) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get_metadata.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(key));
+                    Marshal.stringToAddress.marshal(key, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -150,11 +135,11 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
         try {
             RESULT = (int) DowncallHandles.gst_device_provider_factory_has_classes.invokeExact(
                     handle(),
-                    (Addressable) (classes == null ? MemoryAddress.NULL : Interop.allocateNativeString(classes)));
+                    (Addressable) (classes == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(classes, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -172,14 +157,14 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_device_provider_factory_get_type.invokeExact();
@@ -196,16 +181,15 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * @return {@link DeviceProviderFactory} if
      * found, {@code null} otherwise
      */
-    public static @Nullable org.gstreamer.gst.DeviceProviderFactory find(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static @Nullable org.gstreamer.gst.DeviceProviderFactory find(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_find.invokeExact(
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.DeviceProviderFactory(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.DeviceProviderFactory) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.DeviceProviderFactory.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -215,16 +199,15 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * @return a {@link DeviceProvider} or {@code null}
      * if unable to create device provider
      */
-    public static @Nullable org.gstreamer.gst.DeviceProvider getByName(@NotNull java.lang.String factoryname) {
-        java.util.Objects.requireNonNull(factoryname, "Parameter 'factoryname' must not be null");
+    public static @Nullable org.gstreamer.gst.DeviceProvider getByName(java.lang.String factoryname) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_get_by_name.invokeExact(
-                    Interop.allocateNativeString(factoryname));
+                    Marshal.stringToAddress.marshal(factoryname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.DeviceProvider(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.DeviceProvider) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.DeviceProvider.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -234,8 +217,7 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
      * @return a {@link org.gtk.glib.List} of {@link DeviceProviderFactory} device providers. Use
      * gst_plugin_feature_list_free() after usage.
      */
-    public static @NotNull org.gtk.glib.List listGetDeviceProviders(@NotNull org.gstreamer.gst.Rank minrank) {
-        java.util.Objects.requireNonNull(minrank, "Parameter 'minrank' must not be null");
+    public static org.gtk.glib.List listGetDeviceProviders(org.gstreamer.gst.Rank minrank) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_device_provider_factory_list_get_device_providers.invokeExact(
@@ -243,40 +225,42 @@ public class DeviceProviderFactory extends org.gstreamer.gst.PluginFeature {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.FULL);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.FULL);
     }
-
+    
+    /**
+     * A {@link DeviceProviderFactory.Builder} object constructs a {@link DeviceProviderFactory} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DeviceProviderFactory.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.PluginFeature.Build {
+    public static class Builder extends org.gstreamer.gst.PluginFeature.Builder {
         
-         /**
-         * A {@link DeviceProviderFactory.Build} object constructs a {@link DeviceProviderFactory} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DeviceProviderFactory} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DeviceProviderFactory} using {@link DeviceProviderFactory#castFrom}.
+         * {@link DeviceProviderFactory}.
          * @return A new instance of {@code DeviceProviderFactory} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DeviceProviderFactory construct() {
-            return DeviceProviderFactory.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DeviceProviderFactory.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DeviceProviderFactory build() {
+            return (DeviceProviderFactory) org.gtk.gobject.GObject.newWithProperties(
+                DeviceProviderFactory.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

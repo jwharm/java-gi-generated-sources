@@ -16,7 +16,7 @@ import org.jetbrains.annotations.*;
  * filtering long lists doesn't block the UI. See
  * {@link FilterListModel#setIncremental} for details.
  */
-public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class FilterListModel extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Gtk.javagi$ensureInitialized();
@@ -38,33 +38,15 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FilterListModel(Addressable address, Ownership ownership) {
+    protected FilterListModel(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FilterListModel if its GType is a (or inherits from) "GtkFilterListModel".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FilterListModel} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkFilterListModel", a ClassCastException will be thrown.
-     */
-    public static FilterListModel castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FilterListModel.getType())) {
-            return new FilterListModel(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkFilterListModel");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FilterListModel> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FilterListModel(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Filter filter) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gio.ListModel model, @Nullable org.gtk.gtk.Filter filter) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_filter_list_model_new.invokeExact(
                     (Addressable) (model == null ? MemoryAddress.NULL : model.handle()),
@@ -99,7 +81,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Filter(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Filter) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Filter.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -116,7 +98,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -131,7 +113,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -200,7 +182,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         try {
             DowncallHandles.gtk_filter_list_model_set_incremental.invokeExact(
                     handle(),
-                    incremental ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(incremental, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -229,7 +211,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_filter_list_model_get_type.invokeExact();
@@ -238,38 +220,40 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link FilterListModel.Builder} object constructs a {@link FilterListModel} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FilterListModel.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link FilterListModel.Build} object constructs a {@link FilterListModel} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FilterListModel} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FilterListModel} using {@link FilterListModel#castFrom}.
+         * {@link FilterListModel}.
          * @return A new instance of {@code FilterListModel} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FilterListModel construct() {
-            return FilterListModel.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FilterListModel.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FilterListModel build() {
+            return (FilterListModel) org.gtk.gobject.GObject.newWithProperties(
+                FilterListModel.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -278,7 +262,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
          * @param filter The value for the {@code filter} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFilter(org.gtk.gtk.Filter filter) {
+        public Builder setFilter(org.gtk.gtk.Filter filter) {
             names.add("filter");
             values.add(org.gtk.gobject.Value.create(filter));
             return this;
@@ -289,7 +273,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
          * @param incremental The value for the {@code incremental} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIncremental(boolean incremental) {
+        public Builder setIncremental(boolean incremental) {
             names.add("incremental");
             values.add(org.gtk.gobject.Value.create(incremental));
             return this;
@@ -300,7 +284,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -311,7 +295,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
          * @param model The value for the {@code model} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setModel(org.gtk.gio.ListModel model) {
+        public Builder setModel(org.gtk.gio.ListModel model) {
             names.add("model");
             values.add(org.gtk.gobject.Value.create(model));
             return this;
@@ -322,7 +306,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;
@@ -333,7 +317,7 @@ public class FilterListModel extends org.gtk.gobject.Object implements org.gtk.g
          * @param pending The value for the {@code pending} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPending(int pending) {
+        public Builder setPending(int pending) {
             names.add("pending");
             values.add(org.gtk.gobject.Value.create(pending));
             return this;

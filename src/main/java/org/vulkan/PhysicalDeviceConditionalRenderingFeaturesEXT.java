@@ -40,8 +40,10 @@ public class PhysicalDeviceConditionalRenderingFeaturesEXT extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PhysicalDeviceConditionalRenderingFeaturesEXT(Addressable address, Ownership ownership) {
+    protected PhysicalDeviceConditionalRenderingFeaturesEXT(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PhysicalDeviceConditionalRenderingFeaturesEXT> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PhysicalDeviceConditionalRenderingFeaturesEXT(input, ownership);
 }

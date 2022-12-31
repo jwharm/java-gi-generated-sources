@@ -12,5 +12,17 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface VulkanTrashListWait {
-        boolean onVulkanTrashListWait(@NotNull org.gstreamer.vulkan.VulkanTrashList trashList, long timeout);
+    boolean run(org.gstreamer.vulkan.VulkanTrashList trashList, long timeout);
+
+    @ApiStatus.Internal default int upcall(MemoryAddress trashList, long timeout) {
+        var RESULT = run((org.gstreamer.vulkan.VulkanTrashList) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(trashList)), org.gstreamer.vulkan.VulkanTrashList.fromAddress).marshal(trashList, Ownership.NONE), timeout);
+        return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_LONG);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(VulkanTrashListWait.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

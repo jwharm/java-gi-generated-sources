@@ -44,10 +44,12 @@ public class Rand extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Rand(Addressable address, Ownership ownership) {
+    protected Rand(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Rand> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Rand(input, ownership);
     
     /**
      * Copies a {@link Rand} into a new one with the same exact state as before.
@@ -55,7 +57,7 @@ public class Rand extends Struct {
      * replaying later.
      * @return the new {@link Rand}
      */
-    public @NotNull org.gtk.glib.Rand copy() {
+    public org.gtk.glib.Rand copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rand_copy.invokeExact(
@@ -63,7 +65,7 @@ public class Rand extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Rand(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -174,7 +176,6 @@ public class Rand extends Struct {
      * @param seedLength length of array
      */
     public void setSeedArray(PointerInteger seed, int seedLength) {
-        java.util.Objects.requireNonNull(seed, "Parameter 'seed' must not be null");
         try {
             DowncallHandles.g_rand_set_seed_array.invokeExact(
                     handle(),
@@ -193,14 +194,14 @@ public class Rand extends Struct {
      * On Windows, the seed is taken from rand_s().
      * @return the new {@link Rand}
      */
-    public static @NotNull org.gtk.glib.Rand new_() {
+    public static org.gtk.glib.Rand new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rand_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Rand(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -208,7 +209,7 @@ public class Rand extends Struct {
      * @param seed a value to initialize the random number generator
      * @return the new {@link Rand}
      */
-    public static @NotNull org.gtk.glib.Rand newWithSeed(int seed) {
+    public static org.gtk.glib.Rand newWithSeed(int seed) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed.invokeExact(
@@ -216,7 +217,7 @@ public class Rand extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Rand(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -226,8 +227,7 @@ public class Rand extends Struct {
      *     generator
      * @return the new {@link Rand}
      */
-    public static @NotNull org.gtk.glib.Rand newWithSeedArray(PointerInteger seed, int seedLength) {
-        java.util.Objects.requireNonNull(seed, "Parameter 'seed' must not be null");
+    public static org.gtk.glib.Rand newWithSeedArray(PointerInteger seed, int seedLength) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_rand_new_with_seed_array.invokeExact(
@@ -236,7 +236,7 @@ public class Rand extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Rand(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Rand.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {

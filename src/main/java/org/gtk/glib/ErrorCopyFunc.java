@@ -18,5 +18,16 @@ import org.jetbrains.annotations.*;
  */
 @FunctionalInterface
 public interface ErrorCopyFunc {
-        void onErrorCopyFunc(@NotNull org.gtk.glib.Error srcError, @NotNull org.gtk.glib.Error destError);
+    void run(org.gtk.glib.Error srcError, org.gtk.glib.Error destError);
+
+    @ApiStatus.Internal default void upcall(MemoryAddress srcError, MemoryAddress destError) {
+        run(org.gtk.glib.Error.fromAddress.marshal(srcError, Ownership.NONE), org.gtk.glib.Error.fromAddress.marshal(destError, Ownership.NONE));
+    }
+    
+    @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+    @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ErrorCopyFunc.class, DESCRIPTOR);
+    
+    default MemoryAddress toCallback() {
+        return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+    }
 }

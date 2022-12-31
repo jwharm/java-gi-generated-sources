@@ -46,11 +46,15 @@ public class FileTest extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public FileTest or(FileTest mask) {
-        return new FileTest(this.getValue() | mask.getValue());
+    public FileTest or(FileTest... masks) {
+        int value = this.getValue();
+        for (FileTest arg : masks) {
+            value |= arg.getValue();
+        }
+        return new FileTest(value);
     }
     
     /**
@@ -60,7 +64,8 @@ public class FileTest extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static FileTest combined(FileTest mask, FileTest... masks) {
-        int value = mask.getValue();        for (FileTest arg : masks) {
+        int value = mask.getValue();
+        for (FileTest arg : masks) {
             value |= arg.getValue();
         }
         return new FileTest(value);

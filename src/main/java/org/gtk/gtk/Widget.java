@@ -227,7 +227,7 @@ import org.jetbrains.annotations.*;
  * time using {@link WidgetClass#setTemplate}.
  * <p>
  * The interface description semantics expected in composite template descriptions
- * is slightly different from regular {@link Builder} XML.
+ * is slightly different from regular {@link GtkBuilder} XML.
  * <p>
  * Unlike regular interface descriptions, {@link WidgetClass#setTemplate} will
  * expect a {@code <template>} tag as a direct child of the toplevel {@code <interface>}
@@ -390,18 +390,16 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     private static final java.lang.String C_TYPE_NAME = "GtkWidget";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.InitiallyUnowned.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.InitiallyUnowned.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -409,37 +407,23 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * <p>
      * Because Widget is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Widget(Addressable address, Ownership ownership) {
+    protected Widget(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to Widget if its GType is a (or inherits from) "GtkWidget".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code Widget} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkWidget", a ClassCastException will be thrown.
-     */
-    public static Widget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), Widget.getType())) {
-            return new Widget(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkWidget");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Widget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Widget(input, ownership);
     
     /**
      * Enable or disable an action installed with
@@ -447,13 +431,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param actionName action name, such as "clipboard.paste"
      * @param enabled whether the action is now enabled
      */
-    public void actionSetEnabled(@NotNull java.lang.String actionName, boolean enabled) {
-        java.util.Objects.requireNonNull(actionName, "Parameter 'actionName' must not be null");
+    public void actionSetEnabled(java.lang.String actionName, boolean enabled) {
         try {
             DowncallHandles.gtk_widget_action_set_enabled.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(actionName),
-                    enabled ? 1 : 0);
+                    Marshal.stringToAddress.marshal(actionName, null),
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -484,36 +467,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
-    }
-    
-    /**
-     * Looks up the action in the action groups associated
-     * with {@code widget} and its ancestors, and activates it.
-     * <p>
-     * This is a wrapper around {@link Widget#activateActionVariant}
-     * that constructs the {@code args} variant according to {@code format_string}.
-     * @param name the name of the action to activate
-     * @param formatString GVariant format string for arguments or {@code null}
-     *   for no arguments
-     * @param varargs arguments, as given by format string
-     * @return {@code true} if the action was activated, {@code false} if the action
-     *   does not exist
-     */
-    public boolean activateAction(@NotNull java.lang.String name, @NotNull java.lang.String formatString, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(formatString, "Parameter 'formatString' must not be null");
-        int RESULT;
-        try {
-            RESULT = (int) DowncallHandles.gtk_widget_activate_action.invokeExact(
-                    handle(),
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(formatString),
-                    varargs);
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -529,21 +483,16 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * as returned by {@code g_action_get_parameter_type()}.
      * @param name the name of the action to activate
      * @param args parameters to use
-     * @return {@code true} if the action was activated, {@code false} if the
-     *   action does not exist.
      */
-    public boolean activateActionVariant(@NotNull java.lang.String name, @Nullable org.gtk.glib.Variant args) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        int RESULT;
+    public void activateAction(java.lang.String name, @Nullable org.gtk.glib.Variant args) {
         try {
-            RESULT = (int) DowncallHandles.gtk_widget_activate_action_variant.invokeExact(
+            DowncallHandles.gtk_widget_activate_action_variant.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     (Addressable) (args == null ? MemoryAddress.NULL : args.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
     }
     
     /**
@@ -566,8 +515,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param controller a {@code GtkEventController} that hasn't been
      *   added to a widget yet
      */
-    public void addController(@NotNull org.gtk.gtk.EventController controller) {
-        java.util.Objects.requireNonNull(controller, "Parameter 'controller' must not be null");
+    public void addController(org.gtk.gtk.EventController controller) {
         try {
             DowncallHandles.gtk_widget_add_controller.invokeExact(
                     handle(),
@@ -589,12 +537,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param cssClass The style class to add to {@code widget}, without
      *   the leading '.' used for notation of style classes
      */
-    public void addCssClass(@NotNull java.lang.String cssClass) {
-        java.util.Objects.requireNonNull(cssClass, "Parameter 'cssClass' must not be null");
+    public void addCssClass(java.lang.String cssClass) {
         try {
             DowncallHandles.gtk_widget_add_css_class.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(cssClass));
+                    Marshal.stringToAddress.marshal(cssClass, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -609,8 +556,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * its internal state at this point as well.
      * @param label a {@code GtkWidget} that acts as a mnemonic label for {@code widget}
      */
-    public void addMnemonicLabel(@NotNull org.gtk.gtk.Widget label) {
-        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+    public void addMnemonicLabel(org.gtk.gtk.Widget label) {
         try {
             DowncallHandles.gtk_widget_add_mnemonic_label.invokeExact(
                     handle(),
@@ -644,23 +590,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * {@code Gdk.FrameClock::update} signal of {@code GdkFrameClock}, since you
      * don't have to worry about when a {@code GdkFrameClock} is assigned to a widget.
      * @param callback function to call for updating animations
+     * @param notify function to call to free {@code user_data} when the callback is removed.
      * @return an id for the connection of this callback. Remove the callback
      *   by passing the id returned from this function to
      *   {@link Widget#removeTickCallback}
      */
-    public int addTickCallback(@NotNull org.gtk.gtk.TickCallback callback) {
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public int addTickCallback(org.gtk.gtk.TickCallback callback, org.gtk.glib.DestroyNotify notify) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_add_tick_callback.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gtk.Callbacks.class, "cbTickCallback",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -721,8 +663,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param direction direction of focus movement
      * @return {@code true} if focus ended up inside {@code widget}
      */
-    public boolean childFocus(@NotNull org.gtk.gtk.DirectionType direction) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public boolean childFocus(org.gtk.gtk.DirectionType direction) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_child_focus.invokeExact(
@@ -731,7 +672,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -749,9 +690,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param outBounds the rectangle taking the bounds
      * @return {@code true} if the bounds could be computed
      */
-    public boolean computeBounds(@NotNull org.gtk.gtk.Widget target, @NotNull org.gtk.graphene.Rect outBounds) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(outBounds, "Parameter 'outBounds' must not be null");
+    public boolean computeBounds(org.gtk.gtk.Widget target, org.gtk.graphene.Rect outBounds) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_compute_bounds.invokeExact(
@@ -761,7 +700,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -781,8 +720,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param orientation expand direction
      * @return whether widget tree rooted here should be expanded
      */
-    public boolean computeExpand(@NotNull org.gtk.gtk.Orientation orientation) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
+    public boolean computeExpand(org.gtk.gtk.Orientation orientation) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_compute_expand.invokeExact(
@@ -791,7 +729,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -807,10 +745,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @return {@code true} if the point could be determined, {@code false} on failure.
      *   In this case, 0 is stored in {@code out_point}.
      */
-    public boolean computePoint(@NotNull org.gtk.gtk.Widget target, @NotNull org.gtk.graphene.Point point, @NotNull org.gtk.graphene.Point outPoint) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(point, "Parameter 'point' must not be null");
-        java.util.Objects.requireNonNull(outPoint, "Parameter 'outPoint' must not be null");
+    public boolean computePoint(org.gtk.gtk.Widget target, org.gtk.graphene.Point point, org.gtk.graphene.Point outPoint) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_compute_point.invokeExact(
@@ -821,7 +756,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -836,9 +771,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      *   store the final transformation
      * @return {@code true} if the transform could be computed, {@code false} otherwise
      */
-    public boolean computeTransform(@NotNull org.gtk.gtk.Widget target, @NotNull org.gtk.graphene.Matrix outTransform) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
-        java.util.Objects.requireNonNull(outTransform, "Parameter 'outTransform' must not be null");
+    public boolean computeTransform(org.gtk.gtk.Widget target, org.gtk.graphene.Matrix outTransform) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_compute_transform.invokeExact(
@@ -848,7 +781,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -870,7 +803,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -881,7 +814,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * See also {@link Widget#getPangoContext}.
      * @return the new {@code PangoContext}
      */
-    public @NotNull org.pango.Context createPangoContext() {
+    public org.pango.Context createPangoContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_create_pango_context.invokeExact(
@@ -889,7 +822,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(RESULT, Ownership.FULL);
+        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -904,16 +837,16 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param text text to set on the layout
      * @return the new {@code PangoLayout}
      */
-    public @NotNull org.pango.Layout createPangoLayout(@Nullable java.lang.String text) {
+    public org.pango.Layout createPangoLayout(@Nullable java.lang.String text) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_create_pango_layout.invokeExact(
                     handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(RESULT, Ownership.FULL);
+        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -943,8 +876,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * }</pre>
      * @param widgetType the type of the widget to finalize the template for
      */
-    public void disposeTemplate(@NotNull org.gtk.glib.Type widgetType) {
-        java.util.Objects.requireNonNull(widgetType, "Parameter 'widgetType' must not be null");
+    public void disposeTemplate(org.gtk.glib.Type widgetType) {
         try {
             DowncallHandles.gtk_widget_dispose_template.invokeExact(
                     handle(),
@@ -974,7 +906,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1063,8 +995,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * container assigned.
      * @param allocation a pointer to a {@code GtkAllocation} to copy to
      */
-    public void getAllocation(@NotNull Out<org.gtk.gtk.Allocation> allocation) {
-        java.util.Objects.requireNonNull(allocation, "Parameter 'allocation' must not be null");
+    public void getAllocation(Out<org.gtk.gtk.Allocation> allocation) {
         MemorySegment allocationPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gtk_widget_get_allocation.invokeExact(
@@ -1073,7 +1004,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        allocation.set(new org.gtk.gtk.Allocation(allocationPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        allocation.set((org.gtk.gtk.Allocation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocationPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gtk.gtk.Allocation.fromAddress).marshal(allocationPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
     }
     
     /**
@@ -1089,8 +1020,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param widgetType ancestor type
      * @return the ancestor widget
      */
-    public @Nullable org.gtk.gtk.Widget getAncestor(@NotNull org.gtk.glib.Type widgetType) {
-        java.util.Objects.requireNonNull(widgetType, "Parameter 'widgetType' must not be null");
+    public @Nullable org.gtk.gtk.Widget getAncestor(org.gtk.glib.Type widgetType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_ancestor.invokeExact(
@@ -1099,7 +1029,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1117,7 +1047,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1132,7 +1062,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1153,7 +1083,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1166,7 +1096,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * realized yet.
      * @return the appropriate clipboard object
      */
-    public @NotNull org.gtk.gdk.Clipboard getClipboard() {
+    public org.gtk.gdk.Clipboard getClipboard() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_clipboard.invokeExact(
@@ -1174,7 +1104,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Clipboard(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Clipboard) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Clipboard.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1183,7 +1113,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      *   css classes currently applied to {@code widget}. The returned
      *   list must freed using g_strfreev().
      */
-    public @NotNull PointerString getCssClasses() {
+    public PointerString getCssClasses() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_css_classes.invokeExact(
@@ -1198,7 +1128,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * Returns the CSS name that is used for {@code self}.
      * @return the CSS name
      */
-    public @NotNull java.lang.String getCssName() {
+    public java.lang.String getCssName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_css_name.invokeExact(
@@ -1206,7 +1136,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1224,7 +1154,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Cursor(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Cursor) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Cursor.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1233,7 +1163,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * See {@link Widget#setDirection}.
      * @return the reading direction for the widget.
      */
-    public @NotNull org.gtk.gtk.TextDirection getDirection() {
+    public org.gtk.gtk.TextDirection getDirection() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_get_direction.invokeExact(
@@ -1257,7 +1187,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @return the {@code GdkDisplay} for the toplevel
      *   for this widget.
      */
-    public @NotNull org.gtk.gdk.Display getDisplay() {
+    public org.gtk.gdk.Display getDisplay() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_display.invokeExact(
@@ -1265,7 +1195,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1282,7 +1212,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1298,7 +1228,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1317,7 +1247,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1334,7 +1264,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1351,7 +1281,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(RESULT, Ownership.NONE);
+        return (org.pango.FontMap) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontMap.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1369,7 +1299,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.FontOptions(RESULT, Ownership.NONE);
+        return org.cairographics.FontOptions.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1405,7 +1335,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.FrameClock(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.FrameClock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.FrameClock.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1417,7 +1347,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * alignment.
      * @return the horizontal alignment of {@code widget}
      */
-    public @NotNull org.gtk.gtk.Align getHalign() {
+    public org.gtk.gtk.Align getHalign() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_get_halign.invokeExact(
@@ -1440,7 +1370,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1491,7 +1421,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1515,7 +1445,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1532,7 +1462,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1549,7 +1479,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.LayoutManager(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.LayoutManager) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.LayoutManager.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1564,7 +1494,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1634,7 +1564,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @return name of the widget. This string is owned by GTK and
      *   should not be modified or freed
      */
-    public @NotNull java.lang.String getName() {
+    public java.lang.String getName() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_name.invokeExact(
@@ -1642,7 +1572,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1662,7 +1592,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Native.NativeImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Native) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Native.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1679,7 +1609,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1703,7 +1633,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * Returns the widgets overflow value.
      * @return The widget's overflow.
      */
-    public @NotNull org.gtk.gtk.Overflow getOverflow() {
+    public org.gtk.gtk.Overflow getOverflow() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_get_overflow.invokeExact(
@@ -1726,7 +1656,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * {@code Gtk.Widget:root} property on the widget.
      * @return the {@code PangoContext} for the widget.
      */
-    public @NotNull org.pango.Context getPangoContext() {
+    public org.pango.Context getPangoContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_pango_context.invokeExact(
@@ -1734,7 +1664,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(RESULT, Ownership.NONE);
+        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1749,7 +1679,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1770,14 +1700,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param minimumSize location for storing the minimum size
      * @param naturalSize location for storing the natural size
      */
-    public void getPreferredSize(@NotNull org.gtk.gtk.Requisition minimumSize, @NotNull org.gtk.gtk.Requisition naturalSize) {
-        java.util.Objects.requireNonNull(minimumSize, "Parameter 'minimumSize' must not be null");
-        java.util.Objects.requireNonNull(naturalSize, "Parameter 'naturalSize' must not be null");
+    public void getPreferredSize(@Nullable org.gtk.gtk.Requisition minimumSize, @Nullable org.gtk.gtk.Requisition naturalSize) {
         try {
             DowncallHandles.gtk_widget_get_preferred_size.invokeExact(
                     handle(),
-                    minimumSize.handle(),
-                    naturalSize.handle());
+                    (Addressable) (minimumSize == null ? MemoryAddress.NULL : minimumSize.handle()),
+                    (Addressable) (naturalSize == null ? MemoryAddress.NULL : naturalSize.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1797,7 +1725,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1810,7 +1738,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * realized yet.
      * @return the appropriate clipboard object
      */
-    public @NotNull org.gtk.gdk.Clipboard getPrimaryClipboard() {
+    public org.gtk.gdk.Clipboard getPrimaryClipboard() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_primary_clipboard.invokeExact(
@@ -1818,7 +1746,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Clipboard(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Clipboard) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Clipboard.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1833,7 +1761,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1853,7 +1781,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1866,7 +1794,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * allocation capabilities.
      * @return The {@code GtkSizeRequestMode} preferred by {@code widget}.
      */
-    public @NotNull org.gtk.gtk.SizeRequestMode getRequestMode() {
+    public org.gtk.gtk.SizeRequestMode getRequestMode() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_get_request_mode.invokeExact(
@@ -1894,7 +1822,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Root.RootImpl(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Root) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Root.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1937,7 +1865,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1949,7 +1877,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * changes in its settings, connect to the {@code notify::display} signal.
      * @return the relevant {@code GtkSettings} object
      */
-    public @NotNull org.gtk.gtk.Settings getSettings() {
+    public org.gtk.gtk.Settings getSettings() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_settings.invokeExact(
@@ -1957,7 +1885,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Settings(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Settings) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Settings.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -1973,8 +1901,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param orientation the orientation to query
      * @return The size of {@code widget} in {@code orientation}.
      */
-    public int getSize(@NotNull org.gtk.gtk.Orientation orientation) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
+    public int getSize(org.gtk.gtk.Orientation orientation) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_get_size.invokeExact(
@@ -2000,20 +1927,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param height return location for height
      */
     public void getSizeRequest(Out<Integer> width, Out<Integer> height) {
-        java.util.Objects.requireNonNull(width, "Parameter 'width' must not be null");
         MemorySegment widthPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(height, "Parameter 'height' must not be null");
         MemorySegment heightPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_widget_get_size_request.invokeExact(
                     handle(),
-                    (Addressable) widthPOINTER.address(),
-                    (Addressable) heightPOINTER.address());
+                    (Addressable) (width == null ? MemoryAddress.NULL : (Addressable) widthPOINTER.address()),
+                    (Addressable) (height == null ? MemoryAddress.NULL : (Addressable) heightPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
-        height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (width != null) width.set(widthPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (height != null) height.set(heightPOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -2028,7 +1953,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * method, you should look at {@link StyleContext#getState}.
      * @return The state flags for widget
      */
-    public @NotNull org.gtk.gtk.StateFlags getStateFlags() {
+    public org.gtk.gtk.StateFlags getStateFlags() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_get_state_flags.invokeExact(
@@ -2046,7 +1971,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * for the lifetime of {@code widget}.
      * @return the widgets {@code GtkStyleContext}
      */
-    public @NotNull org.gtk.gtk.StyleContext getStyleContext() {
+    public org.gtk.gtk.StyleContext getStyleContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_style_context.invokeExact(
@@ -2054,7 +1979,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.StyleContext(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.StyleContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.StyleContext.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2073,19 +1998,17 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @return The object built in the template XML with
      *   the id {@code name}
      */
-    public @NotNull org.gtk.gobject.Object getTemplateChild(@NotNull org.gtk.glib.Type widgetType, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(widgetType, "Parameter 'widgetType' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public org.gtk.gobject.GObject getTemplateChild(org.gtk.glib.Type widgetType, java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_get_template_child.invokeExact(
                     handle(),
                     widgetType.getValue().longValue(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Object(RESULT, Ownership.NONE);
+        return (org.gtk.gobject.GObject) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gobject.GObject.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2104,7 +2027,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -2123,14 +2046,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the vertical alignment of {@code widget}.
      * @return the vertical alignment of {@code widget}
      */
-    public @NotNull org.gtk.gtk.Align getValign() {
+    public org.gtk.gtk.Align getValign() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_get_valign.invokeExact(
@@ -2156,7 +2079,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2174,7 +2097,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2198,7 +2121,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2241,7 +2164,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2251,17 +2174,16 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @return {@code true} if {@code css_class} is currently applied to {@code widget},
      *   {@code false} otherwise.
      */
-    public boolean hasCssClass(@NotNull java.lang.String cssClass) {
-        java.util.Objects.requireNonNull(cssClass, "Parameter 'cssClass' must not be null");
+    public boolean hasCssClass(java.lang.String cssClass) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_has_css_class.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(cssClass));
+                    Marshal.stringToAddress.marshal(cssClass, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2278,7 +2200,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2297,7 +2219,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2321,7 +2243,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2353,7 +2275,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2406,12 +2328,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param group a {@code GActionGroup}, or {@code null} to remove
      *   the previously inserted group for {@code name}
      */
-    public void insertActionGroup(@NotNull java.lang.String name, @Nullable org.gtk.gio.ActionGroup group) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void insertActionGroup(java.lang.String name, @Nullable org.gtk.gio.ActionGroup group) {
         try {
             DowncallHandles.gtk_widget_insert_action_group.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     (Addressable) (group == null ? MemoryAddress.NULL : group.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -2436,8 +2357,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param parent the parent {@code GtkWidget} to insert {@code widget} into
      * @param previousSibling the new previous sibling of {@code widget}
      */
-    public void insertAfter(@NotNull org.gtk.gtk.Widget parent, @Nullable org.gtk.gtk.Widget previousSibling) {
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    public void insertAfter(org.gtk.gtk.Widget parent, @Nullable org.gtk.gtk.Widget previousSibling) {
         try {
             DowncallHandles.gtk_widget_insert_after.invokeExact(
                     handle(),
@@ -2465,8 +2385,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param parent the parent {@code GtkWidget} to insert {@code widget} into
      * @param nextSibling the new next sibling of {@code widget}
      */
-    public void insertBefore(@NotNull org.gtk.gtk.Widget parent, @Nullable org.gtk.gtk.Widget nextSibling) {
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    public void insertBefore(org.gtk.gtk.Widget parent, @Nullable org.gtk.gtk.Widget nextSibling) {
         try {
             DowncallHandles.gtk_widget_insert_before.invokeExact(
                     handle(),
@@ -2484,8 +2403,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @return {@code true} if {@code ancestor} contains {@code widget} as a child,
      *   grandchild, great grandchild, etc.
      */
-    public boolean isAncestor(@NotNull org.gtk.gtk.Widget ancestor) {
-        java.util.Objects.requireNonNull(ancestor, "Parameter 'ancestor' must not be null");
+    public boolean isAncestor(org.gtk.gtk.Widget ancestor) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_is_ancestor.invokeExact(
@@ -2494,7 +2412,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2511,7 +2429,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2532,7 +2450,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2550,7 +2468,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2571,7 +2489,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2607,8 +2525,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      *   if the emitting widget should try to handle the keyboard
      *   navigation attempt in its parent container(s).
      */
-    public boolean keynavFailed(@NotNull org.gtk.gtk.DirectionType direction) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public boolean keynavFailed(org.gtk.gtk.DirectionType direction) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_keynav_failed.invokeExact(
@@ -2617,7 +2534,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2636,7 +2553,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      *   of mnemonic labels; free this list with g_list_free() when you
      *   are done with it.
      */
-    public @NotNull org.gtk.glib.List listMnemonicLabels() {
+    public org.gtk.glib.List listMnemonicLabels() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_list_mnemonic_labels.invokeExact(
@@ -2644,7 +2561,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.CONTAINER);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.CONTAINER);
     }
     
     /**
@@ -2683,32 +2600,27 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param naturalBaseline location to store the baseline
      *   position for the natural size, or -1 to report no baseline
      */
-    public void measure(@NotNull org.gtk.gtk.Orientation orientation, int forSize, Out<Integer> minimum, Out<Integer> natural, Out<Integer> minimumBaseline, Out<Integer> naturalBaseline) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
-        java.util.Objects.requireNonNull(minimum, "Parameter 'minimum' must not be null");
+    public void measure(org.gtk.gtk.Orientation orientation, int forSize, Out<Integer> minimum, Out<Integer> natural, Out<Integer> minimumBaseline, Out<Integer> naturalBaseline) {
         MemorySegment minimumPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(natural, "Parameter 'natural' must not be null");
         MemorySegment naturalPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minimumBaseline, "Parameter 'minimumBaseline' must not be null");
         MemorySegment minimumBaselinePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(naturalBaseline, "Parameter 'naturalBaseline' must not be null");
         MemorySegment naturalBaselinePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gtk_widget_measure.invokeExact(
                     handle(),
                     orientation.getValue(),
                     forSize,
-                    (Addressable) minimumPOINTER.address(),
-                    (Addressable) naturalPOINTER.address(),
-                    (Addressable) minimumBaselinePOINTER.address(),
-                    (Addressable) naturalBaselinePOINTER.address());
+                    (Addressable) (minimum == null ? MemoryAddress.NULL : (Addressable) minimumPOINTER.address()),
+                    (Addressable) (natural == null ? MemoryAddress.NULL : (Addressable) naturalPOINTER.address()),
+                    (Addressable) (minimumBaseline == null ? MemoryAddress.NULL : (Addressable) minimumBaselinePOINTER.address()),
+                    (Addressable) (naturalBaseline == null ? MemoryAddress.NULL : (Addressable) naturalBaselinePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        minimum.set(minimumPOINTER.get(Interop.valueLayout.C_INT, 0));
-        natural.set(naturalPOINTER.get(Interop.valueLayout.C_INT, 0));
-        minimumBaseline.set(minimumBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
-        naturalBaseline.set(naturalBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minimum != null) minimum.set(minimumPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (natural != null) natural.set(naturalPOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (minimumBaseline != null) minimumBaseline.set(minimumBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
+        if (naturalBaseline != null) naturalBaseline.set(naturalBaselinePOINTER.get(Interop.valueLayout.C_INT, 0));
     }
     
     /**
@@ -2723,11 +2635,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             RESULT = (int) DowncallHandles.gtk_widget_mnemonic_activate.invokeExact(
                     handle(),
-                    groupCycling ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(groupCycling, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -2741,7 +2653,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * because of the slowdowns.
      * @return a {@code GListModel} tracking {@code widget}'s children
      */
-    public @NotNull org.gtk.gio.ListModel observeChildren() {
+    public org.gtk.gio.ListModel observeChildren() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_observe_children.invokeExact(
@@ -2749,7 +2661,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2764,7 +2676,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * because of the slowdowns.
      * @return a {@code GListModel} tracking {@code widget}'s controllers
      */
-    public @NotNull org.gtk.gio.ListModel observeControllers() {
+    public org.gtk.gio.ListModel observeControllers() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_observe_controllers.invokeExact(
@@ -2772,7 +2684,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gio.ListModel.ListModelImpl(RESULT, Ownership.FULL);
+        return (org.gtk.gio.ListModel) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gio.ListModel.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2796,8 +2708,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @return The widget descendant at
      *   the given point
      */
-    public @Nullable org.gtk.gtk.Widget pick(double x, double y, @NotNull org.gtk.gtk.PickFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public @Nullable org.gtk.gtk.Widget pick(double x, double y, org.gtk.gtk.PickFlags flags) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_widget_pick.invokeExact(
@@ -2808,7 +2719,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -2909,8 +2820,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * are destroyed, there is normally no need to call this function.
      * @param controller a {@code GtkEventController}
      */
-    public void removeController(@NotNull org.gtk.gtk.EventController controller) {
-        java.util.Objects.requireNonNull(controller, "Parameter 'controller' must not be null");
+    public void removeController(org.gtk.gtk.EventController controller) {
         try {
             DowncallHandles.gtk_widget_remove_controller.invokeExact(
                     handle(),
@@ -2927,12 +2837,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param cssClass The style class to remove from {@code widget}, without
      *   the leading '.' used for notation of style classes
      */
-    public void removeCssClass(@NotNull java.lang.String cssClass) {
-        java.util.Objects.requireNonNull(cssClass, "Parameter 'cssClass' must not be null");
+    public void removeCssClass(java.lang.String cssClass) {
         try {
             DowncallHandles.gtk_widget_remove_css_class.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(cssClass));
+                    Marshal.stringToAddress.marshal(cssClass, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -2947,8 +2856,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param label a {@code GtkWidget} that was previously set as a mnemonic
      *   label for {@code widget} with {@link Widget#addMnemonicLabel}
      */
-    public void removeMnemonicLabel(@NotNull org.gtk.gtk.Widget label) {
-        java.util.Objects.requireNonNull(label, "Parameter 'label' must not be null");
+    public void removeMnemonicLabel(org.gtk.gtk.Widget label) {
         try {
             DowncallHandles.gtk_widget_remove_mnemonic_label.invokeExact(
                     handle(),
@@ -2995,7 +2903,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_can_focus.invokeExact(
                     handle(),
-                    canFocus ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(canFocus, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3010,7 +2918,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_can_target.invokeExact(
                     handle(),
-                    canTarget ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(canTarget, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3040,7 +2948,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_child_visible.invokeExact(
                     handle(),
-                    childVisible ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(childVisible, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3051,8 +2959,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * and replace them with {@code classes}.
      * @param classes {@code null}-terminated list of style classes to apply to {@code widget}.
      */
-    public void setCssClasses(@NotNull java.lang.String[] classes) {
-        java.util.Objects.requireNonNull(classes, "Parameter 'classes' must not be null");
+    public void setCssClasses(java.lang.String[] classes) {
         try {
             DowncallHandles.gtk_widget_set_css_classes.invokeExact(
                     handle(),
@@ -3098,7 +3005,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_cursor_from_name.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3120,8 +3027,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * set by {@link Widget#setDefaultDirection} will be used.
      * @param dir the new direction
      */
-    public void setDirection(@NotNull org.gtk.gtk.TextDirection dir) {
-        java.util.Objects.requireNonNull(dir, "Parameter 'dir' must not be null");
+    public void setDirection(org.gtk.gtk.TextDirection dir) {
         try {
             DowncallHandles.gtk_widget_set_direction.invokeExact(
                     handle(),
@@ -3164,7 +3070,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_focus_on_click.invokeExact(
                     handle(),
-                    focusOnClick ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(focusOnClick, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3190,7 +3096,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_focusable.invokeExact(
                     handle(),
-                    focusable ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(focusable, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3241,8 +3147,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * Sets the horizontal alignment of {@code widget}.
      * @param align the horizontal alignment
      */
-    public void setHalign(@NotNull org.gtk.gtk.Align align) {
-        java.util.Objects.requireNonNull(align, "Parameter 'align' must not be null");
+    public void setHalign(org.gtk.gtk.Align align) {
         try {
             DowncallHandles.gtk_widget_set_halign.invokeExact(
                     handle(),
@@ -3260,7 +3165,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_has_tooltip.invokeExact(
                     handle(),
-                    hasTooltip ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hasTooltip, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3300,7 +3205,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_hexpand.invokeExact(
                     handle(),
-                    expand ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(expand, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3327,7 +3232,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_hexpand_set.invokeExact(
                     handle(),
-                    set ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(set, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3419,12 +3324,11 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * of alphanumeric symbols, dashes and underscores will suffice.
      * @param name name for the widget
      */
-    public void setName(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public void setName(java.lang.String name) {
         try {
             DowncallHandles.gtk_widget_set_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3477,8 +3381,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * The default value is {@link Overflow#VISIBLE}.
      * @param overflow desired overflow
      */
-    public void setOverflow(@NotNull org.gtk.gtk.Overflow overflow) {
-        java.util.Objects.requireNonNull(overflow, "Parameter 'overflow' must not be null");
+    public void setOverflow(org.gtk.gtk.Overflow overflow) {
         try {
             DowncallHandles.gtk_widget_set_overflow.invokeExact(
                     handle(),
@@ -3499,8 +3402,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * {@code GtkWidget}.
      * @param parent parent widget
      */
-    public void setParent(@NotNull org.gtk.gtk.Widget parent) {
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
+    public void setParent(org.gtk.gtk.Widget parent) {
         try {
             DowncallHandles.gtk_widget_set_parent.invokeExact(
                     handle(),
@@ -3520,7 +3422,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_receives_default.invokeExact(
                     handle(),
-                    receivesDefault ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(receivesDefault, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3539,7 +3441,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_sensitive.invokeExact(
                     handle(),
-                    sensitive ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(sensitive, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3608,13 +3510,12 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param flags State flags to turn on
      * @param clear Whether to clear state before turning on {@code flags}
      */
-    public void setStateFlags(@NotNull org.gtk.gtk.StateFlags flags, boolean clear) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void setStateFlags(org.gtk.gtk.StateFlags flags, boolean clear) {
         try {
             DowncallHandles.gtk_widget_set_state_flags.invokeExact(
                     handle(),
                     flags.getValue(),
-                    clear ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(clear, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3635,7 +3536,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_tooltip_markup.invokeExact(
                     handle(),
-                    (Addressable) (markup == null ? MemoryAddress.NULL : Interop.allocateNativeString(markup)));
+                    (Addressable) (markup == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(markup, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3658,7 +3559,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_tooltip_text.invokeExact(
                     handle(),
-                    (Addressable) (text == null ? MemoryAddress.NULL : Interop.allocateNativeString(text)));
+                    (Addressable) (text == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(text, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3668,8 +3569,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * Sets the vertical alignment of {@code widget}.
      * @param align the vertical alignment
      */
-    public void setValign(@NotNull org.gtk.gtk.Align align) {
-        java.util.Objects.requireNonNull(align, "Parameter 'align' must not be null");
+    public void setValign(org.gtk.gtk.Align align) {
         try {
             DowncallHandles.gtk_widget_set_valign.invokeExact(
                     handle(),
@@ -3690,7 +3590,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_vexpand.invokeExact(
                     handle(),
-                    expand ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(expand, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3706,7 +3606,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_vexpand_set.invokeExact(
                     handle(),
-                    set ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(set, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3727,7 +3627,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         try {
             DowncallHandles.gtk_widget_set_visible.invokeExact(
                     handle(),
-                    visible ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(visible, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -3750,7 +3650,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3782,8 +3682,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * @param allocation position and size to be allocated to {@code widget}
      * @param baseline The baseline of the child, or -1
      */
-    public void sizeAllocate(@NotNull org.gtk.gtk.Allocation allocation, int baseline) {
-        java.util.Objects.requireNonNull(allocation, "Parameter 'allocation' must not be null");
+    public void sizeAllocate(org.gtk.gtk.Allocation allocation, int baseline) {
         try {
             DowncallHandles.gtk_widget_size_allocate.invokeExact(
                     handle(),
@@ -3814,9 +3713,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      *   calls to gtk_snapshot_translate() or other transform calls should
      *   have been made.
      */
-    public void snapshotChild(@NotNull org.gtk.gtk.Widget child, @NotNull org.gtk.gtk.Snapshot snapshot) {
-        java.util.Objects.requireNonNull(child, "Parameter 'child' must not be null");
-        java.util.Objects.requireNonNull(snapshot, "Parameter 'snapshot' must not be null");
+    public void snapshotChild(org.gtk.gtk.Widget child, org.gtk.gtk.Snapshot snapshot) {
         try {
             DowncallHandles.gtk_widget_snapshot_child.invokeExact(
                     handle(),
@@ -3842,11 +3739,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      *   ancestor. In this case, 0 is stored in *{@code dest_x} and *{@code dest_y}.
      *   Otherwise {@code true}.
      */
-    public boolean translateCoordinates(@NotNull org.gtk.gtk.Widget destWidget, double srcX, double srcY, Out<Double> destX, Out<Double> destY) {
-        java.util.Objects.requireNonNull(destWidget, "Parameter 'destWidget' must not be null");
-        java.util.Objects.requireNonNull(destX, "Parameter 'destX' must not be null");
+    public boolean translateCoordinates(org.gtk.gtk.Widget destWidget, double srcX, double srcY, Out<Double> destX, Out<Double> destY) {
         MemorySegment destXPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(destY, "Parameter 'destY' must not be null");
         MemorySegment destYPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         int RESULT;
         try {
@@ -3855,14 +3749,14 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
                     destWidget.handle(),
                     srcX,
                     srcY,
-                    (Addressable) destXPOINTER.address(),
-                    (Addressable) destYPOINTER.address());
+                    (Addressable) (destX == null ? MemoryAddress.NULL : (Addressable) destXPOINTER.address()),
+                    (Addressable) (destY == null ? MemoryAddress.NULL : (Addressable) destYPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        destX.set(destXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        destY.set(destYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        return RESULT != 0;
+        if (destX != null) destX.set(destXPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (destY != null) destY.set(destYPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -3930,8 +3824,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * This function is for use in widget implementations.
      * @param flags State flags to turn off
      */
-    public void unsetStateFlags(@NotNull org.gtk.gtk.StateFlags flags) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
+    public void unsetStateFlags(org.gtk.gtk.StateFlags flags) {
         try {
             DowncallHandles.gtk_widget_unset_state_flags.invokeExact(
                     handle(),
@@ -3945,7 +3838,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_widget_get_type.invokeExact();
@@ -3961,7 +3854,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * See {@link Widget#setDefaultDirection}.
      * @return the current default direction.
      */
-    public static @NotNull org.gtk.gtk.TextDirection getDefaultDirection() {
+    public static org.gtk.gtk.TextDirection getDefaultDirection() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_widget_get_default_direction.invokeExact();
@@ -3977,8 +3870,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
      * See {@link Widget#setDirection}.
      * @param dir the new default direction. This cannot be {@link TextDirection#NONE}.
      */
-    public static void setDefaultDirection(@NotNull org.gtk.gtk.TextDirection dir) {
-        java.util.Objects.requireNonNull(dir, "Parameter 'dir' must not be null");
+    public static void setDefaultDirection(org.gtk.gtk.TextDirection dir) {
         try {
             DowncallHandles.gtk_widget_set_default_direction.invokeExact(
                     dir.getValue());
@@ -3989,7 +3881,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Destroy {
-        void signalReceived(Widget sourceWidget);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Destroy.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4005,16 +3908,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.Destroy> onDestroy(Widget.Destroy handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("destroy"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetDestroy",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.Destroy>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("destroy"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4022,7 +3917,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface DirectionChanged {
-        void signalReceived(Widget sourceWidget, @NotNull org.gtk.gtk.TextDirection previousDirection);
+        void run(org.gtk.gtk.TextDirection previousDirection);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget, int previousDirection) {
+            run(org.gtk.gtk.TextDirection.of(previousDirection));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(DirectionChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4033,16 +3939,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.DirectionChanged> onDirectionChanged(Widget.DirectionChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("direction-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetDirectionChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.DirectionChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("direction-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4050,7 +3948,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Hide {
-        void signalReceived(Widget sourceWidget);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Hide.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4061,16 +3970,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.Hide> onHide(Widget.Hide handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("hide"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetHide",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.Hide>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("hide"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4078,7 +3979,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface KeynavFailed {
-        boolean signalReceived(Widget sourceWidget, @NotNull org.gtk.gtk.DirectionType direction);
+        boolean run(org.gtk.gtk.DirectionType direction);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceWidget, int direction) {
+            var RESULT = run(org.gtk.gtk.DirectionType.of(direction));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(KeynavFailed.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4091,16 +4004,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.KeynavFailed> onKeynavFailed(Widget.KeynavFailed handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("keynav-failed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetKeynavFailed",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.KeynavFailed>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("keynav-failed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4108,7 +4013,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Map {
-        void signalReceived(Widget sourceWidget);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Map.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4127,16 +4043,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.Map> onMap(Widget.Map handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("map"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetMap",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.Map>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("map"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4144,7 +4052,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface MnemonicActivate {
-        boolean signalReceived(Widget sourceWidget, boolean groupCycling);
+        boolean run(boolean groupCycling);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceWidget, int groupCycling) {
+            var RESULT = run(Marshal.integerToBoolean.marshal(groupCycling, null).booleanValue());
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MnemonicActivate.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4158,16 +4078,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.MnemonicActivate> onMnemonicActivate(Widget.MnemonicActivate handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("mnemonic-activate"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetMnemonicActivate",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.MnemonicActivate>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("mnemonic-activate"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4175,7 +4087,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface MoveFocus {
-        void signalReceived(Widget sourceWidget, @NotNull org.gtk.gtk.DirectionType direction);
+        void run(org.gtk.gtk.DirectionType direction);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget, int direction) {
+            run(org.gtk.gtk.DirectionType.of(direction));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(MoveFocus.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4186,16 +4109,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.MoveFocus> onMoveFocus(Widget.MoveFocus handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("move-focus"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetMoveFocus",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.MoveFocus>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("move-focus"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4203,7 +4118,19 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface QueryTooltip {
-        boolean signalReceived(Widget sourceWidget, int x, int y, boolean keyboardMode, @NotNull org.gtk.gtk.Tooltip tooltip);
+        boolean run(int x, int y, boolean keyboardMode, org.gtk.gtk.Tooltip tooltip);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceWidget, int x, int y, int keyboardMode, MemoryAddress tooltip) {
+            var RESULT = run(x, y, Marshal.integerToBoolean.marshal(keyboardMode, null).booleanValue(), (org.gtk.gtk.Tooltip) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(tooltip)), org.gtk.gtk.Tooltip.fromAddress).marshal(tooltip, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(QueryTooltip.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4227,16 +4154,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.QueryTooltip> onQueryTooltip(Widget.QueryTooltip handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("query-tooltip"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetQueryTooltip",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, int.class, int.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.QueryTooltip>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("query-tooltip"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4244,7 +4163,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Realize {
-        void signalReceived(Widget sourceWidget);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Realize.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4258,16 +4188,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.Realize> onRealize(Widget.Realize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("realize"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetRealize",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.Realize>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("realize"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4275,7 +4197,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Show {
-        void signalReceived(Widget sourceWidget);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Show.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4286,16 +4219,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.Show> onShow(Widget.Show handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("show"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetShow",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.Show>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("show"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4303,7 +4228,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface StateFlagsChanged {
-        void signalReceived(Widget sourceWidget, @NotNull org.gtk.gtk.StateFlags flags);
+        void run(org.gtk.gtk.StateFlags flags);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget, int flags) {
+            run(new org.gtk.gtk.StateFlags(flags));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(StateFlagsChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4316,16 +4252,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.StateFlagsChanged> onStateFlagsChanged(Widget.StateFlagsChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("state-flags-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetStateFlagsChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.StateFlagsChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("state-flags-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4333,7 +4261,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Unmap {
-        void signalReceived(Widget sourceWidget);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Unmap.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4350,16 +4289,8 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.Unmap> onUnmap(Widget.Unmap handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("unmap"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetUnmap",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.Unmap>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("unmap"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -4367,7 +4298,18 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     
     @FunctionalInterface
     public interface Unrealize {
-        void signalReceived(Widget sourceWidget);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceWidget) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Unrealize.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -4381,52 +4323,46 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
     public Signal<Widget.Unrealize> onUnrealize(Widget.Unrealize handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("unrealize"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(Widget.Callbacks.class, "signalWidgetUnrealize",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<Widget.Unrealize>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("unrealize"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link Widget.Builder} object constructs a {@link Widget} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link Widget.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.InitiallyUnowned.Build {
+    public static class Builder extends org.gtk.gobject.InitiallyUnowned.Builder {
         
-         /**
-         * A {@link Widget.Build} object constructs a {@link Widget} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link Widget} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link Widget} using {@link Widget#castFrom}.
+         * {@link Widget}.
          * @return A new instance of {@code Widget} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Widget construct() {
-            return Widget.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    Widget.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public Widget build() {
+            return (Widget) org.gtk.gobject.GObject.newWithProperties(
+                Widget.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -4439,7 +4375,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param canFocus The value for the {@code can-focus} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanFocus(boolean canFocus) {
+        public Builder setCanFocus(boolean canFocus) {
             names.add("can-focus");
             values.add(org.gtk.gobject.Value.create(canFocus));
             return this;
@@ -4450,7 +4386,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param canTarget The value for the {@code can-target} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCanTarget(boolean canTarget) {
+        public Builder setCanTarget(boolean canTarget) {
             names.add("can-target");
             values.add(org.gtk.gobject.Value.create(canTarget));
             return this;
@@ -4464,7 +4400,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param cssName The value for the {@code css-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCssName(java.lang.String cssName) {
+        public Builder setCssName(java.lang.String cssName) {
             names.add("css-name");
             values.add(org.gtk.gobject.Value.create(cssName));
             return this;
@@ -4475,7 +4411,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param cursor The value for the {@code cursor} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCursor(org.gtk.gdk.Cursor cursor) {
+        public Builder setCursor(org.gtk.gdk.Cursor cursor) {
             names.add("cursor");
             values.add(org.gtk.gobject.Value.create(cursor));
             return this;
@@ -4488,7 +4424,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param focusOnClick The value for the {@code focus-on-click} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFocusOnClick(boolean focusOnClick) {
+        public Builder setFocusOnClick(boolean focusOnClick) {
             names.add("focus-on-click");
             values.add(org.gtk.gobject.Value.create(focusOnClick));
             return this;
@@ -4499,7 +4435,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param focusable The value for the {@code focusable} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFocusable(boolean focusable) {
+        public Builder setFocusable(boolean focusable) {
             names.add("focusable");
             values.add(org.gtk.gobject.Value.create(focusable));
             return this;
@@ -4510,7 +4446,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param halign The value for the {@code halign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHalign(org.gtk.gtk.Align halign) {
+        public Builder setHalign(org.gtk.gtk.Align halign) {
             names.add("halign");
             values.add(org.gtk.gobject.Value.create(halign));
             return this;
@@ -4521,7 +4457,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param hasDefault The value for the {@code has-default} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasDefault(boolean hasDefault) {
+        public Builder setHasDefault(boolean hasDefault) {
             names.add("has-default");
             values.add(org.gtk.gobject.Value.create(hasDefault));
             return this;
@@ -4532,7 +4468,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param hasFocus The value for the {@code has-focus} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasFocus(boolean hasFocus) {
+        public Builder setHasFocus(boolean hasFocus) {
             names.add("has-focus");
             values.add(org.gtk.gobject.Value.create(hasFocus));
             return this;
@@ -4547,7 +4483,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param hasTooltip The value for the {@code has-tooltip} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHasTooltip(boolean hasTooltip) {
+        public Builder setHasTooltip(boolean hasTooltip) {
             names.add("has-tooltip");
             values.add(org.gtk.gobject.Value.create(hasTooltip));
             return this;
@@ -4560,7 +4496,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param heightRequest The value for the {@code height-request} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHeightRequest(int heightRequest) {
+        public Builder setHeightRequest(int heightRequest) {
             names.add("height-request");
             values.add(org.gtk.gobject.Value.create(heightRequest));
             return this;
@@ -4571,7 +4507,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param hexpand The value for the {@code hexpand} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHexpand(boolean hexpand) {
+        public Builder setHexpand(boolean hexpand) {
             names.add("hexpand");
             values.add(org.gtk.gobject.Value.create(hexpand));
             return this;
@@ -4582,7 +4518,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param hexpandSet The value for the {@code hexpand-set} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHexpandSet(boolean hexpandSet) {
+        public Builder setHexpandSet(boolean hexpandSet) {
             names.add("hexpand-set");
             values.add(org.gtk.gobject.Value.create(hexpandSet));
             return this;
@@ -4597,7 +4533,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param layoutManager The value for the {@code layout-manager} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLayoutManager(org.gtk.gtk.LayoutManager layoutManager) {
+        public Builder setLayoutManager(org.gtk.gtk.LayoutManager layoutManager) {
             names.add("layout-manager");
             values.add(org.gtk.gobject.Value.create(layoutManager));
             return this;
@@ -4612,7 +4548,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param marginBottom The value for the {@code margin-bottom} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMarginBottom(int marginBottom) {
+        public Builder setMarginBottom(int marginBottom) {
             names.add("margin-bottom");
             values.add(org.gtk.gobject.Value.create(marginBottom));
             return this;
@@ -4630,7 +4566,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param marginEnd The value for the {@code margin-end} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMarginEnd(int marginEnd) {
+        public Builder setMarginEnd(int marginEnd) {
             names.add("margin-end");
             values.add(org.gtk.gobject.Value.create(marginEnd));
             return this;
@@ -4648,7 +4584,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param marginStart The value for the {@code margin-start} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMarginStart(int marginStart) {
+        public Builder setMarginStart(int marginStart) {
             names.add("margin-start");
             values.add(org.gtk.gobject.Value.create(marginStart));
             return this;
@@ -4663,7 +4599,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param marginTop The value for the {@code margin-top} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMarginTop(int marginTop) {
+        public Builder setMarginTop(int marginTop) {
             names.add("margin-top");
             values.add(org.gtk.gobject.Value.create(marginTop));
             return this;
@@ -4674,7 +4610,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
@@ -4685,7 +4621,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param opacity The value for the {@code opacity} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOpacity(double opacity) {
+        public Builder setOpacity(double opacity) {
             names.add("opacity");
             values.add(org.gtk.gobject.Value.create(opacity));
             return this;
@@ -4699,7 +4635,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param overflow The value for the {@code overflow} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOverflow(org.gtk.gtk.Overflow overflow) {
+        public Builder setOverflow(org.gtk.gtk.Overflow overflow) {
             names.add("overflow");
             values.add(org.gtk.gobject.Value.create(overflow));
             return this;
@@ -4710,7 +4646,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param parent The value for the {@code parent} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gtk.gtk.Widget parent) {
+        public Builder setParent(org.gtk.gtk.Widget parent) {
             names.add("parent");
             values.add(org.gtk.gobject.Value.create(parent));
             return this;
@@ -4721,7 +4657,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param receivesDefault The value for the {@code receives-default} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setReceivesDefault(boolean receivesDefault) {
+        public Builder setReceivesDefault(boolean receivesDefault) {
             names.add("receives-default");
             values.add(org.gtk.gobject.Value.create(receivesDefault));
             return this;
@@ -4734,7 +4670,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param root The value for the {@code root} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRoot(org.gtk.gtk.Root root) {
+        public Builder setRoot(org.gtk.gtk.Root root) {
             names.add("root");
             values.add(org.gtk.gobject.Value.create(root));
             return this;
@@ -4745,7 +4681,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param scaleFactor The value for the {@code scale-factor} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setScaleFactor(int scaleFactor) {
+        public Builder setScaleFactor(int scaleFactor) {
             names.add("scale-factor");
             values.add(org.gtk.gobject.Value.create(scaleFactor));
             return this;
@@ -4756,7 +4692,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param sensitive The value for the {@code sensitive} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSensitive(boolean sensitive) {
+        public Builder setSensitive(boolean sensitive) {
             names.add("sensitive");
             values.add(org.gtk.gobject.Value.create(sensitive));
             return this;
@@ -4779,7 +4715,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param tooltipMarkup The value for the {@code tooltip-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTooltipMarkup(java.lang.String tooltipMarkup) {
+        public Builder setTooltipMarkup(java.lang.String tooltipMarkup) {
             names.add("tooltip-markup");
             values.add(org.gtk.gobject.Value.create(tooltipMarkup));
             return this;
@@ -4801,7 +4737,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param tooltipText The value for the {@code tooltip-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTooltipText(java.lang.String tooltipText) {
+        public Builder setTooltipText(java.lang.String tooltipText) {
             names.add("tooltip-text");
             values.add(org.gtk.gobject.Value.create(tooltipText));
             return this;
@@ -4812,7 +4748,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param valign The value for the {@code valign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValign(org.gtk.gtk.Align valign) {
+        public Builder setValign(org.gtk.gtk.Align valign) {
             names.add("valign");
             values.add(org.gtk.gobject.Value.create(valign));
             return this;
@@ -4823,7 +4759,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param vexpand The value for the {@code vexpand} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVexpand(boolean vexpand) {
+        public Builder setVexpand(boolean vexpand) {
             names.add("vexpand");
             values.add(org.gtk.gobject.Value.create(vexpand));
             return this;
@@ -4834,7 +4770,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param vexpandSet The value for the {@code vexpand-set} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVexpandSet(boolean vexpandSet) {
+        public Builder setVexpandSet(boolean vexpandSet) {
             names.add("vexpand-set");
             values.add(org.gtk.gobject.Value.create(vexpandSet));
             return this;
@@ -4845,7 +4781,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param visible The value for the {@code visible} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setVisible(boolean visible) {
+        public Builder setVisible(boolean visible) {
             names.add("visible");
             values.add(org.gtk.gobject.Value.create(visible));
             return this;
@@ -4858,7 +4794,7 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
          * @param widthRequest The value for the {@code width-request} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWidthRequest(int widthRequest) {
+        public Builder setWidthRequest(int widthRequest) {
             names.add("width-request");
             values.add(org.gtk.gobject.Value.create(widthRequest));
             return this;
@@ -4879,15 +4815,9 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
             false
         );
         
-        private static final MethodHandle gtk_widget_activate_action = Interop.downcallHandle(
-            "gtk_widget_activate_action",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            true
-        );
-        
         private static final MethodHandle gtk_widget_activate_action_variant = Interop.downcallHandle(
             "gtk_widget_activate_action_variant",
-            FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
+            FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
             false
         );
         
@@ -5844,86 +5774,5 @@ public class Widget extends org.gtk.gobject.InitiallyUnowned implements org.gtk.
             FunctionDescriptor.ofVoid(Interop.valueLayout.C_INT),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalWidgetDestroy(MemoryAddress sourceWidget, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.Destroy) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
-        }
-        
-        public static void signalWidgetDirectionChanged(MemoryAddress sourceWidget, int previousDirection, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.DirectionChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), org.gtk.gtk.TextDirection.of(previousDirection));
-        }
-        
-        public static void signalWidgetHide(MemoryAddress sourceWidget, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.Hide) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
-        }
-        
-        public static boolean signalWidgetKeynavFailed(MemoryAddress sourceWidget, int direction, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.KeynavFailed) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), org.gtk.gtk.DirectionType.of(direction));
-        }
-        
-        public static void signalWidgetMap(MemoryAddress sourceWidget, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.Map) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
-        }
-        
-        public static boolean signalWidgetMnemonicActivate(MemoryAddress sourceWidget, int groupCycling, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.MnemonicActivate) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), groupCycling != 0);
-        }
-        
-        public static void signalWidgetMoveFocus(MemoryAddress sourceWidget, int direction, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.MoveFocus) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), org.gtk.gtk.DirectionType.of(direction));
-        }
-        
-        public static boolean signalWidgetQueryTooltip(MemoryAddress sourceWidget, int x, int y, int keyboardMode, MemoryAddress tooltip, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.QueryTooltip) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), x, y, keyboardMode != 0, new org.gtk.gtk.Tooltip(tooltip, Ownership.NONE));
-        }
-        
-        public static void signalWidgetRealize(MemoryAddress sourceWidget, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.Realize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
-        }
-        
-        public static void signalWidgetShow(MemoryAddress sourceWidget, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.Show) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
-        }
-        
-        public static void signalWidgetStateFlagsChanged(MemoryAddress sourceWidget, int flags, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.StateFlagsChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE), new org.gtk.gtk.StateFlags(flags));
-        }
-        
-        public static void signalWidgetUnmap(MemoryAddress sourceWidget, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.Unmap) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
-        }
-        
-        public static void signalWidgetUnrealize(MemoryAddress sourceWidget, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (Widget.Unrealize) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new Widget(sourceWidget, Ownership.NONE));
-        }
     }
 }

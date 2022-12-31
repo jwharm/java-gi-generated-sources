@@ -14,7 +14,15 @@ public final class GstGL {
         System.loadLibrary("gstgl-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * An option that can be activated on bufferpools to request OpenGL
@@ -188,9 +196,7 @@ public final class GstGL {
      */
     public static final int MAP_GL = 131072;
     
-    public static @NotNull org.gstreamer.gl.GLSyncMeta bufferAddGlSyncMeta(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gl.GLSyncMeta bufferAddGlSyncMeta(org.gstreamer.gl.GLContext context, org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_gl_sync_meta.invokeExact(
@@ -199,26 +205,23 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLSyncMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.gl.GLSyncMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gstreamer.gl.GLSyncMeta bufferAddGlSyncMetaFull(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gst.Buffer buffer, @Nullable java.lang.foreign.MemoryAddress data) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gl.GLSyncMeta bufferAddGlSyncMetaFull(org.gstreamer.gl.GLContext context, org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_add_gl_sync_meta_full.invokeExact(
                     context.handle(),
                     buffer.handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLSyncMeta(RESULT, Ownership.NONE);
+        return org.gstreamer.gl.GLSyncMeta.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gstreamer.gl.GLAllocationParams bufferPoolConfigGetGlAllocationParams(@NotNull org.gstreamer.gst.Structure config) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
+    public static org.gstreamer.gl.GLAllocationParams bufferPoolConfigGetGlAllocationParams(org.gstreamer.gst.Structure config) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_pool_config_get_gl_allocation_params.invokeExact(
@@ -226,7 +229,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLAllocationParams(RESULT, Ownership.FULL);
+        return org.gstreamer.gl.GLAllocationParams.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -234,9 +237,7 @@ public final class GstGL {
      * @param config a buffer pool config
      * @param params a {@link GLAllocationParams}
      */
-    public static void bufferPoolConfigSetGlAllocationParams(@NotNull org.gstreamer.gst.Structure config, @NotNull org.gstreamer.gl.GLAllocationParams params) {
-        java.util.Objects.requireNonNull(config, "Parameter 'config' must not be null");
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
+    public static void bufferPoolConfigSetGlAllocationParams(org.gstreamer.gst.Structure config, org.gstreamer.gl.GLAllocationParams params) {
         try {
             DowncallHandles.gst_buffer_pool_config_set_gl_allocation_params.invokeExact(
                     config.handle(),
@@ -246,9 +247,7 @@ public final class GstGL {
         }
     }
     
-    public static boolean contextGetGlDisplay(@NotNull org.gstreamer.gst.Context context, @NotNull Out<org.gstreamer.gl.GLDisplay> display) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public static boolean contextGetGlDisplay(org.gstreamer.gst.Context context, Out<org.gstreamer.gl.GLDisplay> display) {
         MemorySegment displayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -258,8 +257,8 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        display.set(new org.gstreamer.gl.GLDisplay(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        display.set((org.gstreamer.gl.GLDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gl.GLDisplay.fromAddress).marshal(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -267,9 +266,7 @@ public final class GstGL {
      * @param context a {@link org.gstreamer.gst.Context}
      * @param display resulting {@link GLDisplay}
      */
-    public static void contextSetGlDisplay(@NotNull org.gstreamer.gst.Context context, @NotNull org.gstreamer.gl.GLDisplay display) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public static void contextSetGlDisplay(org.gstreamer.gst.Context context, org.gstreamer.gl.GLDisplay display) {
         try {
             DowncallHandles.gst_context_set_gl_display.invokeExact(
                     context.handle(),
@@ -279,20 +276,18 @@ public final class GstGL {
         }
     }
     
-    public static @NotNull org.gstreamer.gl.GLAPI glApiFromString(@NotNull java.lang.String apiS) {
-        java.util.Objects.requireNonNull(apiS, "Parameter 'apiS' must not be null");
+    public static org.gstreamer.gl.GLAPI glApiFromString(java.lang.String apiS) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_api_from_string.invokeExact(
-                    Interop.allocateNativeString(apiS));
+                    Marshal.stringToAddress.marshal(apiS, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gstreamer.gl.GLAPI(RESULT);
     }
     
-    public static @NotNull java.lang.String glApiToString(@NotNull org.gstreamer.gl.GLAPI api) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
+    public static java.lang.String glApiToString(org.gstreamer.gl.GLAPI api) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_api_to_string.invokeExact(
@@ -300,26 +295,24 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Free with gst_gl_async_debug_free()
      * @return a new {@link GLAsyncDebug}
      */
-    public static @NotNull org.gstreamer.gl.GLAsyncDebug glAsyncDebugNew() {
+    public static org.gstreamer.gl.GLAsyncDebug glAsyncDebugNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_async_debug_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLAsyncDebug(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLAsyncDebug.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
-    public static @NotNull org.gstreamer.gl.GLBaseMemory glBaseMemoryAlloc(@NotNull org.gstreamer.gl.GLBaseMemoryAllocator allocator, @NotNull org.gstreamer.gl.GLAllocationParams params) {
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
+    public static org.gstreamer.gl.GLBaseMemory glBaseMemoryAlloc(org.gstreamer.gl.GLBaseMemoryAllocator allocator, org.gstreamer.gl.GLAllocationParams params) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_base_memory_alloc.invokeExact(
@@ -328,10 +321,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLBaseMemory(RESULT, Ownership.FULL);
+        return org.gstreamer.gl.GLBaseMemory.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gtk.glib.Quark glBaseMemoryErrorQuark() {
+    public static org.gtk.glib.Quark glBaseMemoryErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_base_memory_error_quark.invokeExact();
@@ -365,22 +358,19 @@ public final class GstGL {
         }
     }
     
-    public static boolean glCheckExtension(@NotNull java.lang.String name, @NotNull java.lang.String ext) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(ext, "Parameter 'ext' must not be null");
+    public static boolean glCheckExtension(java.lang.String name, java.lang.String ext) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_check_extension.invokeExact(
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(ext));
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(ext, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @Nullable java.lang.String glConfigCaveatToString(@NotNull org.gstreamer.gl.GLConfigCaveat caveat) {
-        java.util.Objects.requireNonNull(caveat, "Parameter 'caveat' must not be null");
+    public static @Nullable java.lang.String glConfigCaveatToString(org.gstreamer.gl.GLConfigCaveat caveat) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_config_caveat_to_string.invokeExact(
@@ -388,11 +378,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @Nullable java.lang.String glConfigSurfaceTypeToString(@NotNull org.gstreamer.gl.GLConfigSurfaceType surfaceType) {
-        java.util.Objects.requireNonNull(surfaceType, "Parameter 'surfaceType' must not be null");
+    public static @Nullable java.lang.String glConfigSurfaceTypeToString(org.gstreamer.gl.GLConfigSurfaceType surfaceType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_config_surface_type_to_string.invokeExact(
@@ -400,10 +389,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @NotNull org.gtk.glib.Quark glContextErrorQuark() {
+    public static org.gtk.glib.Quark glContextErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_context_error_quark.invokeExact();
@@ -413,9 +402,7 @@ public final class GstGL {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static void glElementPropagateDisplayContext(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gl.GLDisplay display) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public static void glElementPropagateDisplayContext(org.gstreamer.gst.Element element, org.gstreamer.gl.GLDisplay display) {
         try {
             DowncallHandles.gst_gl_element_propagate_display_context.invokeExact(
                     element.handle(),
@@ -447,11 +434,8 @@ public final class GstGL {
      * @param otherContextPtr the resulting {@link GLContext}
      * @return whether a {@link GLDisplay} exists in {@code display_ptr}
      */
-    public static boolean glEnsureElementData(@NotNull org.gstreamer.gst.Element element, @NotNull Out<org.gstreamer.gl.GLDisplay> displayPtr, @NotNull Out<org.gstreamer.gl.GLContext> otherContextPtr) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(displayPtr, "Parameter 'displayPtr' must not be null");
+    public static boolean glEnsureElementData(org.gstreamer.gst.Element element, Out<org.gstreamer.gl.GLDisplay> displayPtr, Out<org.gstreamer.gl.GLContext> otherContextPtr) {
         MemorySegment displayPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(otherContextPtr, "Parameter 'otherContextPtr' must not be null");
         MemorySegment otherContextPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -462,14 +446,12 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        displayPtr.set(new org.gstreamer.gl.GLDisplay(displayPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        otherContextPtr.set(new org.gstreamer.gl.GLContext(otherContextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        displayPtr.set((org.gstreamer.gl.GLDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(displayPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gl.GLDisplay.fromAddress).marshal(displayPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        otherContextPtr.set((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(otherContextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gl.GLContext.fromAddress).marshal(otherContextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gstreamer.gl.GLFormat glFormatFromVideoInfo(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.video.VideoInfo vinfo, int plane) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(vinfo, "Parameter 'vinfo' must not be null");
+    public static org.gstreamer.gl.GLFormat glFormatFromVideoInfo(org.gstreamer.gl.GLContext context, org.gstreamer.video.VideoInfo vinfo, int plane) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_format_from_video_info.invokeExact(
@@ -482,9 +464,7 @@ public final class GstGL {
         return org.gstreamer.gl.GLFormat.of(RESULT);
     }
     
-    public static boolean glFormatIsSupported(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gl.GLFormat format) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static boolean glFormatIsSupported(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLFormat format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_format_is_supported.invokeExact(
@@ -493,7 +473,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -503,11 +483,8 @@ public final class GstGL {
      * @param unsizedFormat location for the resulting unsized {@link GLFormat}
      * @param glType location for the resulting GL type
      */
-    public static void glFormatTypeFromSizedGlFormat(@NotNull org.gstreamer.gl.GLFormat format, @NotNull Out<org.gstreamer.gl.GLFormat> unsizedFormat, Out<Integer> glType) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(unsizedFormat, "Parameter 'unsizedFormat' must not be null");
+    public static void glFormatTypeFromSizedGlFormat(org.gstreamer.gl.GLFormat format, Out<org.gstreamer.gl.GLFormat> unsizedFormat, Out<Integer> glType) {
         MemorySegment unsizedFormatPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(glType, "Parameter 'glType' must not be null");
         MemorySegment glTypePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gst_gl_format_type_from_sized_gl_format.invokeExact(
@@ -546,8 +523,7 @@ public final class GstGL {
      * @param meta a {@link org.gstreamer.video.VideoAffineTransformationMeta}
      * @param matrix result of the 4x4 matrix
      */
-    public static void glGetAffineTransformationMetaAsNdc(@Nullable org.gstreamer.video.VideoAffineTransformationMeta meta, @NotNull Out<float[]> matrix) {
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
+    public static void glGetAffineTransformationMetaAsNdc(@Nullable org.gstreamer.video.VideoAffineTransformationMeta meta, Out<float[]> matrix) {
         MemorySegment matrixPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_gl_get_affine_transformation_meta_as_ndc.invokeExact(
@@ -565,9 +541,7 @@ public final class GstGL {
      * @param align a {@link org.gstreamer.video.VideoAlignment} or {@code null}
      * @param plane plane number in {@code info} to retrieve the data size of
      */
-    public static long glGetPlaneDataSize(@NotNull org.gstreamer.video.VideoInfo info, @NotNull org.gstreamer.video.VideoAlignment align, int plane) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(align, "Parameter 'align' must not be null");
+    public static long glGetPlaneDataSize(org.gstreamer.video.VideoInfo info, org.gstreamer.video.VideoAlignment align, int plane) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_get_plane_data_size.invokeExact(
@@ -580,9 +554,7 @@ public final class GstGL {
         return RESULT;
     }
     
-    public static long glGetPlaneStart(@NotNull org.gstreamer.video.VideoInfo info, @NotNull org.gstreamer.video.VideoAlignment valign, int plane) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(valign, "Parameter 'valign' must not be null");
+    public static long glGetPlaneStart(org.gstreamer.video.VideoInfo info, org.gstreamer.video.VideoAlignment valign, int plane) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_get_plane_start.invokeExact(
@@ -595,9 +567,7 @@ public final class GstGL {
         return RESULT;
     }
     
-    public static boolean glHandleContextQuery(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Query query, @Nullable org.gstreamer.gl.GLDisplay display, @Nullable org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gl.GLContext otherContext) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(query, "Parameter 'query' must not be null");
+    public static boolean glHandleContextQuery(org.gstreamer.gst.Element element, org.gstreamer.gst.Query query, @Nullable org.gstreamer.gl.GLDisplay display, @Nullable org.gstreamer.gl.GLContext context, @Nullable org.gstreamer.gl.GLContext otherContext) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_handle_context_query.invokeExact(
@@ -609,7 +579,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -624,12 +594,8 @@ public final class GstGL {
      * @param otherContext location of a {@link GLContext}
      * @return whether the {@code display} or {@code other_context} could be set successfully
      */
-    public static boolean glHandleSetContext(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.Context context, @NotNull Out<org.gstreamer.gl.GLDisplay> display, @NotNull Out<org.gstreamer.gl.GLContext> otherContext) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(display, "Parameter 'display' must not be null");
+    public static boolean glHandleSetContext(org.gstreamer.gst.Element element, org.gstreamer.gst.Context context, Out<org.gstreamer.gl.GLDisplay> display, Out<org.gstreamer.gl.GLContext> otherContext) {
         MemorySegment displayPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(otherContext, "Parameter 'otherContext' must not be null");
         MemorySegment otherContextPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -641,9 +607,9 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        display.set(new org.gstreamer.gl.GLDisplay(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        otherContext.set(new org.gstreamer.gl.GLContext(otherContextPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        display.set((org.gstreamer.gl.GLDisplay) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gl.GLDisplay.fromAddress).marshal(displayPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        otherContext.set((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(otherContextPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gl.GLContext.fromAddress).marshal(otherContextPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -653,13 +619,11 @@ public final class GstGL {
      * @param format a printf-style format string
      * @param varargs arguments form {@code format}
      */
-    public static void glInsertDebugMarker(@NotNull org.gstreamer.gl.GLContext context, @NotNull java.lang.String format, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void glInsertDebugMarker(org.gstreamer.gl.GLContext context, java.lang.String format, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_gl_insert_debug_marker.invokeExact(
                     context.handle(),
-                    Interop.allocateNativeString(format),
+                    Marshal.stringToAddress.marshal(format, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -686,11 +650,7 @@ public final class GstGL {
         }
     }
     
-    public static boolean glMemorySetupBuffer(@NotNull org.gstreamer.gl.GLMemoryAllocator allocator, @NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.gl.GLVideoAllocationParams params, @Nullable org.gstreamer.gl.GLFormat[] texFormats, @NotNull java.lang.foreign.MemoryAddress[] wrappedData, long nWrappedPointers) {
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
-        java.util.Objects.requireNonNull(wrappedData, "Parameter 'wrappedData' must not be null");
+    public static boolean glMemorySetupBuffer(org.gstreamer.gl.GLMemoryAllocator allocator, org.gstreamer.gst.Buffer buffer, org.gstreamer.gl.GLVideoAllocationParams params, @Nullable org.gstreamer.gl.GLFormat[] texFormats, java.lang.foreign.MemoryAddress[] wrappedData, long nWrappedPointers) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_memory_setup_buffer.invokeExact(
@@ -703,7 +663,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -713,10 +673,7 @@ public final class GstGL {
      * @param b another 2-dimensional 4x4 array of {@code gfloat}
      * @param result the result of the multiplication
      */
-    public static void glMultiplyMatrix4(@NotNull float[] a, @NotNull float[] b, @NotNull Out<float[]> result) {
-        java.util.Objects.requireNonNull(a, "Parameter 'a' must not be null");
-        java.util.Objects.requireNonNull(b, "Parameter 'b' must not be null");
-        java.util.Objects.requireNonNull(result, "Parameter 'result' must not be null");
+    public static void glMultiplyMatrix4(float[] a, float[] b, Out<float[]> result) {
         MemorySegment resultPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         try {
             DowncallHandles.gst_gl_multiply_matrix4.invokeExact(
@@ -729,20 +686,18 @@ public final class GstGL {
         result.set(MemorySegment.ofAddress(resultPOINTER.get(Interop.valueLayout.ADDRESS, 0), 16 * Interop.valueLayout.C_FLOAT.byteSize(), Interop.getScope()).toArray(Interop.valueLayout.C_FLOAT));
     }
     
-    public static @NotNull org.gstreamer.gl.GLPlatform glPlatformFromString(@NotNull java.lang.String platformS) {
-        java.util.Objects.requireNonNull(platformS, "Parameter 'platformS' must not be null");
+    public static org.gstreamer.gl.GLPlatform glPlatformFromString(java.lang.String platformS) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_platform_from_string.invokeExact(
-                    Interop.allocateNativeString(platformS));
+                    Marshal.stringToAddress.marshal(platformS, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gstreamer.gl.GLPlatform(RESULT);
     }
     
-    public static @NotNull java.lang.String glPlatformToString(@NotNull org.gstreamer.gl.GLPlatform platform) {
-        java.util.Objects.requireNonNull(platform, "Parameter 'platform' must not be null");
+    public static java.lang.String glPlatformToString(org.gstreamer.gl.GLPlatform platform) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_platform_to_string.invokeExact(
@@ -750,7 +705,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -763,10 +718,7 @@ public final class GstGL {
      *                      {@link GLContext}
      * @return whether {@code context_ptr} contains a {@link GLContext}
      */
-    public static boolean glQueryLocalGlContext(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.PadDirection direction, @NotNull Out<org.gstreamer.gl.GLContext> contextPtr) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
-        java.util.Objects.requireNonNull(contextPtr, "Parameter 'contextPtr' must not be null");
+    public static boolean glQueryLocalGlContext(org.gstreamer.gst.Element element, org.gstreamer.gst.PadDirection direction, Out<org.gstreamer.gl.GLContext> contextPtr) {
         MemorySegment contextPtrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -777,8 +729,8 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        contextPtr.set(new org.gstreamer.gl.GLContext(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        contextPtr.set((org.gstreamer.gl.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gl.GLContext.fromAddress).marshal(contextPtrPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -787,9 +739,7 @@ public final class GstGL {
      * @param queryType the {@link GLQueryType} to create
      * @return a new {@link GLQuery}
      */
-    public static @NotNull org.gstreamer.gl.GLQuery glQueryNew(@NotNull org.gstreamer.gl.GLContext context, @NotNull org.gstreamer.gl.GLQueryType queryType) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(queryType, "Parameter 'queryType' must not be null");
+    public static org.gstreamer.gl.GLQuery glQueryNew(org.gstreamer.gl.GLContext context, org.gstreamer.gl.GLQueryType queryType) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_query_new.invokeExact(
@@ -798,7 +748,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gl.GLQuery(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gl.GLQuery.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -819,9 +769,7 @@ public final class GstGL {
      * @param meta a {@link org.gstreamer.video.VideoAffineTransformationMeta}
      * @param matrix a 4x4 matrix
      */
-    public static void glSetAffineTransformationMetaFromNdc(@NotNull org.gstreamer.video.VideoAffineTransformationMeta meta, @NotNull float[] matrix) {
-        java.util.Objects.requireNonNull(meta, "Parameter 'meta' must not be null");
-        java.util.Objects.requireNonNull(matrix, "Parameter 'matrix' must not be null");
+    public static void glSetAffineTransformationMetaFromNdc(org.gstreamer.video.VideoAffineTransformationMeta meta, float[] matrix) {
         try {
             DowncallHandles.gst_gl_set_affine_transformation_meta_from_ndc.invokeExact(
                     meta.handle(),
@@ -831,8 +779,7 @@ public final class GstGL {
         }
     }
     
-    public static int glSizedGlFormatFromGlFormatType(@NotNull org.gstreamer.gl.GLContext context, int format, int type) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public static int glSizedGlFormatFromGlFormatType(org.gstreamer.gl.GLContext context, int format, int type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_sized_gl_format_from_gl_format_type.invokeExact(
@@ -845,7 +792,7 @@ public final class GstGL {
         return RESULT;
     }
     
-    public static @NotNull org.gtk.glib.Type glStereoDownmixModeGetType() {
+    public static org.gtk.glib.Type glStereoDownmixModeGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_stereo_downmix_mode_get_type.invokeExact();
@@ -855,7 +802,7 @@ public final class GstGL {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Type glSyncMetaApiGetType() {
+    public static org.gtk.glib.Type glSyncMetaApiGetType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_gl_sync_meta_api_get_type.invokeExact();
@@ -865,17 +812,17 @@ public final class GstGL {
         return new org.gtk.glib.Type(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gst.MetaInfo glSyncMetaGetInfo() {
+    public static org.gstreamer.gst.MetaInfo glSyncMetaGetInfo() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_sync_meta_get_info.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.MetaInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.MetaInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gstreamer.gl.GLTextureTarget glTextureTargetFromGl(int target) {
+    public static org.gstreamer.gl.GLTextureTarget glTextureTargetFromGl(int target) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_texture_target_from_gl.invokeExact(
@@ -886,20 +833,18 @@ public final class GstGL {
         return org.gstreamer.gl.GLTextureTarget.of(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gl.GLTextureTarget glTextureTargetFromString(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public static org.gstreamer.gl.GLTextureTarget glTextureTargetFromString(java.lang.String str) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_texture_target_from_string.invokeExact(
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return org.gstreamer.gl.GLTextureTarget.of(RESULT);
     }
     
-    public static @NotNull java.lang.String glTextureTargetToBufferPoolOption(@NotNull org.gstreamer.gl.GLTextureTarget target) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public static java.lang.String glTextureTargetToBufferPoolOption(org.gstreamer.gl.GLTextureTarget target) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_texture_target_to_buffer_pool_option.invokeExact(
@@ -907,11 +852,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static int glTextureTargetToGl(@NotNull org.gstreamer.gl.GLTextureTarget target) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public static int glTextureTargetToGl(org.gstreamer.gl.GLTextureTarget target) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_texture_target_to_gl.invokeExact(
@@ -922,8 +866,7 @@ public final class GstGL {
         return RESULT;
     }
     
-    public static @NotNull java.lang.String glTextureTargetToString(@NotNull org.gstreamer.gl.GLTextureTarget target) {
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public static java.lang.String glTextureTargetToString(org.gstreamer.gl.GLTextureTarget target) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_gl_texture_target_to_string.invokeExact(
@@ -931,7 +874,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -940,8 +883,7 @@ public final class GstGL {
      * @return the mask of {@link GLTextureTarget}'s in {@code value} or
      *     {@link GLTextureTarget#NONE} on failure
      */
-    public static @NotNull org.gstreamer.gl.GLTextureTarget glValueGetTextureTargetMask(@NotNull org.gtk.gobject.Value value) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public static org.gstreamer.gl.GLTextureTarget glValueGetTextureTargetMask(org.gtk.gobject.Value value) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_value_get_texture_target_mask.invokeExact(
@@ -952,9 +894,7 @@ public final class GstGL {
         return org.gstreamer.gl.GLTextureTarget.of(RESULT);
     }
     
-    public static boolean glValueSetTextureTarget(@NotNull org.gtk.gobject.Value value, @NotNull org.gstreamer.gl.GLTextureTarget target) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(target, "Parameter 'target' must not be null");
+    public static boolean glValueSetTextureTarget(org.gtk.gobject.Value value, org.gstreamer.gl.GLTextureTarget target) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_value_set_texture_target.invokeExact(
@@ -963,7 +903,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -973,9 +913,7 @@ public final class GstGL {
      * @param targetMask a bitwise mask of {@link GLTextureTarget}'s
      * @return whether the {@code target_mask} could be set on {@code value}
      */
-    public static boolean glValueSetTextureTargetFromMask(@NotNull org.gtk.gobject.Value value, @NotNull org.gstreamer.gl.GLTextureTarget targetMask) {
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        java.util.Objects.requireNonNull(targetMask, "Parameter 'targetMask' must not be null");
+    public static boolean glValueSetTextureTargetFromMask(org.gtk.gobject.Value value, org.gstreamer.gl.GLTextureTarget targetMask) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_value_set_texture_target_from_mask.invokeExact(
@@ -984,11 +922,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gstreamer.gl.GLSLVersion glVersionToGlslVersion(@NotNull org.gstreamer.gl.GLAPI glApi, int maj, int min) {
-        java.util.Objects.requireNonNull(glApi, "Parameter 'glApi' must not be null");
+    public static org.gstreamer.gl.GLSLVersion glVersionToGlslVersion(org.gstreamer.gl.GLAPI glApi, int maj, int min) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_version_to_glsl_version.invokeExact(
@@ -1001,7 +938,7 @@ public final class GstGL {
         return org.gstreamer.gl.GLSLVersion.of(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Quark glWindowErrorQuark() {
+    public static org.gtk.glib.Quark glWindowErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_gl_window_error_quark.invokeExact();
@@ -1011,7 +948,7 @@ public final class GstGL {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull org.gtk.glib.Quark glslErrorQuark() {
+    public static org.gtk.glib.Quark glslErrorQuark() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_glsl_error_quark.invokeExact();
@@ -1021,20 +958,18 @@ public final class GstGL {
         return new org.gtk.glib.Quark(RESULT);
     }
     
-    public static @NotNull org.gstreamer.gl.GLSLProfile glslProfileFromString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static org.gstreamer.gl.GLSLProfile glslProfileFromString(java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_glsl_profile_from_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         return new org.gstreamer.gl.GLSLProfile(RESULT);
     }
     
-    public static @Nullable java.lang.String glslProfileToString(@NotNull org.gstreamer.gl.GLSLProfile profile) {
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public static @Nullable java.lang.String glslProfileToString(org.gstreamer.gl.GLSLProfile profile) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_glsl_profile_to_string.invokeExact(
@@ -1042,7 +977,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -1053,16 +988,13 @@ public final class GstGL {
      * @param profile resulting {@link GLSLProfile}
      * @return TRUE if a valid {@code #version} string was found, FALSE otherwise
      */
-    public static boolean glslStringGetVersionProfile(@NotNull java.lang.String s, @NotNull Out<org.gstreamer.gl.GLSLVersion> version, @NotNull Out<org.gstreamer.gl.GLSLProfile> profile) {
-        java.util.Objects.requireNonNull(s, "Parameter 's' must not be null");
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
+    public static boolean glslStringGetVersionProfile(java.lang.String s, Out<org.gstreamer.gl.GLSLVersion> version, Out<org.gstreamer.gl.GLSLProfile> profile) {
         MemorySegment versionPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
         MemorySegment profilePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_glsl_string_get_version_profile.invokeExact(
-                    Interop.allocateNativeString(s),
+                    Marshal.stringToAddress.marshal(s, null),
                     (Addressable) versionPOINTER.address(),
                     (Addressable) profilePOINTER.address());
         } catch (Throwable ERR) {
@@ -1070,15 +1002,14 @@ public final class GstGL {
         }
         version.set(org.gstreamer.gl.GLSLVersion.of(versionPOINTER.get(Interop.valueLayout.C_INT, 0)));
         profile.set(new org.gstreamer.gl.GLSLProfile(profilePOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull org.gstreamer.gl.GLSLVersion glslVersionFromString(@NotNull java.lang.String string) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
+    public static org.gstreamer.gl.GLSLVersion glslVersionFromString(java.lang.String string) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_glsl_version_from_string.invokeExact(
-                    Interop.allocateNativeString(string));
+                    Marshal.stringToAddress.marshal(string, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1093,16 +1024,13 @@ public final class GstGL {
      * @param profileRet resulting {@link GLSLVersion}
      * @return TRUE if a valid {@code #version} string was found, FALSE otherwise
      */
-    public static boolean glslVersionProfileFromString(@NotNull java.lang.String string, @NotNull Out<org.gstreamer.gl.GLSLVersion> versionRet, @NotNull Out<org.gstreamer.gl.GLSLProfile> profileRet) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(versionRet, "Parameter 'versionRet' must not be null");
+    public static boolean glslVersionProfileFromString(java.lang.String string, Out<org.gstreamer.gl.GLSLVersion> versionRet, Out<org.gstreamer.gl.GLSLProfile> profileRet) {
         MemorySegment versionRetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(profileRet, "Parameter 'profileRet' must not be null");
         MemorySegment profileRetPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_glsl_version_profile_from_string.invokeExact(
-                    Interop.allocateNativeString(string),
+                    Marshal.stringToAddress.marshal(string, null),
                     (Addressable) versionRetPOINTER.address(),
                     (Addressable) profileRetPOINTER.address());
         } catch (Throwable ERR) {
@@ -1110,12 +1038,10 @@ public final class GstGL {
         }
         versionRet.set(org.gstreamer.gl.GLSLVersion.of(versionRetPOINTER.get(Interop.valueLayout.C_INT, 0)));
         profileRet.set(new org.gstreamer.gl.GLSLProfile(profileRetPOINTER.get(Interop.valueLayout.C_INT, 0)));
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static @NotNull java.lang.String glslVersionProfileToString(@NotNull org.gstreamer.gl.GLSLVersion version, @NotNull org.gstreamer.gl.GLSLProfile profile) {
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
-        java.util.Objects.requireNonNull(profile, "Parameter 'profile' must not be null");
+    public static java.lang.String glslVersionProfileToString(org.gstreamer.gl.GLSLVersion version, org.gstreamer.gl.GLSLProfile profile) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_glsl_version_profile_to_string.invokeExact(
@@ -1124,11 +1050,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static @Nullable java.lang.String glslVersionToString(@NotNull org.gstreamer.gl.GLSLVersion version) {
-        java.util.Objects.requireNonNull(version, "Parameter 'version' must not be null");
+    public static @Nullable java.lang.String glslVersionToString(org.gstreamer.gl.GLSLVersion version) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_glsl_version_to_string.invokeExact(
@@ -1136,11 +1061,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
-    public static boolean isGlBaseMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isGlBaseMemory(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_gl_base_memory.invokeExact(
@@ -1148,11 +1072,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean isGlBuffer(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isGlBuffer(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_gl_buffer.invokeExact(
@@ -1160,11 +1083,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean isGlMemory(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isGlMemory(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_gl_memory.invokeExact(
@@ -1172,11 +1094,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean isGlMemoryPbo(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isGlMemoryPbo(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_gl_memory_pbo.invokeExact(
@@ -1184,11 +1105,10 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
-    public static boolean isGlRenderbuffer(@NotNull org.gstreamer.gst.Memory mem) {
-        java.util.Objects.requireNonNull(mem, "Parameter 'mem' must not be null");
+    public static boolean isGlRenderbuffer(org.gstreamer.gst.Memory mem) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_is_gl_renderbuffer.invokeExact(
@@ -1196,7 +1116,7 @@ public final class GstGL {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -1600,37 +1520,5 @@ public final class GstGL {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static int cbGLFilterRenderFunc(MemoryAddress filter, MemoryAddress inTex, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GLFilterRenderFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onGLFilterRenderFunc(new org.gstreamer.gl.GLFilter(filter, Ownership.NONE), new org.gstreamer.gl.GLMemory(inTex, Ownership.NONE));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static Addressable cbGLAsyncDebugLogGetMessage(MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GLAsyncDebugLogGetMessage) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onGLAsyncDebugLogGetMessage();
-            return Interop.allocateNativeString(RESULT);
-        }
-        
-        public static void cbGLWindowResizeCB(MemoryAddress data, int width, int height) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GLWindowResizeCB) Interop.signalRegistry.get(HASH);
-            HANDLER.onGLWindowResizeCB(width, height);
-        }
-        
-        public static void cbGLContextThreadFunc(MemoryAddress context, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GLContextThreadFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onGLContextThreadFunc(new org.gstreamer.gl.GLContext(context, Ownership.NONE));
-        }
-        
-        public static void cbGLWindowCB(MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (GLWindowCB) Interop.signalRegistry.get(HASH);
-            HANDLER.onGLWindowCB();
-        }
     }
 }

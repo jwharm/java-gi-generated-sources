@@ -17,25 +17,8 @@ import org.jetbrains.annotations.*;
  */
 public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     
-    /**
-     * Cast object to ColorChooser if its GType is a (or inherits from) "GtkColorChooser".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ColorChooser} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkColorChooser", a ClassCastException will be thrown.
-     */
-    public static ColorChooser castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ColorChooser.getType())) {
-            return new ColorChooserImpl(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkColorChooser");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ColorChooserImpl> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ColorChooserImpl(input, ownership);
     
     /**
      * Adds a palette to the color chooser.
@@ -61,8 +44,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * @param nColors the total number of elements in {@code colors}
      * @param colors the colors of the palette
      */
-    default void addPalette(@NotNull org.gtk.gtk.Orientation orientation, int colorsPerLine, int nColors, @Nullable org.gtk.gdk.RGBA[] colors) {
-        java.util.Objects.requireNonNull(orientation, "Parameter 'orientation' must not be null");
+    default void addPalette(org.gtk.gtk.Orientation orientation, int colorsPerLine, int nColors, @Nullable org.gtk.gdk.RGBA[] colors) {
         try {
             DowncallHandles.gtk_color_chooser_add_palette.invokeExact(
                     handle(),
@@ -79,8 +61,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * Gets the currently-selected color.
      * @param color a {@code GdkRGBA} to fill in with the current color
      */
-    default void getRgba(@NotNull org.gtk.gdk.RGBA color) {
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    default void getRgba(org.gtk.gdk.RGBA color) {
         try {
             DowncallHandles.gtk_color_chooser_get_rgba.invokeExact(
                     handle(),
@@ -103,15 +84,14 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Sets the color.
      * @param color the new color
      */
-    default void setRgba(@NotNull org.gtk.gdk.RGBA color) {
-        java.util.Objects.requireNonNull(color, "Parameter 'color' must not be null");
+    default void setRgba(org.gtk.gdk.RGBA color) {
         try {
             DowncallHandles.gtk_color_chooser_set_rgba.invokeExact(
                     handle(),
@@ -129,7 +109,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         try {
             DowncallHandles.gtk_color_chooser_set_use_alpha.invokeExact(
                     handle(),
-                    useAlpha ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useAlpha, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -139,7 +119,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_color_chooser_get_type.invokeExact();
@@ -151,7 +131,18 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     
     @FunctionalInterface
     public interface ColorActivated {
-        void signalReceived(ColorChooser sourceColorChooser, @NotNull org.gtk.gdk.RGBA color);
+        void run(org.gtk.gdk.RGBA color);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceColorChooser, MemoryAddress color) {
+            run(org.gtk.gdk.RGBA.fromAddress.marshal(color, Ownership.NONE));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ColorActivated.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -166,16 +157,8 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
     public default Signal<ColorChooser.ColorActivated> onColorActivated(ColorChooser.ColorActivated handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("color-activated"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(ColorChooser.Callbacks.class, "signalColorChooserColorActivated",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<ColorChooser.ColorActivated>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("color-activated"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -227,17 +210,7 @@ public interface ColorChooser extends io.github.jwharm.javagi.Proxy {
         );
     }
     
-    @ApiStatus.Internal
-    static class Callbacks {
-        
-        public static void signalColorChooserColorActivated(MemoryAddress sourceColorChooser, MemoryAddress color, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ColorChooser.ColorActivated) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new ColorChooser.ColorChooserImpl(sourceColorChooser, Ownership.NONE), new org.gtk.gdk.RGBA(color, Ownership.NONE));
-        }
-    }
-    
-    class ColorChooserImpl extends org.gtk.gobject.Object implements ColorChooser {
+    class ColorChooserImpl extends org.gtk.gobject.GObject implements ColorChooser {
         
         static {
             Gtk.javagi$ensureInitialized();

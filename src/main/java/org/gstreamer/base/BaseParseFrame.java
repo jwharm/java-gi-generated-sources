@@ -22,26 +22,24 @@ public class BaseParseFrame extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstBaseParseFrame";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("buffer"),
-        Interop.valueLayout.ADDRESS.withName("out_buffer"),
-        Interop.valueLayout.C_INT.withName("flags"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("offset"),
-        Interop.valueLayout.C_INT.withName("overhead"),
-        Interop.valueLayout.C_INT.withName("size"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("_gst_reserved_i"),
-        MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("_gst_reserved_p"),
-        Interop.valueLayout.C_INT.withName("_private_flags")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("buffer"),
+            Interop.valueLayout.ADDRESS.withName("out_buffer"),
+            Interop.valueLayout.C_INT.withName("flags"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("offset"),
+            Interop.valueLayout.C_INT.withName("overhead"),
+            Interop.valueLayout.C_INT.withName("size"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.C_INT).withName("_gst_reserved_i"),
+            MemoryLayout.sequenceLayout(2, Interop.valueLayout.ADDRESS).withName("_gst_reserved_p"),
+            Interop.valueLayout.C_INT.withName("_private_flags")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -61,49 +59,49 @@ public class BaseParseFrame extends Struct {
      * Get the value of the field {@code buffer}
      * @return The value of the field {@code buffer}
      */
-    public org.gstreamer.gst.Buffer buffer$get() {
+    public org.gstreamer.gst.Buffer getBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code buffer}
      * @param buffer The new value of the field {@code buffer}
      */
-    public void buffer$set(org.gstreamer.gst.Buffer buffer) {
+    public void setBuffer(org.gstreamer.gst.Buffer buffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), buffer.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
     }
     
     /**
      * Get the value of the field {@code out_buffer}
      * @return The value of the field {@code out_buffer}
      */
-    public org.gstreamer.gst.Buffer outBuffer$get() {
+    public org.gstreamer.gst.Buffer getOutBuffer() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("out_buffer"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code out_buffer}
      * @param outBuffer The new value of the field {@code out_buffer}
      */
-    public void outBuffer$set(org.gstreamer.gst.Buffer outBuffer) {
+    public void setOutBuffer(org.gstreamer.gst.Buffer outBuffer) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("out_buffer"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), outBuffer.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outBuffer == null ? MemoryAddress.NULL : outBuffer.handle()));
     }
     
     /**
      * Get the value of the field {@code flags}
      * @return The value of the field {@code flags}
      */
-    public int flags$get() {
+    public int getFlags() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -114,7 +112,7 @@ public class BaseParseFrame extends Struct {
      * Change the value of the field {@code flags}
      * @param flags The new value of the field {@code flags}
      */
-    public void flags$set(int flags) {
+    public void setFlags(int flags) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("flags"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -124,7 +122,7 @@ public class BaseParseFrame extends Struct {
      * Get the value of the field {@code offset}
      * @return The value of the field {@code offset}
      */
-    public long offset$get() {
+    public long getOffset() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -135,7 +133,7 @@ public class BaseParseFrame extends Struct {
      * Change the value of the field {@code offset}
      * @param offset The new value of the field {@code offset}
      */
-    public void offset$set(long offset) {
+    public void setOffset(long offset) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("offset"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -145,7 +143,7 @@ public class BaseParseFrame extends Struct {
      * Get the value of the field {@code overhead}
      * @return The value of the field {@code overhead}
      */
-    public int overhead$get() {
+    public int getOverhead() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("overhead"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -156,7 +154,7 @@ public class BaseParseFrame extends Struct {
      * Change the value of the field {@code overhead}
      * @param overhead The new value of the field {@code overhead}
      */
-    public void overhead$set(int overhead) {
+    public void setOverhead(int overhead) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("overhead"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), overhead);
@@ -167,15 +165,15 @@ public class BaseParseFrame extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public BaseParseFrame(Addressable address, Ownership ownership) {
+    protected BaseParseFrame(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.base.BaseParseFrameFlags flags, int overhead) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, BaseParseFrame> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new BaseParseFrame(input, ownership);
+    
+    private static MemoryAddress constructNew(org.gstreamer.gst.Buffer buffer, org.gstreamer.base.BaseParseFrameFlags flags, int overhead) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_base_parse_frame_new.invokeExact(
                     buffer.handle(),
@@ -197,7 +195,7 @@ public class BaseParseFrame extends Struct {
      *     metadata overhead, ie. not used to calculate the average bitrate.
      *     Set to -1 to mark the entire frame as metadata. If in doubt, set to 0.
      */
-    public BaseParseFrame(@NotNull org.gstreamer.gst.Buffer buffer, @NotNull org.gstreamer.base.BaseParseFrameFlags flags, int overhead) {
+    public BaseParseFrame(org.gstreamer.gst.Buffer buffer, org.gstreamer.base.BaseParseFrameFlags flags, int overhead) {
         super(constructNew(buffer, flags, overhead), Ownership.FULL);
     }
     
@@ -205,7 +203,7 @@ public class BaseParseFrame extends Struct {
      * Copies a {@link BaseParseFrame}.
      * @return A copy of {@code frame}
      */
-    public @NotNull org.gstreamer.base.BaseParseFrame copy() {
+    public org.gstreamer.base.BaseParseFrame copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_base_parse_frame_copy.invokeExact(
@@ -213,7 +211,7 @@ public class BaseParseFrame extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.base.BaseParseFrame(RESULT, Ownership.FULL);
+        return org.gstreamer.base.BaseParseFrame.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -270,31 +268,35 @@ public class BaseParseFrame extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link BaseParseFrame.Builder} object constructs a {@link BaseParseFrame} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link BaseParseFrame.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private BaseParseFrame struct;
+        private final BaseParseFrame struct;
         
-         /**
-         * A {@link BaseParseFrame.Build} object constructs a {@link BaseParseFrame} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = BaseParseFrame.allocate();
         }
         
          /**
          * Finish building the {@link BaseParseFrame} struct.
          * @return A new instance of {@code BaseParseFrame} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public BaseParseFrame construct() {
+        public BaseParseFrame build() {
             return struct;
         }
         
@@ -303,7 +305,7 @@ public class BaseParseFrame extends Struct {
          * @param buffer The value for the {@code buffer} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setBuffer(org.gstreamer.gst.Buffer buffer) {
+        public Builder setBuffer(org.gstreamer.gst.Buffer buffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (buffer == null ? MemoryAddress.NULL : buffer.handle()));
@@ -315,7 +317,7 @@ public class BaseParseFrame extends Struct {
          * @param outBuffer The value for the {@code outBuffer} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOutBuffer(org.gstreamer.gst.Buffer outBuffer) {
+        public Builder setOutBuffer(org.gstreamer.gst.Buffer outBuffer) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("out_buffer"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (outBuffer == null ? MemoryAddress.NULL : outBuffer.handle()));
@@ -329,7 +331,7 @@ public class BaseParseFrame extends Struct {
          * @param flags The value for the {@code flags} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setFlags(int flags) {
+        public Builder setFlags(int flags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), flags);
@@ -342,7 +344,7 @@ public class BaseParseFrame extends Struct {
          * @param offset The value for the {@code offset} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOffset(long offset) {
+        public Builder setOffset(long offset) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("offset"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), offset);
@@ -357,35 +359,35 @@ public class BaseParseFrame extends Struct {
          * @param overhead The value for the {@code overhead} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setOverhead(int overhead) {
+        public Builder setOverhead(int overhead) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("overhead"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), overhead);
             return this;
         }
         
-        public Build setSize(int size) {
+        public Builder setSize(int size) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), size);
             return this;
         }
         
-        public Build setGstReservedI(int[] GstReservedI) {
+        public Builder setGstReservedI(int[] GstReservedI) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved_i"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReservedI == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReservedI, false)));
             return this;
         }
         
-        public Build setGstReservedP(java.lang.foreign.MemoryAddress[] GstReservedP) {
+        public Builder setGstReservedP(java.lang.foreign.MemoryAddress[] GstReservedP) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved_p"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReservedP == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReservedP, false)));
             return this;
         }
         
-        public Build setPrivateFlags(int PrivateFlags) {
+        public Builder setPrivateFlags(int PrivateFlags) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_private_flags"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), PrivateFlags);

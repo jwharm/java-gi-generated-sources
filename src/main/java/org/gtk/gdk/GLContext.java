@@ -75,36 +75,18 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public GLContext(Addressable address, Ownership ownership) {
+    protected GLContext(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to GLContext if its GType is a (or inherits from) "GdkGLContext".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code GLContext} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GdkGLContext", a ClassCastException will be thrown.
-     */
-    public static GLContext castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), GLContext.getType())) {
-            return new GLContext(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GdkGLContext");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, GLContext> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new GLContext(input, ownership);
     
     /**
      * Gets the allowed APIs set via gdk_gl_context_set_allowed_apis().
      * @return the allowed APIs
      */
-    public @NotNull org.gtk.gdk.GLAPI getAllowedApis() {
+    public org.gtk.gdk.GLAPI getAllowedApis() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_gl_context_get_allowed_apis.invokeExact(
@@ -121,7 +103,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * If the renderer has not been realized yet, 0 is returned.
      * @return the currently used API
      */
-    public @NotNull org.gtk.gdk.GLAPI getApi() {
+    public org.gtk.gdk.GLAPI getApi() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_gl_context_get_api.invokeExact(
@@ -146,7 +128,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -161,7 +143,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Display(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Display) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Display.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -178,7 +160,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -224,7 +206,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.GLContext(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.GLContext.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -239,7 +221,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.Surface(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.Surface) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.Surface.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -256,7 +238,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -270,9 +252,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * @param minor return location for the minor version
      */
     public void getVersion(Out<Integer> major, Out<Integer> minor) {
-        java.util.Objects.requireNonNull(major, "Parameter 'major' must not be null");
         MemorySegment majorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
-        java.util.Objects.requireNonNull(minor, "Parameter 'minor' must not be null");
         MemorySegment minorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.gdk_gl_context_get_version.invokeExact(
@@ -313,7 +293,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -332,8 +312,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * @param other the {@code GdkGLContext} that should be compatible with {@code self}
      * @return {@code true} if the two GL contexts are compatible.
      */
-    public boolean isShared(@NotNull org.gtk.gdk.GLContext other) {
-        java.util.Objects.requireNonNull(other, "Parameter 'other' must not be null");
+    public boolean isShared(org.gtk.gdk.GLContext other) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gdk_gl_context_is_shared.invokeExact(
@@ -342,7 +321,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -377,7 +356,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -390,8 +369,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * By default, all APIs are allowed.
      * @param apis the allowed APIs
      */
-    public void setAllowedApis(@NotNull org.gtk.gdk.GLAPI apis) {
-        java.util.Objects.requireNonNull(apis, "Parameter 'apis' must not be null");
+    public void setAllowedApis(org.gtk.gdk.GLAPI apis) {
         try {
             DowncallHandles.gdk_gl_context_set_allowed_apis.invokeExact(
                     handle(),
@@ -415,7 +393,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         try {
             DowncallHandles.gdk_gl_context_set_debug_enabled.invokeExact(
                     handle(),
-                    enabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(enabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -437,7 +415,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         try {
             DowncallHandles.gdk_gl_context_set_forward_compatible.invokeExact(
                     handle(),
-                    compatible ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(compatible, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -498,7 +476,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gdk_gl_context_get_type.invokeExact();
@@ -533,40 +511,42 @@ public class GLContext extends org.gtk.gdk.DrawContext {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gdk.GLContext(RESULT, Ownership.NONE);
+        return (org.gtk.gdk.GLContext) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gdk.GLContext.fromAddress).marshal(RESULT, Ownership.NONE);
     }
-
+    
+    /**
+     * A {@link GLContext.Builder} object constructs a {@link GLContext} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link GLContext.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gdk.DrawContext.Build {
+    public static class Builder extends org.gtk.gdk.DrawContext.Builder {
         
-         /**
-         * A {@link GLContext.Build} object constructs a {@link GLContext} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link GLContext} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link GLContext} using {@link GLContext#castFrom}.
+         * {@link GLContext}.
          * @return A new instance of {@code GLContext} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public GLContext construct() {
-            return GLContext.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    GLContext.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public GLContext build() {
+            return (GLContext) org.gtk.gobject.GObject.newWithProperties(
+                GLContext.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -575,7 +555,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
          * @param allowedApis The value for the {@code allowed-apis} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAllowedApis(org.gtk.gdk.GLAPI allowedApis) {
+        public Builder setAllowedApis(org.gtk.gdk.GLAPI allowedApis) {
             names.add("allowed-apis");
             values.add(org.gtk.gobject.Value.create(allowedApis));
             return this;
@@ -586,7 +566,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
          * @param api The value for the {@code api} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setApi(org.gtk.gdk.GLAPI api) {
+        public Builder setApi(org.gtk.gdk.GLAPI api) {
             names.add("api");
             values.add(org.gtk.gobject.Value.create(api));
             return this;
@@ -600,7 +580,7 @@ public class GLContext extends org.gtk.gdk.DrawContext {
          * @param sharedContext The value for the {@code shared-context} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSharedContext(org.gtk.gdk.GLContext sharedContext) {
+        public Builder setSharedContext(org.gtk.gdk.GLContext sharedContext) {
             names.add("shared-context");
             values.add(org.gtk.gobject.Value.create(sharedContext));
             return this;

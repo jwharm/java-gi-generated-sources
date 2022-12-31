@@ -197,17 +197,18 @@ public class VariantType extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VariantType(Addressable address, Ownership ownership) {
+    protected VariantType(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String typeString) {
-        java.util.Objects.requireNonNull(typeString, "Parameter 'typeString' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VariantType> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VariantType(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String typeString) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new.invokeExact(
-                    Interop.allocateNativeString(typeString));
+                    Marshal.stringToAddress.marshal(typeString, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -223,13 +224,12 @@ public class VariantType extends Struct {
      * string.  Use g_variant_type_string_is_valid() if you are unsure.
      * @param typeString a valid GVariant type string
      */
-    public VariantType(@NotNull java.lang.String typeString) {
+    public VariantType(java.lang.String typeString) {
         super(constructNew(typeString), Ownership.FULL);
     }
     
-    private static Addressable constructNewArray(@NotNull org.gtk.glib.VariantType element) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewArray(org.gtk.glib.VariantType element) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_array.invokeExact(
                     element.handle());
@@ -249,14 +249,13 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public static VariantType newArray(@NotNull org.gtk.glib.VariantType element) {
-        return new VariantType(constructNewArray(element), Ownership.FULL);
+    public static VariantType newArray(org.gtk.glib.VariantType element) {
+        var RESULT = constructNewArray(element);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewDictEntry(@NotNull org.gtk.glib.VariantType key, @NotNull org.gtk.glib.VariantType value) {
-        java.util.Objects.requireNonNull(key, "Parameter 'key' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewDictEntry(org.gtk.glib.VariantType key, org.gtk.glib.VariantType value) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_dict_entry.invokeExact(
                     key.handle(),
@@ -278,13 +277,13 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public static VariantType newDictEntry(@NotNull org.gtk.glib.VariantType key, @NotNull org.gtk.glib.VariantType value) {
-        return new VariantType(constructNewDictEntry(key, value), Ownership.FULL);
+    public static VariantType newDictEntry(org.gtk.glib.VariantType key, org.gtk.glib.VariantType value) {
+        var RESULT = constructNewDictEntry(key, value);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewMaybe(@NotNull org.gtk.glib.VariantType element) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewMaybe(org.gtk.glib.VariantType element) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_maybe.invokeExact(
                     element.handle());
@@ -304,16 +303,16 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public static VariantType newMaybe(@NotNull org.gtk.glib.VariantType element) {
-        return new VariantType(constructNewMaybe(element), Ownership.FULL);
+    public static VariantType newMaybe(org.gtk.glib.VariantType element) {
+        var RESULT = constructNewMaybe(element);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
-    private static Addressable constructNewTuple(@NotNull org.gtk.glib.VariantType[] items, int length) {
-        java.util.Objects.requireNonNull(items, "Parameter 'items' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewTuple(org.gtk.glib.VariantType[] items, int length) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_new_tuple.invokeExact(
-                    Interop.allocateNativeArray(items, false),
+                    Interop.allocateNativeArray(items, org.gtk.glib.VariantType.getMemoryLayout(), false),
                     length);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -334,8 +333,9 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public static VariantType newTuple(@NotNull org.gtk.glib.VariantType[] items, int length) {
-        return new VariantType(constructNewTuple(items, length), Ownership.FULL);
+    public static VariantType newTuple(org.gtk.glib.VariantType[] items, int length) {
+        var RESULT = constructNewTuple(items, length);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -345,7 +345,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public @NotNull org.gtk.glib.VariantType copy() {
+    public org.gtk.glib.VariantType copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_copy.invokeExact(
@@ -353,7 +353,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(RESULT, Ownership.FULL);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -364,7 +364,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public @NotNull java.lang.String dupString() {
+    public java.lang.String dupString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_dup_string.invokeExact(
@@ -372,7 +372,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -383,7 +383,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public @NotNull org.gtk.glib.VariantType element() {
+    public org.gtk.glib.VariantType element() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_element.invokeExact(
@@ -391,7 +391,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -410,8 +410,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public boolean equal(@NotNull org.gtk.glib.VariantType type2) {
-        java.util.Objects.requireNonNull(type2, "Parameter 'type2' must not be null");
+    public boolean equal(org.gtk.glib.VariantType type2) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_type_equal.invokeExact(
@@ -420,7 +419,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -442,7 +441,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public @NotNull org.gtk.glib.VariantType first() {
+    public org.gtk.glib.VariantType first() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_first.invokeExact(
@@ -450,7 +449,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -530,7 +529,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -555,7 +554,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -579,7 +578,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -605,7 +604,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -627,7 +626,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -649,7 +648,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -663,8 +662,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public boolean isSubtypeOf(@NotNull org.gtk.glib.VariantType supertype) {
-        java.util.Objects.requireNonNull(supertype, "Parameter 'supertype' must not be null");
+    public boolean isSubtypeOf(org.gtk.glib.VariantType supertype) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_type_is_subtype_of.invokeExact(
@@ -673,7 +671,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -696,7 +694,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -713,7 +711,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -726,7 +724,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public @NotNull org.gtk.glib.VariantType key() {
+    public org.gtk.glib.VariantType key() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_key.invokeExact(
@@ -734,7 +732,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -778,7 +776,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public @NotNull org.gtk.glib.VariantType next() {
+    public org.gtk.glib.VariantType next() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_next.invokeExact(
@@ -786,7 +784,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -799,7 +797,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public @NotNull java.lang.String peekString() {
+    public java.lang.String peekString() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_peek_string.invokeExact(
@@ -807,7 +805,7 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -818,7 +816,7 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public @NotNull org.gtk.glib.VariantType value() {
+    public org.gtk.glib.VariantType value() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_value.invokeExact(
@@ -826,27 +824,25 @@ public class VariantType extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull org.gtk.glib.VariantType checked(@NotNull java.lang.String arg0) {
-        java.util.Objects.requireNonNull(arg0, "Parameter 'arg0' must not be null");
+    public static org.gtk.glib.VariantType checked(java.lang.String arg0) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_variant_type_checked_.invokeExact(
-                    Interop.allocateNativeString(arg0));
+                    Marshal.stringToAddress.marshal(arg0, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.VariantType(RESULT, Ownership.NONE);
+        return org.gtk.glib.VariantType.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static long stringGetDepth(@NotNull java.lang.String typeString) {
-        java.util.Objects.requireNonNull(typeString, "Parameter 'typeString' must not be null");
+    public static long stringGetDepth(java.lang.String typeString) {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_variant_type_string_get_depth_.invokeExact(
-                    Interop.allocateNativeString(typeString));
+                    Marshal.stringToAddress.marshal(typeString, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -862,16 +858,15 @@ public class VariantType extends Struct {
      * <p>
      * Since 2.24
      */
-    public static boolean stringIsValid(@NotNull java.lang.String typeString) {
-        java.util.Objects.requireNonNull(typeString, "Parameter 'typeString' must not be null");
+    public static boolean stringIsValid(java.lang.String typeString) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_type_string_is_valid.invokeExact(
-                    Interop.allocateNativeString(typeString));
+                    Marshal.stringToAddress.marshal(typeString, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -893,21 +888,19 @@ public class VariantType extends Struct {
      * @param endptr location to store the end pointer, or {@code null}
      * @return {@code true} if a valid type string was found
      */
-    public static boolean stringScan(@NotNull java.lang.String string, @Nullable java.lang.String limit, @NotNull Out<java.lang.String> endptr) {
-        java.util.Objects.requireNonNull(string, "Parameter 'string' must not be null");
-        java.util.Objects.requireNonNull(endptr, "Parameter 'endptr' must not be null");
+    public static boolean stringScan(java.lang.String string, @Nullable java.lang.String limit, @Nullable Out<java.lang.String> endptr) {
         MemorySegment endptrPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_variant_type_string_scan.invokeExact(
-                    Interop.allocateNativeString(string),
-                    (Addressable) (limit == null ? MemoryAddress.NULL : Interop.allocateNativeString(limit)),
-                    (Addressable) endptrPOINTER.address());
+                    Marshal.stringToAddress.marshal(string, null),
+                    (Addressable) (limit == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(limit, null)),
+                    (Addressable) (endptr == null ? MemoryAddress.NULL : (Addressable) endptrPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        endptr.set(Interop.getStringFrom(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0)));
-        return RESULT != 0;
+        if (endptr != null) endptr.set(Marshal.addressToString.marshal(endptrPOINTER.get(Interop.valueLayout.ADDRESS, 0), null));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {

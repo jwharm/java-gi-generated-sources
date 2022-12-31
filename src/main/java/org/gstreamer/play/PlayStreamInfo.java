@@ -11,7 +11,7 @@ import org.jetbrains.annotations.*;
  * {@link PlayVideoInfo}, {@link PlayAudioInfo}, {@link PlaySubtitleInfo}.
  * @version 1.20
  */
-public class PlayStreamInfo extends org.gtk.gobject.Object {
+public class PlayStreamInfo extends org.gtk.gobject.GObject {
     
     static {
         GstPlay.javagi$ensureInitialized();
@@ -33,30 +33,12 @@ public class PlayStreamInfo extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PlayStreamInfo(Addressable address, Ownership ownership) {
+    protected PlayStreamInfo(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to PlayStreamInfo if its GType is a (or inherits from) "GstPlayStreamInfo".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PlayStreamInfo} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstPlayStreamInfo", a ClassCastException will be thrown.
-     */
-    public static PlayStreamInfo castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PlayStreamInfo.getType())) {
-            return new PlayStreamInfo(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstPlayStreamInfo");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PlayStreamInfo> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PlayStreamInfo(input, ownership);
     
     public @Nullable org.gstreamer.gst.Caps getCaps() {
         MemoryAddress RESULT;
@@ -66,7 +48,7 @@ public class PlayStreamInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Caps(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.Caps.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -81,7 +63,7 @@ public class PlayStreamInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -105,7 +87,7 @@ public class PlayStreamInfo extends org.gtk.gobject.Object {
      * of the given {@code info} (ex: "audio", "video", "subtitle")
      * @return a human readable name
      */
-    public @NotNull java.lang.String getStreamType() {
+    public java.lang.String getStreamType() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_play_stream_info_get_stream_type.invokeExact(
@@ -113,7 +95,7 @@ public class PlayStreamInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     public @Nullable org.gstreamer.gst.TagList getTags() {
@@ -124,14 +106,14 @@ public class PlayStreamInfo extends org.gtk.gobject.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.TagList(RESULT, Ownership.NONE);
+        return org.gstreamer.gst.TagList.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_play_stream_info_get_type.invokeExact();
@@ -140,38 +122,40 @@ public class PlayStreamInfo extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PlayStreamInfo.Builder} object constructs a {@link PlayStreamInfo} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PlayStreamInfo.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link PlayStreamInfo.Build} object constructs a {@link PlayStreamInfo} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PlayStreamInfo} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PlayStreamInfo} using {@link PlayStreamInfo#castFrom}.
+         * {@link PlayStreamInfo}.
          * @return A new instance of {@code PlayStreamInfo} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PlayStreamInfo construct() {
-            return PlayStreamInfo.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PlayStreamInfo.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PlayStreamInfo build() {
+            return (PlayStreamInfo) org.gtk.gobject.GObject.newWithProperties(
+                PlayStreamInfo.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

@@ -31,17 +31,15 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
     
     private static final java.lang.String C_TYPE_NAME = "AdwPreferencesPage";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Widget.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -49,40 +47,26 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * <p>
      * Because PreferencesPage is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PreferencesPage(Addressable address, Ownership ownership) {
+    protected PreferencesPage(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to PreferencesPage if its GType is a (or inherits from) "AdwPreferencesPage".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code PreferencesPage} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwPreferencesPage", a ClassCastException will be thrown.
-     */
-    public static PreferencesPage castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), PreferencesPage.getType())) {
-            return new PreferencesPage(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwPreferencesPage");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PreferencesPage> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PreferencesPage(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_new.invokeExact();
         } catch (Throwable ERR) {
@@ -102,8 +86,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * Adds a preferences group to {@code self}.
      * @param group the group to add
      */
-    public void add(@NotNull org.gnome.adw.PreferencesGroup group) {
-        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+    public void add(org.gnome.adw.PreferencesGroup group) {
         try {
             DowncallHandles.adw_preferences_page_add.invokeExact(
                     handle(),
@@ -125,7 +108,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -140,14 +123,14 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Gets the title of {@code self}.
      * @return the title of {@code self}.
      */
-    public @NotNull java.lang.String getTitle() {
+    public java.lang.String getTitle() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.adw_preferences_page_get_title.invokeExact(
@@ -155,7 +138,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -170,15 +153,14 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Removes a group from {@code self}.
      * @param group the group to remove
      */
-    public void remove(@NotNull org.gnome.adw.PreferencesGroup group) {
-        java.util.Objects.requireNonNull(group, "Parameter 'group' must not be null");
+    public void remove(org.gnome.adw.PreferencesGroup group) {
         try {
             DowncallHandles.adw_preferences_page_remove.invokeExact(
                     handle(),
@@ -196,7 +178,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         try {
             DowncallHandles.adw_preferences_page_set_icon_name.invokeExact(
                     handle(),
-                    (Addressable) (iconName == null ? MemoryAddress.NULL : Interop.allocateNativeString(iconName)));
+                    (Addressable) (iconName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(iconName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -210,7 +192,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         try {
             DowncallHandles.adw_preferences_page_set_name.invokeExact(
                     handle(),
-                    (Addressable) (name == null ? MemoryAddress.NULL : Interop.allocateNativeString(name)));
+                    (Addressable) (name == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(name, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -220,12 +202,11 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * Sets the title of {@code self}.
      * @param title the title
      */
-    public void setTitle(@NotNull java.lang.String title) {
-        java.util.Objects.requireNonNull(title, "Parameter 'title' must not be null");
+    public void setTitle(java.lang.String title) {
         try {
             DowncallHandles.adw_preferences_page_set_title.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(title));
+                    Marshal.stringToAddress.marshal(title, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -239,7 +220,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         try {
             DowncallHandles.adw_preferences_page_set_use_underline.invokeExact(
                     handle(),
-                    useUnderline ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(useUnderline, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -249,7 +230,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_preferences_page_get_type.invokeExact();
@@ -258,38 +239,40 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link PreferencesPage.Builder} object constructs a {@link PreferencesPage} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link PreferencesPage.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link PreferencesPage.Build} object constructs a {@link PreferencesPage} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link PreferencesPage} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link PreferencesPage} using {@link PreferencesPage#castFrom}.
+         * {@link PreferencesPage}.
          * @return A new instance of {@code PreferencesPage} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PreferencesPage construct() {
-            return PreferencesPage.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    PreferencesPage.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public PreferencesPage build() {
+            return (PreferencesPage) org.gtk.gobject.GObject.newWithProperties(
+                PreferencesPage.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -298,7 +281,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
          * @param iconName The value for the {@code icon-name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setIconName(java.lang.String iconName) {
+        public Builder setIconName(java.lang.String iconName) {
             names.add("icon-name");
             values.add(org.gtk.gobject.Value.create(iconName));
             return this;
@@ -309,7 +292,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
          * @param name The value for the {@code name} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
@@ -320,7 +303,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
          * @param title The value for the {@code title} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTitle(java.lang.String title) {
+        public Builder setTitle(java.lang.String title) {
             names.add("title");
             values.add(org.gtk.gobject.Value.create(title));
             return this;
@@ -331,7 +314,7 @@ public class PreferencesPage extends org.gtk.gtk.Widget implements org.gtk.gtk.A
          * @param useUnderline The value for the {@code use-underline} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseUnderline(boolean useUnderline) {
+        public Builder setUseUnderline(boolean useUnderline) {
             names.add("use-underline");
             values.add(org.gtk.gobject.Value.create(useUnderline));
             return this;

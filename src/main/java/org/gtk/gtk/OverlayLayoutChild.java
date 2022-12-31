@@ -30,30 +30,12 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public OverlayLayoutChild(Addressable address, Ownership ownership) {
+    protected OverlayLayoutChild(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to OverlayLayoutChild if its GType is a (or inherits from) "GtkOverlayLayoutChild".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code OverlayLayoutChild} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkOverlayLayoutChild", a ClassCastException will be thrown.
-     */
-    public static OverlayLayoutChild castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), OverlayLayoutChild.getType())) {
-            return new OverlayLayoutChild(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkOverlayLayoutChild");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, OverlayLayoutChild> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OverlayLayoutChild(input, ownership);
     
     /**
      * Retrieves whether the child is clipped.
@@ -67,7 +49,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -82,7 +64,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -93,7 +75,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
         try {
             DowncallHandles.gtk_overlay_layout_child_set_clip_overlay.invokeExact(
                     handle(),
-                    clipOverlay ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(clipOverlay, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -107,7 +89,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
         try {
             DowncallHandles.gtk_overlay_layout_child_set_measure.invokeExact(
                     handle(),
-                    measure ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(measure, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -117,7 +99,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_overlay_layout_child_get_type.invokeExact();
@@ -126,38 +108,40 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link OverlayLayoutChild.Builder} object constructs a {@link OverlayLayoutChild} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link OverlayLayoutChild.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.LayoutChild.Build {
+    public static class Builder extends org.gtk.gtk.LayoutChild.Builder {
         
-         /**
-         * A {@link OverlayLayoutChild.Build} object constructs a {@link OverlayLayoutChild} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link OverlayLayoutChild} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link OverlayLayoutChild} using {@link OverlayLayoutChild#castFrom}.
+         * {@link OverlayLayoutChild}.
          * @return A new instance of {@code OverlayLayoutChild} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public OverlayLayoutChild construct() {
-            return OverlayLayoutChild.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    OverlayLayoutChild.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public OverlayLayoutChild build() {
+            return (OverlayLayoutChild) org.gtk.gobject.GObject.newWithProperties(
+                OverlayLayoutChild.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -166,7 +150,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
          * @param clipOverlay The value for the {@code clip-overlay} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClipOverlay(boolean clipOverlay) {
+        public Builder setClipOverlay(boolean clipOverlay) {
             names.add("clip-overlay");
             values.add(org.gtk.gobject.Value.create(clipOverlay));
             return this;
@@ -178,7 +162,7 @@ public class OverlayLayoutChild extends org.gtk.gtk.LayoutChild {
          * @param measure The value for the {@code measure} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMeasure(boolean measure) {
+        public Builder setMeasure(boolean measure) {
             names.add("measure");
             values.add(org.gtk.gobject.Value.create(measure));
             return this;

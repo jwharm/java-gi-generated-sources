@@ -9,7 +9,7 @@ import org.jetbrains.annotations.*;
  * Represents a value {@link Animation} can animate.
  * @version 1.0
  */
-public class AnimationTarget extends org.gtk.gobject.Object {
+public class AnimationTarget extends org.gtk.gobject.GObject {
     
     static {
         Adw.javagi$ensureInitialized();
@@ -31,36 +31,18 @@ public class AnimationTarget extends org.gtk.gobject.Object {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public AnimationTarget(Addressable address, Ownership ownership) {
+    protected AnimationTarget(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to AnimationTarget if its GType is a (or inherits from) "AdwAnimationTarget".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code AnimationTarget} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "AdwAnimationTarget", a ClassCastException will be thrown.
-     */
-    public static AnimationTarget castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), AnimationTarget.getType())) {
-            return new AnimationTarget(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of AdwAnimationTarget");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, AnimationTarget> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new AnimationTarget(input, ownership);
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.adw_animation_target_get_type.invokeExact();
@@ -69,38 +51,40 @@ public class AnimationTarget extends org.gtk.gobject.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link AnimationTarget.Builder} object constructs a {@link AnimationTarget} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link AnimationTarget.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link AnimationTarget.Build} object constructs a {@link AnimationTarget} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link AnimationTarget} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link AnimationTarget} using {@link AnimationTarget#castFrom}.
+         * {@link AnimationTarget}.
          * @return A new instance of {@code AnimationTarget} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public AnimationTarget construct() {
-            return AnimationTarget.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    AnimationTarget.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public AnimationTarget build() {
+            return (AnimationTarget) org.gtk.gobject.GObject.newWithProperties(
+                AnimationTarget.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
     }

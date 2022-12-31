@@ -13,17 +13,10 @@ import org.jetbrains.annotations.*;
 public class TypeQuery extends Struct {
     
     static {
-        GObject.javagi$ensureInitialized();
+        GObjects.javagi$ensureInitialized();
     }
     
     private static final java.lang.String C_TYPE_NAME = "GTypeQuery";
-    
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("type"),
-        Interop.valueLayout.ADDRESS.withName("type_name"),
-        Interop.valueLayout.C_INT.withName("class_size"),
-        Interop.valueLayout.C_INT.withName("instance_size")
-    ).withName(C_TYPE_NAME);
     
     /**
      * The memory layout of the native struct.
@@ -31,7 +24,12 @@ public class TypeQuery extends Struct {
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("type"),
+            Interop.valueLayout.ADDRESS.withName("type_name"),
+            Interop.valueLayout.C_INT.withName("class_size"),
+            Interop.valueLayout.C_INT.withName("instance_size")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -51,7 +49,7 @@ public class TypeQuery extends Struct {
      * Get the value of the field {@code type}
      * @return The value of the field {@code type}
      */
-    public org.gtk.glib.Type type$get() {
+    public org.gtk.glib.Type getType() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -62,38 +60,38 @@ public class TypeQuery extends Struct {
      * Change the value of the field {@code type}
      * @param type The new value of the field {@code type}
      */
-    public void type$set(org.gtk.glib.Type type) {
+    public void setType(org.gtk.glib.Type type) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), type.getValue().longValue());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
     }
     
     /**
      * Get the value of the field {@code type_name}
      * @return The value of the field {@code type_name}
      */
-    public java.lang.String typeName$get() {
+    public java.lang.String getTypeName() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code type_name}
      * @param typeName The new value of the field {@code type_name}
      */
-    public void typeName$set(java.lang.String typeName) {
+    public void setTypeName(java.lang.String typeName) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(typeName));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (typeName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typeName, null)));
     }
     
     /**
      * Get the value of the field {@code class_size}
      * @return The value of the field {@code class_size}
      */
-    public int classSize$get() {
+    public int getClassSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -104,7 +102,7 @@ public class TypeQuery extends Struct {
      * Change the value of the field {@code class_size}
      * @param classSize The new value of the field {@code class_size}
      */
-    public void classSize$set(int classSize) {
+    public void setClassSize(int classSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), classSize);
@@ -114,7 +112,7 @@ public class TypeQuery extends Struct {
      * Get the value of the field {@code instance_size}
      * @return The value of the field {@code instance_size}
      */
-    public int instanceSize$get() {
+    public int getInstanceSize() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -125,7 +123,7 @@ public class TypeQuery extends Struct {
      * Change the value of the field {@code instance_size}
      * @param instanceSize The new value of the field {@code instance_size}
      */
-    public void instanceSize$set(int instanceSize) {
+    public void setInstanceSize(int instanceSize) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);
@@ -136,44 +134,50 @@ public class TypeQuery extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TypeQuery(Addressable address, Ownership ownership) {
+    protected TypeQuery(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TypeQuery> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TypeQuery(input, ownership);
+    
+    /**
+     * A {@link TypeQuery.Builder} object constructs a {@link TypeQuery} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TypeQuery.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TypeQuery struct;
+        private final TypeQuery struct;
         
-         /**
-         * A {@link TypeQuery.Build} object constructs a {@link TypeQuery} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TypeQuery.allocate();
         }
         
          /**
          * Finish building the {@link TypeQuery} struct.
          * @return A new instance of {@code TypeQuery} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TypeQuery construct() {
+        public TypeQuery build() {
             return struct;
         }
         
         /**
-         * the {@link Type} value of the type
+         * the {@link org.gtk.glib.Type} value of the type
          * @param type The value for the {@code type} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setType(org.gtk.glib.Type type) {
+        public Builder setType(org.gtk.glib.Type type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue().longValue()));
@@ -185,10 +189,10 @@ public class TypeQuery extends Struct {
          * @param typeName The value for the {@code typeName} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTypeName(java.lang.String typeName) {
+        public Builder setTypeName(java.lang.String typeName) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type_name"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (typeName == null ? MemoryAddress.NULL : Interop.allocateNativeString(typeName)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (typeName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(typeName, null)));
             return this;
         }
         
@@ -197,7 +201,7 @@ public class TypeQuery extends Struct {
          * @param classSize The value for the {@code classSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClassSize(int classSize) {
+        public Builder setClassSize(int classSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("class_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), classSize);
@@ -209,7 +213,7 @@ public class TypeQuery extends Struct {
          * @param instanceSize The value for the {@code instanceSize} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setInstanceSize(int instanceSize) {
+        public Builder setInstanceSize(int instanceSize) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("instance_size"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), instanceSize);

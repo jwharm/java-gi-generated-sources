@@ -14,7 +14,15 @@ public final class PangoCairo {
         System.loadLibrary("pangocairo-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Retrieves any font rendering options previously set with
@@ -27,8 +35,7 @@ public final class PangoCairo {
      *   context, or {@code null} if no options have been set. This value is
      *   owned by the context and must not be modified or freed.
      */
-    public static @Nullable org.cairographics.FontOptions contextGetFontOptions(@NotNull org.pango.Context context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public static @Nullable org.cairographics.FontOptions contextGetFontOptions(org.pango.Context context) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_context_get_font_options.invokeExact(
@@ -36,7 +43,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.cairographics.FontOptions(RESULT, Ownership.NONE);
+        return org.cairographics.FontOptions.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -47,8 +54,7 @@ public final class PangoCairo {
      * @return the resolution in "dots per inch". A negative value will
      *   be returned if no resolution has previously been set.
      */
-    public static double contextGetResolution(@NotNull org.pango.Context context) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public static double contextGetResolution(org.pango.Context context) {
         double RESULT;
         try {
             RESULT = (double) DowncallHandles.pango_cairo_context_get_resolution.invokeExact(
@@ -74,8 +80,16 @@ public final class PangoCairo {
      *   previously set on the context, or {@code null} if no shape rendering callback
      *   have been set.
      */
-    public static @Nullable org.pango.cairo.ShapeRendererFunc contextGetShapeRenderer(@NotNull org.pango.Context context, @Nullable java.lang.foreign.MemoryAddress data) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public static @Nullable org.pango.cairo.ShapeRendererFunc contextGetShapeRenderer(org.pango.Context context, @Nullable java.lang.foreign.MemoryAddress data) {
+        MemoryAddress RESULT;
+        try {
+            RESULT = (MemoryAddress) DowncallHandles.pango_cairo_context_get_shape_renderer.invokeExact(
+                    context.handle(),
+                    (Addressable) (data == null ? MemoryAddress.NULL : (Addressable) data));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
+        return null /* Unsupported parameter type */;
     }
     
     /**
@@ -87,8 +101,7 @@ public final class PangoCairo {
      * @param options a {@code cairo_font_options_t}, or {@code null} to unset
      *   any previously set options. A copy is made.
      */
-    public static void contextSetFontOptions(@NotNull org.pango.Context context, @Nullable org.cairographics.FontOptions options) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public static void contextSetFontOptions(org.pango.Context context, @Nullable org.cairographics.FontOptions options) {
         try {
             DowncallHandles.pango_cairo_context_set_font_options.invokeExact(
                     context.handle(),
@@ -109,8 +122,7 @@ public final class PangoCairo {
      *   involved; the terminology is conventional.) A 0 or negative value
      *   means to use the resolution from the font map.
      */
-    public static void contextSetResolution(@NotNull org.pango.Context context, double dpi) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public static void contextSetResolution(org.pango.Context context, double dpi) {
         try {
             DowncallHandles.pango_cairo_context_set_resolution.invokeExact(
                     context.handle(),
@@ -128,19 +140,16 @@ public final class PangoCairo {
      * @param context a {@code PangoContext}, from a pangocairo font map
      * @param func Callback function for rendering attributes of
      *   type {@link org.pango.AttrType#SHAPE}, or {@code null} to disable shape rendering.
+     * @param dnotify Callback that will be called when the
+     *   context is freed to release {@code data}
      */
-    public static void contextSetShapeRenderer(@NotNull org.pango.Context context, @Nullable org.pango.cairo.ShapeRendererFunc func) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public static void contextSetShapeRenderer(org.pango.Context context, @Nullable org.pango.cairo.ShapeRendererFunc func, @Nullable org.gtk.glib.DestroyNotify dnotify) {
         try {
             DowncallHandles.pango_cairo_context_set_shape_renderer.invokeExact(
                     context.handle(),
-                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(PangoCairo.Callbacks.class, "cbShapeRendererFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (dnotify == null ? MemoryAddress.NULL : (Addressable) dnotify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -160,8 +169,7 @@ public final class PangoCairo {
      * @param cr a Cairo context
      * @return the newly created {@code PangoContext}
      */
-    public static @NotNull org.pango.Context createContext(@NotNull org.cairographics.Context cr) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static org.pango.Context createContext(org.cairographics.Context cr) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_create_context.invokeExact(
@@ -169,7 +177,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(RESULT, Ownership.FULL);
+        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -188,8 +196,7 @@ public final class PangoCairo {
      * @param cr a Cairo context
      * @return the newly created {@code PangoLayout}
      */
-    public static @NotNull org.pango.Layout createLayout(@NotNull org.cairographics.Context cr) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static org.pango.Layout createLayout(org.cairographics.Context cr) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_create_layout.invokeExact(
@@ -197,7 +204,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Layout(RESULT, Ownership.FULL);
+        return (org.pango.Layout) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Layout.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -213,8 +220,7 @@ public final class PangoCairo {
      * @param width Non-negative width of the rectangle
      * @param height Non-negative height of the rectangle
      */
-    public static void errorUnderlinePath(@NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void errorUnderlinePath(org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.pango_cairo_error_underline_path.invokeExact(
                     cr.handle(),
@@ -247,14 +253,14 @@ public final class PangoCairo {
      *  for the current thread. This object is owned by Pango and must
      *  not be freed.
      */
-    public static @NotNull org.pango.FontMap fontMapGetDefault() {
+    public static org.pango.FontMap fontMapGetDefault() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_get_default.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(RESULT, Ownership.NONE);
+        return (org.pango.FontMap) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontMap.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -279,14 +285,14 @@ public final class PangoCairo {
      * @return the newly allocated {@code PangoFontMap},
      *   which should be freed with g_object_unref().
      */
-    public static @NotNull org.pango.FontMap fontMapNew() {
+    public static org.pango.FontMap fontMapNew() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(RESULT, Ownership.FULL);
+        return (org.pango.FontMap) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontMap.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -301,8 +307,7 @@ public final class PangoCairo {
      *   g_object_unref(), or {@code null} if the requested cairo font backend
      *   is not supported / compiled in.
      */
-    public static @Nullable org.pango.FontMap fontMapNewForFontType(@NotNull org.cairographics.FontType fonttype) {
-        java.util.Objects.requireNonNull(fonttype, "Parameter 'fonttype' must not be null");
+    public static @Nullable org.pango.FontMap fontMapNewForFontType(org.cairographics.FontType fonttype) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_cairo_font_map_new_for_font_type.invokeExact(
@@ -310,7 +315,7 @@ public final class PangoCairo {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontMap(RESULT, Ownership.FULL);
+        return (org.pango.FontMap) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontMap.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -323,10 +328,7 @@ public final class PangoCairo {
      * @param font a {@code PangoFont} from a {@code PangoCairoFontMap}
      * @param glyphs a {@code PangoGlyphString}
      */
-    public static void glyphStringPath(@NotNull org.cairographics.Context cr, @NotNull org.pango.Font font, @NotNull org.pango.GlyphString glyphs) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+    public static void glyphStringPath(org.cairographics.Context cr, org.pango.Font font, org.pango.GlyphString glyphs) {
         try {
             DowncallHandles.pango_cairo_glyph_string_path.invokeExact(
                     cr.handle(),
@@ -346,9 +348,7 @@ public final class PangoCairo {
      * @param cr a Cairo context
      * @param line a {@code PangoLayoutLine}
      */
-    public static void layoutLinePath(@NotNull org.cairographics.Context cr, @NotNull org.pango.LayoutLine line) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
+    public static void layoutLinePath(org.cairographics.Context cr, org.pango.LayoutLine line) {
         try {
             DowncallHandles.pango_cairo_layout_line_path.invokeExact(
                     cr.handle(),
@@ -367,9 +367,7 @@ public final class PangoCairo {
      * @param cr a Cairo context
      * @param layout a Pango layout
      */
-    public static void layoutPath(@NotNull org.cairographics.Context cr, @NotNull org.pango.Layout layout) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    public static void layoutPath(org.cairographics.Context cr, org.pango.Layout layout) {
         try {
             DowncallHandles.pango_cairo_layout_path.invokeExact(
                     cr.handle(),
@@ -393,8 +391,7 @@ public final class PangoCairo {
      * @param width Non-negative width of the rectangle
      * @param height Non-negative height of the rectangle
      */
-    public static void showErrorUnderline(@NotNull org.cairographics.Context cr, double x, double y, double width, double height) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public static void showErrorUnderline(org.cairographics.Context cr, double x, double y, double width, double height) {
         try {
             DowncallHandles.pango_cairo_show_error_underline.invokeExact(
                     cr.handle(),
@@ -423,14 +420,11 @@ public final class PangoCairo {
      * @param text the UTF-8 text that {@code glyph_item} refers to
      * @param glyphItem a {@code PangoGlyphItem}
      */
-    public static void showGlyphItem(@NotNull org.cairographics.Context cr, @NotNull java.lang.String text, @NotNull org.pango.GlyphItem glyphItem) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(text, "Parameter 'text' must not be null");
-        java.util.Objects.requireNonNull(glyphItem, "Parameter 'glyphItem' must not be null");
+    public static void showGlyphItem(org.cairographics.Context cr, java.lang.String text, org.pango.GlyphItem glyphItem) {
         try {
             DowncallHandles.pango_cairo_show_glyph_item.invokeExact(
                     cr.handle(),
-                    Interop.allocateNativeString(text),
+                    Marshal.stringToAddress.marshal(text, null),
                     glyphItem.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -446,10 +440,7 @@ public final class PangoCairo {
      * @param font a {@code PangoFont} from a {@code PangoCairoFontMap}
      * @param glyphs a {@code PangoGlyphString}
      */
-    public static void showGlyphString(@NotNull org.cairographics.Context cr, @NotNull org.pango.Font font, @NotNull org.pango.GlyphString glyphs) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(font, "Parameter 'font' must not be null");
-        java.util.Objects.requireNonNull(glyphs, "Parameter 'glyphs' must not be null");
+    public static void showGlyphString(org.cairographics.Context cr, org.pango.Font font, org.pango.GlyphString glyphs) {
         try {
             DowncallHandles.pango_cairo_show_glyph_string.invokeExact(
                     cr.handle(),
@@ -468,9 +459,7 @@ public final class PangoCairo {
      * @param cr a Cairo context
      * @param layout a Pango layout
      */
-    public static void showLayout(@NotNull org.cairographics.Context cr, @NotNull org.pango.Layout layout) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    public static void showLayout(org.cairographics.Context cr, org.pango.Layout layout) {
         try {
             DowncallHandles.pango_cairo_show_layout.invokeExact(
                     cr.handle(),
@@ -488,9 +477,7 @@ public final class PangoCairo {
      * @param cr a Cairo context
      * @param line a {@code PangoLayoutLine}
      */
-    public static void showLayoutLine(@NotNull org.cairographics.Context cr, @NotNull org.pango.LayoutLine line) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(line, "Parameter 'line' must not be null");
+    public static void showLayoutLine(org.cairographics.Context cr, org.pango.LayoutLine line) {
         try {
             DowncallHandles.pango_cairo_show_layout_line.invokeExact(
                     cr.handle(),
@@ -510,9 +497,7 @@ public final class PangoCairo {
      * @param cr a Cairo context
      * @param context a {@code PangoContext}, from a pangocairo font map
      */
-    public static void updateContext(@NotNull org.cairographics.Context cr, @NotNull org.pango.Context context) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
+    public static void updateContext(org.cairographics.Context cr, org.pango.Context context) {
         try {
             DowncallHandles.pango_cairo_update_context.invokeExact(
                     cr.handle(),
@@ -529,9 +514,7 @@ public final class PangoCairo {
      * @param cr a Cairo context
      * @param layout a {@code PangoLayout}, from {@link PangoCairo#createLayout}
      */
-    public static void updateLayout(@NotNull org.cairographics.Context cr, @NotNull org.pango.Layout layout) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
-        java.util.Objects.requireNonNull(layout, "Parameter 'layout' must not be null");
+    public static void updateLayout(org.cairographics.Context cr, org.pango.Layout layout) {
         try {
             DowncallHandles.pango_cairo_update_layout.invokeExact(
                     cr.handle(),
@@ -678,11 +661,5 @@ public final class PangoCairo {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static void cbShapeRendererFunc(MemoryAddress cr, MemoryAddress attr, int doPath, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (ShapeRendererFunc) Interop.signalRegistry.get(HASH);
-            HANDLER.onShapeRendererFunc(new org.cairographics.Context(cr, Ownership.NONE), new org.pango.AttrShape(attr, Ownership.NONE), doPath != 0);
-        }
     }
 }

@@ -136,40 +136,26 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * <p>
      * Because SpinButton is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SpinButton(Addressable address, Ownership ownership) {
+    protected SpinButton(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to SpinButton if its GType is a (or inherits from) "GtkSpinButton".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code SpinButton} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkSpinButton", a ClassCastException will be thrown.
-     */
-    public static SpinButton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), SpinButton.getType())) {
-            return new SpinButton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkSpinButton");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SpinButton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SpinButton(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.Adjustment adjustment, double climbRate, int digits) {
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Adjustment adjustment, double climbRate, int digits) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_spin_button_new.invokeExact(
                     (Addressable) (adjustment == null ? MemoryAddress.NULL : adjustment.handle()),
@@ -192,8 +178,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         super(constructNew(adjustment, climbRate, digits), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithRange(double min, double max, double step) {
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithRange(double min, double max, double step) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_spin_button_new_with_range.invokeExact(
                     min,
@@ -225,7 +211,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @return The new {@code GtkSpinButton}
      */
     public static SpinButton newWithRange(double min, double max, double step) {
-        return new SpinButton(constructNewWithRange(min, max, step), Ownership.NONE);
+        var RESULT = constructNewWithRange(min, max, step);
+        return (org.gtk.gtk.SpinButton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.SpinButton.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -254,7 +241,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Get the adjustment associated with a {@code GtkSpinButton}.
      * @return the {@code GtkAdjustment} of {@code spin_button}
      */
-    public @NotNull org.gtk.gtk.Adjustment getAdjustment() {
+    public org.gtk.gtk.Adjustment getAdjustment() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_spin_button_get_adjustment.invokeExact(
@@ -262,7 +249,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Adjustment(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Adjustment) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Adjustment.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -304,20 +291,18 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param page location to store page increment
      */
     public void getIncrements(Out<Double> step, Out<Double> page) {
-        java.util.Objects.requireNonNull(step, "Parameter 'step' must not be null");
         MemorySegment stepPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(page, "Parameter 'page' must not be null");
         MemorySegment pagePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gtk_spin_button_get_increments.invokeExact(
                     handle(),
-                    (Addressable) stepPOINTER.address(),
-                    (Addressable) pagePOINTER.address());
+                    (Addressable) (step == null ? MemoryAddress.NULL : (Addressable) stepPOINTER.address()),
+                    (Addressable) (page == null ? MemoryAddress.NULL : (Addressable) pagePOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        step.set(stepPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        page.set(pagePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (step != null) step.set(stepPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (page != null) page.set(pagePOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -332,7 +317,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -343,20 +328,18 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param max location to store maximum allowed value
      */
     public void getRange(Out<Double> min, Out<Double> max) {
-        java.util.Objects.requireNonNull(min, "Parameter 'min' must not be null");
         MemorySegment minPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
-        java.util.Objects.requireNonNull(max, "Parameter 'max' must not be null");
         MemorySegment maxPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_DOUBLE);
         try {
             DowncallHandles.gtk_spin_button_get_range.invokeExact(
                     handle(),
-                    (Addressable) minPOINTER.address(),
-                    (Addressable) maxPOINTER.address());
+                    (Addressable) (min == null ? MemoryAddress.NULL : (Addressable) minPOINTER.address()),
+                    (Addressable) (max == null ? MemoryAddress.NULL : (Addressable) maxPOINTER.address()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        min.set(minPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
-        max.set(maxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (min != null) min.set(minPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
+        if (max != null) max.set(maxPOINTER.get(Interop.valueLayout.C_DOUBLE, 0));
     }
     
     /**
@@ -371,7 +354,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -380,7 +363,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * See {@link SpinButton#setUpdatePolicy}.
      * @return the current update policy
      */
-    public @NotNull org.gtk.gtk.SpinButtonUpdatePolicy getUpdatePolicy() {
+    public org.gtk.gtk.SpinButtonUpdatePolicy getUpdatePolicy() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gtk_spin_button_get_update_policy.invokeExact(
@@ -435,15 +418,14 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Replaces the {@code GtkAdjustment} associated with {@code spin_button}.
      * @param adjustment a {@code GtkAdjustment} to replace the existing adjustment
      */
-    public void setAdjustment(@NotNull org.gtk.gtk.Adjustment adjustment) {
-        java.util.Objects.requireNonNull(adjustment, "Parameter 'adjustment' must not be null");
+    public void setAdjustment(org.gtk.gtk.Adjustment adjustment) {
         try {
             DowncallHandles.gtk_spin_button_set_adjustment.invokeExact(
                     handle(),
@@ -513,7 +495,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_spin_button_set_numeric.invokeExact(
                     handle(),
-                    numeric ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(numeric, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -548,7 +530,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_spin_button_set_snap_to_ticks.invokeExact(
                     handle(),
-                    snapToTicks ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(snapToTicks, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -561,8 +543,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * updated or only when a valid value is set.
      * @param policy a {@code GtkSpinButtonUpdatePolicy} value
      */
-    public void setUpdatePolicy(@NotNull org.gtk.gtk.SpinButtonUpdatePolicy policy) {
-        java.util.Objects.requireNonNull(policy, "Parameter 'policy' must not be null");
+    public void setUpdatePolicy(org.gtk.gtk.SpinButtonUpdatePolicy policy) {
         try {
             DowncallHandles.gtk_spin_button_set_update_policy.invokeExact(
                     handle(),
@@ -596,7 +577,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
         try {
             DowncallHandles.gtk_spin_button_set_wrap.invokeExact(
                     handle(),
-                    wrap ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(wrap, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -608,8 +589,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @param direction a {@code GtkSpinType} indicating the direction to spin
      * @param increment step increment to apply in the specified direction
      */
-    public void spin(@NotNull org.gtk.gtk.SpinType direction, double increment) {
-        java.util.Objects.requireNonNull(direction, "Parameter 'direction' must not be null");
+    public void spin(org.gtk.gtk.SpinType direction, double increment) {
         try {
             DowncallHandles.gtk_spin_button_spin.invokeExact(
                     handle(),
@@ -636,7 +616,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_spin_button_get_type.invokeExact();
@@ -648,7 +628,18 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface ChangeValue {
-        void signalReceived(SpinButton sourceSpinButton, @NotNull org.gtk.gtk.ScrollType scroll);
+        void run(org.gtk.gtk.ScrollType scroll);
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSpinButton, int scroll) {
+            run(org.gtk.gtk.ScrollType.of(scroll));
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ChangeValue.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -667,16 +658,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public Signal<SpinButton.ChangeValue> onChangeValue(SpinButton.ChangeValue handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("change-value"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonChangeValue",
-                        MethodType.methodType(void.class, MemoryAddress.class, int.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SpinButton.ChangeValue>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("change-value"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -684,7 +667,21 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Input {
-        void signalReceived(SpinButton sourceSpinButton, Out<Double> newValue);
+        int run(Out<Double> newValue);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceSpinButton, MemoryAddress newValue) {
+            Out<Double> newValueOUT = new Out<>(newValue.get(Interop.valueLayout.C_DOUBLE, 0));
+            var RESULT = run(newValueOUT);
+            newValue.set(Interop.valueLayout.C_DOUBLE, 0, newValueOUT.get());
+            return RESULT;
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Input.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -699,12 +696,30 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
      * @return A {@link io.github.jwharm.javagi.Signal} object to keep track of the signal connection
      */
     public Signal<SpinButton.Input> onInput(SpinButton.Input handler) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
+                handle(), Interop.allocateNativeString("input"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     @FunctionalInterface
     public interface Output {
-        boolean signalReceived(SpinButton sourceSpinButton);
+        boolean run();
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceSpinButton) {
+            var RESULT = run();
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Output.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -734,16 +749,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public Signal<SpinButton.Output> onOutput(SpinButton.Output handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("output"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonOutput",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SpinButton.Output>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("output"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -751,7 +758,18 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface ValueChanged {
-        void signalReceived(SpinButton sourceSpinButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSpinButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(ValueChanged.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -764,16 +782,8 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public Signal<SpinButton.ValueChanged> onValueChanged(SpinButton.ValueChanged handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("value-changed"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonValueChanged",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SpinButton.ValueChanged>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("value-changed"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -781,7 +791,18 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     
     @FunctionalInterface
     public interface Wrapped {
-        void signalReceived(SpinButton sourceSpinButton);
+        void run();
+
+        @ApiStatus.Internal default void upcall(MemoryAddress sourceSpinButton) {
+            run();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(Wrapped.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -793,52 +814,46 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
     public Signal<SpinButton.Wrapped> onWrapped(SpinButton.Wrapped handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("wrapped"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(SpinButton.Callbacks.class, "signalSpinButtonWrapped",
-                        MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<SpinButton.Wrapped>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("wrapped"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link SpinButton.Builder} object constructs a {@link SpinButton} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link SpinButton.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Widget.Build {
+    public static class Builder extends org.gtk.gtk.Widget.Builder {
         
-         /**
-         * A {@link SpinButton.Build} object constructs a {@link SpinButton} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link SpinButton} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link SpinButton} using {@link SpinButton#castFrom}.
+         * {@link SpinButton}.
          * @return A new instance of {@code SpinButton} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public SpinButton construct() {
-            return SpinButton.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    SpinButton.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public SpinButton build() {
+            return (SpinButton) org.gtk.gobject.GObject.newWithProperties(
+                SpinButton.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -847,7 +862,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param adjustment The value for the {@code adjustment} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setAdjustment(org.gtk.gtk.Adjustment adjustment) {
+        public Builder setAdjustment(org.gtk.gtk.Adjustment adjustment) {
             names.add("adjustment");
             values.add(org.gtk.gobject.Value.create(adjustment));
             return this;
@@ -858,7 +873,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param climbRate The value for the {@code climb-rate} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setClimbRate(double climbRate) {
+        public Builder setClimbRate(double climbRate) {
             names.add("climb-rate");
             values.add(org.gtk.gobject.Value.create(climbRate));
             return this;
@@ -869,7 +884,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param digits The value for the {@code digits} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setDigits(int digits) {
+        public Builder setDigits(int digits) {
             names.add("digits");
             values.add(org.gtk.gobject.Value.create(digits));
             return this;
@@ -880,7 +895,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param numeric The value for the {@code numeric} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNumeric(boolean numeric) {
+        public Builder setNumeric(boolean numeric) {
             names.add("numeric");
             values.add(org.gtk.gobject.Value.create(numeric));
             return this;
@@ -892,7 +907,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param snapToTicks The value for the {@code snap-to-ticks} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSnapToTicks(boolean snapToTicks) {
+        public Builder setSnapToTicks(boolean snapToTicks) {
             names.add("snap-to-ticks");
             values.add(org.gtk.gobject.Value.create(snapToTicks));
             return this;
@@ -904,7 +919,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param updatePolicy The value for the {@code update-policy} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUpdatePolicy(org.gtk.gtk.SpinButtonUpdatePolicy updatePolicy) {
+        public Builder setUpdatePolicy(org.gtk.gtk.SpinButtonUpdatePolicy updatePolicy) {
             names.add("update-policy");
             values.add(org.gtk.gobject.Value.create(updatePolicy));
             return this;
@@ -915,7 +930,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param value The value for the {@code value} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(double value) {
+        public Builder setValue(double value) {
             names.add("value");
             values.add(org.gtk.gobject.Value.create(value));
             return this;
@@ -926,7 +941,7 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
          * @param wrap The value for the {@code wrap} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setWrap(boolean wrap) {
+        public Builder setWrap(boolean wrap) {
             names.add("wrap");
             values.add(org.gtk.gobject.Value.create(wrap));
             return this;
@@ -1096,36 +1111,5 @@ public class SpinButton extends org.gtk.gtk.Widget implements org.gtk.gtk.Access
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static void signalSpinButtonChangeValue(MemoryAddress sourceSpinButton, int scroll, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SpinButton.ChangeValue) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SpinButton(sourceSpinButton, Ownership.NONE), org.gtk.gtk.ScrollType.of(scroll));
-        }
-        
-        public static void signalSpinButtonInput(MemoryAddress sourceSpinButton, double newValue, MemoryAddress DATA) {
-        // Operation not supported yet
-    }
-        
-        public static boolean signalSpinButtonOutput(MemoryAddress sourceSpinButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SpinButton.Output) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new SpinButton(sourceSpinButton, Ownership.NONE));
-        }
-        
-        public static void signalSpinButtonValueChanged(MemoryAddress sourceSpinButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SpinButton.ValueChanged) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SpinButton(sourceSpinButton, Ownership.NONE));
-        }
-        
-        public static void signalSpinButtonWrapped(MemoryAddress sourceSpinButton, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (SpinButton.Wrapped) Interop.signalRegistry.get(HASH);
-            HANDLER.signalReceived(new SpinButton(sourceSpinButton, Ownership.NONE));
-        }
     }
 }

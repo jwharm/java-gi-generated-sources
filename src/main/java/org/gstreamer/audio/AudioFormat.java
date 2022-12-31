@@ -211,11 +211,11 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
      * @return a {@link AudioFormat} or GST_AUDIO_FORMAT_UNKNOWN when no audio format
      * exists with the given parameters.
      */
-    public static @NotNull org.gstreamer.audio.AudioFormat buildInteger(boolean sign, int endianness, int width, int depth) {
+    public static org.gstreamer.audio.AudioFormat buildInteger(boolean sign, int endianness, int width, int depth) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_format_build_integer.invokeExact(
-                    sign ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(sign, null).intValue(),
                     endianness,
                     width,
                     depth);
@@ -234,9 +234,7 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
      * @deprecated Use gst_audio_format_info_fill_silence() instead.
      */
     @Deprecated
-    public static void fillSilence(@NotNull org.gstreamer.audio.AudioFormatInfo info, @NotNull byte[] dest, long length) {
-        java.util.Objects.requireNonNull(info, "Parameter 'info' must not be null");
-        java.util.Objects.requireNonNull(dest, "Parameter 'dest' must not be null");
+    public static void fillSilence(org.gstreamer.audio.AudioFormatInfo info, byte[] dest, long length) {
         try {
             DowncallHandles.gst_audio_format_fill_silence.invokeExact(
                     info.handle(),
@@ -253,12 +251,11 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
      * @return the {@link AudioFormat} for {@code format} or GST_AUDIO_FORMAT_UNKNOWN when the
      * string is not a known format.
      */
-    public static @NotNull org.gstreamer.audio.AudioFormat fromString(@NotNull java.lang.String format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.audio.AudioFormat fromString(java.lang.String format) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_audio_format_from_string.invokeExact(
-                    Interop.allocateNativeString(format));
+                    Marshal.stringToAddress.marshal(format, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -270,8 +267,7 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
      * @param format a {@link AudioFormat}
      * @return The {@link AudioFormatInfo} for {@code format}.
      */
-    public static @NotNull org.gstreamer.audio.AudioFormatInfo getInfo(@NotNull org.gstreamer.audio.AudioFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static org.gstreamer.audio.AudioFormatInfo getInfo(org.gstreamer.audio.AudioFormat format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_format_get_info.invokeExact(
@@ -279,11 +275,10 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.audio.AudioFormatInfo(RESULT, Ownership.NONE);
+        return org.gstreamer.audio.AudioFormatInfo.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
-    public static @NotNull java.lang.String toString(@NotNull org.gstreamer.audio.AudioFormat format) {
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static java.lang.String toString(org.gstreamer.audio.AudioFormat format) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_audio_format_to_string.invokeExact(
@@ -291,7 +286,7 @@ public enum AudioFormat implements io.github.jwharm.javagi.Enumeration {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     private static class DowncallHandles {

@@ -40,8 +40,10 @@ public class SwapchainCreateFlagsKHR extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public SwapchainCreateFlagsKHR(Addressable address, Ownership ownership) {
+    protected SwapchainCreateFlagsKHR(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, SwapchainCreateFlagsKHR> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new SwapchainCreateFlagsKHR(input, ownership);
 }

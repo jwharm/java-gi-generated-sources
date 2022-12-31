@@ -40,8 +40,10 @@ public class PipelineViewportShadingRateImageStateCreateInfoNV extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PipelineViewportShadingRateImageStateCreateInfoNV(Addressable address, Ownership ownership) {
+    protected PipelineViewportShadingRateImageStateCreateInfoNV(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PipelineViewportShadingRateImageStateCreateInfoNV> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PipelineViewportShadingRateImageStateCreateInfoNV(input, ownership);
 }

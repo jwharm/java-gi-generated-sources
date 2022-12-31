@@ -49,23 +49,22 @@ public class OptionGroup extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public OptionGroup(Addressable address, Ownership ownership) {
+    protected OptionGroup(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNew(@NotNull java.lang.String name, @NotNull java.lang.String description, @NotNull java.lang.String helpDescription, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(description, "Parameter 'description' must not be null");
-        java.util.Objects.requireNonNull(helpDescription, "Parameter 'helpDescription' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, OptionGroup> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new OptionGroup(input, ownership);
+    
+    private static MemoryAddress constructNew(java.lang.String name, java.lang.String description, java.lang.String helpDescription, @Nullable org.gtk.glib.DestroyNotify destroy) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_option_group_new.invokeExact(
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(description),
-                    Interop.allocateNativeString(helpDescription),
-                    (Addressable) userData,
-                    Interop.cbDestroyNotifySymbol());
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(description, null),
+                    Marshal.stringToAddress.marshal(helpDescription, null),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (destroy == null ? MemoryAddress.NULL : (Addressable) destroy.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -82,20 +81,17 @@ public class OptionGroup extends Struct {
      * @param helpDescription a description for the {@code --help-}{@code name} option.
      *   This string is translated using the translation domain or translation function
      *   of the group
-     * @param userData user data that will be passed to the pre- and post-parse hooks,
-     *   the error hook and to callbacks of {@link OptionArg#CALLBACK} options, or {@code null}
      * @param destroy a function that will be called to free {@code user_data}, or {@code null}
      */
-    public OptionGroup(@NotNull java.lang.String name, @NotNull java.lang.String description, @NotNull java.lang.String helpDescription, @Nullable java.lang.foreign.MemoryAddress userData, @Nullable org.gtk.glib.DestroyNotify destroy) {
-        super(constructNew(name, description, helpDescription, userData, destroy), Ownership.FULL);
+    public OptionGroup(java.lang.String name, java.lang.String description, java.lang.String helpDescription, @Nullable org.gtk.glib.DestroyNotify destroy) {
+        super(constructNew(name, description, helpDescription, destroy), Ownership.FULL);
     }
     
     /**
      * Adds the options specified in {@code entries} to {@code group}.
      * @param entries a {@code null}-terminated array of {@code GOptionEntrys}
      */
-    public void addEntries(@NotNull org.gtk.glib.OptionEntry[] entries) {
-        java.util.Objects.requireNonNull(entries, "Parameter 'entries' must not be null");
+    public void addEntries(org.gtk.glib.OptionEntry[] entries) {
         try {
             DowncallHandles.g_option_group_add_entries.invokeExact(
                     handle(),
@@ -124,7 +120,7 @@ public class OptionGroup extends Struct {
      * Increments the reference count of {@code group} by one.
      * @return a {@link OptionGroup}
      */
-    public @NotNull org.gtk.glib.OptionGroup ref() {
+    public org.gtk.glib.OptionGroup ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_option_group_ref.invokeExact(
@@ -132,7 +128,7 @@ public class OptionGroup extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.OptionGroup(RESULT, Ownership.FULL);
+        return org.gtk.glib.OptionGroup.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -143,8 +139,14 @@ public class OptionGroup extends Struct {
      * specified when constructing the group with g_option_group_new().
      * @param errorFunc a function to call when an error occurs
      */
-    public void setErrorHook(@NotNull org.gtk.glib.OptionErrorFunc errorFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void setErrorHook(org.gtk.glib.OptionErrorFunc errorFunc) {
+        try {
+            DowncallHandles.g_option_group_set_error_hook.invokeExact(
+                    handle(),
+                    (Addressable) errorFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -159,7 +161,14 @@ public class OptionGroup extends Struct {
      * @param postParseFunc a function to call after parsing, or {@code null}
      */
     public void setParseHooks(@Nullable org.gtk.glib.OptionParseFunc preParseFunc, @Nullable org.gtk.glib.OptionParseFunc postParseFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            DowncallHandles.g_option_group_set_parse_hooks.invokeExact(
+                    handle(),
+                    (Addressable) (preParseFunc == null ? MemoryAddress.NULL : (Addressable) preParseFunc.toCallback()),
+                    (Addressable) (postParseFunc == null ? MemoryAddress.NULL : (Addressable) postParseFunc.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -170,18 +179,15 @@ public class OptionGroup extends Struct {
      * If you are using gettext(), you only need to set the translation
      * domain, see g_option_group_set_translation_domain().
      * @param func the {@link TranslateFunc}, or {@code null}
+     * @param destroyNotify a function which gets called to free {@code data}, or {@code null}
      */
-    public void setTranslateFunc(@Nullable org.gtk.glib.TranslateFunc func) {
+    public void setTranslateFunc(@Nullable org.gtk.glib.TranslateFunc func, @Nullable org.gtk.glib.DestroyNotify destroyNotify) {
         try {
             DowncallHandles.g_option_group_set_translate_func.invokeExact(
                     handle(),
-                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbTranslateFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (func == null ? MemoryAddress.NULL : Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) (destroyNotify == null ? MemoryAddress.NULL : (Addressable) destroyNotify.toCallback()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -192,12 +198,11 @@ public class OptionGroup extends Struct {
      * user-visible strings.
      * @param domain the domain to use
      */
-    public void setTranslationDomain(@NotNull java.lang.String domain) {
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+    public void setTranslationDomain(java.lang.String domain) {
         try {
             DowncallHandles.g_option_group_set_translation_domain.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(domain));
+                    Marshal.stringToAddress.marshal(domain, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }

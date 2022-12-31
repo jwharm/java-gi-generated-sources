@@ -42,30 +42,12 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public RenderNode(Addressable address, Ownership ownership) {
+    protected RenderNode(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to RenderNode if its GType is a (or inherits from) "GskRenderNode".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code RenderNode} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GskRenderNode", a ClassCastException will be thrown.
-     */
-    public static RenderNode castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), RenderNode.getType())) {
-            return new RenderNode(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GskRenderNode");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, RenderNode> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new RenderNode(input, ownership);
     
     /**
      * Draw the contents of {@code node} to the given cairo context.
@@ -78,8 +60,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * for nodes doing 3D operations, this function may fail.
      * @param cr cairo context to draw to
      */
-    public void draw(@NotNull org.cairographics.Context cr) {
-        java.util.Objects.requireNonNull(cr, "Parameter 'cr' must not be null");
+    public void draw(org.cairographics.Context cr) {
         try {
             DowncallHandles.gsk_render_node_draw.invokeExact(
                     handle(),
@@ -95,8 +76,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * The node will not draw outside of its boundaries.
      * @param bounds return location for the boundaries
      */
-    public void getBounds(@NotNull org.gtk.graphene.Rect bounds) {
-        java.util.Objects.requireNonNull(bounds, "Parameter 'bounds' must not be null");
+    public void getBounds(org.gtk.graphene.Rect bounds) {
         try {
             DowncallHandles.gsk_render_node_get_bounds.invokeExact(
                     handle(),
@@ -110,7 +90,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * Returns the type of the {@code node}.
      * @return the type of the {@code GskRenderNode}
      */
-    public @NotNull org.gtk.gsk.RenderNodeType getNodeType() {
+    public org.gtk.gsk.RenderNodeType getNodeType() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_render_node_get_node_type.invokeExact(
@@ -125,7 +105,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * Acquires a reference on the given {@code GskRenderNode}.
      * @return the {@code GskRenderNode} with an additional reference
      */
-    public @NotNull org.gtk.gsk.RenderNode ref() {
+    public org.gtk.gsk.RenderNode ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_render_node_ref.invokeExact(
@@ -133,7 +113,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(RESULT, Ownership.FULL);
+        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -148,7 +128,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * The format is not meant as a permanent storage format.
      * @return a {@code GBytes} representing the node.
      */
-    public @NotNull org.gtk.glib.Bytes serialize() {
+    public org.gtk.glib.Bytes serialize() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_render_node_serialize.invokeExact(
@@ -156,7 +136,7 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -187,14 +167,13 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * @return {@code true} if saving was successful
      * @throws GErrorException See {@link org.gtk.glib.Error}
      */
-    public boolean writeToFile(@NotNull java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public boolean writeToFile(java.lang.String filename) throws io.github.jwharm.javagi.GErrorException {
         MemorySegment GERROR = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gsk_render_node_write_to_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename),
+                    Marshal.stringToAddress.marshal(filename, null),
                     (Addressable) GERROR);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -202,14 +181,14 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
         if (GErrorException.isErrorSet(GERROR)) {
             throw new GErrorException(GERROR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gsk_render_node_get_type.invokeExact();
@@ -227,57 +206,17 @@ public class RenderNode extends io.github.jwharm.javagi.ObjectBase {
      * @param errorFunc Callback on parsing errors
      * @return a new {@code GskRenderNode}
      */
-    public static @Nullable org.gtk.gsk.RenderNode deserialize(@NotNull org.gtk.glib.Bytes bytes, @Nullable org.gtk.gsk.ParseErrorFunc errorFunc) {
-        java.util.Objects.requireNonNull(bytes, "Parameter 'bytes' must not be null");
+    public static @Nullable org.gtk.gsk.RenderNode deserialize(org.gtk.glib.Bytes bytes, @Nullable org.gtk.gsk.ParseErrorFunc errorFunc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gsk_render_node_deserialize.invokeExact(
                     bytes.handle(),
-                    (Addressable) (errorFunc == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(Gsk.Callbacks.class, "cbParseErrorFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) (errorFunc == null ? MemoryAddress.NULL : Interop.registerCallback(errorFunc)));
+                    (Addressable) (errorFunc == null ? MemoryAddress.NULL : (Addressable) errorFunc.toCallback()),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gsk.RenderNode(RESULT, Ownership.FULL);
-    }
-
-    /**
-     * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
-     */
-    public static class Build extends io.github.jwharm.javagi.Build {
-        
-         /**
-         * A {@link RenderNode.Build} object constructs a {@link RenderNode} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
-        }
-        
-         /**
-         * Finish building the {@link RenderNode} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
-         * is executed to create a new GObject instance, which is then cast to 
-         * {@link RenderNode} using {@link RenderNode#castFrom}.
-         * @return A new instance of {@code RenderNode} with the properties 
-         *         that were set in the Build object.
-         */
-        public RenderNode construct() {
-            return RenderNode.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    RenderNode.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
-            );
-        }
+        return (org.gtk.gsk.RenderNode) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gsk.RenderNode.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     private static class DowncallHandles {

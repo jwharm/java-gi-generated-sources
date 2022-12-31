@@ -38,11 +38,15 @@ public class LockFlags extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public LockFlags or(LockFlags mask) {
-        return new LockFlags(this.getValue() | mask.getValue());
+    public LockFlags or(LockFlags... masks) {
+        int value = this.getValue();
+        for (LockFlags arg : masks) {
+            value |= arg.getValue();
+        }
+        return new LockFlags(value);
     }
     
     /**
@@ -52,7 +56,8 @@ public class LockFlags extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static LockFlags combined(LockFlags mask, LockFlags... masks) {
-        int value = mask.getValue();        for (LockFlags arg : masks) {
+        int value = mask.getValue();
+        for (LockFlags arg : masks) {
             value |= arg.getValue();
         }
         return new LockFlags(value);

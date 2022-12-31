@@ -14,4 +14,14 @@ public class Quark extends io.github.jwharm.javagi.Alias<Integer> {
     public Quark(int value) {
         super(value);
     }
+    
+    @ApiStatus.Internal
+    public static Quark[] fromNativeArray(MemoryAddress address, long length) {
+        Quark[] array = new Quark[(int) length];
+        long bytesSize = Interop.valueLayout.C_INT.byteSize();
+        for (int i = 0; i < length; i++) {
+            array[i] = new Quark(address.get(Interop.valueLayout.C_INT, i * bytesSize));
+        }
+        return array;
+    }
 }

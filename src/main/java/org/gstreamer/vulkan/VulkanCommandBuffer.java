@@ -13,21 +13,19 @@ public class VulkanCommandBuffer extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstVulkanCommandBuffer";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
-        org.vulkan.CommandBuffer.getMemoryLayout().withName("cmd"),
-        Interop.valueLayout.ADDRESS.withName("pool"),
-        org.vulkan.CommandBufferLevel.getMemoryLayout().withName("level"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.MiniObject.getMemoryLayout().withName("parent"),
+            org.vulkan.CommandBuffer.getMemoryLayout().withName("cmd"),
+            Interop.valueLayout.ADDRESS.withName("pool"),
+            org.vulkan.CommandBufferLevel.getMemoryLayout().withName("level"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -47,48 +45,78 @@ public class VulkanCommandBuffer extends Struct {
      * Get the value of the field {@code parent}
      * @return The value of the field {@code parent}
      */
-    public org.gstreamer.gst.MiniObject parent$get() {
+    public org.gstreamer.gst.MiniObject getParent() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("parent"));
-        return new org.gstreamer.gst.MiniObject(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.gstreamer.gst.MiniObject.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code parent}
+     * @param parent The new value of the field {@code parent}
+     */
+    public void setParent(org.gstreamer.gst.MiniObject parent) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("parent"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
     }
     
     /**
      * Get the value of the field {@code cmd}
      * @return The value of the field {@code cmd}
      */
-    public org.vulkan.CommandBuffer cmd$get() {
+    public org.vulkan.CommandBuffer getCmd() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("cmd"));
-        return new org.vulkan.CommandBuffer(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.CommandBuffer.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code cmd}
+     * @param cmd The new value of the field {@code cmd}
+     */
+    public void setCmd(org.vulkan.CommandBuffer cmd) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("cmd"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cmd == null ? MemoryAddress.NULL : cmd.handle()));
     }
     
     /**
      * Get the value of the field {@code pool}
      * @return The value of the field {@code pool}
      */
-    public org.gstreamer.vulkan.VulkanCommandPool pool$get() {
+    public org.gstreamer.vulkan.VulkanCommandPool getPool() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pool"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.vulkan.VulkanCommandPool(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.vulkan.VulkanCommandPool) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.vulkan.VulkanCommandPool.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code pool}
      * @param pool The new value of the field {@code pool}
      */
-    public void pool$set(org.gstreamer.vulkan.VulkanCommandPool pool) {
+    public void setPool(org.gstreamer.vulkan.VulkanCommandPool pool) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("pool"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), pool.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
     }
     
     /**
      * Get the value of the field {@code level}
      * @return The value of the field {@code level}
      */
-    public org.vulkan.CommandBufferLevel level$get() {
+    public org.vulkan.CommandBufferLevel getLevel() {
         long OFFSET = getMemoryLayout().byteOffset(MemoryLayout.PathElement.groupElement("level"));
-        return new org.vulkan.CommandBufferLevel(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+        return org.vulkan.CommandBufferLevel.fromAddress.marshal(((MemoryAddress) handle()).addOffset(OFFSET), Ownership.UNKNOWN);
+    }
+    
+    /**
+     * Change the value of the field {@code level}
+     * @param level The new value of the field {@code level}
+     */
+    public void setLevel(org.vulkan.CommandBufferLevel level) {
+        getMemoryLayout()
+            .varHandle(MemoryLayout.PathElement.groupElement("level"))
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (level == null ? MemoryAddress.NULL : level.handle()));
     }
     
     /**
@@ -96,15 +124,15 @@ public class VulkanCommandBuffer extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public VulkanCommandBuffer(Addressable address, Ownership ownership) {
+    protected VulkanCommandBuffer(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    private static Addressable constructNewWrapped(@NotNull org.vulkan.CommandBuffer cmd, @NotNull org.vulkan.CommandBufferLevel level) {
-        java.util.Objects.requireNonNull(cmd, "Parameter 'cmd' must not be null");
-        java.util.Objects.requireNonNull(level, "Parameter 'level' must not be null");
-        Addressable RESULT;
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, VulkanCommandBuffer> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new VulkanCommandBuffer(input, ownership);
+    
+    private static MemoryAddress constructNewWrapped(org.vulkan.CommandBuffer cmd, org.vulkan.CommandBufferLevel level) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_command_buffer_new_wrapped.invokeExact(
                     cmd.handle(),
@@ -115,15 +143,16 @@ public class VulkanCommandBuffer extends Struct {
         return RESULT;
     }
     
-    public static VulkanCommandBuffer newWrapped(@NotNull org.vulkan.CommandBuffer cmd, @NotNull org.vulkan.CommandBufferLevel level) {
-        return new VulkanCommandBuffer(constructNewWrapped(cmd, level), Ownership.FULL);
+    public static VulkanCommandBuffer newWrapped(org.vulkan.CommandBuffer cmd, org.vulkan.CommandBufferLevel level) {
+        var RESULT = constructNewWrapped(cmd, level);
+        return org.gstreamer.vulkan.VulkanCommandBuffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Increases the refcount of the given buffer by one.
      * @return {@code cmd}
      */
-    public @NotNull org.gstreamer.vulkan.VulkanCommandBuffer ref() {
+    public org.gstreamer.vulkan.VulkanCommandBuffer ref() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_vulkan_command_buffer_ref.invokeExact(
@@ -131,7 +160,7 @@ public class VulkanCommandBuffer extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.vulkan.VulkanCommandBuffer(RESULT, Ownership.FULL);
+        return org.gstreamer.vulkan.VulkanCommandBuffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -168,31 +197,35 @@ public class VulkanCommandBuffer extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link VulkanCommandBuffer.Builder} object constructs a {@link VulkanCommandBuffer} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link VulkanCommandBuffer.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private VulkanCommandBuffer struct;
+        private final VulkanCommandBuffer struct;
         
-         /**
-         * A {@link VulkanCommandBuffer.Build} object constructs a {@link VulkanCommandBuffer} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = VulkanCommandBuffer.allocate();
         }
         
          /**
          * Finish building the {@link VulkanCommandBuffer} struct.
          * @return A new instance of {@code VulkanCommandBuffer} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public VulkanCommandBuffer construct() {
+        public VulkanCommandBuffer build() {
             return struct;
         }
         
@@ -201,7 +234,7 @@ public class VulkanCommandBuffer extends Struct {
          * @param parent The value for the {@code parent} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setParent(org.gstreamer.gst.MiniObject parent) {
+        public Builder setParent(org.gstreamer.gst.MiniObject parent) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("parent"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()));
@@ -213,7 +246,7 @@ public class VulkanCommandBuffer extends Struct {
          * @param cmd The value for the {@code cmd} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setCmd(org.vulkan.CommandBuffer cmd) {
+        public Builder setCmd(org.vulkan.CommandBuffer cmd) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("cmd"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (cmd == null ? MemoryAddress.NULL : cmd.handle()));
@@ -225,7 +258,7 @@ public class VulkanCommandBuffer extends Struct {
          * @param pool The value for the {@code pool} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPool(org.gstreamer.vulkan.VulkanCommandPool pool) {
+        public Builder setPool(org.gstreamer.vulkan.VulkanCommandPool pool) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("pool"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (pool == null ? MemoryAddress.NULL : pool.handle()));
@@ -237,14 +270,14 @@ public class VulkanCommandBuffer extends Struct {
          * @param level The value for the {@code level} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLevel(org.vulkan.CommandBufferLevel level) {
+        public Builder setLevel(org.vulkan.CommandBufferLevel level) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("level"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (level == null ? MemoryAddress.NULL : level.handle()));
             return this;
         }
         
-        public Build setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
+        public Builder setReserved(java.lang.foreign.MemoryAddress[] Reserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (Reserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(Reserved, false)));

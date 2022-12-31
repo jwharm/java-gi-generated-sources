@@ -40,8 +40,10 @@ public class TcpWrapperConnectionPrivate extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TcpWrapperConnectionPrivate(Addressable address, Ownership ownership) {
+    protected TcpWrapperConnectionPrivate(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TcpWrapperConnectionPrivate> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TcpWrapperConnectionPrivate(input, ownership);
 }

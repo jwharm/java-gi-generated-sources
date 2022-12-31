@@ -6,12 +6,12 @@ import java.lang.invoke.*;
 import org.jetbrains.annotations.*;
 
 /**
- * A base class for value mapping objects that attaches control sources to {@link org.gtk.gobject.Object}
+ * A base class for value mapping objects that attaches control sources to {@link org.gtk.gobject.GObject}
  * properties. Such an object is taking one or more {@link ControlSource} instances,
  * combines them and maps the resulting value to the type and value range of the
  * bound property.
  */
-public class ControlBinding extends org.gstreamer.gst.Object {
+public class ControlBinding extends org.gstreamer.gst.GstObject {
     
     static {
         Gst.javagi$ensureInitialized();
@@ -19,21 +19,19 @@ public class ControlBinding extends org.gstreamer.gst.Object {
     
     private static final java.lang.String C_TYPE_NAME = "GstControlBinding";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gstreamer.gst.Object.getMemoryLayout().withName("parent"),
-        Interop.valueLayout.ADDRESS.withName("name"),
-        Interop.valueLayout.ADDRESS.withName("pspec"),
-        Interop.valueLayout.ADDRESS.withName("object"),
-        Interop.valueLayout.C_INT.withName("disabled")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gstreamer.gst.GstObject.getMemoryLayout().withName("parent"),
+            Interop.valueLayout.ADDRESS.withName("name"),
+            Interop.valueLayout.ADDRESS.withName("pspec"),
+            Interop.valueLayout.ADDRESS.withName("object"),
+            Interop.valueLayout.C_INT.withName("disabled")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -41,37 +39,23 @@ public class ControlBinding extends org.gstreamer.gst.Object {
      * <p>
      * Because ControlBinding is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ControlBinding(Addressable address, Ownership ownership) {
+    protected ControlBinding(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to ControlBinding if its GType is a (or inherits from) "GstControlBinding".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code ControlBinding} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GstControlBinding", a ClassCastException will be thrown.
-     */
-    public static ControlBinding castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), ControlBinding.getType())) {
-            return new ControlBinding(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GstControlBinding");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ControlBinding> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ControlBinding(input, ownership);
     
     /**
      * Gets a number of {@code GValues} for the given controlled property starting at the
@@ -86,10 +70,7 @@ public class ControlBinding extends org.gstreamer.gst.Object {
      * @param values array to put control-values in
      * @return {@code true} if the given array could be filled, {@code false} otherwise
      */
-    public boolean getGValueArray(@NotNull org.gstreamer.gst.ClockTime timestamp, @NotNull org.gstreamer.gst.ClockTime interval, int nValues, @NotNull org.gtk.gobject.Value[] values) {
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
-        java.util.Objects.requireNonNull(interval, "Parameter 'interval' must not be null");
-        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
+    public boolean getGValueArray(org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime interval, int nValues, org.gtk.gobject.Value[] values) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_control_binding_get_g_value_array.invokeExact(
@@ -101,7 +82,7 @@ public class ControlBinding extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -110,8 +91,7 @@ public class ControlBinding extends org.gstreamer.gst.Object {
      * @return the GValue of the property at the given time,
      * or {@code null} if the property isn't controlled.
      */
-    public @Nullable org.gtk.gobject.Value getValue(@NotNull org.gstreamer.gst.ClockTime timestamp) {
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
+    public @Nullable org.gtk.gobject.Value getValue(org.gstreamer.gst.ClockTime timestamp) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_control_binding_get_value.invokeExact(
@@ -120,7 +100,7 @@ public class ControlBinding extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gobject.Value(RESULT, Ownership.FULL);
+        return org.gtk.gobject.Value.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -140,10 +120,7 @@ public class ControlBinding extends org.gstreamer.gst.Object {
      * @param values array to put control-values in
      * @return {@code true} if the given array could be filled, {@code false} otherwise
      */
-    public boolean getValueArray(@NotNull org.gstreamer.gst.ClockTime timestamp, @NotNull org.gstreamer.gst.ClockTime interval, int nValues, @NotNull java.lang.foreign.MemoryAddress[] values) {
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
-        java.util.Objects.requireNonNull(interval, "Parameter 'interval' must not be null");
-        java.util.Objects.requireNonNull(values, "Parameter 'values' must not be null");
+    public boolean getValueArray(org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime interval, int nValues, java.lang.foreign.MemoryAddress[] values) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_control_binding_get_value_array.invokeExact(
@@ -155,7 +132,7 @@ public class ControlBinding extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -170,7 +147,7 @@ public class ControlBinding extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -183,7 +160,7 @@ public class ControlBinding extends org.gstreamer.gst.Object {
         try {
             DowncallHandles.gst_control_binding_set_disabled.invokeExact(
                     handle(),
-                    disabled ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(disabled, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -201,10 +178,7 @@ public class ControlBinding extends org.gstreamer.gst.Object {
      * @return {@code true} if the controller value could be applied to the object
      * property, {@code false} otherwise
      */
-    public boolean syncValues(@NotNull org.gstreamer.gst.Object object, @NotNull org.gstreamer.gst.ClockTime timestamp, @NotNull org.gstreamer.gst.ClockTime lastSync) {
-        java.util.Objects.requireNonNull(object, "Parameter 'object' must not be null");
-        java.util.Objects.requireNonNull(timestamp, "Parameter 'timestamp' must not be null");
-        java.util.Objects.requireNonNull(lastSync, "Parameter 'lastSync' must not be null");
+    public boolean syncValues(org.gstreamer.gst.GstObject object, org.gstreamer.gst.ClockTime timestamp, org.gstreamer.gst.ClockTime lastSync) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_control_binding_sync_values.invokeExact(
@@ -215,14 +189,14 @@ public class ControlBinding extends org.gstreamer.gst.Object {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_control_binding_get_type.invokeExact();
@@ -231,48 +205,50 @@ public class ControlBinding extends org.gstreamer.gst.Object {
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link ControlBinding.Builder} object constructs a {@link ControlBinding} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link ControlBinding.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gstreamer.gst.Object.Build {
+    public static class Builder extends org.gstreamer.gst.GstObject.Builder {
         
-         /**
-         * A {@link ControlBinding.Build} object constructs a {@link ControlBinding} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link ControlBinding} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link ControlBinding} using {@link ControlBinding#castFrom}.
+         * {@link ControlBinding}.
          * @return A new instance of {@code ControlBinding} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ControlBinding construct() {
-            return ControlBinding.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    ControlBinding.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public ControlBinding build() {
+            return (ControlBinding) org.gtk.gobject.GObject.newWithProperties(
+                ControlBinding.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setName(java.lang.String name) {
+        public Builder setName(java.lang.String name) {
             names.add("name");
             values.add(org.gtk.gobject.Value.create(name));
             return this;
         }
         
-        public Build setObject(org.gstreamer.gst.Object object) {
+        public Builder setObject(org.gstreamer.gst.GstObject object) {
             names.add("object");
             values.add(org.gtk.gobject.Value.create(object));
             return this;

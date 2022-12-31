@@ -235,7 +235,7 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
     public static final MessageType DEVICE_REMOVED = new MessageType(-2147483646);
     
     /**
-     * Message indicating a {@link org.gtk.gobject.Object} property has
+     * Message indicating a {@link org.gtk.gobject.GObject} property has
      *     changed (Since: 1.10)
      */
     public static final MessageType PROPERTY_NOTIFY = new MessageType(-2147483645);
@@ -286,8 +286,7 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
      * @param type the message type
      * @return a reference to the static name of the message.
      */
-    public static @NotNull java.lang.String getName(@NotNull org.gstreamer.gst.MessageType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static java.lang.String getName(org.gstreamer.gst.MessageType type) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_message_type_get_name.invokeExact(
@@ -295,7 +294,7 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -303,8 +302,7 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
      * @param type the message type
      * @return the quark associated with the message type
      */
-    public static @NotNull org.gtk.glib.Quark toQuark(@NotNull org.gstreamer.gst.MessageType type) {
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
+    public static org.gtk.glib.Quark toQuark(org.gstreamer.gst.MessageType type) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_message_type_to_quark.invokeExact(
@@ -317,11 +315,15 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
     
     /**
      * Combine (bitwise OR) operation
-     * @param mask the value to combine with
+     * @param masks one or more values to combine with
      * @return the combined value by calculating {@code this | mask} 
      */
-    public MessageType or(MessageType mask) {
-        return new MessageType(this.getValue() | mask.getValue());
+    public MessageType or(MessageType... masks) {
+        int value = this.getValue();
+        for (MessageType arg : masks) {
+            value |= arg.getValue();
+        }
+        return new MessageType(value);
     }
     
     /**
@@ -331,7 +333,8 @@ public class MessageType extends io.github.jwharm.javagi.Bitfield {
      * @return the combined value by calculating {@code mask | masks[0] | masks[1] | ...} 
      */
     public static MessageType combined(MessageType mask, MessageType... masks) {
-        int value = mask.getValue();        for (MessageType arg : masks) {
+        int value = mask.getValue();
+        for (MessageType arg : masks) {
             value |= arg.getValue();
         }
         return new MessageType(value);

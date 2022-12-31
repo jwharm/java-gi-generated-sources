@@ -25,18 +25,16 @@ public class TimeVal extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GTimeVal";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_LONG.withName("tv_sec"),
-        Interop.valueLayout.C_LONG.withName("tv_usec")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_LONG.withName("tv_sec"),
+            Interop.valueLayout.C_LONG.withName("tv_usec")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -56,7 +54,7 @@ public class TimeVal extends Struct {
      * Get the value of the field {@code tv_sec}
      * @return The value of the field {@code tv_sec}
      */
-    public long tvSec$get() {
+    public long getTvSec() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -67,7 +65,7 @@ public class TimeVal extends Struct {
      * Change the value of the field {@code tv_sec}
      * @param tvSec The new value of the field {@code tv_sec}
      */
-    public void tvSec$set(long tvSec) {
+    public void setTvSec(long tvSec) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvSec);
@@ -77,7 +75,7 @@ public class TimeVal extends Struct {
      * Get the value of the field {@code tv_usec}
      * @return The value of the field {@code tv_usec}
      */
-    public long tvUsec$get() {
+    public long getTvUsec() {
         var RESULT = (long) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -88,7 +86,7 @@ public class TimeVal extends Struct {
      * Change the value of the field {@code tv_usec}
      * @param tvUsec The new value of the field {@code tv_usec}
      */
-    public void tvUsec$set(long tvUsec) {
+    public void setTvUsec(long tvUsec) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvUsec);
@@ -99,10 +97,12 @@ public class TimeVal extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public TimeVal(Addressable address, Ownership ownership) {
+    protected TimeVal(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, TimeVal> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new TimeVal(input, ownership);
     
     /**
      * Adds the given number of microseconds to {@code time_}. {@code microseconds} can
@@ -171,7 +171,7 @@ public class TimeVal extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
@@ -199,18 +199,16 @@ public class TimeVal extends Struct {
      *    g_date_time_new_from_iso8601() instead.
      */
     @Deprecated
-    public static boolean fromIso8601(@NotNull java.lang.String isoDate, @NotNull org.gtk.glib.TimeVal time) {
-        java.util.Objects.requireNonNull(isoDate, "Parameter 'isoDate' must not be null");
-        java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
+    public static boolean fromIso8601(java.lang.String isoDate, org.gtk.glib.TimeVal time) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_time_val_from_iso8601.invokeExact(
-                    Interop.allocateNativeString(isoDate),
+                    Marshal.stringToAddress.marshal(isoDate, null),
                     time.handle());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     private static class DowncallHandles {
@@ -233,31 +231,35 @@ public class TimeVal extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link TimeVal.Builder} object constructs a {@link TimeVal} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link TimeVal.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private TimeVal struct;
+        private final TimeVal struct;
         
-         /**
-         * A {@link TimeVal.Build} object constructs a {@link TimeVal} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = TimeVal.allocate();
         }
         
          /**
          * Finish building the {@link TimeVal} struct.
          * @return A new instance of {@code TimeVal} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public TimeVal construct() {
+        public TimeVal build() {
             return struct;
         }
         
@@ -266,7 +268,7 @@ public class TimeVal extends Struct {
          * @param tvSec The value for the {@code tvSec} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTvSec(long tvSec) {
+        public Builder setTvSec(long tvSec) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tv_sec"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvSec);
@@ -278,7 +280,7 @@ public class TimeVal extends Struct {
          * @param tvUsec The value for the {@code tvUsec} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTvUsec(long tvUsec) {
+        public Builder setTvUsec(long tvUsec) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tv_usec"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), tvUsec);

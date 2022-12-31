@@ -13,18 +13,16 @@ public class DVBParentalRatingItem extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstMpegtsDVBParentalRatingItem";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("country_code"),
-        Interop.valueLayout.C_BYTE.withName("rating")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("country_code"),
+            Interop.valueLayout.C_BYTE.withName("rating")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -44,28 +42,28 @@ public class DVBParentalRatingItem extends Struct {
      * Get the value of the field {@code country_code}
      * @return The value of the field {@code country_code}
      */
-    public java.lang.String countryCode$get() {
+    public java.lang.String getCountryCode() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("country_code"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code country_code}
      * @param countryCode The new value of the field {@code country_code}
      */
-    public void countryCode$set(java.lang.String countryCode) {
+    public void setCountryCode(java.lang.String countryCode) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("country_code"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(countryCode));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (countryCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(countryCode, null)));
     }
     
     /**
      * Get the value of the field {@code rating}
      * @return The value of the field {@code rating}
      */
-    public byte rating$get() {
+    public byte getRating() {
         var RESULT = (byte) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("rating"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -76,7 +74,7 @@ public class DVBParentalRatingItem extends Struct {
      * Change the value of the field {@code rating}
      * @param rating The new value of the field {@code rating}
      */
-    public void rating$set(byte rating) {
+    public void setRating(byte rating) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("rating"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), rating);
@@ -87,46 +85,52 @@ public class DVBParentalRatingItem extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DVBParentalRatingItem(Addressable address, Ownership ownership) {
+    protected DVBParentalRatingItem(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DVBParentalRatingItem> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DVBParentalRatingItem(input, ownership);
+    
+    /**
+     * A {@link DVBParentalRatingItem.Builder} object constructs a {@link DVBParentalRatingItem} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link DVBParentalRatingItem.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private DVBParentalRatingItem struct;
+        private final DVBParentalRatingItem struct;
         
-         /**
-         * A {@link DVBParentalRatingItem.Build} object constructs a {@link DVBParentalRatingItem} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = DVBParentalRatingItem.allocate();
         }
         
          /**
          * Finish building the {@link DVBParentalRatingItem} struct.
          * @return A new instance of {@code DVBParentalRatingItem} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DVBParentalRatingItem construct() {
+        public DVBParentalRatingItem build() {
             return struct;
         }
         
-        public Build setCountryCode(java.lang.String countryCode) {
+        public Builder setCountryCode(java.lang.String countryCode) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("country_code"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (countryCode == null ? MemoryAddress.NULL : Interop.allocateNativeString(countryCode)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (countryCode == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(countryCode, null)));
             return this;
         }
         
-        public Build setRating(byte rating) {
+        public Builder setRating(byte rating) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("rating"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), rating);

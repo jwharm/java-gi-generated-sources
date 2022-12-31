@@ -13,7 +13,7 @@ import org.jetbrains.annotations.*;
  * This type is intended to be used with {@link DBusObjectManager}.
  * @version 2.30
  */
-public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gtk.gio.DBusObject {
+public class DBusObjectSkeleton extends org.gtk.gobject.GObject implements org.gtk.gio.DBusObject {
     
     static {
         Gio.javagi$ensureInitialized();
@@ -21,18 +21,16 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
     
     private static final java.lang.String C_TYPE_NAME = "GDBusObjectSkeleton";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -40,37 +38,18 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public DBusObjectSkeleton(Addressable address, Ownership ownership) {
+    protected DBusObjectSkeleton(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to DBusObjectSkeleton if its GType is a (or inherits from) "GDBusObjectSkeleton".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code DBusObjectSkeleton} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GDBusObjectSkeleton", a ClassCastException will be thrown.
-     */
-    public static DBusObjectSkeleton castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), DBusObjectSkeleton.getType())) {
-            return new DBusObjectSkeleton(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GDBusObjectSkeleton");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, DBusObjectSkeleton> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new DBusObjectSkeleton(input, ownership);
     
-    private static Addressable constructNew(@NotNull java.lang.String objectPath) {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(java.lang.String objectPath) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_dbus_object_skeleton_new.invokeExact(
-                    Interop.allocateNativeString(objectPath));
+                    Marshal.stringToAddress.marshal(objectPath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -81,7 +60,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
      * Creates a new {@link DBusObjectSkeleton}.
      * @param objectPath An object path.
      */
-    public DBusObjectSkeleton(@NotNull java.lang.String objectPath) {
+    public DBusObjectSkeleton(java.lang.String objectPath) {
         super(constructNew(objectPath), Ownership.FULL);
     }
     
@@ -95,8 +74,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
      * it until removed.
      * @param interface_ A {@link DBusInterfaceSkeleton}.
      */
-    public void addInterface(@NotNull org.gtk.gio.DBusInterfaceSkeleton interface_) {
-        java.util.Objects.requireNonNull(interface_, "Parameter 'interface_' must not be null");
+    public void addInterface(org.gtk.gio.DBusInterfaceSkeleton interface_) {
         try {
             DowncallHandles.g_dbus_object_skeleton_add_interface.invokeExact(
                     handle(),
@@ -124,8 +102,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
      * Removes {@code interface_} from {@code object}.
      * @param interface_ A {@link DBusInterfaceSkeleton}.
      */
-    public void removeInterface(@NotNull org.gtk.gio.DBusInterfaceSkeleton interface_) {
-        java.util.Objects.requireNonNull(interface_, "Parameter 'interface_' must not be null");
+    public void removeInterface(org.gtk.gio.DBusInterfaceSkeleton interface_) {
         try {
             DowncallHandles.g_dbus_object_skeleton_remove_interface.invokeExact(
                     handle(),
@@ -142,12 +119,11 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
      * does nothing.
      * @param interfaceName A D-Bus interface name.
      */
-    public void removeInterfaceByName(@NotNull java.lang.String interfaceName) {
-        java.util.Objects.requireNonNull(interfaceName, "Parameter 'interfaceName' must not be null");
+    public void removeInterfaceByName(java.lang.String interfaceName) {
         try {
             DowncallHandles.g_dbus_object_skeleton_remove_interface_by_name.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(interfaceName));
+                    Marshal.stringToAddress.marshal(interfaceName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -157,12 +133,11 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
      * Sets the object path for {@code object}.
      * @param objectPath A valid D-Bus object path.
      */
-    public void setObjectPath(@NotNull java.lang.String objectPath) {
-        java.util.Objects.requireNonNull(objectPath, "Parameter 'objectPath' must not be null");
+    public void setObjectPath(java.lang.String objectPath) {
         try {
             DowncallHandles.g_dbus_object_skeleton_set_object_path.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(objectPath));
+                    Marshal.stringToAddress.marshal(objectPath, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -172,7 +147,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.g_dbus_object_skeleton_get_type.invokeExact();
@@ -184,7 +159,19 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
     
     @FunctionalInterface
     public interface AuthorizeMethod {
-        boolean signalReceived(DBusObjectSkeleton sourceDBusObjectSkeleton, @NotNull org.gtk.gio.DBusInterfaceSkeleton interface_, @NotNull org.gtk.gio.DBusMethodInvocation invocation);
+        boolean run(org.gtk.gio.DBusInterfaceSkeleton interface_, org.gtk.gio.DBusMethodInvocation invocation);
+
+        @ApiStatus.Internal default int upcall(MemoryAddress sourceDBusObjectSkeleton, MemoryAddress interface_, MemoryAddress invocation) {
+            var RESULT = run((org.gtk.gio.DBusInterfaceSkeleton) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(interface_)), org.gtk.gio.DBusInterfaceSkeleton.fromAddress).marshal(interface_, Ownership.NONE), (org.gtk.gio.DBusMethodInvocation) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(invocation)), org.gtk.gio.DBusMethodInvocation.fromAddress).marshal(invocation, Ownership.NONE));
+            return Marshal.booleanToInteger.marshal(RESULT, null).intValue();
+        }
+        
+        @ApiStatus.Internal FunctionDescriptor DESCRIPTOR = FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS);
+        @ApiStatus.Internal MethodHandle HANDLE = Interop.getHandle(AuthorizeMethod.class, DESCRIPTOR);
+        
+        default MemoryAddress toCallback() {
+            return Linker.nativeLinker().upcallStub(HANDLE.bindTo(this), DESCRIPTOR, Interop.getScope()).address();
+        }
     }
     
     /**
@@ -202,52 +189,46 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
     public Signal<DBusObjectSkeleton.AuthorizeMethod> onAuthorizeMethod(DBusObjectSkeleton.AuthorizeMethod handler) {
         try {
             var RESULT = (long) Interop.g_signal_connect_data.invokeExact(
-                handle(),
-                Interop.allocateNativeString("authorize-method"),
-                (Addressable) Linker.nativeLinker().upcallStub(
-                    MethodHandles.lookup().findStatic(DBusObjectSkeleton.Callbacks.class, "signalDBusObjectSkeletonAuthorizeMethod",
-                        MethodType.methodType(boolean.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                    FunctionDescriptor.of(Interop.valueLayout.C_BOOLEAN, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                    Interop.getScope()),
-                Interop.registerCallback(handler),
-                (Addressable) MemoryAddress.NULL, 0);
-            return new Signal<DBusObjectSkeleton.AuthorizeMethod>(handle(), RESULT);
+                handle(), Interop.allocateNativeString("authorize-method"), (Addressable) handler.toCallback(), (Addressable) MemoryAddress.NULL, (Addressable) MemoryAddress.NULL, 0);
+            return new Signal<>(handle(), RESULT);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
-
+    
+    /**
+     * A {@link DBusObjectSkeleton.Builder} object constructs a {@link DBusObjectSkeleton} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link DBusObjectSkeleton.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link DBusObjectSkeleton.Build} object constructs a {@link DBusObjectSkeleton} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link DBusObjectSkeleton} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link DBusObjectSkeleton} using {@link DBusObjectSkeleton#castFrom}.
+         * {@link DBusObjectSkeleton}.
          * @return A new instance of {@code DBusObjectSkeleton} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public DBusObjectSkeleton construct() {
-            return DBusObjectSkeleton.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    DBusObjectSkeleton.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public DBusObjectSkeleton build() {
+            return (DBusObjectSkeleton) org.gtk.gobject.GObject.newWithProperties(
+                DBusObjectSkeleton.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -256,7 +237,7 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
          * @param gObjectPath The value for the {@code g-object-path} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setGObjectPath(java.lang.String gObjectPath) {
+        public Builder setGObjectPath(java.lang.String gObjectPath) {
             names.add("g-object-path");
             values.add(org.gtk.gobject.Value.create(gObjectPath));
             return this;
@@ -306,14 +287,5 @@ public class DBusObjectSkeleton extends org.gtk.gobject.Object implements org.gt
             FunctionDescriptor.of(Interop.valueLayout.C_LONG),
             false
         );
-    }
-    
-    private static class Callbacks {
-        
-        public static boolean signalDBusObjectSkeletonAuthorizeMethod(MemoryAddress sourceDBusObjectSkeleton, MemoryAddress interface_, MemoryAddress invocation, MemoryAddress DATA) {
-            int HASH = DATA.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (DBusObjectSkeleton.AuthorizeMethod) Interop.signalRegistry.get(HASH);
-            return HANDLER.signalReceived(new DBusObjectSkeleton(sourceDBusObjectSkeleton, Ownership.NONE), new org.gtk.gio.DBusInterfaceSkeleton(interface_, Ownership.NONE), new org.gtk.gio.DBusMethodInvocation(invocation, Ownership.NONE));
-        }
     }
 }

@@ -45,19 +45,17 @@ public class PixbufModulePattern extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GdkPixbufModulePattern";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("prefix"),
-        Interop.valueLayout.ADDRESS.withName("mask"),
-        Interop.valueLayout.C_INT.withName("relevance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("prefix"),
+            Interop.valueLayout.ADDRESS.withName("mask"),
+            Interop.valueLayout.C_INT.withName("relevance")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -77,49 +75,49 @@ public class PixbufModulePattern extends Struct {
      * Get the value of the field {@code prefix}
      * @return The value of the field {@code prefix}
      */
-    public java.lang.String prefix$get() {
+    public java.lang.String getPrefix() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code prefix}
      * @param prefix The new value of the field {@code prefix}
      */
-    public void prefix$set(java.lang.String prefix) {
+    public void setPrefix(java.lang.String prefix) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(prefix));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prefix == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(prefix, null)));
     }
     
     /**
      * Get the value of the field {@code mask}
      * @return The value of the field {@code mask}
      */
-    public java.lang.String mask$get() {
+    public java.lang.String getMask() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mask"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return Interop.getStringFrom(RESULT);
+        return Marshal.addressToString.marshal(RESULT, null);
     }
     
     /**
      * Change the value of the field {@code mask}
      * @param mask The new value of the field {@code mask}
      */
-    public void mask$set(java.lang.String mask) {
+    public void setMask(java.lang.String mask) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("mask"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), Interop.allocateNativeString(mask));
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mask == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(mask, null)));
     }
     
     /**
      * Get the value of the field {@code relevance}
      * @return The value of the field {@code relevance}
      */
-    public int relevance$get() {
+    public int getRelevance() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -130,7 +128,7 @@ public class PixbufModulePattern extends Struct {
      * Change the value of the field {@code relevance}
      * @param relevance The new value of the field {@code relevance}
      */
-    public void relevance$set(int relevance) {
+    public void setRelevance(int relevance) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), relevance);
@@ -141,35 +139,41 @@ public class PixbufModulePattern extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public PixbufModulePattern(Addressable address, Ownership ownership) {
+    protected PixbufModulePattern(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, PixbufModulePattern> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new PixbufModulePattern(input, ownership);
+    
+    /**
+     * A {@link PixbufModulePattern.Builder} object constructs a {@link PixbufModulePattern} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link PixbufModulePattern.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private PixbufModulePattern struct;
+        private final PixbufModulePattern struct;
         
-         /**
-         * A {@link PixbufModulePattern.Build} object constructs a {@link PixbufModulePattern} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = PixbufModulePattern.allocate();
         }
         
          /**
          * Finish building the {@link PixbufModulePattern} struct.
          * @return A new instance of {@code PixbufModulePattern} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public PixbufModulePattern construct() {
+        public PixbufModulePattern build() {
             return struct;
         }
         
@@ -178,10 +182,10 @@ public class PixbufModulePattern extends Struct {
          * @param prefix The value for the {@code prefix} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPrefix(java.lang.String prefix) {
+        public Builder setPrefix(java.lang.String prefix) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("prefix"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prefix == null ? MemoryAddress.NULL : Interop.allocateNativeString(prefix)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (prefix == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(prefix, null)));
             return this;
         }
         
@@ -191,10 +195,10 @@ public class PixbufModulePattern extends Struct {
          * @param mask The value for the {@code mask} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMask(java.lang.String mask) {
+        public Builder setMask(java.lang.String mask) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("mask"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mask == null ? MemoryAddress.NULL : Interop.allocateNativeString(mask)));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (mask == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(mask, null)));
             return this;
         }
         
@@ -203,7 +207,7 @@ public class PixbufModulePattern extends Struct {
          * @param relevance The value for the {@code relevance} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRelevance(int relevance) {
+        public Builder setRelevance(int relevance) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("relevance"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), relevance);

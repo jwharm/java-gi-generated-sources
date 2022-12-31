@@ -14,7 +14,15 @@ public final class Graphene {
         System.loadLibrary("graphene-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     public static final double PI = 3.141593d;
     
@@ -80,14 +88,14 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box boxEmpty() {
+    public static org.gtk.graphene.Box boxEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -96,14 +104,14 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box boxInfinite() {
+    public static org.gtk.graphene.Box boxInfinite() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_infinite.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -113,14 +121,14 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box boxMinusOne() {
+    public static org.gtk.graphene.Box boxMinusOne() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_minus_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -130,14 +138,14 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box boxOne() {
+    public static org.gtk.graphene.Box boxOne() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -147,14 +155,14 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box boxOneMinusOne() {
+    public static org.gtk.graphene.Box boxOneMinusOne() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_one_minus_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -163,42 +171,42 @@ public final class Graphene {
      * The returned value is owned by Graphene and should not be modified or freed.
      * @return a {@link Box}
      */
-    public static @NotNull org.gtk.graphene.Box boxZero() {
+    public static org.gtk.graphene.Box boxZero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_box_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Box(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Box.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves a constant point with all three coordinates set to 0.
      * @return a zero point
      */
-    public static @NotNull org.gtk.graphene.Point3D point3dZero() {
+    public static org.gtk.graphene.Point3D point3dZero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point3d_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point3D(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point3D.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Returns a point fixed at (0, 0).
      * @return a fixed point
      */
-    public static @NotNull org.gtk.graphene.Point pointZero() {
+    public static org.gtk.graphene.Point pointZero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_point_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Point(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Point.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -207,14 +215,14 @@ public final class Graphene {
      * The contents of the returned rectangle are undefined.
      * @return the newly allocated rectangle
      */
-    public static @NotNull org.gtk.graphene.Rect rectAlloc() {
+    public static org.gtk.graphene.Rect rectAlloc() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_alloc.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.FULL);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -222,14 +230,14 @@ public final class Graphene {
      * a size of 0, 0.
      * @return a fixed rectangle
      */
-    public static @NotNull org.gtk.graphene.Rect rectZero() {
+    public static org.gtk.graphene.Rect rectZero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_rect_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Rect(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Rect.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -237,70 +245,70 @@ public final class Graphene {
      * equality checks and interpolations.
      * @return a constant size
      */
-    public static @NotNull org.gtk.graphene.Size sizeZero() {
+    public static org.gtk.graphene.Size sizeZero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_size_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Size(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Size.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves a constant vector with (1, 1) components.
      * @return the one vector
      */
-    public static @NotNull org.gtk.graphene.Vec2 vec2One() {
+    public static org.gtk.graphene.Vec2 vec2One() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves a constant vector with (1, 0) components.
      * @return the X axis vector
      */
-    public static @NotNull org.gtk.graphene.Vec2 vec2XAxis() {
+    public static org.gtk.graphene.Vec2 vec2XAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_x_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves a constant vector with (0, 1) components.
      * @return the Y axis vector
      */
-    public static @NotNull org.gtk.graphene.Vec2 vec2YAxis() {
+    public static org.gtk.graphene.Vec2 vec2YAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_y_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Retrieves a constant vector with (0, 0) components.
      * @return the zero vector
      */
-    public static @NotNull org.gtk.graphene.Vec2 vec2Zero() {
+    public static org.gtk.graphene.Vec2 vec2Zero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec2_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec2(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec2.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -308,14 +316,14 @@ public final class Graphene {
      * all sets to 1.
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec3 vec3One() {
+    public static org.gtk.graphene.Vec3 vec3One() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -323,14 +331,14 @@ public final class Graphene {
      * with values set to (1, 0, 0).
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec3 vec3XAxis() {
+    public static org.gtk.graphene.Vec3 vec3XAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_x_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -338,14 +346,14 @@ public final class Graphene {
      * with values set to (0, 1, 0).
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec3 vec3YAxis() {
+    public static org.gtk.graphene.Vec3 vec3YAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_y_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -353,14 +361,14 @@ public final class Graphene {
      * with values set to (0, 0, 1).
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec3 vec3ZAxis() {
+    public static org.gtk.graphene.Vec3 vec3ZAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_z_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -368,14 +376,14 @@ public final class Graphene {
      * all sets to 0.
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec3 vec3Zero() {
+    public static org.gtk.graphene.Vec3 vec3Zero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec3_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec3(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec3.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -383,14 +391,14 @@ public final class Graphene {
      * components set to 1.
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec4 vec4One() {
+    public static org.gtk.graphene.Vec4 vec4One() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_one.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec4.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -398,14 +406,14 @@ public final class Graphene {
      * components set to (0, 0, 0, 1).
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec4 vec4WAxis() {
+    public static org.gtk.graphene.Vec4 vec4WAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_w_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec4.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -413,14 +421,14 @@ public final class Graphene {
      * components set to (1, 0, 0, 0).
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec4 vec4XAxis() {
+    public static org.gtk.graphene.Vec4 vec4XAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_x_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec4.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -428,14 +436,14 @@ public final class Graphene {
      * components set to (0, 1, 0, 0).
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec4 vec4YAxis() {
+    public static org.gtk.graphene.Vec4 vec4YAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_y_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec4.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -443,14 +451,14 @@ public final class Graphene {
      * components set to (0, 0, 1, 0).
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec4 vec4ZAxis() {
+    public static org.gtk.graphene.Vec4 vec4ZAxis() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_z_axis.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec4.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -458,14 +466,14 @@ public final class Graphene {
      * components set to 0.
      * @return a constant vector
      */
-    public static @NotNull org.gtk.graphene.Vec4 vec4Zero() {
+    public static org.gtk.graphene.Vec4 vec4Zero() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.graphene_vec4_zero.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.graphene.Vec4(RESULT, Ownership.NONE);
+        return org.gtk.graphene.Vec4.fromAddress.marshal(RESULT, Ownership.NONE);
     }
     
     private static class DowncallHandles {

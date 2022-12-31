@@ -19,31 +19,29 @@ public class ClockEntry extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstClockEntry";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.C_INT.withName("refcount"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("clock"),
-        Interop.valueLayout.C_INT.withName("type"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.C_LONG.withName("time"),
-        Interop.valueLayout.C_LONG.withName("interval"),
-        Interop.valueLayout.C_INT.withName("status"),
-        MemoryLayout.paddingLayout(32),
-        Interop.valueLayout.ADDRESS.withName("func"),
-        Interop.valueLayout.ADDRESS.withName("user_data"),
-        Interop.valueLayout.ADDRESS.withName("destroy_data"),
-        Interop.valueLayout.C_INT.withName("unscheduled"),
-        Interop.valueLayout.C_INT.withName("woken_up"),
-        MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.C_INT.withName("refcount"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("clock"),
+            Interop.valueLayout.C_INT.withName("type"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.C_LONG.withName("time"),
+            Interop.valueLayout.C_LONG.withName("interval"),
+            Interop.valueLayout.C_INT.withName("status"),
+            MemoryLayout.paddingLayout(32),
+            Interop.valueLayout.ADDRESS.withName("func"),
+            Interop.valueLayout.ADDRESS.withName("user_data"),
+            Interop.valueLayout.ADDRESS.withName("destroy_data"),
+            Interop.valueLayout.C_INT.withName("unscheduled"),
+            Interop.valueLayout.C_INT.withName("woken_up"),
+            MemoryLayout.sequenceLayout(4, Interop.valueLayout.ADDRESS).withName("_gst_reserved")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -63,7 +61,7 @@ public class ClockEntry extends Struct {
      * Get the value of the field {@code refcount}
      * @return The value of the field {@code refcount}
      */
-    public int refcount$get() {
+    public int getRefcount() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -74,7 +72,7 @@ public class ClockEntry extends Struct {
      * Change the value of the field {@code refcount}
      * @param refcount The new value of the field {@code refcount}
      */
-    public void refcount$set(int refcount) {
+    public void setRefcount(int refcount) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), refcount);
@@ -85,35 +83,41 @@ public class ClockEntry extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public ClockEntry(Addressable address, Ownership ownership) {
+    protected ClockEntry(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
-
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, ClockEntry> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new ClockEntry(input, ownership);
+    
+    /**
+     * A {@link ClockEntry.Builder} object constructs a {@link ClockEntry} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link ClockEntry.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private ClockEntry struct;
+        private final ClockEntry struct;
         
-         /**
-         * A {@link ClockEntry.Build} object constructs a {@link ClockEntry} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = ClockEntry.allocate();
         }
         
          /**
          * Finish building the {@link ClockEntry} struct.
          * @return A new instance of {@code ClockEntry} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public ClockEntry construct() {
+        public ClockEntry build() {
             return struct;
         }
         
@@ -122,84 +126,84 @@ public class ClockEntry extends Struct {
          * @param refcount The value for the {@code refcount} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setRefcount(int refcount) {
+        public Builder setRefcount(int refcount) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("refcount"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), refcount);
             return this;
         }
         
-        public Build setClock(org.gstreamer.gst.Clock clock) {
+        public Builder setClock(org.gstreamer.gst.Clock clock) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("clock"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (clock == null ? MemoryAddress.NULL : clock.handle()));
             return this;
         }
         
-        public Build setType(org.gstreamer.gst.ClockEntryType type) {
+        public Builder setType(org.gstreamer.gst.ClockEntryType type) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("type"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (type == null ? MemoryAddress.NULL : type.getValue()));
             return this;
         }
         
-        public Build setTime(org.gstreamer.gst.ClockTime time) {
+        public Builder setTime(org.gstreamer.gst.ClockTime time) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("time"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (time == null ? MemoryAddress.NULL : time.getValue().longValue()));
             return this;
         }
         
-        public Build setInterval(org.gstreamer.gst.ClockTime interval) {
+        public Builder setInterval(org.gstreamer.gst.ClockTime interval) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("interval"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (interval == null ? MemoryAddress.NULL : interval.getValue().longValue()));
             return this;
         }
         
-        public Build setStatus(org.gstreamer.gst.ClockReturn status) {
+        public Builder setStatus(org.gstreamer.gst.ClockReturn status) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("status"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (status == null ? MemoryAddress.NULL : status.getValue()));
             return this;
         }
         
-        public Build setFunc(java.lang.foreign.MemoryAddress func) {
+        public Builder setFunc(org.gstreamer.gst.ClockCallback func) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("func"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : func));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (func == null ? MemoryAddress.NULL : (Addressable) func.toCallback()));
             return this;
         }
         
-        public Build setUserData(java.lang.foreign.MemoryAddress userData) {
+        public Builder setUserData(java.lang.foreign.MemoryAddress userData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("user_data"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (userData == null ? MemoryAddress.NULL : (Addressable) userData));
             return this;
         }
         
-        public Build setDestroyData(java.lang.foreign.MemoryAddress destroyData) {
+        public Builder setDestroyData(org.gtk.glib.DestroyNotify destroyData) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("destroy_data"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyData == null ? MemoryAddress.NULL : destroyData));
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (destroyData == null ? MemoryAddress.NULL : (Addressable) destroyData.toCallback()));
             return this;
         }
         
-        public Build setUnscheduled(boolean unscheduled) {
+        public Builder setUnscheduled(boolean unscheduled) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("unscheduled"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), unscheduled ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(unscheduled, null).intValue());
             return this;
         }
         
-        public Build setWokenUp(boolean wokenUp) {
+        public Builder setWokenUp(boolean wokenUp) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("woken_up"))
-                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), wokenUp ? 1 : 0);
+                .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), Marshal.booleanToInteger.marshal(wokenUp, null).intValue());
             return this;
         }
         
-        public Build setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
+        public Builder setGstReserved(java.lang.foreign.MemoryAddress[] GstReserved) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("_gst_reserved"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (GstReserved == null ? MemoryAddress.NULL : Interop.allocateNativeArray(GstReserved, false)));

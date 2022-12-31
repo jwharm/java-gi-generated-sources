@@ -17,19 +17,17 @@ public class Queue extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GQueue";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("head"),
-        Interop.valueLayout.ADDRESS.withName("tail"),
-        Interop.valueLayout.C_INT.withName("length")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("head"),
+            Interop.valueLayout.ADDRESS.withName("tail"),
+            Interop.valueLayout.C_INT.withName("length")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -49,49 +47,49 @@ public class Queue extends Struct {
      * Get the value of the field {@code head}
      * @return The value of the field {@code head}
      */
-    public org.gtk.glib.List head$get() {
+    public org.gtk.glib.List getHead() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("head"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code head}
      * @param head The new value of the field {@code head}
      */
-    public void head$set(org.gtk.glib.List head) {
+    public void setHead(org.gtk.glib.List head) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("head"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), head.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (head == null ? MemoryAddress.NULL : head.handle()));
     }
     
     /**
      * Get the value of the field {@code tail}
      * @return The value of the field {@code tail}
      */
-    public org.gtk.glib.List tail$get() {
+    public org.gtk.glib.List getTail() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tail"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code tail}
      * @param tail The new value of the field {@code tail}
      */
-    public void tail$set(org.gtk.glib.List tail) {
+    public void setTail(org.gtk.glib.List tail) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("tail"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), tail.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tail == null ? MemoryAddress.NULL : tail.handle()));
     }
     
     /**
      * Get the value of the field {@code length}
      * @return The value of the field {@code length}
      */
-    public int length$get() {
+    public int getLength_() {
         var RESULT = (int) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
@@ -102,7 +100,7 @@ public class Queue extends Struct {
      * Change the value of the field {@code length}
      * @param length The new value of the field {@code length}
      */
-    public void length$set(int length) {
+    public void setLength(int length) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("length"))
             .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);
@@ -113,10 +111,12 @@ public class Queue extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Queue(Addressable address, Ownership ownership) {
+    protected Queue(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Queue> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Queue(input, ownership);
     
     /**
      * Removes all the elements in {@code queue}. If queue elements contain
@@ -137,7 +137,13 @@ public class Queue extends Struct {
      * @param freeFunc the function to be called to free memory allocated
      */
     public void clearFull(@Nullable org.gtk.glib.DestroyNotify freeFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+        try {
+            DowncallHandles.g_queue_clear_full.invokeExact(
+                    handle(),
+                    (Addressable) (freeFunc == null ? MemoryAddress.NULL : (Addressable) freeFunc.toCallback()));
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -146,7 +152,7 @@ public class Queue extends Struct {
      * actual data is not.
      * @return a copy of {@code queue}
      */
-    public @NotNull org.gtk.glib.Queue copy() {
+    public org.gtk.glib.Queue copy() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_copy.invokeExact(
@@ -154,7 +160,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Queue(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Queue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -163,8 +169,7 @@ public class Queue extends Struct {
      * {@code link_} must be part of {@code queue}.
      * @param link a {@link List} link that must be part of {@code queue}
      */
-    public void deleteLink(@NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public void deleteLink(org.gtk.glib.List link) {
         try {
             DowncallHandles.g_queue_delete_link.invokeExact(
                     handle(),
@@ -176,19 +181,18 @@ public class Queue extends Struct {
     
     /**
      * Finds the first link in {@code queue} which contains {@code data}.
-     * @param data data to find
      * @return the first link in {@code queue} which contains {@code data}
      */
-    public @NotNull org.gtk.glib.List find(@Nullable java.lang.foreign.MemoryAddress data) {
+    public org.gtk.glib.List find() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_find.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -201,22 +205,17 @@ public class Queue extends Struct {
      *     when the desired element is found
      * @return the found link, or {@code null} if it wasn't found
      */
-    public @NotNull org.gtk.glib.List findCustom(@NotNull org.gtk.glib.CompareFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public org.gtk.glib.List findCustom(org.gtk.glib.CompareFunc func) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_find_custom.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(func)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) func.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -227,17 +226,12 @@ public class Queue extends Struct {
      * not modify any part of the queue after that element.
      * @param func the function to call for each element's data
      */
-    public void foreach(@NotNull org.gtk.glib.Func func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void foreach(org.gtk.glib.Func func) {
         try {
             DowncallHandles.g_queue_foreach.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -268,8 +262,14 @@ public class Queue extends Struct {
      * element from it).
      * @param freeFunc the function to be called to free each element's data
      */
-    public void freeFull(@NotNull org.gtk.glib.DestroyNotify freeFunc) {
-        throw new UnsupportedOperationException("Operation not supported yet");
+    public void freeFull(org.gtk.glib.DestroyNotify freeFunc) {
+        try {
+            DowncallHandles.g_queue_free_full.invokeExact(
+                    handle(),
+                    (Addressable) freeFunc.toCallback());
+        } catch (Throwable ERR) {
+            throw new AssertionError("Unexpected exception occured: ", ERR);
+        }
     }
     
     /**
@@ -289,16 +289,15 @@ public class Queue extends Struct {
     
     /**
      * Returns the position of the first element in {@code queue} which contains {@code data}.
-     * @param data the data to find
      * @return the position of the first element in {@code queue} which
      *     contains {@code data}, or -1 if no element in {@code queue} contains {@code data}
      */
-    public int index(@Nullable java.lang.foreign.MemoryAddress data) {
+    public int index() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_queue_index.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -327,14 +326,13 @@ public class Queue extends Struct {
      * data at the head of the queue.
      * @param sibling a {@link List} link that must be part of {@code queue}, or {@code null} to
      *   push at the head of the queue.
-     * @param data the data to insert
      */
-    public void insertAfter(@Nullable org.gtk.glib.List sibling, @Nullable java.lang.foreign.MemoryAddress data) {
+    public void insertAfter(@Nullable org.gtk.glib.List sibling) {
         try {
             DowncallHandles.g_queue_insert_after.invokeExact(
                     handle(),
                     (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -348,8 +346,7 @@ public class Queue extends Struct {
      *   push at the head of the queue.
      * @param link a {@link List} link to insert which must not be part of any other list.
      */
-    public void insertAfterLink(@Nullable org.gtk.glib.List sibling, @NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public void insertAfterLink(@Nullable org.gtk.glib.List sibling, org.gtk.glib.List link) {
         try {
             DowncallHandles.g_queue_insert_after_link.invokeExact(
                     handle(),
@@ -367,14 +364,13 @@ public class Queue extends Struct {
      * data at the tail of the queue.
      * @param sibling a {@link List} link that must be part of {@code queue}, or {@code null} to
      *   push at the tail of the queue.
-     * @param data the data to insert
      */
-    public void insertBefore(@Nullable org.gtk.glib.List sibling, @Nullable java.lang.foreign.MemoryAddress data) {
+    public void insertBefore(@Nullable org.gtk.glib.List sibling) {
         try {
             DowncallHandles.g_queue_insert_before.invokeExact(
                     handle(),
                     (Addressable) (sibling == null ? MemoryAddress.NULL : sibling.handle()),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -388,8 +384,7 @@ public class Queue extends Struct {
      *   push at the tail of the queue.
      * @param link a {@link List} link to insert which must not be part of any other list.
      */
-    public void insertBeforeLink(@Nullable org.gtk.glib.List sibling, @NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public void insertBeforeLink(@Nullable org.gtk.glib.List sibling, org.gtk.glib.List link) {
         try {
             DowncallHandles.g_queue_insert_before_link.invokeExact(
                     handle(),
@@ -408,18 +403,13 @@ public class Queue extends Struct {
      *     element comes before the second, and a positive value if the second
      *     element comes before the first.
      */
-    public void insertSorted(@NotNull org.gtk.glib.CompareDataFunc func) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public void insertSorted(org.gtk.glib.CompareDataFunc func) {
         try {
             DowncallHandles.g_queue_insert_sorted.invokeExact(
                     handle(),
-                    (Addressable) (Interop.registerCallback(func)),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)));
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -437,7 +427,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -446,8 +436,7 @@ public class Queue extends Struct {
      * @return the position of {@code link_}, or -1 if the link is
      *     not part of {@code queue}
      */
-    public int linkIndex(@NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public int linkIndex(org.gtk.glib.List link) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_queue_link_index.invokeExact(
@@ -479,7 +468,7 @@ public class Queue extends Struct {
      * Returns the first link in {@code queue}.
      * @return the first link in {@code queue}, or {@code null} if {@code queue} is empty
      */
-    public @NotNull org.gtk.glib.List peekHeadLink() {
+    public org.gtk.glib.List peekHeadLink() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_head_link.invokeExact(
@@ -487,7 +476,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -514,7 +503,7 @@ public class Queue extends Struct {
      * @return the link at the {@code n}'th position, or {@code null}
      *     if {@code n} is off the end of the list
      */
-    public @NotNull org.gtk.glib.List peekNthLink(int n) {
+    public org.gtk.glib.List peekNthLink(int n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_nth_link.invokeExact(
@@ -523,7 +512,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -546,7 +535,7 @@ public class Queue extends Struct {
      * Returns the last link in {@code queue}.
      * @return the last link in {@code queue}, or {@code null} if {@code queue} is empty
      */
-    public @NotNull org.gtk.glib.List peekTailLink() {
+    public org.gtk.glib.List peekTailLink() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_peek_tail_link.invokeExact(
@@ -554,7 +543,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -578,7 +567,7 @@ public class Queue extends Struct {
      * @return the {@link List} element at the head of the queue, or {@code null}
      *     if the queue is empty
      */
-    public @NotNull org.gtk.glib.List popHeadLink() {
+    public org.gtk.glib.List popHeadLink() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_head_link.invokeExact(
@@ -586,7 +575,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -611,7 +600,7 @@ public class Queue extends Struct {
      * @param n the link's position
      * @return the {@code n}'th link, or {@code null} if {@code n} is off the end of {@code queue}
      */
-    public @NotNull org.gtk.glib.List popNthLink(int n) {
+    public org.gtk.glib.List popNthLink(int n) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_nth_link.invokeExact(
@@ -620,7 +609,7 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -644,7 +633,7 @@ public class Queue extends Struct {
      * @return the {@link List} element at the tail of the queue, or {@code null}
      *     if the queue is empty
      */
-    public @NotNull org.gtk.glib.List popTailLink() {
+    public org.gtk.glib.List popTailLink() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_pop_tail_link.invokeExact(
@@ -652,18 +641,17 @@ public class Queue extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.List(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.List.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Adds a new element at the head of the queue.
-     * @param data the data for the new element.
      */
-    public void pushHead(@Nullable java.lang.foreign.MemoryAddress data) {
+    public void pushHead() {
         try {
             DowncallHandles.g_queue_push_head.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -673,8 +661,7 @@ public class Queue extends Struct {
      * Adds a new element at the head of the queue.
      * @param link a single {@link List} element, not a list with more than one element
      */
-    public void pushHeadLink(@NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public void pushHeadLink(org.gtk.glib.List link) {
         try {
             DowncallHandles.g_queue_push_head_link.invokeExact(
                     handle(),
@@ -686,16 +673,15 @@ public class Queue extends Struct {
     
     /**
      * Inserts a new element into {@code queue} at the given position.
-     * @param data the data for the new element
      * @param n the position to insert the new element. If {@code n} is negative or
      *     larger than the number of elements in the {@code queue}, the element is
      *     added to the end of the queue.
      */
-    public void pushNth(@Nullable java.lang.foreign.MemoryAddress data, int n) {
+    public void pushNth(int n) {
         try {
             DowncallHandles.g_queue_push_nth.invokeExact(
                     handle(),
-                    (Addressable) data,
+                    (Addressable) MemoryAddress.NULL,
                     n);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -709,8 +695,7 @@ public class Queue extends Struct {
      *     {@code queue}.
      * @param link the link to add to {@code queue}
      */
-    public void pushNthLink(int n, @NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public void pushNthLink(int n, org.gtk.glib.List link) {
         try {
             DowncallHandles.g_queue_push_nth_link.invokeExact(
                     handle(),
@@ -723,13 +708,12 @@ public class Queue extends Struct {
     
     /**
      * Adds a new element at the tail of the queue.
-     * @param data the data for the new element
      */
-    public void pushTail(@Nullable java.lang.foreign.MemoryAddress data) {
+    public void pushTail() {
         try {
             DowncallHandles.g_queue_push_tail.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -739,8 +723,7 @@ public class Queue extends Struct {
      * Adds a new element at the tail of the queue.
      * @param link a single {@link List} element, not a list with more than one element
      */
-    public void pushTailLink(@NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public void pushTailLink(org.gtk.glib.List link) {
         try {
             DowncallHandles.g_queue_push_tail_link.invokeExact(
                     handle(),
@@ -752,32 +735,30 @@ public class Queue extends Struct {
     
     /**
      * Removes the first element in {@code queue} that contains {@code data}.
-     * @param data the data to remove
      * @return {@code true} if {@code data} was found and removed from {@code queue}
      */
-    public boolean remove(@Nullable java.lang.foreign.MemoryAddress data) {
+    public boolean remove() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_queue_remove.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Remove all elements whose data equals {@code data} from {@code queue}.
-     * @param data the data to remove
      * @return the number of elements removed from {@code queue}
      */
-    public int removeAll(@Nullable java.lang.foreign.MemoryAddress data) {
+    public int removeAll() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.g_queue_remove_all.invokeExact(
                     handle(),
-                    (Addressable) data);
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -803,17 +784,12 @@ public class Queue extends Struct {
      *     equal, a negative value if the first comes before the second, and
      *     a positive value if the second comes before the first.
      */
-    public void sort(@NotNull org.gtk.glib.CompareDataFunc compareFunc) {
-        java.util.Objects.requireNonNull(compareFunc, "Parameter 'compareFunc' must not be null");
+    public void sort(org.gtk.glib.CompareDataFunc compareFunc) {
         try {
             DowncallHandles.g_queue_sort.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GLib.Callbacks.class, "cbCompareDataFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(compareFunc)));
+                    (Addressable) compareFunc.toCallback(),
+                    (Addressable) MemoryAddress.NULL);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -826,8 +802,7 @@ public class Queue extends Struct {
      * {@code link_} must be part of {@code queue}.
      * @param link a {@link List} link that must be part of {@code queue}
      */
-    public void unlink(@NotNull org.gtk.glib.List link) {
-        java.util.Objects.requireNonNull(link, "Parameter 'link' must not be null");
+    public void unlink(org.gtk.glib.List link) {
         try {
             DowncallHandles.g_queue_unlink.invokeExact(
                     handle(),
@@ -841,14 +816,14 @@ public class Queue extends Struct {
      * Creates a new {@link Queue}.
      * @return a newly allocated {@link Queue}
      */
-    public static @NotNull org.gtk.glib.Queue new_() {
+    public static org.gtk.glib.Queue new_() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.g_queue_new.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Queue(RESULT, Ownership.UNKNOWN);
+        return org.gtk.glib.Queue.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     private static class DowncallHandles {
@@ -1111,31 +1086,35 @@ public class Queue extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Queue.Builder} object constructs a {@link Queue} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Queue.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Queue struct;
+        private final Queue struct;
         
-         /**
-         * A {@link Queue.Build} object constructs a {@link Queue} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Queue.allocate();
         }
         
          /**
          * Finish building the {@link Queue} struct.
          * @return A new instance of {@code Queue} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Queue construct() {
+        public Queue build() {
             return struct;
         }
         
@@ -1144,7 +1123,7 @@ public class Queue extends Struct {
          * @param head The value for the {@code head} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setHead(org.gtk.glib.List head) {
+        public Builder setHead(org.gtk.glib.List head) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("head"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (head == null ? MemoryAddress.NULL : head.handle()));
@@ -1156,7 +1135,7 @@ public class Queue extends Struct {
          * @param tail The value for the {@code tail} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTail(org.gtk.glib.List tail) {
+        public Builder setTail(org.gtk.glib.List tail) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("tail"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (tail == null ? MemoryAddress.NULL : tail.handle()));
@@ -1168,7 +1147,7 @@ public class Queue extends Struct {
          * @param length The value for the {@code length} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setLength(int length) {
+        public Builder setLength(int length) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("length"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), length);

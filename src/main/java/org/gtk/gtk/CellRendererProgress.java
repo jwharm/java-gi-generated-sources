@@ -33,40 +33,26 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
      * <p>
      * Because CellRendererProgress is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public CellRendererProgress(Addressable address, Ownership ownership) {
+    protected CellRendererProgress(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to CellRendererProgress if its GType is a (or inherits from) "GtkCellRendererProgress".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code CellRendererProgress} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkCellRendererProgress", a ClassCastException will be thrown.
-     */
-    public static CellRendererProgress castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), CellRendererProgress.getType())) {
-            return new CellRendererProgress(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkCellRendererProgress");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, CellRendererProgress> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new CellRendererProgress(input, ownership);
     
-    private static Addressable constructNew() {
-        Addressable RESULT;
+    private static MemoryAddress constructNew() {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_cell_renderer_progress_new.invokeExact();
         } catch (Throwable ERR) {
@@ -86,7 +72,7 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_cell_renderer_progress_get_type.invokeExact();
@@ -95,42 +81,44 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link CellRendererProgress.Builder} object constructs a {@link CellRendererProgress} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link CellRendererProgress.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.CellRenderer.Build {
+    public static class Builder extends org.gtk.gtk.CellRenderer.Builder {
         
-         /**
-         * A {@link CellRendererProgress.Build} object constructs a {@link CellRendererProgress} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link CellRendererProgress} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link CellRendererProgress} using {@link CellRendererProgress#castFrom}.
+         * {@link CellRendererProgress}.
          * @return A new instance of {@code CellRendererProgress} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public CellRendererProgress construct() {
-            return CellRendererProgress.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    CellRendererProgress.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public CellRendererProgress build() {
+            return (CellRendererProgress) org.gtk.gobject.GObject.newWithProperties(
+                CellRendererProgress.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setInverted(boolean inverted) {
+        public Builder setInverted(boolean inverted) {
             names.add("inverted");
             values.add(org.gtk.gobject.Value.create(inverted));
             return this;
@@ -150,7 +138,7 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
          * @param pulse The value for the {@code pulse} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setPulse(int pulse) {
+        public Builder setPulse(int pulse) {
             names.add("pulse");
             values.add(org.gtk.gobject.Value.create(pulse));
             return this;
@@ -164,7 +152,7 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
          * @param text The value for the {@code text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             names.add("text");
             values.add(org.gtk.gobject.Value.create(text));
             return this;
@@ -177,7 +165,7 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
          * @param textXalign The value for the {@code text-xalign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTextXalign(float textXalign) {
+        public Builder setTextXalign(float textXalign) {
             names.add("text-xalign");
             values.add(org.gtk.gobject.Value.create(textXalign));
             return this;
@@ -190,7 +178,7 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
          * @param textYalign The value for the {@code text-yalign} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setTextYalign(float textYalign) {
+        public Builder setTextYalign(float textYalign) {
             names.add("text-yalign");
             values.add(org.gtk.gobject.Value.create(textYalign));
             return this;
@@ -202,7 +190,7 @@ public class CellRendererProgress extends org.gtk.gtk.CellRenderer implements or
          * @param value The value for the {@code value} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setValue(int value) {
+        public Builder setValue(int value) {
             names.add("value");
             values.add(org.gtk.gobject.Value.create(value));
             return this;

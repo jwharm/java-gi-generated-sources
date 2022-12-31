@@ -69,17 +69,15 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
     
     private static final java.lang.String C_TYPE_NAME = "GtkMessageDialog";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gtk.Dialog.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gtk.Dialog.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -87,50 +85,33 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * <p>
      * Because MessageDialog is an {@code InitiallyUnowned} instance, when 
      * {@code ownership == Ownership.NONE}, the ownership is set to {@code FULL} 
-     * and a call to {@code refSink()} is executed to sink the floating reference.
+     * and a call to {@code g_object_ref_sink()} is executed to sink the floating reference.
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public MessageDialog(Addressable address, Ownership ownership) {
+    protected MessageDialog(Addressable address, Ownership ownership) {
         super(address, Ownership.FULL);
         if (ownership == Ownership.NONE) {
-            refSink();
+            try {
+                var RESULT = (MemoryAddress) Interop.g_object_ref_sink.invokeExact(address);
+            } catch (Throwable ERR) {
+                throw new AssertionError("Unexpected exception occured: ", ERR);
+            }
         }
     }
     
-    /**
-     * Cast object to MessageDialog if its GType is a (or inherits from) "GtkMessageDialog".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code MessageDialog} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "GtkMessageDialog", a ClassCastException will be thrown.
-     */
-    public static MessageDialog castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), MessageDialog.getType())) {
-            return new MessageDialog(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of GtkMessageDialog");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, MessageDialog> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new MessageDialog(input, ownership);
     
-    private static Addressable constructNew(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(buttons, "Parameter 'buttons' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNew(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gtk.MessageType type, org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_new.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     flags.getValue(),
                     type.getValue(),
                     buttons.getValue(),
-                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(messageFormat)),
+                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(messageFormat, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -152,22 +133,19 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @param messageFormat printf()-style format string
      * @param varargs arguments for {@code message_format}
      */
-    public MessageDialog(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+    public MessageDialog(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gtk.MessageType type, org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
         super(constructNew(parent, flags, type, buttons, messageFormat, varargs), Ownership.NONE);
     }
     
-    private static Addressable constructNewWithMarkup(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(flags, "Parameter 'flags' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(buttons, "Parameter 'buttons' must not be null");
-        Addressable RESULT;
+    private static MemoryAddress constructNewWithMarkup(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gtk.MessageType type, org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+        MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_new_with_markup.invokeExact(
                     (Addressable) (parent == null ? MemoryAddress.NULL : parent.handle()),
                     flags.getValue(),
                     type.getValue(),
                     buttons.getValue(),
-                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(messageFormat)),
+                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(messageFormat, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -211,8 +189,9 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @param varargs arguments for {@code message_format}
      * @return a new {@code GtkMessageDialog}
      */
-    public static MessageDialog newWithMarkup(@Nullable org.gtk.gtk.Window parent, @NotNull org.gtk.gtk.DialogFlags flags, @NotNull org.gtk.gtk.MessageType type, @NotNull org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
-        return new MessageDialog(constructNewWithMarkup(parent, flags, type, buttons, messageFormat, varargs), Ownership.NONE);
+    public static MessageDialog newWithMarkup(@Nullable org.gtk.gtk.Window parent, org.gtk.gtk.DialogFlags flags, org.gtk.gtk.MessageType type, org.gtk.gtk.ButtonsType buttons, @Nullable java.lang.String messageFormat, java.lang.Object... varargs) {
+        var RESULT = constructNewWithMarkup(parent, flags, type, buttons, messageFormat, varargs);
+        return (org.gtk.gtk.MessageDialog) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.MessageDialog.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -235,12 +214,11 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @param messageFormat printf()-style string with Pango markup
      * @param varargs arguments for {@code message_format}
      */
-    public void formatSecondaryMarkup(@NotNull java.lang.String messageFormat, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(messageFormat, "Parameter 'messageFormat' must not be null");
+    public void formatSecondaryMarkup(java.lang.String messageFormat, java.lang.Object... varargs) {
         try {
             DowncallHandles.gtk_message_dialog_format_secondary_markup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(messageFormat),
+                    Marshal.stringToAddress.marshal(messageFormat, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -256,7 +234,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
         try {
             DowncallHandles.gtk_message_dialog_format_secondary_text.invokeExact(
                     handle(),
-                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Interop.allocateNativeString(messageFormat)),
+                    (Addressable) (messageFormat == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(messageFormat, null)),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -273,7 +251,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * @return A {@code GtkBox} corresponding to the
      *   “message area” in the {@code message_dialog}
      */
-    public @NotNull org.gtk.gtk.Widget getMessageArea() {
+    public org.gtk.gtk.Widget getMessageArea() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gtk_message_dialog_get_message_area.invokeExact(
@@ -281,19 +259,18 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.gtk.Widget(RESULT, Ownership.NONE);
+        return (org.gtk.gtk.Widget) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gtk.gtk.Widget.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
      * Sets the text of the message dialog.
      * @param str string with Pango markup
      */
-    public void setMarkup(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void setMarkup(java.lang.String str) {
         try {
             DowncallHandles.gtk_message_dialog_set_markup.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -303,7 +280,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gtk_message_dialog_get_type.invokeExact();
@@ -312,42 +289,44 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link MessageDialog.Builder} object constructs a {@link MessageDialog} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link MessageDialog.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gtk.Dialog.Build {
+    public static class Builder extends org.gtk.gtk.Dialog.Builder {
         
-         /**
-         * A {@link MessageDialog.Build} object constructs a {@link MessageDialog} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link MessageDialog} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link MessageDialog} using {@link MessageDialog#castFrom}.
+         * {@link MessageDialog}.
          * @return A new instance of {@code MessageDialog} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public MessageDialog construct() {
-            return MessageDialog.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    MessageDialog.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public MessageDialog build() {
+            return (MessageDialog) org.gtk.gobject.GObject.newWithProperties(
+                MessageDialog.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
-        public Build setButtons(org.gtk.gtk.ButtonsType buttons) {
+        public Builder setButtons(org.gtk.gtk.ButtonsType buttons) {
             names.add("buttons");
             values.add(org.gtk.gobject.Value.create(buttons));
             return this;
@@ -361,7 +340,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
          * @param messageArea The value for the {@code message-area} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMessageArea(org.gtk.gtk.Widget messageArea) {
+        public Builder setMessageArea(org.gtk.gtk.Widget messageArea) {
             names.add("message-area");
             values.add(org.gtk.gobject.Value.create(messageArea));
             return this;
@@ -372,7 +351,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
          * @param messageType The value for the {@code message-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setMessageType(org.gtk.gtk.MessageType messageType) {
+        public Builder setMessageType(org.gtk.gtk.MessageType messageType) {
             names.add("message-type");
             values.add(org.gtk.gobject.Value.create(messageType));
             return this;
@@ -383,7 +362,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
          * @param secondaryText The value for the {@code secondary-text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryText(java.lang.String secondaryText) {
+        public Builder setSecondaryText(java.lang.String secondaryText) {
             names.add("secondary-text");
             values.add(org.gtk.gobject.Value.create(secondaryText));
             return this;
@@ -396,7 +375,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
          * @param secondaryUseMarkup The value for the {@code secondary-use-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSecondaryUseMarkup(boolean secondaryUseMarkup) {
+        public Builder setSecondaryUseMarkup(boolean secondaryUseMarkup) {
             names.add("secondary-use-markup");
             values.add(org.gtk.gobject.Value.create(secondaryUseMarkup));
             return this;
@@ -409,7 +388,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
          * @param text The value for the {@code text} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setText(java.lang.String text) {
+        public Builder setText(java.lang.String text) {
             names.add("text");
             values.add(org.gtk.gobject.Value.create(text));
             return this;
@@ -422,7 +401,7 @@ public class MessageDialog extends org.gtk.gtk.Dialog implements org.gtk.gtk.Acc
          * @param useMarkup The value for the {@code use-markup} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setUseMarkup(boolean useMarkup) {
+        public Builder setUseMarkup(boolean useMarkup) {
             names.add("use-markup");
             values.add(org.gtk.gobject.Value.create(useMarkup));
             return this;

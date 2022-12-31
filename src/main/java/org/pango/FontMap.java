@@ -12,7 +12,7 @@ import org.jetbrains.annotations.*;
  * This is a virtual object with implementations being specific to
  * particular rendering systems.
  */
-public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListModel {
+public class FontMap extends org.gtk.gobject.GObject implements org.gtk.gio.ListModel {
     
     static {
         Pango.javagi$ensureInitialized();
@@ -20,17 +20,15 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
     
     private static final java.lang.String C_TYPE_NAME = "PangoFontMap";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        org.gtk.gobject.Object.getMemoryLayout().withName("parent_instance")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            org.gtk.gobject.GObject.getMemoryLayout().withName("parent_instance")
+        ).withName(C_TYPE_NAME);
     }
     
     /**
@@ -38,30 +36,12 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public FontMap(Addressable address, Ownership ownership) {
+    protected FontMap(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
     
-    /**
-     * Cast object to FontMap if its GType is a (or inherits from) "PangoFontMap".
-     * <p>
-     * Internally, this creates a new Proxy object with the same ownership status as the parameter. If 
-     * the parameter object was owned by the user, the Cleaner will be removed from it, and will be attached 
-     * to the new Proxy object, so the call to {@code g_object_unref} will happen only once the new Proxy instance 
-     * is garbage-collected. 
-     * @param  gobject            An object that inherits from GObject
-     * @return                    A new proxy instance of type {@code FontMap} that points to the memory address of the provided GObject.
-     *                            The type of the object is checked with {@code g_type_check_instance_is_a}.
-     * @throws ClassCastException If the GType is not derived from "PangoFontMap", a ClassCastException will be thrown.
-     */
-    public static FontMap castFrom(org.gtk.gobject.Object gobject) {
-        if (org.gtk.gobject.GObject.typeCheckInstanceIsA(new org.gtk.gobject.TypeInstance(gobject.handle(), Ownership.NONE), FontMap.getType())) {
-            return new FontMap(gobject.handle(), gobject.yieldOwnership());
-        } else {
-            throw new ClassCastException("Object type is not an instance of PangoFontMap");
-        }
-    }
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, FontMap> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new FontMap(input, ownership);
     
     /**
      * Forces a change in the context, which will cause any {@code PangoContext}
@@ -94,7 +74,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * @return the newly allocated {@code PangoContext},
      *   which should be freed with g_object_unref().
      */
-    public @NotNull org.pango.Context createContext() {
+    public org.pango.Context createContext() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_map_create_context.invokeExact(
@@ -102,7 +82,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Context(RESULT, Ownership.FULL);
+        return (org.pango.Context) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Context.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -110,17 +90,16 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * @param name a family name
      * @return the {@code PangoFontFamily}
      */
-    public @NotNull org.pango.FontFamily getFamily(@NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public org.pango.FontFamily getFamily(java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_map_get_family.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.FontFamily(RESULT, Ownership.NONE);
+        return (org.pango.FontFamily) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.FontFamily.fromAddress).marshal(RESULT, Ownership.NONE);
     }
     
     /**
@@ -161,10 +140,8 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      *   This array should be freed with g_free().
      * @param nFamilies location to store the number of elements in {@code families}
      */
-    public void listFamilies(@NotNull Out<org.pango.FontFamily[]> families, Out<Integer> nFamilies) {
-        java.util.Objects.requireNonNull(families, "Parameter 'families' must not be null");
+    public void listFamilies(Out<org.pango.FontFamily[]> families, Out<Integer> nFamilies) {
         MemorySegment familiesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(nFamilies, "Parameter 'nFamilies' must not be null");
         MemorySegment nFamiliesPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_INT);
         try {
             DowncallHandles.pango_font_map_list_families.invokeExact(
@@ -178,7 +155,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         org.pango.FontFamily[] familiesARRAY = new org.pango.FontFamily[nFamilies.get().intValue()];
         for (int I = 0; I < nFamilies.get().intValue(); I++) {
             var OBJ = familiesPOINTER.get(Interop.valueLayout.ADDRESS, I);
-            familiesARRAY[I] = new org.pango.FontFamily(OBJ, Ownership.CONTAINER);
+            familiesARRAY[I] = (org.pango.FontFamily) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(OBJ)), org.pango.FontFamily.fromAddress).marshal(OBJ, Ownership.CONTAINER);
         }
         families.set(familiesARRAY);
     }
@@ -190,9 +167,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * @return the newly allocated {@code PangoFont}
      *   loaded, or {@code null} if no font matched.
      */
-    public @Nullable org.pango.Font loadFont(@NotNull org.pango.Context context, @NotNull org.pango.FontDescription desc) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
+    public @Nullable org.pango.Font loadFont(org.pango.Context context, org.pango.FontDescription desc) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_map_load_font.invokeExact(
@@ -202,7 +177,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Font(RESULT, Ownership.FULL);
+        return (org.pango.Font) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Font.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -214,10 +189,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
      * @return the newly allocated
      *   {@code PangoFontset} loaded, or {@code null} if no font matched.
      */
-    public @Nullable org.pango.Fontset loadFontset(@NotNull org.pango.Context context, @NotNull org.pango.FontDescription desc, @NotNull org.pango.Language language) {
-        java.util.Objects.requireNonNull(context, "Parameter 'context' must not be null");
-        java.util.Objects.requireNonNull(desc, "Parameter 'desc' must not be null");
-        java.util.Objects.requireNonNull(language, "Parameter 'language' must not be null");
+    public @Nullable org.pango.Fontset loadFontset(org.pango.Context context, org.pango.FontDescription desc, org.pango.Language language) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.pango_font_map_load_fontset.invokeExact(
@@ -228,14 +200,14 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.pango.Fontset(RESULT, Ownership.FULL);
+        return (org.pango.Fontset) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.pango.Fontset.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
      * Get the gtype
      * @return The gtype
      */
-    public static @NotNull org.gtk.glib.Type getType() {
+    public static org.gtk.glib.Type getType() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.pango_font_map_get_type.invokeExact();
@@ -244,38 +216,40 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
         }
         return new org.gtk.glib.Type(RESULT);
     }
-
+    
+    /**
+     * A {@link FontMap.Builder} object constructs a {@link FontMap} 
+     * using the <em>builder pattern</em> to set property values. 
+     * Use the various {@code set...()} methods to set properties, 
+     * and finish construction with {@link FontMap.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
-     * GObjects with properties.
+     * a GObject with properties.
      */
-    public static class Build extends org.gtk.gobject.Object.Build {
+    public static class Builder extends org.gtk.gobject.GObject.Builder {
         
-         /**
-         * A {@link FontMap.Build} object constructs a {@link FontMap} 
-         * using the <em>builder pattern</em> to set property values. 
-         * Use the various {@code set...()} methods to set properties, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        protected Builder() {
         }
         
-         /**
+        /**
          * Finish building the {@link FontMap} object.
-         * Internally, a call to {@link org.gtk.gobject.GObject#typeFromName} 
+         * Internally, a call to {@link org.gtk.gobject.GObjects#typeFromName} 
          * is executed to create a new GObject instance, which is then cast to 
-         * {@link FontMap} using {@link FontMap#castFrom}.
+         * {@link FontMap}.
          * @return A new instance of {@code FontMap} with the properties 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public FontMap construct() {
-            return FontMap.castFrom(
-                org.gtk.gobject.Object.newWithProperties(
-                    FontMap.getType(),
-                    names.size(),
-                    names.toArray(new String[0]),
-                    values.toArray(new org.gtk.gobject.Value[0])
-                )
+        public FontMap build() {
+            return (FontMap) org.gtk.gobject.GObject.newWithProperties(
+                FontMap.getType(),
+                names.size(),
+                names.toArray(new String[names.size()]),
+                values.toArray(new org.gtk.gobject.Value[names.size()])
             );
         }
         
@@ -284,7 +258,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
          * @param itemType The value for the {@code item-type} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setItemType(org.gtk.glib.Type itemType) {
+        public Builder setItemType(org.gtk.glib.Type itemType) {
             names.add("item-type");
             values.add(org.gtk.gobject.Value.create(itemType));
             return this;
@@ -295,7 +269,7 @@ public class FontMap extends org.gtk.gobject.Object implements org.gtk.gio.ListM
          * @param nItems The value for the {@code n-items} property
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setNItems(int nItems) {
+        public Builder setNItems(int nItems) {
             names.add("n-items");
             values.add(org.gtk.gobject.Value.create(nItems));
             return this;

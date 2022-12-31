@@ -102,22 +102,20 @@ public class Harness extends Struct {
     
     private static final java.lang.String C_TYPE_NAME = "GstHarness";
     
-    private static final GroupLayout memoryLayout = MemoryLayout.structLayout(
-        Interop.valueLayout.ADDRESS.withName("element"),
-        Interop.valueLayout.ADDRESS.withName("srcpad"),
-        Interop.valueLayout.ADDRESS.withName("sinkpad"),
-        Interop.valueLayout.ADDRESS.withName("src_harness"),
-        Interop.valueLayout.ADDRESS.withName("sink_harness"),
-        Interop.valueLayout.ADDRESS.withName("priv")
-    ).withName(C_TYPE_NAME);
-    
     /**
      * The memory layout of the native struct.
      * @return the memory layout
      */
     @ApiStatus.Internal
     public static MemoryLayout getMemoryLayout() {
-        return memoryLayout;
+        return MemoryLayout.structLayout(
+            Interop.valueLayout.ADDRESS.withName("element"),
+            Interop.valueLayout.ADDRESS.withName("srcpad"),
+            Interop.valueLayout.ADDRESS.withName("sinkpad"),
+            Interop.valueLayout.ADDRESS.withName("src_harness"),
+            Interop.valueLayout.ADDRESS.withName("sink_harness"),
+            Interop.valueLayout.ADDRESS.withName("priv")
+        ).withName(C_TYPE_NAME);
     }
     
     private MemorySegment allocatedMemorySegment;
@@ -137,105 +135,105 @@ public class Harness extends Struct {
      * Get the value of the field {@code element}
      * @return The value of the field {@code element}
      */
-    public org.gstreamer.gst.Element element$get() {
+    public org.gstreamer.gst.Element getElement() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("element"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Element(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code element}
      * @param element The new value of the field {@code element}
      */
-    public void element$set(org.gstreamer.gst.Element element) {
+    public void setElement(org.gstreamer.gst.Element element) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("element"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), element.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (element == null ? MemoryAddress.NULL : element.handle()));
     }
     
     /**
      * Get the value of the field {@code srcpad}
      * @return The value of the field {@code srcpad}
      */
-    public org.gstreamer.gst.Pad srcpad$get() {
+    public org.gstreamer.gst.Pad getSrcpad() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("srcpad"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code srcpad}
      * @param srcpad The new value of the field {@code srcpad}
      */
-    public void srcpad$set(org.gstreamer.gst.Pad srcpad) {
+    public void setSrcpad(org.gstreamer.gst.Pad srcpad) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("srcpad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), srcpad.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcpad == null ? MemoryAddress.NULL : srcpad.handle()));
     }
     
     /**
      * Get the value of the field {@code sinkpad}
      * @return The value of the field {@code sinkpad}
      */
-    public org.gstreamer.gst.Pad sinkpad$get() {
+    public org.gstreamer.gst.Pad getSinkpad() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sinkpad"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.UNKNOWN);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code sinkpad}
      * @param sinkpad The new value of the field {@code sinkpad}
      */
-    public void sinkpad$set(org.gstreamer.gst.Pad sinkpad) {
+    public void setSinkpad(org.gstreamer.gst.Pad sinkpad) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sinkpad"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sinkpad.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkpad == null ? MemoryAddress.NULL : sinkpad.handle()));
     }
     
     /**
      * Get the value of the field {@code src_harness}
      * @return The value of the field {@code src_harness}
      */
-    public org.gstreamer.check.Harness srcHarness$get() {
+    public org.gstreamer.check.Harness getSrcHarness() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("src_harness"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.check.Harness(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code src_harness}
      * @param srcHarness The new value of the field {@code src_harness}
      */
-    public void srcHarness$set(org.gstreamer.check.Harness srcHarness) {
+    public void setSrcHarness(org.gstreamer.check.Harness srcHarness) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("src_harness"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), srcHarness.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcHarness == null ? MemoryAddress.NULL : srcHarness.handle()));
     }
     
     /**
      * Get the value of the field {@code sink_harness}
      * @return The value of the field {@code sink_harness}
      */
-    public org.gstreamer.check.Harness sinkHarness$get() {
+    public org.gstreamer.check.Harness getSinkHarness() {
         var RESULT = (MemoryAddress) getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sink_harness"))
             .get(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()));
-        return new org.gstreamer.check.Harness(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Change the value of the field {@code sink_harness}
      * @param sinkHarness The new value of the field {@code sink_harness}
      */
-    public void sinkHarness$set(org.gstreamer.check.Harness sinkHarness) {
+    public void setSinkHarness(org.gstreamer.check.Harness sinkHarness) {
         getMemoryLayout()
             .varHandle(MemoryLayout.PathElement.groupElement("sink_harness"))
-            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), sinkHarness.handle());
+            .set(MemorySegment.ofAddress((MemoryAddress) handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkHarness == null ? MemoryAddress.NULL : sinkHarness.handle()));
     }
     
     /**
@@ -243,10 +241,12 @@ public class Harness extends Struct {
      * @param address   The memory address of the native object
      * @param ownership The ownership indicator used for ref-counted objects
      */
-    @ApiStatus.Internal
-    public Harness(Addressable address, Ownership ownership) {
+    protected Harness(Addressable address, Ownership ownership) {
         super(address, ownership);
     }
+    
+    @ApiStatus.Internal
+    public static final Marshal<Addressable, Harness> fromAddress = (input, ownership) -> input.equals(MemoryAddress.NULL) ? null : new Harness(input, ownership);
     
     /**
      * Adds a {@link org.gstreamer.gst.Element} to an empty {@link Harness}
@@ -265,16 +265,15 @@ public class Harness extends Struct {
      * srcpad that is then linked to the harness sinkpad, similar to the
      * {@code element_sinkpad_name}.
      */
-    public void addElementFull(@NotNull org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable java.lang.String elementSinkpadName, @Nullable org.gstreamer.gst.StaticPadTemplate hsink, @Nullable java.lang.String elementSrcpadName) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public void addElementFull(org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable java.lang.String elementSinkpadName, @Nullable org.gstreamer.gst.StaticPadTemplate hsink, @Nullable java.lang.String elementSrcpadName) {
         try {
             DowncallHandles.gst_harness_add_element_full.invokeExact(
                     handle(),
                     element.handle(),
                     (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSinkpadName)),
+                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
                     (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSrcpadName)));
+                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -286,8 +285,7 @@ public class Harness extends Struct {
      * MT safe.
      * @param sinkpad a {@link org.gstreamer.gst.Pad} to link to the harness srcpad
      */
-    public void addElementSinkPad(@NotNull org.gstreamer.gst.Pad sinkpad) {
-        java.util.Objects.requireNonNull(sinkpad, "Parameter 'sinkpad' must not be null");
+    public void addElementSinkPad(org.gstreamer.gst.Pad sinkpad) {
         try {
             DowncallHandles.gst_harness_add_element_sink_pad.invokeExact(
                     handle(),
@@ -305,8 +303,7 @@ public class Harness extends Struct {
      * MT safe.
      * @param srcpad a {@link org.gstreamer.gst.Pad} to link to the harness sinkpad
      */
-    public void addElementSrcPad(@NotNull org.gstreamer.gst.Pad srcpad) {
-        java.util.Objects.requireNonNull(srcpad, "Parameter 'srcpad' must not be null");
+    public void addElementSrcPad(org.gstreamer.gst.Pad srcpad) {
         try {
             DowncallHandles.gst_harness_add_element_src_pad.invokeExact(
                     handle(),
@@ -323,12 +320,11 @@ public class Harness extends Struct {
      * MT safe.
      * @param launchline a {@code gchar} describing a gst-launch type line
      */
-    public void addParse(@NotNull java.lang.String launchline) {
-        java.util.Objects.requireNonNull(launchline, "Parameter 'launchline' must not be null");
+    public void addParse(java.lang.String launchline) {
         try {
             DowncallHandles.gst_harness_add_parse.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(launchline));
+                    Marshal.stringToAddress.marshal(launchline, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -344,25 +340,18 @@ public class Harness extends Struct {
      * @param padName a {@code gchar} with the name of the pad to attach the probe to
      * @param mask a {@link org.gstreamer.gst.PadProbeType} (see gst_pad_add_probe)
      * @param callback a {@link org.gstreamer.gst.PadProbeCallback} (see gst_pad_add_probe)
+     * @param destroyData a {@link org.gtk.glib.DestroyNotify} (see gst_pad_add_probe)
      */
-    public void addProbe(@NotNull java.lang.String elementName, @NotNull java.lang.String padName, @NotNull org.gstreamer.gst.PadProbeType mask, @NotNull org.gstreamer.gst.PadProbeCallback callback) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
-        java.util.Objects.requireNonNull(padName, "Parameter 'padName' must not be null");
-        java.util.Objects.requireNonNull(mask, "Parameter 'mask' must not be null");
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public void addProbe(java.lang.String elementName, java.lang.String padName, org.gstreamer.gst.PadProbeType mask, org.gstreamer.gst.PadProbeCallback callback, org.gtk.glib.DestroyNotify destroyData) {
         try {
             DowncallHandles.gst_harness_add_probe.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(elementName),
-                    Interop.allocateNativeString(padName),
+                    Marshal.stringToAddress.marshal(elementName, null),
+                    Marshal.stringToAddress.marshal(padName, null),
                     mask.getValue(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstCheck.Callbacks.class, "cbPadProbeCallback",
-                            MethodType.methodType(int.class, MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(callback)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyData.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -376,8 +365,7 @@ public class Harness extends Struct {
      * @param api a metadata API
      * @param params API specific parameters
      */
-    public void addProposeAllocationMeta(@NotNull org.gtk.glib.Type api, @Nullable org.gstreamer.gst.Structure params) {
-        java.util.Objects.requireNonNull(api, "Parameter 'api' must not be null");
+    public void addProposeAllocationMeta(org.gtk.glib.Type api, @Nullable org.gstreamer.gst.Structure params) {
         try {
             DowncallHandles.gst_harness_add_propose_allocation_meta.invokeExact(
                     handle(),
@@ -395,12 +383,11 @@ public class Harness extends Struct {
      * MT safe.
      * @param sinkElementName a {@code gchar} with the name of a {@link org.gstreamer.gst.Element}
      */
-    public void addSink(@NotNull java.lang.String sinkElementName) {
-        java.util.Objects.requireNonNull(sinkElementName, "Parameter 'sinkElementName' must not be null");
+    public void addSink(java.lang.String sinkElementName) {
         try {
             DowncallHandles.gst_harness_add_sink.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(sinkElementName));
+                    Marshal.stringToAddress.marshal(sinkElementName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -419,8 +406,7 @@ public class Harness extends Struct {
      * MT safe.
      * @param sinkHarness a {@link Harness} to be added as a sink-harness.
      */
-    public void addSinkHarness(@NotNull org.gstreamer.check.Harness sinkHarness) {
-        java.util.Objects.requireNonNull(sinkHarness, "Parameter 'sinkHarness' must not be null");
+    public void addSinkHarness(org.gstreamer.check.Harness sinkHarness) {
         try {
             DowncallHandles.gst_harness_add_sink_harness.invokeExact(
                     handle(),
@@ -438,12 +424,11 @@ public class Harness extends Struct {
      * MT safe.
      * @param launchline a {@code gchar} with the name of a {@link org.gstreamer.gst.Element}
      */
-    public void addSinkParse(@NotNull java.lang.String launchline) {
-        java.util.Objects.requireNonNull(launchline, "Parameter 'launchline' must not be null");
+    public void addSinkParse(java.lang.String launchline) {
         try {
             DowncallHandles.gst_harness_add_sink_parse.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(launchline));
+                    Marshal.stringToAddress.marshal(launchline, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -458,13 +443,12 @@ public class Harness extends Struct {
      * @param hasClockWait a {@code gboolean} specifying if the {@link org.gstreamer.gst.Element} uses
      * gst_clock_wait_id internally.
      */
-    public void addSrc(@NotNull java.lang.String srcElementName, boolean hasClockWait) {
-        java.util.Objects.requireNonNull(srcElementName, "Parameter 'srcElementName' must not be null");
+    public void addSrc(java.lang.String srcElementName, boolean hasClockWait) {
         try {
             DowncallHandles.gst_harness_add_src.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(srcElementName),
-                    hasClockWait ? 1 : 0);
+                    Marshal.stringToAddress.marshal(srcElementName, null),
+                    Marshal.booleanToInteger.marshal(hasClockWait, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -486,13 +470,12 @@ public class Harness extends Struct {
      * @param hasClockWait a {@code gboolean} specifying if the {@link org.gstreamer.gst.Element} uses
      * gst_clock_wait_id internally.
      */
-    public void addSrcHarness(@NotNull org.gstreamer.check.Harness srcHarness, boolean hasClockWait) {
-        java.util.Objects.requireNonNull(srcHarness, "Parameter 'srcHarness' must not be null");
+    public void addSrcHarness(org.gstreamer.check.Harness srcHarness, boolean hasClockWait) {
         try {
             DowncallHandles.gst_harness_add_src_harness.invokeExact(
                     handle(),
                     srcHarness.handle(),
-                    hasClockWait ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(hasClockWait, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -511,13 +494,12 @@ public class Harness extends Struct {
      * @param hasClockWait a {@code gboolean} specifying if the {@link org.gstreamer.gst.Element} uses
      * gst_clock_wait_id internally.
      */
-    public void addSrcParse(@NotNull java.lang.String launchline, boolean hasClockWait) {
-        java.util.Objects.requireNonNull(launchline, "Parameter 'launchline' must not be null");
+    public void addSrcParse(java.lang.String launchline, boolean hasClockWait) {
         try {
             DowncallHandles.gst_harness_add_src_parse.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(launchline),
-                    hasClockWait ? 1 : 0);
+                    Marshal.stringToAddress.marshal(launchline, null),
+                    Marshal.booleanToInteger.marshal(hasClockWait, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -580,7 +562,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -604,7 +586,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -615,7 +597,7 @@ public class Harness extends Struct {
      * @param size a {@code gsize} specifying the size of the buffer
      * @return a {@link org.gstreamer.gst.Buffer} of size {@code size}
      */
-    public @NotNull org.gstreamer.gst.Buffer createBuffer(long size) {
+    public org.gstreamer.gst.Buffer createBuffer(long size) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_create_buffer.invokeExact(
@@ -624,7 +606,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -634,12 +616,11 @@ public class Harness extends Struct {
      * MT safe.
      * @param filename a {@code gchar} with a the name of a file
      */
-    public void dumpToFile(@NotNull java.lang.String filename) {
-        java.util.Objects.requireNonNull(filename, "Parameter 'filename' must not be null");
+    public void dumpToFile(java.lang.String filename) {
         try {
             DowncallHandles.gst_harness_dump_to_file.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(filename));
+                    Marshal.stringToAddress.marshal(filename, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -691,17 +672,16 @@ public class Harness extends Struct {
      * @param elementName a {@code gchar} with a {@link org.gstreamer.gst.ElementFactory} name
      * @return a {@link org.gstreamer.gst.Element} or {@code null} if not found
      */
-    public @Nullable org.gstreamer.gst.Element findElement(@NotNull java.lang.String elementName) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
+    public @Nullable org.gstreamer.gst.Element findElement(java.lang.String elementName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_find_element.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(elementName));
+                    Marshal.stringToAddress.marshal(elementName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -715,14 +695,12 @@ public class Harness extends Struct {
      * @param varargs return location for the first property, followed optionally by more
      *  name/return location pairs, followed by {@code null}
      */
-    public void get(@NotNull java.lang.String elementName, @NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
-        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+    public void get(java.lang.String elementName, java.lang.String firstPropertyName, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_harness_get.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(elementName),
-                    Interop.allocateNativeString(firstPropertyName),
+                    Marshal.stringToAddress.marshal(elementName, null),
+                    Marshal.stringToAddress.marshal(firstPropertyName, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -738,19 +716,17 @@ public class Harness extends Struct {
      * @param params the {@link org.gstreamer.gst.AllocationParams} of
      *   {@code allocator}
      */
-    public void getAllocator(@NotNull Out<org.gstreamer.gst.Allocator> allocator, @NotNull org.gstreamer.gst.AllocationParams params) {
-        java.util.Objects.requireNonNull(allocator, "Parameter 'allocator' must not be null");
+    public void getAllocator(@Nullable Out<org.gstreamer.gst.Allocator> allocator, @Nullable org.gstreamer.gst.AllocationParams params) {
         MemorySegment allocatorPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
-        java.util.Objects.requireNonNull(params, "Parameter 'params' must not be null");
         try {
             DowncallHandles.gst_harness_get_allocator.invokeExact(
                     handle(),
-                    (Addressable) allocatorPOINTER.address(),
-                    params.handle());
+                    (Addressable) (allocator == null ? MemoryAddress.NULL : (Addressable) allocatorPOINTER.address()),
+                    (Addressable) (params == null ? MemoryAddress.NULL : params.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        allocator.set(new org.gstreamer.gst.Allocator(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
+        if (allocator != null) allocator.set((org.gstreamer.gst.Allocator) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0))), org.gstreamer.gst.Allocator.fromAddress).marshal(allocatorPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.NONE));
         params.yieldOwnership();
     }
     
@@ -762,7 +738,7 @@ public class Harness extends Struct {
      * @return a {@link org.gstreamer.gst.ClockTime} with the timestamp or {@code GST_CLOCK_TIME_NONE} if no
      * {@link org.gstreamer.gst.Buffer} has been pushed on the {@link Harness} srcpad
      */
-    public @NotNull org.gstreamer.gst.ClockTime getLastPushedTimestamp() {
+    public org.gstreamer.gst.ClockTime getLastPushedTimestamp() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_harness_get_last_pushed_timestamp.invokeExact(
@@ -781,7 +757,7 @@ public class Harness extends Struct {
      * @return a {@link TestClock}, or {@code null} if the testclock is not
      * present.
      */
-    public @NotNull org.gstreamer.check.TestClock getTestclock() {
+    public org.gstreamer.check.TestClock getTestclock() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_get_testclock.invokeExact(
@@ -789,7 +765,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.TestClock(RESULT, Ownership.FULL);
+        return (org.gstreamer.check.TestClock) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.check.TestClock.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -820,7 +796,7 @@ public class Harness extends Struct {
      * MT safe.
      * @return a {@link org.gstreamer.gst.Buffer} or {@code null} if timed out.
      */
-    public @NotNull org.gstreamer.gst.Buffer pull() {
+    public org.gstreamer.gst.Buffer pull() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_pull.invokeExact(
@@ -828,7 +804,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -838,7 +814,7 @@ public class Harness extends Struct {
      * MT safe.
      * @return a {@link org.gstreamer.gst.Event} or {@code null} if timed out.
      */
-    public @NotNull org.gstreamer.gst.Event pullEvent() {
+    public org.gstreamer.gst.Event pullEvent() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_pull_event.invokeExact(
@@ -846,7 +822,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Event(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -857,8 +833,7 @@ public class Harness extends Struct {
      *   first.
      * @return {@code true} on success, {@code false} on timeout.
      */
-    public boolean pullUntilEos(@NotNull Out<org.gstreamer.gst.Buffer> buf) {
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public boolean pullUntilEos(Out<org.gstreamer.gst.Buffer> buf) {
         MemorySegment bufPOINTER = Interop.getAllocator().allocate(Interop.valueLayout.ADDRESS);
         int RESULT;
         try {
@@ -868,8 +843,8 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        buf.set(new org.gstreamer.gst.Buffer(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
-        return RESULT != 0;
+        buf.set(org.gstreamer.gst.Buffer.fromAddress.marshal(bufPOINTER.get(Interop.valueLayout.ADDRESS, 0), Ownership.FULL));
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -879,7 +854,7 @@ public class Harness extends Struct {
      * MT safe.
      * @return a {@link org.gstreamer.gst.Event} or {@code null} if timed out.
      */
-    public @NotNull org.gstreamer.gst.Event pullUpstreamEvent() {
+    public org.gstreamer.gst.Event pullUpstreamEvent() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_pull_upstream_event.invokeExact(
@@ -887,7 +862,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Event(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -898,8 +873,7 @@ public class Harness extends Struct {
      * @param buffer a {@link org.gstreamer.gst.Buffer} to push
      * @return a {@link org.gstreamer.gst.FlowReturn} with the result from the push
      */
-    public @NotNull org.gstreamer.gst.FlowReturn push(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.gst.FlowReturn push(org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_push.invokeExact(
@@ -921,8 +895,7 @@ public class Harness extends Struct {
      * @param buffer a {@link org.gstreamer.gst.Buffer} to push
      * @return a {@link org.gstreamer.gst.Buffer} or {@code null} if timed out.
      */
-    public @NotNull org.gstreamer.gst.Buffer pushAndPull(@NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public org.gstreamer.gst.Buffer pushAndPull(org.gstreamer.gst.Buffer buffer) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_push_and_pull.invokeExact(
@@ -932,7 +905,7 @@ public class Harness extends Struct {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         buffer.yieldOwnership();
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -942,8 +915,7 @@ public class Harness extends Struct {
      * @param event a {@link org.gstreamer.gst.Event} to push
      * @return a {@code gboolean} with the result from the push
      */
-    public boolean pushEvent(@NotNull org.gstreamer.gst.Event event) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public boolean pushEvent(org.gstreamer.gst.Event event) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_push_event.invokeExact(
@@ -952,7 +924,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -966,7 +938,7 @@ public class Harness extends Struct {
      * MT safe.
      * @return a {@link org.gstreamer.gst.FlowReturn} with the result of the push
      */
-    public @NotNull org.gstreamer.gst.FlowReturn pushFromSrc() {
+    public org.gstreamer.gst.FlowReturn pushFromSrc() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_push_from_src.invokeExact(
@@ -984,7 +956,7 @@ public class Harness extends Struct {
      * MT safe.
      * @return a {@link org.gstreamer.gst.FlowReturn} with the result of the push
      */
-    public @NotNull org.gstreamer.gst.FlowReturn pushToSink() {
+    public org.gstreamer.gst.FlowReturn pushToSink() {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_push_to_sink.invokeExact(
@@ -1002,8 +974,7 @@ public class Harness extends Struct {
      * @param event a {@link org.gstreamer.gst.Event} to push
      * @return a {@code gboolean} with the result from the push
      */
-    public boolean pushUpstreamEvent(@NotNull org.gstreamer.gst.Event event) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public boolean pushUpstreamEvent(org.gstreamer.gst.Event event) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_push_upstream_event.invokeExact(
@@ -1012,7 +983,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1021,7 +992,7 @@ public class Harness extends Struct {
      * MT safe.
      * @return a {@link org.gstreamer.gst.ClockTime} with min latency
      */
-    public @NotNull org.gstreamer.gst.ClockTime queryLatency() {
+    public org.gstreamer.gst.ClockTime queryLatency() {
         long RESULT;
         try {
             RESULT = (long) DowncallHandles.gst_harness_query_latency.invokeExact(
@@ -1043,14 +1014,12 @@ public class Harness extends Struct {
      * @param varargs value for the first property, followed optionally by more
      *  name/value pairs, followed by {@code null}
      */
-    public void set(@NotNull java.lang.String elementName, @NotNull java.lang.String firstPropertyName, java.lang.Object... varargs) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
-        java.util.Objects.requireNonNull(firstPropertyName, "Parameter 'firstPropertyName' must not be null");
+    public void set(java.lang.String elementName, java.lang.String firstPropertyName, java.lang.Object... varargs) {
         try {
             DowncallHandles.gst_harness_set.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(elementName),
-                    Interop.allocateNativeString(firstPropertyName),
+                    Marshal.stringToAddress.marshal(elementName, null),
+                    Marshal.stringToAddress.marshal(firstPropertyName, null),
                     varargs);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -1082,9 +1051,7 @@ public class Harness extends Struct {
      * @param in a {@link org.gstreamer.gst.Caps} to set on the harness srcpad
      * @param out a {@link org.gstreamer.gst.Caps} to set on the harness sinkpad
      */
-    public void setCaps(@NotNull org.gstreamer.gst.Caps in, @NotNull org.gstreamer.gst.Caps out) {
-        java.util.Objects.requireNonNull(in, "Parameter 'in' must not be null");
-        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+    public void setCaps(org.gstreamer.gst.Caps in, org.gstreamer.gst.Caps out) {
         try {
             DowncallHandles.gst_harness_set_caps.invokeExact(
                     handle(),
@@ -1104,14 +1071,12 @@ public class Harness extends Struct {
      * @param in a {@code gchar} describing a {@link org.gstreamer.gst.Caps} to set on the harness srcpad
      * @param out a {@code gchar} describing a {@link org.gstreamer.gst.Caps} to set on the harness sinkpad
      */
-    public void setCapsStr(@NotNull java.lang.String in, @NotNull java.lang.String out) {
-        java.util.Objects.requireNonNull(in, "Parameter 'in' must not be null");
-        java.util.Objects.requireNonNull(out, "Parameter 'out' must not be null");
+    public void setCapsStr(java.lang.String in, java.lang.String out) {
         try {
             DowncallHandles.gst_harness_set_caps_str.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(in),
-                    Interop.allocateNativeString(out));
+                    Marshal.stringToAddress.marshal(in, null),
+                    Marshal.stringToAddress.marshal(out, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1128,7 +1093,7 @@ public class Harness extends Struct {
         try {
             DowncallHandles.gst_harness_set_drop_buffers.invokeExact(
                     handle(),
-                    dropBuffers ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(dropBuffers, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1156,7 +1121,7 @@ public class Harness extends Struct {
         try {
             DowncallHandles.gst_harness_set_forwarding.invokeExact(
                     handle(),
-                    forwarding ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(forwarding, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1171,7 +1136,7 @@ public class Harness extends Struct {
         try {
             DowncallHandles.gst_harness_set_live.invokeExact(
                     handle(),
-                    isLive ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(isLive, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1203,8 +1168,7 @@ public class Harness extends Struct {
      * MT safe.
      * @param caps a {@link org.gstreamer.gst.Caps} to set on the harness sinkpad
      */
-    public void setSinkCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void setSinkCaps(org.gstreamer.gst.Caps caps) {
         try {
             DowncallHandles.gst_harness_set_sink_caps.invokeExact(
                     handle(),
@@ -1221,12 +1185,11 @@ public class Harness extends Struct {
      * MT safe.
      * @param str a {@code gchar} describing a {@link org.gstreamer.gst.Caps} to set on the harness sinkpad
      */
-    public void setSinkCapsStr(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void setSinkCapsStr(java.lang.String str) {
         try {
             DowncallHandles.gst_harness_set_sink_caps_str.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1239,8 +1202,7 @@ public class Harness extends Struct {
      * MT safe.
      * @param caps a {@link org.gstreamer.gst.Caps} to set on the harness srcpad
      */
-    public void setSrcCaps(@NotNull org.gstreamer.gst.Caps caps) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public void setSrcCaps(org.gstreamer.gst.Caps caps) {
         try {
             DowncallHandles.gst_harness_set_src_caps.invokeExact(
                     handle(),
@@ -1258,12 +1220,11 @@ public class Harness extends Struct {
      * MT safe.
      * @param str a {@code gchar} describing a {@link org.gstreamer.gst.Caps} to set on the harness srcpad
      */
-    public void setSrcCapsStr(@NotNull java.lang.String str) {
-        java.util.Objects.requireNonNull(str, "Parameter 'str' must not be null");
+    public void setSrcCapsStr(java.lang.String str) {
         try {
             DowncallHandles.gst_harness_set_src_caps_str.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(str));
+                    Marshal.stringToAddress.marshal(str, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -1276,8 +1237,7 @@ public class Harness extends Struct {
      * @param time a {@link org.gstreamer.gst.ClockTime} to advance the clock to
      * @return a {@code gboolean} {@code true} if the time could be set. {@code false} if not.
      */
-    public boolean setTime(@NotNull org.gstreamer.gst.ClockTime time) {
-        java.util.Objects.requireNonNull(time, "Parameter 'time' must not be null");
+    public boolean setTime(org.gstreamer.gst.ClockTime time) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_set_time.invokeExact(
@@ -1286,15 +1246,14 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Sets the min latency reported by {@link Harness} when receiving a latency-query
      * @param latency a {@link org.gstreamer.gst.ClockTime} specifying the latency
      */
-    public void setUpstreamLatency(@NotNull org.gstreamer.gst.ClockTime latency) {
-        java.util.Objects.requireNonNull(latency, "Parameter 'latency' must not be null");
+    public void setUpstreamLatency(org.gstreamer.gst.ClockTime latency) {
         try {
             DowncallHandles.gst_harness_set_upstream_latency.invokeExact(
                     handle(),
@@ -1312,7 +1271,7 @@ public class Harness extends Struct {
      * @param pushes a {@code gint} with the number of calls to gst_harness_push_to_sink
      * @return a {@link org.gstreamer.gst.FlowReturn} with the result of the push
      */
-    public @NotNull org.gstreamer.gst.FlowReturn sinkPushMany(int pushes) {
+    public org.gstreamer.gst.FlowReturn sinkPushMany(int pushes) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_sink_push_many.invokeExact(
@@ -1336,7 +1295,7 @@ public class Harness extends Struct {
      * @param pushes a {@code gint} with the number of calls to gst_harness_push
      * @return a {@link org.gstreamer.gst.FlowReturn} with the result of the push
      */
-    public @NotNull org.gstreamer.gst.FlowReturn srcCrankAndPushMany(int cranks, int pushes) {
+    public org.gstreamer.gst.FlowReturn srcCrankAndPushMany(int cranks, int pushes) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_src_crank_and_push_many.invokeExact(
@@ -1366,7 +1325,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1380,28 +1339,19 @@ public class Harness extends Struct {
      * each call to the {@code callback}
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressCustomStart(@Nullable org.gtk.glib.Func init, @NotNull org.gtk.glib.Func callback, long sleep) {
-        java.util.Objects.requireNonNull(callback, "Parameter 'callback' must not be null");
+    public org.gstreamer.check.HarnessThread stressCustomStart(@Nullable org.gtk.glib.Func init, org.gtk.glib.Func callback, long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_custom_start.invokeExact(
                     handle(),
-                    (Addressable) (init == null ? MemoryAddress.NULL : (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstCheck.Callbacks.class, "cbFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope())),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstCheck.Callbacks.class, "cbFunc",
-                            MethodType.methodType(void.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.ofVoid(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (init == null ? MemoryAddress.NULL : Interop.registerCallback(init)),
+                    (Addressable) (init == null ? MemoryAddress.NULL : (Addressable) init.toCallback()),
+                    (Addressable) callback.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
                     sleep);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1414,20 +1364,18 @@ public class Harness extends Struct {
      * each g_object_set with {@code name} and {@code value}
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressPropertyStartFull(@NotNull java.lang.String name, @NotNull org.gtk.gobject.Value value, long sleep) {
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(value, "Parameter 'value' must not be null");
+    public org.gstreamer.check.HarnessThread stressPropertyStartFull(java.lang.String name, org.gtk.gobject.Value value, long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_property_start_full.invokeExact(
                     handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     value.handle(),
                     sleep);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1441,10 +1389,7 @@ public class Harness extends Struct {
      * each call to gst_pad_push
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressPushBufferStartFull(@NotNull org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.gst.Segment segment, @NotNull org.gstreamer.gst.Buffer buf, long sleep) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(segment, "Parameter 'segment' must not be null");
-        java.util.Objects.requireNonNull(buf, "Parameter 'buf' must not be null");
+    public org.gstreamer.check.HarnessThread stressPushBufferStartFull(org.gstreamer.gst.Caps caps, org.gstreamer.gst.Segment segment, org.gstreamer.gst.Buffer buf, long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_push_buffer_start_full.invokeExact(
@@ -1456,7 +1401,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1467,32 +1412,26 @@ public class Harness extends Struct {
      * @param segment a {@link org.gstreamer.gst.Segment}
      * @param func a {@link HarnessPrepareBufferFunc} function called before every iteration
      * to prepare / create a {@link org.gstreamer.gst.Buffer} for pushing
+     * @param notify a {@link org.gtk.glib.DestroyNotify} that is called when thread is stopped
      * @param sleep a {@code gulong} specifying how long to sleep in (microseconds) for
      * each call to gst_pad_push
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressPushBufferWithCbStartFull(@NotNull org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.gst.Segment segment, @NotNull org.gstreamer.check.HarnessPrepareBufferFunc func, long sleep) {
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
-        java.util.Objects.requireNonNull(segment, "Parameter 'segment' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public org.gstreamer.check.HarnessThread stressPushBufferWithCbStartFull(org.gstreamer.gst.Caps caps, org.gstreamer.gst.Segment segment, org.gstreamer.check.HarnessPrepareBufferFunc func, org.gtk.glib.DestroyNotify notify, long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_push_buffer_with_cb_start_full.invokeExact(
                     handle(),
                     caps.handle(),
                     segment.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstCheck.Callbacks.class, "cbHarnessPrepareBufferFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback(),
                     sleep);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1505,8 +1444,7 @@ public class Harness extends Struct {
      * each gst_event_push with {@code event}
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressPushEventStartFull(@NotNull org.gstreamer.gst.Event event, long sleep) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public org.gstreamer.check.HarnessThread stressPushEventStartFull(org.gstreamer.gst.Event event, long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_push_event_start_full.invokeExact(
@@ -1516,7 +1454,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1526,28 +1464,24 @@ public class Harness extends Struct {
      * MT safe.
      * @param func a {@link HarnessPrepareEventFunc} function called before every iteration
      * to prepare / create a {@link org.gstreamer.gst.Event} for pushing
+     * @param notify a {@link org.gtk.glib.DestroyNotify} that is called when thread is stopped
      * @param sleep a {@code gulong} specifying how long to sleep in (microseconds) for
      * each call to gst_pad_push
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressPushEventWithCbStartFull(@NotNull org.gstreamer.check.HarnessPrepareEventFunc func, long sleep) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public org.gstreamer.check.HarnessThread stressPushEventWithCbStartFull(org.gstreamer.check.HarnessPrepareEventFunc func, org.gtk.glib.DestroyNotify notify, long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_push_event_with_cb_start_full.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstCheck.Callbacks.class, "cbHarnessPrepareEventFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback(),
                     sleep);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1560,8 +1494,7 @@ public class Harness extends Struct {
      * each gst_event_push with {@code event}
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressPushUpstreamEventStartFull(@NotNull org.gstreamer.gst.Event event, long sleep) {
-        java.util.Objects.requireNonNull(event, "Parameter 'event' must not be null");
+    public org.gstreamer.check.HarnessThread stressPushUpstreamEventStartFull(org.gstreamer.gst.Event event, long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_push_upstream_event_start_full.invokeExact(
@@ -1571,7 +1504,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1581,28 +1514,24 @@ public class Harness extends Struct {
      * MT safe.
      * @param func a {@link HarnessPrepareEventFunc} function called before every iteration
      * to prepare / create a {@link org.gstreamer.gst.Event} for pushing
+     * @param notify a {@link org.gtk.glib.DestroyNotify} that is called when thread is stopped
      * @param sleep a {@code gulong} specifying how long to sleep in (microseconds) for
      * each call to gst_pad_push
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressPushUpstreamEventWithCbStartFull(@NotNull org.gstreamer.check.HarnessPrepareEventFunc func, long sleep) {
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public org.gstreamer.check.HarnessThread stressPushUpstreamEventWithCbStartFull(org.gstreamer.check.HarnessPrepareEventFunc func, org.gtk.glib.DestroyNotify notify, long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_push_upstream_event_with_cb_start_full.invokeExact(
                     handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstCheck.Callbacks.class, "cbHarnessPrepareEventFunc",
-                            MethodType.methodType(MemoryAddress.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol(),
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) notify.toCallback(),
                     sleep);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1617,23 +1546,20 @@ public class Harness extends Struct {
      * each gst_element_request_pad
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressRequestpadStartFull(@NotNull org.gstreamer.gst.PadTemplate templ, @NotNull java.lang.String name, @NotNull org.gstreamer.gst.Caps caps, boolean release, long sleep) {
-        java.util.Objects.requireNonNull(templ, "Parameter 'templ' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(caps, "Parameter 'caps' must not be null");
+    public org.gstreamer.check.HarnessThread stressRequestpadStartFull(org.gstreamer.gst.PadTemplate templ, java.lang.String name, org.gstreamer.gst.Caps caps, boolean release, long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_requestpad_start_full.invokeExact(
                     handle(),
                     templ.handle(),
-                    Interop.allocateNativeString(name),
+                    Marshal.stringToAddress.marshal(name, null),
                     caps.handle(),
-                    release ? 1 : 0,
+                    Marshal.booleanToInteger.marshal(release, null).intValue(),
                     sleep);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1645,7 +1571,7 @@ public class Harness extends Struct {
      * each state-change
      * @return a {@link HarnessThread}
      */
-    public @NotNull org.gstreamer.check.HarnessThread stressStatechangeStartFull(long sleep) {
+    public org.gstreamer.check.HarnessThread stressStatechangeStartFull(long sleep) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_stress_statechange_start_full.invokeExact(
@@ -1654,30 +1580,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.HarnessThread(RESULT, Ownership.UNKNOWN);
-    }
-    
-    /**
-     * Pulls all pending data from the harness and returns it as a single
-     * data slice.
-     * @param size the size of the data in bytes
-     * @return a pointer to the data, newly allocated. Free
-     *     with g_free() when no longer needed. Will return {@code null} if there is no
-     *     data.
-     */
-    public PointerByte takeAllData(Out<Long> size) {
-        java.util.Objects.requireNonNull(size, "Parameter 'size' must not be null");
-        MemorySegment sizePOINTER = Interop.getAllocator().allocate(Interop.valueLayout.C_LONG);
-        MemoryAddress RESULT;
-        try {
-            RESULT = (MemoryAddress) DowncallHandles.gst_harness_take_all_data.invokeExact(
-                    handle(),
-                    (Addressable) sizePOINTER.address());
-        } catch (Throwable ERR) {
-            throw new AssertionError("Unexpected exception occured: ", ERR);
-        }
-        size.set(sizePOINTER.get(Interop.valueLayout.C_LONG, 0));
-        return new PointerByte(RESULT);
+        return org.gstreamer.check.HarnessThread.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
@@ -1685,7 +1588,7 @@ public class Harness extends Struct {
      * @return the data as a buffer. Unref with gst_buffer_unref()
      *     when no longer needed.
      */
-    public @NotNull org.gstreamer.gst.Buffer takeAllDataAsBuffer() {
+    public org.gstreamer.gst.Buffer takeAllDataAsBuffer() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_take_all_data_as_buffer.invokeExact(
@@ -1693,7 +1596,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1701,7 +1604,7 @@ public class Harness extends Struct {
      * @return a pointer to the data, newly allocated. Free
      *     with g_free() when no longer needed.
      */
-    public @NotNull org.gtk.glib.Bytes takeAllDataAsBytes() {
+    public org.gtk.glib.Bytes takeAllData() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_take_all_data_as_bytes.invokeExact(
@@ -1709,7 +1612,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gtk.glib.Bytes(RESULT, Ownership.FULL);
+        return org.gtk.glib.Bytes.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1734,7 +1637,7 @@ public class Harness extends Struct {
      * MT safe.
      * @return a {@link org.gstreamer.gst.Buffer} or {@code null} if no buffers are present in the {@link org.gtk.glib.AsyncQueue}
      */
-    public @NotNull org.gstreamer.gst.Buffer tryPull() {
+    public org.gstreamer.gst.Buffer tryPull() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_try_pull.invokeExact(
@@ -1742,7 +1645,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1752,7 +1655,7 @@ public class Harness extends Struct {
      * MT safe.
      * @return a {@link org.gstreamer.gst.Event} or {@code null} if no buffers are present in the {@link org.gtk.glib.AsyncQueue}
      */
-    public @NotNull org.gstreamer.gst.Event tryPullEvent() {
+    public org.gstreamer.gst.Event tryPullEvent() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_try_pull_event.invokeExact(
@@ -1760,7 +1663,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Event(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1770,7 +1673,7 @@ public class Harness extends Struct {
      * MT safe.
      * @return a {@link org.gstreamer.gst.Event} or {@code null} if no buffers are present in the {@link org.gtk.glib.AsyncQueue}
      */
-    public @NotNull org.gstreamer.gst.Event tryPullUpstreamEvent() {
+    public org.gstreamer.gst.Event tryPullUpstreamEvent() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_try_pull_upstream_event.invokeExact(
@@ -1778,7 +1681,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Event(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Event.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1868,7 +1771,7 @@ public class Harness extends Struct {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
@@ -1880,16 +1783,15 @@ public class Harness extends Struct {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness new_(@NotNull java.lang.String elementName) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
+    public static org.gstreamer.check.Harness new_(java.lang.String elementName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new.invokeExact(
-                    Interop.allocateNativeString(elementName));
+                    Marshal.stringToAddress.marshal(elementName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1900,14 +1802,14 @@ public class Harness extends Struct {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness newEmpty() {
+    public static org.gstreamer.check.Harness newEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1929,20 +1831,19 @@ public class Harness extends Struct {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness newFull(@NotNull org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable java.lang.String elementSinkpadName, @Nullable org.gstreamer.gst.StaticPadTemplate hsink, @Nullable java.lang.String elementSrcpadName) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public static org.gstreamer.check.Harness newFull(org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable java.lang.String elementSinkpadName, @Nullable org.gstreamer.gst.StaticPadTemplate hsink, @Nullable java.lang.String elementSrcpadName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_full.invokeExact(
                     element.handle(),
                     (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSinkpadName)),
+                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
                     (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSrcpadName)));
+                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1954,16 +1855,15 @@ public class Harness extends Struct {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness newParse(@NotNull java.lang.String launchline) {
-        java.util.Objects.requireNonNull(launchline, "Parameter 'launchline' must not be null");
+    public static org.gstreamer.check.Harness newParse(java.lang.String launchline) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_parse.invokeExact(
-                    Interop.allocateNativeString(launchline));
+                    Marshal.stringToAddress.marshal(launchline, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -1982,18 +1882,17 @@ public class Harness extends Struct {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness newWithElement(@NotNull org.gstreamer.gst.Element element, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public static org.gstreamer.check.Harness newWithElement(org.gstreamer.gst.Element element, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_element.invokeExact(
                     element.handle(),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSinkpadName)),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSrcpadName)));
+                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
+                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2011,18 +1910,17 @@ public class Harness extends Struct {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness newWithPadnames(@NotNull java.lang.String elementName, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
+    public static org.gstreamer.check.Harness newWithPadnames(java.lang.String elementName, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_padnames.invokeExact(
-                    Interop.allocateNativeString(elementName),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSinkpadName)),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSrcpadName)));
+                    Marshal.stringToAddress.marshal(elementName, null),
+                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
+                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2038,18 +1936,17 @@ public class Harness extends Struct {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness newWithTemplates(@NotNull java.lang.String elementName, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable org.gstreamer.gst.StaticPadTemplate hsink) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
+    public static org.gstreamer.check.Harness newWithTemplates(java.lang.String elementName, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable org.gstreamer.gst.StaticPadTemplate hsink) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_templates.invokeExact(
-                    Interop.allocateNativeString(elementName),
+                    Marshal.stringToAddress.marshal(elementName, null),
                     (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
                     (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -2058,8 +1955,7 @@ public class Harness extends Struct {
      * MT safe.
      * @param t a {@link HarnessThread}
      */
-    public static int stressThreadStop(@NotNull org.gstreamer.check.HarnessThread t) {
-        java.util.Objects.requireNonNull(t, "Parameter 't' must not be null");
+    public static int stressThreadStop(org.gstreamer.check.HarnessThread t) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_stress_thread_stop.invokeExact(
@@ -2456,12 +2352,6 @@ public class Harness extends Struct {
             false
         );
         
-        private static final MethodHandle gst_harness_take_all_data = Interop.downcallHandle(
-            "gst_harness_take_all_data",
-            FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-            false
-        );
-        
         private static final MethodHandle gst_harness_take_all_data_as_buffer = Interop.downcallHandle(
             "gst_harness_take_all_data_as_buffer",
             FunctionDescriptor.of(Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
@@ -2576,31 +2466,35 @@ public class Harness extends Struct {
             false
         );
     }
-
+    
+    /**
+     * A {@link Harness.Builder} object constructs a {@link Harness} 
+     * struct using the <em>builder pattern</em> to set the field values. 
+     * Use the various {@code set...()} methods to set field values, 
+     * and finish construction with {@link Harness.Builder#build()}. 
+     */
+    public static Builder builder() {
+        return new Builder();
+    }
+    
     /**
      * Inner class implementing a builder pattern to construct 
      * a struct and set its values.
      */
-    public static class Build {
+    public static class Builder {
         
-        private Harness struct;
+        private final Harness struct;
         
-         /**
-         * A {@link Harness.Build} object constructs a {@link Harness} 
-         * struct using the <em>builder pattern</em> to set the field values. 
-         * Use the various {@code set...()} methods to set field values, 
-         * and finish construction with {@link #construct()}. 
-         */
-        public Build() {
+        private Builder() {
             struct = Harness.allocate();
         }
         
          /**
          * Finish building the {@link Harness} struct.
          * @return A new instance of {@code Harness} with the fields 
-         *         that were set in the Build object.
+         *         that were set in the Builder object.
          */
-        public Harness construct() {
+        public Harness build() {
             return struct;
         }
         
@@ -2609,7 +2503,7 @@ public class Harness extends Struct {
          * @param element The value for the {@code element} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setElement(org.gstreamer.gst.Element element) {
+        public Builder setElement(org.gstreamer.gst.Element element) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("element"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (element == null ? MemoryAddress.NULL : element.handle()));
@@ -2621,7 +2515,7 @@ public class Harness extends Struct {
          * @param srcpad The value for the {@code srcpad} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSrcpad(org.gstreamer.gst.Pad srcpad) {
+        public Builder setSrcpad(org.gstreamer.gst.Pad srcpad) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("srcpad"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcpad == null ? MemoryAddress.NULL : srcpad.handle()));
@@ -2633,7 +2527,7 @@ public class Harness extends Struct {
          * @param sinkpad The value for the {@code sinkpad} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSinkpad(org.gstreamer.gst.Pad sinkpad) {
+        public Builder setSinkpad(org.gstreamer.gst.Pad sinkpad) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("sinkpad"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkpad == null ? MemoryAddress.NULL : sinkpad.handle()));
@@ -2645,7 +2539,7 @@ public class Harness extends Struct {
          * @param srcHarness The value for the {@code srcHarness} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSrcHarness(org.gstreamer.check.Harness srcHarness) {
+        public Builder setSrcHarness(org.gstreamer.check.Harness srcHarness) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("src_harness"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (srcHarness == null ? MemoryAddress.NULL : srcHarness.handle()));
@@ -2657,14 +2551,14 @@ public class Harness extends Struct {
          * @param sinkHarness The value for the {@code sinkHarness} field
          * @return The {@code Build} instance is returned, to allow method chaining
          */
-        public Build setSinkHarness(org.gstreamer.check.Harness sinkHarness) {
+        public Builder setSinkHarness(org.gstreamer.check.Harness sinkHarness) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("sink_harness"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (sinkHarness == null ? MemoryAddress.NULL : sinkHarness.handle()));
             return this;
         }
         
-        public Build setPriv(org.gstreamer.check.HarnessPrivate priv) {
+        public Builder setPriv(org.gstreamer.check.HarnessPrivate priv) {
             getMemoryLayout()
                 .varHandle(MemoryLayout.PathElement.groupElement("priv"))
                 .set(MemorySegment.ofAddress((MemoryAddress) struct.handle(), getMemoryLayout().byteSize(), Interop.getScope()), (Addressable) (priv == null ? MemoryAddress.NULL : priv.handle()));

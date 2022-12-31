@@ -14,7 +14,15 @@ public final class GstCheck {
         System.loadLibrary("gstcheck-1.0");
     }
     
-    @ApiStatus.Internal static void javagi$ensureInitialized() {}
+    private static boolean javagi$initialized = false;
+    
+    @ApiStatus.Internal
+    public static void javagi$ensureInitialized() {
+        if (!javagi$initialized) {
+            javagi$initialized = true;
+            JavaGITypeRegister.register();
+        }
+    }
     
     /**
      * Get one buffer from {@code pad}. Implemented via buffer probes. This function will
@@ -28,9 +36,7 @@ public final class GstCheck {
      * @param pad the pad previously passed to gst_buffer_straw_start_pipeline()
      * @return the captured {@link org.gstreamer.gst.Buffer}.
      */
-    public static @NotNull org.gstreamer.gst.Buffer bufferStrawGetBuffer(@NotNull org.gstreamer.gst.Element bin, @NotNull org.gstreamer.gst.Pad pad) {
-        java.util.Objects.requireNonNull(bin, "Parameter 'bin' must not be null");
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public static org.gstreamer.gst.Buffer bufferStrawGetBuffer(org.gstreamer.gst.Element bin, org.gstreamer.gst.Pad pad) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_buffer_straw_get_buffer.invokeExact(
@@ -39,7 +45,7 @@ public final class GstCheck {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Buffer(RESULT, Ownership.FULL);
+        return org.gstreamer.gst.Buffer.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -61,9 +67,7 @@ public final class GstCheck {
      * @param bin the pipeline to run
      * @param pad a pad on an element in {@code bin}
      */
-    public static void bufferStrawStartPipeline(@NotNull org.gstreamer.gst.Element bin, @NotNull org.gstreamer.gst.Pad pad) {
-        java.util.Objects.requireNonNull(bin, "Parameter 'bin' must not be null");
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public static void bufferStrawStartPipeline(org.gstreamer.gst.Element bin, org.gstreamer.gst.Pad pad) {
         try {
             DowncallHandles.gst_buffer_straw_start_pipeline.invokeExact(
                     bin.handle(),
@@ -82,9 +86,7 @@ public final class GstCheck {
      * @param bin the pipeline previously started via gst_buffer_straw_start_pipeline()
      * @param pad the pad previously passed to gst_buffer_straw_start_pipeline()
      */
-    public static void bufferStrawStopPipeline(@NotNull org.gstreamer.gst.Element bin, @NotNull org.gstreamer.gst.Pad pad) {
-        java.util.Objects.requireNonNull(bin, "Parameter 'bin' must not be null");
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public static void bufferStrawStopPipeline(org.gstreamer.gst.Element bin, org.gstreamer.gst.Pad pad) {
         try {
             DowncallHandles.gst_buffer_straw_stop_pipeline.invokeExact(
                     bin.handle(),
@@ -101,12 +103,11 @@ public final class GstCheck {
      * if it is {@code false} and the {@code GST_ABI} environment variable is set, usable code
      * for {@code list} will be printed.
      */
-    public static void checkAbiList(@NotNull org.gstreamer.check.CheckABIStruct list, boolean haveAbiSizes) {
-        java.util.Objects.requireNonNull(list, "Parameter 'list' must not be null");
+    public static void checkAbiList(org.gstreamer.check.CheckABIStruct list, boolean haveAbiSizes) {
         try {
             DowncallHandles.gst_check_abi_list.invokeExact(
                     list.handle(),
-                    haveAbiSizes ? 1 : 0);
+                    Marshal.booleanToInteger.marshal(haveAbiSizes, null).intValue());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -122,45 +123,36 @@ public final class GstCheck {
      * @param logLevel the log level of the message
      * @param regex a {@link org.gtk.glib.Regex} to match the message
      * @param func the function to call for matching messages
+     * @param destroyData {@link org.gtk.glib.DestroyNotify} for {@code user_data}
      * @return A filter that can be passed to {@code gst_check_remove_log_filter}.
      */
-    public static @NotNull org.gstreamer.check.CheckLogFilter checkAddLogFilter(@NotNull java.lang.String logDomain, @NotNull org.gtk.glib.LogLevelFlags logLevel, @NotNull org.gtk.glib.Regex regex, @NotNull org.gstreamer.check.CheckLogFilterFunc func) {
-        java.util.Objects.requireNonNull(logDomain, "Parameter 'logDomain' must not be null");
-        java.util.Objects.requireNonNull(logLevel, "Parameter 'logLevel' must not be null");
-        java.util.Objects.requireNonNull(regex, "Parameter 'regex' must not be null");
-        java.util.Objects.requireNonNull(func, "Parameter 'func' must not be null");
+    public static org.gstreamer.check.CheckLogFilter checkAddLogFilter(java.lang.String logDomain, org.gtk.glib.LogLevelFlags logLevel, org.gtk.glib.Regex regex, org.gstreamer.check.CheckLogFilterFunc func, org.gtk.glib.DestroyNotify destroyData) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_add_log_filter.invokeExact(
-                    Interop.allocateNativeString(logDomain),
+                    Marshal.stringToAddress.marshal(logDomain, null),
                     logLevel.getValue(),
                     regex.handle(),
-                    (Addressable) Linker.nativeLinker().upcallStub(
-                        MethodHandles.lookup().findStatic(GstCheck.Callbacks.class, "cbCheckLogFilterFunc",
-                            MethodType.methodType(int.class, MemoryAddress.class, int.class, MemoryAddress.class, MemoryAddress.class)),
-                        FunctionDescriptor.of(Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.C_INT, Interop.valueLayout.ADDRESS, Interop.valueLayout.ADDRESS),
-                        Interop.getScope()),
-                    (Addressable) (Interop.registerCallback(func)),
-                    Interop.cbDestroyNotifySymbol());
+                    (Addressable) func.toCallback(),
+                    (Addressable) MemoryAddress.NULL,
+                    (Addressable) destroyData.toCallback());
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
         regex.yieldOwnership();
-        return new org.gstreamer.check.CheckLogFilter(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.CheckLogFilter.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Compare the buffer contents with {@code data} and {@code size}.
      * @param buffer buffer to compare
-     * @param data data to compare to
      * @param size size of data to compare
      */
-    public static void checkBufferData(@NotNull org.gstreamer.gst.Buffer buffer, @Nullable java.lang.foreign.MemoryAddress data, long size) {
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static void checkBufferData(org.gstreamer.gst.Buffer buffer, long size) {
         try {
             DowncallHandles.gst_check_buffer_data.invokeExact(
                     buffer.handle(),
-                    (Addressable) data,
+                    (Addressable) MemoryAddress.NULL,
                     size);
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
@@ -173,9 +165,7 @@ public final class GstCheck {
      * @param caps1 first caps to compare
      * @param caps2 second caps to compare
      */
-    public static void checkCapsEqual(@NotNull org.gstreamer.gst.Caps caps1, @NotNull org.gstreamer.gst.Caps caps2) {
-        java.util.Objects.requireNonNull(caps1, "Parameter 'caps1' must not be null");
-        java.util.Objects.requireNonNull(caps2, "Parameter 'caps2' must not be null");
+    public static void checkCapsEqual(org.gstreamer.gst.Caps caps1, org.gstreamer.gst.Caps caps2) {
         try {
             DowncallHandles.gst_check_caps_equal.invokeExact(
                     caps1.handle(),
@@ -189,10 +179,7 @@ public final class GstCheck {
      * A fake chain function that appends the buffer to the internal list of
      * buffers.
      */
-    public static @NotNull org.gstreamer.gst.FlowReturn checkChainFunc(@NotNull org.gstreamer.gst.Pad pad, @NotNull org.gstreamer.gst.Object parent, @NotNull org.gstreamer.gst.Buffer buffer) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
-        java.util.Objects.requireNonNull(parent, "Parameter 'parent' must not be null");
-        java.util.Objects.requireNonNull(buffer, "Parameter 'buffer' must not be null");
+    public static org.gstreamer.gst.FlowReturn checkChainFunc(org.gstreamer.gst.Pad pad, org.gstreamer.gst.GstObject parent, org.gstreamer.gst.Buffer buffer) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_check_chain_func.invokeExact(
@@ -241,15 +228,10 @@ public final class GstCheck {
      * @param bufferOut compare the result with this buffer
      * @param capsOut the {@link org.gstreamer.gst.Caps} expected of the srcpad of the element
      */
-    public static void checkElementPushBuffer(@NotNull java.lang.String elementName, @NotNull org.gstreamer.gst.Buffer bufferIn, @NotNull org.gstreamer.gst.Caps capsIn, @NotNull org.gstreamer.gst.Buffer bufferOut, @NotNull org.gstreamer.gst.Caps capsOut) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
-        java.util.Objects.requireNonNull(bufferIn, "Parameter 'bufferIn' must not be null");
-        java.util.Objects.requireNonNull(capsIn, "Parameter 'capsIn' must not be null");
-        java.util.Objects.requireNonNull(bufferOut, "Parameter 'bufferOut' must not be null");
-        java.util.Objects.requireNonNull(capsOut, "Parameter 'capsOut' must not be null");
+    public static void checkElementPushBuffer(java.lang.String elementName, org.gstreamer.gst.Buffer bufferIn, org.gstreamer.gst.Caps capsIn, org.gstreamer.gst.Buffer bufferOut, org.gstreamer.gst.Caps capsOut) {
         try {
             DowncallHandles.gst_check_element_push_buffer.invokeExact(
-                    Interop.allocateNativeString(elementName),
+                    Marshal.stringToAddress.marshal(elementName, null),
                     bufferIn.handle(),
                     capsIn.handle(),
                     bufferOut.handle(),
@@ -277,16 +259,10 @@ public final class GstCheck {
      * @param capsOut the {@link org.gstreamer.gst.Caps} expected of the srcpad of the element
      * @param lastFlowReturn the last buffer push needs to give this GstFlowReturn
      */
-    public static void checkElementPushBufferList(@NotNull java.lang.String elementName, @NotNull org.gtk.glib.List bufferIn, @NotNull org.gstreamer.gst.Caps capsIn, @NotNull org.gtk.glib.List bufferOut, @NotNull org.gstreamer.gst.Caps capsOut, @NotNull org.gstreamer.gst.FlowReturn lastFlowReturn) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
-        java.util.Objects.requireNonNull(bufferIn, "Parameter 'bufferIn' must not be null");
-        java.util.Objects.requireNonNull(capsIn, "Parameter 'capsIn' must not be null");
-        java.util.Objects.requireNonNull(bufferOut, "Parameter 'bufferOut' must not be null");
-        java.util.Objects.requireNonNull(capsOut, "Parameter 'capsOut' must not be null");
-        java.util.Objects.requireNonNull(lastFlowReturn, "Parameter 'lastFlowReturn' must not be null");
+    public static void checkElementPushBufferList(java.lang.String elementName, org.gtk.glib.List bufferIn, org.gstreamer.gst.Caps capsIn, org.gtk.glib.List bufferOut, org.gstreamer.gst.Caps capsOut, org.gstreamer.gst.FlowReturn lastFlowReturn) {
         try {
             DowncallHandles.gst_check_element_push_buffer_list.invokeExact(
-                    Interop.allocateNativeString(elementName),
+                    Marshal.stringToAddress.marshal(elementName, null),
                     bufferIn.handle(),
                     capsIn.handle(),
                     bufferOut.handle(),
@@ -299,9 +275,7 @@ public final class GstCheck {
         bufferOut.yieldOwnership();
     }
     
-    public static void checkInit(PointerInteger argc, @NotNull PointerString argv) {
-        java.util.Objects.requireNonNull(argc, "Parameter 'argc' must not be null");
-        java.util.Objects.requireNonNull(argv, "Parameter 'argv' must not be null");
+    public static void checkInit(PointerInteger argc, PointerString argv) {
         try {
             DowncallHandles.gst_check_init.invokeExact(
                     argc.handle(),
@@ -311,10 +285,7 @@ public final class GstCheck {
         }
     }
     
-    public static void checkMessageError(@NotNull org.gstreamer.gst.Message message, @NotNull org.gstreamer.gst.MessageType type, @NotNull org.gtk.glib.Quark domain, int code) {
-        java.util.Objects.requireNonNull(message, "Parameter 'message' must not be null");
-        java.util.Objects.requireNonNull(type, "Parameter 'type' must not be null");
-        java.util.Objects.requireNonNull(domain, "Parameter 'domain' must not be null");
+    public static void checkMessageError(org.gstreamer.gst.Message message, org.gstreamer.gst.MessageType type, org.gtk.glib.Quark domain, int code) {
         try {
             DowncallHandles.gst_check_message_error.invokeExact(
                     message.handle(),
@@ -329,7 +300,7 @@ public final class GstCheck {
     /**
      * Unrefs {@code object_to_unref} and checks that is has properly been
      * destroyed.
-     * @param objectToUnref The {@link org.gtk.gobject.Object} to unref
+     * @param objectToUnref The {@link org.gtk.gobject.GObject} to unref
      */
     public static void checkObjectDestroyedOnUnref(@Nullable java.lang.foreign.MemoryAddress objectToUnref) {
         try {
@@ -345,7 +316,7 @@ public final class GstCheck {
      * destroyed, also checks that the other objects passed in
      * parameter have been destroyed as a concequence of
      * unrefing {@code object_to_unref}. Last variable argument should be NULL.
-     * @param objectToUnref The {@link org.gtk.gobject.Object} to unref
+     * @param objectToUnref The {@link org.gtk.gobject.GObject} to unref
      * @param firstObject The first object that should be destroyed as a
      * concequence of unrefing {@code object_to_unref}.
      * @param varargs Additional object that should have been destroyed.
@@ -367,8 +338,7 @@ public final class GstCheck {
      * MT safe.
      * @param filter Filter returned by {@code gst_check_add_log_filter}
      */
-    public static void checkRemoveLogFilter(@NotNull org.gstreamer.check.CheckLogFilter filter) {
-        java.util.Objects.requireNonNull(filter, "Parameter 'filter' must not be null");
+    public static void checkRemoveLogFilter(org.gstreamer.check.CheckLogFilter filter) {
         try {
             DowncallHandles.gst_check_remove_log_filter.invokeExact(
                     filter.handle());
@@ -377,16 +347,13 @@ public final class GstCheck {
         }
     }
     
-    public static int checkRunSuite(@NotNull java.lang.foreign.MemoryAddress suite, @NotNull java.lang.String name, @NotNull java.lang.String fname) {
-        java.util.Objects.requireNonNull(suite, "Parameter 'suite' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
-        java.util.Objects.requireNonNull(fname, "Parameter 'fname' must not be null");
+    public static int checkRunSuite(java.lang.foreign.MemoryAddress suite, java.lang.String name, java.lang.String fname) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_check_run_suite.invokeExact(
                     (Addressable) suite,
-                    Interop.allocateNativeString(name),
-                    Interop.allocateNativeString(fname));
+                    Marshal.stringToAddress.marshal(name, null),
+                    Marshal.stringToAddress.marshal(fname, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -398,16 +365,15 @@ public final class GstCheck {
      * @param factory factory
      * @return a new element
      */
-    public static @NotNull org.gstreamer.gst.Element checkSetupElement(@NotNull java.lang.String factory) {
-        java.util.Objects.requireNonNull(factory, "Parameter 'factory' must not be null");
+    public static org.gstreamer.gst.Element checkSetupElement(java.lang.String factory) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_setup_element.invokeExact(
-                    Interop.allocateNativeString(factory));
+                    Marshal.stringToAddress.marshal(factory, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Element(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Element) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Element.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -420,10 +386,7 @@ public final class GstCheck {
      * @param caps {@link org.gstreamer.gst.Caps} in case caps event must be sent
      * @param format The {@link org.gstreamer.gst.Format} of the default segment to send
      */
-    public static void checkSetupEvents(@NotNull org.gstreamer.gst.Pad srcpad, @NotNull org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.gst.Format format) {
-        java.util.Objects.requireNonNull(srcpad, "Parameter 'srcpad' must not be null");
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
+    public static void checkSetupEvents(org.gstreamer.gst.Pad srcpad, org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.Caps caps, org.gstreamer.gst.Format format) {
         try {
             DowncallHandles.gst_check_setup_events.invokeExact(
                     srcpad.handle(),
@@ -445,18 +408,14 @@ public final class GstCheck {
      * @param format The {@link org.gstreamer.gst.Format} of the default segment to send
      * @param streamId A unique identifier for the stream
      */
-    public static void checkSetupEventsWithStreamId(@NotNull org.gstreamer.gst.Pad srcpad, @NotNull org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.Caps caps, @NotNull org.gstreamer.gst.Format format, @NotNull java.lang.String streamId) {
-        java.util.Objects.requireNonNull(srcpad, "Parameter 'srcpad' must not be null");
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(format, "Parameter 'format' must not be null");
-        java.util.Objects.requireNonNull(streamId, "Parameter 'streamId' must not be null");
+    public static void checkSetupEventsWithStreamId(org.gstreamer.gst.Pad srcpad, org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.Caps caps, org.gstreamer.gst.Format format, java.lang.String streamId) {
         try {
             DowncallHandles.gst_check_setup_events_with_stream_id.invokeExact(
                     srcpad.handle(),
                     element.handle(),
                     (Addressable) (caps == null ? MemoryAddress.NULL : caps.handle()),
                     format.getValue(),
-                    Interop.allocateNativeString(streamId));
+                    Marshal.stringToAddress.marshal(streamId, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
@@ -468,9 +427,7 @@ public final class GstCheck {
      * @param tmpl pad template
      * @return a new pad that can be used to check the output of {@code element}
      */
-    public static @NotNull org.gstreamer.gst.Pad checkSetupSinkPad(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.StaticPadTemplate tmpl) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
+    public static org.gstreamer.gst.Pad checkSetupSinkPad(org.gstreamer.gst.Element element, org.gstreamer.gst.StaticPadTemplate tmpl) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_setup_sink_pad.invokeExact(
@@ -479,7 +436,7 @@ public final class GstCheck {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -491,41 +448,33 @@ public final class GstCheck {
      * @param name Name of the {@code element} src pad that will be linked to the sink pad that will be setup
      * @return a new pad that can be used to check the output of {@code element}
      */
-    public static @NotNull org.gstreamer.gst.Pad checkSetupSinkPadByName(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.StaticPadTemplate tmpl, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gstreamer.gst.Pad checkSetupSinkPadByName(org.gstreamer.gst.Element element, org.gstreamer.gst.StaticPadTemplate tmpl, java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_setup_sink_pad_by_name.invokeExact(
                     element.handle(),
                     tmpl.handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.gst.Pad checkSetupSinkPadByNameFromTemplate(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.PadTemplate tmpl, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gstreamer.gst.Pad checkSetupSinkPadByNameFromTemplate(org.gstreamer.gst.Element element, org.gstreamer.gst.PadTemplate tmpl, java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_setup_sink_pad_by_name_from_template.invokeExact(
                     element.handle(),
                     tmpl.handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.gst.Pad checkSetupSinkPadFromTemplate(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.PadTemplate tmpl) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
+    public static org.gstreamer.gst.Pad checkSetupSinkPadFromTemplate(org.gstreamer.gst.Element element, org.gstreamer.gst.PadTemplate tmpl) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_setup_sink_pad_from_template.invokeExact(
@@ -534,7 +483,7 @@ public final class GstCheck {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -543,9 +492,7 @@ public final class GstCheck {
      * @param tmpl pad template
      * @return A new pad that can be used to inject data on {@code element}
      */
-    public static @NotNull org.gstreamer.gst.Pad checkSetupSrcPad(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.StaticPadTemplate tmpl) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
+    public static org.gstreamer.gst.Pad checkSetupSrcPad(org.gstreamer.gst.Element element, org.gstreamer.gst.StaticPadTemplate tmpl) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_setup_src_pad.invokeExact(
@@ -554,7 +501,7 @@ public final class GstCheck {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -595,41 +542,33 @@ public final class GstCheck {
      * @param name Name of the {@code element} sink pad that will be linked to the src pad that will be setup
      * @return A new pad that can be used to inject data on {@code element}
      */
-    public static @NotNull org.gstreamer.gst.Pad checkSetupSrcPadByName(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.StaticPadTemplate tmpl, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gstreamer.gst.Pad checkSetupSrcPadByName(org.gstreamer.gst.Element element, org.gstreamer.gst.StaticPadTemplate tmpl, java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_setup_src_pad_by_name.invokeExact(
                     element.handle(),
                     tmpl.handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.gst.Pad checkSetupSrcPadByNameFromTemplate(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.PadTemplate tmpl, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static org.gstreamer.gst.Pad checkSetupSrcPadByNameFromTemplate(org.gstreamer.gst.Element element, org.gstreamer.gst.PadTemplate tmpl, java.lang.String name) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_setup_src_pad_by_name_from_template.invokeExact(
                     element.handle(),
                     tmpl.handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public static @NotNull org.gstreamer.gst.Pad checkSetupSrcPadFromTemplate(@NotNull org.gstreamer.gst.Element element, @NotNull org.gstreamer.gst.PadTemplate tmpl) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(tmpl, "Parameter 'tmpl' must not be null");
+    public static org.gstreamer.gst.Pad checkSetupSrcPadFromTemplate(org.gstreamer.gst.Element element, org.gstreamer.gst.PadTemplate tmpl) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_check_setup_src_pad_from_template.invokeExact(
@@ -638,11 +577,10 @@ public final class GstCheck {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.gst.Pad(RESULT, Ownership.FULL);
+        return (org.gstreamer.gst.Pad) java.util.Objects.requireNonNullElse(Interop.typeRegister.get(Interop.getType(RESULT)), org.gstreamer.gst.Pad.fromAddress).marshal(RESULT, Ownership.FULL);
     }
     
-    public static void checkTeardownElement(@NotNull org.gstreamer.gst.Element element) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public static void checkTeardownElement(org.gstreamer.gst.Element element) {
         try {
             DowncallHandles.gst_check_teardown_element.invokeExact(
                     element.handle());
@@ -651,20 +589,17 @@ public final class GstCheck {
         }
     }
     
-    public static void checkTeardownPadByName(@NotNull org.gstreamer.gst.Element element, @NotNull java.lang.String name) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
-        java.util.Objects.requireNonNull(name, "Parameter 'name' must not be null");
+    public static void checkTeardownPadByName(org.gstreamer.gst.Element element, java.lang.String name) {
         try {
             DowncallHandles.gst_check_teardown_pad_by_name.invokeExact(
                     element.handle(),
-                    Interop.allocateNativeString(name));
+                    Marshal.stringToAddress.marshal(name, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
     }
     
-    public static void checkTeardownSinkPad(@NotNull org.gstreamer.gst.Element element) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public static void checkTeardownSinkPad(org.gstreamer.gst.Element element) {
         try {
             DowncallHandles.gst_check_teardown_sink_pad.invokeExact(
                     element.handle());
@@ -673,8 +608,7 @@ public final class GstCheck {
         }
     }
     
-    public static void checkTeardownSrcPad(@NotNull org.gstreamer.gst.Element element) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public static void checkTeardownSrcPad(org.gstreamer.gst.Element element) {
         try {
             DowncallHandles.gst_check_teardown_src_pad.invokeExact(
                     element.handle());
@@ -690,9 +624,7 @@ public final class GstCheck {
      * @param pad The {@link org.gstreamer.gst.Pad} on which the dataflow will be checked.
      * @return {@code true} if the pad was added
      */
-    public static boolean consistencyCheckerAddPad(@NotNull org.gstreamer.check.StreamConsistency consist, @NotNull org.gstreamer.gst.Pad pad) {
-        java.util.Objects.requireNonNull(consist, "Parameter 'consist' must not be null");
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public static boolean consistencyCheckerAddPad(org.gstreamer.check.StreamConsistency consist, org.gstreamer.gst.Pad pad) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_consistency_checker_add_pad.invokeExact(
@@ -701,15 +633,14 @@ public final class GstCheck {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return RESULT != 0;
+        return Marshal.integerToBoolean.marshal(RESULT, null).booleanValue();
     }
     
     /**
      * Frees the allocated data and probes associated with {@code consist}.
      * @param consist The {@link StreamConsistency} to free.
      */
-    public static void consistencyCheckerFree(@NotNull org.gstreamer.check.StreamConsistency consist) {
-        java.util.Objects.requireNonNull(consist, "Parameter 'consist' must not be null");
+    public static void consistencyCheckerFree(org.gstreamer.check.StreamConsistency consist) {
         try {
             DowncallHandles.gst_consistency_checker_free.invokeExact(
                     consist.handle());
@@ -724,8 +655,7 @@ public final class GstCheck {
      * @param pad The {@link org.gstreamer.gst.Pad} on which the dataflow will be checked.
      * @return A {@link StreamConsistency} structure used to track data flow.
      */
-    public static @NotNull org.gstreamer.check.StreamConsistency consistencyCheckerNew(@NotNull org.gstreamer.gst.Pad pad) {
-        java.util.Objects.requireNonNull(pad, "Parameter 'pad' must not be null");
+    public static org.gstreamer.check.StreamConsistency consistencyCheckerNew(org.gstreamer.gst.Pad pad) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_consistency_checker_new.invokeExact(
@@ -733,15 +663,14 @@ public final class GstCheck {
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.StreamConsistency(RESULT, Ownership.UNKNOWN);
+        return org.gstreamer.check.StreamConsistency.fromAddress.marshal(RESULT, Ownership.UNKNOWN);
     }
     
     /**
      * Reset the stream checker's internal variables.
      * @param consist The {@link StreamConsistency} to reset.
      */
-    public static void consistencyCheckerReset(@NotNull org.gstreamer.check.StreamConsistency consist) {
-        java.util.Objects.requireNonNull(consist, "Parameter 'consist' must not be null");
+    public static void consistencyCheckerReset(org.gstreamer.check.StreamConsistency consist) {
         try {
             DowncallHandles.gst_consistency_checker_reset.invokeExact(
                     consist.handle());
@@ -759,16 +688,15 @@ public final class GstCheck {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness harnessNew(@NotNull java.lang.String elementName) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
+    public static org.gstreamer.check.Harness harnessNew(java.lang.String elementName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new.invokeExact(
-                    Interop.allocateNativeString(elementName));
+                    Marshal.stringToAddress.marshal(elementName, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -779,14 +707,14 @@ public final class GstCheck {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness harnessNewEmpty() {
+    public static org.gstreamer.check.Harness harnessNewEmpty() {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_empty.invokeExact();
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -808,20 +736,19 @@ public final class GstCheck {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness harnessNewFull(@NotNull org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable java.lang.String elementSinkpadName, @Nullable org.gstreamer.gst.StaticPadTemplate hsink, @Nullable java.lang.String elementSrcpadName) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public static org.gstreamer.check.Harness harnessNewFull(org.gstreamer.gst.Element element, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable java.lang.String elementSinkpadName, @Nullable org.gstreamer.gst.StaticPadTemplate hsink, @Nullable java.lang.String elementSrcpadName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_full.invokeExact(
                     element.handle(),
                     (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSinkpadName)),
+                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
                     (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSrcpadName)));
+                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -833,16 +760,15 @@ public final class GstCheck {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness harnessNewParse(@NotNull java.lang.String launchline) {
-        java.util.Objects.requireNonNull(launchline, "Parameter 'launchline' must not be null");
+    public static org.gstreamer.check.Harness harnessNewParse(java.lang.String launchline) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_parse.invokeExact(
-                    Interop.allocateNativeString(launchline));
+                    Marshal.stringToAddress.marshal(launchline, null));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -861,18 +787,17 @@ public final class GstCheck {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness harnessNewWithElement(@NotNull org.gstreamer.gst.Element element, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
-        java.util.Objects.requireNonNull(element, "Parameter 'element' must not be null");
+    public static org.gstreamer.check.Harness harnessNewWithElement(org.gstreamer.gst.Element element, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_element.invokeExact(
                     element.handle(),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSinkpadName)),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSrcpadName)));
+                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
+                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -890,18 +815,17 @@ public final class GstCheck {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness harnessNewWithPadnames(@NotNull java.lang.String elementName, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
+    public static org.gstreamer.check.Harness harnessNewWithPadnames(java.lang.String elementName, @Nullable java.lang.String elementSinkpadName, @Nullable java.lang.String elementSrcpadName) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_padnames.invokeExact(
-                    Interop.allocateNativeString(elementName),
-                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSinkpadName)),
-                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Interop.allocateNativeString(elementSrcpadName)));
+                    Marshal.stringToAddress.marshal(elementName, null),
+                    (Addressable) (elementSinkpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSinkpadName, null)),
+                    (Addressable) (elementSrcpadName == null ? MemoryAddress.NULL : Marshal.stringToAddress.marshal(elementSrcpadName, null)));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -917,18 +841,17 @@ public final class GstCheck {
      * @return a {@link Harness}, or {@code null} if the harness could
      * not be created
      */
-    public static @NotNull org.gstreamer.check.Harness harnessNewWithTemplates(@NotNull java.lang.String elementName, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable org.gstreamer.gst.StaticPadTemplate hsink) {
-        java.util.Objects.requireNonNull(elementName, "Parameter 'elementName' must not be null");
+    public static org.gstreamer.check.Harness harnessNewWithTemplates(java.lang.String elementName, @Nullable org.gstreamer.gst.StaticPadTemplate hsrc, @Nullable org.gstreamer.gst.StaticPadTemplate hsink) {
         MemoryAddress RESULT;
         try {
             RESULT = (MemoryAddress) DowncallHandles.gst_harness_new_with_templates.invokeExact(
-                    Interop.allocateNativeString(elementName),
+                    Marshal.stringToAddress.marshal(elementName, null),
                     (Addressable) (hsrc == null ? MemoryAddress.NULL : hsrc.handle()),
                     (Addressable) (hsink == null ? MemoryAddress.NULL : hsink.handle()));
         } catch (Throwable ERR) {
             throw new AssertionError("Unexpected exception occured: ", ERR);
         }
-        return new org.gstreamer.check.Harness(RESULT, Ownership.FULL);
+        return org.gstreamer.check.Harness.fromAddress.marshal(RESULT, Ownership.FULL);
     }
     
     /**
@@ -937,8 +860,7 @@ public final class GstCheck {
      * MT safe.
      * @param t a {@link HarnessThread}
      */
-    public static int harnessStressThreadStop(@NotNull org.gstreamer.check.HarnessThread t) {
-        java.util.Objects.requireNonNull(t, "Parameter 't' must not be null");
+    public static int harnessStressThreadStop(org.gstreamer.check.HarnessThread t) {
         int RESULT;
         try {
             RESULT = (int) DowncallHandles.gst_harness_stress_thread_stop.invokeExact(
@@ -1224,26 +1146,5 @@ public final class GstCheck {
     
     @ApiStatus.Internal
     public static class Callbacks {
-        
-        public static Addressable cbHarnessPrepareEventFunc(MemoryAddress h, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (HarnessPrepareEventFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onHarnessPrepareEventFunc(new org.gstreamer.check.Harness(h, Ownership.NONE));
-            return RESULT.handle();
-        }
-        
-        public static int cbCheckLogFilterFunc(MemoryAddress logDomain, int logLevel, MemoryAddress message, MemoryAddress userData) {
-            int HASH = userData.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (CheckLogFilterFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onCheckLogFilterFunc(Interop.getStringFrom(logDomain), new org.gtk.glib.LogLevelFlags(logLevel), Interop.getStringFrom(message));
-            return RESULT ? 1 : 0;
-        }
-        
-        public static Addressable cbHarnessPrepareBufferFunc(MemoryAddress h, MemoryAddress data) {
-            int HASH = data.get(Interop.valueLayout.C_INT, 0);
-            var HANDLER = (HarnessPrepareBufferFunc) Interop.signalRegistry.get(HASH);
-            var RESULT = HANDLER.onHarnessPrepareBufferFunc(new org.gstreamer.check.Harness(h, Ownership.NONE));
-            return RESULT.handle();
-        }
     }
 }
